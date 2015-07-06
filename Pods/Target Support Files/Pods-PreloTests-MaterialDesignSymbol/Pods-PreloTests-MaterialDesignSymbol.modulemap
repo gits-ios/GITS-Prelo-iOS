@@ -1,0 +1,6 @@
+framework module MaterialDesignSymbol {
+  umbrella header "Pods-PreloTests-MaterialDesignSymbol-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module Pods_PreloTests {
+  umbrella header "Pods-PreloTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

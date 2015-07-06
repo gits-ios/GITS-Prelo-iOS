@@ -1,0 +1,25 @@
+PODS:
+  - Alamofire (1.2.3)
+  - BFKit-Swift (1.2.0)
+  - MaterialDesignSymbol (1.6)
+  - MaterialKit (0.3.5)
+  - RAReorderableLayout (0.1.0)
+  - Socket.IO-Client-Swift (2.3.7)
+
+DEPENDENCIES:
+  - Alamofire (~> 1.2)
+  - BFKit-Swift (~> 1.2)
+  - MaterialDesignSymbol (~> 1.6)
+  - MaterialKit (~> 0.3)
+  - RAReorderableLayout (~> 0.1)
+  - Socket.IO-Client-Swift (~> 2.3)
+
+SPEC CHECKSUMS:
+  Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
+  BFKit-Swift: 3ad0c41dd448a42b94e465808d3d86d2d72019bb
+  MaterialDesignSymbol: c2dfa682c2dc346dc55955921c2e7df5f6110023
+  MaterialKit: 6f1e9382f89593df768bc0c31ded9952a6d8ad46
+  RAReorderableLayout: f70973174951a5e2a30bed18f4479f41f0b6a69b
+  Socket.IO-Client-Swift: 5b77bbe077f6be4a3e68c379797f0e105c00360c
+
+COCOAPODS: 0.37.2
