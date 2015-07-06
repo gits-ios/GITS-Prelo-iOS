@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "123DC3EEFA4F2E420CDE1613"
+               BlueprintIdentifier = "5D98E31497672C4C0914B1B0"
                BuildableName = "MaterialDesignSymbol.framework"
                BlueprintName = "Pods-PreloTests-MaterialDesignSymbol"
                ReferencedContainer = "container:Pods.xcodeproj">

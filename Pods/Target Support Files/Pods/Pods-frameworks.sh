@@ -50,6 +50,8 @@ code_sign() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Alamofire.framework'
   install_framework 'BFKit.framework'
+  install_framework 'CarbonKit.framework'
+  install_framework 'KYDrawerController.framework'
   install_framework 'MaterialDesignSymbol.framework'
   install_framework 'MaterialKit.framework'
   install_framework 'RAReorderableLayout.framework'
@@ -58,6 +60,8 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Alamofire.framework'
   install_framework 'BFKit.framework'
+  install_framework 'CarbonKit.framework'
+  install_framework 'KYDrawerController.framework'
   install_framework 'MaterialDesignSymbol.framework'
   install_framework 'MaterialKit.framework'
   install_framework 'RAReorderableLayout.framework'

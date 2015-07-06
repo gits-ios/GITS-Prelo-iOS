@@ -14,6 +14,9 @@
 		2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D71B4A27E500509D2A /* Images.xcassets */; };
 		2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D91B4A27E500509D2A /* LaunchScreen.xib */; };
 		2115E6E71B4A27E500509D2A /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6E61B4A27E500509D2A /* PreloTests.swift */; };
+		21AE67B31B4A5AF600D2CF63 /* ListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */; };
+		21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */; };
+		21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21AE67BA1B4A623300D2CF63 /* QuartzCore.framework */; };
 		5EE2060371E07607D64F74C7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60AA24CEA7828D17764CCAB7 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -39,6 +42,9 @@
 		2115E6E01B4A27E500509D2A /* PreloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2115E6E51B4A27E500509D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2115E6E61B4A27E500509D2A /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
+		21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemViewController.swift; sourceTree = "<group>"; };
+		21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "dummy@2x.jpg"; sourceTree = "<group>"; };
+		21AE67BA1B4A623300D2CF63 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		60AA24CEA7828D17764CCAB7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ABC1B6FC037A1C7585DD2E5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BC9A9558C9044380EE665CD1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -49,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
 				5EE2060371E07607D64F74C7 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +73,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21AE67BA1B4A623300D2CF63 /* QuartzCore.framework */,
 				60AA24CEA7828D17764CCAB7 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -94,6 +102,8 @@
 		2115E6CA1B4A27E500509D2A /* Prelo */ = {
 			isa = PBXGroup;
 			children = (
+				21AE67B41B4A61C600D2CF63 /* Resource */,
+				21AE67AD1B4A59F400D2CF63 /* Classes */,
 				2115E6CD1B4A27E500509D2A /* AppDelegate.swift */,
 				2115E6D21B4A27E500509D2A /* ViewController.swift */,
 				2115E6D41B4A27E500509D2A /* Main.storyboard */,
@@ -128,6 +138,78 @@
 				2115E6E51B4A27E500509D2A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		21AE67AD1B4A59F400D2CF63 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				21AE67AE1B4A59F400D2CF63 /* Controller */,
+				21AE67AF1B4A59F400D2CF63 /* Model */,
+				21AE67B11B4A59F400D2CF63 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		21AE67AF1B4A59F400D2CF63 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				21AE67B01B4A59F400D2CF63 /* API */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		21AE67B01B4A59F400D2CF63 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		21AE67B11B4A59F400D2CF63 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		21AE67B41B4A61C600D2CF63 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				21AE67B51B4A61C600D2CF63 /* Fonts */,
+				21AE67B61B4A61C600D2CF63 /* Images */,
+				21AE67B81B4A61C600D2CF63 /* Other */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		21AE67B51B4A61C600D2CF63 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		21AE67B61B4A61C600D2CF63 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		21AE67B81B4A61C600D2CF63 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 		E394E89DD3ABFEF637AB98C4 /* Pods */ = {
@@ -223,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
+				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 			);
@@ -291,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2115E6D31B4A27E500509D2A /* ViewController.swift in Sources */,
+				21AE67B31B4A5AF600D2CF63 /* ListItemViewController.swift in Sources */,
 				2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */,
 				2115E6CE1B4A27E500509D2A /* AppDelegate.swift in Sources */,
 			);

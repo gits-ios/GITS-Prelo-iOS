@@ -18,6 +18,18 @@
 #define COCOAPODS_VERSION_MINOR_BFKit_Swift 2
 #define COCOAPODS_VERSION_PATCH_BFKit_Swift 0
 
+// CarbonKit
+#define COCOAPODS_POD_AVAILABLE_CarbonKit
+#define COCOAPODS_VERSION_MAJOR_CarbonKit 1
+#define COCOAPODS_VERSION_MINOR_CarbonKit 1
+#define COCOAPODS_VERSION_PATCH_CarbonKit 2
+
+// KYDrawerController
+#define COCOAPODS_POD_AVAILABLE_KYDrawerController
+#define COCOAPODS_VERSION_MAJOR_KYDrawerController 1
+#define COCOAPODS_VERSION_MINOR_KYDrawerController 0
+#define COCOAPODS_VERSION_PATCH_KYDrawerController 3
+
 // MaterialDesignSymbol
 #define COCOAPODS_POD_AVAILABLE_MaterialDesignSymbol
 #define COCOAPODS_VERSION_MAJOR_MaterialDesignSymbol 1

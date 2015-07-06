@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B9C7F6C2F4AB8CD5A0654B7C"
+               BlueprintIdentifier = "621969060E9A9A08F6660301"
                BuildableName = "RAReorderableLayout.framework"
                BlueprintName = "Pods-PreloTests-RAReorderableLayout"
                ReferencedContainer = "container:Pods.xcodeproj">

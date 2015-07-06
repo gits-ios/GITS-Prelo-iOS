@@ -1,8 +1,8 @@
 FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_FRAMEWORK_BUILD_PATH"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_FRAMEWORK_BUILD_PATH/Alamofire.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/BFKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/MaterialDesignSymbol.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/MaterialKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/RAReorderableLayout.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Socket_IO_Client_Swift.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "Alamofire" -framework "BFKit" -framework "MaterialDesignSymbol" -framework "MaterialKit" -framework "RAReorderableLayout" -framework "Socket_IO_Client_Swift"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_FRAMEWORK_BUILD_PATH/Alamofire.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/BFKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/CarbonKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/KYDrawerController.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/MaterialDesignSymbol.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/MaterialKit.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/RAReorderableLayout.framework/Headers" -iquote "$PODS_FRAMEWORK_BUILD_PATH/Socket_IO_Client_Swift.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -ObjC -framework "Alamofire" -framework "BFKit" -framework "CarbonKit" -framework "KYDrawerController" -framework "MaterialDesignSymbol" -framework "MaterialKit" -framework "RAReorderableLayout" -framework "Socket_IO_Client_Swift"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-Prelo
