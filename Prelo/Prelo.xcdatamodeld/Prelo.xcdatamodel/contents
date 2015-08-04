@@ -2,8 +2,9 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
         <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="75"/>
     </elements>
 </model>

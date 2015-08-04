@@ -87,7 +87,15 @@ class BaseViewController: UIViewController {
         let bell = createBellButton()
         let troli = createTroliButton()
         
+        troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
+        
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
+    }
+    
+    func launchCart()
+    {
+        let cart = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCart) as! UIViewController
+        self.navigationController?.pushViewController(cart, animated: true)
     }
     
     func setupTitle()

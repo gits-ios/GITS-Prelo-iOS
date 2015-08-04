@@ -14,11 +14,17 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
     
     var cells : [NSIndexPath : BaseCartData]?
     
+    var products : [CartProduct] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.hidden = true
+        
+        products = CartProduct.getAll()
+        
         cells = [
-            NSIndexPath(forRow: 2, inSection: 0):BaseCartData.instance("Total", placeHolder: nil, enable : false),
+            NSIndexPath(forRow: products.count, inSection: 0):BaseCartData.instance("Total", placeHolder: nil, enable : false),
             NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance("Nama", placeHolder: "Nama Lengkap Kamu"),
             NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance("Telepon", placeHolder: "Nomor Telepon Kamu"),
             NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance("Alamat", placeHolder: "Alamat Lengkap Kamu"),
@@ -65,6 +71,8 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 2) {
             return 4
+        } else if (section == 0) {
+            return products.count+1
         } else {
             return 3
         }
@@ -76,7 +84,7 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         var cell : UITableViewCell
         
         if (s == 0) {
-            if (r == 2) {
+            if (r == products.count) {
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 cell = tableView.dequeueReusableCellWithIdentifier("cell_item") as! UITableViewCell
@@ -116,7 +124,7 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         let s = indexPath.section
         let r = indexPath.row
         if (s == 0) {
-            if (r == 2) {
+            if (r == products.count) {
                 return 44
             } else {
                 return 74
@@ -327,7 +335,7 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     }
     
     override func becomeFirstResponder() -> Bool {
-        let p = parent?.storyboard?.instantiateViewControllerWithIdentifier("picker") as? PickerViewController
+        let p = parent?.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as? PickerViewController
         p?.items = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"]
         p?.pickerDelegate = self
         parent?.navigationController?.pushViewController(p!, animated: true)

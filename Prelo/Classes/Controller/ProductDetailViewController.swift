@@ -21,9 +21,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     var product : Product?
     var detail : ProductDetail?
     
+    var alreadyInCart : Bool = false
+    
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
     
+    @IBOutlet var captionBeli: UILabel!
     @IBOutlet var captionPrice: UILabel!
     
     @IBOutlet var ivChat: UIImageView!
@@ -83,6 +86,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         tableView?.tableHeaderView = p
         
         captionPrice.text = "Rp. " + String((detail?.json["_data"]["price"].int)!)
+        
+        if (CartProduct.isExist((detail?.productID)!)) {
+            captionBeli.text = "Cart"
+            alreadyInCart = true
+        }
     }
 
     @IBAction func dismiss(sender: AnyObject)
@@ -186,13 +194,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        let m = UIApplication.appDelegate.managedObjectContext
-        let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m!) as! CartProduct
-        c.cpID = (detail?.productID)!
-        var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (alreadyInCart) {
+            self.performSegueWithIdentifier("segCart", sender: nil)
+            return
+        }
+        
+        if (CartProduct.newOne((detail?.productID)!) == nil) {
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
+            setupView()
             self.performSegueWithIdentifier("segCart", sender: nil)
         }
     }

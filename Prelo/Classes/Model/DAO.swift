@@ -44,6 +44,16 @@ public class User : NSObject
         return e
     }
     
+    static var EmailOrEmptyString : String
+    {
+        let m = User.Email
+        if (m == nil) {
+            return ""
+        } else {
+            return m!
+        }
+    }
+    
     static func StoreUser(user : JSON)
     {
         let id = user["user_id"].string!
