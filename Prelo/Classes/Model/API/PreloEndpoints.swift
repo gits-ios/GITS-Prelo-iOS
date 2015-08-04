@@ -1,0 +1,192 @@
+//
+//  PreloEndpoints.swift
+//  Prelo
+//
+//  Created by Rahadian Kumang on 7/23/15.
+//  Copyright (c) 2015 GITS Indonesia. All rights reserved.
+//
+
+import UIKit
+
+let prelloHost = "http://dev.kleora.com/api/2/"
+
+class PreloEndpoints: NSObject {
+   
+    class func ProcessParam(oldParam : [String : AnyObject]) -> [String : AnyObject]
+    {
+        let newParam = oldParam
+        return oldParam
+    }
+    
+}
+
+extension NSMutableURLRequest
+{
+    class func defaultURLRequest(url : NSURL) -> NSMutableURLRequest
+    {
+        let r = NSMutableURLRequest(URL: url)
+        
+        if (User.IsLoggedIn) {
+            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
+        }
+        
+        return r
+    }
+}
+
+enum APIUser : URLRequestConvertible
+{
+    static let basePath = "me/"
+    
+    case Login(email : String, password : String)
+    case Register(fullname : String, email : String, password : String)
+    case Logout
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .Login(_, _):return .POST
+        case .Register(_, _, _): return .POST
+        case .Logout:return .POST
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .Login(_, _):return "login"
+        case .Register(_, _, _): return "register"
+        case .Logout:return "logout"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .Login(let email, let password):
+            return [
+                "email":email,
+                "password":password
+            ]
+        case .Register(let fullname, let email, let password):
+            return [
+                "fullname":fullname,
+                "email":email,
+                "password":password
+            ]
+        case .Logout:return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIUser.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
+enum Products : URLRequestConvertible
+{
+    static let basePath = "products/"
+    
+    case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case Detail(productId : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .ListByCategory(_, _, _, _, _, _, _): return .GET
+        case .Detail(_): return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .ListByCategory(_, _, _, _, _, _, _): return ""
+        case .Detail(let prodId): return prodId
+        }
+    }
+    
+    var param : [String: AnyObject]?
+    {
+        switch self
+        {
+        case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
+            return [
+                "category":catId,
+                "location":location,
+                "sort":sort,
+                "current":current,
+                "limit":limit,
+                "price_min":priceMin,
+                "price_max":priceMax,
+                "prelo":"true"
+            ]
+        case .Detail(let prodId): return ["prelo":"true"]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest(URL: baseURL!)
+        req.HTTPMethod = method.rawValue
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        return r
+    }
+}
+
+enum References : URLRequestConvertible
+{
+    static let basePath = "reference/"
+    
+    case CategoryList
+    case ProvinceList
+    case CityList(provinceId : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .CategoryList:return .GET
+        case .ProvinceList:return .GET
+        case .CityList(_):return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .CategoryList:return "categories"
+        case .ProvinceList:return "provinces"
+        case .CityList(_):return "cities"
+        }
+    }
+    
+    var param : [String: AnyObject]?
+    {
+        switch self
+        {
+        case .CategoryList:return ["prelo":"true"]
+        case .ProvinceList:return ["prelo":"true"]
+        case .CityList(let pId):return ["province":pId, "prelo":"true"]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(References.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
