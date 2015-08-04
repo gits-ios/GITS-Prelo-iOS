@@ -1,6 +1,0 @@
-framework module RAReorderableLayout {
-  umbrella header "Pods-RAReorderableLayout-umbrella.h"
-
-  export *
-  module * { export * }
-}

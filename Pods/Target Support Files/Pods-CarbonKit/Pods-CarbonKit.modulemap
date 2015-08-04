@@ -1,6 +1,0 @@
-framework module CarbonKit {
-  umbrella header "Pods-CarbonKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

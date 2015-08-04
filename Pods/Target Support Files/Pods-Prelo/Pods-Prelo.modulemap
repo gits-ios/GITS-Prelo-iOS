@@ -1,6 +1,0 @@
-framework module Pods_Prelo {
-  umbrella header "Pods-Prelo-umbrella.h"
-
-  export *
-  module * { export * }
-}
