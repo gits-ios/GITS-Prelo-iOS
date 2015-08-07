@@ -16,6 +16,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
     
+    var changeToBrowseCount = 0
+    
     var _controllerDashboard : BaseViewController?
     @IBOutlet var controllerDashboard : BaseViewController?
     {
@@ -100,9 +102,24 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
             changeToController(controllerBrowse!)
+            
+            
+            
+            if (changeToBrowseCount == 0) {
+                changeToBrowseCount = 1
+                sectionContent?.hidden = true
+                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "delayBrowseSwitch", userInfo: nil, repeats: false)
+            }
+            
         } else {
             changeToController(controllerDashboard!)
         }
+    }
+    
+    func delayBrowseSwitch()
+    {
+        sectionContent?.hidden = false
+        changeToController(controllerBrowse!)
     }
 
     override func didReceiveMemoryWarning() {

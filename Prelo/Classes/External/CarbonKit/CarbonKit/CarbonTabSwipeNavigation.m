@@ -53,7 +53,7 @@
 - (void)setFailGesture:(UIGestureRecognizer *)failGesture
 {
     _failGesture = failGesture;
-    for (UIView *v in pageController.view.subviews) {
+//    for (UIView *v in pageController.view.subviews) {
 //        if ([v isKindOfClass:[UIScrollView class]]) {
 //            ((UIScrollView *)v).delegate = self;
 //            for (UIGestureRecognizer *g in v.gestureRecognizers) {
@@ -67,7 +67,7 @@
 //                NSLog(@"Gesture : %@", g);
 //            }
 //        }
-    }
+//    }
 }
 
 - (instancetype)createWithRootViewController:(UIViewController *)viewController

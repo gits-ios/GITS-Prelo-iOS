@@ -23,7 +23,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        captionName?.text = User.Email
+        let c = CDUser.getOne()
+        captionName?.text = c?.fullname
         
         let i = UIImage(named: "ic_bag")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         ivBag?.tintColor = Theme.DarkPurple
@@ -37,6 +38,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.DarkPurple
         ivLove?.image = i3
         
+        imgCover?.image = nil
+        let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
+        imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
         imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
         
         self.setupNormalOptions()

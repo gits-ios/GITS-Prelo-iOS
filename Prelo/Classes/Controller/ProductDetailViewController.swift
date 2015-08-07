@@ -87,7 +87,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         captionPrice.text = "Rp. " + String((detail?.json["_data"]["price"].int)!)
         
-        if (CartProduct.isExist((detail?.productID)!)) {
+        if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
             captionBeli.text = "Cart"
             alreadyInCart = true
         }
@@ -199,7 +199,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             return
         }
         
-        if (CartProduct.newOne((detail?.productID)!) == nil) {
+        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString) == nil) {
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()
@@ -207,15 +207,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let c = segue.destinationViewController as! BaseViewController
+        c.previousController = self
     }
-    */
 
 }
 

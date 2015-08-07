@@ -14,6 +14,13 @@ class DAO: NSObject {
         let base = "http://images.kleora.com/images/users/" + userID + "/" + fileName
         return base
     }
+    
+    static func UrlForDisplayPicture(imageName : String, productID : String) -> String
+    {
+        let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        return "http://images.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        
+    }
 }
 
 public class User : NSObject

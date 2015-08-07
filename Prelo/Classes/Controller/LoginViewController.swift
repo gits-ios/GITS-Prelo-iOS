@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import CoreData
 //import UIViewController_KeyboardAnimation
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate {
 
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtEmail : UITextField?
     @IBOutlet var txtPassword : UITextField?
+    
+    @IBOutlet var btnLogin : UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,18 +53,22 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @IBAction func login(sender : AnyObject)
     {
-        let btn : UIButton = sender as! UIButton
-        
-        btn.enabled = false
-        
+        btnLogin?.enabled = false
+        sendLogin()
+    }
+    
+    func sendLogin()
+    {
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
+        
+        btnLogin?.enabled = false
         
         let email = txtEmail?.text
         request(APIUser.Login(email: email!, password: (txtPassword?.text)!))
             .responseJSON
             {_, _, json, err in
-                btn.enabled = true
+                self.btnLogin?.enabled = true
                 if (err != nil) {
                     Constant.showDialog("Warning", message: (err?.description)!)
                 } else {
@@ -73,12 +80,48 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate {
                         Constant.showDialog("Warning", message: message!)
                     } else {
                         User.StoreUser(data, email: email!)
-                        if (self.userRelatedDelegate != nil) {
-                            self.userRelatedDelegate?.userLoggedIn!()
-                        }
+                        self.getProfile()
                     }
                 }
-            }
+        }
+    }
+    
+    func getProfile()
+    {
+        request(APIUser.Me)
+            .responseJSON{_, _, res, err in
+        
+                if (err != nil) {
+                    Constant.showDialog("Warning", message: (err?.description)!)
+                    User.Logout()
+                } else {
+                    let json = JSON(res!)["_data"]
+                    
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+                    c.id = json["_id"].string!
+                    c.email = json["email"].string!
+                    c.fullname = json["fullname"].string!
+                    
+                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                    let pr = json["profiles"]
+                    p.address = pr["address"].string!
+                    p.desc = pr["description"].string!
+                    p.phone = pr["phone"].string!
+                    p.pict = pr["pict"].string!
+                    p.postalCode = pr["postal_code"].string!
+                    p.regionID = pr["region_id"].string!
+                    p.provinceID = pr["province_id"].string!
+                    
+                    c.profiles = p
+                    UIApplication.appDelegate.saveContext()
+                    
+                    CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                    if (self.userRelatedDelegate != nil) {
+                        self.userRelatedDelegate?.userLoggedIn!()
+                    }
+                }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,7 +137,16 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
-
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == txtEmail) {
+            txtPassword?.becomeFirstResponder()
+        } else {
+            sendLogin()
+        }
+        
+        return false
+    }
+    
     /*
     // MARK: - Navigation
 

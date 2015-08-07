@@ -27,8 +27,71 @@ extension NSMutableURLRequest
         let r = NSMutableURLRequest(URL: url)
         
         if (User.IsLoggedIn) {
-            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
+//            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
+            r.setValue("Token " + "DEVELOPMENT_TOKEN", forHTTPHeaderField: "Authorization")
         }
+        
+        return r
+    }
+}
+
+enum APICart : URLRequestConvertible
+{
+    static let basePath = "cart/"
+    
+    case Refresh(cart : String, address : String, voucher : String?)
+    case Checkout(cart : String, address : String, voucher : String?, phone : String, payment : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .Refresh(_, _, _) : return .POST
+        case .Checkout(_, _, _, _, _) : return .POST
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .Refresh(_, _, _) : return ""
+        case .Checkout(_, _, _, _, _) : return "checkout"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .Refresh(let cart, let address, let voucher) :
+                let p = [
+                    "cart_items":cart,
+                    "shipping_address":address,
+                    "voucher_serial":(voucher == nil) ? "" : voucher!
+                ]
+                return p
+        case .Checkout(let cart, let address, let voucher, let phone, let payment) :
+            let p = [
+                "cart_items":cart,
+                "shipping_address":address,
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "payment_phone":phone,
+                "payment_method":payment
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
         return r
     }
@@ -41,6 +104,7 @@ enum APIUser : URLRequestConvertible
     case Login(email : String, password : String)
     case Register(fullname : String, email : String, password : String)
     case Logout
+    case Me
     
     var method : Method
     {
@@ -49,6 +113,7 @@ enum APIUser : URLRequestConvertible
         case .Login(_, _):return .POST
         case .Register(_, _, _): return .POST
         case .Logout:return .POST
+        case .Me:return .GET
         }
     }
     
@@ -59,6 +124,7 @@ enum APIUser : URLRequestConvertible
         case .Login(_, _):return "login"
         case .Register(_, _, _): return "register"
         case .Logout:return "logout"
+        case .Me : return ""
         }
     }
     
@@ -78,6 +144,7 @@ enum APIUser : URLRequestConvertible
                 "password":password
             ]
         case .Logout:return [:]
+        case .Me : return [:]
         }
     }
     

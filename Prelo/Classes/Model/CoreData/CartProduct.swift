@@ -15,12 +15,12 @@ class CartProduct: NSManagedObject {
     @NSManaged var cpID: String
     @NSManaged var email: String
 
-    static func newOne(cpID : String) -> CartProduct?
+    static func newOne(cpID : String, email : String) -> CartProduct?
     {
         let m = UIApplication.appDelegate.managedObjectContext
         let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m!) as! CartProduct
         c.cpID = cpID
-        c.email = User.EmailOrEmptyString
+        c.email = email
         var err : NSError?
         if ((m?.save(&err))! == false) {
             return nil
@@ -29,10 +29,22 @@ class CartProduct: NSManagedObject {
         }
     }
     
-    static func getOne(itemID : String) -> CartProduct?
+    static func registerAllAnonymousProductToEmail(email : String)
+    {
+        let all = CartProduct.getAll("")
+        for cp in all
+        {
+            cp.email = email
+        }
+        
+        var error : NSError?
+        UIApplication.appDelegate.saveContext()
+    }
+    
+    static func getOne(itemID : String, email : String) -> CartProduct?
     {
         let fetchReq = NSFetchRequest(entityName: "CartProduct")
-        let p1 = NSPredicate(format: "email ==[c] %@", User.EmailOrEmptyString)
+        let p1 = NSPredicate(format: "email ==[c] %@", email)
         let p2 = NSPredicate(format: "cpID ==[c] %@", itemID)
         let predicate = NSCompoundPredicate.andPredicateWithSubpredicates([p1, p2])
         fetchReq.predicate = predicate
@@ -43,15 +55,15 @@ class CartProduct: NSManagedObject {
         return r?.first
     }
     
-    static func isExist(itemID : String) -> Bool
+    static func isExist(itemID : String, email : String) -> Bool
     {
-        return CartProduct.getOne(itemID) != nil
+        return CartProduct.getOne(itemID, email : email) != nil
     }
     
-    static func getAll() -> [CartProduct]
+    static func getAll(email : String) -> [CartProduct]
     {
         let fetchReq = NSFetchRequest(entityName: "CartProduct")
-        let p1 = NSPredicate(format: "email ==[c] %@", User.EmailOrEmptyString)
+        let p1 = NSPredicate(format: "email ==[c] %@", email)
         fetchReq.predicate = p1
         
         var err : NSError?
@@ -62,5 +74,24 @@ class CartProduct: NSManagedObject {
         } else {
             return r!
         }
+    }
+    
+    static func getAllAsDictionary(email : String) -> [[String : String]]
+    {
+        var array : [[String : String]] = []
+        
+        let f = CartProduct.getAll(email)
+        
+        for cp in f
+        {
+            array.append(cp.toDictionary)
+        }
+        
+        return array
+    }
+    
+    var toDictionary : [String : String]
+    {
+        return ["product_id":self.cpID, "email":self.email]
     }
 }

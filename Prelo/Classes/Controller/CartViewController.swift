@@ -8,34 +8,236 @@
 
 import UIKit
 
-class CartViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate {
+class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var tableView : UITableView!
+    @IBOutlet var txtVoucher : UITextField!
     
-    var cells : [NSIndexPath : BaseCartData]?
+    @IBOutlet var btnSend : UIButton!
+    
+    @IBOutlet var sectionsPaymentOption : Array<BorderedView> = []
+    
+    @IBOutlet var consOffsetPaymentDesc : NSLayoutConstraint?
+    @IBOutlet var sectionPaymentDesc: UIView!
+    
+    let titleNama = "Nama"
+    let titleTelepon = "Telepon"
+    let titleAlamat = "Alamat"
+    let titleProvinsi = "Provinsi"
+    let titleKota = "Kab / Kota"
+    let titlePostal = "Kode Pos"
+    
+    var address = ""
+    var addressHeight = 44
+    
+    var cells : [NSIndexPath : BaseCartData] = [:]
+    var cellViews : [NSIndexPath : UITableViewCell] = [:]
+    var voucher : String = ""
     
     var products : [CartProduct] = []
+    var arrayItem : [JSON] = []
+    
+    var selectedPayment = "Bank Transfer"
+    var availablePayments = ["Bank Transfer", "Credit Card", "Prelo Balance"]
+    
+    var selectedProvinsiID = ""
+    var selectedKotaID = ""
+    
+    var checkoutResult : JSON?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        products = CartProduct.getAll(User.EmailOrEmptyString)
+        
+        let c = CDUser.getOne()
+        
+        if (c == nil) {
+            return
+        }
+        
+        self.cells = [
+            NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : (c?.fullname)!),
+            NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : (c?.profiles.phone)!),
+            NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : (c?.profiles.address)!),
+            NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: "", pickerPrepBlock: { picker in
+                
+                picker.startLoading()
+                
+                request(References.ProvinceList)
+                    .responseJSON{_, _, res, err in
+                        if (err != nil) {
+                            picker.dismiss()
+                        } else {
+                            let json = JSON(res!)["_data"].array
+                            var r : Array<String> = []
+                            let c = json?.count
+                            if (c! == 0) {
+                                picker.dismiss()
+                            } else {
+                                for i in 0...c!-1
+                                {
+                                    let j = json?[i]
+                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                    r.append(n)
+                                }
+                                picker.items = r
+                                picker.tableView.reloadData()
+                                picker.doneLoading()
+                            }
+                        }
+                }
+                
+                // on select block
+                picker.selectBlock = { string in
+                    self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+                }
+            }),
+            NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: "", pickerPrepBlock: { picker in
+                
+                picker.startLoading()
+                
+                request(References.CityList(provinceId: self.selectedProvinsiID))
+                    .responseJSON{ _, _, res, err in
+                        if (err != nil) {
+                            picker.dismiss()
+                        } else {
+                            let json = JSON(res!)["_data"].array
+                            var r : Array<String> = []
+                            let c = json?.count
+                            if (c! == 0) {
+                                picker.dismiss()
+                            } else {
+                                for i in 0...c!-1
+                                {
+                                    let j = json?[i]
+                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                    r.append(n)
+                                }
+                                picker.items = r
+                                picker.tableView.reloadData()
+                                picker.doneLoading()
+                            }
+                        }
+                }
+                
+                picker.selectBlock = { string in
+                    self.selectedKotaID = PickerViewController.RevealHiddenString(string)
+                }
+                
+            }),
+            NSIndexPath(forRow: 3, inSection: 2):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : (c?.profiles.postalCode)!)
+        ]
+        
+        synch()
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    func synch()
+    {
         tableView.hidden = true
         
-        products = CartProduct.getAll()
+        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        let p = AppToolsObjC.jsonStringFrom(c)
         
-        cells = [
-            NSIndexPath(forRow: products.count, inSection: 0):BaseCartData.instance("Total", placeHolder: nil, enable : false),
-            NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance("Nama", placeHolder: "Nama Lengkap Kamu"),
-            NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance("Telepon", placeHolder: "Nomor Telepon Kamu"),
-            NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance("Alamat", placeHolder: "Alamat Lengkap Kamu"),
-            NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance("Provinsi", placeHolder: nil),
-            NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance("Kota", placeHolder: nil),
-            NSIndexPath(forRow: 3, inSection: 2):BaseCartData.instance("Kode Pos", placeHolder: "Kode Pos")
-        ]
-
-        // Do any additional setup after loading the view.
-        tableView.dataSource = self
-        tableView.delegate = self
+        let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\"}"
+        
+        request(APICart.Refresh(cart: p, address: a, voucher: voucher))
+            .responseJSON {_, _, res, err in
+                let json = JSON(res!)
+                
+                if let error = json["_data"].error
+                {
+                    Constant.showDialog("Warning", message: json["_message"].string!)
+                }
+                else
+                {
+                    let i = NSIndexPath(forRow: self.products.count, inSection: 0)
+                    let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
+                    b.value = "Rp. " + String(json["_data"]["total_price"].int!)
+                    self.cells[i] = b
+                    
+                    self.arrayItem = json["_data"]["cart_details"].array!
+                    
+                    self.tableView.dataSource = self
+                    self.tableView.delegate = self
+                    self.tableView.reloadData()
+                    self.tableView.hidden = false
+                }
+        }
+        
+    }
+    
+    @IBAction func confirm()
+    {
+        for k in cellViews.keys
+        {
+            let c = cellViews[k]!
+            let same = c.isKindOfClass(BaseCartCell.classForCoder())
+            if (same == true) {
+                let b = c as! BaseCartCell
+                cells[b.lastIndex!] = b.obtainValue()
+            }
+        }
+        
+        var phone = ""
+        var postal = ""
+        for i in cells.keys
+        {
+            let b = cells[i]
+            if (b?.value == nil || b?.value == "") {
+                Constant.showDialog("Warning", message: (b?.title)! + " still empty !")
+                return
+            }
+            
+            if (b?.title == titleTelepon) {
+                phone = (b?.value)!
+            }
+            
+            if (b?.title == titleAlamat) {
+                address = (b?.value)!
+            }
+            
+            if (b?.title == titlePostal) {
+                postal = (b?.value)!
+            }
+            
+            println((b?.title)! + " : " + (b?.value)!)
+        }
+        
+        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        let p = AppToolsObjC.jsonStringFrom(c)
+        
+        let d = ["address":address, "province_id":selectedProvinsiID, "region_id":selectedKotaID, "postal_code":postal]
+        let a = AppToolsObjC.jsonStringFrom(d)
+        
+        self.btnSend.enabled = false
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, phone: phone, payment: selectedPayment))
+            .responseJSON{_, _, res, err in
+                
+                self.btnSend.enabled = true
+                
+                if (err != nil) {
+                    Constant.showDialog("Warning", message: (err?.description)!)
+                } else {
+                    var json = JSON(res!)
+                    if let error = json["_message"].string
+                    {
+                        Constant.showDialog("Warning", message: error)
+                    } else {
+                        self.checkoutResult = JSON(res!)["_data"]
+//                        self.performSegueWithIdentifier("segOK", sender: nil)
+                        let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
+                        c.orderID = (self.checkoutResult?["order_id"].string)!
+                        c.totalPayment = (self.checkoutResult?["final_price"].int)!
+                        c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
+//                        self.navigationController?.popViewControllerAnimated(false)
+                        self.previousController?.navigationController?.pushViewController(c, animated: true)
+                        
+                    }
+                }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -72,7 +274,7 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         if (section == 2) {
             return 4
         } else if (section == 0) {
-            return products.count+1
+            return arrayItem.count+1
         } else {
             return 3
         }
@@ -83,11 +285,18 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         let r = indexPath.row
         var cell : UITableViewCell
         
+        let cachedCell = cellViews[indexPath]
+        if (cachedCell != nil) {
+            return cachedCell!
+        }
+        
         if (s == 0) {
-            if (r == products.count) {
+            if (r == arrayItem.count) {
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
-                cell = tableView.dequeueReusableCellWithIdentifier("cell_item") as! UITableViewCell
+                let i = tableView.dequeueReusableCellWithIdentifier("cell_item") as! CartCellItem
+                i.adapt(arrayItem[indexPath.row])
+                cell = i
             }
         } else if (s == 1) {
             if (r == 2) {
@@ -97,11 +306,16 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
             }
         } else {
             if (r == 0 || r == 3) {
+                if (r == 0) {
+                    return createExpandableCell(tableView, indexPath: indexPath)!
+                }
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input_2")
             }
         }
+        
+        cellViews[indexPath] = cell
         
         return cell
     }
@@ -111,20 +325,42 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         let b : BaseCartCell = tableView.dequeueReusableCellWithIdentifier(id) as! BaseCartCell
         
         if (b.lastIndex != nil) {
-            cells?[b.lastIndex!] = b.obtainValue()
+            cells[b.lastIndex!] = b.obtainValue()
         }
         
         b.parent = self
-        b.adapt(cells?[indexPath])
+        b.adapt(cells[indexPath])
         b.lastIndex = indexPath
         return b
+    }
+    
+    func createExpandableCell(tableView : UITableView, indexPath : NSIndexPath) -> ACEExpandableTextCell?
+    {
+        var acee = tableView.dequeueReusableCellWithIdentifier("address_cell") as? CartAddressCell
+        if (acee == nil) {
+            acee = CartAddressCell(style: UITableViewCellStyle.Default, reuseIdentifier: "address_cell")
+            acee?.selectionStyle = UITableViewCellSelectionStyle.None
+            acee?.expandableTableView = tableView
+            
+            acee?.textView.font = UIFont.systemFontOfSize(16)
+            acee?.textView.textColor = UIColor.darkGrayColor()
+        }
+        
+        if (acee?.lastIndex != nil) {
+            cells[(acee?.lastIndex)!] = acee?.obtain()
+        }
+        
+        acee?.adapt(cells[indexPath]!)
+        acee?.lastIndex = indexPath
+        
+        return acee
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let s = indexPath.section
         let r = indexPath.row
         if (s == 0) {
-            if (r == products.count) {
+            if (r == arrayItem.count) {
                 return 44
             } else {
                 return 74
@@ -137,6 +373,9 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
             }
         } else {
             if (r == 0 || r == 3) {
+                if (r == 0) {
+                    return CGFloat(addressHeight)
+                }
                 return 44
             } else {
                 return 44
@@ -181,7 +420,20 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
         // check if the cell is editable
     }
     
+    func tableView(tableView: UITableView!, updatedHeight height: CGFloat, atIndexPath indexPath: NSIndexPath!) {
+        addressHeight = Int(height)
+    }
+    
+    func tableView(tableView: UITableView!, updatedText text: String!, atIndexPath indexPath: NSIndexPath!) {
+        cells[indexPath]?.value = text
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == txtVoucher) {
+            voucher = txtVoucher.text
+            return false
+        }
+        
         textField.resignFirstResponder()
         
         let i = tableView.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
@@ -215,16 +467,44 @@ class CartViewController: BaseViewController, UITableViewDataSource, UITableView
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
+    
+    @IBAction func saveVoucher()
+    {
+        voucher = txtVoucher.text!
+        self.synch()
+    }
+    
+    @IBAction func setPaymentOption(sender : UITapGestureRecognizer)
+    {
+        for b in sectionsPaymentOption
+        {
+            b.cartSelectAsPayment(false)
+        }
+        
+        let b = sender.view as! BorderedView
+        b.cartSelectAsPayment(true)
+        let v = sender.view!
+        let i = v.tag
+        let x = (UIScreen.mainScreen().bounds.size.width-32) * -CGFloat(i)
+        consOffsetPaymentDesc?.constant = x
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "segOK") {
+            let c = segue.destinationViewController as! CarConfirmViewController
+            c.orderID = (checkoutResult?["order_id"].string)!
+            c.totalPayment = (checkoutResult?["final_price"].int)!
+            c.paymentMethod = (checkoutResult?["payment_method"].string)!
+        }
+        
     }
-    */
 
 }
 
@@ -234,6 +514,8 @@ class BaseCartData : NSObject
     var placeHolder : String?
     var value : String?
     var enable : Bool = true
+    
+    var pickerPrepDataBlock : PrepDataBlock?
     
     static func instance(title : String?, placeHolder : String?) -> BaseCartData
     {
@@ -253,6 +535,30 @@ class BaseCartData : NSObject
         b.placeHolder = placeHolder
         b.value = nil
         b.enable = enable
+        
+        return b
+    }
+    
+    static func instance(title : String?, placeHolder : String?, value : String) -> BaseCartData
+    {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = true
+        
+        return b
+    }
+    
+    static func instance(title : String?, placeHolder : String?, value : String, pickerPrepBlock : PrepDataBlock?) -> BaseCartData
+    {
+        let b = BaseCartData()
+        b.title = title
+        b.placeHolder = placeHolder
+        b.value = value
+        b.enable = true
+        
+        b.pickerPrepDataBlock = pickerPrepBlock
         
         return b
     }
@@ -306,6 +612,9 @@ class CartCellInput : BaseCartCell
     
     override func adapt(item : BaseCartData?) {
         baseCartData = item
+        if (item == nil) {
+            return
+        }
         captionTitle?.text = item?.title
         let placeholder = item?.placeHolder
         if (placeholder != nil) {
@@ -318,6 +627,8 @@ class CartCellInput : BaseCartCell
         } else {
             txtField.text = ""
         }
+        
+        txtField.enabled = (item?.enable)!
     }
     
     override func obtainValue() -> BaseCartData? {
@@ -336,8 +647,11 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     
     override func becomeFirstResponder() -> Bool {
         let p = parent?.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"]
+        p?.items = []
         p?.pickerDelegate = self
+        p?.prepDataBlock = baseCartData?.pickerPrepDataBlock
+        p?.title = baseCartData?.title
+        parent?.view.endEditing(true)
         parent?.navigationController?.pushViewController(p!, animated: true)
         return true
     }
@@ -347,7 +661,7 @@ class CartCellInput2 : BaseCartCell, PickerViewDelegate
     }
     
     func pickerDidSelect(item: String) {
-        captionValue?.text = item
+        captionValue?.text = PickerViewController.HideHiddenString(item)
     }
     
     override func adapt(item : BaseCartData?) {
@@ -376,7 +690,84 @@ class CartCellEdit : UITableViewCell
 
 class CartCellItem : UITableViewCell
 {
+    @IBOutlet var shade : UIView?
+    @IBOutlet var captionName : UILabel?
+    @IBOutlet var captionPrice : UILabel?
+    @IBOutlet var captionLocation : UILabel?
+    @IBOutlet var btnShippment : UILabel?
+    @IBOutlet var ivCover : UIImageView?
+    
     override func canBecomeFirstResponder() -> Bool {
         return false
+    }
+    
+    func adapt (json : JSON)
+    {
+        captionName?.text = json["name"].string!
+        captionLocation?.text = json["seller_region"]["name"].string!
+        
+        let ori : Array<String> = json["display_picts"].arrayObject as! Array<String>
+        
+        ivCover?.image = nil
+        let s = DAO.UrlForDisplayPicture(ori.first!, productID: json["product_id"].string!)
+        let u = NSURL(string: s)
+        ivCover?.setImageWithUrl(u!, placeHolderImage: nil)
+        
+        if let error = json["_error"].string
+        {
+            let string = "SOLD OUT"
+            let attString = NSMutableAttributedString(string: string)
+            attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor(), NSFontAttributeName:UIFont.systemFontOfSize(14)], range: AppToolsObjC.rangeOf(string, inside: string))
+            captionPrice?.attributedText = attString
+            shade?.hidden = false
+        } else {
+            let sh = json["shippings"].array!
+            let first = sh.first
+            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["name"].int
+            let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : "(+ONGKIR Rp. " + String(ongkir!) + ")"
+            var priceString = "Rp. " + String(json["price"].int!)
+            let string = priceString + " " + ongkirString
+            let attString = NSMutableAttributedString(string: string)
+            attString.addAttributes([NSForegroundColorAttributeName:Theme.DarkPurple, NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: AppToolsObjC.rangeOf(priceString, inside: string))
+            attString.addAttributes([NSForegroundColorAttributeName:UIColor.darkGrayColor(), NSFontAttributeName:UIFont.systemFontOfSize(10)], range: AppToolsObjC.rangeOf(ongkirString, inside: string))
+            captionPrice?.attributedText = attString
+            shade?.hidden = true
+        }
+        
+    }
+}
+
+class CartAddressCell : ACEExpandableTextCell
+{
+    var baseCartData : BaseCartData?
+    var lastIndex : NSIndexPath?
+    
+    func adapt(item : BaseCartData)
+    {
+        baseCartData = item
+        self.textView.placeholder = item.title
+        self.text = item.value
+    }
+    
+    func obtain() -> BaseCartData?
+    {
+        return baseCartData
+    }
+}
+
+extension BorderedView
+{
+    func cartSelectAsPayment(select : Bool)
+    {
+        setColor(select ? Theme.DarkPurple : UIColor.darkGrayColor())
+    }
+    
+    private func setColor(c : UIColor)
+    {
+        let tintedImageView = self.viewWithTag(1)
+        let text = self.viewWithTag(2) as? UILabel
+        
+        tintedImageView?.tintColor = c
+        text?.textColor = c
     }
 }

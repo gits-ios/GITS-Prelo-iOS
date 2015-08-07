@@ -50,10 +50,35 @@ class BaseViewController: UIViewController {
 
     var userRelatedDelegate : UserRelatedDelegate?
     
+    var previousController : UIViewController?
+    
+    private static var GlobalStoryboard : UIStoryboard?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        if (BaseViewController.GlobalStoryboard == nil) {
+            BaseViewController.GlobalStoryboard = self.storyboard
+        }
+    }
+    
+    static func instatiateViewControllerFromStoryboardWithID(id : String) -> UIViewController
+    {
+        let c = BaseViewController.GlobalStoryboard?.instantiateViewControllerWithIdentifier(id) as! UIViewController
+        return c
+    }
+    
+    static func TitleLabel(title : String) -> UILabel
+    {
+        let l = UILabel(frame: CGRectZero)
+        l.font = UIFont.systemFontOfSize(16)
+        l.textColor = UIColor.whiteColor()
+        l.text = title
+        l.sizeToFit()
+        l.backgroundColor = UIColor.clearColor()
+        return l
     }
     
     private var _titleText : String?
@@ -89,13 +114,22 @@ class BaseViewController: UIViewController {
         
         troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
         
+        search.addTarget(self, action: "launchSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
     }
     
     func launchCart()
     {
-        let cart = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCart) as! UIViewController
+        let cart = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCart) as! BaseViewController
+        cart.previousController = self
         self.navigationController?.pushViewController(cart, animated: true)
+    }
+    
+    func launchSearch()
+    {
+        let search = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch) as! UIViewController
+        self.navigationController?.pushViewController(search, animated: true)
     }
     
     func setupTitle()

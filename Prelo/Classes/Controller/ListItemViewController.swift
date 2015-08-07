@@ -132,7 +132,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: width!, height: width!+70)
+        return CGSize(width: width!, height: width!+50)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -151,6 +151,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segDetail") {
 
+        }
+        
+        let c = segue.destinationViewController
+        if (c.isKindOfClass(BaseViewController.classForCoder()))
+        {
+            let b = c as! BaseViewController
+            b.previousController = self
         }
     }
     
@@ -202,6 +209,7 @@ class ListItemCell : UICollectionViewCell
         }
         
         let firstImg = obj["display_picts"][0].string
+        ivCover.image = nil
         ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
     }
 }
