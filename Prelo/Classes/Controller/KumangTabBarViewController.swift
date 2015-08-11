@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashboard2Delegate {
     
     var numberOfControllers : Int = 0
     
@@ -29,7 +29,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             _controllerDashboard?.userRelatedDelegate = self
         }
     }
+    @IBOutlet var controllerDashboard2 : Dashboard2ViewController?
     @IBOutlet var controllerBrowse : UIViewController?
+    @IBOutlet var controllerLogin : LoginViewController?
+    @IBOutlet var controllerContactPrelo : BaseViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +60,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         if (User.IsLoggedIn) {
             controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         } else {
-            controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? BaseViewController
+            controllerDashboard2 = Dashboard2ViewController(nibName:"Dashboard2", bundle: nil)
+            controllerDashboard2?.dashboard2Delegate = self
+            //controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? BaseViewController
         }
     }
     
@@ -103,8 +108,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         if (btn.stringTag == Tags.Browse) {
             changeToController(controllerBrowse!)
             
-            
-            
             if (changeToBrowseCount == 0) {
                 changeToBrowseCount = 1
                 sectionContent?.hidden = true
@@ -112,7 +115,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             }
             
         } else {
-            changeToController(controllerDashboard!)
+            if (User.IsLoggedIn) {
+                changeToController(controllerDashboard!)
+            } else {
+                changeToController(controllerDashboard2!)
+            }
         }
     }
     
@@ -139,6 +146,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         controllerDashboard = d
     }
 
+    func navigateToLogin() {
+        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+        
+        //changeToController(controllerLogin)
+        
+//        var nav = UINavigationController(rootViewController: controllerLogin!)
+//        nav.navigationBar.translucent = false
+//        nav.navigationBar.barTintColor = Theme.navBarColor
+//        nav.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.pushViewController(controllerLogin!, animated: true)
+    }
+    
+    func navigateToContactPrelo() {
+        
+    }
+    
     /*
     // MARK: - Navigation
 

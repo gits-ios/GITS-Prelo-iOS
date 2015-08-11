@@ -52,6 +52,9 @@ class Tags : NSObject
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"
+    
+    static let LoginButton = "login"
+    static let ContactPreloButton = "contact_prelo"
 }
 
 class NotificationName : NSObject
