@@ -36,6 +36,42 @@
     return string;
 }
 
++ (void)fetchAssetWithAlbumName:(NSString *)albumName onComplete:(AssetFromAlbumComplete)complete onFailed:(AssetFromAlbumFailed)failed
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ALAssetsLibrary *l = [[ALAssetsLibrary alloc] init];
+        NSUInteger groupTypes = ALAssetsGroupAlbum | ALAssetsGroupEvent | ALAssetsGroupFaces | ALAssetsGroupSavedPhotos;
+        [l enumerateGroupsWithTypes:groupTypes usingBlock:^(ALAssetsGroup *g, BOOL *stop) {
+//            BOOL s = stop;
+            
+//            if (s && alreadyCalledStop == NO) {
+//                dispatch_async(dispatch_get_main_queue(), ^(void){
+//                    complete(array);
+//                });
+//            } else {
+//                
+//            }
+            NSMutableArray *array = @[].mutableCopy;
+            if ([[g valueForProperty:ALAssetsGroupPropertyName] isEqualToString:albumName]) {
+                [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
+                    if (a) {
+                        [array addObject:a.defaultRepresentation.url];
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), ^(void){
+                            complete(array);
+                            return;
+                        });
+                    }
+                }];
+            }
+        } failureBlock:^(NSError *err) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                failed(err.description);
+            });
+        }];
+    });
+}
+
 @end
 
 @implementation UINavigationController (AppToolsObjC)
@@ -45,6 +81,15 @@
     NSMutableArray *a = self.viewControllers.mutableCopy;
     [a removeObject:con];
     self.viewControllers = a;
+}
+
+@end
+
+@implementation UIImage (AppToolsObjC)
+
++ (UIImage *)imageFromAsset:(ALAsset *)asset
+{
+    return [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:asset.defaultRepresentation.scale orientation:UIImageOrientationUp];
 }
 
 @end

@@ -68,9 +68,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         request(APIUser.Login(email: email!, password: (txtPassword?.text)!))
             .responseJSON
             {_, _, json, err in
-                self.btnLogin?.enabled = true
                 if (err != nil) {
                     Constant.showDialog("Warning", message: (err?.description)!)
+                    self.btnLogin?.enabled = true
                 } else {
                     let res = JSON(json!)
                     let data = res["_data"]
@@ -94,7 +94,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (err != nil) {
                     Constant.showDialog("Warning", message: (err?.description)!)
                     User.Logout()
+                    self.btnLogin?.enabled = true
                 } else {
+                    self.btnLogin?.enabled = true
                     let json = JSON(res!)["_data"]
                     
                     let m = UIApplication.appDelegate.managedObjectContext

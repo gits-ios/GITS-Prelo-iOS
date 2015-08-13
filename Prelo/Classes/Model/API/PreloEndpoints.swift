@@ -206,6 +206,7 @@ enum Products : URLRequestConvertible
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest(URL: baseURL!)
         req.HTTPMethod = method.rawValue
+        
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         return r
     }

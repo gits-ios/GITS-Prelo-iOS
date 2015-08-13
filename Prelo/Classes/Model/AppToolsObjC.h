@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
+
+typedef void(^AssetFromAlbumComplete)(NSArray *array);
+typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 @interface AppToolsObjC : NSObject
 
@@ -15,10 +19,18 @@
 + (NSRange) rangeOf:(NSString *)text inside:(NSString *)parent;
 + (NSString *) stringByHideTextBetween:(NSString *)start and:(NSString *)end from:(NSString *)string;
 
++ (void) fetchAssetWithAlbumName:(NSString *)albumName onComplete:(AssetFromAlbumComplete)complete onFailed:(AssetFromAlbumFailed)failed;
+
 @end
 
 @interface UINavigationController (AppToolsObjC)
 
 - (void) removeControllerFromStack:(UIViewController *)con;
+
+@end
+
+@interface UIImage (AppToolsObjC)
+
++ (UIImage *)imageFromAsset:(ALAsset *)asset;
 
 @end

@@ -49,6 +49,7 @@ class Tags : NSObject
     static let StoryBoardIdCart = "cart"
     static let StoryBoardIdSearch = "search"
     static let StoryBoardIdCartConfirm = "cartConfirm"
+    static let StoryBoardIdAddProductImage = "addProductImage"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

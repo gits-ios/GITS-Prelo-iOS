@@ -8,13 +8,15 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate {
     
     var numberOfControllers : Int = 0
     
     @IBOutlet var sectionContent : UIView?
     @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
+    
+    var menuPopUp : MenuPopUp?
     
     var changeToBrowseCount = 0
     
@@ -67,6 +69,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if (menuPopUp == nil) {
+            menuPopUp = NSBundle.mainBundle().loadNibNamed("MenuPopUp", owner: nil, options: nil).first as? MenuPopUp
+            menuPopUp?.menuDelegate = self
+            menuPopUp?.setupView(self.navigationController!)
+        }
     }
     
     func pushNew(sender : AnyObject)
@@ -116,6 +124,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         }
     }
     
+    @IBAction func launchMenu()
+    {
+        menuPopUp?.show(true)
+    }
+    
     func delayBrowseSwitch()
     {
         sectionContent?.hidden = false
@@ -138,6 +151,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         changeToController(d)
         controllerDashboard = d
     }
+    
+    func menuSelected(option: MenuOption) {
+        menuPopUp?.hide()
+        
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
+        self.navigationController?.pushViewController(add, animated: true)
+    }
+    
+    
 
     /*
     // MARK: - Navigation
