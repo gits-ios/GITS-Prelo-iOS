@@ -142,15 +142,17 @@
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
 		442430AB1B785A9E00768C97 /* Dashboard2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442430AA1B785A9E00768C97 /* Dashboard2ViewController.swift */; };
+		4476B0FE1B7A28FF00ACC135 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */; };
+		4476B1001B7A291500ACC135 /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4476B0FF1B7A291500ACC135 /* Register.xib */; };
 		44BCD0071B74C0B90015CC3A /* Dashboard2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BCD0061B74C0B90015CC3A /* Dashboard2.xib */; };
-		44C601451B7882D800907F80 /* checkbox-checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013D1B7882D800907F80 /* checkbox-checked.png */; };
-		44C601461B7882D800907F80 /* checkbox-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013E1B7882D800907F80 /* checkbox-pressed.png */; };
-		44C601471B7882D800907F80 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013F1B7882D800907F80 /* checkbox.png */; };
-		44C601481B7882D800907F80 /* icon_email in Resources */ = {isa = PBXBuildFile; fileRef = 44C601401B7882D800907F80 /* icon_email */; };
-		44C601491B7882D800907F80 /* icon_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601411B7882D800907F80 /* icon_lock.png */; };
-		44C6014B1B7882D800907F80 /* icon_user_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601431B7882D800907F80 /* icon_user_2.png */; };
-		44C6014C1B7882D800907F80 /* icon_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601441B7882D800907F80 /* icon_user.png */; };
-		44C601501B78871E00907F80 /* icon_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6014F1B78871E00907F80 /* icon_phone.png */; };
+		44C601451B7882D800907F80 /* btn_checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013D1B7882D800907F80 /* btn_checkbox_checked.png */; };
+		44C601461B7882D800907F80 /* btn_checkbox_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013E1B7882D800907F80 /* btn_checkbox_pressed.png */; };
+		44C601471B7882D800907F80 /* btn_checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6013F1B7882D800907F80 /* btn_checkbox_empty.png */; };
+		44C601481B7882D800907F80 /* ic_email.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601401B7882D800907F80 /* ic_email.png */; };
+		44C601491B7882D800907F80 /* ic_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601411B7882D800907F80 /* ic_lock.png */; };
+		44C6014B1B7882D800907F80 /* ic_user_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601431B7882D800907F80 /* ic_user_2.png */; };
+		44C6014C1B7882D800907F80 /* ic_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C601441B7882D800907F80 /* ic_user.png */; };
+		44C601501B78871E00907F80 /* ic_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C6014F1B78871E00907F80 /* ic_phone.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -321,15 +323,17 @@
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		442430AA1B785A9E00768C97 /* Dashboard2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard2ViewController.swift; sourceTree = "<group>"; };
+		4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		4476B0FF1B7A291500ACC135 /* Register.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Register.xib; sourceTree = "<group>"; };
 		44BCD0061B74C0B90015CC3A /* Dashboard2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Dashboard2.xib; sourceTree = "<group>"; };
-		44C6013D1B7882D800907F80 /* checkbox-checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked.png"; sourceTree = "<group>"; };
-		44C6013E1B7882D800907F80 /* checkbox-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-pressed.png"; sourceTree = "<group>"; };
-		44C6013F1B7882D800907F80 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
-		44C601401B7882D800907F80 /* icon_email */ = {isa = PBXFileReference; lastKnownFileType = file; path = icon_email; sourceTree = "<group>"; };
-		44C601411B7882D800907F80 /* icon_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_lock.png; sourceTree = "<group>"; };
-		44C601431B7882D800907F80 /* icon_user_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_user_2.png; sourceTree = "<group>"; };
-		44C601441B7882D800907F80 /* icon_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_user.png; sourceTree = "<group>"; };
-		44C6014F1B78871E00907F80 /* icon_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_phone.png; sourceTree = "<group>"; };
+		44C6013D1B7882D800907F80 /* btn_checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_checked.png; sourceTree = "<group>"; };
+		44C6013E1B7882D800907F80 /* btn_checkbox_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_pressed.png; sourceTree = "<group>"; };
+		44C6013F1B7882D800907F80 /* btn_checkbox_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_empty.png; sourceTree = "<group>"; };
+		44C601401B7882D800907F80 /* ic_email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_email.png; sourceTree = "<group>"; };
+		44C601411B7882D800907F80 /* ic_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_lock.png; sourceTree = "<group>"; };
+		44C601431B7882D800907F80 /* ic_user_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_user_2.png; sourceTree = "<group>"; };
+		44C601441B7882D800907F80 /* ic_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_user.png; sourceTree = "<group>"; };
+		44C6014F1B78871E00907F80 /* ic_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_phone.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -648,6 +652,7 @@
 				214864D81B6F53EF00EF49EF /* PickerViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				21C68F5F1B74922200D1125E /* OrderConfirmViewController.swift */,
+				4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -707,14 +712,14 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				44C6014F1B78871E00907F80 /* icon_phone.png */,
-				44C6013D1B7882D800907F80 /* checkbox-checked.png */,
-				44C6013E1B7882D800907F80 /* checkbox-pressed.png */,
-				44C6013F1B7882D800907F80 /* checkbox.png */,
-				44C601401B7882D800907F80 /* icon_email */,
-				44C601411B7882D800907F80 /* icon_lock.png */,
-				44C601431B7882D800907F80 /* icon_user_2.png */,
-				44C601441B7882D800907F80 /* icon_user.png */,
+				44C6014F1B78871E00907F80 /* ic_phone.png */,
+				44C6013D1B7882D800907F80 /* btn_checkbox_checked.png */,
+				44C6013E1B7882D800907F80 /* btn_checkbox_pressed.png */,
+				44C6013F1B7882D800907F80 /* btn_checkbox_empty.png */,
+				44C601401B7882D800907F80 /* ic_email.png */,
+				44C601411B7882D800907F80 /* ic_lock.png */,
+				44C601431B7882D800907F80 /* ic_user_2.png */,
+				44C601441B7882D800907F80 /* ic_user.png */,
 				210DF0E81B730764004AE3D9 /* ic_cc@2x.png */,
 				210DF0E91B730764004AE3D9 /* ic_dollar@2x.png */,
 				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
@@ -824,6 +829,7 @@
 			isa = PBXGroup;
 			children = (
 				44BCD0061B74C0B90015CC3A /* Dashboard2.xib */,
+				4476B0FF1B7A291500ACC135 /* Register.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -918,8 +924,8 @@
 			files = (
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
-				44C601481B7882D800907F80 /* icon_email in Resources */,
-				44C601491B7882D800907F80 /* icon_lock.png in Resources */,
+				44C601481B7882D800907F80 /* ic_email.png in Resources */,
+				44C601491B7882D800907F80 /* ic_lock.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
@@ -927,35 +933,36 @@
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
-				44C601501B78871E00907F80 /* icon_phone.png in Resources */,
+				44C601501B78871E00907F80 /* ic_phone.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
-				44C601461B7882D800907F80 /* checkbox-pressed.png in Resources */,
+				44C601461B7882D800907F80 /* btn_checkbox_pressed.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
-				44C601471B7882D800907F80 /* checkbox.png in Resources */,
-				44C6014B1B7882D800907F80 /* icon_user_2.png in Resources */,
+				44C601471B7882D800907F80 /* btn_checkbox_empty.png in Resources */,
+				44C6014B1B7882D800907F80 /* ic_user_2.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
+				4476B1001B7A291500ACC135 /* Register.xib in Resources */,
 				44BCD0071B74C0B90015CC3A /* Dashboard2.xib in Resources */,
-				44C601451B7882D800907F80 /* checkbox-checked.png in Resources */,
+				44C601451B7882D800907F80 /* btn_checkbox_checked.png in Resources */,
 				2141BBA51B54BE4C00787F5D /* LICENSE in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				211312561B6760F600A4DA3B /* ProductDetailCover.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */,
-				44C6014C1B7882D800907F80 /* icon_user.png in Resources */,
+				44C6014C1B7882D800907F80 /* ic_user.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,6 +1048,7 @@
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				2141BBD01B54BE4C00787F5D /* UITextView+BFKit.swift in Sources */,
 				2141BBDF1B54BE4C00787F5D /* SocketAckManager.swift in Sources */,
+				4476B0FE1B7A28FF00ACC135 /* RegisterViewController.swift in Sources */,
 				2141BBC81B54BE4C00787F5D /* UIDevice+BFKit.swift in Sources */,
 				2141BBE61B54BE4C00787F5D /* SocketLogger.swift in Sources */,
 				2141BBD61B54BE4C00787F5D /* README.md in Sources */,

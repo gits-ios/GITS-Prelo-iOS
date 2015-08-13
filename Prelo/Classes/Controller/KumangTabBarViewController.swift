@@ -147,15 +147,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
     }
 
     func navigateToLogin() {
-        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+        var controllerRegister : RegisterViewController = RegisterViewController(nibName:"Register", bundle: nil)
+        self.navigationController?.pushViewController(controllerRegister, animated: true)
         
-        //changeToController(controllerLogin)
         
-//        var nav = UINavigationController(rootViewController: controllerLogin!)
-//        nav.navigationBar.translucent = false
-//        nav.navigationBar.barTintColor = Theme.navBarColor
-//        nav.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController?.pushViewController(controllerLogin!, animated: true)
+//        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+        
+//        self.navigationController?.pushViewController(controllerLogin!, animated: true)
+        
+        
     }
     
     func navigateToContactPrelo() {
