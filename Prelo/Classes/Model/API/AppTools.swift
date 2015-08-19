@@ -53,8 +53,9 @@ class Tags : NSObject
     static let Browse = "browse"
     static let Dashboard = "dashboard"
     
-    static let LoginButton = "login"
-    static let ContactPreloButton = "contact_prelo"
+    static let XibNameDashboard2 = "Dashboard2"
+    static let XibNameRegister = "Register"
+    static let XibNamePaymentConfirmation = "PaymentConfirmation"
 }
 
 class NotificationName : NSObject

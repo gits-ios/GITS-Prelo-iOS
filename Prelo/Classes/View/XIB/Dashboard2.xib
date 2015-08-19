@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="ic_user_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ecg-cO-YUb">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ecg-cO-YUb">
                     <rect key="frame" x="18" y="21" width="56" height="54"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="54" id="Gkx-VM-0z3"/>
@@ -33,9 +33,12 @@
                         <action selector="loginButtonTapped:" destination="-1" eventType="touchUpInside" id="SbU-wx-WYa"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HEr-CY-bOP" userLabel="separator">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEr-CY-bOP" userLabel="separator">
                     <rect key="frame" x="18" y="84" width="565" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="gqw-xf-eJ9"/>
+                    </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxY-s6-qd7">
                     <rect key="frame" x="18" y="82" width="565" height="76"/>
@@ -53,18 +56,27 @@
                         <action selector="contactButtonTapped:" destination="-1" eventType="touchUpInside" id="bdF-jz-YSx"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ps6-Eb-jzb" userLabel="separator">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ps6-Eb-jzb" userLabel="separator">
                     <rect key="frame" x="18" y="157" width="565" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="z50-0l-hzR"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="ps6-Eb-jzb" secondAttribute="trailing" constant="17" id="0FV-CT-h4y"/>
+                <constraint firstItem="HEr-CY-bOP" firstAttribute="top" secondItem="Ecg-cO-YUb" secondAttribute="bottom" constant="9" id="0Py-7g-T6d"/>
                 <constraint firstAttribute="trailing" secondItem="HEr-CY-bOP" secondAttribute="trailing" constant="17" id="K4C-yi-fjm"/>
+                <constraint firstItem="Ecg-cO-YUb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="Xin-8V-EoG"/>
                 <constraint firstItem="ps6-Eb-jzb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="ugt-Br-QDf"/>
+                <constraint firstItem="HEr-CY-bOP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="xRD-pN-0oj"/>
+                <constraint firstItem="ps6-Eb-jzb" firstAttribute="top" secondItem="HEr-CY-bOP" secondAttribute="bottom" constant="72" id="xcC-kt-dSX"/>
+                <constraint firstItem="Ecg-cO-YUb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="zzN-FD-GZz"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="261" y="33"/>
         </view>
     </objects>
     <resources>

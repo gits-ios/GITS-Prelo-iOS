@@ -60,7 +60,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
         if (User.IsLoggedIn) {
             controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         } else {
-            controllerDashboard2 = Dashboard2ViewController(nibName:"Dashboard2", bundle: nil)
+            controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
             controllerDashboard2?.dashboard2Delegate = self
             //controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? BaseViewController
         }
@@ -116,6 +116,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
             
         } else {
             if (User.IsLoggedIn) {
+                controllerDashboard?.previousController = self
                 changeToController(controllerDashboard!)
             } else {
                 changeToController(controllerDashboard2!)
@@ -147,15 +148,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
     }
 
     func navigateToLogin() {
-        var controllerRegister : RegisterViewController = RegisterViewController(nibName:"Register", bundle: nil)
-        self.navigationController?.pushViewController(controllerRegister, animated: true)
+//        var controllerRegister : RegisterViewController = RegisterViewController(nibName:Tags.XibNameRegister, bundle: nil)
+//        self.navigationController?.pushViewController(controllerRegister, animated: true)
         
-        
-//        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
-        
-//        self.navigationController?.pushViewController(controllerLogin!, animated: true)
-        
-        
+        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+        self.navigationController?.pushViewController(controllerLogin!, animated: true)
     }
     
     func navigateToContactPrelo() {

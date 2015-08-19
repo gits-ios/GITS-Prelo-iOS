@@ -23,6 +23,8 @@ class Dashboard2ViewController : BaseViewController {
     
     @IBAction func loginButtonTapped(sender : AnyObject) {
         dashboard2Delegate?.navigateToLogin()
+//        var controllerLogin : LoginViewController? = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+//        self.navigationController?.pushViewController(controllerLogin!, animated: true)
     }
     
     @IBAction func contactButtonTapped(sender : AnyObject) {

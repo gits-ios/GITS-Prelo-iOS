@@ -142,6 +142,11 @@
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
 		442430AB1B785A9E00768C97 /* Dashboard2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442430AA1B785A9E00768C97 /* Dashboard2ViewController.swift */; };
+		443607251B7C77C60097DFF9 /* PaymentConfirmation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443607241B7C77C60097DFF9 /* PaymentConfirmation.xib */; };
+		443607271B7C7BED0097DFF9 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443607261B7C7BED0097DFF9 /* PaymentConfirmationViewController.swift */; };
+		44433FD11B832E0700B37AE8 /* PaymentConfirmationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44433FD01B832E0700B37AE8 /* PaymentConfirmationCell.xib */; };
+		44433FD41B83328E00B37AE8 /* ic_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 44433FD21B83328E00B37AE8 /* ic_bubble.png */; };
+		44433FD51B83328E00B37AE8 /* ic_heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 44433FD31B83328E00B37AE8 /* ic_heart.png */; };
 		4476B0FE1B7A28FF00ACC135 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */; };
 		4476B1001B7A291500ACC135 /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4476B0FF1B7A291500ACC135 /* Register.xib */; };
 		44BCD0071B74C0B90015CC3A /* Dashboard2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BCD0061B74C0B90015CC3A /* Dashboard2.xib */; };
@@ -323,6 +328,11 @@
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		442430AA1B785A9E00768C97 /* Dashboard2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard2ViewController.swift; sourceTree = "<group>"; };
+		443607241B7C77C60097DFF9 /* PaymentConfirmation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentConfirmation.xib; sourceTree = "<group>"; };
+		443607261B7C7BED0097DFF9 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
+		44433FD01B832E0700B37AE8 /* PaymentConfirmationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentConfirmationCell.xib; sourceTree = "<group>"; };
+		44433FD21B83328E00B37AE8 /* ic_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_bubble.png; sourceTree = "<group>"; };
+		44433FD31B83328E00B37AE8 /* ic_heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_heart.png; sourceTree = "<group>"; };
 		4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		4476B0FF1B7A291500ACC135 /* Register.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Register.xib; sourceTree = "<group>"; };
 		44BCD0061B74C0B90015CC3A /* Dashboard2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Dashboard2.xib; sourceTree = "<group>"; };
@@ -653,6 +663,7 @@
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				21C68F5F1B74922200D1125E /* OrderConfirmViewController.swift */,
 				4476B0FD1B7A28FF00ACC135 /* RegisterViewController.swift */,
+				443607261B7C7BED0097DFF9 /* PaymentConfirmationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -712,6 +723,8 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				44433FD21B83328E00B37AE8 /* ic_bubble.png */,
+				44433FD31B83328E00B37AE8 /* ic_heart.png */,
 				44C6014F1B78871E00907F80 /* ic_phone.png */,
 				44C6013D1B7882D800907F80 /* btn_checkbox_checked.png */,
 				44C6013E1B7882D800907F80 /* btn_checkbox_pressed.png */,
@@ -830,6 +843,8 @@
 			children = (
 				44BCD0061B74C0B90015CC3A /* Dashboard2.xib */,
 				4476B0FF1B7A291500ACC135 /* Register.xib */,
+				443607241B7C77C60097DFF9 /* PaymentConfirmation.xib */,
+				44433FD01B832E0700B37AE8 /* PaymentConfirmationCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -925,13 +940,16 @@
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				44C601481B7882D800907F80 /* ic_email.png in Resources */,
+				44433FD11B832E0700B37AE8 /* PaymentConfirmationCell.xib in Resources */,
 				44C601491B7882D800907F80 /* ic_lock.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
+				443607251B7C77C60097DFF9 /* PaymentConfirmation.xib in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
+				44433FD51B83328E00B37AE8 /* ic_heart.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				44C601501B78871E00907F80 /* ic_phone.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
@@ -939,6 +957,7 @@
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
+				44433FD41B83328E00B37AE8 /* ic_bubble.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
 				44C601461B7882D800907F80 /* btn_checkbox_pressed.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
@@ -1020,6 +1039,7 @@
 				210DF0F11B734CFE004AE3D9 /* CDUserOther.swift in Sources */,
 				2141BBD91B54BE4C00787F5D /* MKImageView.swift in Sources */,
 				2141BB451B53AF7800787F5D /* ProductDetailViewController.swift in Sources */,
+				443607271B7C7BED0097DFF9 /* PaymentConfirmationViewController.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
 				2141BBA61B54BE4C00787F5D /* README.md in Sources */,
