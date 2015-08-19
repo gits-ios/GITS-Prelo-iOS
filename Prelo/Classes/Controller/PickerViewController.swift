@@ -54,8 +54,8 @@ class PickerViewController: UITableViewController {
         self.tableView.tableFooterView = UIView()
         
         if (prepDataBlock != nil) {
-            prepDataBlock!(picker: self)
             startLoading()
+            prepDataBlock!(picker: self)
         }
         // Do any additional setup after loading the view.
     }

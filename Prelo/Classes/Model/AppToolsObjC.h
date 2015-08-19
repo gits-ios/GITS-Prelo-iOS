@@ -21,6 +21,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (void) fetchAssetWithAlbumName:(NSString *)albumName onComplete:(AssetFromAlbumComplete)complete onFailed:(AssetFromAlbumFailed)failed;
 
++ (CAGradientLayer *)gradientViewWithColor:(NSArray *)arrayColor withView:(UIView *)view;
+
 @end
 
 @interface UINavigationController (AppToolsObjC)
@@ -32,5 +34,11 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 @interface UIImage (AppToolsObjC)
 
 + (UIImage *)imageFromAsset:(ALAsset *)asset;
+
+@end
+
+@interface NSObject (AppToolsObjC)
+
+- (CGFloat) cgFloat;
 
 @end

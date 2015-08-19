@@ -41,7 +41,6 @@ class BorderedView : UIView
 
 class TintedImageView : UIImageView
 {
-//    @IBInspectable var image : UIImage?
 
     override func awakeFromNib() {
         let i = self.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)

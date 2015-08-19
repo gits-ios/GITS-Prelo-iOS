@@ -514,6 +514,7 @@ class BaseCartData : NSObject
     var placeHolder : String?
     var value : String?
     var enable : Bool = true
+    var image : UIImage?
     
     var pickerPrepDataBlock : PrepDataBlock?
     
@@ -571,6 +572,25 @@ class BaseCartData : NSObject
         b.value = value
         b.enable = enable
         
+        return b
+    }
+    
+    static func instanceWith(image : UIImage, placeHolder : String) -> BaseCartData
+    {
+        let b = BaseCartData()
+        b.title = ""
+        b.placeHolder = placeHolder
+        b.value = nil
+        b.enable = true
+        b.image = image
+        
+        return b
+    }
+    
+    static func instanceWith(image : UIImage, placeHolder : String, pickerPrepBlock : PrepDataBlock?) -> BaseCartData
+    {
+        let b = BaseCartData.instanceWith(image, placeHolder: placeHolder)
+        b.pickerPrepDataBlock = pickerPrepBlock
         return b
     }
 }

@@ -41,26 +41,19 @@
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         ALAssetsLibrary *l = [[ALAssetsLibrary alloc] init];
         NSUInteger groupTypes = ALAssetsGroupAlbum | ALAssetsGroupEvent | ALAssetsGroupFaces | ALAssetsGroupSavedPhotos;
+        NSMutableArray *array = @[].mutableCopy;
         [l enumerateGroupsWithTypes:groupTypes usingBlock:^(ALAssetsGroup *g, BOOL *stop) {
-//            BOOL s = stop;
-            
-//            if (s && alreadyCalledStop == NO) {
-//                dispatch_async(dispatch_get_main_queue(), ^(void){
-//                    complete(array);
-//                });
-//            } else {
-//                
-//            }
-            NSMutableArray *array = @[].mutableCopy;
-            if ([[g valueForProperty:ALAssetsGroupPropertyName] isEqualToString:albumName]) {
+            if (!g) {
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    complete(array);
+                    return;
+                });
+            } else {
                 [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
                     if (a) {
                         [array addObject:a.defaultRepresentation.url];
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), ^(void){
-                            complete(array);
-                            return;
-                        });
+                        
                     }
                 }];
             }
@@ -70,6 +63,21 @@
             });
         }];
     });
+}
+
++ (CAGradientLayer *)gradientViewWithColor:(NSArray *)arrayColor withView:(UIView *)view
+{
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    CGRect r = view.bounds;
+    r.size.width = ([UIScreen mainScreen].bounds.size.width-96)/2;
+    gradient.frame = r;
+//    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:1 alpha:1] CGColor], (id)[[UIColor colorWithWhite:1 alpha:0] CGColor], nil];
+    gradient.colors = arrayColor;
+    gradient.startPoint = CGPointMake(0, 0.5f);
+    gradient.endPoint = CGPointMake(1, 0.5f);
+    [view.layer insertSublayer:gradient atIndex:0];
+    
+    return gradient;
 }
 
 @end
@@ -90,6 +98,20 @@
 + (UIImage *)imageFromAsset:(ALAsset *)asset
 {
     return [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:asset.defaultRepresentation.scale orientation:UIImageOrientationUp];
+}
+
+@end
+
+@implementation NSObject(AppToolsObjC)
+
+- (CGFloat)cgFloat
+{
+    if ([self isKindOfClass:[NSString class]]) {
+        NSString *s = (NSString *)self;
+        return s.floatValue;
+    } else {
+        return 0;
+    }
 }
 
 @end

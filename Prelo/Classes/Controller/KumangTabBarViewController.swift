@@ -126,7 +126,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     @IBAction func launchMenu()
     {
-        menuPopUp?.show(true)
+//        menuPopUp?.show(true)
+        
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
+        self.navigationController?.pushViewController(add, animated: true)
     }
     
     func delayBrowseSwitch()

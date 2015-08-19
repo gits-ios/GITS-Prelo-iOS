@@ -43,35 +43,6 @@ class ImageSupplier: NSObject {
                 }, onFailed: { m in
                     failed(m)
             })
-            
-//            let l = ALAssetsLibrary()
-//            let t = ALAssetsGroupAlbum | ALAssetsGroupEvent | ALAssetsGroupFaces | ALAssetsGroupSavedPhotos
-//            l .enumerateGroupsWithTypes(t, usingBlock: { g, s in
-//                println("loop album")
-//                if (g != nil) {
-//                    let name = g.valueForProperty(ALAssetsGroupPropertyName) as! String
-//                    println("Group Name : " + name)
-//                    
-//                    if (name == "Camera Roll") {
-//                        var arr : Array<APImage> = []
-//                        let f = ALAssetsFilter.allPhotos()
-//                        g.enumerateAssetsUsingBlock({ r, i, s in
-//                            println("loop photo")
-//                            if (r != nil) {
-//                                let i = APImage()
-//                                let rep = r.defaultRepresentation()
-//                                i.image = UIImage(fromAsset: r)
-//                                arr.append(i)
-//                            } else {
-//                                complete(arr)
-//                            }
-//                        })
-//                    }
-//                }
-//            }, failureBlock: { err in
-//                println("Failed")
-//                failed("Failed")
-//            })
         }
     }
     
