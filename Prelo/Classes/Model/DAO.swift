@@ -253,3 +253,53 @@ class ProductDiscussion : NSObject
         return NSURL(string: base)
     }
 }
+
+class UserOrder : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> UserOrder? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserOrder()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var transactionID : String {
+        let t = (json["transaction_id"].string)!
+        return t
+    }
+    
+    var productImageURL : NSURL? {
+        if let err = json["product_display_pict"].error
+        {
+            return nil
+        }
+        let url = "http://images.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
+        return NSURL(string: url)
+    }
+    
+    var productName : String {
+        let n = (json["product_name"].string)!.escapedHTML
+        return n
+    }
+    
+    var price : String {
+        let p = (json["transaction_product_price_formatted"].string)!.escapedHTML
+        return p
+    }
+    
+    var timespan : String {
+        let t = (json["time_from_now"].string)!.escapedHTML
+        return t
+    }
+    
+    var productSeller : String {
+        let s = (json["seller_name"].string)!.escapedHTML
+        return s
+    }
+    
+}

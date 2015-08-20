@@ -105,6 +105,7 @@ enum APIUser : URLRequestConvertible
     case Register(fullname : String, email : String, password : String)
     case Logout
     case Me
+    case OrderList(status : String)
     
     var method : Method
     {
@@ -114,6 +115,7 @@ enum APIUser : URLRequestConvertible
         case .Register(_, _, _): return .POST
         case .Logout:return .POST
         case .Me:return .GET
+        case .OrderList(_):return .GET
         }
     }
     
@@ -125,6 +127,7 @@ enum APIUser : URLRequestConvertible
         case .Register(_, _, _): return "register"
         case .Logout:return "logout"
         case .Me : return ""
+        case .OrderList(_):return "buy_list"
         }
     }
     
@@ -145,6 +148,10 @@ enum APIUser : URLRequestConvertible
             ]
         case .Logout:return [:]
         case .Me : return [:]
+        case .OrderList(let status):
+            return [
+                "status":status
+            ]
         }
     }
     
