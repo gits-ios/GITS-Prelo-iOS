@@ -52,6 +52,7 @@
                 [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
                     if (a) {
                         [array addObject:a.defaultRepresentation.url];
+//                        [array addObject:a];
                     } else {
                         
                     }

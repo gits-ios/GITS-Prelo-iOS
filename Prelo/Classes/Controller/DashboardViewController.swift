@@ -114,6 +114,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row == 1) {
+            //println("Konfirmasi Pembayaran")
+            let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+            self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+        }
         if (indexPath.row == 5) {
             User.Logout()
             if (self.userRelatedDelegate != nil) {

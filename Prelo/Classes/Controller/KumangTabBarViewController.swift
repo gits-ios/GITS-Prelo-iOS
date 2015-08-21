@@ -31,7 +31,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             _controllerDashboard?.userRelatedDelegate = self
         }
     }
+    @IBOutlet var controllerDashboard2 : Dashboard2ViewController?
     @IBOutlet var controllerBrowse : UIViewController?
+    @IBOutlet var controllerLogin : LoginViewController?
+    @IBOutlet var controllerContactPrelo : BaseViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,11 +59,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         controllerBrowse = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as? UIViewController
         changeToController(controllerBrowse!)
         
-        if (User.IsLoggedIn) {
-            controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
-        } else {
-            controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? BaseViewController
-        }
+        controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -111,8 +111,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         if (btn.stringTag == Tags.Browse) {
             changeToController(controllerBrowse!)
             
-            
-            
             if (changeToBrowseCount == 0) {
                 changeToBrowseCount = 1
                 sectionContent?.hidden = true
@@ -120,7 +118,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
         } else {
-            changeToController(controllerDashboard!)
+            if (User.IsLoggedIn) {
+                println("To Dashboard")
+                controllerDashboard?.previousController = self
+                changeToController(controllerDashboard!)
+            } else {
+                println("To Dashboard2")
+                controllerDashboard2?.previousController = self
+                changeToController(controllerDashboard2!)
+            }
         }
     }
     
@@ -130,6 +136,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
         self.navigationController?.pushViewController(add, animated: true)
+//        let i = UIImage(named: "raisa.jpg")
+//        var editor = AdobeUXImageEditorViewController(image: i)
+//        self.presentViewController(editor, animated: true, completion: nil)
     }
     
     func delayBrowseSwitch()

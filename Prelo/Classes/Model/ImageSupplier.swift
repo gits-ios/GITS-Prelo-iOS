@@ -54,4 +54,5 @@ class APImage
     var url : NSURL?
     var image : UIImage?
     var usingAssets : Bool = false
+    var asset : ALAsset?
 }

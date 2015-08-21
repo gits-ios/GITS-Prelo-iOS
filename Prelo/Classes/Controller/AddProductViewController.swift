@@ -9,9 +9,9 @@
 import UIKit
 import QuartzCore
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate {
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate {
 
-    @IBOutlet var tableView : UITableView?
+    @IBOutlet var tableView : UITableView!
     @IBOutlet var gridView : UICollectionView?
     @IBOutlet var sectionHeader : UIView?
     
@@ -105,6 +105,15 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // Dispose of any resources that can be recreated.
     }
     
+    var images : [APImage] = []
+    
+    func addImage() {
+        ImagePickerViewController.ShowFrom(self, maxSelect: 5, doneBlock: {imgs in
+            self.images = imgs
+            self.gridView?.reloadData()
+        })
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (section == 0) {
             return 1
@@ -120,11 +129,14 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let s = indexPath.section
         
-        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! UICollectionViewCell
-        if (s == 0) {
-            c.backgroundColor = UIColor.redColor()
+        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! AddProductImageCell
+        c.delegate = self
+        let realIndex = indexPath.item + s
+        if (realIndex < images.count)
+        {
+            c.apImage = images[realIndex]
         } else {
-            c.backgroundColor = UIColor.greenColor()
+            c.apImage = nil
         }
         
         return c
@@ -230,6 +242,12 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         acee?.adapt(baseDatas[indexPath]!)
         acee?.lastIndex = indexPath
         
+        if (indexPath.row == 1) { // Nama Barang, Bold
+            acee?.textView.font = UIFont.boldSystemFontOfSize(17)
+        } else {
+            acee?.textView.font = UIFont.systemFontOfSize(14)
+        }
+        
         return acee
     }
     
@@ -244,6 +262,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         b.parent = self
         b.adapt(baseDatas[indexPath])
         b.lastIndex = indexPath
+        
         return b
     }
     
@@ -326,6 +345,41 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        let i = tableView.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
+        var s = (i?.section)!
+        var r = (i?.row)!
+        
+        var cell : UITableViewCell?
+        
+        var con = true
+        while (con) {
+            let newIndex = NSIndexPath(forRow: r+1, inSection: s)
+            cell = tableView.cellForRowAtIndexPath(newIndex)
+            if (cell == nil) {
+                s += 1
+                r = -1
+                if (s == tableView.numberOfSections()) { // finish, last cell
+                    con = false
+                }
+            } else {
+                if ((cell?.canBecomeFirstResponder())!) {
+                    cell?.becomeFirstResponder()
+                    con = false
+                } else {
+                    r+=1
+                }
+            }
+        }
+        return true
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -345,6 +399,11 @@ class ProductCategoryCell : CartCellInput2
     override func adapt(item: BaseCartData?) {
         super.adapt(item)
         ivImage.image = item?.image
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        println("woooo hooooo")
+        return true
     }
 }
 
@@ -384,18 +443,6 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
             decorated = true
         }
     }
-    
-//    override func setNeedsLayout() {
-//        super.setNeedsLayout()
-//        decorated = false
-//        decorate()
-//    }
-//    
-//    override func setNeedsUpdateConstraints() {
-//        super.setNeedsUpdateConstraints()
-//        decorated = false
-//        decorate()
-//    }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -494,4 +541,120 @@ class AddProductHeader : UITableViewHeaderFooterView
     @IBOutlet var captionIcon: UILabel!
     @IBOutlet var captionTitle: UILabel!
     
+}
+
+protocol AddProductImageCellDelegate
+{
+    func addImage()
+}
+
+class AddProductImageCell : UICollectionViewCell
+{
+    
+    @IBOutlet var ivCover : UIImageView!
+    var tapImg : UITapGestureRecognizer?
+    
+    var delegate : AddProductImageCellDelegate?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        if (tapImg == nil)
+        {
+            tapImg = UITapGestureRecognizer(target: self, action: "tapped")
+            ivCover.addGestureRecognizer(tapImg!)
+        }
+    }
+    
+    func tapped()
+    {
+        if (delegate != nil) {
+            delegate?.addImage()
+        }
+    }
+    
+    var asset : ALAssetsLibrary?
+    
+    private var _apImage : APImage?
+    var apImage : APImage?
+        {
+        set {
+            _apImage = newValue
+            if (newValue == nil)
+            {
+                ivCover.image = nil
+            } else
+            {
+                ivCover.image = ImageSourceCell.defaultImage
+                
+                if ((_apImage?.usingAssets)! == true) {
+                    
+                    if (asset == nil) {
+                        asset = ALAssetsLibrary()
+                    }
+                    
+                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                        asset?.assetForURL((_apImage?.url)!, resultBlock: { asset in
+                            if let ast = asset {
+                                let rep = ast.defaultRepresentation()
+                                let ref = rep.fullScreenImage().takeUnretainedValue()
+                                let i = UIImage(CGImage: ref)
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.ivCover.image = i
+                                })
+                            }
+                            }, failureBlock: { error in
+                                
+                        })
+                    })
+                } else {
+                    ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
+                }
+            }
+        }
+        get {
+            return _apImage
+        }
+    }
+}
+
+class AddProductShareCell : UITableViewCell
+{
+    @IBOutlet var arrayRow1 : [AddProductShareButton] = []
+    @IBOutlet var arrayRow2 : [AddProductShareButton] = []
+    @IBOutlet var arrayRow3 : [AddProductShareButton] = []
+    @IBOutlet var arrayRow4 : [AddProductShareButton] = []
+    
+    var arrayRows : [[AddProductShareButton]] = []
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if (arrayRows.count == 0)
+        {
+            arrayRows.append(arrayRow1)
+            arrayRows.append(arrayRow2)
+            arrayRows.append(arrayRow3)
+            arrayRows.append(arrayRow4)
+        }
+    }
+    
+    @IBAction func setSelectShare(sender : AddProductShareButton)
+    {
+        let tag = sender.tag
+        let arr = arrayRows[tag]
+        let c = sender.active ? sender.normalColor : sender.selectedColor
+        sender.active = !sender.active
+        for b in arr
+        {
+            b.setTitleColor(c, forState: UIControlState.Normal)
+        }
+    }
+}
+
+class AddProductShareButton : UIButton
+{
+    var active : Bool = false
+    
+    @IBInspectable var normalColor : UIColor = Theme.DarkPurple
+    @IBInspectable var selectedColor : UIColor = Theme.DarkPurple
 }

@@ -16,6 +16,15 @@ extension UIApplication
     }
 }
 
+extension UIAlertView
+{
+    static func SimpleShow(title : String, message : String)
+    {
+        let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
+        a.show()
+    }
+}
+
 class AppTools: NSObject {
    
 }
@@ -46,14 +55,21 @@ class Tags : NSObject
     static let StoryBoardIdLogin = "login"
     static let StoryBoardIdProductDetail = "product_detail"
     static let StoryBoardIdPicker = "picker"
+    static let StoryBoardIdImagePicker = "ImagePicker"
     static let StoryBoardIdCart = "cart"
     static let StoryBoardIdSearch = "search"
     static let StoryBoardIdCartConfirm = "cartConfirm"
     static let StoryBoardIdAddProductImage = "addProductImage"
     static let StoryBoardIdAddProduct = "addProduct"
+    static let StoryBoardIdNavigation = "nav"
+    static let StoryBoardIdOrderConfirm = "orderConfirm"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"
+    
+    static let XibNameDashboard2 = "Dashboard2"
+    static let XibNameRegister = "Register"
+    static let XibNamePaymentConfirmation = "PaymentConfirmation"
 }
 
 class NotificationName : NSObject

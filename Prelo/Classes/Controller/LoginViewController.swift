@@ -18,6 +18,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBOutlet var btnLogin : UIButton?
     
+    var navController : UINavigationController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +51,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
+    }
+    
+    @IBAction func signUpTapped(sender : AnyObject)
+    {
+        let registerVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil).first as! RegisterViewController
+        self.navigationController?.pushViewController(registerVC, animated: true)
     }
     
     @IBAction func login(sender : AnyObject)

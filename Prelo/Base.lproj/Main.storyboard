@@ -31,8 +31,12 @@
             <string>Prelo2</string>
             <string>Prelo2</string>
             <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
         </mutableArray>
         <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
@@ -420,7 +424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLL-hS-4PL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1369" y="1084"/>
+            <point key="canvasLocation" x="-517" y="-1752"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="3rc-Nu-05y">
@@ -547,6 +551,9 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="signUpTapped:" destination="SC6-78-TIB" eventType="touchUpInside" id="nzB-Ir-ClC"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbQ-CM-M1w">
                                                         <rect key="frame" x="20" y="79" width="32" height="44"/>
@@ -1189,21 +1196,64 @@
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dGO-0v-nbX">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="256"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="2" minimumInteritemSpacing="2" id="MgB-xq-jDk">
-                                                <size key="itemSize" width="50" height="50"/>
+                                                <size key="itemSize" width="100" height="100"/>
                                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="pot-FA-ghu">
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="pot-FA-ghu" customClass="AddProductImageCell" customModule="Prelo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRG-kG-CSy" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4D-NV-Em2">
+                                                                        <rect key="frame" x="37" y="34" width="26" height="32"/>
+                                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="32"/>
+                                                                        <color key="textColor" red="0.79607843140000001" green="0.56078431370000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" red="0.94509803920000002" green="0.89019607840000003" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="centerY" secondItem="a4D-NV-Em2" secondAttribute="centerY" id="NrQ-h8-Kyo"/>
+                                                                    <constraint firstAttribute="centerX" secondItem="a4D-NV-Em2" secondAttribute="centerX" id="tbE-5h-lQs"/>
+                                                                </constraints>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                        <color key="value" red="0.79607843137254897" green="0.5607843137254902" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                        <real key="value" value="2"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </view>
+                                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E4y-Rk-qAc">
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            </imageView>
+                                                        </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="E4y-Rk-qAc" secondAttribute="trailing" id="Dqh-kM-1WY"/>
+                                                        <constraint firstItem="mRG-kG-CSy" firstAttribute="top" secondItem="pot-FA-ghu" secondAttribute="top" id="ETy-F6-bFc"/>
+                                                        <constraint firstItem="E4y-Rk-qAc" firstAttribute="leading" secondItem="pot-FA-ghu" secondAttribute="leading" id="EcO-bt-C0V"/>
+                                                        <constraint firstAttribute="bottom" secondItem="E4y-Rk-qAc" secondAttribute="bottom" id="MuB-Mb-cZb"/>
+                                                        <constraint firstItem="mRG-kG-CSy" firstAttribute="leading" secondItem="pot-FA-ghu" secondAttribute="leading" id="Rva-lu-rTr"/>
+                                                        <constraint firstItem="E4y-Rk-qAc" firstAttribute="top" secondItem="pot-FA-ghu" secondAttribute="top" id="bXK-B2-anb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="mRG-kG-CSy" secondAttribute="bottom" id="kfh-nI-RQj"/>
+                                                        <constraint firstAttribute="trailing" secondItem="mRG-kG-CSy" secondAttribute="trailing" id="pV8-Da-8zs"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="ivCover" destination="E4y-Rk-qAc" id="w5S-1X-oEn"/>
+                                                    </connections>
                                                 </collectionViewCell>
                                             </cells>
                                             <connections>
@@ -1288,7 +1338,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
-                                                        <outlet property="delegate" destination="0qH-Ls-LM7" id="7UW-mA-euF"/>
+                                                        <outlet property="delegate" destination="Zly-Bf-dDp" id="Nja-bt-fET"/>
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="keY-aR-PCY">
@@ -1769,7 +1819,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_share" rowHeight="320" id="2Nn-tC-Zoz">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_share" rowHeight="320" id="2Nn-tC-Zoz" customClass="AddProductShareCell" customModule="Prelo" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Nn-tC-Zoz" id="lEp-Ws-ekM">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1780,130 +1830,288 @@
 untuk masing - masing media sosial
 yang kamu gunakan</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t1B-oX-2Yd">
                                                     <rect key="frame" x="8" y="98" width="164" height="168"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUO-9V-Umh">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUO-9V-Umh" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="8" width="30" height="32"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="Une-sJ-TL1"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                             <state key="normal" title="">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="O1Z-PF-zDd"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pL-Im-Ebr">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBu-ul-KSV" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                            <rect key="frame" x="42" y="6" width="30" height="36"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.18431372940540314" green="0.26274511218070984" blue="0.54509806632995605" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="Hz0-8b-AOc"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUz-5u-lvM" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                            <rect key="frame" x="42" y="46" width="30" height="36"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.0" green="0.67450982332229614" blue="0.92941176891326904" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="YLw-kX-pTf"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8w-yx-tBC" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                            <rect key="frame" x="42" y="86" width="30" height="36"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" cyan="0.31999999284744263" magenta="0.56000000238418579" yellow="0.67000001668930054" black="0.090000003576278687" alpha="1" colorSpace="deviceCMYK"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="ceT-3x-laO"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7V-Ng-8gW" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                            <rect key="frame" x="42" y="126" width="30" height="36"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="bd6-jl-lYR"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3pL-Im-Ebr" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="80" y="9" width="66" height="30"/>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                                             <state key="normal" title="Facebook">
-                                                                <color key="titleColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.18431372940540314" green="0.26274511218070984" blue="0.54509806632995605" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="6p8-iv-Zfm"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEe-XT-QZH">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEe-XT-QZH" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="80" y="49" width="66" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="66" id="YsL-6P-KcH"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
-                                                            <state key="normal" title="Facebook">
-                                                                <color key="titleColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <state key="normal" title="Twitter">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.0" green="0.67450982332229614" blue="0.92941176891326904" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="8se-zN-FqJ"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rc-7e-awg">
-                                                            <rect key="frame" x="80" y="89" width="66" height="30"/>
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rc-7e-awg" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                            <rect key="frame" x="80" y="89" width="67" height="30"/>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
-                                                            <state key="normal" title="Facebook">
-                                                                <color key="titleColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <state key="normal" title="Instagram">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" cyan="0.31999999284744263" magenta="0.56000000238418579" yellow="0.67000001668930054" black="0.090000003576278687" alpha="1" colorSpace="deviceCMYK"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="X1c-ka-Znc"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pXL-9C-arH">
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pXL-9C-arH" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="80" y="129" width="66" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="66" id="Hyf-mj-bQh"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
-                                                            <state key="normal" title="Facebook">
-                                                                <color key="titleColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <state key="normal" title="Path">
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="HAl-vu-iq1"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rj-Hq-0Br">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rj-Hq-0Br" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="48" width="30" height="32"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="q0W-QR-VaC"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                             <state key="normal" title="">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="JYs-F1-TI4"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSw-jw-Gho">
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSw-jw-Gho" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="88" width="30" height="32"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="3B0-ba-oV0"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                             <state key="normal" title="">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="dCy-sv-IS0"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FbT-xO-EyU">
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FbT-xO-EyU" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="128" width="30" height="32"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="Xhs-nX-n70"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                             <state key="normal" title="">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="eLn-J1-wDf"/>
+                                                            </connections>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P31-bf-x70">
-                                                            <rect key="frame" x="46" y="11" width="26" height="26"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="26"/>
-                                                            <color key="textColor" red="0.18431372940540314" green="0.26274511218070984" blue="0.54509806632995605" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxh-av-ibu">
-                                                            <rect key="frame" x="46" y="51" width="26" height="26"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="26"/>
-                                                            <color key="textColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvO-Td-SbQ">
-                                                            <rect key="frame" x="46" y="91" width="26" height="26"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="26"/>
-                                                            <color key="textColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="08X-uQ-SC7">
-                                                            <rect key="frame" x="46" y="131" width="26" height="26"/>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="26"/>
-                                                            <color key="textColor" red="0.18431372939999999" green="0.26274511220000002" blue="0.54509806630000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="P31-bf-x70" firstAttribute="centerY" secondItem="3pL-Im-Ebr" secondAttribute="centerY" id="0KR-Xq-fFn"/>
-                                                        <constraint firstItem="TEe-XT-QZH" firstAttribute="leading" secondItem="Rxh-av-ibu" secondAttribute="trailing" constant="8" id="2SR-1h-SAW"/>
                                                         <constraint firstAttribute="bottom" secondItem="FbT-xO-EyU" secondAttribute="bottom" constant="8" id="2sU-xY-NyS"/>
                                                         <constraint firstItem="HSw-jw-Gho" firstAttribute="leading" secondItem="t1B-oX-2Yd" secondAttribute="leading" constant="8" id="5RJ-3L-DCM"/>
                                                         <constraint firstItem="GUO-9V-Umh" firstAttribute="leading" secondItem="t1B-oX-2Yd" secondAttribute="leading" constant="8" id="6qh-0r-2IN"/>
                                                         <constraint firstItem="FbT-xO-EyU" firstAttribute="top" secondItem="HSw-jw-Gho" secondAttribute="bottom" constant="8" id="7E4-lj-KFR"/>
+                                                        <constraint firstItem="RUz-5u-lvM" firstAttribute="leading" secondItem="8rj-Hq-0Br" secondAttribute="trailing" constant="4" id="7JW-cc-78m"/>
                                                         <constraint firstItem="HSw-jw-Gho" firstAttribute="top" secondItem="8rj-Hq-0Br" secondAttribute="bottom" constant="8" id="9kf-i1-ugA"/>
-                                                        <constraint firstItem="qvO-Td-SbQ" firstAttribute="leading" secondItem="HSw-jw-Gho" secondAttribute="trailing" constant="8" id="EPa-yh-N1q"/>
+                                                        <constraint firstItem="RBu-ul-KSV" firstAttribute="centerY" secondItem="GUO-9V-Umh" secondAttribute="centerY" id="Bdf-oO-Ut9"/>
+                                                        <constraint firstItem="3pL-Im-Ebr" firstAttribute="centerY" secondItem="RBu-ul-KSV" secondAttribute="centerY" id="C8a-zv-1fK"/>
+                                                        <constraint firstItem="TEe-XT-QZH" firstAttribute="leading" secondItem="RUz-5u-lvM" secondAttribute="trailing" constant="8" id="CNU-Kd-mQE"/>
                                                         <constraint firstAttribute="width" constant="164" id="FdI-mA-IAs"/>
-                                                        <constraint firstItem="9rc-7e-awg" firstAttribute="leading" secondItem="qvO-Td-SbQ" secondAttribute="trailing" constant="8" id="Jq7-I8-ve7"/>
+                                                        <constraint firstItem="L7V-Ng-8gW" firstAttribute="leading" secondItem="FbT-xO-EyU" secondAttribute="trailing" constant="4" id="P0e-hZ-fI3"/>
+                                                        <constraint firstItem="TEe-XT-QZH" firstAttribute="centerY" secondItem="RUz-5u-lvM" secondAttribute="centerY" id="P1S-L6-JsV"/>
+                                                        <constraint firstItem="RUz-5u-lvM" firstAttribute="centerY" secondItem="8rj-Hq-0Br" secondAttribute="centerY" id="PJm-cZ-dv4"/>
                                                         <constraint firstItem="GUO-9V-Umh" firstAttribute="top" secondItem="t1B-oX-2Yd" secondAttribute="top" constant="8" id="Pby-3k-Scg"/>
+                                                        <constraint firstItem="3pL-Im-Ebr" firstAttribute="leading" secondItem="RBu-ul-KSV" secondAttribute="trailing" constant="8" id="TcF-kw-Bul"/>
                                                         <constraint firstAttribute="height" constant="152" id="UhR-Rt-dtg"/>
+                                                        <constraint firstItem="RBu-ul-KSV" firstAttribute="leading" secondItem="GUO-9V-Umh" secondAttribute="trailing" constant="4" id="Uil-ij-Xkr"/>
                                                         <constraint firstItem="FbT-xO-EyU" firstAttribute="leading" secondItem="t1B-oX-2Yd" secondAttribute="leading" constant="8" id="VTM-MK-f0X"/>
-                                                        <constraint firstItem="pXL-9C-arH" firstAttribute="leading" secondItem="08X-uQ-SC7" secondAttribute="trailing" constant="8" id="XpZ-D7-XKj"/>
-                                                        <constraint firstItem="9rc-7e-awg" firstAttribute="centerY" secondItem="qvO-Td-SbQ" secondAttribute="centerY" id="aam-qa-ePi"/>
-                                                        <constraint firstItem="GUO-9V-Umh" firstAttribute="centerY" secondItem="P31-bf-x70" secondAttribute="centerY" id="dKB-Ki-PDv"/>
-                                                        <constraint firstItem="P31-bf-x70" firstAttribute="leading" secondItem="GUO-9V-Umh" secondAttribute="trailing" constant="8" id="dcV-07-zz1"/>
-                                                        <constraint firstItem="8rj-Hq-0Br" firstAttribute="centerY" secondItem="Rxh-av-ibu" secondAttribute="centerY" id="eWm-rq-d06"/>
-                                                        <constraint firstItem="qvO-Td-SbQ" firstAttribute="centerY" secondItem="HSw-jw-Gho" secondAttribute="centerY" id="eXL-8s-GXn"/>
-                                                        <constraint firstItem="08X-uQ-SC7" firstAttribute="centerY" secondItem="FbT-xO-EyU" secondAttribute="centerY" id="efL-J7-Ras"/>
-                                                        <constraint firstItem="3pL-Im-Ebr" firstAttribute="leading" secondItem="P31-bf-x70" secondAttribute="trailing" constant="8" id="gL0-II-vfa"/>
+                                                        <constraint firstItem="HSw-jw-Gho" firstAttribute="centerY" secondItem="a8w-yx-tBC" secondAttribute="centerY" id="ZO6-YD-dD8"/>
+                                                        <constraint firstItem="pXL-9C-arH" firstAttribute="centerY" secondItem="L7V-Ng-8gW" secondAttribute="centerY" id="Zl1-m7-Z8Y"/>
+                                                        <constraint firstItem="pXL-9C-arH" firstAttribute="leading" secondItem="L7V-Ng-8gW" secondAttribute="trailing" constant="8" id="dtI-dc-35S"/>
+                                                        <constraint firstItem="L7V-Ng-8gW" firstAttribute="centerY" secondItem="FbT-xO-EyU" secondAttribute="centerY" id="f3R-fm-LwH"/>
                                                         <constraint firstItem="8rj-Hq-0Br" firstAttribute="top" secondItem="GUO-9V-Umh" secondAttribute="bottom" constant="8" id="gpM-YO-ogb"/>
-                                                        <constraint firstItem="08X-uQ-SC7" firstAttribute="leading" secondItem="FbT-xO-EyU" secondAttribute="trailing" constant="8" id="iZC-vp-nI1"/>
+                                                        <constraint firstItem="9rc-7e-awg" firstAttribute="centerY" secondItem="a8w-yx-tBC" secondAttribute="centerY" id="l6F-ta-ip8"/>
                                                         <constraint firstItem="8rj-Hq-0Br" firstAttribute="leading" secondItem="t1B-oX-2Yd" secondAttribute="leading" constant="8" id="mDQ-aC-3Jy"/>
-                                                        <constraint firstItem="Rxh-av-ibu" firstAttribute="leading" secondItem="8rj-Hq-0Br" secondAttribute="trailing" constant="8" id="omb-Kg-peJ"/>
-                                                        <constraint firstItem="pXL-9C-arH" firstAttribute="centerY" secondItem="08X-uQ-SC7" secondAttribute="centerY" id="qAT-dU-gyj"/>
-                                                        <constraint firstItem="Rxh-av-ibu" firstAttribute="centerY" secondItem="TEe-XT-QZH" secondAttribute="centerY" id="yrA-Q7-SFc"/>
+                                                        <constraint firstItem="9rc-7e-awg" firstAttribute="leading" secondItem="a8w-yx-tBC" secondAttribute="trailing" constant="8" id="qp1-1g-ldS"/>
+                                                        <constraint firstItem="a8w-yx-tBC" firstAttribute="leading" secondItem="HSw-jw-Gho" secondAttribute="trailing" constant="4" id="rrn-o3-zcn"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -1914,49 +2122,93 @@ yang kamu gunakan</string>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ppA-RS-Iba">
                                                     <rect key="frame" x="492" y="98" width="100" height="168"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDW-Rr-6nm">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDW-Rr-6nm" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="30" y="8" width="41" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="GuB-Ui-Osu"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <state key="normal" title="- 2.5%">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="ggp-ZM-Rr1"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRd-NG-VUS">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRd-NG-VUS" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="30" y="48" width="41" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="2LK-6c-HvN"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <state key="normal" title="- 2.5%">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="736-5x-tLl"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cv-wR-zyk">
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cv-wR-zyk" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="30" y="88" width="41" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="g3t-Sx-F0z"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <state key="normal" title="- 2.5%">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="4nh-ag-lV5"/>
+                                                            </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t3J-Xz-F2p">
+                                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t3J-Xz-F2p" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                             <rect key="frame" x="30" y="128" width="41" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="2v4-ae-ku0"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <state key="normal" title="- 2.5%">
-                                                                <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                                                    <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                                    <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="setSelectShare:" destination="2Nn-tC-Zoz" eventType="touchUpInside" id="7Dt-xU-LHo"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1990,13 +2242,13 @@ yang kamu gunakan</string>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bagikan Ke" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCz-t5-q7u">
                                                     <rect key="frame" x="44" y="70" width="83" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Komisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZb-4e-cBW">
                                                     <rect key="frame" x="518" y="70" width="50" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlI-fM-Ae3">
@@ -2019,8 +2271,8 @@ yang kamu gunakan</string>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMs-Jm-yGy">
-                                                    <rect key="frame" x="532" y="266" width="23" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMs-Jm-yGy">
+                                                    <rect key="frame" x="532" y="284" width="23" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2058,6 +2310,24 @@ yang kamu gunakan</string>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outletCollection property="arrayRow1" destination="3pL-Im-Ebr" collectionClass="NSMutableArray" id="LZr-OK-pgJ"/>
+                                            <outletCollection property="arrayRow1" destination="RBu-ul-KSV" collectionClass="NSMutableArray" id="QpP-6h-2lA"/>
+                                            <outletCollection property="arrayRow1" destination="GUO-9V-Umh" collectionClass="NSMutableArray" id="q8X-AB-fGR"/>
+                                            <outletCollection property="arrayRow1" destination="wDW-Rr-6nm" collectionClass="NSMutableArray" id="06g-WF-21K"/>
+                                            <outletCollection property="arrayRow2" destination="yRd-NG-VUS" collectionClass="NSMutableArray" id="dyH-D4-7dp"/>
+                                            <outletCollection property="arrayRow2" destination="TEe-XT-QZH" collectionClass="NSMutableArray" id="Hru-vu-ZXt"/>
+                                            <outletCollection property="arrayRow2" destination="RUz-5u-lvM" collectionClass="NSMutableArray" id="DrZ-JU-7Or"/>
+                                            <outletCollection property="arrayRow2" destination="8rj-Hq-0Br" collectionClass="NSMutableArray" id="K5l-Xg-cyG"/>
+                                            <outletCollection property="arrayRow3" destination="HSw-jw-Gho" collectionClass="NSMutableArray" id="35k-OG-fCD"/>
+                                            <outletCollection property="arrayRow3" destination="a8w-yx-tBC" collectionClass="NSMutableArray" id="pes-7D-GMa"/>
+                                            <outletCollection property="arrayRow3" destination="9rc-7e-awg" collectionClass="NSMutableArray" id="24W-H7-lvE"/>
+                                            <outletCollection property="arrayRow3" destination="4cv-wR-zyk" collectionClass="NSMutableArray" id="85u-ee-M2p"/>
+                                            <outletCollection property="arrayRow4" destination="t3J-Xz-F2p" collectionClass="NSMutableArray" id="oMg-dr-VRw"/>
+                                            <outletCollection property="arrayRow4" destination="pXL-9C-arH" collectionClass="NSMutableArray" id="OYf-t8-jrs"/>
+                                            <outletCollection property="arrayRow4" destination="L7V-Ng-8gW" collectionClass="NSMutableArray" id="VAc-fU-l2W"/>
+                                            <outletCollection property="arrayRow4" destination="FbT-xO-EyU" collectionClass="NSMutableArray" id="rIT-nL-Iwv"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -2079,7 +2349,183 @@ yang kamu gunakan</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8f3-TR-NVg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1369" y="1792"/>
+            <point key="canvasLocation" x="273" y="-1752"/>
+        </scene>
+        <!--Image Picker View Controller-->
+        <scene sceneID="8Wj-ps-iNc">
+            <objects>
+                <viewController id="Lgc-qa-C8U" customClass="ImagePickerViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gsj-7c-MYg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cyb-RE-qG0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rXR-i4-Jg0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cap-F7-jQp">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jEd-Vl-g58">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="AaB-mC-4p6" customClass="ImagePickerCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZL-Nh-V6y" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fTb-Nj-GRd">
+                                                            <rect key="frame" x="40" y="40" width="20" height="20"/>
+                                                            <color key="color" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </activityIndicatorView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BWE-kr-PMR">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7m-Xr-iKc">
+                                                            <rect key="frame" x="8" y="75" width="17" height="17"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                                            <color key="textColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="centerX" secondItem="fTb-Nj-GRd" secondAttribute="centerX" id="1YX-i5-zMA"/>
+                                                        <constraint firstItem="f7m-Xr-iKc" firstAttribute="leading" secondItem="cZL-Nh-V6y" secondAttribute="leading" constant="8" id="eBo-EG-ikX"/>
+                                                        <constraint firstAttribute="bottom" secondItem="BWE-kr-PMR" secondAttribute="bottom" id="nmJ-hM-m5l"/>
+                                                        <constraint firstAttribute="centerY" secondItem="fTb-Nj-GRd" secondAttribute="centerY" id="s71-Xt-fbF"/>
+                                                        <constraint firstAttribute="trailing" secondItem="BWE-kr-PMR" secondAttribute="trailing" id="tKf-1x-hY5"/>
+                                                        <constraint firstItem="BWE-kr-PMR" firstAttribute="top" secondItem="cZL-Nh-V6y" secondAttribute="top" id="vov-N0-p5k"/>
+                                                        <constraint firstAttribute="bottom" secondItem="f7m-Xr-iKc" secondAttribute="bottom" constant="8" id="wNM-5Y-nOK"/>
+                                                        <constraint firstItem="BWE-kr-PMR" firstAttribute="leading" secondItem="cZL-Nh-V6y" secondAttribute="leading" id="zmN-fp-eoq"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="cZL-Nh-V6y" firstAttribute="leading" secondItem="AaB-mC-4p6" secondAttribute="leading" id="5r9-9j-yN7"/>
+                                            <constraint firstItem="cZL-Nh-V6y" firstAttribute="top" secondItem="AaB-mC-4p6" secondAttribute="top" id="CRb-YF-1Bm"/>
+                                            <constraint firstAttribute="trailing" secondItem="cZL-Nh-V6y" secondAttribute="trailing" id="Ukz-kh-mwi"/>
+                                            <constraint firstAttribute="bottom" secondItem="cZL-Nh-V6y" secondAttribute="bottom" id="eiw-yy-KrM"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="captionSelected" destination="f7m-Xr-iKc" id="yw6-dI-ld2"/>
+                                            <outlet property="ivCover" destination="BWE-kr-PMR" id="xbL-od-4LN"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell_video" id="UfP-G8-1gO" customClass="ImagePickerCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TZc-P7-gfQ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qTN-Kv-bqG">
+                                                            <rect key="frame" x="40" y="40" width="20" height="20"/>
+                                                            <color key="color" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </activityIndicatorView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQc-Id-BKT">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fn5-W5-hj0">
+                                                            <rect key="frame" x="28" y="28" width="44" height="44"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="44"/>
+                                                            <color key="textColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kOf-9D-gOF">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1I-70-9qk">
+                                                            <rect key="frame" x="8" y="75" width="17" height="17"/>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                                            <color key="textColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="v1I-70-9qk" secondAttribute="bottom" constant="8" id="66V-Nn-OgC"/>
+                                                        <constraint firstAttribute="centerX" secondItem="qTN-Kv-bqG" secondAttribute="centerX" id="7Cr-Hn-neJ"/>
+                                                        <constraint firstAttribute="centerX" secondItem="Fn5-W5-hj0" secondAttribute="centerX" id="9ju-XY-RLo"/>
+                                                        <constraint firstAttribute="centerY" secondItem="Fn5-W5-hj0" secondAttribute="centerY" id="JoW-zX-R46"/>
+                                                        <constraint firstItem="kOf-9D-gOF" firstAttribute="top" secondItem="TZc-P7-gfQ" secondAttribute="top" id="JzG-Rt-DEH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kOf-9D-gOF" secondAttribute="trailing" id="Ou1-L8-hud"/>
+                                                        <constraint firstItem="v1I-70-9qk" firstAttribute="leading" secondItem="TZc-P7-gfQ" secondAttribute="leading" constant="8" id="Y4K-xy-5Qp"/>
+                                                        <constraint firstItem="kOf-9D-gOF" firstAttribute="leading" secondItem="TZc-P7-gfQ" secondAttribute="leading" id="a21-H9-F1W"/>
+                                                        <constraint firstAttribute="centerY" secondItem="qTN-Kv-bqG" secondAttribute="centerY" id="aCJ-mI-rlM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SQc-Id-BKT" secondAttribute="trailing" id="cgt-HK-lXD"/>
+                                                        <constraint firstItem="SQc-Id-BKT" firstAttribute="leading" secondItem="TZc-P7-gfQ" secondAttribute="leading" id="l2U-5G-vvX"/>
+                                                        <constraint firstItem="SQc-Id-BKT" firstAttribute="top" secondItem="TZc-P7-gfQ" secondAttribute="top" id="oPj-5j-EFK"/>
+                                                        <constraint firstAttribute="bottom" secondItem="SQc-Id-BKT" secondAttribute="bottom" id="spi-XP-kS2"/>
+                                                        <constraint firstAttribute="bottom" secondItem="kOf-9D-gOF" secondAttribute="bottom" id="wiH-iR-gld"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="TZc-P7-gfQ" secondAttribute="trailing" id="CUx-45-zVU"/>
+                                            <constraint firstItem="TZc-P7-gfQ" firstAttribute="top" secondItem="UfP-G8-1gO" secondAttribute="top" id="Ylq-32-4u1"/>
+                                            <constraint firstAttribute="bottom" secondItem="TZc-P7-gfQ" secondAttribute="bottom" id="hw5-Nh-wk4"/>
+                                            <constraint firstItem="TZc-P7-gfQ" firstAttribute="leading" secondItem="UfP-G8-1gO" secondAttribute="leading" id="msD-7S-6dl"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="camera" destination="SQc-Id-BKT" id="HNy-1u-iiB"/>
+                                            <outlet property="captionSelected" destination="v1I-70-9qk" id="yMX-ga-bmj"/>
+                                            <outlet property="ivCover" destination="kOf-9D-gOF" id="HrQ-Zx-JvH"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Cyb-RE-qG0" firstAttribute="top" secondItem="cap-F7-jQp" secondAttribute="bottom" id="2s2-pv-TxS"/>
+                            <constraint firstItem="cap-F7-jQp" firstAttribute="top" secondItem="rXR-i4-Jg0" secondAttribute="top" id="SVw-Ey-8gZ"/>
+                            <constraint firstItem="cap-F7-jQp" firstAttribute="leading" secondItem="rXR-i4-Jg0" secondAttribute="leading" id="wQb-r9-g3B"/>
+                            <constraint firstAttribute="trailing" secondItem="cap-F7-jQp" secondAttribute="trailing" id="wz1-Xv-deV"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="5d1-89-ENd"/>
+                    <connections>
+                        <outlet property="gridView" destination="cap-F7-jQp" id="mqX-Rq-B5D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5uW-8g-nHX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1037" y="-1752"/>
         </scene>
         <!--Item-->
         <scene sceneID="pGO-MC-hlR">
@@ -3993,6 +4439,37 @@ kembali jika pesananmu tidak sampai</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hHm-Ir-0zN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1369" y="-352"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YW1-I3-tUE">
+            <objects>
+                <navigationController storyboardIdentifier="nav" id="4EK-1x-xov" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="qG1-zD-Zgv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JOG-lI-YFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-517" y="-1034"/>
+        </scene>
+        <!--Base Navigation Controller-->
+        <scene sceneID="cJT-T4-bV5">
+            <objects>
+                <navigationController storyboardIdentifier="ImagePicker" id="iBd-x3-ksm" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Cas-Wj-KtM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Lgc-qa-C8U" kind="relationship" relationship="rootViewController" id="a41-uU-Ykj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5iu-j3-lL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1037" y="-2456"/>
         </scene>
     </scenes>
     <resources>

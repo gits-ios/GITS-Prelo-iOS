@@ -169,7 +169,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
     }
     
-    @IBAction func confirm()
+    @IBAction override func confirm()
     {
         for k in cellViews.keys
         {

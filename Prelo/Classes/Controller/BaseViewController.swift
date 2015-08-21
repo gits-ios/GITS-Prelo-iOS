@@ -100,6 +100,30 @@ class BaseViewController: UIViewController {
             _titleText = newValue
         }
     }
+    
+    var dismissButton : UIButton
+    {
+        let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        b.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
+        return b
+    }
+    
+    var confirmButton : UIButton
+    {
+        let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        b.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
+        return b
+    }
+    
+    func dismiss()
+    {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func confirm()
+    {
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

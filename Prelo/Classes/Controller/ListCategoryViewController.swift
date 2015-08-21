@@ -43,6 +43,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
                 if (err != nil) {
                     println(err)
                 } else {
+                    println(JSON)
                     NSUserDefaults.standardUserDefaults().setObject(JSON, forKey: "pre_categories")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     self.setupCategory()

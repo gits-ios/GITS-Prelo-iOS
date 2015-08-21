@@ -195,9 +195,9 @@ class ListItemCell : UICollectionViewCell
         captionTitle.text = product.name
         captionPrice.text = "Rp. " + String(obj["price"].int!)
         let loveCount = obj["love"].int
-        captionLove.text = String(loveCount!)
+        captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
-        captionComment.text = String(commentCount!)
+        captionComment.text = String(commentCount == nil ? 0 : commentCount!)
         
         let loved = obj["is_preloved"].bool
         if (loved == true)
