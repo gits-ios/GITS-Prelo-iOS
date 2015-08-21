@@ -8,23 +8,17 @@
 
 import UIKit
 
-protocol Dashboard2Delegate {
-    func navigateToLogin()
-    func navigateToContactPrelo()
-}
-
 class Dashboard2ViewController : BaseViewController {
-    
-    var dashboard2Delegate : Dashboard2Delegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func loginButtonTapped(sender : AnyObject) {
-        dashboard2Delegate?.navigateToLogin()
-//        var controllerLogin : LoginViewController? = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
-//        self.navigationController?.pushViewController(controllerLogin!, animated: true)
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC : LoginViewController? = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
+        loginVC?.navController = self.previousController?.navigationController
+        self.previousController?.navigationController?.pushViewController(loginVC!, animated: true)
     }
     
     @IBAction func contactButtonTapped(sender : AnyObject) {

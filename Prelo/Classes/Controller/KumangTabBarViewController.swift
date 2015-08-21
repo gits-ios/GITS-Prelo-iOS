@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashboard2Delegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -57,13 +57,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
         controllerBrowse = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as? UIViewController
         changeToController(controllerBrowse!)
         
-        if (User.IsLoggedIn) {
-            controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
-        } else {
-            controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
-            controllerDashboard2?.dashboard2Delegate = self
-            //controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? BaseViewController
-        }
+        controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -116,9 +111,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
             
         } else {
             if (User.IsLoggedIn) {
+                println("To Dashboard")
                 controllerDashboard?.previousController = self
                 changeToController(controllerDashboard!)
             } else {
+                println("To Dashboard2")
+                controllerDashboard2?.previousController = self
                 changeToController(controllerDashboard2!)
             }
         }
@@ -145,18 +143,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, Dashb
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
         changeToController(d)
         controllerDashboard = d
-    }
-
-    func navigateToLogin() {
-//        var controllerRegister : RegisterViewController = RegisterViewController(nibName:Tags.XibNameRegister, bundle: nil)
-//        self.navigationController?.pushViewController(controllerRegister, animated: true)
-        
-        controllerLogin = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
-        self.navigationController?.pushViewController(controllerLogin!, animated: true)
-    }
-    
-    func navigateToContactPrelo() {
-        
     }
     
     /*
