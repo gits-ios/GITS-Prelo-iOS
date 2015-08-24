@@ -18,8 +18,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBOutlet var btnLogin : UIButton?
     
-    var navController : UINavigationController?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

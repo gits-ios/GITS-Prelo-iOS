@@ -65,6 +65,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @IBAction func backPressed(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     func fieldsVerified() -> Bool {
         if (txtEmail?.text == "") {
             var placeholder = NSAttributedString(string: "Email harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
