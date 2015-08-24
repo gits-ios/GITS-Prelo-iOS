@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate {
+class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate {
 
     @IBOutlet var tableView : UITableView!
     @IBOutlet var txtVoucher : UITextField!
@@ -296,6 +296,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else {
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item") as! CartCellItem
                 i.adapt(arrayItem[indexPath.row])
+                i.cartItemCellDelegate = self
                 cell = i
             }
         } else if (s == 1) {
@@ -489,6 +490,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         consOffsetPaymentDesc?.constant = x
     }
 
+    func itemNeedDelete(indexPath: NSIndexPath) {
+        arrayItem.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if (arrayItem.count == 0) {
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
+            synch()
+        }
+    }
+    
+    func itemNeedUpdateShipping(indexPath: NSIndexPath) {
+        
+    }
     
     // MARK: - Navigation
 
@@ -708,6 +722,12 @@ class CartCellEdit : UITableViewCell
     }
 }
 
+protocol CartItemCellDelegate
+{
+    func itemNeedDelete(indexPath : NSIndexPath)
+    func itemNeedUpdateShipping(indexPath : NSIndexPath)
+}
+
 class CartCellItem : UITableViewCell
 {
     @IBOutlet var shade : UIView?
@@ -720,6 +740,8 @@ class CartCellItem : UITableViewCell
     override func canBecomeFirstResponder() -> Bool {
         return false
     }
+    
+    var cartItemCellDelegate : CartItemCellDelegate?
     
     func adapt (json : JSON)
     {
@@ -754,6 +776,16 @@ class CartCellItem : UITableViewCell
             shade?.hidden = true
         }
         
+    }
+    
+    var indexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    
+    @IBAction func deleteMe()
+    {
+        if let d = cartItemCellDelegate
+        {
+            d.itemNeedDelete(indexPath)
+        }
     }
 }
 

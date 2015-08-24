@@ -77,6 +77,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         tableView?.dataSource = self
         tableView?.delegate = self
+        
+        self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -105,13 +107,33 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // Dispose of any resources that can be recreated.
     }
     
+    override func confirm() {
+        self.performSegueWithIdentifier("segProducts", sender: nil)
+    }
+    
     var images : [APImage] = []
     
+    var replaceIndex : Int = -1
     func addImage() {
-        ImagePickerViewController.ShowFrom(self, maxSelect: 5, doneBlock: {imgs in
-            self.images = imgs
+        ImagePickerViewController.ShowFrom(self, maxSelect: (replaceIndex != -1) ? 1 : 5-self.images.count, doneBlock: {imgs in
+            if (self.replaceIndex != -1)
+            {
+                self.images[self.replaceIndex] = imgs[0]
+                self.replaceIndex = -1
+            } else
+            {
+                for a in imgs
+                {
+                    self.images.append(a)
+                }
+            }
             self.gridView?.reloadData()
         })
+    }
+    
+    func addImage(info: [String : AnyObject]) {
+        replaceIndex = info["replaceIndex"] as! Int
+        self.addImage()
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -197,6 +219,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (r == 0) {
                 var g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
                 g.decorate()
+                println("asd")
                 c = g
             } else if (r == 1) {
                 let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
@@ -444,7 +467,13 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
         }
     }
     
+    var adjusted = false
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if (adjusted == false)
+        {
+            collectionView.contentOffset = CGPointMake(120, 0)
+            adjusted = true
+        }
         return 10
     }
     
@@ -546,6 +575,7 @@ class AddProductHeader : UITableViewHeaderFooterView
 protocol AddProductImageCellDelegate
 {
     func addImage()
+    func addImage(info : [String : AnyObject])
 }
 
 class AddProductImageCell : UICollectionViewCell
@@ -555,6 +585,7 @@ class AddProductImageCell : UICollectionViewCell
     var tapImg : UITapGestureRecognizer?
     
     var delegate : AddProductImageCellDelegate?
+    var index = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -569,7 +600,13 @@ class AddProductImageCell : UICollectionViewCell
     func tapped()
     {
         if (delegate != nil) {
-            delegate?.addImage()
+            if (ivCover.image != nil)
+            {
+                delegate?.addImage(["replaceIndex":self.index])
+            } else
+            {
+                delegate?.addImage()
+            }
         }
     }
     
@@ -607,6 +644,9 @@ class AddProductImageCell : UICollectionViewCell
                                 
                         })
                     })
+                } else if let i = _apImage?.image
+                {
+                    ivCover.image = i
                 } else {
                     ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
                 }
@@ -657,4 +697,36 @@ class AddProductShareButton : UIButton
     
     @IBInspectable var normalColor : UIColor = Theme.DarkPurple
     @IBInspectable var selectedColor : UIColor = Theme.DarkPurple
+}
+
+class AddProductCellWeight : UITableViewCell
+{
+    @IBOutlet var sectionWeights : Array<BorderedView> = []
+    
+    @IBAction func setWeight(sender : UIButton)
+    {
+        for b in sectionWeights
+        {
+            b.changeBorderColor(UIColor.darkGrayColor())
+        }
+        
+        let b = sender.superview as! BorderedView
+        b.changeBorderColor(Theme.DarkPurple)
+    }
+}
+
+extension BorderedView
+{
+    func changeBorderColor(c : UIColor)
+    {
+        self.borderColor = c
+        for v in self.subviews
+        {
+            if (v.isKindOfClass(UILabel.classForCoder()))
+            {
+                let l = v as! UILabel
+                l.textColor = c
+            }
+        }
+    }
 }

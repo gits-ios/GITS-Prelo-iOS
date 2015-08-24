@@ -63,6 +63,7 @@ class Tags : NSObject
     static let StoryBoardIdAddProduct = "addProduct"
     static let StoryBoardIdNavigation = "nav"
     static let StoryBoardIdOrderConfirm = "orderConfirm"
+    static let StoryBoardIdMyProductSell = "MyProductSell"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

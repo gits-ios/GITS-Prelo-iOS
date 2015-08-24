@@ -53,10 +53,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     func setupCategory()
     {
-//        if (tabSwipe != nil) {
-//            return
-//        }
-        
         categories = JSON(NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")!)
         
         let level1 = categories!["_data"][0]["children"]

@@ -148,6 +148,8 @@
 		21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D387571B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m */; };
 		21D4F1D11B65DDAB0089DF4F /* KumangTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */; };
 		21D4F1D51B6615F40089DF4F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D41B6615F40089DF4F /* BaseViewController.swift */; };
+		21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */; };
+		21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
 		21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */; };
 		21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */; };
 		21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */; };
@@ -359,6 +361,8 @@
 		21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Prelo-Bridging-Header.h"; sourceTree = "<group>"; };
 		21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KumangTabBarViewController.swift; sourceTree = "<group>"; };
 		21D4F1D41B6615F40089DF4F /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductViewController.swift; sourceTree = "<group>"; };
+		21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductSellViewController.swift; sourceTree = "<group>"; };
 		21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKCore.framework; sourceTree = "<group>"; };
 		21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKImage.framework; sourceTree = "<group>"; };
 		21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -752,6 +756,8 @@
 				214813F11B79EEA300887244 /* AddProductViewController.swift */,
 				21C5AB821B858A580036FF6B /* ImagePickerViewController.swift */,
 				21C5AB841B859A250036FF6B /* BaseNavigationController.swift */,
+				21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */,
+				21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1133,6 +1139,7 @@
 				2141BBB81B54BE4C00787F5D /* Array+BFKit.swift in Sources */,
 				21C68F5C1B746E5D00D1125E /* CarConfirmViewController.swift in Sources */,
 				2141BBE01B54BE4C00787F5D /* SocketAnyEvent.swift in Sources */,
+				21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */,
 				211312581B67638F00A4DA3B /* Constant.swift in Sources */,
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
 				21C68F601B74922200D1125E /* OrderConfirmViewController.swift in Sources */,
@@ -1155,6 +1162,7 @@
 				21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */,
 				210DF0EF1B734CFD004AE3D9 /* CDUserProfile.swift in Sources */,
 				2141BBDC1B54BE4C00787F5D /* MKTableViewCell.swift in Sources */,
+				21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */,
 				2141BBCC1B54BE4C00787F5D /* UILabel+BFKit.swift in Sources */,
 				210DF0F51B734D3A004AE3D9 /* CDUser.swift in Sources */,
 				2141BBE81B54BE4C00787F5D /* SocketParser.swift in Sources */,

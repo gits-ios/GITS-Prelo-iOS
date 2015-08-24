@@ -49,14 +49,18 @@
                     return;
                 });
             } else {
-                [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
-                    if (a) {
-                        [array addObject:a.defaultRepresentation.url];
-//                        [array addObject:a];
-                    } else {
-                        
-                    }
-                }];
+                NSString *name = [g valueForProperty:ALAssetsGroupPropertyName];
+                if ([name rangeOfString:@"amera"].location != NSNotFound)
+                {
+                    [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
+                        if (a) {
+                            [array addObject:a.defaultRepresentation.url];
+                            //                        [array addObject:a];
+                        } else {
+                            
+                        }
+                    }];
+                }
             }
         } failureBlock:^(NSError *err) {
             dispatch_async(dispatch_get_main_queue(), ^(void){

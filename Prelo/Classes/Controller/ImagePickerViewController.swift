@@ -109,6 +109,12 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         
         if (indexPath.item == cameraBase)
         {
+            let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
+            if let s = c.session
+            {
+                s.stopRunning()
+            }
+            
             let i = UIImagePickerController()
             i.sourceType = UIImagePickerControllerSourceType.Camera
             i.delegate = self
@@ -147,18 +153,30 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         v.presentViewController(n, animated: true, completion: nil)
     }
     
+    var picker : UIImagePickerController?
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        self.picker = picker
+        println(info)
         let apImage = APImage()
-        apImage.url = info[UIImagePickerControllerReferenceURL] as? NSURL
+        apImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         var r : [APImage] = [apImage]
         self.doneBlock!(r)
         
-        picker.dismissViewControllerAnimated(true, completion: {
+        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        gridView.reloadData()
+    }
+    
+    func savedDone()
+    {
+        picker?.dismissViewControllerAnimated(true, completion: {
             self.dismissViewControllerAnimated(true, completion: {
                 
             })
         })
-//        println("")
     }
 
     /*
@@ -218,6 +236,9 @@ class ImagePickerCell : UICollectionViewCell
                             
                     })
                 })
+            } else if let i = _apImage?.image
+            {
+                ivCover.image = i
             } else {
                 ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
             }
@@ -245,6 +266,9 @@ class ImagePickerCell : UICollectionViewCell
             session?.sessionPreset = AVCaptureSessionPresetLow
         } else if ((session?.running)! == true)
         {
+            return
+        } else {
+            session?.startRunning()
             return
         }
         

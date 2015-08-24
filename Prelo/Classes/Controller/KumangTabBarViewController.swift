@@ -61,6 +61,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
+        controllerDashboard2?.previousController = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -132,13 +133,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     @IBAction func launchMenu()
     {
-//        menuPopUp?.show(true)
-        
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
         self.navigationController?.pushViewController(add, animated: true)
-//        let i = UIImage(named: "raisa.jpg")
-//        var editor = AdobeUXImageEditorViewController(image: i)
-//        self.presentViewController(editor, animated: true, completion: nil)
     }
     
     func delayBrowseSwitch()
@@ -160,7 +156,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func userLoggedOut() {
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
-        changeToController(d)
+        changeToController(controllerDashboard2!)
         controllerDashboard = d
     }
     

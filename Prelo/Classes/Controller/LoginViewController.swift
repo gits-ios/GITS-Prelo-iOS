@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 //import UIViewController_KeyboardAnimation
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate {
 
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtEmail : UITextField?
@@ -22,7 +22,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
 
+        scrollView?.delegate = self
+        
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         // Do any additional setup after loading the view.
     }
@@ -45,6 +49,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
     }
     
     @IBAction func viewTapped(sender : AnyObject)
@@ -130,6 +135,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (self.userRelatedDelegate != nil) {
                         self.userRelatedDelegate?.userLoggedIn!()
                     }
+                    
+                    self.dismiss()
                 }
         }
     }
@@ -155,6 +162,19 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         
         return false
+    }
+    
+    @IBAction func dismissLogin()
+    {
+        self.dismiss()
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
     }
     
     /*
