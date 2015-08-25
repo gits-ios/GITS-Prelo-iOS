@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kB-PJ-dDC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kB-PJ-dDC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -174,7 +174,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.97254901960784312" green="0.50980392156862742" blue="0.094117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="9in-Tl-aH3"/>
                                     <constraint firstAttribute="height" constant="46" id="Aqb-gg-PG4"/>
@@ -465,13 +465,6 @@
         <!--Login View Controller-->
         <scene sceneID="LsG-6G-fyU">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="30g-Vc-pWO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="65z-j7-pcc">
-                    <connections>
-                        <action selector="viewTapped:" destination="SC6-78-TIB" id="mCK-Y3-PhX"/>
-                        <outlet property="delegate" destination="SC6-78-TIB" id="KDs-t3-sVM"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <viewController storyboardIdentifier="login" id="SC6-78-TIB" customClass="LoginViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VcR-zu-aEp"/>
@@ -523,7 +516,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="Wx4-iO-zyt"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Login" backgroundImage="basic_purple.png">
+                                                <state key="normal" title="Login" backgroundImage="basic_green.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <state key="disabled" title="Loading.."/>
@@ -603,7 +596,7 @@
                                                 <rect key="frame" x="8" y="28" width="30" height="34"/>
                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="22"/>
                                                 <state key="normal" title="">
-                                                    <color key="titleColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -665,6 +658,13 @@
                         <outlet property="txtPassword" destination="3fI-7x-YwT" id="n72-WU-z9J"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="30g-Vc-pWO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="65z-j7-pcc">
+                    <connections>
+                        <action selector="viewTapped:" destination="SC6-78-TIB" id="mCK-Y3-PhX"/>
+                        <outlet property="delegate" destination="SC6-78-TIB" id="KDs-t3-sVM"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="273" y="-1034"/>
         </scene>
@@ -3575,7 +3575,7 @@ kembali jika pesananmu tidak sampai</string>
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.38431373238563538" green="0.066666670143604279" blue="0.37254902720451355" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="owg-Mi-hT8" secondAttribute="trailing" constant="8" id="1nd-3N-L9z"/>
                                             <constraint firstItem="owg-Mi-hT8" firstAttribute="leading" secondItem="gkb-9w-HRk" secondAttribute="leading" constant="8" id="Ajv-PL-G47"/>
@@ -3594,7 +3594,7 @@ kembali jika pesananmu tidak sampai</string>
                                                 <rect key="frame" x="8" y="4" width="104" height="36"/>
                                             </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.6588235294117647" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="dUY-H8-dLb" secondAttribute="trailing" constant="8" id="mtf-oj-MG6"/>
                                             <constraint firstAttribute="bottom" secondItem="dUY-H8-dLb" secondAttribute="bottom" constant="4" id="nui-xZ-CNQ"/>
@@ -4364,7 +4364,7 @@ kembali jika pesananmu tidak sampai</string>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="cqB-00-qxA"/>
                                                 </constraints>
-                                                <state key="normal" title="Konfirmasi Pembayaran" backgroundImage="basic_purple.png">
+                                                <state key="normal" title="Konfirmasi Pembayaran" backgroundImage="basic_green.png">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -4441,7 +4441,7 @@ kembali jika pesananmu tidak sampai</string>
         <!--Konfirmasi Pembayaran-->
         <scene sceneID="GER-6F-T47">
             <objects>
-                <viewController title="Konfirmasi Pembayaran" id="6tP-aK-I3q" customClass="OrderConfirmViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="orderConfirm" title="Konfirmasi Pembayaran" id="6tP-aK-I3q" customClass="OrderConfirmViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tk4-Qw-aWO"/>
                         <viewControllerLayoutGuide type="bottom" id="1Zw-bf-rvc"/>
@@ -4462,7 +4462,7 @@ kembali jika pesananmu tidak sampai</string>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="wm6-eC-qcs"/>
                                             </constraints>
-                                            <state key="normal" title="KIRIM KONFIRMASI" backgroundImage="basic_purple.png">
+                                            <state key="normal" title="KIRIM KONFIRMASI" backgroundImage="basic_green.png">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -4611,7 +4611,7 @@ kembali jika pesananmu tidak sampai</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Fg5-4q-Ox0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.38431373238563538" green="0.066666670143604279" blue="0.37254902720451355" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="7f8-z4-zW7"/>
@@ -4628,7 +4628,7 @@ kembali jika pesananmu tidak sampai</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LqN-or-peW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="33S-9l-LM1" kind="relationship" relationship="rootViewController" id="dHN-I2-fjW"/>
@@ -4645,7 +4645,7 @@ kembali jika pesananmu tidak sampai</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="3ti-tg-WN5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="yzo-9D-7mh" kind="relationship" relationship="rootViewController" id="Lda-BD-3fk"/>
@@ -4662,7 +4662,7 @@ kembali jika pesananmu tidak sampai</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="qG1-zD-Zgv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196078431373" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JOG-lI-YFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4676,7 +4676,7 @@ kembali jika pesananmu tidak sampai</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Cas-Wj-KtM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.3843137324" green="0.066666670139999995" blue="0.37254902719999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196078431373" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Lgc-qa-C8U" kind="relationship" relationship="rootViewController" id="a41-uU-Ykj"/>
@@ -4689,12 +4689,13 @@ kembali jika pesananmu tidak sampai</string>
     </scenes>
     <resources>
         <image name="basic_facebook.png" width="5" height="5"/>
+        <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>
         <image name="basic_purple.png" width="6" height="6"/>
         <image name="ic_cc.png" width="256" height="256"/>
         <image name="ic_chat.png" width="70" height="50"/>
         <image name="ic_dollar.png" width="256" height="256"/>
-        <image name="ic_ico_label.png" width="1275" height="337"/>
+        <image name="ic_ico_label.png" width="725" height="337"/>
         <image name="ic_logo_white.png" width="336" height="337"/>
         <image name="ic_love.png" width="256" height="256"/>
         <image name="raisa.jpg" width="300" height="300"/>

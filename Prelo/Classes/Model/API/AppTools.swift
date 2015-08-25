@@ -32,11 +32,11 @@ class AppTools: NSObject {
 class Theme : NSObject
 {
     static var navBarColor : UIColor {
-        return UIColor(hex: "#62115F")
+        return UIColor(hex: "#00A79D")
     }
     
     static var DarkPurple : UIColor {
-        return UIColor(hex: "#3f1044")
+        return UIColor(hex: "#00A79D")
     }
     
     static var TabSelectedColor : UIColor {
