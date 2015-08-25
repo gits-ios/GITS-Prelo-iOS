@@ -184,7 +184,17 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
-		4429F4EB1B8AEE8A00CEED34 /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4EA1B8AEE8A00CEED34 /* left_arrow.png */; };
+		4429F4EB1B8AEE8A00CEED34 /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4EA1B8AEE8A00CEED34 /* arrow_left.png */; };
+		4429F4ED1B8AFE5900CEED34 /* UserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4EC1B8AFE5900CEED34 /* UserProfile.xib */; };
+		4429F4EF1B8AFFC600CEED34 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4429F4EE1B8AFFC600CEED34 /* UserProfileViewController.swift */; };
+		4429F4F81B8B190500CEED34 /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F01B8B190500CEED34 /* arrow_down.png */; };
+		4429F4F91B8B190500CEED34 /* btn_checkbox_purple_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F11B8B190500CEED34 /* btn_checkbox_purple_checked.png */; };
+		4429F4FA1B8B190500CEED34 /* btn_checkbox_purple_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F21B8B190500CEED34 /* btn_checkbox_purple_empty.png */; };
+		4429F4FB1B8B190500CEED34 /* btn_checkbox_purple_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F31B8B190500CEED34 /* btn_checkbox_purple_pressed.png */; };
+		4429F4FC1B8B190500CEED34 /* ic_socmed_facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F41B8B190500CEED34 /* ic_socmed_facebook.png */; };
+		4429F4FD1B8B190500CEED34 /* ic_socmed_instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F51B8B190500CEED34 /* ic_socmed_instagram.png */; };
+		4429F4FE1B8B190500CEED34 /* ic_socmed_path.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F61B8B190500CEED34 /* ic_socmed_path.png */; };
+		4429F4FF1B8B190500CEED34 /* ic_socmed_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 4429F4F71B8B190500CEED34 /* ic_socmed_twitter.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,7 +407,17 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4429F4EA1B8AEE8A00CEED34 /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
+		4429F4EA1B8AEE8A00CEED34 /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
+		4429F4EC1B8AFE5900CEED34 /* UserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile.xib; sourceTree = "<group>"; };
+		4429F4EE1B8AFFC600CEED34 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		4429F4F01B8B190500CEED34 /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
+		4429F4F11B8B190500CEED34 /* btn_checkbox_purple_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_purple_checked.png; sourceTree = "<group>"; };
+		4429F4F21B8B190500CEED34 /* btn_checkbox_purple_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_purple_empty.png; sourceTree = "<group>"; };
+		4429F4F31B8B190500CEED34 /* btn_checkbox_purple_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_checkbox_purple_pressed.png; sourceTree = "<group>"; };
+		4429F4F41B8B190500CEED34 /* ic_socmed_facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_facebook.png; sourceTree = "<group>"; };
+		4429F4F51B8B190500CEED34 /* ic_socmed_instagram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_instagram.png; sourceTree = "<group>"; };
+		4429F4F61B8B190500CEED34 /* ic_socmed_path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_path.png; sourceTree = "<group>"; };
+		4429F4F71B8B190500CEED34 /* ic_socmed_twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_socmed_twitter.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -754,6 +774,7 @@
 				214813F11B79EEA300887244 /* AddProductViewController.swift */,
 				21C5AB821B858A580036FF6B /* ImagePickerViewController.swift */,
 				21C5AB841B859A250036FF6B /* BaseNavigationController.swift */,
+				4429F4EE1B8AFFC600CEED34 /* UserProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -817,7 +838,15 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4429F4EA1B8AEE8A00CEED34 /* left_arrow.png */,
+				4429F4F01B8B190500CEED34 /* arrow_down.png */,
+				4429F4F11B8B190500CEED34 /* btn_checkbox_purple_checked.png */,
+				4429F4F21B8B190500CEED34 /* btn_checkbox_purple_empty.png */,
+				4429F4F31B8B190500CEED34 /* btn_checkbox_purple_pressed.png */,
+				4429F4F41B8B190500CEED34 /* ic_socmed_facebook.png */,
+				4429F4F51B8B190500CEED34 /* ic_socmed_instagram.png */,
+				4429F4F61B8B190500CEED34 /* ic_socmed_path.png */,
+				4429F4F71B8B190500CEED34 /* ic_socmed_twitter.png */,
+				4429F4EA1B8AEE8A00CEED34 /* arrow_left.png */,
 				21EEB4661B87095C00CAD5C9 /* btn_checkbox_checked.png */,
 				21EEB4671B87095C00CAD5C9 /* btn_checkbox_empty.png */,
 				21EEB4681B87095C00CAD5C9 /* btn_checkbox_pressed.png */,
@@ -949,6 +978,7 @@
 				21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */,
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
+				4429F4EC1B8AFE5900CEED34 /* UserProfile.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1040,6 +1070,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4429F4FC1B8B190500CEED34 /* ic_socmed_facebook.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
@@ -1049,7 +1080,10 @@
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				4429F4F91B8B190500CEED34 /* btn_checkbox_purple_checked.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
+				4429F4FF1B8B190500CEED34 /* ic_socmed_twitter.png in Resources */,
+				4429F4ED1B8AFE5900CEED34 /* UserProfile.xib in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
@@ -1058,7 +1092,8 @@
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
-				4429F4EB1B8AEE8A00CEED34 /* left_arrow.png in Resources */,
+				4429F4EB1B8AEE8A00CEED34 /* arrow_left.png in Resources */,
+				4429F4FD1B8B190500CEED34 /* ic_socmed_instagram.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
@@ -1074,22 +1109,26 @@
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
+				4429F4FB1B8B190500CEED34 /* btn_checkbox_purple_pressed.png in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */,
 				2141BBA51B54BE4C00787F5D /* LICENSE in Resources */,
+				4429F4FE1B8B190500CEED34 /* ic_socmed_path.png in Resources */,
 				212502E81B8306A00089E523 /* AddProductHeader.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				211312561B6760F600A4DA3B /* ProductDetailCover.xib in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
+				4429F4F81B8B190500CEED34 /* arrow_down.png in Resources */,
 				21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
 				2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */,
+				4429F4FA1B8B190500CEED34 /* btn_checkbox_purple_empty.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1116,6 +1155,7 @@
 				2141BBA81B54BE4C00787F5D /* Download.swift in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
+				4429F4EF1B8AFFC600CEED34 /* UserProfileViewController.swift in Sources */,
 				2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */,
 				2141BBC31B54BE4C00787F5D /* NSString+BFKit.swift in Sources */,
 				2141BBAB1B54BE4C00787F5D /* Request.swift in Sources */,

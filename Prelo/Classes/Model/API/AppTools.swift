@@ -70,6 +70,7 @@ class Tags : NSObject
     static let XibNameDashboard2 = "Dashboard2"
     static let XibNameRegister = "Register"
     static let XibNamePaymentConfirmation = "PaymentConfirmation"
+    static let XibNameUserProfile = "UserProfile"
 }
 
 class NotificationName : NSObject
