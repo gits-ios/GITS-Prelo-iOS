@@ -72,7 +72,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Setuju dengan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-NW-6HB">
                                         <rect key="frame" x="41" y="361" width="104" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2OF-Xm-FPJ">
@@ -88,11 +88,12 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfE-Sc-zdJ">
                                         <rect key="frame" x="8" y="403" width="584" height="44"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="N4Y-78-aB9"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <state key="normal" title="SIGN UP" backgroundImage="basic_purple.png">
+                                        <state key="normal" title="SIGN UP">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -103,7 +104,7 @@
                                         <rect key="frame" x="128" y="357" width="157" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="Syarat dan Ketentuan">
-                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
@@ -113,7 +114,7 @@
                                             <constraint firstAttribute="height" constant="35" id="0NT-u8-zz2"/>
                                             <constraint firstAttribute="width" constant="20" id="dBF-Dr-89R"/>
                                         </constraints>
-                                        <state key="normal" image="left_arrow.png">
+                                        <state key="normal" image="arrow_left.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -205,7 +206,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="basic_purple.png" width="6" height="6"/>
+        <image name="arrow_left.png" width="30" height="53"/>
         <image name="btn_checkbox_checked.png" width="16" height="16"/>
         <image name="btn_checkbox_empty.png" width="16" height="16"/>
         <image name="btn_checkbox_pressed.png" width="16" height="16"/>
@@ -213,6 +214,5 @@
         <image name="ic_ico_label.png" width="1275" height="337"/>
         <image name="ic_lock.png" width="45" height="58"/>
         <image name="ic_user.png" width="51" height="51"/>
-        <image name="left_arrow.png" width="30" height="53"/>
     </resources>
 </document>
