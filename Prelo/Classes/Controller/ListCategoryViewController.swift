@@ -55,6 +55,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
     {
         categories = JSON(NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")!)
         
+        if let arr = categories!["_data"][0]["children"].arrayObject // punya children
+        {
+            
+        } else { // gak punya, gak dipake
+            return
+        }
+        
         let level1 = categories!["_data"][0]["children"]
         
         let tabs = NSMutableArray()

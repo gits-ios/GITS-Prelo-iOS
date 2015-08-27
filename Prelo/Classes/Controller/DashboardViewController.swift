@@ -137,6 +137,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
 
+    @IBAction func editProfilePressed(sender: UIButton) {
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Dashboard"
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
     /*
     // MARK: - Navigation
 

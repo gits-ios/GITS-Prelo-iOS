@@ -146,7 +146,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var sendIMGs : Array<UIImage> = []
     override func confirm() {
-        populateImages(0)
+//        populateImages(0)
+        self.callAPI()
     }
     
     func populateImages(i : Int)
@@ -244,33 +245,64 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             return
         }
         
-        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: {form in
-                for i in 1...self.sendIMGs.count
-                {
-                    let name = "image" + String(i)
-                    form.appendBodyPart(data : UIImageJPEGRepresentation(self.sendIMGs[i-1], 0.5), name : name, mimeType:"image/jpeg")
-                }
-            }, encodingCompletion: { result in
-                switch result
-                {
-                case .Success(let upload, _, _):
-                    upload.responseJSON { request, response, json, error in
-                        if (error != nil) {
-                            UIAlertView.SimpleShow("Warning", message: "Gagal")
-                        } else {
-                            let j = JSON(json!)
-                            println(j)
-                            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-                            self.navigationController?.pushViewController(s, animated: true)
+        request(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID)).responseJSON{_, _, res, err in
+            if (err != nil) {
+                println(err)
+            } else
+            {
+                let j = JSON(res!)
+                println(j)
+                println("")
+                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+                self.navigationController?.pushViewController(s, animated: true)
+//                self.performSegueWithIdentifier("segShare", sender: nil)
+            }
+        }
+        
+//        let param = JSON(["name":name!, "desc":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!])
+//        
+//        let parameterString = param.rawString(encoding: NSUTF8StringEncoding, options: nil)
+//        let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        
+//        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: { form in
+//                
+//            }, encodingCompletion: { encodingResult in
+//                switch encodingResult {
+//                case .Success(let upload, _, _):
+//                    upload.responseJSON { request, response, JSON, error in
+//                        println(request)
+//                        println(response!)
+//                        println(JSON)
+//                    }
+//                case .Failure(let encodingError):
+//                    println(encodingError)
+//                }
+//        })
+        
+//        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: {form in
+//
+//            }, encodingCompletion: { result in
+//                switch result
+//                {
+//                case .Success(let upload, _, _):
+//                    upload.responseJSON { request, response, json, error in
+//                        let s = AppToolsObjC.stringWithData(request.HTTPBody!)
+//                        if (error != nil) {
+//                            UIAlertView.SimpleShow("Warning", message: "Gagal")
+//                        } else {
+//                            let j = JSON(json!)
+//                            println(j)
+//                            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+//                            self.navigationController?.pushViewController(s, animated: true)
 //                            self.performSegueWithIdentifier("segShare", sender: nil)
-                        }
-                    }
-                case .Failure(let encodingError):
+//                        }
+//                    }
+//                case .Failure(let encodingError):
 //                    self.performSegueWithIdentifier("segShare", sender: nil)
-                    let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-                    self.navigationController?.pushViewController(s, animated: true)
-                }
-        })
+//                    let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+//                    self.navigationController?.pushViewController(s, animated: true)
+//                }
+//        })
     }
     
     @IBAction func sendConfirm()
@@ -1022,5 +1054,201 @@ extension BorderedView
                 l.textColor = c
             }
         }
+    }
+}
+
+/**
+Extension to the Alamofire MultipartFormData type to support direct
+construction of `multipart/form-data` parts
+*/
+extension MultipartFormData {
+    
+    func appendBodyPart(part:MultipartProtocol) {
+        
+        let headers = part.headers
+        let bodyStream = NSInputStream(data: part.body)
+        let bodyContentLength = UInt64(part.body.length)
+        appendBodyPart(stream: bodyStream, length: bodyContentLength, headers: headers.headers)
+    }
+}
+
+/**
+Protocol that defines the behavior of `multipart/form-data` parts, allowing
+extension to parts of different types, while hiding implementation details
+*/
+protocol MultipartProtocol {
+    /// The headers used to generate a part in a `multipart/form-data` part
+    var headers:MultipartHeader { get }
+    
+    /// The body used to generate a part in a `multipart/form-data` part
+    var body:NSData! { get }
+}
+
+
+/**
+Builds legal `multipart/form-data` parts, conforming to MultipartProtocol
+*/
+class Multipart {
+    
+    class func json(name:String, parameters:[String:AnyObject]) -> MultipartProtocol? {
+        return MultipartJson(name:name, parameters: parameters) }
+    
+    class func plain(name:String, text:String) -> MultipartProtocol? {
+        return MultipartPlain(name:name, text:text) }
+    
+    /**
+    Constructs an `application/json` part in a `multipart/form-data` body
+    */
+    class MultipartJson : MultipartProtocol {
+        
+        init?(name:String, parameters:[String:AnyObject]) {
+            
+            // initialize header
+            self.headers = MultipartHeader()
+                .contentType(.JSON)
+                .contentDisposition(.Name(name))
+            
+            // serialize body
+            let options = NSJSONWritingOptions.allZeros
+            var error:NSError?
+            self.body = NSJSONSerialization.dataWithJSONObject(parameters, options: options, error: &error)
+            
+            if self.body == nil {
+                return nil
+            }
+        }
+        
+        /// The headers used to generate an `application/json` part in a `multipart/form-data` part
+        let headers:MultipartHeader
+        
+        /// The body used to generate an `application/json` part in a `multipart/form-data` part
+        var body:NSData!
+    }
+    
+    /**
+    Constructs a `text/plain` part in a `multipart/form-data` body
+    */
+    class MultipartPlain : MultipartProtocol {
+        
+        init?(name:String, text:String) {
+            
+            // initialize header
+            self.headers = MultipartHeader()
+                .contentType(.Plain)
+                .contentDisposition(.Name(name))
+            
+            // serialize body
+            self.body = text.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            if self.body == nil {
+                return nil
+            }
+        }
+        
+        /// The headers used to generate a `text/plain` part in a `multipart/form-data` part
+        let headers:MultipartHeader
+        
+        /// The body used to generate a `text/plain` part in a `multipart/form-data` part
+        var body:NSData!
+    }
+}
+
+
+/**
+Defines legal `MIME` type values for the `Content-Type` header of `multipart/form-data`
+*/
+enum Mime : String {
+    case MultipartMixed = "multipart/mixed"
+    case JSON = "application/json"
+    case Plain = "text/plain"
+}
+
+
+/**
+Defines legal Disposition values for the `Content-Disposition` header of `multipart/form-data`
+*/
+enum Disposition {
+    case FormData
+    case Name(String)
+    case FileName(String)
+    
+    var encoded:String {
+        switch self {
+            
+        case FormData:
+            return "form-data"
+            
+        case Name(let name):
+            return "name=\"\(name)\""
+            
+        case FileName(let name):
+            return "filename=\"\(name)\""
+        }
+    }
+}
+
+
+/**
+Constructs `multipart/form-data` headers via the method chaining pattern.
+*/
+class MultipartHeader {
+    
+    enum Key : String {
+        case ContentType = "Content-Type"
+        case ContentDisposition = "Content-Disposition"
+    }
+    
+    /**
+    Defines the `Content-Type` header and returns the instance of MultipartHeader
+    upon which this call is made
+    
+    :param: mimeType  The desired MIME type, as defined by the Mime enumeration
+    
+    :returns: The instance of Multipart header upon which this call is made
+    */
+    func contentType(mimeType:Mime) -> MultipartHeader {
+        headers[Key.ContentType.rawValue] = "\(mimeType.rawValue)"
+        return self
+    }
+    
+    
+    /**
+    Defines the `Content-Disposition` header with a single disposition value and
+    returns the instance of MultipartHeader upon which this call is made
+    
+    :param: mimeType  The desired MIME type, as defined by the Disposition enumeration
+    
+    :returns: The instance of Multipart header upon which this call is made
+    */
+    func contentDisposition(disposition:Disposition) -> MultipartHeader {
+        
+        headers[Key.ContentDisposition.rawValue] =
+            Disposition.FormData.encoded + "; " + disposition.encoded
+        return self
+    }
+    
+    /**
+    Defines the Content-Disposition header with multiple disposition value and
+    returns the instance of MultipartHeader upon which this call is made
+    
+    :param: mimeType  The desired MIME type, as defined by the Disposition enumeration
+    
+    :returns: The instance of Multipart header upon which this call is made
+    */
+    func contentDisposition(values:Disposition...) -> MultipartHeader {
+        
+        headers[Key.ContentDisposition.rawValue] = Disposition.FormData.encoded + "; "
+            + "; ".join(map(values) { (d:Disposition) in d.encoded})
+        return self
+    }
+    
+    /// The resulting set of `multipart/form-data` headers
+    var headers:[String:String] = [Key.ContentDisposition.rawValue: Disposition.FormData.encoded]
+}
+
+
+extension MultipartHeader : Printable {
+    var description:String {
+        return "Headers: \n\t"
+            + "\n\t".join(map(self.headers.keys) { key in "\(key): \(self.headers[key]!)" })
     }
 }

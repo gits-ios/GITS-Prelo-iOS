@@ -20,4 +20,15 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var regionID: String
     @NSManaged var provinceID: String
 
+    static func getOne() -> CDUserProfile?
+    {
+        let fetchReq = NSFetchRequest(entityName: "CDUserProfile")
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return r?.first as? CDUserProfile
+        }
+    }
 }

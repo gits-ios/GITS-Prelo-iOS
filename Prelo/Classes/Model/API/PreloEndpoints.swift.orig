@@ -28,7 +28,7 @@ extension NSMutableURLRequest
         
         if (User.IsLoggedIn) {
 //            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
-            r.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
+            r.setValue("Token " + "DEVELOPMENT_TOKEN", forHTTPHeaderField: "Authorization")
         }
         
         return r
@@ -106,9 +106,12 @@ enum APIUser : URLRequestConvertible
     case Logout
     case Me
     case OrderList(status : String)
+<<<<<<< HEAD
     case MyProductSell
+=======
     case SetupAccount(province : String, region : String, phone : String, phoneCode : String, shippingPackages : String, referral : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
+>>>>>>> 744ae3013f2320503e8576aeb67b86fd33536c72
     
     var method : Method
     {
@@ -119,9 +122,12 @@ enum APIUser : URLRequestConvertible
         case .Logout:return .POST
         case .Me:return .GET
         case .OrderList(_):return .GET
+<<<<<<< HEAD
         case .MyProductSell:return .GET
+=======
         case .SetupAccount(_, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
+>>>>>>> 744ae3013f2320503e8576aeb67b86fd33536c72
         }
     }
     
@@ -134,9 +140,12 @@ enum APIUser : URLRequestConvertible
         case .Logout:return "logout"
         case .Me : return ""
         case .OrderList(_):return "buy_list"
+<<<<<<< HEAD
         case .MyProductSell:return "products"
+=======
         case .SetupAccount(_, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
+>>>>>>> 744ae3013f2320503e8576aeb67b86fd33536c72
         }
     }
     
@@ -161,7 +170,9 @@ enum APIUser : URLRequestConvertible
             return [
                 "status":status
             ]
+<<<<<<< HEAD
         case .MyProductSell:return [:]
+=======
         case .SetupAccount(let province, let region, let phone, let phoneCode, let shippingPackages, let referral):
             return [
                 "province":province,
@@ -182,6 +193,7 @@ enum APIUser : URLRequestConvertible
                 "description":description,
                 "shipping":shipping
             ]
+>>>>>>> 744ae3013f2320503e8576aeb67b86fd33536c72
         }
     }
     
@@ -218,7 +230,7 @@ enum Products : URLRequestConvertible
         {
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
-        case .Add(_, _, _, _, let category) : return ""
+        case .Add(_, _, _, _, _) : return ""
         }
     }
     
@@ -246,33 +258,13 @@ enum Products : URLRequestConvertible
                 "weight":weight,
                 "description":desc
             ]
-//            return [:]
         }
     }
     
     var URLRequest : NSURLRequest
     {
-//        switch self
-//        {
-//        case .ListByCategory(_, _, _, _, _, _, _) :
-//            println("")
-//        case .Detail(_):
-//            println("")
-//        case .Add(_, _, _, _, let c):
-//            let baseURL2 = "http://dev.preloapp.com/api/2/products"
-//            
-//            let urlComponents = NSURLComponents(string: baseURL2)!
-//            urlComponents.query = "category="+c
-//            
-//            let url = urlComponents.URL!
-//            
-//            var r = NSMutableURLRequest.defaultURLRequest(url)
-//            r.HTTPMethod = method.rawValue
-//            return r
-//        }
-        
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL)
         req.HTTPMethod = method.rawValue
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0

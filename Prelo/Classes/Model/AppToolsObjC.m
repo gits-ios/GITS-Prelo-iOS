@@ -10,6 +10,31 @@
 
 @implementation AppToolsObjC
 
++ (NSString *)stringWithData:(NSData *)data
+{
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
++ (void)sendMultipart:(NSDictionary *)param
+{
+    NSURL *url = [NSURL URLWithString:@"http://example.com/form/"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"RAHADIANAHMAD";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"category\"\r\n\r\n%d", 1] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request setHTTPBody:body];
+}
+
 + (NSString *)jsonStringFrom:(id)json
 {
     NSError *err;

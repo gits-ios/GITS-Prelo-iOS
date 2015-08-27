@@ -26,7 +26,7 @@
                     <rect key="frame" x="82" y="33" width="160" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
                     <state key="normal" title="Login • Register">
-                        <color key="titleColor" red="0.59281221103784509" green="0.24564594935327905" blue="0.70924084595959602" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -35,7 +35,7 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEr-CY-bOP" userLabel="separator">
                     <rect key="frame" x="18" y="84" width="565" height="1"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="gqw-xf-eJ9"/>
                     </constraints>
@@ -46,7 +46,7 @@
                     <inset key="contentEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="titleEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Hubungi Prelo" image="ic_phone.png">
-                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted" title="Hubungi Prelo" image="ic_phone.png">
@@ -58,9 +58,36 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ps6-Eb-jzb" userLabel="separator">
                     <rect key="frame" x="18" y="157" width="565" height="1"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="z50-0l-hzR"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhY-Ud-EsF">
+                    <rect key="frame" x="18" y="157" width="565" height="76"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="76" id="flh-XM-4VI"/>
+                        <constraint firstAttribute="width" constant="565" id="lyP-Vy-MGR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    <inset key="contentEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="13" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Tentang Prelo">
+                        <color key="titleColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" title="Tentang Prelo">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="aboutButtonTapped:" destination="-1" eventType="touchUpInside" id="jSH-rL-iS0"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOz-Tu-08I" userLabel="separator">
+                    <rect key="frame" x="18" y="232" width="565" height="1"/>
+                    <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="dP6-Z5-Hsg"/>
                     </constraints>
                 </view>
             </subviews>
@@ -68,8 +95,13 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="ps6-Eb-jzb" secondAttribute="trailing" constant="17" id="0FV-CT-h4y"/>
                 <constraint firstItem="HEr-CY-bOP" firstAttribute="top" secondItem="Ecg-cO-YUb" secondAttribute="bottom" constant="9" id="0Py-7g-T6d"/>
+                <constraint firstItem="nhY-Ud-EsF" firstAttribute="top" secondItem="ps6-Eb-jzb" secondAttribute="bottom" constant="-1" id="Hss-6Z-KhL"/>
                 <constraint firstAttribute="trailing" secondItem="HEr-CY-bOP" secondAttribute="trailing" constant="17" id="K4C-yi-fjm"/>
+                <constraint firstItem="nhY-Ud-EsF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="LN5-pt-H1Y"/>
+                <constraint firstAttribute="trailing" secondItem="HOz-Tu-08I" secondAttribute="trailing" constant="17" id="QGC-Ja-A5y"/>
+                <constraint firstItem="HOz-Tu-08I" firstAttribute="top" secondItem="nhY-Ud-EsF" secondAttribute="bottom" constant="-1" id="ThG-9x-dX6"/>
                 <constraint firstItem="Ecg-cO-YUb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="Xin-8V-EoG"/>
+                <constraint firstItem="HOz-Tu-08I" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="k8a-eo-Tjk"/>
                 <constraint firstItem="ps6-Eb-jzb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="ugt-Br-QDf"/>
                 <constraint firstItem="HEr-CY-bOP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="xRD-pN-0oj"/>
                 <constraint firstItem="ps6-Eb-jzb" firstAttribute="top" secondItem="HEr-CY-bOP" secondAttribute="bottom" constant="72" id="xcC-kt-dSX"/>

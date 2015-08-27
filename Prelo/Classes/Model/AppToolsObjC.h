@@ -25,6 +25,10 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (CAGradientLayer *)gradientViewWithColor:(NSArray *)arrayColor withView:(UIView *)view;
 
++ (void) sendMultipart:(NSDictionary *)param;
+
++ (NSString *) stringWithData:(NSData *)data;
+
 @end
 
 @interface UINavigationController (AppToolsObjC)

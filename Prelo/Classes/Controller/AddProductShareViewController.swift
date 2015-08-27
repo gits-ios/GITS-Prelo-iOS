@@ -74,6 +74,12 @@ class AddProductShareViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func shareDone()
+    {
+        let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! UIViewController
+        self.navigationController?.pushViewController(b, animated: true)
+    }
+    
 
     /*
     // MARK: - Navigation

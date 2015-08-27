@@ -63,7 +63,14 @@ public class User : NSObject
     
     static func StoreUser(user : JSON)
     {
-        let id = user["user_id"].string!
+        var id = ""
+        if let user_id = user["user_id"].string
+        {
+            id = user_id
+        } else if let _id = user["_id"].string
+        {
+            id = _id
+        }
         let token = user["token"].string!
         
         NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)

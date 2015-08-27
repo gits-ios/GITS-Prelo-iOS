@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
@@ -58,11 +59,15 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBAction func checkboxButton(sender : UIButton) {
         if (checkboxSelected == 0){
             sender.selected = true
-            checkboxSelected = 1;
+            checkboxSelected = 1
         } else {
             sender.selected = false
-            checkboxSelected = 0;
+            checkboxSelected = 0
         }
+    }
+    
+    @IBAction func backPressed(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func fieldsVerified() -> Bool {
@@ -132,9 +137,40 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         Constant.showDialog("Warning", message: message!)
                     } else { // Berhasil
                         println("Register succeed")
+                        println(data)
+                        User.StoreUser(data, email : email!)
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+                        c.id = data["_id"].string!
+                        c.email = data["email"].string!
+                        c.fullname = data["fullname"].string!
+                        
+                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                        let pr = data["profiles"]
+                        p.pict = pr["pict"].string!
+                        
+                        c.profiles = p
+                        UIApplication.appDelegate.saveContext()
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        if (self.userRelatedDelegate != nil) {
+                            self.userRelatedDelegate?.userLoggedIn!()
+                        }
+                        
+                        self.toUserProfile()
                     }
                 }
         }
+        
+        // FOR TESTING
+        //self.toUserProfile()
+    }
+    
+    func toUserProfile() {
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Register"
+        userProfileVC.userRelatedDelegate = self.userRelatedDelegate
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

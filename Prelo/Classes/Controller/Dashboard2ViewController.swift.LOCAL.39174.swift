@@ -26,11 +26,4 @@ class Dashboard2ViewController : BaseViewController {
     @IBAction func contactButtonTapped(sender : AnyObject) {
         
     }
-    
-    @IBAction func aboutButtonTapped(sender: UIButton) {
-        let a = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAbout) as! BaseViewController
-        a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
-        self.previousController?.navigationController?.pushViewController(a, animated: true)
-    }
-    
 }
