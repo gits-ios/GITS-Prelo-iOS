@@ -24,4 +24,9 @@ class Dashboard2ViewController : BaseViewController {
     @IBAction func contactButtonTapped(sender : AnyObject) {
         
     }
+    
+    @IBAction func aboutButtonTapped(sender: UIButton) {
+        
+    }
+    
 }
