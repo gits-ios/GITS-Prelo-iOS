@@ -26,13 +26,19 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUs-Fp-7Uj" userLabel="Group Upload Foto">
                                         <rect key="frame" x="8" y="27" width="584" height="64"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="9n2-16-57T">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="64" id="H7M-oy-WgE"/>
-                                                    <constraint firstAttribute="height" constant="64" id="qtY-Sz-okU"/>
+                                                    <constraint firstAttribute="height" constant="64" id="Msw-mm-mSq"/>
+                                                    <constraint firstAttribute="width" constant="64" id="Std-GB-BEH"/>
                                                 </constraints>
-                                            </imageView>
+                                                <state key="normal" backgroundImage="ic_user_2.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="userImagePressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="7ix-Sm-kNR"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr2-q0-Q8A">
                                                 <rect key="frame" x="72" y="0.0" width="512" height="40"/>
                                                 <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -43,6 +49,9 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="uploadFotoPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="VRT-KG-wjc"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIPS : Pembeli lebih percaya dengan penjual yang memiliki foto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0W-Im-eAT">
                                                 <rect key="frame" x="72" y="47" width="512" height="15"/>
@@ -52,14 +61,14 @@
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="9n2-16-57T" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="31A-aN-9e2"/>
-                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="9n2-16-57T" secondAttribute="trailing" constant="8" id="G7S-jJ-enT"/>
-                                            <constraint firstItem="9n2-16-57T" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="LHR-nK-fHp"/>
+                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="2a9-hp-lMW"/>
+                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="EKJ-4P-Exx"/>
+                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="L9a-Qd-FJZ"/>
                                             <constraint firstAttribute="height" constant="64" id="PhR-D8-oWN"/>
                                             <constraint firstItem="n0W-Im-eAT" firstAttribute="top" secondItem="fr2-q0-Q8A" secondAttribute="bottom" constant="7" id="V8a-Z9-vMu"/>
                                             <constraint firstAttribute="trailing" secondItem="fr2-q0-Q8A" secondAttribute="trailing" id="WuS-Px-sm3"/>
-                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="9n2-16-57T" secondAttribute="trailing" constant="8" id="ZNe-Nk-KFW"/>
                                             <constraint firstItem="fr2-q0-Q8A" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="ghb-AP-SLf"/>
+                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="m06-y4-G00"/>
                                             <constraint firstAttribute="trailing" secondItem="n0W-Im-eAT" secondAttribute="trailing" id="rLb-Bd-bDf"/>
                                         </constraints>
                                     </view>
@@ -84,6 +93,9 @@
                                                 <state key="normal" image="ic_socmed_instagram.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginInstagramPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="Eb8-r4-qRm"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zYg-iZ-rly">
                                                 <rect key="frame" x="63" y="25" width="521" height="40"/>
@@ -96,6 +108,9 @@
                                                 <state key="normal" title="LOGIN INSTAGRAM">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginInstagramPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="lLV-nm-PpZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tee-7Q-JvI" userLabel="Facebook">
                                                 <rect key="frame" x="0.0" y="73" width="55" height="40"/>
@@ -106,6 +121,9 @@
                                                 <state key="normal" image="ic_socmed_facebook.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="wb0-aE-BaF"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aiq-rk-Wkk">
                                                 <rect key="frame" x="63" y="73" width="521" height="40"/>
@@ -119,6 +137,9 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="ZP7-wO-GFa"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3S-Hc-bo5" userLabel="Twitter">
                                                 <rect key="frame" x="0.0" y="121" width="55" height="40"/>
@@ -129,6 +150,9 @@
                                                 <state key="normal" image="ic_socmed_twitter.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginTwitterPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="w0E-05-ved"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2z-wt-VNh">
                                                 <rect key="frame" x="63" y="121" width="521" height="40"/>
@@ -142,6 +166,9 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginTwitterPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="gDC-SM-0g7"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dG-ma-Qaq" userLabel="Path">
                                                 <rect key="frame" x="0.0" y="169" width="55" height="40"/>
@@ -152,6 +179,9 @@
                                                 <state key="normal" image="ic_socmed_path.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginPathPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="uj0-eH-q9P"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rk3-kg-X1r">
                                                 <rect key="frame" x="63" y="169" width="521" height="40"/>
@@ -165,6 +195,9 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginPathPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="sE2-EV-unu"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -303,15 +336,20 @@
                                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Pilih Provinsi" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jT-9C-l5w">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbi-jp-Q21">
                                                         <rect key="frame" x="78" y="0.0" width="464" height="40"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="EQA-Bz-6cW"/>
+                                                            <constraint firstAttribute="height" constant="40" id="biJ-cF-dzR"/>
                                                         </constraints>
-                                                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
+                                                        <state key="normal" title="Pilih Provinsi">
+                                                            <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="pilihProvinsiPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="fHJ-Sa-M6v"/>
+                                                        </connections>
+                                                    </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WNI-He-I06" userLabel="line_1px">
                                                         <rect key="frame" x="0.0" y="39" width="584" height="1"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -320,28 +358,31 @@
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHO-AA-ZRn" userLabel="btn_arrow">
-                                                        <rect key="frame" x="550" y="13" width="26" height="14"/>
+                                                        <rect key="frame" x="563" y="10" width="13" height="19"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="14" id="0Oo-Fv-opF"/>
-                                                            <constraint firstAttribute="width" constant="26" id="SmA-g5-avB"/>
+                                                            <constraint firstAttribute="height" constant="19" id="0Oo-Fv-opF"/>
+                                                            <constraint firstAttribute="width" constant="13" id="SmA-g5-avB"/>
                                                         </constraints>
-                                                        <state key="normal" image="arrow_down.png">
+                                                        <state key="normal" image="arrow_right.png">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="pilihProvinsiPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="2OZ-19-bkC"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="ilC-Hf-3U2" firstAttribute="top" secondItem="xas-Xg-nZn" secondAttribute="top" id="072-Hr-IdU"/>
                                                     <constraint firstItem="ilC-Hf-3U2" firstAttribute="leading" secondItem="xas-Xg-nZn" secondAttribute="leading" id="5tP-8B-yDy"/>
-                                                    <constraint firstItem="7jT-9C-l5w" firstAttribute="leading" secondItem="ilC-Hf-3U2" secondAttribute="trailing" constant="8" id="HUz-AU-UKk"/>
+                                                    <constraint firstItem="Dbi-jp-Q21" firstAttribute="leading" secondItem="ilC-Hf-3U2" secondAttribute="trailing" constant="8" id="AUw-el-XQz"/>
                                                     <constraint firstItem="WNI-He-I06" firstAttribute="leading" secondItem="xas-Xg-nZn" secondAttribute="leading" id="JDA-g4-cCI"/>
                                                     <constraint firstAttribute="height" constant="40" id="LIS-Dp-dif"/>
-                                                    <constraint firstItem="7jT-9C-l5w" firstAttribute="top" secondItem="xas-Xg-nZn" secondAttribute="top" id="Msi-5y-NA6"/>
-                                                    <constraint firstItem="WNI-He-I06" firstAttribute="top" secondItem="7jT-9C-l5w" secondAttribute="bottom" constant="-1" id="edh-Y1-Kpk"/>
+                                                    <constraint firstItem="Dbi-jp-Q21" firstAttribute="top" secondItem="xas-Xg-nZn" secondAttribute="top" id="OKl-pE-oFl"/>
                                                     <constraint firstAttribute="trailing" secondItem="WNI-He-I06" secondAttribute="trailing" id="hSW-ez-8cg"/>
                                                     <constraint firstAttribute="trailing" secondItem="xHO-AA-ZRn" secondAttribute="trailing" constant="8" id="l7g-da-Wol"/>
-                                                    <constraint firstItem="xHO-AA-ZRn" firstAttribute="top" secondItem="xas-Xg-nZn" secondAttribute="top" constant="13" id="nkp-zz-JFk"/>
-                                                    <constraint firstItem="xHO-AA-ZRn" firstAttribute="leading" secondItem="7jT-9C-l5w" secondAttribute="trailing" constant="8" id="vFc-Cj-lpW"/>
+                                                    <constraint firstItem="xHO-AA-ZRn" firstAttribute="top" secondItem="xas-Xg-nZn" secondAttribute="top" constant="10" id="nkp-zz-JFk"/>
+                                                    <constraint firstItem="xHO-AA-ZRn" firstAttribute="leading" secondItem="Dbi-jp-Q21" secondAttribute="trailing" constant="21" id="sJi-F9-EqL"/>
+                                                    <constraint firstItem="WNI-He-I06" firstAttribute="top" secondItem="Dbi-jp-Q21" secondAttribute="bottom" constant="-1" id="x8T-I5-sad"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kIP-R6-Lii" userLabel="Field Kota/Kabupaten">
@@ -357,15 +398,20 @@
                                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Pilih Kota/Kabupaten" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iEc-lE-sk9">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x2K-pP-RQy">
                                                         <rect key="frame" x="136" y="0.0" width="406" height="40"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="q5Y-Ep-lHX"/>
+                                                            <constraint firstAttribute="height" constant="40" id="yCd-5f-w58"/>
                                                         </constraints>
-                                                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
+                                                        <state key="normal" title="Pilh Kota/Kabupaten">
+                                                            <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="pilihKabKotaPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="yNI-Xd-fW8"/>
+                                                        </connections>
+                                                    </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byw-IQ-n8d" userLabel="line_1px">
                                                         <rect key="frame" x="0.0" y="39" width="584" height="1"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -374,28 +420,31 @@
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nQV-3X-Rxg" userLabel="btn_arrow">
-                                                        <rect key="frame" x="550" y="13" width="26" height="14"/>
+                                                        <rect key="frame" x="563" y="10" width="13" height="19"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="14" id="7Kx-cE-KvD"/>
-                                                            <constraint firstAttribute="width" constant="26" id="J2d-bX-Gjc"/>
+                                                            <constraint firstAttribute="height" constant="19" id="7Kx-cE-KvD"/>
+                                                            <constraint firstAttribute="width" constant="13" id="J2d-bX-Gjc"/>
                                                         </constraints>
-                                                        <state key="normal" image="arrow_down.png">
+                                                        <state key="normal" image="arrow_right.png">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="pilihKotaKabupatenPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="qPN-dX-MdE"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="iEc-lE-sk9" firstAttribute="top" secondItem="kIP-R6-Lii" secondAttribute="top" id="3IE-ro-Bb3"/>
                                                     <constraint firstAttribute="height" constant="40" id="460-Kx-w5I"/>
+                                                    <constraint firstItem="x2K-pP-RQy" firstAttribute="leading" secondItem="JY0-gw-X91" secondAttribute="trailing" constant="8" id="61K-0R-W1N"/>
                                                     <constraint firstAttribute="trailing" secondItem="byw-IQ-n8d" secondAttribute="trailing" id="CPp-pe-Tto"/>
                                                     <constraint firstItem="JY0-gw-X91" firstAttribute="top" secondItem="kIP-R6-Lii" secondAttribute="top" id="LWz-YW-M0E"/>
                                                     <constraint firstItem="JY0-gw-X91" firstAttribute="leading" secondItem="kIP-R6-Lii" secondAttribute="leading" id="Pea-uR-F5k"/>
                                                     <constraint firstAttribute="trailing" secondItem="nQV-3X-Rxg" secondAttribute="trailing" constant="8" id="Q0d-dj-dYt"/>
+                                                    <constraint firstItem="byw-IQ-n8d" firstAttribute="top" secondItem="x2K-pP-RQy" secondAttribute="bottom" constant="-1" id="ST5-x5-nJU"/>
                                                     <constraint firstItem="byw-IQ-n8d" firstAttribute="leading" secondItem="kIP-R6-Lii" secondAttribute="leading" id="XjG-c0-Jqf"/>
-                                                    <constraint firstItem="iEc-lE-sk9" firstAttribute="leading" secondItem="JY0-gw-X91" secondAttribute="trailing" constant="8" id="cSl-Y2-NLR"/>
-                                                    <constraint firstItem="nQV-3X-Rxg" firstAttribute="top" secondItem="kIP-R6-Lii" secondAttribute="top" constant="13" id="chQ-kE-4SL"/>
-                                                    <constraint firstItem="byw-IQ-n8d" firstAttribute="top" secondItem="iEc-lE-sk9" secondAttribute="bottom" constant="-1" id="nEm-Mg-T9m"/>
-                                                    <constraint firstItem="nQV-3X-Rxg" firstAttribute="leading" secondItem="iEc-lE-sk9" secondAttribute="trailing" constant="8" id="owg-KY-0Y6"/>
+                                                    <constraint firstItem="nQV-3X-Rxg" firstAttribute="top" secondItem="kIP-R6-Lii" secondAttribute="top" constant="10" id="chQ-kE-4SL"/>
+                                                    <constraint firstItem="x2K-pP-RQy" firstAttribute="top" secondItem="kIP-R6-Lii" secondAttribute="top" id="nci-Nv-VzE"/>
+                                                    <constraint firstItem="nQV-3X-Rxg" firstAttribute="leading" secondItem="x2K-pP-RQy" secondAttribute="trailing" constant="21" id="zOV-lk-x85"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -509,6 +558,9 @@ Three</string>
                                                         </state>
                                                         <state key="selected" image="btn_checkbox_purple_checked.png"/>
                                                         <state key="highlighted" image="btn_checkbox_purple_pressed.png"/>
+                                                        <connections>
+                                                            <action selector="JneRegulerPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="psf-e9-RMj"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JNE Reguler" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWu-2m-Iiq">
                                                         <rect key="frame" x="34" y="5" width="550" height="30"/>
@@ -553,6 +605,9 @@ Three</string>
                                                         </state>
                                                         <state key="selected" image="btn_checkbox_purple_checked.png"/>
                                                         <state key="highlighted" image="btn_checkbox_purple_pressed.png"/>
+                                                        <connections>
+                                                            <action selector="TikiRegulerPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="FOv-m7-m0M"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIKI Reguler" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbC-jw-TsP">
                                                         <rect key="frame" x="34" y="5" width="550" height="30"/>
@@ -611,6 +666,9 @@ Three</string>
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="simpanDataPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="HPa-3g-2Bn"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -663,19 +721,26 @@ Three</string>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="1034"/>
             <connections>
+                <outlet property="btnJneReguler" destination="Cd0-WF-R4K" id="f42-Hn-PFx"/>
+                <outlet property="btnKabKota" destination="x2K-pP-RQy" id="ELL-Ov-KsB"/>
                 <outlet property="btnLoginFacebook" destination="Aiq-rk-Wkk" id="QBD-Bo-D9G"/>
                 <outlet property="btnLoginInstagram" destination="zYg-iZ-rly" id="mE3-Mu-ecY"/>
                 <outlet property="btnLoginPath" destination="Rk3-kg-X1r" id="sO3-dn-s6c"/>
                 <outlet property="btnLoginTwitter" destination="Y2z-wt-VNh" id="m5Z-vE-0RI"/>
+                <outlet property="btnProvinsi" destination="Dbi-jp-Q21" id="qS8-gU-t4Y"/>
+                <outlet property="btnTikiReguler" destination="EBe-ao-9yz" id="V2f-oe-CXa"/>
                 <outlet property="contentViewHeightConstraint" destination="bDv-Tb-VoO" id="DSc-8B-FLR"/>
+                <outlet property="fieldNama" destination="ApR-0Y-Cbn" id="mt6-OZ-q6w"/>
+                <outlet property="fieldNoHp" destination="3sL-fB-ahW" id="mT8-BK-smW"/>
                 <outlet property="fieldTentangShop" destination="i41-sy-Cne" id="96a-vt-M52"/>
                 <outlet property="fieldTentangShopHeightConstraint" destination="bqH-g6-Ck7" id="Ha6-3p-qme"/>
+                <outlet property="userImage" destination="wzG-eu-RHF" id="zeB-QL-2Ux"/>
             </connections>
             <point key="canvasLocation" x="-504" y="426"/>
         </viewController>
     </objects>
     <resources>
-        <image name="arrow_down.png" width="40" height="22"/>
+        <image name="arrow_right.png" width="30" height="53"/>
         <image name="btn_checkbox_purple_checked.png" width="53" height="53"/>
         <image name="btn_checkbox_purple_empty.png" width="53" height="53"/>
         <image name="btn_checkbox_purple_pressed.png" width="53" height="53"/>

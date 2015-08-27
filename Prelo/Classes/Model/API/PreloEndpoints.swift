@@ -106,6 +106,7 @@ enum APIUser : URLRequestConvertible
     case Logout
     case Me
     case OrderList(status : String)
+    case SetupAccount(province : String, region : String, phone : String, phoneCode : String, shippingPackages : String, referral : String)
     
     var method : Method
     {
@@ -116,6 +117,7 @@ enum APIUser : URLRequestConvertible
         case .Logout:return .POST
         case .Me:return .GET
         case .OrderList(_):return .GET
+        case .SetupAccount(_, _, _, _, _, _) : return .POST
         }
     }
     
@@ -128,6 +130,7 @@ enum APIUser : URLRequestConvertible
         case .Logout:return "logout"
         case .Me : return ""
         case .OrderList(_):return "buy_list"
+        case .SetupAccount(_, _, _, _, _, _) : return "setup"
         }
     }
     
@@ -151,6 +154,15 @@ enum APIUser : URLRequestConvertible
         case .OrderList(let status):
             return [
                 "status":status
+            ]
+        case .SetupAccount(let province, let region, let phone, let phoneCode, let shippingPackages, let referral):
+            return [
+                "province":province,
+                "region":region,
+                "phone":phone,
+                "phone_code":phoneCode,
+                "shipping_packages":shippingPackages,
+                "referral":referral
             ]
         }
     }
