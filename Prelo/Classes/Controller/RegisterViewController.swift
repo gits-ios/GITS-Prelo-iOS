@@ -58,10 +58,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBAction func checkboxButton(sender : UIButton) {
         if (checkboxSelected == 0){
             sender.selected = true
-            checkboxSelected = 1;
+            checkboxSelected = 1
         } else {
             sender.selected = false
-            checkboxSelected = 0;
+            checkboxSelected = 0
         }
     }
     
@@ -136,9 +136,19 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         Constant.showDialog("Warning", message: message!)
                     } else { // Berhasil
                         println("Register succeed")
+                        self.toUserProfile()
                     }
                 }
         }
+        
+        // FOR TESTING
+        //self.toUserProfile()
+    }
+    
+    func toUserProfile() {
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Register"
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

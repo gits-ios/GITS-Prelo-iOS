@@ -107,6 +107,7 @@ enum APIUser : URLRequestConvertible
     case Me
     case OrderList(status : String)
     case SetupAccount(province : String, region : String, phone : String, phoneCode : String, shippingPackages : String, referral : String)
+    case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     
     var method : Method
     {
@@ -118,6 +119,7 @@ enum APIUser : URLRequestConvertible
         case .Me:return .GET
         case .OrderList(_):return .GET
         case .SetupAccount(_, _, _, _, _, _) : return .POST
+        case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         }
     }
     
@@ -131,6 +133,7 @@ enum APIUser : URLRequestConvertible
         case .Me : return ""
         case .OrderList(_):return "buy_list"
         case .SetupAccount(_, _, _, _, _, _) : return "setup"
+        case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         }
     }
     
@@ -163,6 +166,17 @@ enum APIUser : URLRequestConvertible
                 "phone_code":phoneCode,
                 "shipping_packages":shippingPackages,
                 "referral":referral
+            ]
+        case .SetProfile(let fullname, let phone, let address, let region, let postalCode, let shopName, let description, let shipping):
+            return [
+                "fullname":fullname,
+                "phone":phone,
+                "address":address,
+                "region":region,
+                "postal_code":postalCode,
+                "shop_name":shopName,
+                "description":description,
+                "shipping":shipping
             ]
         }
     }

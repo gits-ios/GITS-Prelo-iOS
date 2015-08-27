@@ -46,6 +46,14 @@ class Theme : NSObject
     static var TabNormalColor : UIColor {
         return UIColor(hex: "#b7b7b7")
     }
+    
+    static var DarkGrayColor : UIColor {
+        return UIColor(hex: "#858585")
+    }
+    
+    static var LightGrayColor : UIColor {
+        return UIColor(hex: "#b7b7b7")
+    }
 }
 
 class Tags : NSObject

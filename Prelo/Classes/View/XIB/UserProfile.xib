@@ -26,20 +26,20 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUs-Fp-7Uj" userLabel="Group Upload Foto">
                                         <rect key="frame" x="8" y="27" width="584" height="64"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="Msw-mm-mSq"/>
-                                                    <constraint firstAttribute="width" constant="64" id="Std-GB-BEH"/>
+                                                    <constraint firstAttribute="height" constant="64" id="gWc-ue-Yhe"/>
+                                                    <constraint firstAttribute="width" constant="64" id="sfn-l9-MHF"/>
                                                 </constraints>
-                                                <state key="normal" backgroundImage="ic_user_2.png">
+                                                <state key="normal" image="ic_user_2.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="userImagePressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="7ix-Sm-kNR"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr2-q0-Q8A">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr2-q0-Q8A">
                                                 <rect key="frame" x="72" y="0.0" width="512" height="40"/>
                                                 <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -53,7 +53,7 @@
                                                     <action selector="uploadFotoPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="VRT-KG-wjc"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIPS : Pembeli lebih percaya dengan penjual yang memiliki foto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0W-Im-eAT">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TIPS : Pembeli lebih percaya dengan penjual yang memiliki foto" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0W-Im-eAT">
                                                 <rect key="frame" x="72" y="47" width="512" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -61,14 +61,14 @@
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="2a9-hp-lMW"/>
-                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="EKJ-4P-Exx"/>
-                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="L9a-Qd-FJZ"/>
+                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="3Pn-CZ-Mr1"/>
+                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="4kh-45-v4M"/>
+                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="Kmv-bn-IfJ"/>
                                             <constraint firstAttribute="height" constant="64" id="PhR-D8-oWN"/>
                                             <constraint firstItem="n0W-Im-eAT" firstAttribute="top" secondItem="fr2-q0-Q8A" secondAttribute="bottom" constant="7" id="V8a-Z9-vMu"/>
                                             <constraint firstAttribute="trailing" secondItem="fr2-q0-Q8A" secondAttribute="trailing" id="WuS-Px-sm3"/>
+                                            <constraint firstItem="wzG-eu-RHF" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="XrD-QC-DXs"/>
                                             <constraint firstItem="fr2-q0-Q8A" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="ghb-AP-SLf"/>
-                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="m06-y4-G00"/>
                                             <constraint firstAttribute="trailing" secondItem="n0W-Im-eAT" secondAttribute="trailing" id="rLb-Bd-bDf"/>
                                         </constraints>
                                     </view>
@@ -343,7 +343,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <state key="normal" title="Pilih Provinsi">
-                                                            <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -405,7 +405,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <state key="normal" title="Pilh Kota/Kabupaten">
-                                                            <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -482,14 +482,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-hO-AzO" userLabel="Field Tentang Shop">
                                                 <rect key="frame" x="0.0" y="25" width="584" height="40"/>
                                                 <subviews>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i41-sy-Cne">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="  " translatesAutoresizingMaskIntoConstraints="NO" id="i41-sy-Cne">
                                                         <rect key="frame" x="0.0" y="8" width="584" height="23"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="23" id="bqH-g6-Ck7"/>
                                                         </constraints>
-                                                        <string key="text">One
-Two
-Three</string>
                                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -666,6 +663,7 @@ Three</string>
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="disabled" title="LOADING.."/>
                                         <connections>
                                             <action selector="simpanDataPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="HPa-3g-2Bn"/>
                                         </connections>
@@ -728,13 +726,14 @@ Three</string>
                 <outlet property="btnLoginPath" destination="Rk3-kg-X1r" id="sO3-dn-s6c"/>
                 <outlet property="btnLoginTwitter" destination="Y2z-wt-VNh" id="m5Z-vE-0RI"/>
                 <outlet property="btnProvinsi" destination="Dbi-jp-Q21" id="qS8-gU-t4Y"/>
+                <outlet property="btnSimpanData" destination="2rL-4Y-FGg" id="cFy-BW-ewh"/>
                 <outlet property="btnTikiReguler" destination="EBe-ao-9yz" id="V2f-oe-CXa"/>
+                <outlet property="btnUserImage" destination="wzG-eu-RHF" id="pBd-5Z-Mn5"/>
                 <outlet property="contentViewHeightConstraint" destination="bDv-Tb-VoO" id="DSc-8B-FLR"/>
                 <outlet property="fieldNama" destination="ApR-0Y-Cbn" id="mt6-OZ-q6w"/>
                 <outlet property="fieldNoHp" destination="3sL-fB-ahW" id="mT8-BK-smW"/>
                 <outlet property="fieldTentangShop" destination="i41-sy-Cne" id="96a-vt-M52"/>
                 <outlet property="fieldTentangShopHeightConstraint" destination="bqH-g6-Ck7" id="Ha6-3p-qme"/>
-                <outlet property="userImage" destination="wzG-eu-RHF" id="zeB-QL-2Ux"/>
             </connections>
             <point key="canvasLocation" x="-504" y="426"/>
         </viewController>
