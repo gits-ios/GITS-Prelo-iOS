@@ -174,6 +174,7 @@ enum Products : URLRequestConvertible
     
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case Detail(productId : String)
+    case Add(name : String, desc : String, price : String, weight : String, category : String)
     
     var method : Method
     {
@@ -181,6 +182,7 @@ enum Products : URLRequestConvertible
         {
         case .ListByCategory(_, _, _, _, _, _, _): return .GET
         case .Detail(_): return .GET
+        case .Add(_, _, _, _, _) : return .POST
         }
     }
     
@@ -190,6 +192,7 @@ enum Products : URLRequestConvertible
         {
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
+        case .Add(_, _, _, _, _) : return ""
         }
     }
     
@@ -209,13 +212,21 @@ enum Products : URLRequestConvertible
                 "prelo":"true"
             ]
         case .Detail(let prodId): return ["prelo":"true"]
+        case .Add(let name, let desc, let price, let weight, let category):
+            return [
+                "name":name,
+                "category":category,
+                "price":price,
+                "weight":weight,
+                "description":desc
+            ]
         }
     }
     
     var URLRequest : NSURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
-        let req = NSMutableURLRequest(URL: baseURL!)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL)
         req.HTTPMethod = method.rawValue
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0

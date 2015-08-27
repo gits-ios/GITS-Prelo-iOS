@@ -129,6 +129,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //            }
         }
     }
+    
+    @IBAction func launchMyProducts()
+    {
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        m.shouldSkipBack = false
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
+    }
 
     /*
     // MARK: - Navigation

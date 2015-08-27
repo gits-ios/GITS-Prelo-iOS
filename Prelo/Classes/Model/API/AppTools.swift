@@ -83,8 +83,9 @@ class Tags : NSObject
     static let StoryBoardIdAddProduct = "addProduct"
     static let StoryBoardIdNavigation = "nav"
     static let StoryBoardIdOrderConfirm = "orderConfirm"
+    static let StoryBoardIdMyProducts = "MyProducts"
     static let StoryBoardIdMyProductSell = "MyProductSell"
-    static let StoryBoardIdCategoryPicker = "CategoryPicker"
+    static let StoryBoardIdCategoryPicker = "CategoryPickerx"
     static let StoryBoardIdCategoryChildrenPicker = "CategoryChildrenPicker"
     static let StoryBoardIdAbout = "About"
     

@@ -96,7 +96,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-            captionBeli.text = "Cart"
+            captionBeli.text = "Beli"
             alreadyInCart = true
         }
         

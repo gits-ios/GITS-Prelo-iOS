@@ -66,7 +66,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             m.captionStatus.text = isActive ? "AKTIF" : "TIDAK AKTIF"
         }
         
-        m.ivCover.setImageWithUrl(p.coverImageURL!, placeHolderImage: nil)
+        m.ivCover.image = nil
+        if let url = p.coverImageURL
+        {
+            m.ivCover.setImageWithUrl(url, placeHolderImage: nil)
+        }
         
         return m
     }

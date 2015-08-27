@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, ProductCategoryDelegate
 {
 
     @IBOutlet var tableView : UITableView!
@@ -23,6 +23,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     var baseDatas : [NSIndexPath:BaseCartData] = [:]
     var cells : [NSIndexPath:UITableViewCell] = [:]
     var heights : [NSIndexPath:CGFloat] = [:]
+    
+    var selectedCategoryID = ""
     
     var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Digantung", "image":"ic_hanger"], ["title":"Cacat (Jila ada)", "image":"ic_cacat"]]
     
@@ -105,11 +107,31 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if (first) // show picker!!
+        if (User.IsLoggedIn)
         {
-//            first = false
-            self.addImage()
+            if (first) // show picker!!
+            {
+                self.addImage()
+            }
+        } else {
+            if (first)
+            {
+                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+            }
         }
+    }
+    
+    func userLoggedIn() {
+        
+    }
+    
+    func userLoggedOut() {
+        
+    }
+    
+    func userCancelLogin() {
+        self.first = false
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -122,8 +144,138 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // Dispose of any resources that can be recreated.
     }
     
+    var sendIMGs : Array<UIImage> = []
     override func confirm() {
-        self.performSegueWithIdentifier("segShare", sender: nil)
+        populateImages(0)
+    }
+    
+    func populateImages(i : Int)
+    {
+        if (i == images.count) { // done with image
+            callAPI()
+        } else {
+            let ap = images[i]
+            ap.getImage({ im in
+                if let img = im
+                {
+                    self.sendIMGs.append(img)
+                    self.populateImages(i+1)
+                }
+            })
+        }
+    }
+    
+    func callAPI()
+    {
+        var price : String?
+        var weight : String?
+        
+        var imgs : Array<UIImage> = []
+        
+        for (i, c) in cells
+        {
+            if (c.isKindOfClass(BaseCartCell.classForCoder()))
+            {
+                let b = c as! BaseCartCell
+                if let d = b.obtainValue()
+                {
+                    if let t = d.title
+                    {
+                        if (t == "Nama Produk")
+                        {
+                            name = d.value
+                        }
+                        
+                        if (t == "Harga Jual Prelo")
+                        {
+                            price = d.value
+                        }
+                        
+                        if (t == "Deskripsi")
+                        {
+                            desc = d.value
+                        }
+                        
+                        if (t == "Berat")
+                        {
+                            weight = d.value
+                        }
+                    }
+                }
+            } else if (c.isKindOfClass(ACEExpandableTextCell.classForCoder()))
+            {
+                let a = c as! ACEExpandableTextCell
+                if (i.row == 1) {
+                    name = a.textView.text
+                } else if (i.row == 2) {
+                    desc = a.textView.text
+                }
+            }
+        }
+        
+        // validation
+        if (name == nil)
+        {
+            UIAlertView.SimpleShow("Warning", message: "Nama item masih kosong")
+            return
+        }
+        
+        if (desc == nil)
+        {
+            UIAlertView.SimpleShow("Warning", message: "Deskripsi item masih kosong")
+            return
+        }
+        
+        if (price == nil)
+        {
+            UIAlertView.SimpleShow("Warning", message: "Harga item masih kosong")
+            return
+        }
+        
+        if (weight == nil)
+        {
+            UIAlertView.SimpleShow("Warning", message: "Berat item masih kosong")
+            return
+        }
+        
+        if (selectedCategoryID == "")
+        {
+            UIAlertView.SimpleShow("Warning", message: "Kategori item masih kosong")
+            return
+        }
+        
+        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: {form in
+                for i in 1...self.sendIMGs.count
+                {
+                    let name = "image" + String(i)
+                    form.appendBodyPart(data : UIImageJPEGRepresentation(self.sendIMGs[i-1], 0.5), name : name, mimeType:"image/jpeg")
+                }
+            }, encodingCompletion: { result in
+                switch result
+                {
+                case .Success(let upload, _, _):
+                    upload.responseJSON { request, response, json, error in
+                        if (error != nil) {
+                            UIAlertView.SimpleShow("Warning", message: "Gagal")
+                        } else {
+                            let j = JSON(json!)
+                            println(j)
+                            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+                            self.navigationController?.pushViewController(s, animated: true)
+//                            self.performSegueWithIdentifier("segShare", sender: nil)
+                        }
+                    }
+                case .Failure(let encodingError):
+//                    self.performSegueWithIdentifier("segShare", sender: nil)
+                    let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+                    self.navigationController?.pushViewController(s, animated: true)
+                }
+        })
+    }
+    
+    @IBAction func sendConfirm()
+    {
+        self.confirm()
     }
     
     var images : [APImage] = []
@@ -301,7 +453,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         if (s == 0) {
             if (r == 0) {
                 let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_category")
-                c = b
+                let a = b as! ProductCategoryCell
+                a.categoryDelegate = self
+                c = a
             } else if (r == 1 || r == 2) {
                 let b = createExpandableCell(tableView, indexPath: indexPath)
                 c = b
@@ -451,7 +605,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
+    var name : String?
+    var desc : String?
     func tableView(tableView: UITableView!, updatedText text: String!, atIndexPath indexPath: NSIndexPath!) {
+        if (indexPath.section == 0 && indexPath.section == 1)
+        {
+            name = text
+        } else if (indexPath.section == 0 && indexPath.section == 2)
+        {
+            desc = text
+        }
         baseDatas[indexPath]?.value = text
     }
     
@@ -465,7 +628,14 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        let i = tableView.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
+        var parent : UIView?
+        if (((textField.superview?.superview!)?.isKindOfClass(UITableViewCell.classForCoder()))! == true)
+        {
+            parent = textField.superview?.superview!
+        } else {
+            parent = textField.superview?.superview?.superview!
+        }
+        let i = tableView.indexPathForCell(parent as! UITableViewCell)
         var s = (i?.section)!
         var r = (i?.row)!
         
@@ -497,6 +667,10 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.view.endEditing(true)
     }
     
+    func categorySelected(id: String) {
+        selectedCategoryID = id
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -509,9 +683,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
 
 }
 
+protocol ProductCategoryDelegate
+{
+    func categorySelected(id : String)
+}
+
 class ProductCategoryCell : CartCellInput2
 {
     @IBOutlet var ivImage : UIImageView!
+    
+    var categoryDelegate : ProductCategoryDelegate?
     
     override func adapt(item: BaseCartData?) {
         super.adapt(item)
@@ -527,6 +708,11 @@ class ProductCategoryCell : CartCellInput2
             if let name = children["name"].string
             {
                 self.captionValue?.text = name
+            }
+            
+            if let d = self.categoryDelegate, let id = children["_id"].string
+            {
+                d.categorySelected(id)
             }
         }
         self.parent?.navigationController?.pushViewController(c, animated: true)

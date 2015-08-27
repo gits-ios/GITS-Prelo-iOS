@@ -52,7 +52,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Cart"
+        self.title = "Checkout"
         
         products = CartProduct.getAll(User.EmailOrEmptyString)
         
@@ -301,6 +301,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             return 4
         } else if (section == 0) {
             return arrayItem.count+1
+        } else if (section == 1) {
+            return 2
         } else {
             return 3
         }
@@ -468,7 +470,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func tableView(tableView: UITableView!, updatedText text: String!, atIndexPath indexPath: NSIndexPath!) {
         // crash
-        cells[indexPath]?.value = text
+        if let i = indexPath
+        {
+            cells[i]?.value = text
+        }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -526,12 +531,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let b = sender.view as! BorderedView
         b.cartSelectAsPayment(true)
-//        let v = sender.view!
-//        let i = v.tag
-//        let x = (UIScreen.mainScreen().bounds.size.width-32) * -CGFloat(i)
-//        consOffsetPaymentDesc?.constant = x
+        let v = sender.view!
+        let i = v.tag
+        let x = (UIScreen.mainScreen().bounds.size.width-32) * -CGFloat(i)
+        consOffsetPaymentDesc?.constant = x
         
-//        selectedPayment = availablePayments[b.tag]
+        selectedPayment = availablePayments[b.tag]
     }
 
     func itemNeedDelete(indexPath: NSIndexPath) {

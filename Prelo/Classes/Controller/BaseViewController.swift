@@ -159,22 +159,27 @@ class BaseViewController: UIViewController {
     
     func setupTitle()
     {
-        let l = UILabel(frame: CGRectZero)
-        l.text = "Prelo"
-        l.textColor = UIColor.whiteColor()
-        l.sizeToFit()
+//        let l = UILabel(frame: CGRectZero)
+//        l.text = "Prelo"
+//        l.textColor = UIColor.whiteColor()
+//        l.sizeToFit()
+//        
+//        let iv = UIImageView(image: UIImage(named: "ic_logo_white"))
+//        iv.frame = CGRectMake(0, 0, l.height+4, l.height+4)
+//        
+//        l.x = l.height + 4 + 8
+//        l.y = ((l.height+4)-l.height)/2
+//        
+//        let v = UIView(frame: CGRectMake(0, 0, l.x+l.width, l.height+4))
+//        v.addSubview(iv)
+//        v.addSubview(l)
+        let i = TintedImageView(frame: CGRectMake(0, 0, 50, 47), backgroundColor: UIColor.clearColor())
+        i.image = UIImage(named : "ic_prelo_logo_text")
+        i.tintColor = UIColor.whiteColor()
+        i.contentMode = UIViewContentMode.ScaleAspectFit
+        i.tint = true
         
-        let iv = UIImageView(image: UIImage(named: "ic_logo_white"))
-        iv.frame = CGRectMake(0, 0, l.height+4, l.height+4)
-        
-        l.x = l.height + 4 + 8
-        l.y = ((l.height+4)-l.height)/2
-        
-        let v = UIView(frame: CGRectMake(0, 0, l.x+l.width, l.height+4))
-        v.addSubview(iv)
-        v.addSubview(l)
-        
-        self.navigationItem.leftBarButtonItem = v.toBarButton()
+        self.navigationItem.leftBarButtonItem = i.toBarButton()
     }
     
     func createButtonWithIcon(appFont : AppFont, icon : String) ->UIButton

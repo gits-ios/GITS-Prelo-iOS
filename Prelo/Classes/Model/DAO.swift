@@ -200,10 +200,16 @@ public class Product : NSObject
     {
         if let err = json["display_picts"][0].error
         {
-            return NSURL()
+            return NSURL(string: "http://images.kleora.com/images/products/")
         }
         let base = "http://images.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
-        return NSURL(string: base)
+        if let url = NSURL(string : base)
+        {
+            return url
+        } else {
+            return NSURL(string: "http://images.kleora.com/images/products/")
+        }
+//        return NSURL(string: base)
     }
     
     var discussionCountText : String

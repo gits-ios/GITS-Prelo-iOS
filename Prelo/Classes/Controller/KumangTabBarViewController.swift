@@ -151,6 +151,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func userLoggedIn() {
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
+        d.previousController = self
         changeToController(d)
         controllerDashboard = d
     }

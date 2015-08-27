@@ -167,7 +167,10 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         var r : [APImage] = [apImage]
         self.doneBlock!(r)
         
-        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
+        picker.dismissViewControllerAnimated(true, completion: {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+//        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

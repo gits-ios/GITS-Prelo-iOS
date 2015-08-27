@@ -32,13 +32,15 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     var first = true
     
+    var shouldSkipBack = true
+    
     override func viewDidAppear(animated: Bool) {
-        if first
+        if first && shouldSkipBack
         {
             first = false
             super.viewDidAppear(animated)
             var m = self.navigationController?.viewControllers
-            m?.removeAtIndex((m?.count)!-2)
+            m?.removeAtIndex((m?.count)!-3)
             self.navigationController?.viewControllers = m!
         }
     }
