@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
@@ -136,6 +137,25 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         Constant.showDialog("Warning", message: message!)
                     } else { // Berhasil
                         println("Register succeed")
+                        
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+                        c.id = data["_id"].string!
+                        c.email = data["email"].string!
+                        c.fullname = data["fullname"].string!
+                        
+                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                        let pr = data["profiles"]
+                        p.pict = pr["pict"].string!
+                        
+                        c.profiles = p
+                        UIApplication.appDelegate.saveContext()
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        if (self.userRelatedDelegate != nil) {
+                            self.userRelatedDelegate?.userLoggedIn!()
+                        }
+                        
                         self.toUserProfile()
                     }
                 }
