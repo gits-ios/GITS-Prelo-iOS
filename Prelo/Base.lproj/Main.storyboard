@@ -768,6 +768,9 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="editProfilePressed:" destination="33S-9l-LM1" eventType="touchUpInside" id="u4G-Am-DLd"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -3092,8 +3095,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                 </state>
                                                 <state key="disabled" title="LOADING"/>
                                                 <connections>
-                                                    <action selector="confirm" destination="0qH-Ls-LM7" eventType="touchUpInside" id="LTo-0j-4UY"/>
-                                                    <segue destination="rCb-1m-HW7" kind="show" id="I8b-T8-wNi"/>
+                                                    <action selector="shareDone" destination="Bil-tW-9db" eventType="touchUpInside" id="DoU-bz-zbS"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5a-gR-8R3">

@@ -22,6 +22,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
     
+    var refresher : UIRefreshControl?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,9 +31,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.titleText = standaloneCategoryName
         }
         
-        let r = UIRefreshControl()
-        r.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.gridView.addSubview(r)
+        refresher = UIRefreshControl()
+        refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.gridView.addSubview(refresher!)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -85,6 +86,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                         }
                     }
                 }
+                self.refresher?.endRefreshing()
                 self.setupGrid()
         }
     }
