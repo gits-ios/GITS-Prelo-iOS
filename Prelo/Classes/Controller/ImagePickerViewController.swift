@@ -41,6 +41,11 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
     }
     
+    override func dismiss() {
+        self.doneBlock!([])
+        super.dismiss()
+    }
+    
     override func confirm() {
         var r : [APImage] = []
         for i in selecteds

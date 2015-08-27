@@ -26,23 +26,21 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
-        tabSwipe?.colorIndicator = Theme.DarkPurple
+        tabSwipe?.colorIndicator = Theme.PrimaryColorDark
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
-//        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "cikah", userInfo: nil, repeats: false)
-//        tabSwipe?.view.hidden = true
     }
     
-//    func cikah()
-//    {
-//        tabSwipe?.view.hidden = false
-//        tabSwipe?.currentTabIndex = 1
-//    }
+    var first = true
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        var m = self.navigationController?.viewControllers
-        m?.removeAtIndex((m?.count)!-2)
-        self.navigationController?.viewControllers = m!
+        if first
+        {
+            first = false
+            super.viewDidAppear(animated)
+            var m = self.navigationController?.viewControllers
+            m?.removeAtIndex((m?.count)!-2)
+            self.navigationController?.viewControllers = m!
+        }
     }
 
     override func didReceiveMemoryWarning() {

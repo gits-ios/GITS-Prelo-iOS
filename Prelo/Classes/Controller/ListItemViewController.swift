@@ -182,8 +182,6 @@ class ListItemCell : UICollectionViewCell
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.layer.borderWidth = 1
         
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
@@ -193,7 +191,7 @@ class ListItemCell : UICollectionViewCell
     {
         let obj = product.json
         captionTitle.text = product.name
-        captionPrice.text = "Rp. " + String(obj["price"].int!)
+        captionPrice.text = product.price
         let loveCount = obj["love"].int
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int

@@ -60,6 +60,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         changeToController(controllerBrowse!)
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard?.previousController = self
         controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
         controllerDashboard2?.previousController = self
     }
@@ -155,9 +156,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedOut() {
-        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
-        changeToController(controllerDashboard2!)
-        controllerDashboard = d
+//        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
+        changeToController(controllerBrowse!)
+//        controllerDashboard = d
+    }
+    
+    func userCancelLogin() {
+        
     }
     
     func menuSelected(option: MenuOption) {

@@ -55,4 +55,34 @@ class APImage
     var image : UIImage?
     var usingAssets : Bool = false
     var asset : ALAsset?
+    
+    var assetLib : ALAssetsLibrary?
+    func getImage(doneBlock : (UIImage?)->())
+    {
+        if let i = self.image
+        {
+            doneBlock(i)
+        } else if (usingAssets)
+        {
+            if (assetLib == nil)
+            {
+                assetLib = ALAssetsLibrary()
+            }
+            
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                assetLib?.assetForURL(self.url!, resultBlock: { asset in
+                    if let ast = asset {
+                        let rep = ast.defaultRepresentation()
+                        let ref = rep.fullScreenImage().takeUnretainedValue()
+                        let i = UIImage(CGImage: ref)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            doneBlock(i)
+                        })
+                    }
+                    }, failureBlock: { error in
+                        doneBlock(nil)
+                })
+            })
+        }
+    }
 }

@@ -15,11 +15,12 @@ class Dashboard2ViewController : BaseViewController {
     }
     
     @IBAction func loginButtonTapped(sender : AnyObject) {
-        let loginVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
-        loginVC.userRelatedDelegate = self.previousController as? UserRelatedDelegate
-        let n = BaseNavigationController(rootViewController : loginVC)
-        n.setNavigationBarHidden(true, animated: false)
-        self.previousController?.presentViewController(n, animated: true, completion: nil)
+//        let loginVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
+//        loginVC.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+//        let n = BaseNavigationController(rootViewController : loginVC)
+//        n.setNavigationBarHidden(true, animated: false)
+//        self.previousController?.presentViewController(n, animated: true, completion: nil)
+        LoginViewController.Show(self.previousController!, userRelatedDelegate: self.previousController as? UserRelatedDelegate, animated: true)
     }
     
     @IBAction func contactButtonTapped(sender : AnyObject) {

@@ -80,6 +80,12 @@ public class User : NSObject
     
     static func Logout()
     {
+        if let u = CDUser.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext?.deleteObject(u)
+            UIApplication.appDelegate.saveContext()
+        }
+        
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
         NSUserDefaults.standardUserDefaults().synchronize()
@@ -176,7 +182,7 @@ public class Product : NSObject
     
     var name : String
     {
-            return (json["name"].string)!.escapedHTML
+        return (json["name"].string)!.escapedHTML
     }
     
     static func instance(obj:JSON?)->Product?
@@ -194,7 +200,7 @@ public class Product : NSObject
     {
         if let err = json["display_picts"][0].error
         {
-            return nil
+            return NSURL()
         }
         let base = "http://images.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
         return NSURL(string: base)
@@ -202,6 +208,11 @@ public class Product : NSObject
     
     var discussionCountText : String
         {
+            if let d = json["discussions"].int
+            {
+                return String(d)
+            }
+            
             let a = json["discussions"].array
             if (a?.count == 0) {
                 return "0"
@@ -210,6 +221,15 @@ public class Product : NSObject
                 let d = f?["discussions"].array
                 return String((d?.count)!)
             }
+    }
+    
+    var loveCountText : String
+    {
+            if let l = json["love"].int
+            {
+                return String(l)
+            }
+        return ""
     }
     
     var discussions : [JSON]?
@@ -222,6 +242,25 @@ public class Product : NSObject
                 let d = f?["discussions"].array
                 return d
             }
+    }
+    
+    var price : String
+    {
+        if let p = json["price"].int
+        {
+            return p.asPrice
+        }
+        
+        return ""
+    }
+    
+    var time : String
+    {
+        if let t = json["time"].string
+        {
+            return t
+        }
+        return ""
     }
 }
 

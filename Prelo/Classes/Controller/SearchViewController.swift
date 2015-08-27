@@ -17,7 +17,7 @@ class SearchViewController: BaseViewController {
         super.viewDidLoad()
 
         let t = UITextField(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-52, 30))
-        t.textColor = Theme.DarkPurple
+        t.textColor = Theme.PrimaryColorDark
         t.borderStyle = UITextBorderStyle.None
         t.placeholder = "Cari"
         
@@ -27,7 +27,7 @@ class SearchViewController: BaseViewController {
         
         // Do any additional setup after loading the view.
         UIView.animateWithDuration(0.2, animations: {
-            self.navigationController?.navigationBar.tintColor = Theme.DarkPurple
+            self.navigationController?.navigationBar.tintColor = Theme.PrimaryColorDark
             self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         })
     }
@@ -42,7 +42,7 @@ class SearchViewController: BaseViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBar.tintColor = Theme.DarkPurple
+        self.navigationController?.navigationBar.tintColor = Theme.PrimaryColorDark
         self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         
         txtSearch.becomeFirstResponder()
@@ -51,7 +51,7 @@ class SearchViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         UIView.animateWithDuration(0.2, animations: {
             self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-            self.navigationController?.navigationBar.barTintColor = Theme.DarkPurple
+            self.navigationController?.navigationBar.barTintColor = Theme.PrimaryColorDark
         })
     }
     

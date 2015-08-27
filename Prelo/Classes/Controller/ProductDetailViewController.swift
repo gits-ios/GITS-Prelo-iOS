@@ -29,6 +29,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var captionBeli: UILabel!
     @IBOutlet var captionPrice: UILabel!
     
+    @IBOutlet var captionFreeOngkir: UILabel!
+    
     @IBOutlet var ivChat: UIImageView!
     
     var cellTitle : ProductCellTitle?
@@ -85,11 +87,26 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
-        captionPrice.text = "Rp. " + String((detail?.json["_data"]["price"].int)!)
+//        captionPrice.text = "Rp. " + String((!)
+        if let price = detail?.json["_data"]["price"].int?.asPrice
+        {
+            captionPrice.text = price
+        } else {
+            captionPrice.text = Int(0).asPrice
+        }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
             captionBeli.text = "Cart"
             alreadyInCart = true
+        }
+        
+        let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
+        if (freeOngkir)
+        {
+            captionFreeOngkir.text = "FREE ONGKIR"
+        } else
+        {
+            captionFreeOngkir.text = "+ ONGKIR"
         }
     }
 
@@ -266,8 +283,21 @@ class ProductCellTitle : UITableViewCell
         var product = (obj?.json)!["_data"]
         
         captionTitle?.text = obj?.name
-        captionOldPrice?.text = "Rp. " + String(product["price_original"].int!)
-        captionPrice?.text = "Rp. " + String(product["price"].int!)
+        if let oldPrice = product["price_original"].int?.asPrice
+        {
+            captionOldPrice?.text = oldPrice
+        } else
+        {
+            captionOldPrice?.text = ""
+        }
+        
+        if let price = product["price"].int?.asPrice
+        {
+            captionPrice?.text = price
+        } else
+        {
+            captionPrice?.text = ""
+        }
         
         captionCountLove?.text = String(product["n_loves"].int!)
         captionCountComment?.text = obj?.discussionCountText
@@ -352,7 +382,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let cs = categoryString.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-101)
         
-        return 154+size.height+s.height+cs.height+8
+        return 163+size.height+s.height+cs.height+8
     }
     
     func adapt(obj : ProductDetail?)
@@ -384,7 +414,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                     ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
-                    NSForegroundColorAttributeName : Theme.DarkPurple
+                    NSForegroundColorAttributeName : Theme.PrimaryColorDark
                 ]
                 param.append(p)
                 

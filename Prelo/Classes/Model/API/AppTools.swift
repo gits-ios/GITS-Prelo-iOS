@@ -25,27 +25,47 @@ extension UIAlertView
     }
 }
 
+extension Int
+{
+    var string:String
+        {
+        return String(self)
+    }
+    
+    var asPrice : String
+    {
+        let f = NSNumberFormatter()
+        f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        f.locale = NSLocale(localeIdentifier: "id_ID")
+        return f.stringFromNumber(NSNumber(integer: self))!
+    }
+}
+
 class AppTools: NSObject {
    
 }
 
 class Theme : NSObject
 {
-    static var navBarColor : UIColor {
-        return UIColor(hex: "#00A79D")
-    }
+    static var PrimaryColor = UIColor(hex: "#00A79D")
+    static var PrimaryColorDark = UIColor(hex: "#00747C")
+    static var PrimaryColorLight = UIColor(hex: "#8CD7AE")
     
-    static var DarkPurple : UIColor {
-        return UIColor(hex: "#00A79D")
-    }
+    static var ThemePurple = UIColor(hex: "#62115F")
+    static var ThemePurpleDark = UIColor(hex: "#00A79D")
     
-    static var TabSelectedColor : UIColor {
-        return UIColor(hex: "#858585")
-    }
+    static var ThemeOrage = UIColor(hex: "#F88218")
     
-    static var TabNormalColor : UIColor {
-        return UIColor(hex: "#b7b7b7")
-    }
+    static var ThemePink = UIColor(hex: "#F1E3F2")
+    static var ThemePinkDark = UIColor(hex: "#CB8FCC")
+    
+    static var navBarColor = UIColor(hex: "#00A79D")
+    
+    static var TabSelectedColor = UIColor(hex: "#858585")
+    static var TabNormalColor = UIColor(hex: "#b7b7b7")
+    
+    static var GrayDark = UIColor(hex: "#858585")
+    static var GrayLight = UIColor(hex: "#b7b7b7")
 }
 
 class Tags : NSObject
@@ -64,6 +84,9 @@ class Tags : NSObject
     static let StoryBoardIdNavigation = "nav"
     static let StoryBoardIdOrderConfirm = "orderConfirm"
     static let StoryBoardIdMyProductSell = "MyProductSell"
+    static let StoryBoardIdCategoryPicker = "CategoryPicker"
+    static let StoryBoardIdCategoryChildrenPicker = "CategoryChildrenPicker"
+    static let StoryBoardIdAbout = "About"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

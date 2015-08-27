@@ -44,6 +44,7 @@ enum AppFont
 {
     optional func userLoggedIn()
     optional func userLoggedOut()
+    optional func userCancelLogin()
 }
 
 class BaseViewController: UIViewController {

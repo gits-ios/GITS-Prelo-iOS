@@ -20,6 +20,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     var navController : UINavigationController?
     
+    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool)
+    {
+        let l = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
+        l.userRelatedDelegate = userRelatedDelegate
+        
+        let n = BaseNavigationController(rootViewController : l)
+        n.setNavigationBarHidden(true, animated: false)
+        
+        parent.presentViewController(n, animated: animated, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -166,6 +177,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func dismissLogin()
     {
+        if (self.userRelatedDelegate != nil)
+        {
+            self.userRelatedDelegate?.userCancelLogin!()
+        }
         self.dismiss()
     }
     

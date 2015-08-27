@@ -70,7 +70,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
-        tabSwipe?.colorIndicator = Theme.DarkPurple
+        tabSwipe?.colorIndicator = Theme.PrimaryColorDark
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "cikah", userInfo: nil, repeats: false)
         tabSwipe?.view.hidden = true

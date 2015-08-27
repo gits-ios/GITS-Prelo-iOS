@@ -16,7 +16,7 @@ class BaseNavigationController: UINavigationController {
         // Do any additional setup after loading the view.
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        UINavigationBar.appearance().barTintColor = Theme.DarkPurple
+        UINavigationBar.appearance().barTintColor = Theme.PrimaryColor
     }
 
     override func didReceiveMemoryWarning() {

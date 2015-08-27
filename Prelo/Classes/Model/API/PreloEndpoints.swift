@@ -106,6 +106,7 @@ enum APIUser : URLRequestConvertible
     case Logout
     case Me
     case OrderList(status : String)
+    case MyProductSell
     
     var method : Method
     {
@@ -116,6 +117,7 @@ enum APIUser : URLRequestConvertible
         case .Logout:return .POST
         case .Me:return .GET
         case .OrderList(_):return .GET
+        case .MyProductSell:return .GET
         }
     }
     
@@ -128,6 +130,7 @@ enum APIUser : URLRequestConvertible
         case .Logout:return "logout"
         case .Me : return ""
         case .OrderList(_):return "buy_list"
+        case .MyProductSell:return "products"
         }
     }
     
@@ -152,6 +155,7 @@ enum APIUser : URLRequestConvertible
             return [
                 "status":status
             ]
+        case .MyProductSell:return [:]
         }
     }
     

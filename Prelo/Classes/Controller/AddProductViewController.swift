@@ -9,7 +9,8 @@
 import UIKit
 import QuartzCore
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate {
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate
+{
 
     @IBOutlet var tableView : UITableView!
     @IBOutlet var gridView : UICollectionView?
@@ -23,9 +24,12 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     var cells : [NSIndexPath:UITableViewCell] = [:]
     var heights : [NSIndexPath:CGFloat] = [:]
     
+    var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Digantung", "image":"ic_hanger"], ["title":"Cacat (Jila ada)", "image":"ic_cacat"]]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Add Product"
         // Do any additional setup after loading the view.
         
         sectionHeader?.width = UIScreen.mainScreen().bounds.width
@@ -41,7 +45,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         sectionTitles.append(["title":"Ongkos Kirim", "icon":""])
         sectionTitles.append(["title":"Berat", "icon":""])
         sectionTitles.append(["title":"Harga", "icon":""])
-        sectionTitles.append(["title":"Share", "icon":""])
+//        sectionTitles.append(["title":"Share", "icon":""])
         
         baseDatas[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instanceWith(UIImage(named: "raisa.jpg")!, placeHolder: "", pickerPrepBlock : {picker in
             
@@ -69,7 +73,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             picker.doneLoading()
             
         })
-        baseDatas[NSIndexPath(forRow: 1, inSection: 1)] = BaseCartData.instance("Ukuran", placeHolder: "Masukan Ukuran")
+//        baseDatas[NSIndexPath(forRow: 1, inSection: 1)] = BaseCartData.instance("Ukuran", placeHolder: "Masukan Ukuran")
         baseDatas[NSIndexPath(forRow: 1, inSection: 3)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
         baseDatas[NSIndexPath(forRow: 0, inSection: 4)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
         baseDatas[NSIndexPath(forRow: 1, inSection: 4)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
@@ -97,6 +101,17 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }, completion: nil)
     }
     
+    var first = true
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (first) // show picker!!
+        {
+//            first = false
+            self.addImage()
+        }
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
@@ -108,7 +123,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     override func confirm() {
-        self.performSegueWithIdentifier("segProducts", sender: nil)
+        self.performSegueWithIdentifier("segShare", sender: nil)
     }
     
     var images : [APImage] = []
@@ -116,6 +131,17 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     var replaceIndex : Int = -1
     func addImage() {
         ImagePickerViewController.ShowFrom(self, maxSelect: (replaceIndex != -1) ? 1 : 5-self.images.count, doneBlock: {imgs in
+            
+            if (self.first)
+            {
+                if (imgs.count == 0)
+                {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+                
+                self.first = false
+            }
+            
             if (self.replaceIndex != -1)
             {
                 self.images[self.replaceIndex] = imgs[0]
@@ -132,8 +158,62 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func addImage(info: [String : AnyObject]) {
-        replaceIndex = info["replaceIndex"] as! Int
-        self.addImage()
+        let indexPath = info["replaceIndex"] as! NSIndexPath
+        replaceIndex = indexPath.item + (indexPath.section == 0 ? indexPath.section : (gridView?.numberOfItemsInSection(indexPath.section-1))!)
+        
+        let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+        a.addButtonWithTitle("Edit")
+        a.addButtonWithTitle("Replace")
+        
+        if (replaceIndex != 0)
+        {
+            a.addButtonWithTitle("Delete")
+        }
+        
+//        self.addImage()
+        a.showInView(self.view)
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        println("index \(buttonIndex)")
+        if (buttonIndex == 0)
+        {
+            replaceIndex = -1
+        } else if (buttonIndex == 1) // edit
+        {
+            let ap = images[replaceIndex]
+            ap.getImage({image in
+                if let i = image
+                {
+                    let u = AdobeUXImageEditorViewController(image: i)
+                    u.delegate = self
+                    self.presentViewController(u, animated: true, completion: nil)
+                }
+            })
+        } else if (buttonIndex == 2) // replace
+        {
+            self.addImage()
+        } else if (buttonIndex == 3) // delete
+        {
+            self.images.removeAtIndex(replaceIndex)
+            replaceIndex = -1
+            self.gridView?.reloadData()
+        }
+    }
+    
+    func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
+        
+        let ap = images[replaceIndex]
+        ap.image = image
+        ap.assetLib = nil
+        
+        self.gridView?.reloadData()
+        
+        editor.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
+        editor.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -161,6 +241,20 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             c.apImage = nil
         }
         
+        c.indexPath = indexPath
+        
+        if (indexPath.section == 1) {
+            let hint = imageHints[indexPath.item]
+            
+            c.captionHint.text = hint["title"]
+            c.ivHint.image = UIImage(named: hint["image"]!)!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            c.captionHint.hidden = false
+            c.ivHint.hidden = false
+        } else {
+            c.captionHint.hidden = true
+            c.ivHint.hidden = true
+        }
+        
         return c
     }
     
@@ -183,7 +277,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         if (section == 0) {
             return 5
         } else if (section == 1) {
-            return 2
+            return 1
         } else if (section == 2) {
             return 1
         } else if (section == 3) {
@@ -255,7 +349,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             acee?.expandableTableView = tableView
             
             acee?.textView.font = UIFont.systemFontOfSize(16)
-            acee?.textView.textColor = UIColor.darkGrayColor()
+            acee?.textView.textColor = Theme.GrayDark
         }
         
         if (acee?.lastIndex != nil) {
@@ -266,7 +360,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         acee?.lastIndex = indexPath
         
         if (indexPath.row == 1) { // Nama Barang, Bold
-            acee?.textView.font = UIFont.boldSystemFontOfSize(17)
+            acee?.textView.font = UIFont.boldSystemFontOfSize(14)
         } else {
             acee?.textView.font = UIFont.systemFontOfSize(14)
         }
@@ -425,7 +519,18 @@ class ProductCategoryCell : CartCellInput2
     }
     
     override func becomeFirstResponder() -> Bool {
-        println("woooo hooooo")
+        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+        c.blockDone = { data in
+            let parent = JSON(data["parent"]!)
+            let children = JSON(data["child"]!)
+            
+            if let name = children["name"].string
+            {
+                self.captionValue?.text = name
+            }
+        }
+        self.parent?.navigationController?.pushViewController(c, animated: true)
+        
         return true
     }
 }
@@ -506,13 +611,13 @@ class AddProductShippingPaymentCell : UITableViewCell
     {
         for b in sectionShippingPayments
         {
-            b.borderColor = UIColor.darkGrayColor()
+            b.borderColor = Theme.GrayLight
             for l in b.subviews
             {
                 if (l.isKindOfClass(UILabel.classForCoder()))
                 {
                     let x = l as! UILabel
-                    x.textColor = UIColor.darkGrayColor()
+                    x.textColor = Theme.GrayLight
                 }
             }
         }
@@ -523,10 +628,10 @@ class AddProductShippingPaymentCell : UITableViewCell
             if (l.isKindOfClass(UILabel.classForCoder()))
             {
                 let x = l as! UILabel
-                x.textColor = Theme.DarkPurple
+                x.textColor = Theme.PrimaryColorDark
             }
         }
-        c.borderColor = Theme.DarkPurple
+        c.borderColor = Theme.PrimaryColorDark
     }
 }
 
@@ -585,7 +690,10 @@ class AddProductImageCell : UICollectionViewCell
     var tapImg : UITapGestureRecognizer?
     
     var delegate : AddProductImageCellDelegate?
-    var index = 0
+    var indexPath = NSIndexPath(forRow: 0, inSection: 0)
+    
+    @IBOutlet var ivHint : TintedImageView!
+    @IBOutlet var captionHint : UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -602,7 +710,7 @@ class AddProductImageCell : UICollectionViewCell
         if (delegate != nil) {
             if (ivCover.image != nil)
             {
-                delegate?.addImage(["replaceIndex":self.index])
+                delegate?.addImage(["replaceIndex":self.indexPath])
             } else
             {
                 delegate?.addImage()
@@ -624,7 +732,10 @@ class AddProductImageCell : UICollectionViewCell
             {
                 ivCover.image = ImageSourceCell.defaultImage
                 
-                if ((_apImage?.usingAssets)! == true) {
+                if let i = _apImage?.image
+                {
+                    ivCover.image = i
+                } else if ((_apImage?.usingAssets)! == true) {
                     
                     if (asset == nil) {
                         asset = ALAssetsLibrary()
@@ -644,9 +755,6 @@ class AddProductImageCell : UICollectionViewCell
                                 
                         })
                     })
-                } else if let i = _apImage?.image
-                {
-                    ivCover.image = i
                 } else {
                     ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
                 }
@@ -695,8 +803,8 @@ class AddProductShareButton : UIButton
 {
     var active : Bool = false
     
-    @IBInspectable var normalColor : UIColor = Theme.DarkPurple
-    @IBInspectable var selectedColor : UIColor = Theme.DarkPurple
+    @IBInspectable var normalColor : UIColor = Theme.PrimaryColorDark
+    @IBInspectable var selectedColor : UIColor = Theme.PrimaryColorDark
 }
 
 class AddProductCellWeight : UITableViewCell
@@ -707,11 +815,11 @@ class AddProductCellWeight : UITableViewCell
     {
         for b in sectionWeights
         {
-            b.changeBorderColor(UIColor.darkGrayColor())
+            b.changeBorderColor(Theme.GrayLight)
         }
         
         let b = sender.superview as! BorderedView
-        b.changeBorderColor(Theme.DarkPurple)
+        b.changeBorderColor(Theme.PrimaryColorDark)
     }
 }
 

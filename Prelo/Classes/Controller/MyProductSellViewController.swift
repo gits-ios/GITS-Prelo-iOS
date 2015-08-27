@@ -11,11 +11,33 @@ import UIKit
 class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView : UITableView!
+    var products : Array<Product> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        request(APIUser.MyProductSell)
+            .responseJSON{ _, _, res, err in
+                if let error = err
+                {
+                    
+                } else if let result: AnyObject = res
+                {
+                    let j = JSON(result)
+                    let d = j["_data"].arrayObject
+                    if let data = d
+                    {
+                        for json in data
+                        {
+                            self.products.append(Product.instance(JSON(json))!)
+                            self.tableView.tableFooterView = UIView()
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+        }
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -27,20 +49,43 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return products.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let m = tableView.dequeueReusableCellWithIdentifier("cell") as! MyProductCell
+        let p = products[indexPath.row]
+        m.captionName.text = p.name
+        m.captionPrice.text = p.price
+        m.captionTotalComment.text = p.discussionCountText
+        m.captionTotalLove.text = p.loveCountText
+        m.captionDate.text = p.time
+        
+        if let isActive = p.json["is_active"].bool
+        {
+            m.captionStatus.text = isActive ? "AKTIF" : "TIDAK AKTIF"
+        }
+        
+        m.ivCover.setImageWithUrl(p.coverImageURL!, placeHolderImage: nil)
+        
         return m
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.previousController?.navigationController?.popViewControllerAnimated(true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 80
+    }
+    
+    var selectedProduct : Product?
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        selectedProduct = products[indexPath.row]
+        
+        var d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        d.product = selectedProduct!
+        
+        self.previousController?.navigationController?.pushViewController(d, animated: true)
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
 
