@@ -29,6 +29,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             self.titleText = standaloneCategoryName
         }
+        
+        let r = UIRefreshControl()
+        r.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.gridView.addSubview(r)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -51,6 +55,38 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         println("viewWillDisappear x")
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+    }
+    
+    func refresh()
+    {
+        requesting = true
+        
+        var catId : String?
+        
+        if (standalone) {
+            catId = standaloneCategoryID
+        } else {
+            catId = category!["permalink"].string
+        }
+        
+        request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
+            .responseJSON{ req, _, res, err in
+                self.requesting = false
+                if (err != nil) {
+                    println(err)
+                } else {
+                    self.products = []
+                    var obj = JSON(res!)
+                    for (index : String, item : JSON) in obj["_data"]
+                    {
+                        let p = Product.instance(item)
+                        if (p != nil) {
+                            self.products?.append(p!)
+                        }
+                    }
+                }
+                self.setupGrid()
+        }
     }
     
     func statusBarTapped()
