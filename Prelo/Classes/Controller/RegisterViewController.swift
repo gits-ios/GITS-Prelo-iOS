@@ -12,6 +12,7 @@ import CoreData
 class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var scrollView : UIScrollView?
+    @IBOutlet var txtUsername: UITextField!
     @IBOutlet var txtEmail : UITextField?
     @IBOutlet var txtPassword : UITextField?
     @IBOutlet var txtRepeatPassword : UITextField?
@@ -71,6 +72,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     func fieldsVerified() -> Bool {
+        if (txtUsername?.text == "") {
+            var placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            txtUsername?.attributedPlaceholder = placeholder
+            return false
+        }
         if (txtEmail?.text == "") {
             var placeholder = NSAttributedString(string: "Email harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.attributedPlaceholder = placeholder

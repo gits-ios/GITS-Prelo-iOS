@@ -44,7 +44,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
                     println(err)
                 } else {
                     println(JSON)
-                    NSUserDefaults.standardUserDefaults().setObject(JSON, forKey: "pre_categories")
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     self.setupCategory()
                 }
@@ -53,7 +53,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     func setupCategory()
     {
-        categories = JSON(NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")!)
+        let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
+        categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
         if let arr = categories!["_data"][0]["children"].arrayObject // punya children
         {

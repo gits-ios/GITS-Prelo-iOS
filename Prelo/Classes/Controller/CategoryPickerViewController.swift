@@ -22,8 +22,8 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        let cache = JSON(NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")!)
+        let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
+        let cache = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         if let children = cache["_data"][0]["children"].arrayObject
         {
             for o in children
