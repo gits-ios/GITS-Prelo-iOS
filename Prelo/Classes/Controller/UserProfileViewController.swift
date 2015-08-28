@@ -54,7 +54,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         
         // Pengaturan tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PreloAwesome", size: 14)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton;
         
         // Border untuk tombol login social media
