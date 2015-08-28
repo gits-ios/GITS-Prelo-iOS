@@ -1504,6 +1504,7 @@
                                             <state key="normal" title="Submit" backgroundImage="basic_green.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <state key="disabled" title="Loading.."/>
                                             <connections>
                                                 <action selector="sendConfirm" destination="Zly-Bf-dDp" eventType="touchUpInside" id="i75-cq-3N8"/>
                                             </connections>
@@ -2635,6 +2636,7 @@ yang kamu gunakan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="enn-in-FLe"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnSend" destination="yw8-WS-6Q6" id="eny-3T-EgR"/>
                         <outlet property="gridView" destination="dGO-0v-nbX" id="Va4-rV-x7H"/>
                         <outlet property="sectionHeader" destination="gfh-or-zRJ" id="rHM-B8-bJ2"/>
                         <outlet property="tableView" destination="oLV-dh-iXT" id="EEN-t1-IGV"/>

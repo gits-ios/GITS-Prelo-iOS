@@ -117,7 +117,7 @@ public class ProductDetail : NSObject
     private func urlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://images.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
         
     }
     
@@ -145,7 +145,7 @@ public class ProductDetail : NSObject
     
     var shopAvatarURL : NSURL?
     {
-        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
+        let base = "http://dev.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
         return NSURL(string: base)
     }
     
@@ -207,14 +207,14 @@ public class Product : NSObject
     {
         if let err = json["display_picts"][0].error
         {
-            return NSURL(string: "http://images.kleora.com/images/products/")
+            return NSURL(string: "http://dev.kleora.com/images/products/")
         }
-        let base = "http://images.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
+        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
         if let url = NSURL(string : base)
         {
             return url
         } else {
-            return NSURL(string: "http://images.kleora.com/images/products/")
+            return NSURL(string: "http://dev.kleora.com/images/products/")
         }
 //        return NSURL(string: base)
     }
@@ -330,7 +330,7 @@ class UserOrder : NSObject {
         {
             return nil
         }
-        let url = "http://images.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
+        let url = "http://dev.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
         return NSURL(string: url)
     }
     

@@ -58,8 +58,22 @@ class AddProductShareViewController: BaseViewController {
             arrayRows.append(arrayRow4)
         }
         
-        captionPrice.text = basePrice.asPrice
         adaptCharge()
+    }
+    
+    var first = true
+    
+    var shouldSkipBack = true
+    
+    override func viewDidAppear(animated: Bool) {
+        if first && shouldSkipBack
+        {
+            first = false
+            super.viewDidAppear(animated)
+            var m = self.navigationController?.viewControllers
+            m?.removeAtIndex((m?.count)!-2)
+            self.navigationController?.viewControllers = m!
+        }
     }
     
     func adaptCharge()
@@ -67,6 +81,7 @@ class AddProductShareViewController: BaseViewController {
         captionChargePercent.text = Double(100 - chargePercent).roundString + " %"
         let charge = Double(basePrice) * chargePercent / 100
         captionCharge.text = "Charge Prelo " + Int(charge).asPrice + " (" + chargePercent.roundString + " %)"
+        captionPrice.text = (basePrice - Int(charge)).asPrice
     }
 
     override func didReceiveMemoryWarning() {

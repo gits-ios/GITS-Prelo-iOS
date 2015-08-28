@@ -103,6 +103,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         let obj : [String : String] = json as! [String : String]
                         let message = obj["_message"]
                         Constant.showDialog("Warning", message: message!)
+                        self.btnLogin?.enabled = true
                     } else {
                         println(data)
                         User.StoreUser(data, email: email!)
@@ -135,13 +136,34 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
                     let pr = json["profiles"]
-                    p.address = pr["address"].string!
-                    p.desc = pr["description"].string!
-                    p.phone = pr["phone"].string!
-                    p.pict = pr["pict"].string!
-                    p.postalCode = pr["postal_code"].string!
-                    p.regionID = pr["region_id"].string!
-                    p.provinceID = pr["province_id"].string!
+                    if let address = pr["address"].string
+                    {
+                        p.address = address
+                    }
+                    if let desc = pr["description"].string
+                    {
+                        p.desc = desc
+                    }
+                    if let phone = pr["phone"].string
+                    {
+                        p.phone = phone
+                    }
+                    if let pict = pr["pict"].string
+                    {
+                        p.pict = pict
+                    }
+                    if let postal = pr["postal_code"].string
+                    {
+                        p.postalCode = postal
+                    }
+                    if let region = pr["region_id"].string
+                    {
+                        p.regionID = region
+                    }
+                    if let province = pr["province_id"].string
+                    {
+                        p.provinceID = province
+                    }
                     
                     c.profiles = p
                     UIApplication.appDelegate.saveContext()

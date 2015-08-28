@@ -15,24 +15,28 @@
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-+ (void)sendMultipart:(NSDictionary *)param
++ (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
-    NSURL *url = [NSURL URLWithString:@"http://example.com/form/"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
     
-    NSString *boundary = @"RAHADIANAHMAD";
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    manager.requestSerializer.timeoutInterval = 600;
     
-    NSMutableData *body = [NSMutableData data];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"category\"\r\n\r\n%d", 1] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
+    [manager POST:@"http://dev.preloapp.com/api/2/products" parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if (images.count > 0) {
+            for (int i = 0; i < images.count; i++)
+            {
+                NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
+                NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
+                [formData appendPartWithFileData:data name:name fileName:name mimeType:@"image/jpeg"];
+            }
+        }
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        failure(op, err);
+    }];
 }
 
 + (NSString *)jsonStringFrom:(id)json

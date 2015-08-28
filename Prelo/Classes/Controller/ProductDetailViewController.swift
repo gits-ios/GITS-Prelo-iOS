@@ -395,8 +395,18 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         captionDesc?.text = product["description"].string!
         captionDate?.text = product["time"].string!
         captionCondition?.text = product["condition"].string!
-        captionFrom?.text = product["seller_region"]["name"].string!
-        captionMerk?.text = product["brand"].string!
+        if let region = product["seller_region"]["name"].string
+        {
+            captionFrom?.text = region
+        } else {
+            captionFrom?.text = "Unknown"
+        }
+        if let merk = product["brand"].string
+        {
+            captionMerk?.text = merk
+        } else {
+            captionMerk?.text = "Unknown"
+        }
         captionSize?.text = " "
         
         let arr = product["category_breadcrumbs"].array!

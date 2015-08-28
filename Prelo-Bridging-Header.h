@@ -16,5 +16,7 @@
 #import "AppToolsObjC.h"
 #import "ACEExpandableTextCell.h"
 #import "ActionSheetPicker.h"
+#import "AFNetworking.h"
+#import "AFHTTPRequestOperationManager.h"
 
 #endif

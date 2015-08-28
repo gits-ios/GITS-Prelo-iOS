@@ -13,6 +13,7 @@ extension UIApplication
     static var appDelegate : AppDelegate
     {
         return UIApplication.sharedApplication().delegate as! AppDelegate
+//        AFHTTPRequestOperationManager mana
     }
 }
 

@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import <AdobeCreativeSDKCore/AdobeCreativeSDKCore.h>
 #import <AdobeCreativeSDKImage/AdobeCreativeSDKImage.h>
+#import "AFHTTPRequestOperationManager.h"
 
 typedef void(^AssetFromAlbumComplete)(NSArray *array);
 typedef void(^AssetFromAlbumFailed)(NSString *message);
@@ -25,7 +26,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (CAGradientLayer *)gradientViewWithColor:(NSArray *)arrayColor withView:(UIView *)view;
 
-+ (void) sendMultipart:(NSDictionary *)param;
++ (void) sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 + (NSString *) stringWithData:(NSData *)data;
 

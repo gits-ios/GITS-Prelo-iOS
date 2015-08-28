@@ -146,8 +146,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var sendIMGs : Array<UIImage> = []
     override func confirm() {
-//        populateImages(0)
-        self.callAPI()
+        populateImages(0)
+//        self.callAPI()
     }
     
     func populateImages(i : Int)
@@ -166,6 +166,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
+    @IBOutlet var btnSend : UIButton!
     func callAPI()
     {
         var price : String?
@@ -245,22 +246,62 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             return
         }
         
-        request(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID)).responseJSON{_, _, res, err in
-            if (err != nil) {
-                println(err)
-            } else
+        self.navigationItem.rightBarButtonItem = nil
+        btnSend.enabled = false
+        
+        AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
+            println(res)
+            let json = JSON(res!)
+            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            if let price = json["_data"]["price"].int
             {
-                let j = JSON(res!)
-                println(j)
-                println("")
-                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-                self.navigationController?.pushViewController(s, animated: true)
-//                self.performSegueWithIdentifier("segShare", sender: nil)
+                s.basePrice = price
             }
-        }
+            self.navigationController?.pushViewController(s, animated: true)
+            }, failure: {op, err in
+                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+                self.btnSend.enabled = true
+                UIAlertView.SimpleShow("Warning", message: "Gagal")
+        })
+        
+//        let manager = AFHTTPRequestOperationManager()
+//        manager.requestSerializer = AFJSONRequestSerializer()
+//        manager.requestSerializer.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
+//        
+//        manager.POST("http://dev.preloapp.com/api/2/products", parameters: ["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!], constructingBodyWithBlock: {form in
+//                if (self.sendIMGs.count > 0)
+//                {
+//                    for x in 0...self.sendIMGs.count
+//                    {
+//                        let img = UIImageJPEGRepresentation(self.sendIMGs[x], 0.5)
+//                        let name = "image" + String(x)
+//                    }
+//                }
+//            }, success: { op, res in
+//                let json = JSON(res)
+//            println(json)
+//            println("")
+//            }, failure: { op, err in
+//                println(op.request.allHTTPHeaderFields)
+//                println(op.responseObject)
+//                println(err)
+//        })
+        
+//        request(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID)).responseJSON{_, resp, res, err in
+//            if (err != nil) {
+//                println(err)
+//            } else
+//            {
+//                let j = JSON(res!)
+//                println(j)
+//                println(resp)
+//                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
+//                self.navigationController?.pushViewController(s, animated: true)
+//            }
+//        }
         
 //        let param = JSON(["name":name!, "desc":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!])
-//        
+//
 //        let parameterString = param.rawString(encoding: NSUTF8StringEncoding, options: nil)
 //        let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
         
