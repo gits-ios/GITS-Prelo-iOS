@@ -72,6 +72,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
             .responseJSON{ req, _, res, err in
+                self.done = false
                 self.requesting = false
                 if (err != nil) {
                     println(err)
@@ -101,6 +102,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
+    var done = false
     func getProducts()
     {
         if (category == nil && standalone == false) {
@@ -114,21 +116,32 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             catId = standaloneCategoryID
         } else {
-            catId = category!["permalink"].string
+            println(category)
+            catId = category!["_id"].string
         }
         
-        request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
             .responseJSON{ req, _, res, err in
                 self.requesting = false
                 if (err != nil) {
                     println(err)
                 } else {
                     var obj = JSON(res!)
-                    for (index : String, item : JSON) in obj["_data"]
+                    println(obj)
+                    if let arr = obj["_data"].array
                     {
-                        let p = Product.instance(item)
-                        if (p != nil) {
-                            self.products?.append(p!)
+                        if arr.count == 0
+                        {
+                            self.done = true
+                        } else
+                        {
+                            for (index : String, item : JSON) in obj["_data"]
+                            {
+                                let p = Product.instance(item)
+                                if (p != nil) {
+                                    self.products?.append(p!)
+                                }
+                            }
                         }
                     }
                 }
@@ -157,7 +170,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        if (indexPath.row == (products?.count)!-4 && requesting == false) {
+        if (indexPath.row == (products?.count)!-4 && requesting == false && done == false) {
             getProducts()
         }
         

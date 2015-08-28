@@ -12,13 +12,23 @@ class ProductDetailCover: UIView {
 
     @IBOutlet var imageViews : Array<UIImageView>?
     
+    var parent : UIViewController?
+    
     private func setup(images : Array<String>)
     {
         for i in 0...images.count
         {
             let iv = imageViews?.objectAtCircleIndex(i)
+            iv?.tag = i
+            iv?.userInteractionEnabled = true
+            iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
             iv?.setImageWithUrl(NSURL(string: images.objectAtCircleIndex(i))!, placeHolderImage: nil)
         }
+    }
+    
+    func tapped(sender : UITapGestureRecognizer)
+    {
+        let index = (sender.view?.tag)!
     }
     
     /*
@@ -49,4 +59,49 @@ class ProductDetailCover: UIView {
         return p
     }
 
+}
+
+class CoverZoomController : BaseViewController, UIScrollViewDelegate
+{
+    var scrollView : UIScrollView?
+    
+    var images : Array<UIImage> = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
+        scrollView?.pagingEnabled = true
+        
+        self.view.addSubview(scrollView!)
+        
+        let b = self.dismissButton
+        b.y = 20
+        b.x = 16
+        self.view.addSubview(b)
+        
+        var x : CGFloat = 0
+        for i in images
+        {
+            let s = UIScrollView(frame : (scrollView?.bounds)!)
+            let iv = UIImageView(frame : s.bounds)
+            iv.contentMode = UIViewContentMode.ScaleAspectFit
+            iv.image = i
+            iv.tag = 1
+            s.addSubview(iv)
+            s.x = x
+            scrollView?.addSubview(s)
+            
+            s.minimumZoomScale = 1
+            s.maximumZoomScale = 3
+            
+            x += s.width
+        }
+        
+        scrollView?.contentSize = CGSizeMake(x, (scrollView?.height)!)
+    }
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return scrollView.viewWithTag(1)!
+    }
 }

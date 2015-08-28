@@ -47,6 +47,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        Mixpanel.sharedInstance().track("Checkout Confirmation")
+        
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
             if (o) {

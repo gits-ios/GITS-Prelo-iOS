@@ -45,6 +45,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        Mixpanel.sharedInstance().track("Login Page")
+        
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 
@@ -139,30 +141,47 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if let address = pr["address"].string
                     {
                         p.address = address
+                    } else {
+                        p.address = ""
                     }
                     if let desc = pr["description"].string
                     {
                         p.desc = desc
+                    } else {
+                        p.desc = ""
                     }
                     if let phone = pr["phone"].string
                     {
                         p.phone = phone
+                    } else {
+                        p.phone = ""
                     }
                     if let pict = pr["pict"].string
                     {
                         p.pict = pict
+                    } else {
+                        p.pict = ""
                     }
                     if let postal = pr["postal_code"].string
                     {
                         p.postalCode = postal
+                    } else
+                    {
+                        p.postalCode = ""
                     }
                     if let region = pr["region_id"].string
                     {
                         p.regionID = region
+                    } else
+                    {
+                        p.regionID = ""
                     }
                     if let province = pr["province_id"].string
                     {
                         p.provinceID = province
+                    } else
+                    {
+                        p.provinceID = ""
                     }
                     
                     c.profiles = p
@@ -172,6 +191,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (self.userRelatedDelegate != nil) {
                         self.userRelatedDelegate?.userLoggedIn!()
                     }
+                    
+                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                    
+                    if let c = CDUser.getOne()
+                    {
+                        Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
+                    }
+                    
+                    Mixpanel.sharedInstance().track("Logged In")
                     
                     self.dismiss()
                 }

@@ -11,14 +11,14 @@ import UIKit
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
     {
-        let base = "http://images.kleora.com/images/users/" + userID + "/" + fileName
+        let base = "http://dev.kleora.com/images/users/" + userID + "/" + fileName
         return base
     }
     
     static func UrlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://images.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
         
     }
 }
@@ -87,6 +87,8 @@ public class User : NSObject
     
     static func Logout()
     {
+        Mixpanel.sharedInstance().track("Logged Out")
+        
         if let u = CDUser.getOne()
         {
             UIApplication.appDelegate.managedObjectContext?.deleteObject(u)

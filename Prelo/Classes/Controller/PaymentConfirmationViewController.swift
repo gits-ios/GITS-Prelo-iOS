@@ -38,6 +38,8 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
+        Mixpanel.sharedInstance().track("Payment Confirmation")
+        
         if (userOrders?.count == 0 || userOrders == nil) {
             if (userOrders == nil) {
                 userOrders = []

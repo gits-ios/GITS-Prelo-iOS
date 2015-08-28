@@ -65,6 +65,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        Mixpanel.sharedInstance().track("Product Detail")
         self.titleText = detail?.json["_data"]["name"].string!
     }
     
@@ -84,6 +85,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func setupView()
     {
         let p = ProductDetailCover.instance((detail?.displayPicturers)!)
+        p?.parent = self
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
@@ -96,7 +98,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-            captionBeli.text = "Beli"
+//            captionBeli.text = "Beli"
             alreadyInCart = true
         }
         

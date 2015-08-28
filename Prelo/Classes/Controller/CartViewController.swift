@@ -80,10 +80,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func createCells()
     {
+        var phone = ""
+        var address = ""
+        if let profile = user?.profiles
+        {
+            phone = profile.phone
+            address = profile.address
+        }
+        
         self.cells = [
             NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : (user?.fullname)!),
-            NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : (user?.profiles.phone)!),
-            NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : (user?.profiles.address)!),
+            NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
+            NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
             NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: "", pickerPrepBlock: { picker in
                 
                 picker.startLoading()
@@ -268,6 +276,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Checkout Page")
         
         self.an_subscribeKeyboardWithAnimations(
             { r, i, o in

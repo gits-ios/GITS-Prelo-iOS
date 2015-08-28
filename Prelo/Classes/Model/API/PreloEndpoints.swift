@@ -246,37 +246,67 @@ enum Products : URLRequestConvertible
                 "weight":weight,
                 "description":desc
             ]
-//            return [:]
         }
     }
     
     var URLRequest : NSURLRequest
     {
-//        switch self
-//        {
-//        case .ListByCategory(_, _, _, _, _, _, _) :
-//            println("")
-//        case .Detail(_):
-//            println("")
-//        case .Add(_, _, _, _, let c):
-//            let baseURL2 = "http://dev.preloapp.com/api/2/products"
-//            
-//            let urlComponents = NSURLComponents(string: baseURL2)!
-//            urlComponents.query = "category="+c
-//            
-//            let url = urlComponents.URL!
-//            
-//            var r = NSMutableURLRequest.defaultURLRequest(url)
-//            r.HTTPMethod = method.rawValue
-//            return r
-//        }
-        
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         return r
+    }
+}
+
+enum APISearch : URLRequestConvertible
+{
+    static let basePath = "search/"
+    
+    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .ProductByCategory(_, _, _, _, _, _): return .GET
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .ProductByCategory(_, _, _, _, _, _): return "products_by_categories"
+            }
+    }
+    
+    var param : [String: AnyObject]?
+        {
+            switch self
+            {
+            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax):
+                return [
+                    "category":catId,
+                    "sort":sort,
+                    "current":current,
+                    "limit":limit,
+                    "price_min":priceMin,
+                    "price_max":priceMax,
+                    "prelo":"true"
+                ]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISearch.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            return r
     }
 }
 

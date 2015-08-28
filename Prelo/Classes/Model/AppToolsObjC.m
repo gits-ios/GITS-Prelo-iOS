@@ -81,7 +81,7 @@
                 NSString *name = [g valueForProperty:ALAssetsGroupPropertyName];
                 if ([name rangeOfString:@"amera"].location != NSNotFound || [name rangeOfString:@"oto"].location != NSNotFound)
                 {
-                    [g enumerateAssetsUsingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
+                    [g enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *a, NSUInteger index, BOOL *stop2) {
                         if (a) {
                             [array addObject:a.defaultRepresentation.url];
                             //                        [array addObject:a];
@@ -89,6 +89,7 @@
                             
                         }
                     }];
+//                    [g enumerateAssetsUsingBlock:
                 }
             }
         } failureBlock:^(NSError *err) {

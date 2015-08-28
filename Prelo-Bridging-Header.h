@@ -18,5 +18,6 @@
 #import "ActionSheetPicker.h"
 #import "AFNetworking.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "Mixpanel.h"
 
 #endif

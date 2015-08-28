@@ -67,6 +67,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        Mixpanel.sharedInstance().track("Setup Account")
+    }
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
