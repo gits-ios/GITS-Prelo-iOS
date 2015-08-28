@@ -8,7 +8,7 @@
 
 import UIKit
 
-let prelloHost = "http://dev.kleora.com/api/2/"
+let prelloHost = "http://dev.preloapp.com/api/2/"
 
 class PreloEndpoints: NSObject {
    
