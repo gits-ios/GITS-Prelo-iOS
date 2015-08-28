@@ -49,7 +49,13 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Ukuran scrollview
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+        
+        // Pengaturan tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        self.navigationItem.leftBarButtonItem = newBackButton;
         
         // Border untuk tombol login social media
         btnLoginInstagram.layer.borderWidth = 1
@@ -69,6 +75,18 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         contentViewHeightConstraint.constant = contentViewHeightConstraint.constant + sizeThatShouldFitTheContent.height - fieldTentangShopHeight
         // Update tinggi textview
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
+    }
+    
+    func backPressed(sender: UIBarButtonItem) {
+        if (self.previousControllerName == "Register") {
+            if let d = self.userRelatedDelegate
+            {
+                d.userLoggedIn!()
+            }
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else if (self.previousControllerName == "Dashboard") {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

@@ -2071,7 +2071,7 @@
 					"TARGET_OS_IOS=1",
 				);
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2097,7 +2097,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_OS_IOS=1";
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",

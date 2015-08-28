@@ -1817,7 +1817,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_ongkir" rowHeight="120" id="gw0-Am-GBi" customClass="AddProductShippingPaymentCell" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_ongkir" rowHeight="140" id="gw0-Am-GBi" customClass="AddProductShippingPaymentCell" customModule="Prelo" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gw0-Am-GBi" id="c49-Mi-FR3">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1941,18 +1941,41 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos kirim sesuai dengan bla bla bla bla" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNu-4S-BeG">
-                                                    <rect key="frame" x="180" y="96" width="240" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNu-4S-BeG">
+                                                    <rect key="frame" x="44" y="94" width="513" height="28"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Ongkos kirim sesuai dengan kurir yang tersimpan di sistem">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content=" ">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content="Lihat syarat dan ketentuan">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zkm-S3-6np" firstAttribute="top" secondItem="c49-Mi-FR3" secondAttribute="top" constant="8" id="SbJ-gn-b1O"/>
-                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="top" secondItem="zkm-S3-6np" secondAttribute="bottom" constant="8" id="W88-dx-PST"/>
+                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="top" secondItem="zkm-S3-6np" secondAttribute="bottom" constant="6" id="W88-dx-PST"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="uNu-4S-BeG" secondAttribute="trailing" constant="35" id="YRm-OA-lRJ"/>
                                                 <constraint firstItem="zkm-S3-6np" firstAttribute="leading" secondItem="c49-Mi-FR3" secondAttribute="leading" constant="8" id="mFi-rA-iYk"/>
                                                 <constraint firstAttribute="trailing" secondItem="zkm-S3-6np" secondAttribute="trailing" constant="8" id="mhC-GW-eMl"/>
+                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="leading" secondItem="c49-Mi-FR3" secondAttribute="leadingMargin" constant="36" id="rmS-lI-MoQ"/>
                                                 <constraint firstAttribute="centerX" secondItem="uNu-4S-BeG" secondAttribute="centerX" id="wGb-kL-zhs"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1963,7 +1986,7 @@
                                             <outletCollection property="btnShippingPayments" destination="f7O-ek-l6b" collectionClass="NSMutableArray" id="Lqw-g6-wGm"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_weight" rowHeight="120" id="4mw-ze-Rvq" customClass="AddProductCellWeight" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_weight" rowHeight="100" id="4mw-ze-Rvq" customClass="AddProductCellWeight" customModule="Prelo" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4mw-ze-Rvq" id="RLi-TQ-mt9">
                                             <autoresizingMask key="autoresizingMask"/>

@@ -24,10 +24,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="580"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrV-8s-vh2" userLabel="btn_back">
-                                        <rect key="frame" x="8" y="8" width="20" height="35"/>
+                                        <rect key="frame" x="8" y="8" width="13" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="Cth-Sz-t0K"/>
-                                            <constraint firstAttribute="width" constant="20" id="qPL-IL-Kc2"/>
+                                            <constraint firstAttribute="height" constant="22" id="Cth-Sz-t0K"/>
+                                            <constraint firstAttribute="width" constant="13" id="qPL-IL-Kc2"/>
                                         </constraints>
                                         <state key="normal" image="arrow_left.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
