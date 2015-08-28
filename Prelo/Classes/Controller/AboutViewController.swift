@@ -10,8 +10,16 @@ import UIKit
 
 class AboutViewController: BaseViewController {
 
+    @IBOutlet var btnLogout : BorderedButton!
+    var isShowLogout : Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (!isShowLogout) {
+            self.btnLogout.hidden = true
+        }
+        
         self.title = "About"
         // Do any additional setup after loading the view.
     }

@@ -118,7 +118,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @IBAction func registerPressed(sender : AnyObject) {
         if (fieldsVerified()) {
-            btnRegister?.enabled = false
+            self.btnRegister?.enabled = false
             register()
         }
     }
@@ -131,9 +131,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         request(APIUser.Register(fullname: name!, email: email!, password: password!))
             .responseJSON
             {_, _, json, err in
-                self.btnRegister?.enabled = true
                 if (err != nil) { // Terdapat error
                     Constant.showDialog("Warning", message: (err?.description)!)
+                    self.btnRegister?.enabled = true
                 } else {
                     let res = JSON(json!)
                     let data = res["_data"]
@@ -141,6 +141,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         let obj : [String : String] = json as! [String : String]
                         let message = obj["_message"]
                         Constant.showDialog("Warning", message: message!)
+                        self.btnRegister?.enabled = true
                     } else { // Berhasil
                         println("Register succeed")
                         println(data)

@@ -28,8 +28,9 @@ class Dashboard2ViewController : BaseViewController {
     }
     
     @IBAction func aboutButtonTapped(sender: UIButton) {
-        let a = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAbout) as! BaseViewController
+        let a = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+        a.isShowLogout = false
         self.previousController?.navigationController?.pushViewController(a, animated: true)
     }
     

@@ -122,6 +122,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if (indexPath.row == 5) {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+            a.isShowLogout = true
             self.previousController?.navigationController?.pushViewController(a, animated: true)
 //            User.Logout()
 //            if (self.userRelatedDelegate != nil) {

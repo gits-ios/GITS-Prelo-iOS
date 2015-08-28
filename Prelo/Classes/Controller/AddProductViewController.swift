@@ -62,7 +62,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
             picker.textTitle = "Pilih Kondisi"
-            picker.items = ["Baru - Segel", "BNIB", "Mint", "Apa Adanya"]
+            picker.items = ["Masih Baru", "Sangat Bagus", "Bagus", "Cukup Bagus"]
             picker.tableView.reloadData()
             picker.doneLoading()
             
