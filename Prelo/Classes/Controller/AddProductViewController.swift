@@ -26,7 +26,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var selectedCategoryID = ""
     
-    var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Digantung", "image":"ic_hanger"], ["title":"Cacat (Jila ada)", "image":"ic_cacat"]]
+    var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Digantung", "image":"ic_hanger"], ["title":"Cacat (Jika ada)", "image":"ic_cacat"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
             picker.textTitle = "Pilih Kondisi"
-            picker.items = ["Baru - Segel", "BNIB", "Mint", "Apa Adanya"]
+            picker.items = ["Masih Baru", "Sangat Bagus", "Bagus", "Cukup Bagus"]
             picker.tableView.reloadData()
             picker.doneLoading()
             

@@ -9,7 +9,9 @@
 import Foundation
 import CoreData
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+    
+    @IBOutlet weak var scrollView : UIScrollView?
     
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
@@ -47,6 +49,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+        
         // Border untuk tombol login social media
         btnLoginInstagram.layer.borderWidth = 1
         btnLoginFacebook.layer.borderWidth = 1
@@ -74,6 +78,41 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.an_subscribeKeyboardWithAnimations(
+            {r, t, o in
+                
+                if (o) {
+                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64+r.height, 0)
+                } else {
+                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+                }
+                
+            }, completion: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.an_unsubscribeKeyboard()
+    }
+    
+    @IBAction func disableTextFields(sender : AnyObject)
+    {
+        fieldNama?.resignFirstResponder()
+        fieldNoHp?.resignFirstResponder()
+        fieldTentangShop?.resignFirstResponder()
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
     }
     
     // TODO: Update tinggi textview sembari mengisi

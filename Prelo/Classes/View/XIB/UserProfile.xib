@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -710,6 +710,7 @@
                     </scrollView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <gestureRecognizers/>
                 <constraints>
                     <constraint firstItem="Z3w-xQ-Il0" firstAttribute="width" secondItem="MK9-6E-9tI" secondAttribute="width" id="48d-Qt-U53"/>
                     <constraint firstItem="TdC-7n-nuM" firstAttribute="leading" secondItem="MK9-6E-9tI" secondAttribute="leading" id="FkF-a6-ISF"/>
@@ -725,6 +726,9 @@
                         <exclude reference="dOu-G9-jZ5"/>
                     </mask>
                 </variation>
+                <connections>
+                    <outletCollection property="gestureRecognizers" destination="G9j-dm-UKa" appends="YES" id="avj-h5-dUE"/>
+                </connections>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -745,9 +749,15 @@
                 <outlet property="fieldNoHp" destination="3sL-fB-ahW" id="mT8-BK-smW"/>
                 <outlet property="fieldTentangShop" destination="i41-sy-Cne" id="96a-vt-M52"/>
                 <outlet property="fieldTentangShopHeightConstraint" destination="bqH-g6-Ck7" id="Ha6-3p-qme"/>
+                <outlet property="scrollView" destination="TdC-7n-nuM" id="g4H-gZ-pnh"/>
             </connections>
             <point key="canvasLocation" x="-504" y="426"/>
         </viewController>
+        <tapGestureRecognizer id="G9j-dm-UKa">
+            <connections>
+                <action selector="disableTextFields:" destination="jRc-KW-xfl" id="CFx-X7-W0u"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="arrow_right.png" width="30" height="53"/>

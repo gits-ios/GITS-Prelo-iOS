@@ -20,8 +20,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet var btnTermCondition : UIButton?
     @IBOutlet var btnRegister : UIButton?
     
-    var checkboxSelected = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,16 +55,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         txtPassword?.resignFirstResponder()
         txtRepeatPassword?.resignFirstResponder()
         txtName?.resignFirstResponder()
-    }
-    
-    @IBAction func checkboxButton(sender : UIButton) {
-        if (checkboxSelected == 0){
-            sender.selected = true
-            checkboxSelected = 1
-        } else {
-            sender.selected = false
-            checkboxSelected = 0
-        }
     }
     
     @IBAction func backPressed(sender: UIButton) {
@@ -111,16 +99,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
             txtName?.attributedPlaceholder = placeholder
             return false
         }
-        if (checkboxSelected == 0) {
-            btnTermCondition?.setTitleColor(UIColor.redColor())
-            return false
-        }
         return true
     }
     
     @IBAction func registerPressed(sender : AnyObject) {
         if (fieldsVerified()) {
-            btnRegister?.enabled = false
+            self.btnRegister?.enabled = false
             register()
         }
     }
@@ -133,9 +117,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         request(APIUser.Register(fullname: name!, email: email!, password: password!))
             .responseJSON
             {_, _, json, err in
-                self.btnRegister?.enabled = true
                 if (err != nil) { // Terdapat error
                     Constant.showDialog("Warning", message: (err?.description)!)
+                    self.btnRegister?.enabled = true
                 } else {
                     let res = JSON(json!)
                     let data = res["_data"]
@@ -143,6 +127,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         let obj : [String : String] = json as! [String : String]
                         let message = obj["_message"]
                         Constant.showDialog("Warning", message: message!)
+                        self.btnRegister?.enabled = true
                     } else { // Berhasil
                         println("Register succeed")
                         println(data)
