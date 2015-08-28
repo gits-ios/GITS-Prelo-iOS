@@ -266,6 +266,7 @@
                                     <constraint firstItem="JUT-t6-ai7" firstAttribute="top" secondItem="b99-du-caE" secondAttribute="bottom" id="ec6-wR-pfr"/>
                                     <constraint firstItem="365-IE-73c" firstAttribute="top" secondItem="NzJ-ov-kKz" secondAttribute="bottom" constant="9" id="hzo-n7-vmL"/>
                                     <constraint firstItem="gkb-L4-mjZ" firstAttribute="top" secondItem="qAU-kW-CcL" secondAttribute="bottom" constant="-1" id="iMV-Wg-2nc"/>
+                                    <constraint firstAttribute="height" constant="580" id="j0e-zw-ib0"/>
                                     <constraint firstItem="b99-du-caE" firstAttribute="top" secondItem="b4i-eX-z37" secondAttribute="bottom" constant="23" id="jOs-m6-xxs"/>
                                     <constraint firstAttribute="trailing" secondItem="qTj-NW-6HB" secondAttribute="trailing" constant="40" id="jjt-b1-Vd1"/>
                                     <constraint firstAttribute="trailing" secondItem="tnG-eX-aiT" secondAttribute="trailing" constant="8" id="k0t-et-sQ0"/>
@@ -291,6 +292,11 @@
                             <constraint firstAttribute="bottom" secondItem="C9h-Rp-CKr" secondAttribute="bottom" id="kjK-jx-ENX"/>
                             <constraint firstItem="C9h-Rp-CKr" firstAttribute="leading" secondItem="YlJ-Cn-IJP" secondAttribute="leading" id="skb-1n-x2J"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="JVp-5i-rcN"/>
+                            </mask>
+                        </variation>
                     </scrollView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -20,8 +20,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     @IBOutlet var btnTermCondition : UIButton?
     @IBOutlet var btnRegister : UIButton?
     
-    var checkboxSelected = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,16 +53,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         txtPassword?.resignFirstResponder()
         txtRepeatPassword?.resignFirstResponder()
         txtName?.resignFirstResponder()
-    }
-    
-    @IBAction func checkboxButton(sender : UIButton) {
-        if (checkboxSelected == 0){
-            sender.selected = true
-            checkboxSelected = 1
-        } else {
-            sender.selected = false
-            checkboxSelected = 0
-        }
     }
     
     @IBAction func backPressed(sender: UIButton) {
@@ -107,10 +95,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         if (txtName?.text == "") {
             var placeholder = NSAttributedString(string: "Nama harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtName?.attributedPlaceholder = placeholder
-            return false
-        }
-        if (checkboxSelected == 0) {
-            btnTermCondition?.setTitleColor(UIColor.redColor())
             return false
         }
         return true
