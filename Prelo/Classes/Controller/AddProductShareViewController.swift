@@ -47,6 +47,8 @@ class AddProductShareViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Share"
 
         // Do any additional setup after loading the view.
         
@@ -80,7 +82,10 @@ class AddProductShareViewController: BaseViewController {
     {
         captionChargePercent.text = Double(100 - chargePercent).roundString + " %"
         let charge = Double(basePrice) * chargePercent / 100
-        captionCharge.text = "Charge Prelo " + Int(charge).asPrice + " (" + chargePercent.roundString + " %)"
+        let string = "Charge Prelo " + Int(charge).asPrice + " (" + chargePercent.roundString + "%)"
+        var attString = NSMutableAttributedString(string: string)
+        attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor()], range: AppToolsObjC.rangeOf(chargePercent.roundString+"%", inside: string))
+        captionCharge.attributedText = attString
         captionPrice.text = (basePrice - Int(charge)).asPrice
     }
 

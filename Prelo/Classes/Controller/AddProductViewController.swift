@@ -171,6 +171,14 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     @IBOutlet var btnSend : UIButton!
     func callAPI()
     {
+        var xxx = true
+        if (xxx)
+        {
+            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            self.navigationController?.pushViewController(s, animated: true)
+            return
+        }
+        
         var price : String?
         var weight : String = "200"
         
@@ -251,24 +259,26 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.navigationItem.rightBarButtonItem = nil
         btnSend.enabled = false
         
-        Mixpanel.sharedInstance().timeEvent("Adding Product")
+//        Mixpanel.sharedInstance().timeEvent("Adding Product")
+//        
+//        AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":weight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
+//            println(res)
+//            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+//            let json = JSON(res!)
+//            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+//            if let price = json["_data"]["price"].int
+//            {
+//                s.basePrice = price
+//            }
+//            self.navigationController?.pushViewController(s, animated: true)
+//            }, failure: {op, err in
+//                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
+//                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+//                self.btnSend.enabled = true
+//                UIAlertView.SimpleShow("Warning", message: "Gagal")
+//        })
         
-        AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":weight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            println(res)
-            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON(res!)
-            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
-            if let price = json["_data"]["price"].int
-            {
-                s.basePrice = price
-            }
-            self.navigationController?.pushViewController(s, animated: true)
-            }, failure: {op, err in
-                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
-                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
-                self.btnSend.enabled = true
-                UIAlertView.SimpleShow("Warning", message: "Gagal")
-        })
+        // mark
         
 //        let manager = AFHTTPRequestOperationManager()
 //        manager.requestSerializer = AFJSONRequestSerializer()

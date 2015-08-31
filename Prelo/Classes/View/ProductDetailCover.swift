@@ -14,8 +14,11 @@ class ProductDetailCover: UIView {
     
     var parent : UIViewController?
     
+    var imageURLS : Array<String> = []
+    
     private func setup(images : Array<String>)
     {
+        imageURLS = images
         for i in 0...images.count
         {
             let iv = imageViews?.objectAtCircleIndex(i)
@@ -29,6 +32,9 @@ class ProductDetailCover: UIView {
     func tapped(sender : UITapGestureRecognizer)
     {
         let index = (sender.view?.tag)!
+        let c = CoverZoomController()
+        c.images = imageURLS
+        self.parent?.presentViewController(c, animated: true, completion: nil)
     }
     
     /*
@@ -51,7 +57,7 @@ class ProductDetailCover: UIView {
         } else if (images.count == 4) {
             p = NSBundle.mainBundle().loadNibNamed("ProductDetailCover", owner: nil, options: nil).objectAtCircleIndex(3) as? ProductDetailCover
         } else if (images.count >= 5) {
-            p = NSBundle.mainBundle().loadNibNamed("ProductDetailCover", owner: nil, options: nil).objectAtCircleIndex(2) as? ProductDetailCover
+            p = NSBundle.mainBundle().loadNibNamed("ProductDetailCover", owner: nil, options: nil).objectAtCircleIndex(4) as? ProductDetailCover
         }
         
         p?.setup(images)
@@ -65,19 +71,23 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
 {
     var scrollView : UIScrollView?
     
-    var images : Array<UIImage> = []
+    var images : Array<String> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = UIColor.whiteColor()
+        
         scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
         scrollView?.pagingEnabled = true
+        scrollView?.backgroundColor = UIColor.whiteColor()
         
         self.view.addSubview(scrollView!)
         
         let b = self.dismissButton
         b.y = 20
         b.x = 16
+        b.setTitleColor(Theme.PrimaryColor, forState: UIControlState.Normal)
         self.view.addSubview(b)
         
         var x : CGFloat = 0
@@ -86,7 +96,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.ScaleAspectFit
-            iv.image = i
+            iv.setImageWithUrl(NSURL(string: i)!, placeHolderImage: nil)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
@@ -94,6 +104,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             
             s.minimumZoomScale = 1
             s.maximumZoomScale = 3
+            s.delegate = self
             
             x += s.width
         }

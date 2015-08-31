@@ -10,13 +10,15 @@ import UIKit
 import CoreData
 //import FMMosaicLayout
 //import ZSWTappableLabel
+import MessageUI
 
 protocol ProductCellDelegate
 {
     func cellTappedCategory(categoryName : String, categoryID : String)
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate {
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate
+{
     
     var product : Product?
     var detail : ProductDetail?
@@ -54,6 +56,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
         var btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnOption.addTarget(self, action: "option", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
@@ -67,6 +70,29 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidAppear(animated)
         Mixpanel.sharedInstance().track("Product Detail")
         self.titleText = detail?.json["_data"]["name"].string!
+    }
+    
+    func option()
+    {
+        let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+        a.addButtonWithTitle("Report")
+        a.showInView(self.view)
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            // report
+            let m = MFMailComposeViewController()
+            m.setToRecipients(["contact@prelo.id"])
+            m.setSubject("Product Report [" + (detail?.productID)! + "]")
+            m.mailComposeDelegate = self
+            self.presentViewController(m, animated: true, completion: nil)
+        }
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getDetail()
