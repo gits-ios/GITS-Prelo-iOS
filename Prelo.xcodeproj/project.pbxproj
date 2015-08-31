@@ -1565,6 +1565,7 @@
 				TargetAttributes = {
 					2115E6C71B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = FA5P8G36Y9;
 					};
 					2115E6DF1B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
@@ -2078,7 +2079,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2104,7 +2105,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
