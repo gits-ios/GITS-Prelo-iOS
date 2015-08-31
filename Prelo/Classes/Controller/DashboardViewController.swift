@@ -27,15 +27,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         captionName?.text = c?.fullname
         
         let i = UIImage(named: "ic_bag")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivBag?.tintColor = Theme.DarkPurple
+        ivBag?.tintColor = Theme.PrimaryColorDark
         ivBag?.image = i
         
         let i2 = UIImage(named: "ic_shirt")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivShirt?.tintColor = Theme.DarkPurple
+        ivShirt?.tintColor = Theme.PrimaryColorDark
         ivShirt?.image = i2
         
         let i3 = UIImage(named: "ic_love")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivLove?.tintColor = Theme.DarkPurple
+        ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
         imgCover?.image = nil
@@ -73,8 +73,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "PreloAwesome":"0"
             ],
             [
-                "title":"Logout",
-                "icon":"",
+                "title":"About",
+                "icon":"",
                 "PreloAwesome":"1"
             ]
         ]
@@ -86,6 +86,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        Mixpanel.sharedInstance().track("Dashboard")
     }
 
     override func didReceiveMemoryWarning() {
@@ -120,13 +125,29 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
         }
         if (indexPath.row == 5) {
-            User.Logout()
-            if (self.userRelatedDelegate != nil) {
-                userRelatedDelegate?.userLoggedOut!()
-            }
+            let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
+            a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+            a.isShowLogout = true
+            self.previousController?.navigationController?.pushViewController(a, animated: true)
+//            User.Logout()
+//            if (self.userRelatedDelegate != nil) {
+//                userRelatedDelegate?.userLoggedOut!()
+//            }
         }
     }
+    
+    @IBAction func launchMyProducts()
+    {
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        m.shouldSkipBack = false
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
+    }
 
+    @IBAction func editProfilePressed(sender: UIButton) {
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Dashboard"
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
     /*
     // MARK: - Navigation
 

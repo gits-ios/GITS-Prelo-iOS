@@ -7,18 +7,18 @@
 //
 
 import Foundation
+import CoreData
 
 class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var scrollView : UIScrollView?
+    @IBOutlet var txtUsername: UITextField!
     @IBOutlet var txtEmail : UITextField?
     @IBOutlet var txtPassword : UITextField?
     @IBOutlet var txtRepeatPassword : UITextField?
     @IBOutlet var txtName : UITextField?
     @IBOutlet var btnTermCondition : UIButton?
     @IBOutlet var btnRegister : UIButton?
-    
-    var checkboxSelected = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Register Page")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -55,17 +57,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         txtName?.resignFirstResponder()
     }
     
-    @IBAction func checkboxButton(sender : UIButton) {
-        if (checkboxSelected == 0){
-            sender.selected = true
-            checkboxSelected = 1;
-        } else {
-            sender.selected = false
-            checkboxSelected = 0;
-        }
+    @IBAction func backPressed(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func fieldsVerified() -> Bool {
+        if (txtUsername?.text == "") {
+            var placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            txtUsername?.attributedPlaceholder = placeholder
+            return false
+        }
         if (txtEmail?.text == "") {
             var placeholder = NSAttributedString(string: "Email harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.attributedPlaceholder = placeholder
@@ -98,16 +99,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
             txtName?.attributedPlaceholder = placeholder
             return false
         }
-        if (checkboxSelected == 0) {
-            btnTermCondition?.setTitleColor(UIColor.redColor())
-            return false
-        }
         return true
     }
     
     @IBAction func registerPressed(sender : AnyObject) {
         if (fieldsVerified()) {
-            btnRegister?.enabled = false
+            self.btnRegister?.enabled = false
             register()
         }
     }
@@ -120,9 +117,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         request(APIUser.Register(fullname: name!, email: email!, password: password!))
             .responseJSON
             {_, _, json, err in
-                self.btnRegister?.enabled = true
                 if (err != nil) { // Terdapat error
                     Constant.showDialog("Warning", message: (err?.description)!)
+                    self.btnRegister?.enabled = true
                 } else {
                     let res = JSON(json!)
                     let data = res["_data"]
@@ -130,11 +127,43 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         let obj : [String : String] = json as! [String : String]
                         let message = obj["_message"]
                         Constant.showDialog("Warning", message: message!)
+                        self.btnRegister?.enabled = true
                     } else { // Berhasil
                         println("Register succeed")
+                        println(data)
+                        User.StoreUser(data, email : email!)
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+                        c.id = data["_id"].string!
+                        c.email = data["email"].string!
+                        c.fullname = data["fullname"].string!
+                        
+                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                        let pr = data["profiles"]
+                        p.pict = pr["pict"].string!
+                        
+                        c.profiles = p
+                        UIApplication.appDelegate.saveContext()
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        if (self.userRelatedDelegate != nil) {
+                            self.userRelatedDelegate?.userLoggedIn!()
+                        }
+                        
+                        self.toUserProfile()
                     }
                 }
         }
+        
+        // FOR TESTING
+        //self.toUserProfile()
+    }
+    
+    func toUserProfile() {
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Register"
+        userProfileVC.userRelatedDelegate = self.userRelatedDelegate
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

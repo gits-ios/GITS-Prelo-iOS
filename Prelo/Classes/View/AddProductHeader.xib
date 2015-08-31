@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="vE1-Yl-0TB" customClass="AddProductHeader" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vE1-Yl-0TB" id="0DM-Ze-PcZ">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Acv-KQ-I9v">
+                        <rect key="frame" x="8" y="18" width="16" height="16"/>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TEc-B8-29K">
+                        <rect key="frame" x="32" y="16" width="40" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="TEc-B8-29K" secondAttribute="bottom" constant="2" id="1su-CN-kv0"/>
+                    <constraint firstItem="Acv-KQ-I9v" firstAttribute="centerY" secondItem="TEc-B8-29K" secondAttribute="centerY" id="2ls-mq-a3u"/>
+                    <constraint firstAttribute="centerY" secondItem="Acv-KQ-I9v" secondAttribute="centerY" id="3rW-3r-DDs"/>
+                    <constraint firstItem="TEc-B8-29K" firstAttribute="leading" secondItem="Acv-KQ-I9v" secondAttribute="trailing" constant="8" id="DUs-H0-Efv"/>
+                    <constraint firstItem="Acv-KQ-I9v" firstAttribute="top" secondItem="0DM-Ze-PcZ" secondAttribute="top" constant="11" id="RiL-Cl-qbl"/>
+                    <constraint firstAttribute="trailing" secondItem="Acv-KQ-I9v" secondAttribute="trailing" constant="8" id="Vqy-IO-3Uv"/>
+                    <constraint firstAttribute="bottom" secondItem="TEc-B8-29K" secondAttribute="bottom" id="cqB-vm-Ofg"/>
+                    <constraint firstItem="Acv-KQ-I9v" firstAttribute="leading" secondItem="0DM-Ze-PcZ" secondAttribute="leading" constant="8" id="dte-Iv-7q4"/>
+                    <constraint firstItem="Acv-KQ-I9v" firstAttribute="leading" secondItem="0DM-Ze-PcZ" secondAttribute="leadingMargin" constant="8" id="m3u-ge-av7"/>
+                    <constraint firstAttribute="centerY" secondItem="TEc-B8-29K" secondAttribute="centerY" constant="-4" id="qWO-Dp-5kG"/>
+                    <constraint firstAttribute="centerY" secondItem="TEc-B8-29K" secondAttribute="centerY" id="sBp-4H-Xax"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="3rW-3r-DDs"/>
+                        <exclude reference="RiL-Cl-qbl"/>
+                        <exclude reference="Vqy-IO-3Uv"/>
+                        <exclude reference="m3u-ge-av7"/>
+                        <exclude reference="1su-CN-kv0"/>
+                        <exclude reference="cqB-vm-Ofg"/>
+                        <exclude reference="sBp-4H-Xax"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="captionIcon" destination="Acv-KQ-I9v" id="fkJ-B5-TmK"/>
+                <outlet property="captionTitle" destination="TEc-B8-29K" id="wGF-nw-wLZ"/>
+            </connections>
+            <point key="canvasLocation" x="395" y="303"/>
+        </tableViewCell>
+    </objects>
+</document>

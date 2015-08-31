@@ -43,7 +43,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
                 if (err != nil) {
                     println(err)
                 } else {
-                    NSUserDefaults.standardUserDefaults().setObject(JSON, forKey: "pre_categories")
+                    println(JSON)
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     self.setupCategory()
                 }
@@ -52,11 +53,15 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     func setupCategory()
     {
-//        if (tabSwipe != nil) {
-//            return
-//        }
+        let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
+        categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
-        categories = JSON(NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")!)
+        if let arr = categories!["_data"][0]["children"].arrayObject // punya children
+        {
+            
+        } else { // gak punya, gak dipake
+            return
+        }
         
         let level1 = categories!["_data"][0]["children"]
         
@@ -73,7 +78,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
-        tabSwipe?.colorIndicator = Theme.DarkPurple
+        tabSwipe?.colorIndicator = Theme.PrimaryColorDark
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "cikah", userInfo: nil, repeats: false)
         tabSwipe?.view.hidden = true

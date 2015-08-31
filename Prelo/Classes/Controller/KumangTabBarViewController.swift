@@ -8,13 +8,15 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate {
     
     var numberOfControllers : Int = 0
     
     @IBOutlet var sectionContent : UIView?
     @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
+    
+    var menuPopUp : MenuPopUp?
     
     var changeToBrowseCount = 0
     
@@ -58,7 +60,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         changeToController(controllerBrowse!)
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard?.previousController = self
         controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
+        controllerDashboard2?.previousController = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,6 +71,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Home")
+        
+        if (menuPopUp == nil) {
+            menuPopUp = NSBundle.mainBundle().loadNibNamed("MenuPopUp", owner: nil, options: nil).first as? MenuPopUp
+            menuPopUp?.menuDelegate = self
+            menuPopUp?.setupView(self.navigationController!)
+        }
     }
     
     func pushNew(sender : AnyObject)
@@ -122,6 +134,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         }
     }
     
+    @IBAction func launchMenu()
+    {
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
+        self.navigationController?.pushViewController(add, animated: true)
+    }
+    
     func delayBrowseSwitch()
     {
         sectionContent?.hidden = false
@@ -135,16 +153,30 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     func userLoggedIn() {
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
+        d.previousController = self
         changeToController(d)
         controllerDashboard = d
     }
     
     func userLoggedOut() {
-        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
-        changeToController(d)
-        controllerDashboard = d
+//        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
+        changeToController(controllerBrowse!)
+//        controllerDashboard = d
     }
     
+    func userCancelLogin() {
+        
+    }
+    
+    func menuSelected(option: MenuOption) {
+        menuPopUp?.hide()
+        
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
+        self.navigationController?.pushViewController(add, animated: true)
+    }
+    
+    
+
     /*
     // MARK: - Navigation
 

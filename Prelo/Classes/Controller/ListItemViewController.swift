@@ -22,6 +22,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
     
+    var refresher : UIRefreshControl?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +30,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             self.titleText = standaloneCategoryName
         }
+        
+        refresher = UIRefreshControl()
+        refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.gridView.addSubview(refresher!)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,6 +58,40 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
+    func refresh()
+    {
+        requesting = true
+        
+        var catId : String?
+        
+        if (standalone) {
+            catId = standaloneCategoryID
+        } else {
+            catId = category!["permalink"].string
+        }
+        
+        request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
+            .responseJSON{ req, _, res, err in
+                self.done = false
+                self.requesting = false
+                if (err != nil) {
+                    println(err)
+                } else {
+                    self.products = []
+                    var obj = JSON(res!)
+                    for (index : String, item : JSON) in obj["_data"]
+                    {
+                        let p = Product.instance(item)
+                        if (p != nil) {
+                            self.products?.append(p!)
+                        }
+                    }
+                }
+                self.refresher?.endRefreshing()
+                self.setupGrid()
+        }
+    }
+    
     func statusBarTapped()
     {
         gridView.setContentOffset(CGPointMake(0, 10), animated: true)
@@ -63,6 +102,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
+    var done = false
     func getProducts()
     {
         if (category == nil && standalone == false) {
@@ -76,21 +116,32 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             catId = standaloneCategoryID
         } else {
-            catId = category!["permalink"].string
+            println(category)
+            catId = category!["_id"].string
         }
         
-        request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
             .responseJSON{ req, _, res, err in
                 self.requesting = false
                 if (err != nil) {
                     println(err)
                 } else {
                     var obj = JSON(res!)
-                    for (index : String, item : JSON) in obj["_data"]
+                    println(obj)
+                    if let arr = obj["_data"].array
                     {
-                        let p = Product.instance(item)
-                        if (p != nil) {
-                            self.products?.append(p!)
+                        if arr.count == 0
+                        {
+                            self.done = true
+                        } else
+                        {
+                            for (index : String, item : JSON) in obj["_data"]
+                            {
+                                let p = Product.instance(item)
+                                if (p != nil) {
+                                    self.products?.append(p!)
+                                }
+                            }
                         }
                     }
                 }
@@ -119,7 +170,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        if (indexPath.row == (products?.count)!-4 && requesting == false) {
+        if (indexPath.row == (products?.count)!-4 && requesting == false && done == false) {
             getProducts()
         }
         
@@ -182,8 +233,6 @@ class ListItemCell : UICollectionViewCell
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.layer.borderWidth = 1
         
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
@@ -193,11 +242,11 @@ class ListItemCell : UICollectionViewCell
     {
         let obj = product.json
         captionTitle.text = product.name
-        captionPrice.text = "Rp. " + String(obj["price"].int!)
+        captionPrice.text = product.price
         let loveCount = obj["love"].int
-        captionLove.text = String(loveCount!)
+        captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
-        captionComment.text = String(commentCount!)
+        captionComment.text = String(commentCount == nil ? 0 : commentCount!)
         
         let loved = obj["is_preloved"].bool
         if (loved == true)

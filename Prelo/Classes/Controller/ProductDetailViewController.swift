@@ -10,13 +10,15 @@ import UIKit
 import CoreData
 //import FMMosaicLayout
 //import ZSWTappableLabel
+import MessageUI
 
 protocol ProductCellDelegate
 {
     func cellTappedCategory(categoryName : String, categoryID : String)
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate {
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate
+{
     
     var product : Product?
     var detail : ProductDetail?
@@ -28,6 +30,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBOutlet var captionBeli: UILabel!
     @IBOutlet var captionPrice: UILabel!
+    
+    @IBOutlet var captionFreeOngkir: UILabel!
     
     @IBOutlet var ivChat: UIImageView!
     
@@ -52,6 +56,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
         var btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnOption.addTarget(self, action: "option", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
@@ -63,7 +68,31 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        Mixpanel.sharedInstance().track("Product Detail")
         self.titleText = detail?.json["_data"]["name"].string!
+    }
+    
+    func option()
+    {
+        let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+        a.addButtonWithTitle("Report")
+        a.showInView(self.view)
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            // report
+            let m = MFMailComposeViewController()
+            m.setToRecipients(["contact@prelo.id"])
+            m.setSubject("Product Report [" + (detail?.productID)! + "]")
+            m.mailComposeDelegate = self
+            self.presentViewController(m, animated: true, completion: nil)
+        }
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getDetail()
@@ -82,14 +111,30 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func setupView()
     {
         let p = ProductDetailCover.instance((detail?.displayPicturers)!)
+        p?.parent = self
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
-        captionPrice.text = "Rp. " + String((detail?.json["_data"]["price"].int)!)
+//        captionPrice.text = "Rp. " + String((!)
+        if let price = detail?.json["_data"]["price"].int?.asPrice
+        {
+            captionPrice.text = price
+        } else {
+            captionPrice.text = Int(0).asPrice
+        }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-            captionBeli.text = "Cart"
+//            captionBeli.text = "Beli"
             alreadyInCart = true
+        }
+        
+        let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
+        if (freeOngkir)
+        {
+            captionFreeOngkir.text = "FREE ONGKIR"
+        } else
+        {
+            captionFreeOngkir.text = "+ ONGKIR"
         }
     }
 
@@ -214,8 +259,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let c = segue.destinationViewController as! BaseViewController
-        c.previousController = self
+        
+        if (segue.identifier == "segAddComment")
+        {
+            
+        } else
+        {
+            let c = segue.destinationViewController as! BaseViewController
+            c.previousController = self
+        }
     }
 
 }
@@ -266,8 +318,21 @@ class ProductCellTitle : UITableViewCell
         var product = (obj?.json)!["_data"]
         
         captionTitle?.text = obj?.name
-        captionOldPrice?.text = "Rp. " + String(product["price_original"].int!)
-        captionPrice?.text = "Rp. " + String(product["price"].int!)
+        if let oldPrice = product["price_original"].int?.asPrice
+        {
+            captionOldPrice?.text = oldPrice
+        } else
+        {
+            captionOldPrice?.text = ""
+        }
+        
+        if let price = product["price"].int?.asPrice
+        {
+            captionPrice?.text = price
+        } else
+        {
+            captionPrice?.text = ""
+        }
         
         captionCountLove?.text = String(product["n_loves"].int!)
         captionCountComment?.text = obj?.discussionCountText
@@ -352,7 +417,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let cs = categoryString.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-101)
         
-        return 154+size.height+s.height+cs.height+8
+        return 163+size.height+s.height+cs.height+8
     }
     
     func adapt(obj : ProductDetail?)
@@ -365,8 +430,18 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         captionDesc?.text = product["description"].string!
         captionDate?.text = product["time"].string!
         captionCondition?.text = product["condition"].string!
-        captionFrom?.text = product["seller_region"]["name"].string!
-        captionMerk?.text = product["brand"].string!
+        if let region = product["seller_region"]["name"].string
+        {
+            captionFrom?.text = region
+        } else {
+            captionFrom?.text = "Unknown"
+        }
+        if let merk = product["brand"].string
+        {
+            captionMerk?.text = merk
+        } else {
+            captionMerk?.text = "Unknown"
+        }
         captionSize?.text = " "
         
         let arr = product["category_breadcrumbs"].array!
@@ -384,7 +459,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                     ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
-                    NSForegroundColorAttributeName : Theme.DarkPurple
+                    NSForegroundColorAttributeName : Theme.PrimaryColorDark
                 ]
                 param.append(p)
                 

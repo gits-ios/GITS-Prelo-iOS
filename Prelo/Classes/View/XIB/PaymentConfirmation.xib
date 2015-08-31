@@ -25,16 +25,32 @@
                             <outlet property="delegate" destination="6XN-xi-eUQ" id="EQO-mc-JoX"/>
                         </connections>
                     </tableView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tidak ada pemesanan yang sedang diproses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y2l-XV-xKb">
+                        <rect key="frame" x="147" y="323" width="307" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="f14-Us-gx4">
+                        <rect key="frame" x="290" y="322" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="w96-RQ-AKx" firstAttribute="top" secondItem="Lwa-v5-KFi" secondAttribute="bottom" id="57q-Ib-0rL"/>
+                    <constraint firstAttribute="centerX" secondItem="y2l-XV-xKb" secondAttribute="centerX" id="80y-At-voq"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Lwa-v5-KFi" secondAttribute="trailing" constant="-16" id="O7h-3T-vN5"/>
                     <constraint firstItem="Lwa-v5-KFi" firstAttribute="top" secondItem="u11-fT-OAX" secondAttribute="bottom" id="Ok4-Eh-j1a"/>
                     <constraint firstItem="Lwa-v5-KFi" firstAttribute="leading" secondItem="PuW-WT-CJa" secondAttribute="leadingMargin" constant="-16" id="Zia-qH-IfM"/>
+                    <constraint firstAttribute="centerY" secondItem="f14-Us-gx4" secondAttribute="centerY" constant="-32" id="ehD-KD-88p"/>
+                    <constraint firstAttribute="centerY" secondItem="y2l-XV-xKb" secondAttribute="centerY" constant="-32" id="ke4-9t-fmR"/>
+                    <constraint firstAttribute="centerX" secondItem="f14-Us-gx4" secondAttribute="centerX" id="qHN-BB-93Z"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <connections>
+                <outlet property="lblEmpty" destination="y2l-XV-xKb" id="poT-32-42o"/>
+                <outlet property="loading" destination="f14-Us-gx4" id="p9V-WY-ziy"/>
                 <outlet property="tableView" destination="Lwa-v5-KFi" id="Mn8-S6-LSx"/>
             </connections>
             <point key="canvasLocation" x="318" y="-350"/>

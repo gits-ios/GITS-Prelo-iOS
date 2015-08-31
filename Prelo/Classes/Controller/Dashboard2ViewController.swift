@@ -15,13 +15,23 @@ class Dashboard2ViewController : BaseViewController {
     }
     
     @IBAction func loginButtonTapped(sender : AnyObject) {
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginVC : LoginViewController? = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as? LoginViewController
-        loginVC?.navController = self.previousController?.navigationController
-        self.previousController?.navigationController?.pushViewController(loginVC!, animated: true)
+//        let loginVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
+//        loginVC.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+//        let n = BaseNavigationController(rootViewController : loginVC)
+//        n.setNavigationBarHidden(true, animated: false)
+//        self.previousController?.presentViewController(n, animated: true, completion: nil)
+        LoginViewController.Show(self.previousController!, userRelatedDelegate: self.previousController as? UserRelatedDelegate, animated: true)
     }
     
     @IBAction func contactButtonTapped(sender : AnyObject) {
         
     }
+    
+    @IBAction func aboutButtonTapped(sender: UIButton) {
+        let a = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAbout) as! AboutViewController
+        a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
+        a.isShowLogout = false
+        self.previousController?.navigationController?.pushViewController(a, animated: true)
+    }
+    
 }

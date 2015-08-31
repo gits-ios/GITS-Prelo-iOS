@@ -11,14 +11,14 @@ import UIKit
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
     {
-        let base = "http://images.kleora.com/images/users/" + userID + "/" + fileName
+        let base = "http://dev.kleora.com/images/users/" + userID + "/" + fileName
         return base
     }
     
     static func UrlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://images.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
         
     }
 }
@@ -63,7 +63,14 @@ public class User : NSObject
     
     static func StoreUser(user : JSON)
     {
-        let id = user["user_id"].string!
+        var id = ""
+        if let user_id = user["user_id"].string
+        {
+            id = user_id
+        } else if let _id = user["_id"].string
+        {
+            id = _id
+        }
         let token = user["token"].string!
         
         NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)
@@ -80,6 +87,14 @@ public class User : NSObject
     
     static func Logout()
     {
+        Mixpanel.sharedInstance().track("Logged Out")
+        
+        if let u = CDUser.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext?.deleteObject(u)
+            UIApplication.appDelegate.saveContext()
+        }
+        
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
         NSUserDefaults.standardUserDefaults().synchronize()
@@ -104,7 +119,7 @@ public class ProductDetail : NSObject
     private func urlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://images.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
         
     }
     
@@ -132,7 +147,7 @@ public class ProductDetail : NSObject
     
     var shopAvatarURL : NSURL?
     {
-        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
+        let base = "http://dev.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
         return NSURL(string: base)
     }
     
@@ -176,7 +191,7 @@ public class Product : NSObject
     
     var name : String
     {
-            return (json["name"].string)!.escapedHTML
+        return (json["name"].string)!.escapedHTML
     }
     
     static func instance(obj:JSON?)->Product?
@@ -194,14 +209,25 @@ public class Product : NSObject
     {
         if let err = json["display_picts"][0].error
         {
-            return nil
+            return NSURL(string: "http://dev.kleora.com/images/products/")
         }
-        let base = "http://images.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
-        return NSURL(string: base)
+        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
+        if let url = NSURL(string : base)
+        {
+            return url
+        } else {
+            return NSURL(string: "http://dev.kleora.com/images/products/")
+        }
+//        return NSURL(string: base)
     }
     
     var discussionCountText : String
         {
+            if let d = json["discussions"].int
+            {
+                return String(d)
+            }
+            
             let a = json["discussions"].array
             if (a?.count == 0) {
                 return "0"
@@ -210,6 +236,15 @@ public class Product : NSObject
                 let d = f?["discussions"].array
                 return String((d?.count)!)
             }
+    }
+    
+    var loveCountText : String
+    {
+            if let l = json["love"].int
+            {
+                return String(l)
+            }
+        return ""
     }
     
     var discussions : [JSON]?
@@ -222,6 +257,25 @@ public class Product : NSObject
                 let d = f?["discussions"].array
                 return d
             }
+    }
+    
+    var price : String
+    {
+        if let p = json["price"].int
+        {
+            return p.asPrice
+        }
+        
+        return ""
+    }
+    
+    var time : String
+    {
+        if let t = json["time"].string
+        {
+            return t
+        }
+        return ""
     }
 }
 
@@ -278,7 +332,7 @@ class UserOrder : NSObject {
         {
             return nil
         }
-        let url = "http://images.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
+        let url = "http://dev.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
         return NSURL(string: url)
     }
     

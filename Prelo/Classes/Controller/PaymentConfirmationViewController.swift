@@ -11,12 +11,17 @@ import Foundation
 class PaymentConfirmationViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var lblEmpty: UILabel!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var userOrders : Array <UserOrder>?
     var tableData: [String] = ["Hello", "My", "Table"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Menghilangkan garis antar cell
+        tableView.tableFooterView = UIView()
         
         // Register custom cell
         var PaymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
@@ -29,6 +34,11 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        loading.startAnimating()
+        tableView.hidden = true
+        lblEmpty.hidden = true
+        
+        Mixpanel.sharedInstance().track("Payment Confirmation")
         
         if (userOrders?.count == 0 || userOrders == nil) {
             if (userOrders == nil) {
@@ -52,7 +62,14 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                     }
                 }
             }
-            self.setupTable()
+            self.loading.stopAnimating()
+            self.loading.hidden = true
+            if (self.userOrders?.count <= 0) {
+                self.lblEmpty.hidden = false
+            } else {
+                self.tableView.hidden = false
+                self.setupTable()
+            }
         }
     }
     
@@ -67,7 +84,11 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (self.userOrders?.count)!
+        if (userOrders?.count > 0) {
+            return (self.userOrders?.count)!
+        } else {
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
