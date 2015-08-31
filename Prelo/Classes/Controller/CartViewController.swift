@@ -874,7 +874,9 @@ class CartCellItem : UITableViewCell
         } else {
             let sh = json["shippings"].array!
             let first = sh.first
-            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["name"].int
+            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["pricefixed"].int
+            ongkir = 0
+//            println(json)
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : "(+ONGKIR " + ongkir!.asPrice + ")"
             var priceString = json["price"].int!.asPrice
             let string = priceString + "" + ""

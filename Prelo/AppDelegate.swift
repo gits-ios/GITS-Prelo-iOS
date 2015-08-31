@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        Fabric.with([Crashlytics.self()])
+        //Fabric.with([Crashlytics.self()])
         Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
         Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
         

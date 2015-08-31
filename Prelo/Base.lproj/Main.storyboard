@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kB-PJ-dDC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kB-PJ-dDC">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -1817,7 +1817,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_ongkir" rowHeight="120" id="gw0-Am-GBi" customClass="AddProductShippingPaymentCell" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_ongkir" rowHeight="140" id="gw0-Am-GBi" customClass="AddProductShippingPaymentCell" customModule="Prelo" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gw0-Am-GBi" id="c49-Mi-FR3">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1941,18 +1941,41 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos kirim sesuai dengan bla bla bla bla" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNu-4S-BeG">
-                                                    <rect key="frame" x="180" y="96" width="240" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNu-4S-BeG">
+                                                    <rect key="frame" x="44" y="94" width="513" height="28"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="Ongkos kirim sesuai dengan kurir yang tersimpan di sistem">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content=" ">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content="Lihat syarat dan ketentuan">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zkm-S3-6np" firstAttribute="top" secondItem="c49-Mi-FR3" secondAttribute="top" constant="8" id="SbJ-gn-b1O"/>
-                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="top" secondItem="zkm-S3-6np" secondAttribute="bottom" constant="8" id="W88-dx-PST"/>
+                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="top" secondItem="zkm-S3-6np" secondAttribute="bottom" constant="6" id="W88-dx-PST"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="uNu-4S-BeG" secondAttribute="trailing" constant="35" id="YRm-OA-lRJ"/>
                                                 <constraint firstItem="zkm-S3-6np" firstAttribute="leading" secondItem="c49-Mi-FR3" secondAttribute="leading" constant="8" id="mFi-rA-iYk"/>
                                                 <constraint firstAttribute="trailing" secondItem="zkm-S3-6np" secondAttribute="trailing" constant="8" id="mhC-GW-eMl"/>
+                                                <constraint firstItem="uNu-4S-BeG" firstAttribute="leading" secondItem="c49-Mi-FR3" secondAttribute="leadingMargin" constant="36" id="rmS-lI-MoQ"/>
                                                 <constraint firstAttribute="centerX" secondItem="uNu-4S-BeG" secondAttribute="centerX" id="wGb-kL-zhs"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1963,7 +1986,7 @@
                                             <outletCollection property="btnShippingPayments" destination="f7O-ek-l6b" collectionClass="NSMutableArray" id="Lqw-g6-wGm"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_weight" rowHeight="120" id="4mw-ze-Rvq" customClass="AddProductCellWeight" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_weight" rowHeight="100" id="4mw-ze-Rvq" customClass="AddProductCellWeight" customModule="Prelo" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4mw-ze-Rvq" id="RLi-TQ-mt9">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -2772,7 +2795,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="0.18431372940540314" green="0.26274511218070984" blue="0.54509806632995605" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -2791,7 +2814,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="0.0" green="0.67450982332229614" blue="0.92941176891326904" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -2810,7 +2833,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" cyan="0.31999999284744263" magenta="0.56000000238418579" yellow="0.67000001668930054" black="0.090000003576278687" alpha="1" colorSpace="deviceCMYK"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -2829,7 +2852,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -2846,8 +2869,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYn-oo-yqe">
                                                 <rect key="frame" x="8" y="272" width="164" height="168"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBh-BV-YhD" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="88" width="30" height="32"/>
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QBh-BV-YhD" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="91" width="30" height="32"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                         <state key="normal" title="">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2858,14 +2881,14 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="0.18431372940540314" green="0.26274511218070984" blue="0.54509806632995605" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="cCU-DV-biP"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgp-TL-vkB" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wgp-TL-vkB" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="47" y="89" width="30" height="36"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
                                                         <state key="normal" title="">
@@ -2884,8 +2907,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="R0e-tp-bKH"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUY-Xd-Hyu" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="47" y="129" width="30" height="36"/>
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUY-Xd-Hyu" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="47" y="126" width="30" height="36"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
                                                         <state key="normal" title="">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2903,8 +2926,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="EAE-g9-z3e"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rpM-yI-OFL" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="47" y="9" width="30" height="36"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rpM-yI-OFL" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="47" y="8" width="30" height="36"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
                                                         <state key="normal" title="">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2922,8 +2945,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="NkF-Zg-znJ"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CM-uO-Ysk" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="47" y="49" width="30" height="36"/>
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8CM-uO-Ysk" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="47" y="48" width="30" height="36"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="24"/>
                                                         <state key="normal" title="">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2941,7 +2964,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="TNA-sj-f5W"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLw-AE-N6X" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLw-AE-N6X" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="85" y="92" width="66" height="30"/>
                                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                                         <state key="normal" title="Facebook">
@@ -2960,8 +2983,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="rr2-sA-51h"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-AQ-RI4" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="85" y="132" width="66" height="30"/>
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrT-AQ-RI4" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="85" y="129" width="66" height="30"/>
                                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                                         <state key="normal" title="Twitter">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2979,8 +3002,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="K62-lj-qUg"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cco-3y-zf6" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="85" y="12" width="67" height="30"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cco-3y-zf6" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="85" y="11" width="67" height="30"/>
                                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                                         <state key="normal" title="Instagram">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2998,8 +3021,8 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="Jg6-5E-X9R"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5UF-Cl-M47" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="85" y="52" width="66" height="30"/>
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5UF-Cl-M47" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                        <rect key="frame" x="85" y="51" width="66" height="30"/>
                                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
                                                         <state key="normal" title="Path">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -3017,7 +3040,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="8se-mO-Jz2"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="787-vq-DPz" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="787-vq-DPz" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="128" width="30" height="32"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                         <state key="normal" title="">
@@ -3029,14 +3052,14 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="0.0" green="0.67450982332229614" blue="0.92941176891326904" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="fot-Wv-Ouf"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiW-p9-hvd" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiW-p9-hvd" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="10" width="30" height="32"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                         <state key="normal" title="">
@@ -3048,14 +3071,14 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" cyan="0.31999999284744263" magenta="0.56000000238418579" yellow="0.67000001668930054" black="0.090000003576278687" alpha="1" colorSpace="deviceCMYK"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="setSelectShare:" destination="Bil-tW-9db" eventType="touchUpInside" id="MBl-Sh-uFP"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niR-TH-4aU" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niR-TH-4aU" customClass="AddProductShareButton" customModule="Prelo" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="50" width="30" height="32"/>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="18"/>
                                                         <state key="normal" title="">
@@ -3067,7 +3090,7 @@ hanya dengan sharing produk kamu ke media sosial</string>
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
@@ -3201,22 +3224,22 @@ Keuntungan</string>
                         <outlet property="captionCharge" destination="30N-1w-BQg" id="M6i-AI-azP"/>
                         <outlet property="captionChargePercent" destination="QPv-74-Qyn" id="nYC-Qv-JMy"/>
                         <outlet property="captionPrice" destination="Dmv-aY-hGC" id="NhQ-5g-msW"/>
-                        <outletCollection property="arrayRow1" destination="QBh-BV-YhD" collectionClass="NSMutableArray" id="80Q-83-xwu"/>
-                        <outletCollection property="arrayRow1" destination="wgp-TL-vkB" collectionClass="NSMutableArray" id="az5-Ak-kbk"/>
-                        <outletCollection property="arrayRow1" destination="PLw-AE-N6X" collectionClass="NSMutableArray" id="mT1-NL-RuT"/>
                         <outletCollection property="arrayRow1" destination="n2Q-bE-wBy" collectionClass="NSMutableArray" id="um8-zD-R56"/>
-                        <outletCollection property="arrayRow2" destination="787-vq-DPz" collectionClass="NSMutableArray" id="958-t6-nVw"/>
-                        <outletCollection property="arrayRow2" destination="zUY-Xd-Hyu" collectionClass="NSMutableArray" id="Y7E-LD-rTn"/>
-                        <outletCollection property="arrayRow2" destination="zrT-AQ-RI4" collectionClass="NSMutableArray" id="ODr-KN-U2M"/>
                         <outletCollection property="arrayRow2" destination="uq1-Ws-n28" collectionClass="NSMutableArray" id="x8R-WY-hGk"/>
-                        <outletCollection property="arrayRow3" destination="uiW-p9-hvd" collectionClass="NSMutableArray" id="AhQ-8Y-bBJ"/>
-                        <outletCollection property="arrayRow3" destination="rpM-yI-OFL" collectionClass="NSMutableArray" id="hZi-nd-rEs"/>
-                        <outletCollection property="arrayRow3" destination="cco-3y-zf6" collectionClass="NSMutableArray" id="c41-yw-FJT"/>
                         <outletCollection property="arrayRow3" destination="f79-Br-jdZ" collectionClass="NSMutableArray" id="nJt-oo-yaX"/>
-                        <outletCollection property="arrayRow4" destination="niR-TH-4aU" collectionClass="NSMutableArray" id="FnN-uU-Mgu"/>
-                        <outletCollection property="arrayRow4" destination="8CM-uO-Ysk" collectionClass="NSMutableArray" id="FLB-GI-VJN"/>
-                        <outletCollection property="arrayRow4" destination="5UF-Cl-M47" collectionClass="NSMutableArray" id="2sa-S8-U3a"/>
                         <outletCollection property="arrayRow4" destination="vKO-UE-zpS" collectionClass="NSMutableArray" id="pBP-B7-iYt"/>
+                        <outletCollection property="arrayRow1" destination="cco-3y-zf6" collectionClass="NSMutableArray" id="Hc7-s5-UeE"/>
+                        <outletCollection property="arrayRow1" destination="rpM-yI-OFL" collectionClass="NSMutableArray" id="awG-lc-cZU"/>
+                        <outletCollection property="arrayRow1" destination="uiW-p9-hvd" collectionClass="NSMutableArray" id="pBr-7s-BJx"/>
+                        <outletCollection property="arrayRow2" destination="5UF-Cl-M47" collectionClass="NSMutableArray" id="5t9-Ck-XKw"/>
+                        <outletCollection property="arrayRow2" destination="8CM-uO-Ysk" collectionClass="NSMutableArray" id="vjd-EF-n7r"/>
+                        <outletCollection property="arrayRow2" destination="niR-TH-4aU" collectionClass="NSMutableArray" id="cCd-rR-Mdy"/>
+                        <outletCollection property="arrayRow3" destination="PLw-AE-N6X" collectionClass="NSMutableArray" id="K6f-fo-buG"/>
+                        <outletCollection property="arrayRow3" destination="wgp-TL-vkB" collectionClass="NSMutableArray" id="7In-hQ-9bj"/>
+                        <outletCollection property="arrayRow3" destination="QBh-BV-YhD" collectionClass="NSMutableArray" id="Ufy-mB-t9k"/>
+                        <outletCollection property="arrayRow4" destination="zrT-AQ-RI4" collectionClass="NSMutableArray" id="VsS-sD-X8m"/>
+                        <outletCollection property="arrayRow4" destination="zUY-Xd-Hyu" collectionClass="NSMutableArray" id="oFZ-Pu-7W7"/>
+                        <outletCollection property="arrayRow4" destination="787-vq-DPz" collectionClass="NSMutableArray" id="f1c-de-3Op"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxK-TK-H0B" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3807,6 +3830,24 @@ Keuntungan</string>
             </objects>
             <point key="canvasLocation" x="2395" y="-456"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="1Rl-xF-ar3">
+            <objects>
+                <viewController id="89O-n7-3Ld" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BQi-o3-SDA"/>
+                        <viewControllerLayoutGuide type="bottom" id="y72-qx-QcZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="92J-hP-tVs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sml-EB-UEI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3219" y="-456"/>
+        </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="vnq-WO-h06">
             <objects>
@@ -3839,6 +3880,9 @@ Keuntungan</string>
                                             <state key="highlighted">
                                                 <color key="titleColor" red="0.46666666670000001" green="0.15686274510000001" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
+                                            <connections>
+                                                <segue destination="89O-n7-3Ld" kind="show" id="hna-qz-uWU"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
