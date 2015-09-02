@@ -308,6 +308,8 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
+		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -721,6 +723,8 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
+		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1229,6 +1233,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */,
 				21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */,
@@ -1511,6 +1516,7 @@
 				21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */,
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
+				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1641,6 +1647,7 @@
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
+				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
@@ -1852,6 +1859,7 @@
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				21C7ADCB1B73AB8B003C3945 /* SearchViewController.swift in Sources */,
+				44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */,
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				21679A411B901C5300F18F90 /* MPSurveyNavigationController.m in Sources */,

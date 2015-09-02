@@ -110,7 +110,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     func register() {
-        disableTextFields(NSNull)
+        /*disableTextFields(NSNull)
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
@@ -150,20 +150,20 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                             self.userRelatedDelegate?.userLoggedIn!()
                         }
                         
-                        self.toUserProfile()
+                        self.toProfileSetup()
                     }
                 }
-        }
+        }*/
         
         // FOR TESTING
-        //self.toUserProfile()
+        self.toProfileSetup()
     }
     
-    func toUserProfile() {
-        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
-        userProfileVC.previousControllerName = "Register"
-        userProfileVC.userRelatedDelegate = self.userRelatedDelegate
-        self.navigationController?.pushViewController(userProfileVC, animated: true)
+    func toProfileSetup() {
+        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+        profileSetupVC.previousControllerName = "Register"
+        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+        self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
