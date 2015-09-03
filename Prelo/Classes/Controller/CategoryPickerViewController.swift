@@ -20,6 +20,8 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Pilih Kategori"
 
         // Do any additional setup after loading the view.
         let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
@@ -102,6 +104,15 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        println(parent)
+        if let name = parent["name"].string
+        {
+            self.title = name.capitalizedString
+        } else
+        {
+            self.title = "Pilih Kategori"
+        }
         
         if let children = parent["children"].arrayObject
         {

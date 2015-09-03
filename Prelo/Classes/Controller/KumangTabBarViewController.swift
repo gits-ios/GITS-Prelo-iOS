@@ -16,6 +16,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
     
+    @IBOutlet var btnDashboard : UIButton!
+    
     var menuPopUp : MenuPopUp?
     
     var changeToBrowseCount = 0
@@ -44,6 +46,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         v.frame = CGRectMake(0, 0, 10, 10)
         v.backgroundColor = UIColor.clearColor()
         self.navigationItem.titleView = v
+        
+        if (User.IsLoggedIn)
+        {
+            btnDashboard.setTitle("DASHBOARD", forState: UIControlState.Normal)
+        } else
+        {
+            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        }
         
         self.setupNormalOptions()
         self.setupTitle()
@@ -136,6 +146,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     @IBAction func launchMenu()
     {
+//        let i = PreloShareItem()
+//        PreloShareController.Share(i, inView: (self.navigationController?.view)!)
+        
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
         self.navigationController?.pushViewController(add, animated: true)
     }
@@ -152,6 +165,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedIn() {
+        btnDashboard.setTitle("DASHBOARD", forState: UIControlState.Normal)
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
         d.previousController = self
         changeToController(d)
@@ -159,6 +173,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedOut() {
+        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
 //        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
         changeToController(controllerBrowse!)
 //        controllerDashboard = d
@@ -169,10 +184,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func menuSelected(option: MenuOption) {
-        menuPopUp?.hide()
+        let i = PreloShareItem()
+        PreloShareController.Share(i, inView: self.view)
         
-        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
-        self.navigationController?.pushViewController(add, animated: true)
+//        menuPopUp?.hide()
+//        
+//        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
+//        self.navigationController?.pushViewController(add, animated: true)
     }
     
     

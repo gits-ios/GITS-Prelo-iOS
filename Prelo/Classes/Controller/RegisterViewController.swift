@@ -49,6 +49,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.an_unsubscribeKeyboard()
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    
     @IBAction func disableTextFields(sender : AnyObject)
     {
         txtEmail?.resignFirstResponder()
