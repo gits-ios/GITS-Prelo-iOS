@@ -164,6 +164,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (cellTitle == nil) {
                     cellTitle = tableView.dequeueReusableCellWithIdentifier("cell_title") as? ProductCellTitle
                 }
+                cellTitle?.parent = self
                 cellTitle?.adapt(detail)
                 return cellTitle!
             } else if (indexPath.row == 1) {
@@ -285,6 +286,8 @@ class ProductCellTitle : UITableViewCell
     
     @IBOutlet var btnShare : UIButton?
     
+    var parent : UIViewController?
+    
     static func heightFor(obj : ProductDetail?)->CGFloat
     {
         if (obj == nil) {
@@ -302,6 +305,8 @@ class ProductCellTitle : UITableViewCell
         
         btnShare?.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnShare?.layer.borderWidth = 1
+        
+        btnShare?.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
         
         sectionLove?.layer.borderColor = UIColor.lightGrayColor().CGColor
         sectionLove?.layer.borderWidth = 1
@@ -336,6 +341,11 @@ class ProductCellTitle : UITableViewCell
         
         captionCountLove?.text = String(product["n_loves"].int!)
         captionCountComment?.text = obj?.discussionCountText
+    }
+    
+    func share()
+    {
+        PreloShareController.Share(PreloShareItem(), inView: (parent?.navigationController?.view)!)
     }
 }
 

@@ -82,6 +82,7 @@ class Tags : NSObject
     static let StoryBoardIdCartConfirm = "cartConfirm"
     static let StoryBoardIdAddProductImage = "addProductImage"
     static let StoryBoardIdAddProduct = "addProduct"
+    static let StoryBoardIdAddProductFullscreen = "AddProductFullscreen"
     static let StoryBoardIdNavigation = "nav"
     static let StoryBoardIdOrderConfirm = "orderConfirm"
     static let StoryBoardIdMyProducts = "MyProducts"
@@ -89,6 +90,7 @@ class Tags : NSObject
     static let StoryBoardIdCategoryPicker = "CategoryPickerx"
     static let StoryBoardIdCategoryChildrenPicker = "CategoryChildrenPicker"
     static let StoryBoardIdAbout = "About"
+    static let StoryBoardIdPreloShare = "PreloShare"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

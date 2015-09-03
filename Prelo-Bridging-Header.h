@@ -19,5 +19,6 @@
 #import "AFNetworking.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "Mixpanel.h"
+#import "GrowingTextViewHandler.h"
 
 #endif
