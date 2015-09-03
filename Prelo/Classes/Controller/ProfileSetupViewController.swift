@@ -129,7 +129,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         
         groupFullname.hidden = true
         groupNoHP.hidden = true
-        groupReferral.hidden = true
+        //groupReferral.hidden = true
 
         // Naikin group lainnya
         let separateHeight : CGFloat = 30
@@ -138,8 +138,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         consTopGroupVerifikasiHP.constant -= groupNoHP.frame.size.height
         consTopGroupKota.constant -= groupNoHP.frame.size.height
         deltaHeight -= groupNoHP.frame.size.height
-        consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
-        deltaHeight -= groupReferral.frame.size.height + separateHeight
+        //consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
+        //deltaHeight -= groupReferral.frame.size.height + separateHeight
         
         // Sesuaikan tinggi scrollview content
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)

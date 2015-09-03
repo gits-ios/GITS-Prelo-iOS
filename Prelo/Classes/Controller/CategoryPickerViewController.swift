@@ -59,6 +59,15 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             c.captionTitle.text = name
         }
         
+        if let imageName = j["image_name"].string {
+            if let url = NSURL(string: "http://dev.kleora.com/images/categories/\(imageName)") {
+                if let data = NSData(contentsOfURL: url) {
+                    c.imageView.contentMode = UIViewContentMode.ScaleAspectFit
+                    c.imageView.image = UIImage(data: data)
+                }
+            }
+        }
+        
         return c
     }
     

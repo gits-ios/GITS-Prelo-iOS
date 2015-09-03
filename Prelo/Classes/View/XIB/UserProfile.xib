@@ -14,14 +14,14 @@
                 <viewControllerLayoutGuide type="bottom" id="P6O-W2-hdL"/>
             </layoutGuides>
             <view key="view" contentMode="scaleToFill" id="MK9-6E-9tI">
-                <rect key="frame" x="0.0" y="64" width="600" height="970"/>
+                <rect key="frame" x="0.0" y="64" width="600" height="1114"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TdC-7n-nuM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="970"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1114"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z3w-xQ-Il0" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="970"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1114"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUs-Fp-7Uj" userLabel="Group Upload Foto">
                                         <rect key="frame" x="8" y="27" width="584" height="64"/>
@@ -80,7 +80,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="17" id="Kqt-IC-BVd"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -230,12 +230,12 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BWe-gK-ODw" userLabel="Group Data">
                                         <rect key="frame" x="8" y="383" width="584" height="209"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0z-CD-goB">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATA DIRI" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0z-CD-goB">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="17" id="5sU-Ya-i5L"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -681,7 +681,7 @@
                                     <constraint firstItem="ePO-gP-iCs" firstAttribute="top" secondItem="BWe-gK-ODw" secondAttribute="bottom" constant="43" id="Mal-DW-5Xi"/>
                                     <constraint firstItem="ePO-gP-iCs" firstAttribute="leading" secondItem="Z3w-xQ-Il0" secondAttribute="leading" constant="8" id="P1c-ah-CyV"/>
                                     <constraint firstAttribute="trailing" secondItem="ePO-gP-iCs" secondAttribute="trailing" constant="8" id="Whb-UO-cB4"/>
-                                    <constraint firstAttribute="height" constant="970" id="bDv-Tb-VoO"/>
+                                    <constraint firstAttribute="height" constant="1114" id="bDv-Tb-VoO"/>
                                     <constraint firstAttribute="trailing" secondItem="PLV-3Q-3qI" secondAttribute="trailing" constant="8" id="dCv-no-z7a"/>
                                     <constraint firstItem="PLV-3Q-3qI" firstAttribute="leading" secondItem="Z3w-xQ-Il0" secondAttribute="leading" constant="8" id="iqi-Zd-rSd"/>
                                     <constraint firstAttribute="trailing" secondItem="BWe-gK-ODw" secondAttribute="trailing" constant="8" id="koU-ao-Xfo"/>
@@ -732,7 +732,7 @@
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <size key="freeformSize" width="600" height="1034"/>
+            <size key="freeformSize" width="600" height="1178"/>
             <connections>
                 <outlet property="btnJneReguler" destination="Cd0-WF-R4K" id="f42-Hn-PFx"/>
                 <outlet property="btnKabKota" destination="x2K-pP-RQy" id="ELL-Ov-KsB"/>

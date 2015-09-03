@@ -951,6 +951,7 @@ class AddProductShippingPaymentCell : UITableViewCell
 {
     @IBOutlet var sectionShippingPayments : Array<BorderedView> = []
     @IBOutlet var btnShippingPayments : Array<UIButton> = []
+    @IBOutlet weak var lblDescription: UILabel!
     
     var setted = false
     
@@ -988,6 +989,16 @@ class AddProductShippingPaymentCell : UITableViewCell
             if (l.isKindOfClass(UILabel.classForCoder()))
             {
                 let x = l as! UILabel
+                if (x.text == "Ditanggung Penjual") {
+                    var mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
+                    var greenTxt = "Lihat syarat & ketentuan"
+                    var range = (mainTxt as NSString).rangeOfString(greenTxt)
+                    var attrString = NSMutableAttributedString(string: mainTxt)
+                    attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
+                    lblDescription.attributedText = attrString
+                } else if (x.text == "Ditanggung Pembeli") {
+                    lblDescription.text = "Produk akan diberi label FREE ONGKIR (Recommended)"
+                }
                 x.textColor = Theme.PrimaryColorDark
             }
         }
