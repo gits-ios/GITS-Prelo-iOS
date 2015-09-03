@@ -232,6 +232,7 @@
 		21679A5C1B901CDA00F18F90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5B1B901CDA00F18F90 /* SystemConfiguration.framework */; };
 		21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5D1B901CE700F18F90 /* CoreGraphics.framework */; };
 		21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5F1B901DD400F18F90 /* libicucore.dylib */; };
+		217874631B98516900D355A8 /* merk.json in Resources */ = {isa = PBXBuildFile; fileRef = 217874621B98516900D355A8 /* merk.json */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		21AE67B31B4A5AF600D2CF63 /* ListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */; };
 		21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */; };
@@ -628,6 +629,7 @@
 		21679A5B1B901CDA00F18F90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		21679A5D1B901CE700F18F90 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		21679A5F1B901DD400F18F90 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		217874621B98516900D355A8 /* merk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merk.json; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
 		21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemViewController.swift; sourceTree = "<group>"; };
@@ -1395,6 +1397,7 @@
 		21AE67B81B4A61C600D2CF63 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				217874621B98516900D355A8 /* merk.json */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -1654,6 +1657,7 @@
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
+				217874631B98516900D355A8 /* merk.json in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
