@@ -110,7 +110,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     func register() {
-        /*disableTextFields(NSNull)
+        disableTextFields(NSNull)
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
@@ -153,10 +153,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         self.toProfileSetup()
                     }
                 }
-        }*/
+        }
         
         // FOR TESTING
-        self.toProfileSetup()
+        //self.toProfileSetup()
     }
     
     func toProfileSetup() {

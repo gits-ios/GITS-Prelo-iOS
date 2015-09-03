@@ -18,7 +18,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     @IBOutlet weak var fieldFullname: UITextField!
     @IBOutlet weak var consTopGroupJenKel: NSLayoutConstraint!
     @IBOutlet weak var lblJenisKelamin: UILabel!
+    @IBOutlet weak var groupNoHP: UIView!
     @IBOutlet weak var fieldNoHP: UITextField!
+    @IBOutlet weak var consTopGroupVerifikasiHP: NSLayoutConstraint!
     @IBOutlet weak var groupVerifikasiHP: UIView!
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
@@ -27,7 +29,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     @IBOutlet weak var lblKabKota: UILabel!
     @IBOutlet weak var lblJneCheckbox: UILabel!
     @IBOutlet weak var lblTikiCheckbox: UILabel!
+    @IBOutlet weak var groupReferral: UIView!
     @IBOutlet weak var fieldKodeReferral: UITextField!
+    @IBOutlet weak var consTopBtnApply: NSLayoutConstraint!
     @IBOutlet weak var btnApply: UIButton!
     
     var jneSelected : Bool = false
@@ -57,6 +61,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         super.viewDidLoad()
         
         hideGroups()
+        
+        // Border untuk tombol user image
+        btnUserImage.layer.borderWidth = 1
+        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -103,6 +111,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     func hideGroups() {
+        /* Digunakan setelah FGD 4 Sept
         groupUploadFoto.hidden = true
         groupFullname.hidden = true
         groupVerifikasiHP.hidden = true
@@ -113,6 +122,24 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         deltaHeight -= groupUploadFoto.frame.size.height + groupFullname.frame.size.height + separateHeight
         consTopGroupKota.constant -= groupVerifikasiHP.frame.size.height + separateHeight
         deltaHeight -= groupVerifikasiHP.frame.size.height + separateHeight
+        
+        // Sesuaikan tinggi scrollview content
+        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
+        */
+        
+        groupFullname.hidden = true
+        groupNoHP.hidden = true
+        groupReferral.hidden = true
+
+        // Naikin group lainnya
+        let separateHeight : CGFloat = 30
+        consTopGroupJenKel.constant -= groupFullname.frame.size.height
+        deltaHeight -= groupFullname.frame.size.height
+        consTopGroupVerifikasiHP.constant -= groupNoHP.frame.size.height
+        consTopGroupKota.constant -= groupNoHP.frame.size.height
+        deltaHeight -= groupNoHP.frame.size.height
+        consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
+        deltaHeight -= groupReferral.frame.size.height + separateHeight
         
         // Sesuaikan tinggi scrollview content
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
@@ -149,9 +176,27 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     @IBAction func userImagePressed(sender: AnyObject) {
+        // Akses galeri
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+            var imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+            imagePicker.allowsEditing = true
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        btnUserImage.setImage(image, forState: UIControlState.Normal)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func uploadFotoPressed(sender: AnyObject) {
+        if (btnUserImage.imageView?.image == nil) {
+            Constant.showDialog("Warning", message: "Pilih foto terlebih dahulu")
+        } else {
+            Constant.showDialog("Success", message: "Upload foto berhasil")
+        }
     }
     
     @IBAction func jenisKelaminPressed(sender: AnyObject) {
@@ -166,6 +211,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     @IBAction func verifikasiNoHPPressed(sender: AnyObject) {
+        if (fieldVerifikasiNoHP.text == "") {
+            Constant.showDialog("Warning", message: "Isi no HP terlebih dahulu")
+        } else {
+            Constant.showDialog("Success", message: "Verifikasi no HP berhasil")
+            fieldKodeVerifikasi.text = "123456"
+        }
     }
     
     @IBAction func provinsiPressed(sender: AnyObject) {
