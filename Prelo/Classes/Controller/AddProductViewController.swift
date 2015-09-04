@@ -129,7 +129,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[NSIndexPath(forRow: 1, inSection: 2)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
         baseDatas[NSIndexPath(forRow: 0, inSection: 3)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
         baseDatas[NSIndexPath(forRow: 1, inSection: 3)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
-        baseDatas[NSIndexPath(forRow: 2, inSection: 3)] = BaseCartData.instance("Komisi Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
+        baseDatas[NSIndexPath(forRow: 2, inSection: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -659,10 +659,13 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         acee?.lastIndex = indexPath
         
         if (indexPath.row == 1) { // Nama Barang, Bold
-            acee?.textView.font = UIFont.boldSystemFontOfSize(14)
+            acee?.textView.font = UIFont.systemFontOfSize(14)
         } else {
             acee?.textView.font = UIFont.systemFontOfSize(14)
         }
+        
+//        acee?.textView.textColor = UIColor(hex: "#858585")
+        acee?.textView.textColor = UIColor.darkGrayColor()
         
         return acee
     }
@@ -691,7 +694,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         h.width = UIScreen.mainScreen().bounds.size.width
         let d = sectionTitles[section]
         h.captionIcon.text = d["icon"]
-        h.captionTitle.text = d["title"]
+        h.captionTitle.text = d["title"]?.uppercaseString
         return h
     }
     
@@ -1237,6 +1240,8 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
         {
             d.weightChanged(w)
             d.weightSelected(index)
+            let l = self.contentView.viewWithTag(666)
+            l?.hidden = false
         }
     }
     

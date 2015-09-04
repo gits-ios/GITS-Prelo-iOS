@@ -1699,7 +1699,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72k-Qa-Txd">
+                                                <view tag="666" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72k-Qa-Txd">
                                                     <rect key="frame" x="8" y="44" width="584" height="1"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -2094,7 +2094,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-8h-ddY">
                                                     <rect key="frame" x="582" y="104" width="10" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="500" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhC-WA-Fak">
@@ -2103,13 +2103,14 @@
                                                         <constraint firstAttribute="height" constant="30" id="8vZ-Vt-dfr"/>
                                                         <constraint firstAttribute="width" constant="100" id="9IX-zO-fkI"/>
                                                     </constraints>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d49-MB-9pF">
                                                     <rect key="frame" x="8" y="104" width="40" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBq-8G-0FO">
@@ -2244,17 +2245,27 @@
                                                         <constraint firstItem="0SO-XS-NZ6" firstAttribute="leading" secondItem="gBq-8G-0FO" secondAttribute="leading" id="z01-c1-S7d"/>
                                                     </constraints>
                                                 </view>
+                                                <view hidden="YES" tag="666" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wA2-YG-M9b">
+                                                    <rect key="frame" x="8" y="131" width="584" height="1"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="Qvx-Ig-uOl"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="C1v-8h-ddY" secondAttribute="trailing" constant="8" id="4HC-0K-5Cp"/>
                                                 <constraint firstAttribute="trailing" secondItem="gBq-8G-0FO" secondAttribute="trailing" constant="8" id="Ajb-H8-8wi"/>
                                                 <constraint firstAttribute="bottom" secondItem="d49-MB-9pF" secondAttribute="bottom" constant="16" id="DtY-8j-DjP"/>
+                                                <constraint firstItem="wA2-YG-M9b" firstAttribute="leading" secondItem="RLi-TQ-mt9" secondAttribute="leading" constant="8" id="IVb-gA-Nk3"/>
                                                 <constraint firstAttribute="bottom" secondItem="C1v-8h-ddY" secondAttribute="bottom" constant="16" id="KXy-L8-lyq"/>
+                                                <constraint firstAttribute="bottom" secondItem="wA2-YG-M9b" secondAttribute="bottom" constant="8" id="MyY-A8-qfX"/>
                                                 <constraint firstItem="C1v-8h-ddY" firstAttribute="leading" secondItem="fhC-WA-Fak" secondAttribute="trailing" constant="8" id="SIq-88-TKe"/>
                                                 <constraint firstItem="gBq-8G-0FO" firstAttribute="leading" secondItem="RLi-TQ-mt9" secondAttribute="leading" constant="8" id="Tc4-df-IqU"/>
                                                 <constraint firstAttribute="bottom" secondItem="fhC-WA-Fak" secondAttribute="bottom" constant="8" id="dJZ-jr-1jV"/>
                                                 <constraint firstItem="gBq-8G-0FO" firstAttribute="top" secondItem="RLi-TQ-mt9" secondAttribute="top" constant="8" id="icU-T2-1DS"/>
                                                 <constraint firstItem="d49-MB-9pF" firstAttribute="leading" secondItem="RLi-TQ-mt9" secondAttribute="leading" constant="8" id="lnE-BD-kxL"/>
+                                                <constraint firstAttribute="trailing" secondItem="wA2-YG-M9b" secondAttribute="trailing" constant="8" id="nxd-7w-M7B"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
