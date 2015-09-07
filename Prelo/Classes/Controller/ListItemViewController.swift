@@ -226,6 +226,7 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var ivCover: UIImageView!
     @IBOutlet var captionTitle: UILabel!
     @IBOutlet var captionPrice: UILabel!
+    @IBOutlet var captionOldPrice: UILabel!
     @IBOutlet var captionLove: UILabel!
     @IBOutlet var captionMyLove: UILabel!
     @IBOutlet var captionComment: UILabel!
@@ -260,5 +261,10 @@ class ListItemCell : UICollectionViewCell
         let firstImg = obj["display_picts"][0].string
         ivCover.image = nil
         ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
+        
+        if let op = product.json["price_original"].int
+        {
+            captionOldPrice.text = op.asPrice
+        }
     }
 }

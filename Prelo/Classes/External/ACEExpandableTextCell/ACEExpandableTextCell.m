@@ -40,7 +40,7 @@
         [self.contentView addSubview:self.textView];
         
         CGRect cellFrame = self.contentView.bounds;
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, cellFrame.size.height-1, [UIScreen mainScreen].bounds.size.width-16, 1)];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, cellFrame.size.height-1, [UIScreen mainScreen].bounds.size.width-16, 1)];
         line.backgroundColor = [UIColor grayColor];
         line.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self.contentView addSubview:line];

@@ -38,6 +38,13 @@ class AddProductShareViewController: BaseViewController {
         {
             b.setTitleColor(c, forState: UIControlState.Normal)
             b.active = sender.active
+            
+            if (b.titleLabel?.text == "") { // unchek, check it!
+                b.setTitle("", forState: UIControlState.Normal)
+            } else if (b.titleLabel?.text == "") // checked, uncheck it
+            {
+                b.setTitle("", forState: UIControlState.Normal)
+            }
         }
         
         let p = percentages[tag]

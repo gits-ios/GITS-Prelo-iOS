@@ -16,10 +16,30 @@ import UIKit
 typealias PrepDataBlock = (picker : PickerViewController) -> ()
 typealias PickerSelectBlock = (item : String) -> ()
 
-class PickerViewController: UITableViewController {
-
+class PickerViewController: UITableViewController, UISearchBarDelegate
+{
+    
     static let TAG_START_HIDDEN = "œ"
     static let TAG_END_HIDDEN = "∑"
+    
+    @IBOutlet var searchBar : UISearchBar!
+    
+    var showSearch : Bool
+        {
+        set {
+            if (newValue == true)
+            {
+                tableView.tableHeaderView = searchBar
+            } else
+            {
+                tableView.tableHeaderView = UIView()
+            }
+        }
+        
+        get {
+            return tableView.tableHeaderView != nil
+        }
+    }
     
     static func HideHiddenString(string : String) -> String
     {
@@ -40,7 +60,37 @@ class PickerViewController: UITableViewController {
         return sf
     }
     
+    var _items : Array<String>?
     var items : Array<String>?
+        {
+        get {
+            return _items
+        }
+        
+        set {
+            _items = newValue
+            let v = ""
+            let x = v as NSString
+            if (x.rangeOfString("").location != NSNotFound)
+            {
+                
+            }
+            
+            let k = ""
+            if let arr = newValue
+            {
+                usedItems = arr.filter({
+                    let s = $0 as NSString
+                    if (s.rangeOfString("").location != NSNotFound || k == "")
+                    {
+                        return true
+                    }
+                    return false
+                })
+            }
+        }
+    }
+    var usedItems : Array<String> = []
     var pickerDelegate : PickerViewDelegate?
     
     var prepDataBlock : PrepDataBlock?
@@ -50,8 +100,11 @@ class PickerViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.tableView.tableFooterView = UIView()
+        searchBar.delegate = self
+        
+        self.showSearch = false
         
         if (prepDataBlock != nil) {
             startLoading()
@@ -59,14 +112,14 @@ class PickerViewController: UITableViewController {
         }
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (items?.count)!
+        return usedItems.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -75,8 +128,8 @@ class PickerViewController: UITableViewController {
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         }
         
-        let raw = items?.objectAtCircleIndex(indexPath.row)
-        let s = PickerViewController.HideHiddenString(raw!)
+        let raw = usedItems.objectAtCircleIndex(indexPath.row)
+        let s = PickerViewController.HideHiddenString(raw)
         
         cell?.textLabel?.text = s
         
@@ -85,12 +138,12 @@ class PickerViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (selectBlock != nil) {
-            selectBlock!(item: (items?.objectAtCircleIndex(indexPath.row))!)
+            selectBlock!(item: (usedItems.objectAtCircleIndex(indexPath.row)))
         }
         
         
         if (pickerDelegate != nil) {
-            pickerDelegate?.pickerDidSelect!((items?.objectAtCircleIndex(indexPath.row))!)
+            pickerDelegate?.pickerDidSelect!((usedItems.objectAtCircleIndex(indexPath.row)))
         }
         
         self.navigationController?.popViewControllerAnimated(true)
@@ -115,15 +168,36 @@ class PickerViewController: UITableViewController {
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
-
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.filter(searchText)
+        tableView.reloadData()
+    }
+    
+    func filter(k : String)
+    {
+        var key = k.lowercaseString
+        if let arr = self.items
+        {
+            usedItems = arr.filter({
+                let s = $0.lowercaseString as NSString
+                if (s.rangeOfString(key).location != NSNotFound || k == "")
+                {
+                    return true
+                }
+                return false
+            })
+        }
+    }
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
