@@ -50,7 +50,7 @@
                                         </constraints>
                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                        <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUT-t6-ai7">
                                         <rect key="frame" x="8" y="181" width="552" height="1"/>
@@ -347,7 +347,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="ic_ico_label.png" width="725" height="337"/>
+        <image name="ic_ico_label.png" width="1222" height="578"/>
         <image name="ic_socmed_facebook.png" width="147" height="109"/>
         <image name="ic_socmed_path.png" width="147" height="109"/>
     </resources>

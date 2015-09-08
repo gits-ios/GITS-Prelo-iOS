@@ -111,7 +111,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     func hideGroups() {
-        /* Digunakan setelah FGD 4 Sept
         groupUploadFoto.hidden = true
         groupFullname.hidden = true
         groupVerifikasiHP.hidden = true
@@ -125,8 +124,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         
         // Sesuaikan tinggi scrollview content
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
-        */
         
+        /* Digunakan untuk FGD 4 Sept
         groupFullname.hidden = true
         groupNoHP.hidden = true
         //groupReferral.hidden = true
@@ -142,7 +141,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         //deltaHeight -= groupReferral.frame.size.height + separateHeight
         
         // Sesuaikan tinggi scrollview content
-        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
+        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)*/
     }
     
     @IBAction func disableTextFields(sender : AnyObject)
@@ -393,6 +392,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
                                 {
                                     d.userLoggedIn!()
                                 }
+
+                                /* Digunakan jika setelah scene ini adalah scene phone verification
+                                // TODO : Coba POST phone verification dulu sebelum pindah scene
+
+                                let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                                self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                                */
+                                
+                                // FOR TESTING (SKIP PHONE VERIFICATION)
                                 self.dismissViewControllerAnimated(true, completion: nil)
                             } else if (self.previousControllerName == "Dashboard") {
                                 self.navigationController?.popViewControllerAnimated(true)

@@ -55,6 +55,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     @IBAction func disableTextFields(sender : AnyObject)
     {
+        txtUsername?.resignFirstResponder()
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
         txtRepeatPassword?.resignFirstResponder()
@@ -159,8 +160,15 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                 }
         }
         
-        // FOR TESTING
+        // FOR TESTING (TO PROFILE SETUP DIRECTLY)
         //self.toProfileSetup()
+        
+        // FOR TESTING (TO PHONE VERIFICATION DIRECTLY)
+        /*
+        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+        */
     }
     
     func toProfileSetup() {
