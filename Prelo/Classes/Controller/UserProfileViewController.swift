@@ -9,10 +9,9 @@
 import Foundation
 import CoreData
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
-    
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var btnUserImage: UIButton!
@@ -23,15 +22,19 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     @IBOutlet weak var btnLoginPath: UIButton!
     
     @IBOutlet weak var fieldNama: UITextField!
-    @IBOutlet weak var fieldNoHp: UITextField!
-    @IBOutlet weak var btnProvinsi: UIButton!
-    @IBOutlet weak var btnKabKota: UIButton!
+    @IBOutlet weak var lblNoHP: UILabel!
+    @IBOutlet weak var lblJenisKelamin: UILabel!
+    @IBOutlet weak var lblProvinsi: UILabel!
+    @IBOutlet weak var lblKabKota: UILabel!
+    @IBOutlet weak var fieldAlamat: UITextField!
+    @IBOutlet weak var fieldKodePos: UITextField!
     
     @IBOutlet weak var fieldTentangShop: UITextView!
     @IBOutlet weak var fieldTentangShopHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var btnJneReguler: UIButton!
-    @IBOutlet weak var btnTikiReguler: UIButton!
+    @IBOutlet weak var lblJneCheckbox: UILabel!
+    @IBOutlet weak var lblTikiCheckbox: UILabel!
+    
     @IBOutlet weak var btnSimpanData: UIButton!
     
     var jneSelected : Bool = false
@@ -43,20 +46,20 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     var selectedKabKotaID = ""
     var isPickingProvinsi : Bool = false
     var isPickingKabKota : Bool = false
-    
-    var previousControllerName : String?
+    var isPickingJenKel : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Ukuran scrollview
-        scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        
         // Pengaturan tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PreloAwesome", size: 14)!], forState: UIControlState.Normal)
+        let newBackButton = UIBarButtonItem(title: " Edit Profil", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton;
+        
+        // Border untuk tombol user image
+        btnUserImage.layer.borderWidth = 1
+        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
         
         // Border untuk tombol login social media
         btnLoginInstagram.layer.borderWidth = 1
@@ -67,31 +70,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         btnLoginFacebook.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnLoginTwitter.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnLoginPath.layer.borderColor = UIColor.lightGrayColor().CGColor
-        
-        // Pengaturan tinggi field tentang shop
-        let fieldTentangShopHeight = fieldTentangShop.frame.size.height
-        var sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
-        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
-        // Tambahkan tinggi scrollview content sesuai dengan penambahan tinggi textview
-        contentViewHeightConstraint.constant = contentViewHeightConstraint.constant + sizeThatShouldFitTheContent.height - fieldTentangShopHeight
-        // Update tinggi textview
-        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
     }
     
     func backPressed(sender: UIBarButtonItem) {
-        if (self.previousControllerName == "Register") {
-            if let d = self.userRelatedDelegate
-            {
-                d.userLoggedIn!()
-            }
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else if (self.previousControllerName == "Dashboard") {
-            self.navigationController?.popViewControllerAnimated(true)
-        }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -101,9 +83,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
             {r, t, o in
                 
                 if (o) {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64+r.height, 0)
+                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
                 } else {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                 }
                 
             }, completion: nil)
@@ -117,7 +99,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     @IBAction func disableTextFields(sender : AnyObject)
     {
         fieldNama?.resignFirstResponder()
-        fieldNoHp?.resignFirstResponder()
+        fieldAlamat?.resignFirstResponder()
+        fieldKodePos?.resignFirstResponder()
         fieldTentangShop?.resignFirstResponder()
     }
     
@@ -132,11 +115,14 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     // TODO: Update tinggi textview sembari mengisi
     
     func pickerDidSelect(item: String) {
-        if (isPickingProvinsi) {
-            btnProvinsi.titleLabel?.text = PickerViewController.HideHiddenString(item)
+        if (isPickingJenKel) {
+            lblJenisKelamin?.text = PickerViewController.HideHiddenString(item)
+            isPickingJenKel = false
+        } else if (isPickingProvinsi) {
+            lblProvinsi?.text = PickerViewController.HideHiddenString(item)
             isPickingProvinsi = false
         } else if (isPickingKabKota) {
-            btnKabKota.titleLabel?.text = PickerViewController.HideHiddenString(item)
+            lblKabKota?.text = PickerViewController.HideHiddenString(item)
             isPickingKabKota = false
         }
     }
@@ -184,6 +170,21 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     
     @IBAction func loginPathPressed(sender: UIButton) {
         // TODO : login path
+    }
+    
+    @IBAction func nomorHpPressed(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func jenisKelaminPressed(sender: AnyObject) {
+        isPickingJenKel = true
+        
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = ["Wanita", "Pria"]
+        p?.pickerDelegate = self
+        p?.title = "Jenis Kelamin"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
     }
     
     @IBAction func pilihProvinsiPressed(sender: UIButton) {
@@ -272,83 +273,125 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
+    func textViewDidChange(textView: UITextView) {
+        let fieldTentangShopHeight = fieldTentangShop.frame.size.height
+        var sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
+        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        
+        // Tambahkan tinggi scrollview content sesuai dengan penambahan tinggi textview
+        contentViewHeightConstraint.constant = contentViewHeightConstraint.constant + sizeThatShouldFitTheContent.height - fieldTentangShopHeight
+        
+        // Update tinggi textview
+        fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
+    }
+    
     @IBAction func JneRegulerPressed(sender: UIButton) {
-        sender.selected = !sender.selected
         jneSelected = !jneSelected
+        if (jneSelected) {
+            lblJneCheckbox.text = "";
+            lblJneCheckbox.font = AppFont.Prelo2.getFont(19)!
+            lblJneCheckbox.textColor = Theme.ThemeOrange
+        } else {
+            lblJneCheckbox.text = "";
+            lblJneCheckbox.font = AppFont.PreloAwesome.getFont(24)!
+            lblJneCheckbox.textColor = Theme.GrayLight
+        }
     }
     
     @IBAction func TikiRegulerPressed(sender: UIButton) {
-        sender.selected = !sender.selected
         tikiSelected = !tikiSelected
+        if (tikiSelected) {
+            lblTikiCheckbox.text = "";
+            lblTikiCheckbox.font = AppFont.Prelo2.getFont(19)!
+            lblTikiCheckbox.textColor = Theme.ThemeOrange
+        } else {
+            lblTikiCheckbox.text = "";
+            lblTikiCheckbox.font = AppFont.PreloAwesome.getFont(24)!
+            lblTikiCheckbox.textColor = Theme.GrayLight
+        }
+    }
+    
+    func fieldsVerified() -> Bool {
+        if (fieldNama.text == "") {
+            Constant.showDialog("Warning", message: "Nama harus diisi")
+            return false
+        }
+        if (lblProvinsi.text == "Pilih Provinsi") {
+            Constant.showDialog("Warning", message: "Provinsi harus diisi")
+            return false
+        }
+        if (lblKabKota.text == "Pilih Kota/Kabupaten") {
+            Constant.showDialog("Warning", message: "Kota/Kabupaten harus diisi")
+            return false
+        }
+        if (!jneSelected && !tikiSelected) {
+            Constant.showDialog("Warning", message: "Shipping Options harus diisi")
+            return false
+        }
+        return true
     }
     
     @IBAction func simpanDataPressed(sender: UIButton) {
-        btnSimpanData.enabled = false
-        
-        var dataRep = UIImageJPEGRepresentation(btnUserImage.imageView!.image, 1)
-        
-        var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
-        
-        upload(APIUser.SetProfile(fullname: fieldNama.text, phone: fieldNoHp.text, address: "Alamat pengiriman dummy", region: selectedKabKotaID, postalCode: "Postal code dummy", shopName: "Shop name dummy", Description: fieldTentangShop.text, Shipping: shipping), multipartFormData: { form in
+        if (fieldsVerified()) {
+            btnSimpanData.enabled = false
             
-            form.appendBodyPart(data : dataRep, name:"userID", mimeType:"image/jpg") // TODO: nama sesuai dengan userID yang didapat setelah register
+            var dataRep = UIImageJPEGRepresentation(btnUserImage.imageView!.image, 1)
             
-            }, encodingCompletion: { result in
-                switch result
-                {
-                case .Success(let x, _, _):
-                    x.responseJSON{_, _, res, err in
-                        
-                        if let error = err
-                        {
-                            // error, gagal
-                            Constant.showDialog("Warning", message: error.description)
-                            self.btnSimpanData.enabled = true
-                        } else if let result : AnyObject = res
-                        {
-                            // sukses
-                            let json = JSON(result)
-                            println("json = \(json)")
-                            let m = UIApplication.appDelegate.managedObjectContext
+            var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            
+            upload(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: "Alamat pengiriman dummy", region: selectedKabKotaID, postalCode: "Postal code dummy", shopName: "Shop name dummy", Description: fieldTentangShop.text, Shipping: shipping), multipartFormData: { form in
+                
+                form.appendBodyPart(data : dataRep, name:"userID", mimeType:"image/jpg") // TODO: nama sesuai dengan userID yang didapat setelah register
+                
+                }, encodingCompletion: { result in
+                    switch result
+                    {
+                    case .Success(let x, _, _):
+                        x.responseJSON{_, _, res, err in
                             
-                            // Fetch and edit data
-                            let user : CDUser = CDUser.getOne()!
-                            user.fullname = self.fieldNama.text
-                            
-                            let userProfile : CDUserProfile = CDUserProfile.getOne()!
-                            userProfile.desc = self.fieldTentangShop.text
-                            userProfile.phone = self.fieldNoHp.text
-                            //userProfile.pict = dataRep
-                            userProfile.regionID = self.selectedKabKotaID
-                            userProfile.provinceID = self.selectedProvinsiID
-                            user.profiles = userProfile
-                            
-                            // Save data
-                            var saveErr : NSError? = nil
-                            if (!m!.save(&saveErr)) {
-                                println("Error while saving data")
-                            } else {
-                                println("Data saved")
-                                //self.btnSimpanData.enabled = true
-                                if (self.previousControllerName == "Register") {
-                                    if let d = self.userRelatedDelegate
-                                    {
-                                        d.userLoggedIn!()
-                                    }
-                                    self.dismissViewControllerAnimated(true, completion: nil)
-                                } else if (self.previousControllerName == "Dashboard") {
+                            if let error = err
+                            {
+                                // error, gagal
+                                Constant.showDialog("Warning", message: error.description)
+                                self.btnSimpanData.enabled = true
+                            } else if let result : AnyObject = res
+                            {
+                                // sukses
+                                let json = JSON(result)
+                                println("json = \(json)")
+                                let m = UIApplication.appDelegate.managedObjectContext
+                                
+                                // Fetch and edit data
+                                let user : CDUser = CDUser.getOne()!
+                                user.fullname = self.fieldNama.text
+                                
+                                let userProfile : CDUserProfile = CDUserProfile.getOne()!
+                                userProfile.desc = self.fieldTentangShop.text
+                                userProfile.phone = self.lblNoHP.text!
+                                //userProfile.pict = dataRep
+                                userProfile.regionID = self.selectedKabKotaID
+                                userProfile.provinceID = self.selectedProvinsiID
+                                user.profiles = userProfile
+                                
+                                // Save data
+                                var saveErr : NSError? = nil
+                                if (!m!.save(&saveErr)) {
+                                    println("Error while saving data")
+                                } else {
+                                    println("Data saved")
+                                    //self.btnSimpanData.enabled = true
                                     self.navigationController?.popViewControllerAnimated(true)
                                 }
                             }
                         }
+                        
+                    case .Failure(let err):
+                        println(err) // failed
+                        Constant.showDialog("Warning", message: err.description)
+                        self.btnSimpanData.enabled = true
                     }
-                    
-                case .Failure(let err):
-                    println(err) // failed
-                    Constant.showDialog("Warning", message: err.description)
-                    self.btnSimpanData.enabled = true
-                }
-        })
+            })
+        }
     }
     
 }

@@ -173,7 +173,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     func toProfileSetup() {
         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
-        profileSetupVC.previousControllerName = "Register"
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }

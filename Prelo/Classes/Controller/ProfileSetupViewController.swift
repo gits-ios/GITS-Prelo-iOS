@@ -12,25 +12,34 @@ import CoreData
 class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var groupUploadFoto: UIView!
     @IBOutlet weak var btnUserImage: UIButton!
+    
     @IBOutlet weak var groupFullname: UIView!
     @IBOutlet weak var fieldFullname: UITextField!
+    
     @IBOutlet weak var consTopGroupJenKel: NSLayoutConstraint!
     @IBOutlet weak var lblJenisKelamin: UILabel!
+    
     @IBOutlet weak var groupNoHP: UIView!
     @IBOutlet weak var fieldNoHP: UITextField!
+    
     @IBOutlet weak var consTopGroupVerifikasiHP: NSLayoutConstraint!
     @IBOutlet weak var groupVerifikasiHP: UIView!
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
+    
     @IBOutlet weak var consTopGroupKota: NSLayoutConstraint!
     @IBOutlet weak var lblProvinsi: UILabel!
     @IBOutlet weak var lblKabKota: UILabel!
+    
     @IBOutlet weak var lblJneCheckbox: UILabel!
     @IBOutlet weak var lblTikiCheckbox: UILabel!
+    
     @IBOutlet weak var groupReferral: UIView!
     @IBOutlet weak var fieldKodeReferral: UITextField!
+    
     @IBOutlet weak var consTopBtnApply: NSLayoutConstraint!
     @IBOutlet weak var btnApply: UIButton!
     
@@ -46,8 +55,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     var isPickingJenKel : Bool = false
     
     var deltaHeight : CGFloat = 0
-    
-    var previousControllerName : String?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -89,25 +96,22 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         // Tombol back
         self.navigationItem.hidesBackButton = true
         /*let newBackButton = UIBarButtonItem(title: " Setup Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 16)!], forState: UIControlState.Normal)
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton*/
         
         // Tombol apply
         let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
-        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 16)!], forState: UIControlState.Normal)
+        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = applyButton
     }
     
     func backPressed(sender: UIBarButtonItem) {
-        if (self.previousControllerName == "Register") {
-            if let d = self.userRelatedDelegate
-            {
-                d.userLoggedIn!()
-            }
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else if (self.previousControllerName == "Dashboard") {
-            self.navigationController?.popViewControllerAnimated(true)
+        if let d = self.userRelatedDelegate
+        {
+            d.userLoggedIn!()
         }
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
     
     func hideGroups() {
@@ -387,24 +391,20 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
                         } else {
                             println("Data saved")
                             //self.btnSimpanData.enabled = true
-                            if (self.previousControllerName == "Register") {
-                                if let d = self.userRelatedDelegate
-                                {
-                                    d.userLoggedIn!()
-                                }
-
-                                /* Digunakan jika setelah scene ini adalah scene phone verification
-                                // TODO : Coba POST phone verification dulu sebelum pindah scene
-
-                                let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                                self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                                */
-                                
-                                // FOR TESTING (SKIP PHONE VERIFICATION)
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                            } else if (self.previousControllerName == "Dashboard") {
-                                self.navigationController?.popViewControllerAnimated(true)
+                            if let d = self.userRelatedDelegate
+                            {
+                                d.userLoggedIn!()
                             }
+
+                            /* Digunakan jika setelah scene ini adalah scene phone verification
+                            // TODO : Coba POST phone verification dulu sebelum pindah scene
+
+                            let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                            */
+                            
+                            // FOR TESTING (SKIP PHONE VERIFICATION)
+                            self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
                 }
