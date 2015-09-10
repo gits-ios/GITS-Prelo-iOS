@@ -316,6 +316,18 @@
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44C336A81BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C336A71BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		44C336B61BA1749A00323D4E /* LKActivity-Flat.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336AB1BA1749A00323D4E /* LKActivity-Flat.png */; };
+		44C336B71BA1749A00323D4E /* LKActivity-Flat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336AC1BA1749A00323D4E /* LKActivity-Flat@2x.png */; };
+		44C336B81BA1749A00323D4E /* LKActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336AD1BA1749A00323D4E /* LKActivity.png */; };
+		44C336B91BA1749A00323D4E /* LKActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336AE1BA1749A00323D4E /* LKActivity@2x.png */; };
+		44C336BA1BA1749A00323D4E /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C336B01BA1749A00323D4E /* Line.m */; };
+		44C336BB1BA1749A00323D4E /* LKLineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C336B21BA1749A00323D4E /* LKLineActivity.m */; };
+		44C336BC1BA1749A00323D4E /* MGInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C336B51BA1749A00323D4E /* MGInstagram.m */; };
+		44C336BE1BA174CB00323D4E /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C336BD1BA174CB00323D4E /* TourViewController.swift */; };
+		44C336C21BA174FA00323D4E /* tour_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336BF1BA174FA00323D4E /* tour_1.png */; };
+		44C336C31BA174FA00323D4E /* tour_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336C01BA174FA00323D4E /* tour_2.png */; };
+		44C336C41BA174FA00323D4E /* tour_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C336C11BA174FA00323D4E /* tour_3.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -737,6 +749,22 @@
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44C336A61BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		44C336A71BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		44C336AB1BA1749A00323D4E /* LKActivity-Flat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity-Flat.png"; sourceTree = "<group>"; };
+		44C336AC1BA1749A00323D4E /* LKActivity-Flat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity-Flat@2x.png"; sourceTree = "<group>"; };
+		44C336AD1BA1749A00323D4E /* LKActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LKActivity.png; sourceTree = "<group>"; };
+		44C336AE1BA1749A00323D4E /* LKActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity@2x.png"; sourceTree = "<group>"; };
+		44C336AF1BA1749A00323D4E /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
+		44C336B01BA1749A00323D4E /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
+		44C336B11BA1749A00323D4E /* LKLineActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKLineActivity.h; sourceTree = "<group>"; };
+		44C336B21BA1749A00323D4E /* LKLineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKLineActivity.m; sourceTree = "<group>"; };
+		44C336B41BA1749A00323D4E /* MGInstagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGInstagram.h; sourceTree = "<group>"; };
+		44C336B51BA1749A00323D4E /* MGInstagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGInstagram.m; sourceTree = "<group>"; };
+		44C336BD1BA174CB00323D4E /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
+		44C336BF1BA174FA00323D4E /* tour_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_1.png; sourceTree = "<group>"; };
+		44C336C01BA174FA00323D4E /* tour_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_2.png; sourceTree = "<group>"; };
+		44C336C11BA174FA00323D4E /* tour_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_3.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -880,6 +908,9 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				44C336A91BA1749A00323D4E /* LineKit */,
+				44C336B31BA1749A00323D4E /* MGInstagram */,
+				44C336A51BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum */,
 				211BC9951B96D53300FDB1DC /* GrowingTextView */,
 				216799761B8F8AB900F18F90 /* AFNetworking */,
 				21C6587F1B8EF25E0037F85F /* Pickers */,
@@ -1254,6 +1285,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44C336BD1BA174CB00323D4E /* TourViewController.swift */,
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */,
@@ -1347,6 +1379,9 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				44C336BF1BA174FA00323D4E /* tour_1.png */,
+				44C336C01BA174FA00323D4E /* tour_2.png */,
+				44C336C11BA174FA00323D4E /* tour_3.png */,
 				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
 				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
 				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
@@ -1546,6 +1581,47 @@
 			path = XIB;
 			sourceTree = "<group>";
 		};
+		44C336A51BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				44C336A61BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				44C336A71BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.m */,
+			);
+			path = "ALAssetsLibrary+CustomPhotoAlbum";
+			sourceTree = "<group>";
+		};
+		44C336A91BA1749A00323D4E /* LineKit */ = {
+			isa = PBXGroup;
+			children = (
+				44C336AA1BA1749A00323D4E /* images */,
+				44C336AF1BA1749A00323D4E /* Line.h */,
+				44C336B01BA1749A00323D4E /* Line.m */,
+				44C336B11BA1749A00323D4E /* LKLineActivity.h */,
+				44C336B21BA1749A00323D4E /* LKLineActivity.m */,
+			);
+			path = LineKit;
+			sourceTree = "<group>";
+		};
+		44C336AA1BA1749A00323D4E /* images */ = {
+			isa = PBXGroup;
+			children = (
+				44C336AB1BA1749A00323D4E /* LKActivity-Flat.png */,
+				44C336AC1BA1749A00323D4E /* LKActivity-Flat@2x.png */,
+				44C336AD1BA1749A00323D4E /* LKActivity.png */,
+				44C336AE1BA1749A00323D4E /* LKActivity@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		44C336B31BA1749A00323D4E /* MGInstagram */ = {
+			isa = PBXGroup;
+			children = (
+				44C336B41BA1749A00323D4E /* MGInstagram.h */,
+				44C336B51BA1749A00323D4E /* MGInstagram.m */,
+			);
+			path = MGInstagram;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1636,6 +1712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
+				44C336B71BA1749A00323D4E /* LKActivity-Flat@2x.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
@@ -1643,6 +1720,7 @@
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
+				44C336C21BA174FA00323D4E /* tour_1.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
@@ -1669,6 +1747,7 @@
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
+				44C336B81BA1749A00323D4E /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
@@ -1682,11 +1761,13 @@
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
+				44C336C41BA174FA00323D4E /* tour_3.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
+				44C336B91BA1749A00323D4E /* LKActivity@2x.png in Resources */,
 				21156EBC1B8F5B5D001D7842 /* UserProfile.xib in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
@@ -1697,6 +1778,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				212502E81B8306A00089E523 /* AddProductHeader.xib in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
+				44C336B61BA1749A00323D4E /* LKActivity-Flat.png in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
@@ -1708,6 +1790,7 @@
 				21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
+				44C336C31BA174FA00323D4E /* tour_2.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
@@ -1754,6 +1837,7 @@
 				21EEB45B1B87036000CAD5C9 /* RegisterViewController.swift in Sources */,
 				21679A1B1B901C5300F18F90 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
+				44C336BE1BA174CB00323D4E /* TourViewController.swift in Sources */,
 				2127A2A81B7B336000469CFC /* AddProductImageSourceViewController.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */,
@@ -1828,6 +1912,7 @@
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				44C336A81BA1748B00323D4E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
@@ -1849,6 +1934,7 @@
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
 				2141BBE11B54BE4C00787F5D /* SocketEngine.swift in Sources */,
+				44C336BB1BA1749A00323D4E /* LKLineActivity.m in Sources */,
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
@@ -1916,6 +2002,7 @@
 				21679A171B901C5300F18F90 /* MPAbstractABTestDesignerMessage.m in Sources */,
 				2141BBC71B54BE4C00787F5D /* UIColor+BFKit.swift in Sources */,
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
+				44C336BA1BA1749A00323D4E /* Line.m in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				2141BBAC1B54BE4C00787F5D /* ResponseSerialization.swift in Sources */,
 				2141BBD31B54BE4C00787F5D /* UIWindow+BFKit.swift in Sources */,
@@ -1923,6 +2010,7 @@
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,
 				2141BBB41B54BE4C00787F5D /* BFPassword.swift in Sources */,
 				2141BBAE1B54BE4C00787F5D /* Validation.swift in Sources */,
+				44C336BC1BA1749A00323D4E /* MGInstagram.m in Sources */,
 				2141BBCA1B54BE4C00787F5D /* UIImage+BFKit.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				2141BBE51B54BE4C00787F5D /* SocketIOClient.swift in Sources */,
@@ -2117,7 +2205,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2127,8 +2215,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2143,7 +2231,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
