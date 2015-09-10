@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
@@ -48,14 +48,13 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     var isPickingKabKota : Bool = false
     var isPickingJenKel : Bool = false
     
+    var asset : ALAssetsLibrary?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Pengaturan tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Edit Profil", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton;
+        setNavBarButtons()
+        initiateFields()
         
         // Border untuk tombol user image
         btnUserImage.layer.borderWidth = 1
@@ -70,10 +69,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         btnLoginFacebook.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnLoginTwitter.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnLoginPath.layer.borderColor = UIColor.lightGrayColor().CGColor
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -96,6 +91,23 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         self.an_unsubscribeKeyboard()
     }
     
+    func setNavBarButtons() {
+        // Tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: " Edit Profil", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
+        // Tombol apply
+        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "simpanDataPressed:")
+        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.rightBarButtonItem = applyButton
+    }
+    
+    func backPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     @IBAction func disableTextFields(sender : AnyObject)
     {
         fieldNama?.resignFirstResponder()
@@ -112,7 +124,56 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
         }
     }
     
-    // TODO: Update tinggi textview sembari mengisi
+    func initiateFields() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        // Fetch data from core data
+        let user : CDUser = CDUser.getOne()!
+        let userProfile : CDUserProfile = CDUserProfile.getOne()!
+        
+        // Set fields' default value
+        fieldNama.text = user.fullname
+        lblNoHP.text = userProfile.phone
+        // TODO: ambil gender
+        fieldAlamat.text = userProfile.address
+        fieldKodePos.text = userProfile.postalCode
+        fieldTentangShop.text = userProfile.desc
+        self.textViewDidChange(self.fieldTentangShop)
+        // TODO: ambil shipping options
+        
+        println("Req metadata")
+        request(APIApp.Metadata).responseJSON { _, _, res, err in
+            if let error = err {
+                Constant.showDialog("Warning", message: error.description)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil) { // Data kembalian kosong
+                    let obj : [String : String] = res as! [String : String]
+                    let message = obj["_message"]
+                    Constant.showDialog("Warning", message: message!)
+                } else { // Berhasil
+                    println("Metadata loaded")
+                    for (var i = 0; i < data["provinces_regions"].count; i++) {
+                        let province = data["provinces_regions"][i]
+                        let provID = province["_id"].string
+                        if (provID == userProfile.provinceID) {
+                            self.lblProvinsi.text = province["name"].string
+                            for (var j = 0; j < province["regions"].count; j++) {
+                                let region = province["regions"][j]
+                                let regionID = region["_id"].string
+                                if (regionID == userProfile.regionID) {
+                                    self.lblKabKota.text = region["name"].string
+                                    break
+                                }
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     func pickerDidSelect(item: String) {
         if (isPickingJenKel) {
@@ -128,28 +189,40 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     }
     
     @IBAction func userImagePressed(sender: UIButton) {
-        // Akses kamera
-        /*if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-            var imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-            imagePicker.allowsEditing = false
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }*/
-        
-        // Akses galeri
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-            var imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.allowsEditing = true
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        btnUserImage.setImage(image, forState: UIControlState.Normal)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
+            { imgs in
+                if (imgs.count > 0) {
+                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, forState: UIControlState.Normal)
+                    
+                    let img : APImage = imgs[0]
+                    
+                    if ((img.image) != nil)
+                    {
+                        self.btnUserImage.setImage(img.image, forState: UIControlState.Normal)
+                    } else if (imgs[0].usingAssets == true) {
+                        
+                        if (self.asset == nil) {
+                            self.asset = ALAssetsLibrary()
+                        }
+                        
+                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                            self.asset?.assetForURL((img.url)!, resultBlock: { asset in
+                                if let ast = asset {
+                                    let rep = ast.defaultRepresentation()
+                                    let ref = rep.fullScreenImage().takeUnretainedValue()
+                                    let i = UIImage(CGImage: ref)
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        self.btnUserImage.setImage(i, forState: UIControlState.Normal)
+                                    })
+                                }
+                                }, failureBlock: { error in
+                                    // error
+                            })
+                        })
+                    }
+                }
+            }
+        )
     }
     
     @IBAction func uploadFotoPressed(sender: UIButton) {
@@ -173,7 +246,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
     }
     
     @IBAction func nomorHpPressed(sender: AnyObject) {
-        
+        let phoneReverificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneReverification, owner: nil, options: nil).first as! PhoneReverificationViewController
+        phoneReverificationVC.verifiedHP = lblNoHP.text
+        self.navigationController?.pushViewController(phoneReverificationVC, animated: true)
     }
     
     @IBAction func jenisKelaminPressed(sender: AnyObject) {

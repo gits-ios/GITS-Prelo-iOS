@@ -102,6 +102,7 @@ class Tags : NSObject
     static let XibNameUserProfile = "UserProfile"
     static let XibNameProfileSetup = "ProfileSetup"
     static let XibNamePhoneVerification = "PhoneVerification"
+    static let XibNamePhoneReverification = "PhoneReverification"
 }
 
 class NotificationName : NSObject

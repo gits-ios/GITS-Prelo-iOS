@@ -8,7 +8,8 @@
 
 import UIKit
 
-let prelloHost = "http://dev.preloapp.com/api/2/"
+//let prelloHost = "http://dev.preloapp.com/api/2/"
+let prelloHost = "http://dev.prelo.id/api/"
 
 class PreloEndpoints: NSObject {
    
@@ -30,6 +31,50 @@ extension NSMutableURLRequest
 //            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
             r.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
         }
+        
+        return r
+    }
+}
+
+enum APIApp : URLRequestConvertible
+{
+    static let basePath = "app/"
+    
+    case Metadata
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .Metadata : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .Metadata : return "metadata"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .Metadata : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIApp.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
         return r
     }

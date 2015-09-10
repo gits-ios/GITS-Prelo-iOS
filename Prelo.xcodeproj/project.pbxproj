@@ -313,6 +313,8 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		444961821B9FF1C500F45986 /* PhoneReverificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444961811B9FF1C500F45986 /* PhoneReverificationViewController.swift */; };
+		444961841B9FF20000F45986 /* PhoneReverification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 444961831B9FF20000F45986 /* PhoneReverification.xib */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44BE2D8E1B973AF5001264CF /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */; };
@@ -736,6 +738,8 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		444961811B9FF1C500F45986 /* PhoneReverificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneReverificationViewController.swift; sourceTree = "<group>"; };
+		444961831B9FF20000F45986 /* PhoneReverification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneReverification.xib; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
@@ -1258,6 +1262,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				444961811B9FF1C500F45986 /* PhoneReverificationViewController.swift */,
 				44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */,
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
@@ -1548,6 +1553,7 @@
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				44BE2D8F1B973B65001264CF /* PhoneVerification.xib */,
+				444961831B9FF20000F45986 /* PhoneReverification.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1649,6 +1655,7 @@
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
+				444961841B9FF20000F45986 /* PhoneReverification.xib in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
@@ -1776,6 +1783,7 @@
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				2141BBA81B54BE4C00787F5D /* Download.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
+				444961821B9FF1C500F45986 /* PhoneReverificationViewController.swift in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,

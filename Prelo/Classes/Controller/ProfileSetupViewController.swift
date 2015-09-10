@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -55,6 +55,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     var isPickingJenKel : Bool = false
     
     var deltaHeight : CGFloat = 0
+    
+    var asset : ALAssetsLibrary?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -179,19 +181,40 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     @IBAction func userImagePressed(sender: AnyObject) {
-        // Akses galeri
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-            var imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.allowsEditing = true
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        btnUserImage.setImage(image, forState: UIControlState.Normal)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
+            { imgs in
+                if (imgs.count > 0) {
+                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, forState: UIControlState.Normal)
+                    
+                    let img : APImage = imgs[0]
+                    
+                    if ((img.image) != nil)
+                    {
+                        self.btnUserImage.setImage(img.image, forState: UIControlState.Normal)
+                    } else if (imgs[0].usingAssets == true) {
+                        
+                        if (self.asset == nil) {
+                            self.asset = ALAssetsLibrary()
+                        }
+                        
+                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                            self.asset?.assetForURL((img.url)!, resultBlock: { asset in
+                                if let ast = asset {
+                                    let rep = ast.defaultRepresentation()
+                                    let ref = rep.fullScreenImage().takeUnretainedValue()
+                                    let i = UIImage(CGImage: ref)
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        self.btnUserImage.setImage(i, forState: UIControlState.Normal)
+                                    })
+                                }
+                                }, failureBlock: { error in
+                                    // error
+                            })
+                        })
+                    }
+                }
+            }
+        )
     }
     
     @IBAction func uploadFotoPressed(sender: AnyObject) {

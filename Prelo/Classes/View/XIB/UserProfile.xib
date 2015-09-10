@@ -368,8 +368,8 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="rB7-H2-cCE"/>
                                                         <exclude reference="7hk-Qu-SiV"/>
+                                                        <exclude reference="rB7-H2-cCE"/>
                                                         <exclude reference="HaT-Sm-7PH"/>
                                                     </mask>
                                                 </variation>
@@ -446,8 +446,8 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="Pgh-NA-WDL"/>
                                                         <exclude reference="5AG-xu-alo"/>
+                                                        <exclude reference="Pgh-NA-WDL"/>
                                                         <exclude reference="cvR-rs-UrR"/>
                                                     </mask>
                                                 </variation>
@@ -602,8 +602,8 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="wCb-OC-kJP"/>
                                                         <exclude reference="YYz-tc-oar"/>
+                                                        <exclude reference="wCb-OC-kJP"/>
                                                         <exclude reference="8yB-is-fpz"/>
                                                     </mask>
                                                 </variation>
@@ -838,8 +838,8 @@
                                                         </state>
                                                         <variation key="default">
                                                             <mask key="constraints">
-                                                                <exclude reference="ey3-r0-nWj"/>
                                                                 <exclude reference="eCd-Hx-ptO"/>
+                                                                <exclude reference="ey3-r0-nWj"/>
                                                             </mask>
                                                         </variation>
                                                         <connections>
