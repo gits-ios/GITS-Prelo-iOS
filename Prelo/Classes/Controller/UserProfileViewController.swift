@@ -196,10 +196,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
             picker.startLoading()
             
             request(References.ProvinceList)
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
+                .responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
+                    {
                         let json = JSON(res!)["_data"].array
                         var r : Array<String> = []
                         let c = json?.count
@@ -216,6 +215,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
                             picker.tableView.reloadData()
                             picker.doneLoading()
                         }
+                    } else {
+                        picker.dismiss()
                     }
             }
             
@@ -239,10 +240,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
             picker.startLoading()
             
             request(References.CityList(provinceId: self.selectedProvinsiID))
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
+                .responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
+                    {
                         let json = JSON(res!)["_data"].array
                         var r : Array<String> = []
                         let c = json?.count
@@ -259,6 +259,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
                             picker.tableView.reloadData()
                             picker.doneLoading()
                         }
+                    } else {
+                        picker.dismiss()
                     }
             }
             
@@ -297,49 +299,48 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UIImag
                 switch result
                 {
                 case .Success(let x, _, _):
-                    x.responseJSON{_, _, res, err in
-                        
-                        if let error = err
+                    x.responseJSON{_, resp, res, err in
+                        if (APIPrelo.validate(true, err: err, resp: resp))
                         {
-                            // error, gagal
-                            Constant.showDialog("Warning", message: error.description)
-                            self.btnSimpanData.enabled = true
-                        } else if let result : AnyObject = res
-                        {
-                            // sukses
-                            let json = JSON(result)
-                            println("json = \(json)")
-                            let m = UIApplication.appDelegate.managedObjectContext
-                            
-                            // Fetch and edit data
-                            let user : CDUser = CDUser.getOne()!
-                            user.fullname = self.fieldNama.text
-                            
-                            let userProfile : CDUserProfile = CDUserProfile.getOne()!
-                            userProfile.desc = self.fieldTentangShop.text
-                            userProfile.phone = self.fieldNoHp.text
-                            //userProfile.pict = dataRep
-                            userProfile.regionID = self.selectedKabKotaID
-                            userProfile.provinceID = self.selectedProvinsiID
-                            user.profiles = userProfile
-                            
-                            // Save data
-                            var saveErr : NSError? = nil
-                            if (!m!.save(&saveErr)) {
-                                println("Error while saving data")
-                            } else {
-                                println("Data saved")
-                                //self.btnSimpanData.enabled = true
-                                if (self.previousControllerName == "Register") {
-                                    if let d = self.userRelatedDelegate
-                                    {
-                                        d.userLoggedIn!()
+                            if let result : AnyObject = res
+                            {
+                                // sukses
+                                let json = JSON(result)
+                                println("json = \(json)")
+                                let m = UIApplication.appDelegate.managedObjectContext
+                                
+                                // Fetch and edit data
+                                let user : CDUser = CDUser.getOne()!
+                                user.fullname = self.fieldNama.text
+                                
+                                let userProfile : CDUserProfile = CDUserProfile.getOne()!
+                                userProfile.desc = self.fieldTentangShop.text
+                                userProfile.phone = self.fieldNoHp.text
+                                //userProfile.pict = dataRep
+                                userProfile.regionID = self.selectedKabKotaID
+                                userProfile.provinceID = self.selectedProvinsiID
+                                user.profiles = userProfile
+                                
+                                // Save data
+                                var saveErr : NSError? = nil
+                                if (!m!.save(&saveErr)) {
+                                    println("Error while saving data")
+                                } else {
+                                    println("Data saved")
+                                    //self.btnSimpanData.enabled = true
+                                    if (self.previousControllerName == "Register") {
+                                        if let d = self.userRelatedDelegate
+                                        {
+                                            d.userLoggedIn!()
+                                        }
+                                        self.dismissViewControllerAnimated(true, completion: nil)
+                                    } else if (self.previousControllerName == "Dashboard") {
+                                        self.navigationController?.popViewControllerAnimated(true)
                                     }
-                                    self.dismissViewControllerAnimated(true, completion: nil)
-                                } else if (self.previousControllerName == "Dashboard") {
-                                    self.navigationController?.popViewControllerAnimated(true)
                                 }
                             }
+                        } else {
+                            self.btnSimpanData.enabled = true
                         }
                     }
                     

@@ -8,7 +8,33 @@
 
 #import "AppToolsObjC.h"
 
+static UIDocumentInteractionController *staticDocController = NULL;
+
 @implementation AppToolsObjC
+
++ (void)shareToInstagram:(UIImage *)image from:(UIViewController *)parent
+{
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://app"];
+    
+    if([[UIApplication sharedApplication] canOpenURL:instagramURL])
+    {
+        
+        NSString *documentDirectory=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString *saveImagePath=[documentDirectory stringByAppendingPathComponent:@"preloshare.igo"];
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        [imageData writeToFile:saveImagePath atomically:NO];
+        
+        NSURL *imageURL=[NSURL fileURLWithPath:saveImagePath];
+        
+        staticDocController = [UIDocumentInteractionController interactionControllerWithURL:imageURL];
+        staticDocController.UTI=@"com.instagram.exclusivegram";
+        [staticDocController presentOpenInMenuFromRect:parent.view.bounds inView:parent.view animated:YES];
+    }
+    else
+    {
+        NSLog (@"Instagram not found");
+    }
+}
 
 + (NSString *)stringWithData:(NSData *)data
 {
@@ -30,6 +56,7 @@
                 NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
                 NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
                 [formData appendPartWithFileData:data name:name fileName:name mimeType:@"image/jpeg"];
+          
             }
         }
     } success:^(AFHTTPRequestOperation *op, id res) {

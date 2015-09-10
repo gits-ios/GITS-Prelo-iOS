@@ -5,6 +5,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -24,24 +29,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="580"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrV-8s-vh2" userLabel="btn_back">
-                                        <rect key="frame" x="8" y="8" width="13" height="22"/>
+                                        <rect key="frame" x="8" y="8" width="25" height="28"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="22" id="Cth-Sz-t0K"/>
-                                            <constraint firstAttribute="width" constant="13" id="qPL-IL-Kc2"/>
+                                            <constraint firstAttribute="height" constant="28" id="Cth-Sz-t0K"/>
+                                            <constraint firstAttribute="width" constant="25" id="qPL-IL-Kc2"/>
                                         </constraints>
-                                        <state key="normal" image="arrow_left.png">
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
+                                        <state key="normal" title="">
+                                            <color key="titleColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="backPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="zNS-We-Hcq"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ico_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="b4i-eX-z37">
-                                        <rect key="frame" x="154" y="35" width="260" height="93"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="93" id="NHi-J3-k7X"/>
-                                        </constraints>
-                                    </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b99-du-caE">
                                         <rect key="frame" x="12" y="151" width="548" height="30"/>
                                         <constraints>
@@ -219,6 +220,13 @@
                                         <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ico_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="b4i-eX-z37">
+                                        <rect key="frame" x="195" y="53" width="179" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="64" id="NHi-J3-k7X"/>
+                                            <constraint firstAttribute="width" constant="179" id="xTN-KE-SaY"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -228,6 +236,7 @@
                                     <constraint firstItem="SrV-8s-vh2" firstAttribute="top" secondItem="C9h-Rp-CKr" secondAttribute="top" constant="8" id="3Fe-QP-JJU"/>
                                     <constraint firstItem="Yt1-5Y-dQ6" firstAttribute="top" secondItem="JUT-t6-ai7" secondAttribute="bottom" constant="7" id="4b4-90-RuG"/>
                                     <constraint firstItem="ER3-2O-upS" firstAttribute="top" secondItem="gkb-L4-mjZ" secondAttribute="bottom" constant="8" id="5MW-0J-jOj"/>
+                                    <constraint firstAttribute="centerX" secondItem="b4i-eX-z37" secondAttribute="centerX" id="5lH-aI-dQm"/>
                                     <constraint firstAttribute="trailing" secondItem="gmt-gZ-HSd" secondAttribute="trailing" constant="40" id="6pM-vW-vUC"/>
                                     <constraint firstItem="HbT-wV-IyE" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="8" id="7BC-DU-FOf"/>
                                     <constraint firstItem="tnG-eX-aiT" firstAttribute="top" secondItem="gfE-Sc-zdJ" secondAttribute="bottom" constant="27" id="8M6-wD-ka0"/>
@@ -241,7 +250,6 @@
                                     <constraint firstItem="QWx-rJ-Vdi" firstAttribute="height" secondItem="qTj-NW-6HB" secondAttribute="height" id="Dw1-ud-1LN"/>
                                     <constraint firstItem="uSB-Xz-EGr" firstAttribute="top" secondItem="365-IE-73c" secondAttribute="bottom" constant="-2" id="E8f-vf-ECx"/>
                                     <constraint firstItem="Yt1-5Y-dQ6" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="12" id="HdM-9R-E1S"/>
-                                    <constraint firstAttribute="trailing" secondItem="b4i-eX-z37" secondAttribute="trailing" constant="154" id="IgU-yL-Pjw"/>
                                     <constraint firstAttribute="trailing" secondItem="uSB-Xz-EGr" secondAttribute="trailing" constant="8" id="LIi-H1-qN8"/>
                                     <constraint firstItem="NzJ-ov-kKz" firstAttribute="top" secondItem="Yt1-5Y-dQ6" secondAttribute="bottom" constant="-2" id="MhW-R2-4X2"/>
                                     <constraint firstAttribute="trailing" secondItem="365-IE-73c" secondAttribute="trailing" constant="8" id="Mzb-Rb-OJe"/>
@@ -258,7 +266,6 @@
                                     <constraint firstAttribute="trailing" secondItem="JUT-t6-ai7" secondAttribute="trailing" constant="8" id="X2p-Tm-Not"/>
                                     <constraint firstAttribute="trailing" secondItem="HbT-wV-IyE" secondAttribute="trailing" constant="8" id="bIO-54-rRY"/>
                                     <constraint firstAttribute="trailing" secondItem="gkb-L4-mjZ" secondAttribute="trailing" constant="6" id="bL0-W7-Pty"/>
-                                    <constraint firstItem="b4i-eX-z37" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="154" id="bXR-Zg-tTU"/>
                                     <constraint firstItem="qA9-Cf-diJ" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="8" id="byF-xG-H8V"/>
                                     <constraint firstItem="QWx-rJ-Vdi" firstAttribute="top" secondItem="qTj-NW-6HB" secondAttribute="top" id="cDZ-Kx-Kec"/>
                                     <constraint firstItem="qA9-Cf-diJ" firstAttribute="top" secondItem="gfE-Sc-zdJ" secondAttribute="bottom" constant="27" id="d9M-RY-VQU"/>
@@ -267,10 +274,10 @@
                                     <constraint firstItem="365-IE-73c" firstAttribute="top" secondItem="NzJ-ov-kKz" secondAttribute="bottom" constant="9" id="hzo-n7-vmL"/>
                                     <constraint firstItem="gkb-L4-mjZ" firstAttribute="top" secondItem="qAU-kW-CcL" secondAttribute="bottom" constant="-1" id="iMV-Wg-2nc"/>
                                     <constraint firstAttribute="height" constant="580" id="j0e-zw-ib0"/>
-                                    <constraint firstItem="b99-du-caE" firstAttribute="top" secondItem="b4i-eX-z37" secondAttribute="bottom" constant="23" id="jOs-m6-xxs"/>
+                                    <constraint firstItem="b99-du-caE" firstAttribute="top" secondItem="b4i-eX-z37" secondAttribute="bottom" constant="34" id="jOs-m6-xxs"/>
                                     <constraint firstAttribute="trailing" secondItem="qTj-NW-6HB" secondAttribute="trailing" constant="40" id="jjt-b1-Vd1"/>
                                     <constraint firstAttribute="trailing" secondItem="tnG-eX-aiT" secondAttribute="trailing" constant="8" id="k0t-et-sQ0"/>
-                                    <constraint firstItem="b4i-eX-z37" firstAttribute="top" secondItem="C9h-Rp-CKr" secondAttribute="top" constant="35" id="kcx-DZ-Ldl"/>
+                                    <constraint firstItem="b4i-eX-z37" firstAttribute="top" secondItem="C9h-Rp-CKr" secondAttribute="top" constant="53" id="kcx-DZ-Ldl"/>
                                     <constraint firstItem="9Mp-n0-kCg" firstAttribute="leading" secondItem="KZw-qw-Qmx" secondAttribute="trailing" constant="8" id="lXx-oT-JyQ"/>
                                     <constraint firstAttribute="trailing" secondItem="qAU-kW-CcL" secondAttribute="trailing" constant="8" id="oup-tZ-Eyk"/>
                                     <constraint firstItem="365-IE-73c" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="12" id="pPh-cV-otd"/>
@@ -340,7 +347,6 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="arrow_left.png" width="30" height="53"/>
         <image name="ic_ico_label.png" width="725" height="337"/>
         <image name="ic_socmed_facebook.png" width="147" height="109"/>
         <image name="ic_socmed_path.png" width="147" height="109"/>

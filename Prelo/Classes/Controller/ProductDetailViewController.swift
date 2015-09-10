@@ -17,7 +17,7 @@ protocol ProductCellDelegate
     func cellTappedCategory(categoryName : String, categoryID : String)
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate
 {
     
     var product : Product?
@@ -28,12 +28,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
     
-    @IBOutlet var captionBeli: UILabel!
-    @IBOutlet var captionPrice: UILabel!
+//    @IBOutlet var captionBeli: UILabel!
+//    @IBOutlet var captionPrice: UILabel!
     
-    @IBOutlet var captionFreeOngkir: UILabel!
+//    @IBOutlet var captionFreeOngkir: UILabel!
     
-    @IBOutlet var ivChat: UIImageView!
+//    @IBOutlet var ivChat: UIImageView!
     
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
@@ -43,8 +43,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         
         let i = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivChat.tintColor = UIColor.whiteColor()
-        ivChat.image = i
+//        ivChat.tintColor = UIColor.whiteColor()
+//        ivChat.image = i
         
         btnAddDiscussion?.layer.cornerRadius = 4
         btnAddDiscussion?.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -70,6 +70,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidAppear(animated)
         Mixpanel.sharedInstance().track("Product Detail")
         self.titleText = detail?.json["_data"]["name"].string!
+        
+        if let d = self.detail
+        {
+            if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
+                alreadyInCart = true
+            } else {
+                alreadyInCart = false
+            }
+        }
     }
     
     func option()
@@ -98,43 +107,50 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func getDetail()
     {
         request(Products.Detail(productId: (product?.json)!["_id"].string!))
-            .responseJSON{ req, _, res, err in
-                self.detail = ProductDetail.instance(JSON(res!))
-                println(self.detail?.json)
-                self.tableView?.dataSource = self
-                self.tableView?.delegate = self
-                self.tableView?.reloadData()
-                self.setupView()
+            .responseJSON{_, resp, res, err in
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
+                    self.detail = ProductDetail.instance(JSON(res!))
+                    println(self.detail?.json)
+                    self.tableView?.dataSource = self
+                    self.tableView?.delegate = self
+                    self.tableView?.reloadData()
+                    self.setupView()
+                } else {
+                    
+                }
         }
     }
     
     func setupView()
     {
+        if (self.detail == nil)
+        {
+            return
+        }
         let p = ProductDetailCover.instance((detail?.displayPicturers)!)
         p?.parent = self
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
-//        captionPrice.text = "Rp. " + String((!)
         if let price = detail?.json["_data"]["price"].int?.asPrice
         {
-            captionPrice.text = price
+//            captionPrice.text = price
         } else {
-            captionPrice.text = Int(0).asPrice
+//            captionPrice.text = Int(0).asPrice
         }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
-//            captionBeli.text = "Beli"
             alreadyInCart = true
         }
         
         let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
         if (freeOngkir)
         {
-            captionFreeOngkir.text = "FREE ONGKIR"
+//            captionFreeOngkir.text = "FREE ONGKIR"
         } else
         {
-            captionFreeOngkir.text = "+ ONGKIR"
+//            captionFreeOngkir.text = "+ ONGKIR"
         }
     }
 
@@ -288,6 +304,8 @@ class ProductCellTitle : UITableViewCell
     
     var parent : UIViewController?
     
+    var detail : ProductDetail?
+    
     static func heightFor(obj : ProductDetail?)->CGFloat
     {
         if (obj == nil) {
@@ -320,6 +338,9 @@ class ProductCellTitle : UITableViewCell
         if (obj == nil) {
             return
         }
+        
+        detail = obj
+        
         var product = (obj?.json)!["_data"]
         
         captionTitle?.text = obj?.name
@@ -345,7 +366,12 @@ class ProductCellTitle : UITableViewCell
     
     func share()
     {
-        PreloShareController.Share(PreloShareItem(), inView: (parent?.navigationController?.view)!)
+        var item = PreloShareItem()
+        let s = detail?.displayPicturers.first
+        item.url = NSURL(string: s!)
+        item.text = (detail?.name)!
+        
+        PreloShareController.Share(item, inView: (parent?.navigationController?.view)!)
     }
 }
 

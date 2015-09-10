@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate, UIAlertViewDelegate
 {
     
     @IBOutlet var tableView : UITableView!
@@ -26,7 +26,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var selectedCategoryID = ""
     
-    var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Digantung", "image":"ic_hanger"], ["title":"Cacat (Jika ada)", "image":"ic_cacat"]]
+    var imageHints = [["title":"Tampak Belakang", "image":"ic_backarrow"], ["title":"Tampilan Label / Merek", "image":"ic_tag"], ["title":"Dipakai", "image":"ic_hanger"], ["title":"Cacat (Jika ada)", "image":"ic_cacat"]]
     
     var selectedMerk = ""
     var selectedKondisi = ""
@@ -36,6 +36,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         self.title = "Add Product"
         // Do any additional setup after loading the view.
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
         
         sectionHeader?.width = UIScreen.mainScreen().bounds.width
         sectionHeader?.height = UIScreen.mainScreen().bounds.width * 3 / 4
@@ -61,7 +63,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             
         })
         baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Produk", placeHolder: "Nama Produk")
-        baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi")
+        baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
             picker.textTitle = "Pilih Kondisi"
@@ -69,27 +71,32 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, _, res, err in
-                    let json = JSON(res!)
-                    let brands = json["product_conditions"].array
-                    var items : Array<String> = []
-                    if let arrBrands = brands
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
                     {
-                        for i in 0...(arrBrands.count)-1
+                        let json = JSON(res!)
+                        let brands = json["product_conditions"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
                         {
-                            let j = arrBrands[i]
-                            let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                            items.append(m)
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
                         }
+                        
+                        picker.selectBlock = { s in
+                            self.selectedKondisi = PickerViewController.RevealHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                    } else {
+                        
                     }
-                    
-                    picker.selectBlock = { s in
-                        self.selectedKondisi = PickerViewController.RevealHiddenString(s)
-                    }
-                    
-                    picker.items = items
-                    picker.tableView.reloadData()
-                    picker.doneLoading()
                 }
             }
         })
@@ -100,28 +107,33 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, _, res, err in
-                    let json = JSON(res!)
-                    let brands = json["brands"].array
-                    var items : Array<String> = []
-                    if let arrBrands = brands
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
                     {
-                        for i in 0...(arrBrands.count)-1
+                        let json = JSON(res!)
+                        let brands = json["brands"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
                         {
-                            let j = arrBrands[i]
-                            let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                            items.append(m)
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
                         }
+                        
+                        picker.selectBlock = { s in
+                            self.selectedMerk = PickerViewController.RevealHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                        picker.showSearch = true
+                    } else {
+                        
                     }
-                    
-                    picker.selectBlock = { s in
-                        self.selectedMerk = PickerViewController.RevealHiddenString(s)
-                    }
-                    
-                    picker.items = items
-                    picker.tableView.reloadData()
-                    picker.doneLoading()
-                    picker.showSearch = true
                 }
             }
         })
@@ -135,6 +147,20 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         tableView?.delegate = self
         
         self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+    }
+    
+    func back()
+    {
+        let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Tidak")
+        a.addButtonWithTitle("Ya")
+        a.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -154,6 +180,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     var first = true
+    var firstLaunch = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -161,8 +188,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         if (User.IsLoggedIn)
         {
-            if (first) // show picker!!
+            if (first && self.firstLaunch) // show picker!!
             {
+                self.firstLaunch = false
                 self.addImage()
             }
         } else {
@@ -328,87 +356,6 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         })
     
         // mark
-        
-        //        let manager = AFHTTPRequestOperationManager()
-        //        manager.requestSerializer = AFJSONRequestSerializer()
-        //        manager.requestSerializer.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
-        //
-        //        manager.POST("http://dev.preloapp.com/api/2/products", parameters: ["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!], constructingBodyWithBlock: {form in
-        //                if (self.sendIMGs.count > 0)
-        //                {
-        //                    for x in 0...self.sendIMGs.count
-        //                    {
-        //                        let img = UIImageJPEGRepresentation(self.sendIMGs[x], 0.5)
-        //                        let name = "image" + String(x)
-        //                    }
-        //                }
-        //            }, success: { op, res in
-        //                let json = JSON(res)
-        //            println(json)
-        //            println("")
-        //            }, failure: { op, err in
-        //                println(op.request.allHTTPHeaderFields)
-        //                println(op.responseObject)
-        //                println(err)
-        //        })
-        
-        //        request(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID)).responseJSON{_, resp, res, err in
-        //            if (err != nil) {
-        //                println(err)
-        //            } else
-        //            {
-        //                let j = JSON(res!)
-        //                println(j)
-        //                println(resp)
-        //                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-        //                self.navigationController?.pushViewController(s, animated: true)
-        //            }
-        //        }
-        
-        //        let param = JSON(["name":name!, "desc":desc!, "category":selectedCategoryID, "price":price!, "weight":weight!])
-        //
-        //        let parameterString = param.rawString(encoding: NSUTF8StringEncoding, options: nil)
-        //        let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        
-        //        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: { form in
-        //
-        //            }, encodingCompletion: { encodingResult in
-        //                switch encodingResult {
-        //                case .Success(let upload, _, _):
-        //                    upload.responseJSON { request, response, JSON, error in
-        //                        println(request)
-        //                        println(response!)
-        //                        println(JSON)
-        //                    }
-        //                case .Failure(let encodingError):
-        //                    println(encodingError)
-        //                }
-        //        })
-        
-        //        upload(Products.Add(name: name!, desc: desc!, price: price!, weight: weight!, category: selectedCategoryID), multipartFormData: {form in
-        //
-        //            }, encodingCompletion: { result in
-        //                switch result
-        //                {
-        //                case .Success(let upload, _, _):
-        //                    upload.responseJSON { request, response, json, error in
-        //                        let s = AppToolsObjC.stringWithData(request.HTTPBody!)
-        //                        if (error != nil) {
-        //                            UIAlertView.SimpleShow("Warning", message: "Gagal")
-        //                        } else {
-        //                            let j = JSON(json!)
-        //                            println(j)
-        //                            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-        //                            self.navigationController?.pushViewController(s, animated: true)
-        //                            self.performSegueWithIdentifier("segShare", sender: nil)
-        //                        }
-        //                    }
-        //                case .Failure(let encodingError):
-        //                    self.performSegueWithIdentifier("segShare", sender: nil)
-        //                    let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! UIViewController
-        //                    self.navigationController?.pushViewController(s, animated: true)
-        //                }
-        //        })
     }
     
     @IBAction func sendConfirm()
@@ -435,12 +382,19 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (self.replaceIndex != -1)
             {
                 self.images[self.replaceIndex] = imgs[0]
-                self.replaceIndex = -1
+                self.currentPortalIndex = self.replaceIndex
+                self.portalImage()
             } else
             {
+                self.currentPortalIndex = self.images.count
                 for a in imgs
                 {
                     self.images.append(a)
+                }
+                
+                if (self.images.count > 0)
+                {
+                    self.portalImage()
                 }
             }
             self.gridView?.reloadData()
@@ -464,6 +418,25 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         a.showInView(self.view)
     }
     
+    var portalling = false
+    var currentPortalIndex = -1
+    func portalImage()
+    {
+        var ap = images[currentPortalIndex]
+        portalling = true
+        ap.getImage({image in
+            if let i = image
+            {
+                Mixpanel.sharedInstance().track("Edit Image")
+                AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
+                AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
+                let u = AdobeUXImageEditorViewController(image: i)
+                u.delegate = self
+                self.presentViewController(u, animated: true, completion: nil)
+            }
+        })
+    }
+    
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         println("index \(buttonIndex)")
         if (buttonIndex == 0)
@@ -476,6 +449,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 if let i = image
                 {
                     Mixpanel.sharedInstance().track("Edit Image")
+                    AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
                     let u = AdobeUXImageEditorViewController(image: i)
                     u.delegate = self
                     self.presentViewController(u, animated: true, completion: nil)
@@ -495,18 +469,39 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         
         Mixpanel.sharedInstance().track("Edit Image Success")
-        let ap = images[replaceIndex]
+        var ap = images[portalling ? currentPortalIndex : replaceIndex]
         ap.image = image
         ap.assetLib = nil
         
         self.gridView?.reloadData()
         
-        editor.dismissViewControllerAnimated(true, completion: nil)
+        editor.dismissViewControllerAnimated(true, completion: {
+            if (self.portalling)
+            {
+                self.currentPortalIndex++
+                
+                if (self.images.count == self.currentPortalIndex || (self.replaceIndex != -1 && self.currentPortalIndex >= self.replaceIndex))
+                {
+                    self.replaceIndex = -1
+                    self.currentPortalIndex = -1
+                    self.portalling = false
+                } else {
+                    self.portalImage()
+                }
+            }
+        })
     }
     
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
-        Mixpanel.sharedInstance().track("Edit Image Cancel")
-        editor.dismissViewControllerAnimated(true, completion: nil)
+        if (self.portalling)
+        {
+//            self.currentPortalIndex = -1
+//            self.portalling = false
+        } else
+        {
+            Mixpanel.sharedInstance().track("Edit Image Cancel")
+            editor.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1266,198 +1261,17 @@ extension BorderedView
     }
 }
 
-/**
-Extension to the Alamofire MultipartFormData type to support direct
-construction of `multipart/form-data` parts
-*/
-extension MultipartFormData {
+class PreloImageEditor : AdobeUXImageEditorViewController
+{
+    var enableCancel = true
     
-    func appendBodyPart(part:MultipartProtocol) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let headers = part.headers
-        let bodyStream = NSInputStream(data: part.body)
-        let bodyContentLength = UInt64(part.body.length)
-        appendBodyPart(stream: bodyStream, length: bodyContentLength, headers: headers.headers)
-    }
-}
-
-/**
-Protocol that defines the behavior of `multipart/form-data` parts, allowing
-extension to parts of different types, while hiding implementation details
-*/
-protocol MultipartProtocol {
-    /// The headers used to generate a part in a `multipart/form-data` part
-    var headers:MultipartHeader { get }
-    
-    /// The body used to generate a part in a `multipart/form-data` part
-    var body:NSData! { get }
-}
-
-
-/**
-Builds legal `multipart/form-data` parts, conforming to MultipartProtocol
-*/
-class Multipart {
-    
-    class func json(name:String, parameters:[String:AnyObject]) -> MultipartProtocol? {
-        return MultipartJson(name:name, parameters: parameters) }
-    
-    class func plain(name:String, text:String) -> MultipartProtocol? {
-        return MultipartPlain(name:name, text:text) }
-    
-    /**
-    Constructs an `application/json` part in a `multipart/form-data` body
-    */
-    class MultipartJson : MultipartProtocol {
-        
-        init?(name:String, parameters:[String:AnyObject]) {
-            
-            // initialize header
-            self.headers = MultipartHeader()
-                .contentType(.JSON)
-                .contentDisposition(.Name(name))
-            
-            // serialize body
-            let options = NSJSONWritingOptions.allZeros
-            var error:NSError?
-            self.body = NSJSONSerialization.dataWithJSONObject(parameters, options: options, error: &error)
-            
-            if self.body == nil {
-                return nil
-            }
+        if (enableCancel == false)
+        {
+            self.navigationItem.hidesBackButton = true
+            self.navigationItem.leftBarButtonItem = nil
         }
-        
-        /// The headers used to generate an `application/json` part in a `multipart/form-data` part
-        let headers:MultipartHeader
-        
-        /// The body used to generate an `application/json` part in a `multipart/form-data` part
-        var body:NSData!
-    }
-    
-    /**
-    Constructs a `text/plain` part in a `multipart/form-data` body
-    */
-    class MultipartPlain : MultipartProtocol {
-        
-        init?(name:String, text:String) {
-            
-            // initialize header
-            self.headers = MultipartHeader()
-                .contentType(.Plain)
-                .contentDisposition(.Name(name))
-            
-            // serialize body
-            self.body = text.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            if self.body == nil {
-                return nil
-            }
-        }
-        
-        /// The headers used to generate a `text/plain` part in a `multipart/form-data` part
-        let headers:MultipartHeader
-        
-        /// The body used to generate a `text/plain` part in a `multipart/form-data` part
-        var body:NSData!
-    }
-}
-
-
-/**
-Defines legal `MIME` type values for the `Content-Type` header of `multipart/form-data`
-*/
-enum Mime : String {
-    case MultipartMixed = "multipart/mixed"
-    case JSON = "application/json"
-    case Plain = "text/plain"
-}
-
-
-/**
-Defines legal Disposition values for the `Content-Disposition` header of `multipart/form-data`
-*/
-enum Disposition {
-    case FormData
-    case Name(String)
-    case FileName(String)
-    
-    var encoded:String {
-        switch self {
-            
-        case FormData:
-            return "form-data"
-            
-        case Name(let name):
-            return "name=\"\(name)\""
-            
-        case FileName(let name):
-            return "filename=\"\(name)\""
-        }
-    }
-}
-
-
-/**
-Constructs `multipart/form-data` headers via the method chaining pattern.
-*/
-class MultipartHeader {
-    
-    enum Key : String {
-        case ContentType = "Content-Type"
-        case ContentDisposition = "Content-Disposition"
-    }
-    
-    /**
-    Defines the `Content-Type` header and returns the instance of MultipartHeader
-    upon which this call is made
-    
-    :param: mimeType  The desired MIME type, as defined by the Mime enumeration
-    
-    :returns: The instance of Multipart header upon which this call is made
-    */
-    func contentType(mimeType:Mime) -> MultipartHeader {
-        headers[Key.ContentType.rawValue] = "\(mimeType.rawValue)"
-        return self
-    }
-    
-    
-    /**
-    Defines the `Content-Disposition` header with a single disposition value and
-    returns the instance of MultipartHeader upon which this call is made
-    
-    :param: mimeType  The desired MIME type, as defined by the Disposition enumeration
-    
-    :returns: The instance of Multipart header upon which this call is made
-    */
-    func contentDisposition(disposition:Disposition) -> MultipartHeader {
-        
-        headers[Key.ContentDisposition.rawValue] =
-            Disposition.FormData.encoded + "; " + disposition.encoded
-        return self
-    }
-    
-    /**
-    Defines the Content-Disposition header with multiple disposition value and
-    returns the instance of MultipartHeader upon which this call is made
-    
-    :param: mimeType  The desired MIME type, as defined by the Disposition enumeration
-    
-    :returns: The instance of Multipart header upon which this call is made
-    */
-    func contentDisposition(values:Disposition...) -> MultipartHeader {
-        
-        headers[Key.ContentDisposition.rawValue] = Disposition.FormData.encoded + "; "
-            + "; ".join(map(values) { (d:Disposition) in d.encoded})
-        return self
-    }
-    
-    /// The resulting set of `multipart/form-data` headers
-    var headers:[String:String] = [Key.ContentDisposition.rawValue: Disposition.FormData.encoded]
-}
-
-
-extension MultipartHeader : Printable {
-    var description:String {
-        return "Headers: \n\t"
-            + "\n\t".join(map(self.headers.keys) { key in "\(key): \(self.headers[key]!)" })
     }
 }

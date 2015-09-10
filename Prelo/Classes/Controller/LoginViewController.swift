@@ -118,13 +118,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func getProfile()
     {
         request(APIUser.Me)
-            .responseJSON{_, _, res, err in
-        
-                if (err != nil) {
-                    Constant.showDialog("Warning", message: (err?.description)!)
-                    User.Logout()
-                    self.btnLogin?.enabled = true
-                } else {
+            .responseJSON{_, resp, res, err in
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
                     self.btnLogin?.enabled = true
                     let json = JSON(res!)["_data"]
                     
@@ -192,16 +188,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.userRelatedDelegate?.userLoggedIn!()
                     }
                     
-                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+//                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                     
                     if let c = CDUser.getOne()
                     {
+                        Mixpanel.sharedInstance().identify(c.id)
                         Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
+                    } else {
+                        Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
                     }
                     
                     Mixpanel.sharedInstance().track("Logged In")
                     
                     self.dismiss()
+                } else {
+                    User.Logout()
+                    self.btnLogin?.enabled = true
                 }
         }
     }

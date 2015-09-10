@@ -356,3 +356,30 @@ enum References : URLRequestConvertible
         return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
     }
 }
+
+class APIPrelo
+{
+    static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
+    {
+        if let response = resp
+        {
+            if (response.statusCode == 500 && showErrorDialog)
+            {
+                UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
+                return false
+            }
+        }
+        
+        if let error = err
+        {
+            if (showErrorDialog)
+            {
+                UIAlertView.SimpleShow("Gagal", message: error.description)
+            }
+            return false
+        } else
+        {
+            return true
+        }
+    }
+}

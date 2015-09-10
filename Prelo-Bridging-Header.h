@@ -20,5 +20,9 @@
 #import "AFHTTPRequestOperationManager.h"
 #import "Mixpanel.h"
 #import "GrowingTextViewHandler.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "MGInstagram.h"
+#import "Line.h"
+#import "LKLineActivity.h"
 
 #endif

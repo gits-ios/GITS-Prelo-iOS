@@ -24,11 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Fabric.with([Crashlytics.self()])
         Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
-        Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+        
         
         if let c = CDUser.getOne()
         {
+            Mixpanel.sharedInstance().identify(c.id)
             Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
+        } else {
+            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
         }
     AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
         

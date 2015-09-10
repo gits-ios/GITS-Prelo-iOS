@@ -19,23 +19,25 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Do any additional setup after loading the view.
         
         request(APIUser.MyProductSell)
-            .responseJSON{ _, _, res, err in
-                if let error = err
+            .responseJSON{_, resp, res, err in
+                if (APIPrelo.validate(true, err: err, resp: resp))
                 {
-                    
-                } else if let result: AnyObject = res
-                {
-                    let j = JSON(result)
-                    let d = j["_data"].arrayObject
-                    if let data = d
+                    if let result: AnyObject = res
                     {
-                        for json in data
+                        let j = JSON(result)
+                        let d = j["_data"].arrayObject
+                        if let data = d
                         {
-                            self.products.append(Product.instance(JSON(json))!)
-                            self.tableView.tableFooterView = UIView()
-                            self.tableView.reloadData()
+                            for json in data
+                            {
+                                self.products.append(Product.instance(JSON(json))!)
+                                self.tableView.tableFooterView = UIView()
+                                self.tableView.reloadData()
+                            }
                         }
                     }
+                } else {
+                    
                 }
         }
         

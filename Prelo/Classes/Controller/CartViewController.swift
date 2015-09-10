@@ -97,10 +97,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 picker.startLoading()
                 
                 request(References.ProvinceList)
-                    .responseJSON{_, _, res, err in
-                        if (err != nil) {
-                            picker.dismiss()
-                        } else {
+                    .responseJSON{_, resp, res, err in
+                        if (APIPrelo.validate(true, err: err, resp: resp))
+                        {
                             let json = JSON(res!)["_data"].array
                             var r : Array<String> = []
                             let c = json?.count
@@ -117,6 +116,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 picker.tableView.reloadData()
                                 picker.doneLoading()
                             }
+                        } else {
+                            picker.dismiss()
                         }
                 }
                 
@@ -130,10 +131,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 picker.startLoading()
                 
                 request(References.CityList(provinceId: self.selectedProvinsiID))
-                    .responseJSON{ _, _, res, err in
-                        if (err != nil) {
-                            picker.dismiss()
-                        } else {
+                    .responseJSON{_, resp, res, err in
+                        if (APIPrelo.validate(true, err: err, resp: resp))
+                        {
                             let json = JSON(res!)["_data"].array
                             var r : Array<String> = []
                             let c = json?.count
@@ -150,6 +150,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 picker.tableView.reloadData()
                                 picker.doneLoading()
                             }
+                        } else {
+                            picker.dismiss()
                         }
                 }
                 
@@ -248,28 +250,25 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.btnSend.enabled = false
         request(APICart.Checkout(cart: p, address: a, voucher: voucher, phone: phone, payment: selectedPayment))
-            .responseJSON{_, _, res, err in
-                
+            .responseJSON{_, resp, res, err in
                 self.btnSend.enabled = true
-                
-                if (err != nil) {
-                    Constant.showDialog("Warning", message: (err?.description)!)
-                } else {
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
                     var json = JSON(res!)
                     if let error = json["_message"].string
                     {
                         Constant.showDialog("Warning", message: error)
                     } else {
                         self.checkoutResult = JSON(res!)["_data"]
-//                        self.performSegueWithIdentifier("segOK", sender: nil)
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                         c.orderID = (self.checkoutResult?["order_id"].string)!
                         c.totalPayment = (self.checkoutResult?["final_price"].int)!
                         c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
-//                        self.navigationController?.popViewControllerAnimated(false)
                         self.previousController?.navigationController?.pushViewController(c, animated: true)
                         
                     }
+                } else {
+                    
                 }
         }
     }
@@ -406,6 +405,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         acee?.adapt(cells[indexPath]!)
         acee?.lastIndex = indexPath
+        
+        acee?.textView.textColor = UIColor(hexString: "#858585")
         
         return acee
     }

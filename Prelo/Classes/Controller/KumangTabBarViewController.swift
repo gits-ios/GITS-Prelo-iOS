@@ -89,6 +89,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.menuDelegate = self
             menuPopUp?.setupView(self.navigationController!)
         }
+        
+        let tour = NSUserDefaults.standardUserDefaults().boolForKey("tour")
+        if (tour == false)
+        {
+            self.performSegueWithIdentifier("segTour", sender: nil)
+        }
     }
     
     func pushNew(sender : AnyObject)

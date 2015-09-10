@@ -70,13 +70,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             catId = category!["permalink"].string
         }
         
-        request(Products.ListByCategory(categoryId: catId!, location: "", sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
-            .responseJSON{ req, _, res, err in
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
+            .responseJSON{req, resp, res, err in
                 self.done = false
                 self.requesting = false
-                if (err != nil) {
-                    println(err)
-                } else {
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
                     self.products = []
                     var obj = JSON(res!)
                     for (index : String, item : JSON) in obj["_data"]
@@ -86,9 +85,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                             self.products?.append(p!)
                         }
                     }
+                    self.refresher?.endRefreshing()
+                    self.setupGrid()
+                } else {
+                    
                 }
-                self.refresher?.endRefreshing()
-                self.setupGrid()
         }
     }
     
@@ -121,11 +122,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
-            .responseJSON{ req, _, res, err in
+            .responseJSON{req, resp, res, err in
                 self.requesting = false
-                if (err != nil) {
-                    println(err)
-                } else {
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
                     var obj = JSON(res!)
                     println(obj)
                     if let arr = obj["_data"].array
@@ -144,6 +144,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                             }
                         }
                     }
+                } else {
+                    
                 }
                 self.setupGrid()
         }
@@ -265,6 +267,10 @@ class ListItemCell : UICollectionViewCell
         if let op = product.json["price_original"].int
         {
             captionOldPrice.text = op.asPrice
+            let s = captionOldPrice.text! as NSString
+            let attString = NSMutableAttributedString(string: s as String)
+            attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.StyleSingle.rawValue], range: s.rangeOfString(s as String))
+            captionOldPrice.attributedText = attString
         }
     }
 }

@@ -31,6 +31,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (NSString *) stringWithData:(NSData *)data;
 
++ (void) shareToInstagram:(UIImage *)image from:(UIViewController *)parent;
+
 @end
 
 @interface UINavigationController (AppToolsObjC)

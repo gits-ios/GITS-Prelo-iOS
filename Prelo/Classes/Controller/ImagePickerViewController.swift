@@ -52,8 +52,9 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         {
             r.append(images[i.item-cameraAdd])
         }
-        self.doneBlock!(r)
-        self.dismiss()
+        self.dismissViewControllerAnimated(true, completion: {
+            self.doneBlock!(r)
+        })
     }
     
     var cameraAdd = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Rear) == true ? 1 : 0

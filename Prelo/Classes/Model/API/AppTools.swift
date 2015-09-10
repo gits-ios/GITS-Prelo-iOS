@@ -56,6 +56,7 @@ class Theme : NSObject
     static var ThemePurpleDark = UIColor(hex: "#00A79D")
     
     static var ThemeOrage = UIColor(hex: "#F88218")
+    static var ThemeOrange = UIColor(hex: "#FFA800")
     
     static var ThemePink = UIColor(hex: "#F1E3F2")
     static var ThemePinkDark = UIColor(hex: "#CB8FCC")
@@ -91,6 +92,7 @@ class Tags : NSObject
     static let StoryBoardIdCategoryChildrenPicker = "CategoryChildrenPicker"
     static let StoryBoardIdAbout = "About"
     static let StoryBoardIdPreloShare = "PreloShare"
+    static let StoryBoardIdPreloTour = "PreloTour"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"
@@ -99,9 +101,18 @@ class Tags : NSObject
     static let XibNameRegister = "Register"
     static let XibNamePaymentConfirmation = "PaymentConfirmation"
     static let XibNameUserProfile = "UserProfile"
+    static let XibNameProfileSetup = "ProfileSetup"
 }
 
 class NotificationName : NSObject
 {
     static let PushNew = "pushnew"
+}
+
+extension NSUserDefaults
+{
+    static func lastSavedAssetURL() -> NSURL?
+    {
+        return NSUserDefaults.standardUserDefaults().objectForKey("lastAssetURL") as? NSURL
+    }
 }

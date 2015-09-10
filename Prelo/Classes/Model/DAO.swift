@@ -88,6 +88,8 @@ public class User : NSObject
     static func Logout()
     {
         Mixpanel.sharedInstance().track("Logged Out")
+        Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
         
         if let u = CDUser.getOne()
         {
