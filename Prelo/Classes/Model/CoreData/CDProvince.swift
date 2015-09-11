@@ -78,4 +78,18 @@ class CDProvince : NSManagedObject {
         }
         return arr
     }
+    
+    static func getProvinceNameWithID(id : String) -> String? {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "id = \(id)")
+        let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        fetchReq.predicate = predicate
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDProvince).name
+        }
+    }
 }

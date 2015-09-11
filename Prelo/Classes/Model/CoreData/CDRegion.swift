@@ -71,4 +71,18 @@ class CDRegion : NSManagedObject {
         }
         return arr
     }
+    
+    static func getRegionNameWithID(id : String) -> String? {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "id = \(id)")
+        let fetchReq = NSFetchRequest(entityName: "CDRegion")
+        fetchReq.predicate = predicate
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDRegion).name
+        }
+    }
 }

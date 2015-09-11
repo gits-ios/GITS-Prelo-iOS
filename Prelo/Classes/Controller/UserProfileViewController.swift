@@ -134,45 +134,15 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         // Set fields' default value
         fieldNama.text = user.fullname
         lblNoHP.text = userProfile.phone
-        // TODO: ambil gender
-        fieldAlamat.text = userProfile.address
-        fieldKodePos.text = userProfile.postalCode
-        fieldTentangShop.text = userProfile.desc
+        lblJenisKelamin.text = userProfile.gender
+        // TODO: penanganan alamat kodepos ttgshop klo masih kosong
+        //fieldAlamat.text = userProfile.address
+        //fieldKodePos.text = userProfile.postalCode
+        //fieldTentangShop.text = userProfile.desc
         self.textViewDidChange(self.fieldTentangShop)
         // TODO: ambil shipping options
-        
-        println("Req metadata")
-        request(APIApp.Metadata).responseJSON { _, _, res, err in
-            if let error = err {
-                Constant.showDialog("Warning", message: error.description)
-            } else {
-                let json = JSON(res!)
-                let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    Constant.showDialog("Warning", message: message!)
-                } else { // Berhasil
-                    println("Metadata loaded")
-                    for (var i = 0; i < data["provinces_regions"].count; i++) {
-                        let province = data["provinces_regions"][i]
-                        let provID = province["_id"].string
-                        if (provID == userProfile.provinceID) {
-                            self.lblProvinsi.text = province["name"].string
-                            for (var j = 0; j < province["regions"].count; j++) {
-                                let region = province["regions"][j]
-                                let regionID = region["_id"].string
-                                if (regionID == userProfile.regionID) {
-                                    self.lblKabKota.text = region["name"].string
-                                    break
-                                }
-                            }
-                            break
-                        }
-                    }
-                }
-            }
-        }
+        //lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfile.provinceID)
+        //lblKabKota.text = CDRegion.getRegionNameWithID(userProfile.regionID)
     }
     
     func pickerDidSelect(item: String) {
@@ -266,39 +236,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
+        p?.items = CDProvince.getProvincePickerItems()
         p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            picker.startLoading()
-            
-            request(References.ProvinceList)
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
-                            picker.dismiss()
-                        } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
-                            }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
-                        }
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
-                self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
-            }
+        p?.selectBlock = { string in
+            self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+            self.lblKabKota.text = "Pilih Kota/Kabupaten"
         }
         p?.title = "Provinsi"
         self.view.endEditing(true)
@@ -306,46 +248,22 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     @IBAction func pilihKabKotaPressed(sender: UIButton) {
-        isPickingKabKota = true
-        
-        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
-        p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            picker.startLoading()
+        if (selectedProvinsiID == "") {
+            Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
+        } else {
+            isPickingKabKota = true
             
-            request(References.CityList(provinceId: self.selectedProvinsiID))
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
-                            picker.dismiss()
-                        } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
-                            }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
-                        }
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
+            let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+            //p?.items = []
+            p?.items = CDRegion.getRegionPickerItems(selectedProvinsiID)
+            p?.pickerDelegate = self
+            p?.selectBlock = { string in
                 self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
             }
+            p?.title = "Kota/Kabupaten"
+            self.view.endEditing(true)
+            self.navigationController?.pushViewController(p!, animated: true)
         }
-        p?.title = "Kota/Kabupaten"
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
     }
     
     func textViewDidChange(textView: UITextView) {

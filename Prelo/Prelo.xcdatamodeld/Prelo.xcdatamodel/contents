@@ -47,6 +47,7 @@
     <entity name="CDUserProfile" representedClassName="CDUserProfile" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pict" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postalCode" optional="YES" attributeType="String" syncable="YES"/>
@@ -60,11 +61,11 @@
     </entity>
     <elements>
         <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
-        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
-        <element name="CDUserProfile" positionX="153" positionY="9" width="128" height="165"/>
         <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
         <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
+        <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
+        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
+        <element name="CDUserProfile" positionX="153" positionY="9" width="128" height="180"/>
         <element name="CDVersion" positionX="153" positionY="27" width="128" height="75"/>
     </elements>
 </model>

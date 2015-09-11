@@ -249,41 +249,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        //p?.items = []
         p?.items = CDProvince.getProvincePickerItems()
         p?.pickerDelegate = self
-        /*p?.prepDataBlock = { picker in
-            picker.startLoading()
-            
-            request(References.ProvinceList)
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
-                            picker.dismiss()
-                        } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
-                            }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
-                        }
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
-                self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
-            }
-        }*/
         p?.selectBlock = { string in
             self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
             self.lblKabKota.text = "Pilih Kota/Kabupaten"
@@ -300,41 +267,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             isPickingKabKota = true
             
             let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-            //p?.items = []
             p?.items = CDRegion.getRegionPickerItems(selectedProvinsiID)
             p?.pickerDelegate = self
-            /*p?.prepDataBlock = { picker in
-                picker.startLoading()
-                
-                request(References.CityList(provinceId: self.selectedProvinsiID))
-                    .responseJSON{ _, _, res, err in
-                        if (err != nil) {
-                            picker.dismiss()
-                        } else {
-                            let json = JSON(res!)["_data"].array
-                            var r : Array<String> = []
-                            let c = json?.count
-                            if (c! == 0) {
-                                picker.dismiss()
-                            } else {
-                                for i in 0...c!-1
-                                {
-                                    let j = json?[i]
-                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                    r.append(n)
-                                }
-                                picker.items = r
-                                picker.tableView.reloadData()
-                                picker.doneLoading()
-                            }
-                        }
-                }
-                
-                // On select block
-                picker.selectBlock = { string in
-                    self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
-                }
-            }*/
             p?.selectBlock = { string in
                 self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
             }
@@ -426,8 +360,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         userProfile.regionID = self.selectedKabKotaID
                         userProfile.provinceID = self.selectedProvinsiID
                         userProfile.phone = userPhone!
+                        userProfile.gender = self.lblJenisKelamin.text!
                         user.profiles = userProfile
-                        // TODO: Simpan gender, shipping, referral, deviceid di coredata
+                        // TODO: Simpan shipping, referral, deviceid di coredata
                         
                         // Save data
                         var saveErr : NSError? = nil

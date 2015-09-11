@@ -14,6 +14,7 @@ class CDUserProfile: NSManagedObject {
 
     @NSManaged var address: String
     @NSManaged var desc: String
+    @NSManaged var gender: String
     @NSManaged var phone: String
     @NSManaged var pict: String
     @NSManaged var postalCode: String
