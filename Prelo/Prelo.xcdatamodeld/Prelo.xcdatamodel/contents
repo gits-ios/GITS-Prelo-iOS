@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
         <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="CDProvince" representedClassName="CDProvince" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="regions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDRegion" inverseName="province" inverseEntity="CDRegion" syncable="YES"/>
+    </entity>
+    <entity name="CDRegion" representedClassName="CDRegion" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="province" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDProvince" inverseName="regions" inverseEntity="CDProvince" syncable="YES"/>
     </entity>
     <entity name="CDUser" representedClassName="CDUser" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,10 +54,17 @@
         <attribute name="regionID" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="profiles" inverseEntity="CDUser" syncable="YES"/>
     </entity>
+    <entity name="CDVersion" representedClassName="CDVersion" syncable="YES">
+        <attribute name="appVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadataVersion" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="75"/>
         <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
         <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
         <element name="CDUserProfile" positionX="153" positionY="9" width="128" height="165"/>
+        <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
+        <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
+        <element name="CDVersion" positionX="153" positionY="27" width="128" height="75"/>
     </elements>
 </model>

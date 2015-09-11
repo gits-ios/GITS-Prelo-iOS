@@ -116,10 +116,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     func register() {
         disableTextFields(NSNull)
+        let username = txtUsername?.text
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
-        request(APIUser.Register(fullname: name!, email: email!, password: password!))
+        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!))
             .responseJSON
             {_, _, json, err in
                 if (err != nil) { // Terdapat error
@@ -139,12 +140,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         User.StoreUser(data, email : email!)
                         let m = UIApplication.appDelegate.managedObjectContext
                         let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                        c.id = data["_id"].string!
+                        c.id = data["username"].string!
                         c.email = data["email"].string!
                         c.fullname = data["fullname"].string!
                         
                         let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                        let pr = data["profiles"]
+                        let pr = data["profile"]
                         p.pict = pr["pict"].string!
                         
                         c.profiles = p
@@ -164,11 +165,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         //self.toProfileSetup()
         
         // FOR TESTING (TO PHONE VERIFICATION DIRECTLY)
-        /*
-        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+        /*let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-        */
+        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)*/
     }
     
     func toProfileSetup() {

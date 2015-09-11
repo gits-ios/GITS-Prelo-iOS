@@ -249,9 +249,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
+        //p?.items = []
+        p?.items = CDProvince.getProvincePickerItems()
         p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
+        /*p?.prepDataBlock = { picker in
             picker.startLoading()
             
             request(References.ProvinceList)
@@ -282,6 +283,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             picker.selectBlock = { string in
                 self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
             }
+        }*/
+        p?.selectBlock = { string in
+            self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+            self.lblKabKota.text = "Pilih Kota/Kabupaten"
         }
         p?.title = "Provinsi"
         self.view.endEditing(true)
@@ -289,46 +294,54 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     @IBAction func kabKotaPressed(sender: AnyObject) {
-        isPickingKabKota = true
-        
-        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
-        p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            picker.startLoading()
+        if (selectedProvinsiID == "") {
+            Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
+        } else {
+            isPickingKabKota = true
             
-            request(References.CityList(provinceId: self.selectedProvinsiID))
-                .responseJSON{ _, _, res, err in
-                    if (err != nil) {
-                        picker.dismiss()
-                    } else {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
+            let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+            //p?.items = []
+            p?.items = CDRegion.getRegionPickerItems(selectedProvinsiID)
+            p?.pickerDelegate = self
+            /*p?.prepDataBlock = { picker in
+                picker.startLoading()
+                
+                request(References.CityList(provinceId: self.selectedProvinsiID))
+                    .responseJSON{ _, _, res, err in
+                        if (err != nil) {
                             picker.dismiss()
                         } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
+                            let json = JSON(res!)["_data"].array
+                            var r : Array<String> = []
+                            let c = json?.count
+                            if (c! == 0) {
+                                picker.dismiss()
+                            } else {
+                                for i in 0...c!-1
+                                {
+                                    let j = json?[i]
+                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                    r.append(n)
+                                }
+                                picker.items = r
+                                picker.tableView.reloadData()
+                                picker.doneLoading()
                             }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
                         }
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
+                }
+                
+                // On select block
+                picker.selectBlock = { string in
+                    self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
+                }
+            }*/
+            p?.selectBlock = { string in
                 self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
             }
+            p?.title = "Kota/Kabupaten"
+            self.view.endEditing(true)
+            self.navigationController?.pushViewController(p!, animated: true)
         }
-        p?.title = "Kota/Kabupaten"
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
     }
     
     @IBAction func jneRegulerPressed(sender: UIButton) {
@@ -358,6 +371,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func fieldsVerified() -> Bool {
+        if (fieldNoHP.text == "") {
+            Constant.showDialog("Warning", message: "Nomor HP harus diisi")
+            return false
+        }
         if (lblProvinsi.text == "Pilih Provinsi") {
             Constant.showDialog("Warning", message: "Provinsi harus diisi")
             return false
@@ -378,10 +395,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             disableTextFields(NSNull)
             btnApply.enabled = false
             
-            let jenisKelamin = lblJenisKelamin?.text
-            let nomorHP = fieldNoHP?.text
-            let shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
-            request(APIUser.SetProfile(fullname: "Dummy setup fullname", phone: nomorHP!, address: "Dummy setup address", region: selectedKabKotaID, postalCode: "Dummy setup postal code", shopName: "Dummy setup shop name", Description: "Dummy setup description", Shipping: shipping)).responseJSON { _, _, res, err in
+            let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
+            let userPhone = fieldNoHP?.text
+            let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            let userReferral = fieldKodeReferral.text
+            let userDeviceId = "dor"
+            
+            request(APIUser.SetupAccount(gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
                 if let error = err {
                     Constant.showDialog("Warning", message: error.description)
                     self.btnApply.enabled = true
@@ -405,7 +425,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         let userProfile : CDUserProfile = CDUserProfile.getOne()!
                         userProfile.regionID = self.selectedKabKotaID
                         userProfile.provinceID = self.selectedProvinsiID
+                        userProfile.phone = userPhone!
                         user.profiles = userProfile
+                        // TODO: Simpan gender, shipping, referral, deviceid di coredata
                         
                         // Save data
                         var saveErr : NSError? = nil

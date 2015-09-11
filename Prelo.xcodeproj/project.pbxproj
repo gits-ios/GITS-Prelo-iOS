@@ -320,6 +320,9 @@
 		44BE2D8E1B973AF5001264CF /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */; };
 		44BE2D901B973B65001264CF /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BE2D8F1B973B65001264CF /* PhoneVerification.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44E14E391BA2B4A3006C61B3 /* CDProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E381BA2B4A3006C61B3 /* CDProvince.swift */; };
+		44E14E3B1BA2B6DC006C61B3 /* CDRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */; };
+		44E14E3D1BA2DB59006C61B3 /* CDVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -745,6 +748,9 @@
 		44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		44BE2D8F1B973B65001264CF /* PhoneVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneVerification.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44E14E381BA2B4A3006C61B3 /* CDProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDProvince.swift; sourceTree = "<group>"; };
+		44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRegion.swift; sourceTree = "<group>"; };
+		44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVersion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1088,6 +1094,9 @@
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
+				44E14E381BA2B4A3006C61B3 /* CDProvince.swift */,
+				44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */,
+				44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1888,6 +1897,7 @@
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				2141BBBF1B54BE4C00787F5D /* NSMutableDictionary+BFKit.swift in Sources */,
+				44E14E3D1BA2DB59006C61B3 /* CDVersion.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,
 				2141BBB71B54BE4C00787F5D /* BFKit.swift in Sources */,
@@ -1928,9 +1938,11 @@
 				21C5AB851B859A250036FF6B /* BaseNavigationController.swift in Sources */,
 				21D387421B6B95A500D0FA90 /* FakeBridge.m in Sources */,
 				2141BBBE1B54BE4C00787F5D /* NSMutableArray+BFKit.swift in Sources */,
+				44E14E3B1BA2B6DC006C61B3 /* CDRegion.swift in Sources */,
 				21679A3F1B901C5300F18F90 /* MPSurvey.m in Sources */,
 				21679A171B901C5300F18F90 /* MPAbstractABTestDesignerMessage.m in Sources */,
 				2141BBC71B54BE4C00787F5D /* UIColor+BFKit.swift in Sources */,
+				44E14E391BA2B4A3006C61B3 /* CDProvince.swift in Sources */,
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				2141BBAC1B54BE4C00787F5D /* ResponseSerialization.swift in Sources */,

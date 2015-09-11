@@ -40,12 +40,14 @@ enum APIApp : URLRequestConvertible
 {
     static let basePath = "app/"
     
+    case Version(appType : String)
     case Metadata
     
     var method : Method
     {
         switch self
         {
+        case .Version(_) : return .GET
         case .Metadata : return .GET
         }
     }
@@ -54,6 +56,7 @@ enum APIApp : URLRequestConvertible
     {
         switch self
         {
+        case .Version(_) : return "version"
         case .Metadata : return "metadata"
         }
     }
@@ -62,6 +65,11 @@ enum APIApp : URLRequestConvertible
     {
         switch self
         {
+        case .Version(let appType) :
+            let p = [
+                "app_type" : appType
+            ]
+            return p
         case .Metadata : return [:]
         }
     }
@@ -69,6 +77,57 @@ enum APIApp : URLRequestConvertible
     var URLRequest : NSURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIApp.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
+enum APIAuth : URLRequestConvertible
+{
+    static let basePath = "auth/"
+    
+    case Register(username : String, fullname : String, email : String, password : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .Register(_, _, _, _) : return .POST
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .Register(_, _, _, _) : return "register"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .Register(let username, let fullname, let email, let password) :
+            let p = [
+                "username" : username,
+                "fullname" : fullname,
+                "email" : email,
+                "password" : password
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
@@ -152,7 +211,7 @@ enum APIUser : URLRequestConvertible
     case Me
     case OrderList(status : String)
     case MyProductSell
-    case SetupAccount(province : String, region : String, phone : String, phoneCode : String, shippingPackages : String, referral : String)
+    case SetupAccount(gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     
     var method : Method
@@ -165,7 +224,7 @@ enum APIUser : URLRequestConvertible
         case .Me:return .GET
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
-        case .SetupAccount(_, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         }
     }
@@ -180,7 +239,7 @@ enum APIUser : URLRequestConvertible
         case .Me : return ""
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
-        case .SetupAccount(_, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         }
     }
@@ -207,14 +266,15 @@ enum APIUser : URLRequestConvertible
                 "status":status
             ]
         case .MyProductSell:return [:]
-        case .SetupAccount(let province, let region, let phone, let phoneCode, let shippingPackages, let referral):
+        case .SetupAccount(let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
             return [
+                "gender":gender,
+                "phone":phone,
                 "province":province,
                 "region":region,
-                "phone":phone,
-                "phone_code":phoneCode,
-                "shipping_packages":shippingPackages,
-                "referral":referral
+                "shipping":shipping,
+                "referral_code":referralCode,
+                "device_id":deviceId
             ]
         case .SetProfile(let fullname, let phone, let address, let region, let postalCode, let shopName, let description, let shipping):
             return [

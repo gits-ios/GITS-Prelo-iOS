@@ -38,10 +38,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
-        imgCover?.image = nil
+        // DON'T USE ME IF CONFLICT
+        /*imgCover?.image = nil
         let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
         imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
         imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+        */
         
         self.setupNormalOptions()
         self.setupTitle()
