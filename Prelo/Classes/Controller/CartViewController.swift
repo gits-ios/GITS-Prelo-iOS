@@ -85,7 +85,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if let profile = user?.profiles
         {
             phone = profile.phone
-            address = profile.address
+            address = profile.address!
         }
         
         self.cells = [

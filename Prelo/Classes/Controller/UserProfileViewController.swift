@@ -135,14 +135,19 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         fieldNama.text = user.fullname
         lblNoHP.text = userProfile.phone
         lblJenisKelamin.text = userProfile.gender
-        // TODO: penanganan alamat kodepos ttgshop klo masih kosong
-        //fieldAlamat.text = userProfile.address
-        //fieldKodePos.text = userProfile.postalCode
-        //fieldTentangShop.text = userProfile.desc
+        if (userProfile.address != nil) {
+            fieldAlamat.text = userProfile.address
+        }
+        if (userProfile.postalCode != nil) {
+            fieldKodePos.text = userProfile.postalCode
+        }
+        if (userProfile.desc != nil) {
+            fieldTentangShop.text = userProfile.desc
+        }
         self.textViewDidChange(self.fieldTentangShop)
         // TODO: ambil shipping options
-        //lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfile.provinceID)
-        //lblKabKota.text = CDRegion.getRegionNameWithID(userProfile.regionID)
+        lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfile.provinceID)
+        lblKabKota.text = CDRegion.getRegionNameWithID(userProfile.regionID)
     }
     
     func pickerDidSelect(item: String) {

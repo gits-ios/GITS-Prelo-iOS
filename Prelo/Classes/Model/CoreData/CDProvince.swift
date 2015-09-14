@@ -81,7 +81,7 @@ class CDProvince : NSManagedObject {
     
     static func getProvinceNameWithID(id : String) -> String? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let predicate = NSPredicate(format: "id = \(id)")
+        let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
         fetchReq.predicate = predicate
         var err : NSError?
