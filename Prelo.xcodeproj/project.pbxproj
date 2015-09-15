@@ -320,6 +320,13 @@
 		44BE2D8E1B973AF5001264CF /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */; };
 		44BE2D901B973B65001264CF /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BE2D8F1B973B65001264CF /* PhoneVerification.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44D138171BA6B42E0055B548 /* MyPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */; };
+		44D138191BA6B7310055B548 /* MyPurchaseProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */; };
+		44D1381B1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */; };
+		44D1381D1BA6C7BA0055B548 /* MyPurchase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D1381C1BA6C7B90055B548 /* MyPurchase.xib */; };
+		44D1381F1BA6C82C0055B548 /* MyPurchaseProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */; };
+		44D138211BA6C85E0055B548 /* MyPurchaseCompleted.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */; };
+		44D138231BA6C9840055B548 /* MyPurchaseProcessingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */; };
 		44E14E391BA2B4A3006C61B3 /* CDProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E381BA2B4A3006C61B3 /* CDProvince.swift */; };
 		44E14E3B1BA2B6DC006C61B3 /* CDRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */; };
 		44E14E3D1BA2DB59006C61B3 /* CDVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */; };
@@ -748,6 +755,13 @@
 		44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		44BE2D8F1B973B65001264CF /* PhoneVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneVerification.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseViewController.swift; sourceTree = "<group>"; };
+		44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseProcessingViewController.swift; sourceTree = "<group>"; };
+		44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseCompletedViewController.swift; sourceTree = "<group>"; };
+		44D1381C1BA6C7B90055B548 /* MyPurchase.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchase.xib; sourceTree = "<group>"; };
+		44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseProcessing.xib; sourceTree = "<group>"; };
+		44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseCompleted.xib; sourceTree = "<group>"; };
+		44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseProcessingCell.xib; sourceTree = "<group>"; };
 		44E14E381BA2B4A3006C61B3 /* CDProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDProvince.swift; sourceTree = "<group>"; };
 		44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRegion.swift; sourceTree = "<group>"; };
 		44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVersion.swift; sourceTree = "<group>"; };
@@ -1303,6 +1317,9 @@
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
 				211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */,
 				211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */,
+				44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */,
+				44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */,
+				44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1563,6 +1580,10 @@
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				44BE2D8F1B973B65001264CF /* PhoneVerification.xib */,
 				444961831B9FF20000F45986 /* PhoneReverification.xib */,
+				44D1381C1BA6C7B90055B548 /* MyPurchase.xib */,
+				44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */,
+				44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */,
+				44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1659,6 +1680,7 @@
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
+				44D1381F1BA6C82C0055B548 /* MyPurchaseProcessing.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
@@ -1700,6 +1722,7 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
+				44D138231BA6C9840055B548 /* MyPurchaseProcessingCell.xib in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
@@ -1715,11 +1738,13 @@
 				21C6587C1B8EE4E10037F85F /* Default-Landscape.png in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */,
+				44D138211BA6C85E0055B548 /* MyPurchaseCompleted.xib in Resources */,
 				2141BBA51B54BE4C00787F5D /* LICENSE in Resources */,
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				212502E81B8306A00089E523 /* AddProductHeader.xib in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
+				44D1381D1BA6C7BA0055B548 /* MyPurchase.xib in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				44BE2D901B973B65001264CF /* PhoneVerification.xib in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
@@ -1836,6 +1861,7 @@
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
+				44D138171BA6B42E0055B548 /* MyPurchaseViewController.swift in Sources */,
 				211312581B67638F00A4DA3B /* Constant.swift in Sources */,
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
 				21C68F601B74922200D1125E /* OrderConfirmViewController.swift in Sources */,
@@ -1877,6 +1903,7 @@
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
+				44D138191BA6B7310055B548 /* MyPurchaseProcessingViewController.swift in Sources */,
 				21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */,
 				21156EBA1B8F5B4C001D7842 /* UserProfileViewController.swift in Sources */,
 				210DF0EF1B734CFD004AE3D9 /* CDUserProfile.swift in Sources */,
@@ -1962,6 +1989,7 @@
 				2141BBE41B54BE4C00787F5D /* SocketFixUTF8.swift in Sources */,
 				211312541B675F6900A4DA3B /* ProductDetailCover.swift in Sources */,
 				2141BBDA1B54BE4C00787F5D /* MKLabel.swift in Sources */,
+				44D1381B1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
 				2141BBA91B54BE4C00787F5D /* Manager.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,

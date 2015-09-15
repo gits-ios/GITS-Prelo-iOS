@@ -15,17 +15,16 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var userOrders : Array <UserOrder>?
-    var tableData: [String] = ["Hello", "My", "Table"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Menghilangkan garis antar cell
+        // Menghilangkan garis antar cell di baris kosong
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var PaymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
-        tableView.registerNib(PaymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
+        var paymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
+        tableView.registerNib(paymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
         
         // DEBUG: Tableview bounds and frame
         //println("tableView bounds = \(tableView.bounds)")
