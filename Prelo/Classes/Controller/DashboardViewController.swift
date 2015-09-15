@@ -140,6 +140,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         {
             self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
         }
+        
+        if (indexPath.row == 6)
+        {
+            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
+        }
     }
     
     @IBAction func launchMyProducts()
@@ -150,9 +155,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
 
     @IBAction func editProfilePressed(sender: UIButton) {
-        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        /*let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
         userProfileVC.previousControllerName = "Dashboard"
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)*/
     }
     /*
     // MARK: - Navigation
