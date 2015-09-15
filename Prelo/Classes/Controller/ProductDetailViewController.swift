@@ -144,7 +144,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             alreadyInCart = true
         }
         
-        let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
+//        let freeOngkir = (detail?.json["_data"]["is_free_ongkir"].bool)!
+        let freeOngkir = false
         if (freeOngkir)
         {
 //            captionFreeOngkir.text = "FREE ONGKIR"

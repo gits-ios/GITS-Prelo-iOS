@@ -1,17 +1,15 @@
 //
-//  ImagePickerViewController.swift
+//  ImagePickerViewController2.swift
 //  Prelo
 //
-//  Created by Rahadian Kumang on 8/20/15.
+//  Created by Rahadian Kumang on 9/11/15.
 //  Copyright (c) 2015 GITS Indonesia. All rights reserved.
 //
 
 import UIKit
-import AVFoundation
 
-typealias ImagePickerBlock = ([APImage]) -> ()
-
-class ImagePickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
     
     var maxSelectCount : Int = 1
     var selecteds : Array<NSIndexPath> = []
@@ -24,16 +22,16 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         
         self.navigationItem.leftBarButtonItem = self.dismissButton.toBarButton()
         self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
         
         ImageSupplier.fetch(ImageSource.Gallery, complete: {r in
-                self.images = r
-                self.gridView.dataSource = self
-                self.gridView.delegate = self
+            self.images = r
+            self.gridView.dataSource = self
+            self.gridView.delegate = self
             }, failed: { m in
                 UIAlertView.SimpleShow("Warning", message: m)
         })
@@ -144,7 +142,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -153,7 +151,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     static func ShowFrom(v : UIViewController, maxSelect : Int, doneBlock : ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
-        let i = n.viewControllers.first as! ImagePickerViewController
+        let i = n.viewControllers.first as! ImagePickerViewController2
         i.maxSelectCount = maxSelect
         i.doneBlock = doneBlock
         v.presentViewController(n, animated: true, completion: nil)
@@ -171,7 +169,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         picker.dismissViewControllerAnimated(true, completion: {
             self.dismissViewControllerAnimated(true, completion: nil)
         })
-//        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
+        //        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -187,117 +185,15 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             })
         })
     }
-
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
-}
-
-class ImagePickerCell : UICollectionViewCell
-{
-    @IBOutlet var ivCover : UIImageView!
-    @IBOutlet var camera : UIView!
-    @IBOutlet var captionSelected : UILabel!
     
-    var asset : ALAssetsLibrary?
-    
-    var isCamera : Bool = false
-    var session : AVCaptureSession?
-    
-    private var _apImage : APImage?
-    private var _url : String = ""
-    var apImage : APImage?
-        {
-        set {
-            _apImage = newValue
-            ivCover.image = nil
-            
-            if ((_apImage?.usingAssets)! == true) {
-                
-                if (asset == nil) {
-                    asset = ALAssetsLibrary()
-                }
-                
-                
-                _url = (_apImage?.url)!.absoluteString!
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    asset?.assetForURL(NSURL(string: _url)!, resultBlock: { asset in
-                        if let ast = asset {
-                            let ref = ast.thumbnail().takeUnretainedValue()
-                            let i = UIImage(CGImage: ref)
-                            let url = ast.defaultRepresentation().url().absoluteString
-                            dispatch_async(dispatch_get_main_queue(), {
-                                if (self._url == url)
-                                {
-                                    self.ivCover.image = i
-                                }
-                            })
-                        }
-                        }, failureBlock: { error in
-                            
-                    })
-                })
-            } else if let i = _apImage?.image
-            {
-                ivCover.image = i
-            } else {
-                ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
-            }
-        }
-        get {
-            return _apImage
-        }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        if (session != nil)
-        {
-            
-        }
-    }
-    
-    func startCamera()
-    {
-        if (session == nil)
-        {
-            session = AVCaptureSession()
-            session?.sessionPreset = AVCaptureSessionPresetLow
-        } else if ((session?.running)! == true)
-        {
-            return
-        } else {
-            session?.startRunning()
-            return
-        }
-        
-        ivCover.hidden = true
-        
-        let captureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session!)
-        captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        let s = CGSizeMake((UIScreen.mainScreen().bounds.width-24)/2, (UIScreen.mainScreen().bounds.width-24)/2)
-        captureVideoPreviewLayer.frame = CGRectMake(0, 0, s.height, s.height)
-        camera.backgroundColor = UIColor.yellowColor()
-        camera.layer.addSublayer(captureVideoPreviewLayer)
-        
-        let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        
-        var error : NSError?
-        let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: &error) as? AVCaptureInput
-        if (input == nil)
-        {
-            println("CAMERA ERROR")
-        } else
-        {
-            session?.addInput(input!)
-            session?.startRunning()
-        }
-    }
 }

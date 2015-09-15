@@ -8,7 +8,12 @@
 
 import UIKit
 
+//let prelloHost = "http://dev.prelo.id/api/"
+//let oldAPI = "http://dev.preloapp.com/api/2/"
+//let prelloHost = "http://dev.preloapp.com/api/2/"
+
 let prelloHost = "http://dev.preloapp.com/api/2/"
+let oldAPI = "http://dev.preloapp.com/api/2/"
 
 class PreloEndpoints: NSObject {
    
@@ -85,7 +90,7 @@ enum APICart : URLRequestConvertible
     
     var URLRequest : NSURLRequest
     {
-        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
+        let baseURL = NSURL(string: oldAPI)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
@@ -94,6 +99,62 @@ enum APICart : URLRequestConvertible
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
         return r
+    }
+}
+
+enum APIAuth : URLRequestConvertible
+{
+    static let basePath = "me/"
+    
+    case Login(email : String, password : String)
+    case Register(fullname : String, email : String, password : String)
+    case Logout
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .Login(_, _):return .POST
+            case .Register(_, _, _): return .POST
+            case .Logout:return .POST
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .Login(_, _):return "login"
+            case .Register(_, _, _): return "register"
+            case .Logout:return "logout"
+            }
+    }
+    
+    var param : [String : AnyObject]?
+        {
+            switch self
+            {
+            case .Login(let email, let password):
+                return [
+                    "email":email,
+                    "password":password
+                ]
+            case .Register(let fullname, let email, let password):
+                return [
+                    "fullname":fullname,
+                    "email":email,
+                    "password":password
+                ]
+            case .Logout:return [:]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
     }
 }
 

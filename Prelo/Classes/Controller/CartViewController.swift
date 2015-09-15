@@ -96,6 +96,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 picker.startLoading()
                 
+                let url = NSBundle.mainBundle().URLForResource("metadata", withExtension: ".json")
+                
+                
                 request(References.ProvinceList)
                     .responseJSON{_, resp, res, err in
                         if (APIPrelo.validate(true, err: err, resp: resp))
@@ -855,6 +858,7 @@ class CartCellItem : UITableViewCell
     
     func adapt (json : JSON)
     {
+        println(json)
         captionName?.text = json["name"].string!
         captionLocation?.text = json["seller_region"]["name"].string!
         

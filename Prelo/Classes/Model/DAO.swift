@@ -149,12 +149,29 @@ public class ProductDetail : NSObject
     
     var shopAvatarURL : NSURL?
     {
-        let base = "http://dev.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
+        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
         return NSURL(string: base)
+//        if let p = json["_data"]["seller"]["pict"].string
+//        {
+//            return NSURL(string : p)
+//        }
+//        return NSURL(string: "http://prelo.id/eweuh-gambar")
     }
     
     var discussionCountText : String
     {
+//        if let num_comment = json["_data"]["num_comment"].int
+//        {
+//            return String(num_comment)
+//        }
+//        let a = json["_data"]["discussions"].array
+//        if (a?.count == 0) {
+//            return "0"
+//        } else {
+//            let f = a?.objectAtCircleIndex(0)
+//            let d = f?["discussions"].array
+//            return String((d?.count)!)
+//        }
         let a = json["_data"]["discussions"].array
         if (a?.count == 0) {
             return "0"
@@ -167,6 +184,22 @@ public class ProductDetail : NSObject
     
     var discussions : Array<ProductDiscussion>?
         {
+//            let a = json["_data"]["comments"].array
+//            if (a?.count == 0) {
+//                return []
+//            } else {
+//                let f = a?.objectAtCircleIndex(0)
+//                let d = f?["comments"].array
+//                var r : Array<ProductDiscussion> = []
+//                
+//                for i in 0...(d?.count)!-1
+//                {
+//                    let j = d?[i]
+//                    let dx = ProductDiscussion.instance(j)
+//                    r.append(dx!)
+//                }
+//                
+//                return r
             let a = json["_data"]["discussions"].array
             if (a?.count == 0) {
                 return []
@@ -214,6 +247,7 @@ public class Product : NSObject
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
         let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
+//        let base = "" + json["display_picts"][0].string!
         if let url = NSURL(string : base)
         {
             return url

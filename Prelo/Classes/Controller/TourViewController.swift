@@ -23,7 +23,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         // Do any additional setup after loading the view.
         
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "tour")
-        NSUserDefaults.standardUserDefaults().synchronize()
+//        NSUserDefaults.standardUserDefaults().synchronize()
     }
 
     override func didReceiveMemoryWarning() {
