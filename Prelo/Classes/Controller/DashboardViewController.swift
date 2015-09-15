@@ -76,6 +76,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
+            ],
+            [
+                "title":"Tutorial",
+                "icon":"",
+                "PreloAwesome":"1"
             ]
         ]
         
@@ -99,7 +104,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return (menus?.count)!
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -133,6 +138,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //            if (self.userRelatedDelegate != nil) {
 //                userRelatedDelegate?.userLoggedOut!()
 //            }
+        }
+        
+        if (indexPath.row == 6)
+        {
+            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
         }
     }
     
