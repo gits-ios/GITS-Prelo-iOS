@@ -45,6 +45,8 @@
 		2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D71B4A27E500509D2A /* Images.xcassets */; };
 		2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D91B4A27E500509D2A /* LaunchScreen.xib */; };
 		2115E6E71B4A27E500509D2A /* PreloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6E61B4A27E500509D2A /* PreloTests.swift */; };
+		2119FE371BA2BC25006EF0CB /* AddProductViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */; };
+		2119FE391BA2D8B1006EF0CB /* ImagePickerViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119FE381BA2D8B1006EF0CB /* ImagePickerViewController2.swift */; };
 		211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */; };
 		211BC9941B96D34600FDB1DC /* ProductCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */; };
 		211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9971B96D53300FDB1DC /* GrowingTextViewHandler.m */; };
@@ -144,6 +146,11 @@
 		215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215C52681B6B349C00EA4E61 /* ic_bag@2x.png */; };
 		215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */; };
 		215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */; };
+		215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		21621CC91BA1327E009BBACB /* tour_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CC61BA1327E009BBACB /* tour_1.png */; };
+		21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
+		21621CD01BA16203009BBACB /* tour_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCE1BA16203009BBACB /* tour_2.png */; };
+		21621CD11BA16203009BBACB /* tour_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCF1BA16203009BBACB /* tour_3.png */; };
 		21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21660B221B70A9D000910CF1 /* CartProduct.swift */; };
 		216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */; };
 		216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */; };
@@ -275,6 +282,14 @@
 		21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D387571B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m */; };
 		21D4F1D11B65DDAB0089DF4F /* KumangTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */; };
 		21D4F1D51B6615F40089DF4F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D41B6615F40089DF4F /* BaseViewController.swift */; };
+		21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E7A7561B9FDE4F00FC9B38 /* MGInstagram.m */; };
+		21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21E7A7581B9FE81600FC9B38 /* Social.framework */; };
+		21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */ = {isa = PBXBuildFile; fileRef = 21E7A75C1B9FF2BC00FC9B38 /* LKActivity-Flat.png */; };
+		21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21E7A75D1B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png */; };
+		21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 21E7A75E1B9FF2BC00FC9B38 /* LKActivity.png */; };
+		21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21E7A75F1B9FF2BC00FC9B38 /* LKActivity@2x.png */; };
+		21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E7A7611B9FF2BC00FC9B38 /* Line.m */; };
+		21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */; };
 		21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */; };
 		21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
 		21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */; };
@@ -372,6 +387,8 @@
 		2115E6E01B4A27E500509D2A /* PreloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2115E6E51B4A27E500509D2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2115E6E61B4A27E500509D2A /* PreloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloTests.swift; sourceTree = "<group>"; };
+		2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductViewController2.swift; sourceTree = "<group>"; };
+		2119FE381BA2D8B1006EF0CB /* ImagePickerViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController2.swift; sourceTree = "<group>"; };
 		211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "category_placeholder@2x.png"; sourceTree = "<group>"; };
 		211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCommentsController.swift; sourceTree = "<group>"; };
 		211BC9961B96D53300FDB1DC /* GrowingTextViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowingTextViewHandler.h; sourceTree = "<group>"; };
@@ -479,6 +496,12 @@
 		215C52681B6B349C00EA4E61 /* ic_bag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_bag@2x.png"; sourceTree = "<group>"; };
 		215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_shirt@2x.png"; sourceTree = "<group>"; };
 		215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_love@2x.png"; sourceTree = "<group>"; };
+		215E6CD31B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		21621CC61BA1327E009BBACB /* tour_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_1.png; sourceTree = "<group>"; };
+		21621CCC1BA1337D009BBACB /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
+		21621CCE1BA16203009BBACB /* tour_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_2.png; sourceTree = "<group>"; };
+		21621CCF1BA16203009BBACB /* tour_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_3.png; sourceTree = "<group>"; };
 		21660B221B70A9D000910CF1 /* CartProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartProduct.swift; sourceTree = "<group>"; };
 		216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bca@2x.png"; sourceTree = "<group>"; };
 		216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bni@2x.png"; sourceTree = "<group>"; };
@@ -695,6 +718,17 @@
 		21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Prelo-Bridging-Header.h"; sourceTree = "<group>"; };
 		21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KumangTabBarViewController.swift; sourceTree = "<group>"; };
 		21D4F1D41B6615F40089DF4F /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		21E7A7551B9FDE4F00FC9B38 /* MGInstagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGInstagram.h; sourceTree = "<group>"; };
+		21E7A7561B9FDE4F00FC9B38 /* MGInstagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGInstagram.m; sourceTree = "<group>"; };
+		21E7A7581B9FE81600FC9B38 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		21E7A75C1B9FF2BC00FC9B38 /* LKActivity-Flat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity-Flat.png"; sourceTree = "<group>"; };
+		21E7A75D1B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity-Flat@2x.png"; sourceTree = "<group>"; };
+		21E7A75E1B9FF2BC00FC9B38 /* LKActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LKActivity.png; sourceTree = "<group>"; };
+		21E7A75F1B9FF2BC00FC9B38 /* LKActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LKActivity@2x.png"; sourceTree = "<group>"; };
+		21E7A7601B9FF2BC00FC9B38 /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
+		21E7A7611B9FF2BC00FC9B38 /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
+		21E7A7621B9FF2BC00FC9B38 /* LKLineActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKLineActivity.h; sourceTree = "<group>"; };
+		21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKLineActivity.m; sourceTree = "<group>"; };
 		21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductViewController.swift; sourceTree = "<group>"; };
 		21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductSellViewController.swift; sourceTree = "<group>"; };
 		21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKCore.framework; sourceTree = "<group>"; };
@@ -744,6 +778,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
 				21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */,
@@ -782,6 +817,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				21E7A7581B9FE81600FC9B38 /* Social.framework */,
 				21679A5F1B901DD400F18F90 /* libicucore.dylib */,
 				21679A5D1B901CE700F18F90 /* CoreGraphics.framework */,
 				21679A5B1B901CDA00F18F90 /* SystemConfiguration.framework */,
@@ -880,6 +916,9 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
+				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
+				215E6CD21B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum */,
 				211BC9951B96D53300FDB1DC /* GrowingTextView */,
 				216799761B8F8AB900F18F90 /* AFNetworking */,
 				21C6587F1B8EF25E0037F85F /* Pickers */,
@@ -1071,6 +1110,15 @@
 				2141BBA41B54BE4C00787F5D /* WebSocket.swift */,
 			);
 			path = SocketIOClientSwift;
+			sourceTree = "<group>";
+		};
+		215E6CD21B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				215E6CD31B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */,
+			);
+			path = "ALAssetsLibrary+CustomPhotoAlbum";
 			sourceTree = "<group>";
 		};
 		21660B1E1B70A45F00910CF1 /* CoreData */ = {
@@ -1284,6 +1332,9 @@
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
 				211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */,
 				211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */,
+				21621CCC1BA1337D009BBACB /* TourViewController.swift */,
+				2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */,
+				2119FE381BA2D8B1006EF0CB /* ImagePickerViewController2.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1347,6 +1398,9 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				21621CCE1BA16203009BBACB /* tour_2.png */,
+				21621CCF1BA16203009BBACB /* tour_3.png */,
+				21621CC61BA1327E009BBACB /* tour_1.png */,
 				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
 				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
 				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
@@ -1521,6 +1575,38 @@
 			path = CarbonKit;
 			sourceTree = "<group>";
 		};
+		21E7A7541B9FDE4F00FC9B38 /* MGInstagram */ = {
+			isa = PBXGroup;
+			children = (
+				21E7A7551B9FDE4F00FC9B38 /* MGInstagram.h */,
+				21E7A7561B9FDE4F00FC9B38 /* MGInstagram.m */,
+			);
+			path = MGInstagram;
+			sourceTree = "<group>";
+		};
+		21E7A75A1B9FF2BC00FC9B38 /* LineKit */ = {
+			isa = PBXGroup;
+			children = (
+				21E7A75B1B9FF2BC00FC9B38 /* images */,
+				21E7A7601B9FF2BC00FC9B38 /* Line.h */,
+				21E7A7611B9FF2BC00FC9B38 /* Line.m */,
+				21E7A7621B9FF2BC00FC9B38 /* LKLineActivity.h */,
+				21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */,
+			);
+			path = LineKit;
+			sourceTree = "<group>";
+		};
+		21E7A75B1B9FF2BC00FC9B38 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				21E7A75C1B9FF2BC00FC9B38 /* LKActivity-Flat.png */,
+				21E7A75D1B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png */,
+				21E7A75E1B9FF2BC00FC9B38 /* LKActivity.png */,
+				21E7A75F1B9FF2BC00FC9B38 /* LKActivity@2x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -1636,6 +1722,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
+				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
@@ -1643,6 +1730,7 @@
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
+				21621CC91BA1327E009BBACB /* tour_1.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
@@ -1669,6 +1757,7 @@
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
+				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
@@ -1682,11 +1771,13 @@
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
+				21621CD11BA16203009BBACB /* tour_3.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
+				21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */,
 				21156EBC1B8F5B5D001D7842 /* UserProfile.xib in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
@@ -1697,6 +1788,7 @@
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				212502E81B8306A00089E523 /* AddProductHeader.xib in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
+				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
@@ -1708,6 +1800,7 @@
 				21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
+				21621CD01BA16203009BBACB /* tour_2.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
@@ -1754,6 +1847,7 @@
 				21EEB45B1B87036000CAD5C9 /* RegisterViewController.swift in Sources */,
 				21679A1B1B901C5300F18F90 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
+				21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */,
 				2127A2A81B7B336000469CFC /* AddProductImageSourceViewController.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */,
@@ -1810,6 +1904,7 @@
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
+				21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
 				211312581B67638F00A4DA3B /* Constant.swift in Sources */,
@@ -1828,6 +1923,7 @@
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
@@ -1858,6 +1954,7 @@
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
+				2119FE391BA2D8B1006EF0CB /* ImagePickerViewController2.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				2141BBDC1B54BE4C00787F5D /* MKTableViewCell.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
@@ -1925,6 +2022,8 @@
 				2141BBAE1B54BE4C00787F5D /* Validation.swift in Sources */,
 				2141BBCA1B54BE4C00787F5D /* UIImage+BFKit.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
+				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
+				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
 				2141BBE51B54BE4C00787F5D /* SocketIOClient.swift in Sources */,
 				2141BBB21B54BE4C00787F5D /* BFButton.swift in Sources */,
 				2141BBC21B54BE4C00787F5D /* NSProcessInfo+BFKit.swift in Sources */,
@@ -1932,6 +2031,7 @@
 				212C7D351B71F3EA00360C6A /* KumangCustomView.swift in Sources */,
 				2141BBC11B54BE4C00787F5D /* NSObject+BFKit.swift in Sources */,
 				2141BBE41B54BE4C00787F5D /* SocketFixUTF8.swift in Sources */,
+				2119FE371BA2BC25006EF0CB /* AddProductViewController2.swift in Sources */,
 				211312541B675F6900A4DA3B /* ProductDetailCover.swift in Sources */,
 				2141BBDA1B54BE4C00787F5D /* MKLabel.swift in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
@@ -2098,8 +2198,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2117,7 +2217,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2143,7 +2243,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41e62f20-c78f-4b0f-aace-c471dcdaec83";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
