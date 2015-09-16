@@ -11,6 +11,10 @@ import Foundation
 class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView : UITableView!
+    @IBOutlet var lblEmpty : UILabel!
+    @IBOutlet var loading: UIActivityIndicatorView!
+    
+    var userPurchases : Array <UserPurchase>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,17 +23,83 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var myPurchaseProcessingCellNib = UINib(nibName: "MyPurchaseProcessingCell", bundle: nil)
-        tableView.registerNib(myPurchaseProcessingCellNib, forCellReuseIdentifier: "MyPurchaseProcessingCell")
+        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        loading.startAnimating()
+        tableView.hidden = true
+        lblEmpty.hidden = true
+        
+        Mixpanel.sharedInstance().track("My Purchase - Processing")
+        
+        if (userPurchases?.count == 0 || userPurchases == nil) {
+            if (userPurchases == nil) {
+                userPurchases = []
+            }
+            getUserPurchases()
+        }
+    }
+    
+    func getUserPurchases() {
+        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
+            if (err != nil) { // Terdapat error
+                println("Error getting purchase data: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil) { // Data kembalian kosong
+                    let obj : [String : String] = res as! [String : String]
+                    let message = obj["_message"]
+                    println("Empty purchase data, message: \(message)")
+                } else { // Berhasil
+                    println("Purchase data: \(data)")
+                    
+                    // Store data into variable
+                    for (index : String, item : JSON) in data {
+                        let u = UserPurchase.instance(item)
+                        if (u != nil) {
+                            self.userPurchases?.append(u!)
+                        }
+                    }
+                }
+            }
+            
+            self.loading.stopAnimating()
+            self.loading.hidden = true
+            if (self.userPurchases?.count <= 0) {
+                self.lblEmpty.hidden = false
+            } else {
+                self.tableView.hidden = false
+                self.setupTable()
+            }
+        }
+    }
+    
+    func setupTable() {
+        if (self.tableView.delegate == nil) {
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+        
+        tableView.reloadData()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        if (userPurchases?.count > 0) {
+            return (self.userPurchases?.count)!
+        } else {
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
-        var cell : MyPurchaseProcessingCell = self.tableView.dequeueReusableCellWithIdentifier("MyPurchaseProcessingCell") as! MyPurchaseProcessingCell
+        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        let u = userPurchases?[indexPath.item]
+        cell.adapt(u!)
         return cell
     }
     
@@ -42,14 +112,3 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
 }
 
-class MyPurchaseProcessingCell : UITableViewCell {
-    @IBOutlet weak var imgProduct: UIImageView!
-    @IBOutlet weak var lblProductName: UILabel!
-    @IBOutlet weak var lblPrice: UILabel!
-    @IBOutlet weak var lblCommentCount: UILabel!
-    @IBOutlet weak var lblLoveCount: UILabel!
-    @IBOutlet weak var lblOrderStatus: UILabel!
-    @IBOutlet weak var lblOrderTime: UILabel!
-    
-    //func adapt(
-}

@@ -88,6 +88,56 @@ enum APIApp : URLRequestConvertible
     }
 }
 
+enum APITransaction : URLRequestConvertible
+{
+    static let basePath = "transaction_product/"
+    
+    case Purchases(status : String, current : String, limit : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .Purchases(_, _, _) : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .Purchases(_, _, _) : return "buys"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .Purchases(let status, let current, let limit) :
+            let p = [
+                "status" : status,
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
 enum APIAuth : URLRequestConvertible
 {
     static let basePath = "auth/"

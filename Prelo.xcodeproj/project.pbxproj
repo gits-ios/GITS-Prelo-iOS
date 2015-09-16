@@ -320,6 +320,8 @@
 		44BE2D8E1B973AF5001264CF /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */; };
 		44BE2D901B973B65001264CF /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BE2D8F1B973B65001264CF /* PhoneVerification.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44CA603E1BA94148001E344C /* TransactionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44CA603D1BA94148001E344C /* TransactionListCell.xib */; };
+		44CA60421BA944DF001E344C /* TransactionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CA60411BA944DF001E344C /* TransactionListCell.swift */; };
 		44D138171BA6B42E0055B548 /* MyPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */; };
 		44D138191BA6B7310055B548 /* MyPurchaseProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */; };
 		44D1381B1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */; };
@@ -755,6 +757,8 @@
 		44BE2D8D1B973AF5001264CF /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		44BE2D8F1B973B65001264CF /* PhoneVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneVerification.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44CA603D1BA94148001E344C /* TransactionListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionListCell.xib; sourceTree = "<group>"; };
+		44CA60411BA944DF001E344C /* TransactionListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionListCell.swift; sourceTree = "<group>"; };
 		44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseViewController.swift; sourceTree = "<group>"; };
 		44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseProcessingViewController.swift; sourceTree = "<group>"; };
 		44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseCompletedViewController.swift; sourceTree = "<group>"; };
@@ -1320,6 +1324,7 @@
 				44D138161BA6B42E0055B548 /* MyPurchaseViewController.swift */,
 				44D138181BA6B7310055B548 /* MyPurchaseProcessingViewController.swift */,
 				44D1381A1BA6C3FC0055B548 /* MyPurchaseCompletedViewController.swift */,
+				44CA60411BA944DF001E344C /* TransactionListCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1584,6 +1589,7 @@
 				44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */,
 				44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */,
 				44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */,
+				44CA603D1BA94148001E344C /* TransactionListCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1702,6 +1708,7 @@
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
+				44CA603E1BA94148001E344C /* TransactionListCell.xib in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
@@ -1957,6 +1964,7 @@
 				2141BBE61B54BE4C00787F5D /* SocketLogger.swift in Sources */,
 				214EBD651B787FF800CCBB9B /* MenuPopUp.swift in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
+				44CA60421BA944DF001E344C /* TransactionListCell.swift in Sources */,
 				21C6589A1B8EF25E0037F85F /* ActionSheetStringPicker.m in Sources */,
 				2141BBD61B54BE4C00787F5D /* README.md in Sources */,
 				2141BBC51B54BE4C00787F5D /* String+BFKit.swift in Sources */,
