@@ -143,12 +143,16 @@ enum APIAuth : URLRequestConvertible
     static let basePath = "auth/"
     
     case Register(username : String, fullname : String, email : String, password : String)
+    case Login(usernameOrEmail : String, password : String)
+    case Logout
     
     var method : Method
     {
         switch self
         {
         case .Register(_, _, _, _) : return .POST
+        case .Login(_, _) : return .POST
+        case .Logout : return .POST
         }
     }
     
@@ -157,6 +161,8 @@ enum APIAuth : URLRequestConvertible
         switch self
         {
         case .Register(_, _, _, _) : return "register"
+        case .Login(_, _) : return "login"
+        case .Logout : return "logout"
         }
     }
     
@@ -172,6 +178,14 @@ enum APIAuth : URLRequestConvertible
                 "password" : password
             ]
             return p
+        case .Login(let usernameOrEmail, let password) :
+            let p = [
+                "username_or_email" : usernameOrEmail,
+                "password" : password
+            ]
+            return p
+        case .Logout :
+            return [:]
         }
     }
     
@@ -286,7 +300,7 @@ enum APIUser : URLRequestConvertible
         case .Login(_, _):return "login"
         case .Register(_, _, _): return "register"
         case .Logout:return "logout"
-        case .Me : return ""
+        case .Me : return "profile"
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .SetupAccount(_, _, _, _, _, _, _) : return "setup"

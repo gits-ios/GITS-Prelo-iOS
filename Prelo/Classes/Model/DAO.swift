@@ -368,17 +368,17 @@ class UserPurchase: NSObject {
         {
             return nil
         }
-        let url = "http://dev.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product"]["display_picts"][0].string!
+        let url = json["product"]["display_picts"][0].string!
         return NSURL(string: url)
     }
     
     var productLoveCount : Int {
-        let p = (json[0]["num_lovelist"].int)!
+        let p = (json["product"]["num_lovelist"].int)!
         return p
     }
     
     var productCommentCount : Int {
-        let p = (json[0]["num_comment"].int)!
+        let p = (json["product"]["num_comment"].int)!
         return p
     }
 }

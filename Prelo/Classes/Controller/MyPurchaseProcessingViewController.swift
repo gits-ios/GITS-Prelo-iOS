@@ -40,6 +40,15 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
                 userPurchases = []
             }
             getUserPurchases()
+        } else {
+            self.loading.stopAnimating()
+            self.loading.hidden = true
+            if (self.userPurchases?.count <= 0) {
+                self.lblEmpty.hidden = false
+            } else {
+                self.tableView.hidden = false
+                self.setupTable()
+            }
         }
     }
     

@@ -92,7 +92,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         btnLogin?.enabled = false
         
         let email = txtEmail?.text
-        request(APIUser.Login(email: email!, password: (txtPassword?.text)!))
+        request(APIAuth.Login(usernameOrEmail: email!, password: (txtPassword?.text)!))
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {

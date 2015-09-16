@@ -159,6 +159,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consWidthLblOrderStatus" destination="Gj0-3z-UHo" id="bXY-wU-suh"/>
                 <outlet property="imgProduct" destination="kne-rr-5Pc" id="bEV-4B-H1a"/>
                 <outlet property="lblCommentCount" destination="bRZ-Ox-QUR" id="nhH-wf-svx"/>
                 <outlet property="lblLoveCount" destination="cpf-vw-eOK" id="gKg-Lz-0I9"/>

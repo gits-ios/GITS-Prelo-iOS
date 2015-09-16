@@ -328,7 +328,6 @@
 		44D1381D1BA6C7BA0055B548 /* MyPurchase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D1381C1BA6C7B90055B548 /* MyPurchase.xib */; };
 		44D1381F1BA6C82C0055B548 /* MyPurchaseProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */; };
 		44D138211BA6C85E0055B548 /* MyPurchaseCompleted.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */; };
-		44D138231BA6C9840055B548 /* MyPurchaseProcessingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */; };
 		44E14E391BA2B4A3006C61B3 /* CDProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E381BA2B4A3006C61B3 /* CDProvince.swift */; };
 		44E14E3B1BA2B6DC006C61B3 /* CDRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */; };
 		44E14E3D1BA2DB59006C61B3 /* CDVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */; };
@@ -765,7 +764,6 @@
 		44D1381C1BA6C7B90055B548 /* MyPurchase.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchase.xib; sourceTree = "<group>"; };
 		44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseProcessing.xib; sourceTree = "<group>"; };
 		44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseCompleted.xib; sourceTree = "<group>"; };
-		44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseProcessingCell.xib; sourceTree = "<group>"; };
 		44E14E381BA2B4A3006C61B3 /* CDProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDProvince.swift; sourceTree = "<group>"; };
 		44E14E3A1BA2B6DC006C61B3 /* CDRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRegion.swift; sourceTree = "<group>"; };
 		44E14E3C1BA2DB59006C61B3 /* CDVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVersion.swift; sourceTree = "<group>"; };
@@ -1588,7 +1586,6 @@
 				44D1381C1BA6C7B90055B548 /* MyPurchase.xib */,
 				44D1381E1BA6C82C0055B548 /* MyPurchaseProcessing.xib */,
 				44D138201BA6C85E0055B548 /* MyPurchaseCompleted.xib */,
-				44D138221BA6C9840055B548 /* MyPurchaseProcessingCell.xib */,
 				44CA603D1BA94148001E344C /* TransactionListCell.xib */,
 			);
 			path = XIB;
@@ -1729,7 +1726,6 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
-				44D138231BA6C9840055B548 /* MyPurchaseProcessingCell.xib in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
