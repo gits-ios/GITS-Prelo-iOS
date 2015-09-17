@@ -17,9 +17,11 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     var categories : Array<JSON> = []
     var blockDone : BlockCategorySelected?
+    var searchMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
         self.title = "Pilih Kategori"
 
@@ -38,6 +40,11 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             
             gridView.reloadData()
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,7 +67,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         }
         
         if let imageName = j["image_name"].string {
-            if let url = NSURL(string: "http://dev.kleora.com/images/categories/\(imageName)") {
+            if let url = NSURL(string: imageName) {
                 if let data = NSData(contentsOfURL: url) {
                     c.imageView.contentMode = UIViewContentMode.ScaleAspectFit
                     c.imageView.image = UIImage(data: data)
@@ -92,6 +99,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.parent = selectedCategory!
         c.blockDone = blockDone
         c.backTreshold = 3
+        c.searchMode = self.searchMode
     }
 
 }
@@ -106,6 +114,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
 {
     var parent : JSON = JSON(["name":""])
     var blockDone : BlockCategorySelected?
+    var searchMode = false
     
     @IBOutlet var tableView : UITableView!
     
@@ -154,6 +163,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         let j = categories[indexPath.row]
         if let name = j["name"].string
         {
+            println(j)
             c?.textLabel!.text = name
         }
         
@@ -177,15 +187,24 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.parent = selectedCategory!
             p.blockDone = self.blockDone
             p.backTreshold = backTreshold+1
+            p.searchMode = self.searchMode
             self.navigationController?.pushViewController(p, animated: true)
         } else
         {
             let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue]
-            self.blockDone!(data)
-            
-            let c = self.navigationController?.viewControllers.count
-            let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
-            self.navigationController?.popToViewController(v, animated: true)
+            if (searchMode)
+            {
+                let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                p.category = selectedCategory
+                self.navigationController?.pushViewController(p, animated: true)
+            } else
+            {
+                self.blockDone!(data)
+                
+                let c = self.navigationController?.viewControllers.count
+                let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
+                self.navigationController?.popToViewController(v, animated: true)
+            }
         }
     }
     

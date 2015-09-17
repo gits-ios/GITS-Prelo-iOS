@@ -29,6 +29,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Do any additional setup after loading the view.
         if (standalone) {
             self.titleText = standaloneCategoryName
+        } else
+        {
+            if let name = category?["name"].string
+            {
+                self.title = name
+            }
         }
         
         refresher = UIRefreshControl()

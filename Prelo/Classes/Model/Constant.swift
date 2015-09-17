@@ -88,4 +88,14 @@ extension UIView
             self.frame = CGRectMake(self.frame.origin.x, newY, self.frame.size.width, self.frame.size.height)
         }
     }
+    
+    var maxX :CGFloat
+    {
+        return self.x + self.width
+    }
+    
+    var maxY :CGFloat
+        {
+            return self.y + self.height
+    }
 }
