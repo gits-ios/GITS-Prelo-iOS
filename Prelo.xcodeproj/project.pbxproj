@@ -19,6 +19,21 @@
 		210DF0EF1B734CFD004AE3D9 /* CDUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */; };
 		210DF0F11B734CFE004AE3D9 /* CDUserOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */; };
 		210DF0F51B734D3A004AE3D9 /* CDUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0F41B734D3A004AE3D9 /* CDUser.swift */; };
+		21104AB91BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */; };
+		21104ABA1BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */; };
+		21104ABB1BAA8ECC00947E7F /* MyPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */; };
+		21104ABC1BAA8ECC00947E7F /* PhoneReverificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */; };
+		21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */; };
+		21104ABE1BAA8ECC00947E7F /* TransactionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */; };
+		21104AC81BAA8EF800947E7F /* CDProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC51BAA8EF800947E7F /* CDProvince.swift */; };
+		21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC61BAA8EF800947E7F /* CDRegion.swift */; };
+		21104ACA1BAA8EF800947E7F /* CDVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC71BAA8EF800947E7F /* CDVersion.swift */; };
+		21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACB1BAA8F1200947E7F /* MyPurchase.xib */; };
+		21104AD21BAA8F1200947E7F /* MyPurchaseCompleted.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */; };
+		21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */; };
+		21104AD41BAA8F1200947E7F /* PhoneReverification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */; };
+		21104AD51BAA8F1200947E7F /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */; };
+		21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104AD01BAA8F1200947E7F /* TransactionListCell.xib */; };
 		211312541B675F6900A4DA3B /* ProductDetailCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312531B675F6900A4DA3B /* ProductDetailCover.swift */; };
 		211312561B6760F600A4DA3B /* ProductDetailCover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 211312551B6760F600A4DA3B /* ProductDetailCover.xib */; };
 		211312581B67638F00A4DA3B /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312571B67638F00A4DA3B /* Constant.swift */; };
@@ -356,6 +371,21 @@
 		210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUserProfile.swift; sourceTree = "<group>"; };
 		210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUserOther.swift; sourceTree = "<group>"; };
 		210DF0F41B734D3A004AE3D9 /* CDUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUser.swift; sourceTree = "<group>"; };
+		21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseCompletedViewController.swift; sourceTree = "<group>"; };
+		21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseProcessingViewController.swift; sourceTree = "<group>"; };
+		21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseViewController.swift; sourceTree = "<group>"; };
+		21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneReverificationViewController.swift; sourceTree = "<group>"; };
+		21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
+		21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionListCell.swift; sourceTree = "<group>"; };
+		21104AC51BAA8EF800947E7F /* CDProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDProvince.swift; sourceTree = "<group>"; };
+		21104AC61BAA8EF800947E7F /* CDRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDRegion.swift; sourceTree = "<group>"; };
+		21104AC71BAA8EF800947E7F /* CDVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVersion.swift; sourceTree = "<group>"; };
+		21104ACB1BAA8F1200947E7F /* MyPurchase.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchase.xib; sourceTree = "<group>"; };
+		21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseCompleted.xib; sourceTree = "<group>"; };
+		21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseProcessing.xib; sourceTree = "<group>"; };
+		21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneReverification.xib; sourceTree = "<group>"; };
+		21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneVerification.xib; sourceTree = "<group>"; };
+		21104AD01BAA8F1200947E7F /* TransactionListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionListCell.xib; sourceTree = "<group>"; };
 		211312531B675F6900A4DA3B /* ProductDetailCover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailCover.swift; sourceTree = "<group>"; };
 		211312551B6760F600A4DA3B /* ProductDetailCover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetailCover.xib; sourceTree = "<group>"; };
 		211312571B67638F00A4DA3B /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -1124,6 +1154,9 @@
 		21660B1E1B70A45F00910CF1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				21104AC51BAA8EF800947E7F /* CDProvince.swift */,
+				21104AC61BAA8EF800947E7F /* CDRegion.swift */,
+				21104AC71BAA8EF800947E7F /* CDVersion.swift */,
 				21660B221B70A9D000910CF1 /* CartProduct.swift */,
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
@@ -1302,6 +1335,12 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */,
+				21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */,
+				21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */,
+				21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */,
+				21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */,
+				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */,
@@ -1622,6 +1661,12 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				21104ACB1BAA8F1200947E7F /* MyPurchase.xib */,
+				21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */,
+				21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */,
+				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
+				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
+				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				21EEB45E1B87038400CAD5C9 /* Dashboard2.xib */,
 				21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */,
@@ -1741,6 +1786,7 @@
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
+				21104AD21BAA8F1200947E7F /* MyPurchaseCompleted.xib in Resources */,
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
@@ -1761,6 +1807,7 @@
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
+				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
@@ -1770,6 +1817,7 @@
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
+				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				21621CD11BA16203009BBACB /* tour_3.png in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
@@ -1782,12 +1830,14 @@
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				21C6587C1B8EE4E10037F85F /* Default-Landscape.png in Resources */,
+				21104AD41BAA8F1200947E7F /* PhoneReverification.xib in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */,
 				2141BBA51B54BE4C00787F5D /* LICENSE in Resources */,
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				212502E81B8306A00089E523 /* AddProductHeader.xib in Resources */,
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
+				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
@@ -1796,6 +1846,7 @@
 				211312561B6760F600A4DA3B /* ProductDetailCover.xib in Resources */,
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,
+				21104AD51BAA8F1200947E7F /* PhoneVerification.xib in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
@@ -1889,7 +1940,10 @@
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
+				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
+				21104ABB1BAA8ECC00947E7F /* MyPurchaseViewController.swift in Sources */,
+				21104ABC1BAA8ECC00947E7F /* PhoneReverificationViewController.swift in Sources */,
 				2141BBD11B54BE4C00787F5D /* UIView+BFKit.swift in Sources */,
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				21AE67B31B4A5AF600D2CF63 /* ListItemViewController.swift in Sources */,
@@ -1931,6 +1985,7 @@
 				21156EB71B8F4293001D7842 /* MultipartFormData.swift in Sources */,
 				210DF0F11B734CFE004AE3D9 /* CDUserOther.swift in Sources */,
 				210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */,
+				21104AC81BAA8EF800947E7F /* CDProvince.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
 				2141BBD91B54BE4C00787F5D /* MKImageView.swift in Sources */,
 				2141BB451B53AF7800787F5D /* ProductDetailViewController.swift in Sources */,
@@ -1941,6 +1996,7 @@
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
+				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
 				2141BBA61B54BE4C00787F5D /* README.md in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
@@ -1957,6 +2013,7 @@
 				2119FE391BA2D8B1006EF0CB /* ImagePickerViewController2.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				2141BBDC1B54BE4C00787F5D /* MKTableViewCell.swift in Sources */,
+				21104ACA1BAA8EF800947E7F /* CDVersion.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */,
 				2141BBCC1B54BE4C00787F5D /* UILabel+BFKit.swift in Sources */,
@@ -1999,6 +2056,7 @@
 				2141BBC81B54BE4C00787F5D /* UIDevice+BFKit.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				2141BBE61B54BE4C00787F5D /* SocketLogger.swift in Sources */,
+				21104ABA1BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift in Sources */,
 				214EBD651B787FF800CCBB9B /* MenuPopUp.swift in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
 				21C6589A1B8EF25E0037F85F /* ActionSheetStringPicker.m in Sources */,
@@ -2034,7 +2092,9 @@
 				2119FE371BA2BC25006EF0CB /* AddProductViewController2.swift in Sources */,
 				211312541B675F6900A4DA3B /* ProductDetailCover.swift in Sources */,
 				2141BBDA1B54BE4C00787F5D /* MKLabel.swift in Sources */,
+				21104AB91BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
+				21104ABE1BAA8ECC00947E7F /* TransactionListCell.swift in Sources */,
 				2141BBA91B54BE4C00787F5D /* Manager.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				212007C61B6A102600D9C84B /* LoginViewController.swift in Sources */,

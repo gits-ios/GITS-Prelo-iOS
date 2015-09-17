@@ -120,7 +120,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
+<<<<<<< HEAD
+        request(APIAuth.Register(fullname: name!, email: email!, password: password!))
+=======
         request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!))
+>>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
             .responseJSON
             {_, _, json, err in
                 if (err != nil) { // Terdapat error
@@ -156,6 +160,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                             self.userRelatedDelegate?.userLoggedIn!()
                         }
                         
+<<<<<<< HEAD
                         if let c = CDUser.getOne()
                         {
                             Mixpanel.sharedInstance().identify(c.id)
@@ -165,11 +170,17 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
                         }
                         
+=======
+>>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
                         self.toProfileSetup()
                     }
                 }
         }
         
+<<<<<<< HEAD
+        // FOR TESTING
+        //self.toProfileSetup()
+=======
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
         //self.toProfileSetup()
         
@@ -177,11 +188,15 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         /*let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.pushViewController(phoneVerificationVC, animated: true)*/
+>>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
     }
     
     func toProfileSetup() {
         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
-//        profileSetupVC.previousControllerName = "Register"
+<<<<<<< HEAD
+        profileSetupVC.previousControllerName = "Register"
+=======
+>>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }

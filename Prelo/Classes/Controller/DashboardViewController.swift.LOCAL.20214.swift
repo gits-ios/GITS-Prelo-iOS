@@ -38,12 +38,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
-        // DON'T USE ME IF CONFLICT
-        /*imgCover?.image = nil
+        imgCover?.image = nil
         let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
         imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
         imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-        */
         
         self.setupNormalOptions()
         self.setupTitle()
@@ -151,18 +149,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     @IBAction func launchMyProducts()
     {
-        /*let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
-        
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
-        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
 
     @IBAction func editProfilePressed(sender: UIButton) {
-        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
-//        userProfileVC.previousControllerName = "Dashboard"
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+        /*let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+        userProfileVC.previousControllerName = "Dashboard"
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)*/
     }
     /*
     // MARK: - Navigation

@@ -9,28 +9,37 @@
 import Foundation
 import CoreData
 
-class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var groupUploadFoto: UIView!
     @IBOutlet weak var btnUserImage: UIButton!
+    
     @IBOutlet weak var groupFullname: UIView!
     @IBOutlet weak var fieldFullname: UITextField!
+    
     @IBOutlet weak var consTopGroupJenKel: NSLayoutConstraint!
     @IBOutlet weak var lblJenisKelamin: UILabel!
+    
     @IBOutlet weak var groupNoHP: UIView!
     @IBOutlet weak var fieldNoHP: UITextField!
+    
     @IBOutlet weak var consTopGroupVerifikasiHP: NSLayoutConstraint!
     @IBOutlet weak var groupVerifikasiHP: UIView!
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
+    
     @IBOutlet weak var consTopGroupKota: NSLayoutConstraint!
     @IBOutlet weak var lblProvinsi: UILabel!
     @IBOutlet weak var lblKabKota: UILabel!
+    
     @IBOutlet weak var lblJneCheckbox: UILabel!
     @IBOutlet weak var lblTikiCheckbox: UILabel!
+    
     @IBOutlet weak var groupReferral: UIView!
     @IBOutlet weak var fieldKodeReferral: UITextField!
+    
     @IBOutlet weak var consTopBtnApply: NSLayoutConstraint!
     @IBOutlet weak var btnApply: UIButton!
     
@@ -47,7 +56,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     
     var deltaHeight : CGFloat = 0
     
-    var previousControllerName : String?
+    var asset : ALAssetsLibrary?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -89,29 +98,25 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         // Tombol back
         self.navigationItem.hidesBackButton = true
         /*let newBackButton = UIBarButtonItem(title: " Setup Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 16)!], forState: UIControlState.Normal)
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton*/
         
         // Tombol apply
         let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
-        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 16)!], forState: UIControlState.Normal)
+        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = applyButton
     }
     
     func backPressed(sender: UIBarButtonItem) {
-        if (self.previousControllerName == "Register") {
-            if let d = self.userRelatedDelegate
-            {
-                d.userLoggedIn!()
-            }
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else if (self.previousControllerName == "Dashboard") {
-            self.navigationController?.popViewControllerAnimated(true)
+        if let d = self.userRelatedDelegate
+        {
+            d.userLoggedIn!()
         }
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
     
     func hideGroups() {
-        /* Digunakan setelah FGD 4 Sept
         groupUploadFoto.hidden = true
         groupFullname.hidden = true
         groupVerifikasiHP.hidden = true
@@ -125,11 +130,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         
         // Sesuaikan tinggi scrollview content
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
-        */
         
+        /* Digunakan untuk FGD 4 Sept
         groupFullname.hidden = true
         groupNoHP.hidden = true
-        groupReferral.hidden = true
+        //groupReferral.hidden = true
 
         // Naikin group lainnya
         let separateHeight : CGFloat = 30
@@ -138,11 +143,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         consTopGroupVerifikasiHP.constant -= groupNoHP.frame.size.height
         consTopGroupKota.constant -= groupNoHP.frame.size.height
         deltaHeight -= groupNoHP.frame.size.height
-        consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
-        deltaHeight -= groupReferral.frame.size.height + separateHeight
+        //consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
+        //deltaHeight -= groupReferral.frame.size.height + separateHeight
         
         // Sesuaikan tinggi scrollview content
-        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
+        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)*/
     }
     
     @IBAction func disableTextFields(sender : AnyObject)
@@ -176,19 +181,40 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     @IBAction func userImagePressed(sender: AnyObject) {
-        // Akses galeri
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-            var imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.allowsEditing = true
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        btnUserImage.setImage(image, forState: UIControlState.Normal)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
+            { imgs in
+                if (imgs.count > 0) {
+                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, forState: UIControlState.Normal)
+                    
+                    let img : APImage = imgs[0]
+                    
+                    if ((img.image) != nil)
+                    {
+                        self.btnUserImage.setImage(img.image, forState: UIControlState.Normal)
+                    } else if (imgs[0].usingAssets == true) {
+                        
+                        if (self.asset == nil) {
+                            self.asset = ALAssetsLibrary()
+                        }
+                        
+                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                            self.asset?.assetForURL((img.url)!, resultBlock: { asset in
+                                if let ast = asset {
+                                    let rep = ast.defaultRepresentation()
+                                    let ref = rep.fullScreenImage().takeUnretainedValue()
+                                    let i = UIImage(CGImage: ref)
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        self.btnUserImage.setImage(i, forState: UIControlState.Normal)
+                                    })
+                                }
+                                }, failureBlock: { error in
+                                    // error
+                            })
+                        })
+                    }
+                }
+            }
+        )
     }
     
     @IBAction func uploadFotoPressed(sender: AnyObject) {
@@ -223,40 +249,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
+        p?.items = CDProvince.getProvincePickerItems()
         p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            picker.startLoading()
-            
-            request(References.ProvinceList)
-                .responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
-                    {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
-                            picker.dismiss()
-                        } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
-                            }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
-                        }
-                    } else {
-                        picker.dismiss()
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
-                self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
-            }
+        p?.selectBlock = { string in
+            self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+            self.lblKabKota.text = "Pilih Kota/Kabupaten"
         }
         p?.title = "Provinsi"
         self.view.endEditing(true)
@@ -264,47 +261,21 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     @IBAction func kabKotaPressed(sender: AnyObject) {
-        isPickingKabKota = true
-        
-        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
-        p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            picker.startLoading()
+        if (selectedProvinsiID == "") {
+            Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
+        } else {
+            isPickingKabKota = true
             
-            request(References.CityList(provinceId: self.selectedProvinsiID))
-                .responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
-                    {
-                        let json = JSON(res!)["_data"].array
-                        var r : Array<String> = []
-                        let c = json?.count
-                        if (c! == 0) {
-                            picker.dismiss()
-                        } else {
-                            for i in 0...c!-1
-                            {
-                                let j = json?[i]
-                                let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                r.append(n)
-                            }
-                            picker.items = r
-                            picker.tableView.reloadData()
-                            picker.doneLoading()
-                        }
-                    } else {
-                        picker.dismiss()
-                    }
-            }
-            
-            // On select block
-            picker.selectBlock = { string in
+            let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+            p?.items = CDRegion.getRegionPickerItems(selectedProvinsiID)
+            p?.pickerDelegate = self
+            p?.selectBlock = { string in
                 self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
             }
+            p?.title = "Kota/Kabupaten"
+            self.view.endEditing(true)
+            self.navigationController?.pushViewController(p!, animated: true)
         }
-        p?.title = "Kota/Kabupaten"
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
     }
     
     @IBAction func jneRegulerPressed(sender: UIButton) {
@@ -334,6 +305,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
     }
     
     func fieldsVerified() -> Bool {
+        if (fieldNoHP.text == "") {
+            Constant.showDialog("Warning", message: "Nomor HP harus diisi")
+            return false
+        }
         if (lblProvinsi.text == "Pilih Provinsi") {
             Constant.showDialog("Warning", message: "Provinsi harus diisi")
             return false
@@ -354,10 +329,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
             disableTextFields(NSNull)
             btnApply.enabled = false
             
-            let jenisKelamin = lblJenisKelamin?.text
-            let nomorHP = fieldNoHP?.text
-            let shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
-            request(APIUser.SetProfile(fullname: "Dummy setup fullname", phone: nomorHP!, address: "Dummy setup address", region: selectedKabKotaID, postalCode: "Dummy setup postal code", shopName: "Dummy setup shop name", Description: "Dummy setup description", Shipping: shipping)).responseJSON { _, _, res, err in
+            let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
+            let userPhone = fieldNoHP?.text
+            let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            let userReferral = fieldKodeReferral.text
+            let userDeviceId = "dor"
+            
+            request(APIUser.SetupAccount(gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
                 if let error = err {
                     Constant.showDialog("Warning", message: error.description)
                     self.btnApply.enabled = true
@@ -381,7 +359,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
                         let userProfile : CDUserProfile = CDUserProfile.getOne()!
                         userProfile.regionID = self.selectedKabKotaID
                         userProfile.provinceID = self.selectedProvinsiID
+                        userProfile.phone = userPhone!
+                        userProfile.gender = self.lblJenisKelamin.text!
                         user.profiles = userProfile
+                        // TODO: Simpan shipping, referral, deviceid di coredata
                         
                         // Save data
                         var saveErr : NSError? = nil
@@ -390,15 +371,20 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UIIma
                         } else {
                             println("Data saved")
                             //self.btnSimpanData.enabled = true
-                            if (self.previousControllerName == "Register") {
-                                if let d = self.userRelatedDelegate
-                                {
-                                    d.userLoggedIn!()
-                                }
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                            } else if (self.previousControllerName == "Dashboard") {
-                                self.navigationController?.popViewControllerAnimated(true)
+                            if let d = self.userRelatedDelegate
+                            {
+                                d.userLoggedIn!()
                             }
+
+                            /* Digunakan jika setelah scene ini adalah scene phone verification
+                            // TODO : Coba POST phone verification dulu sebelum pindah scene
+
+                            let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                            */
+                            
+                            // FOR TESTING (SKIP PHONE VERIFICATION)
+                            self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
                 }

@@ -85,7 +85,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if let profile = user?.profiles
         {
             phone = profile.phone
-            address = profile.address
+            address = profile.address!
         }
         
         self.cells = [
@@ -767,9 +767,25 @@ class CartCellInput : BaseCartCell
         
         let value = item?.value
         if (value != nil) {
+            if (value! == "10%")
+            {
+                txtField.font = UIFont.boldSystemFontOfSize(14)
+                let l = self.contentView.viewWithTag(666)
+                l?.hidden = true
+            }
             txtField.text = value
         } else {
             txtField.text = ""
+        }
+        
+        if let t = captionTitle?.text
+        {
+            let s = t.lowercaseString as NSString
+            let i = s.rangeOfString("harga")
+            if (i.location != NSNotFound)
+            {
+                txtField.keyboardType = UIKeyboardType.DecimalPad
+            }
         }
         
         txtField.enabled = (item?.enable)!

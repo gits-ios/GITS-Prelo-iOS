@@ -18,7 +18,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBOutlet var btnLogin : UIButton?
     
-<<<<<<< HEAD
     var navController : UINavigationController?
     
     static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool)
@@ -32,8 +31,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         parent.presentViewController(n, animated: animated, completion: nil)
     }
     
-=======
->>>>>>> 744ae3013f2320503e8576aeb67b86fd33536c72
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +44,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Login Page")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -75,6 +74,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     @IBAction func signUpTapped(sender : AnyObject)
     {
         let registerVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil).first as! RegisterViewController
+        registerVC.userRelatedDelegate = self.userRelatedDelegate
         self.navigationController?.pushViewController(registerVC, animated: true)
     }
     
@@ -92,7 +92,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         btnLogin?.enabled = false
         
         let email = txtEmail?.text
-        request(APIUser.Login(email: email!, password: (txtPassword?.text)!))
+<<<<<<< HEAD
+        request(APIAuth.Login(email: email!, password: (txtPassword?.text)!))
+=======
+        request(APIAuth.Login(usernameOrEmail: email!, password: (txtPassword?.text)!))
+>>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {
@@ -105,7 +109,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         let obj : [String : String] = json as! [String : String]
                         let message = obj["_message"]
                         Constant.showDialog("Warning", message: message!)
+                        self.btnLogin?.enabled = true
                     } else {
+                        println(data)
                         User.StoreUser(data, email: email!)
                         self.getProfile()
                     }
@@ -116,15 +122,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func getProfile()
     {
         request(APIUser.Me)
-            .responseJSON{_, _, res, err in
-        
-                if (err != nil) {
-                    Constant.showDialog("Warning", message: (err?.description)!)
-                    User.Logout()
-                    self.btnLogin?.enabled = true
-                } else {
+            .responseJSON{_, resp, res, err in
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
                     self.btnLogin?.enabled = true
                     let json = JSON(res!)["_data"]
+                    
+                    println(json)
                     
                     let m = UIApplication.appDelegate.managedObjectContext
                     let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
@@ -134,13 +138,51 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
                     let pr = json["profiles"]
-                    p.address = pr["address"].string!
-                    p.desc = pr["description"].string!
-                    p.phone = pr["phone"].string!
-                    p.pict = pr["pict"].string!
-                    p.postalCode = pr["postal_code"].string!
-                    p.regionID = pr["region_id"].string!
-                    p.provinceID = pr["province_id"].string!
+                    if let address = pr["address"].string
+                    {
+                        p.address = address
+                    } else {
+                        p.address = ""
+                    }
+                    if let desc = pr["description"].string
+                    {
+                        p.desc = desc
+                    } else {
+                        p.desc = ""
+                    }
+                    if let phone = pr["phone"].string
+                    {
+                        p.phone = phone
+                    } else {
+                        p.phone = ""
+                    }
+                    if let pict = pr["pict"].string
+                    {
+                        p.pict = pict
+                    } else {
+                        p.pict = ""
+                    }
+                    if let postal = pr["postal_code"].string
+                    {
+                        p.postalCode = postal
+                    } else
+                    {
+                        p.postalCode = ""
+                    }
+                    if let region = pr["region_id"].string
+                    {
+                        p.regionID = region
+                    } else
+                    {
+                        p.regionID = ""
+                    }
+                    if let province = pr["province_id"].string
+                    {
+                        p.provinceID = province
+                    } else
+                    {
+                        p.provinceID = ""
+                    }
                     
                     c.profiles = p
                     UIApplication.appDelegate.saveContext()
@@ -150,7 +192,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.userRelatedDelegate?.userLoggedIn!()
                     }
                     
+//                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                    
+                    if let c = CDUser.getOne()
+                    {
+                        Mixpanel.sharedInstance().identify(c.id)
+                        Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
+                    } else {
+                        Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                    }
+                    
+                    Mixpanel.sharedInstance().track("Logged In")
+                    
                     self.dismiss()
+                } else {
+                    User.Logout()
+                    self.btnLogin?.enabled = true
                 }
         }
     }

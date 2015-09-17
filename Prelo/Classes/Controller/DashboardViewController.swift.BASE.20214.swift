@@ -38,12 +38,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
-        // DON'T USE ME IF CONFLICT
-        /*imgCover?.image = nil
+        imgCover?.image = nil
         let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
         imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
         imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-        */
         
         self.setupNormalOptions()
         self.setupTitle()
@@ -78,11 +76,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
-            ],
-            [
-                "title":"Tutorial",
-                "icon":"",
-                "PreloAwesome":"1"
             ]
         ]
         
@@ -106,7 +99,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (menus?.count)!
+        return 6
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -136,32 +129,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
             a.isShowLogout = true
             self.previousController?.navigationController?.pushViewController(a, animated: true)
-        }
-        
-        if (indexPath.row == 6)
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
-        }
-        
-        if (indexPath.row == 6)
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
+//            User.Logout()
+//            if (self.userRelatedDelegate != nil) {
+//                userRelatedDelegate?.userLoggedOut!()
+//            }
         }
     }
     
     @IBAction func launchMyProducts()
     {
-        /*let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
-        
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
-        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
 
     @IBAction func editProfilePressed(sender: UIButton) {
         let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
-//        userProfileVC.previousControllerName = "Dashboard"
+        userProfileVC.previousControllerName = "Dashboard"
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     /*

@@ -384,6 +384,81 @@ class ProductDiscussion : NSObject
     }
 }
 
+class UserPurchase: NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> UserPurchase? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserPurchase()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        let t = (json["_id"].string)!
+        return t
+    }
+    
+    var productId : String {
+        let p = (json["product_id"].string)!
+        return p
+    }
+    
+    var progress : Int {
+        let p = (json["progress"].int)!
+        return p
+    }
+    
+    var progressText : String {
+        let p = (json["progress_text"].string)!
+        return p
+    }
+    
+    var productPrice : Int {
+        let p = (json["product_price"].int)!
+        return p
+    }
+    
+    var totalPrice : Int {
+        let t = (json["total_price"].int)!
+        return t
+    }
+    
+    var time : String {
+        let t = (json["time"].string)!
+        return t
+    }
+    
+    var productName : String {
+        let p = (json["product"]["name"].string)!
+        return p
+    }
+    
+    // Only take first image from json
+    var productImageURL : NSURL? {
+        if let err = json["product"]["display_picts"][0].error
+        {
+            return nil
+        }
+        let url = json["product"]["display_picts"][0].string!
+        return NSURL(string: url)
+    }
+    
+    var productLoveCount : Int {
+        let p = (json["product"]["num_lovelist"].int)!
+        return p
+    }
+    
+    var productCommentCount : Int {
+        let p = (json["product"]["num_comment"].int)!
+        return p
+    }
+}
+
 class UserOrder : NSObject {
     
     var json : JSON!

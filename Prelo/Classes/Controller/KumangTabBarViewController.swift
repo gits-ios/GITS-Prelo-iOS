@@ -55,7 +55,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         if (User.IsLoggedIn)
         {
-            btnDashboard.setTitle("DASHBOARD", forState: UIControlState.Normal)
+            btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
         } else
         {
             btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
@@ -178,7 +178,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedIn() {
-        btnDashboard.setTitle("DASHBOARD", forState: UIControlState.Normal)
+        btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
         d.previousController = self
         changeToController(d)

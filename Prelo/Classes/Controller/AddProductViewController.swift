@@ -141,7 +141,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[NSIndexPath(forRow: 1, inSection: 2)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
         baseDatas[NSIndexPath(forRow: 0, inSection: 3)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
         baseDatas[NSIndexPath(forRow: 1, inSection: 3)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
-        baseDatas[NSIndexPath(forRow: 2, inSection: 3)] = BaseCartData.instance("Komisi Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
+        baseDatas[NSIndexPath(forRow: 2, inSection: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -654,10 +654,13 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         acee?.lastIndex = indexPath
         
         if (indexPath.row == 1) { // Nama Barang, Bold
-            acee?.textView.font = UIFont.boldSystemFontOfSize(14)
+            acee?.textView.font = UIFont.systemFontOfSize(14)
         } else {
             acee?.textView.font = UIFont.systemFontOfSize(14)
         }
+        
+//        acee?.textView.textColor = UIColor(hex: "#858585")
+        acee?.textView.textColor = UIColor.darkGrayColor()
         
         return acee
     }
@@ -686,7 +689,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         h.width = UIScreen.mainScreen().bounds.size.width
         let d = sectionTitles[section]
         h.captionIcon.text = d["icon"]
-        h.captionTitle.text = d["title"]
+        h.captionTitle.text = d["title"]?.uppercaseString
         return h
     }
     
@@ -946,6 +949,7 @@ class AddProductShippingPaymentCell : UITableViewCell
 {
     @IBOutlet var sectionShippingPayments : Array<BorderedView> = []
     @IBOutlet var btnShippingPayments : Array<UIButton> = []
+    @IBOutlet weak var lblDescription: UILabel!
     
     var setted = false
     
@@ -983,6 +987,16 @@ class AddProductShippingPaymentCell : UITableViewCell
             if (l.isKindOfClass(UILabel.classForCoder()))
             {
                 let x = l as! UILabel
+                if (x.text == "Ditanggung Pembeli") {
+                    var mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
+                    var greenTxt = "Lihat syarat & ketentuan"
+                    var range = (mainTxt as NSString).rangeOfString(greenTxt)
+                    var attrString = NSMutableAttributedString(string: mainTxt)
+                    attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
+                    lblDescription.attributedText = attrString
+                } else if (x.text == "Ditanggung Penjual") {
+                    lblDescription.text = "Produk akan diberi label FREE ONGKIR (Recommended)"
+                }
                 x.textColor = Theme.PrimaryColorDark
             }
         }
@@ -1221,6 +1235,8 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
         {
             d.weightChanged(w)
             d.weightSelected(index)
+            let l = self.contentView.viewWithTag(666)
+            l?.hidden = false
         }
     }
     

@@ -78,11 +78,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
-            ],
-            [
-                "title":"Tutorial",
-                "icon":"",
-                "PreloAwesome":"1"
             ]
         ]
         
@@ -106,7 +101,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (menus?.count)!
+        return 6
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -136,16 +131,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
             a.isShowLogout = true
             self.previousController?.navigationController?.pushViewController(a, animated: true)
-        }
-        
-        if (indexPath.row == 6)
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
-        }
-        
-        if (indexPath.row == 6)
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
+//            User.Logout()
+//            if (self.userRelatedDelegate != nil) {
+//                userRelatedDelegate?.userLoggedOut!()
+//            }
         }
     }
     
@@ -161,7 +150,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 
     @IBAction func editProfilePressed(sender: UIButton) {
         let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
-//        userProfileVC.previousControllerName = "Dashboard"
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     /*

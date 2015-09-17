@@ -34,9 +34,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
         }
-    AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
+        AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
+        
+        versionCheck()
         
         return true
+    }
+    
+    func versionCheck() {
+        request(APIApp.Version(appType: "ios")).responseJSON
+            {_, _, res, err in
+                if (err != nil) { // Terdapat error
+                    println("Error getting version: \(err!.description)")
+                } else {
+                    let json = JSON(res!)
+                    let data = json["_data"]
+                    if (data == nil) { // Data kembalian kosong
+                        let obj : [String : String] = res as! [String : String]
+                        let message = obj["_message"]
+                        println("Empty version data, error: \(message)")
+                    } else { // Berhasil
+                        println("Version data: \(data)")
+                        
+                        // Jika versi metadata baru, load dan save kembali di coredata
+                        let ver : CDVersion? = CDVersion.getOne()
+                        if (ver?.metadataVersion == data["metadata_version"].string) {
+                            println("Same metadata version")
+                        } else {
+                            println("Updating metadata")
+                            request(APIApp.Metadata).responseJSON
+                                {_, _, metaRes, metaErr in
+                                    if (metaErr != nil) { // Terdapat error
+                                        println("Error getting metadata: \(metaErr!.description)")
+                                    } else {
+                                        let metaJson = JSON(metaRes!)
+                                        let metadata = metaJson["_data"]
+                                        if (metadata == nil) { // Data kembalian kosong
+                                            let obj : [String : String] = res as! [String : String]
+                                            let message = obj["_message"]
+                                            println("Empty metadata, error: \(message)")
+                                        } else { // Berhasil
+                                            // Hapus data lama kemudian simpan yang baru
+                                            if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+                                                CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                        CDVersion.saveVersion(data)
+                    }
+                }
+        }
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
