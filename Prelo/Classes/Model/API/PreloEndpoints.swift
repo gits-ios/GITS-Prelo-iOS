@@ -8,12 +8,12 @@
 
 import UIKit
 
-//let prelloHost = "http://dev.prelo.id/api/"
-//let oldAPI = "http://dev.preloapp.com/api/2/"
+let prelloHost = "http://dev.prelo.id/api/"
+let oldAPI = "http://dev.preloapp.com/api/2/"
 //let prelloHost = "http://dev.preloapp.com/api/2/"
 
-let prelloHost = "http://dev.preloapp.com/api/2/"
-let oldAPI = "http://dev.preloapp.com/api/2/"
+//let prelloHost = "http://dev.preloapp.com/api/2/"
+//let oldAPI = "http://dev.preloapp.com/api/2/"
 
 class PreloEndpoints: NSObject {
    
@@ -104,7 +104,7 @@ enum APICart : URLRequestConvertible
 
 enum APIAuth : URLRequestConvertible
 {
-    static let basePath = "me/"
+    static let basePath = "auth/"
     
     case Login(email : String, password : String)
     case Register(fullname : String, email : String, password : String)
@@ -136,14 +136,15 @@ enum APIAuth : URLRequestConvertible
             {
             case .Login(let email, let password):
                 return [
-                    "email":email,
+                    "username_or_email":email,
                     "password":password
                 ]
             case .Register(let fullname, let email, let password):
                 return [
                     "fullname":fullname,
                     "email":email,
-                    "password":password
+                    "password":password,
+                    "username":email
                 ]
             case .Logout:return [:]
             }
@@ -193,7 +194,7 @@ enum APIUser : URLRequestConvertible
         case .Login(_, _):return "login"
         case .Register(_, _, _): return "register"
         case .Logout:return "logout"
-        case .Me : return ""
+        case .Me : return "profile"
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .SetupAccount(_, _, _, _, _, _) : return "setup"
@@ -257,11 +258,15 @@ enum APIUser : URLRequestConvertible
 
 enum Products : URLRequestConvertible
 {
-    static let basePath = "products/"
+    static let basePath = "product/"
     
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case Detail(productId : String)
     case Add(name : String, desc : String, price : String, weight : String, category : String)
+    case Love(productID : String)
+    case Unlove(productID : String)
+    case GetComment(productID : String)
+    case PostComment(productID : String, message : String, mentions : String)
     
     var method : Method
     {
@@ -270,6 +275,10 @@ enum Products : URLRequestConvertible
         case .ListByCategory(_, _, _, _, _, _, _): return .GET
         case .Detail(_): return .GET
         case .Add(_, _, _, _, _) : return .POST
+        case .Love(_):return .POST
+        case .Unlove(_):return .POST
+        case .PostComment(_, _, _) : return .POST
+        case .GetComment(_) :return .GET
         }
     }
     
@@ -280,6 +289,10 @@ enum Products : URLRequestConvertible
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
         case .Add(_, _, _, _, let category) : return ""
+        case .Love(let prodId):return prodId + "/love"
+        case .Unlove(let prodId):return prodId + "/unlove"
+        case .PostComment(let pId, _, _):return pId + "/comments"
+        case .GetComment(let pId) :return pId + "/comments"
         }
     }
     
@@ -307,6 +320,10 @@ enum Products : URLRequestConvertible
                 "weight":weight,
                 "description":desc
             ]
+        case .Love(let pId):return ["product_id":pId]
+        case .Unlove(let pId):return ["product_id":pId]
+        case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
+        case .GetComment(let pId) :return [:]
         }
     }
     
@@ -339,7 +356,7 @@ enum APISearch : URLRequestConvertible
         {
             switch self
             {
-            case .ProductByCategory(_, _, _, _, _, _): return "products_by_categories"
+            case .ProductByCategory(_, _, _, _, _, _): return "products"
             }
     }
     
@@ -349,7 +366,7 @@ enum APISearch : URLRequestConvertible
             {
             case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax):
                 return [
-                    "category":catId,
+                    "category_id":catId,
                     "sort":sort,
                     "current":current,
                     "limit":limit,

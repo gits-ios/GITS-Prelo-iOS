@@ -280,7 +280,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (segue.identifier == "segAddComment")
         {
-            
+            let c = segue.destinationViewController as! ProductCommentsController
+            c.pDetail = self.detail
         } else
         {
             let c = segue.destinationViewController as! BaseViewController
@@ -290,7 +291,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 
 }
 
-class ProductCellTitle : UITableViewCell
+class ProductCellTitle : UITableViewCell, UserRelatedDelegate
 {
     @IBOutlet var captionTitle : UILabel?
     @IBOutlet var captionOldPrice : UILabel?
@@ -329,9 +330,90 @@ class ProductCellTitle : UITableViewCell
         
         sectionLove?.layer.borderColor = UIColor.lightGrayColor().CGColor
         sectionLove?.layer.borderWidth = 1
+        sectionLove?.layer.cornerRadius = 2
+        sectionLove?.layer.masksToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "love")
+        sectionLove?.addGestureRecognizer(tap)
         
         sectionComment?.layer.borderColor = UIColor.lightGrayColor().CGColor
         sectionComment?.layer.borderWidth = 1
+        sectionComment?.layer.cornerRadius = 2
+        sectionComment?.layer.masksToBounds = true
+    }
+    
+    func userLoggedIn() {
+        if (loving == true)
+        {
+            callApiLove()
+            loving = false
+        }
+    }
+    
+    func userCancelLogin() {
+        
+    }
+    
+    func userLoggedOut() {
+        
+    }
+    
+    var isLoved = false
+    var loving = false
+    func love()
+    {
+        if (User.IsLoggedIn == false)
+        {
+            loving = true
+            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
+        } else {
+            callApiLove()
+        }
+    }
+    
+    func callApiLove()
+    {
+        if (isLoved)
+        {
+            callApiUnlove()
+            return
+        }
+        isLoved = true
+        setupLoveView()
+        request(Products.Love(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                if let s = self.captionCountLove?.text
+                {
+                    let ns = s as NSString
+                    self.captionCountLove?.text = String(ns.integerValue + 1)
+                }
+            } else
+            {
+                self.isLoved = false
+                self.setupLoveView()
+            }
+        }
+    }
+    
+    func callApiUnlove()
+    {
+        isLoved = false
+        setupLoveView()
+        request(Products.Unlove(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                if let s = self.captionCountLove?.text
+                {
+                    let ns = s as NSString
+                    self.captionCountLove?.text = String(ns.integerValue - 1)
+                }
+            } else
+            {
+                self.isLoved = true
+                self.setupLoveView()
+            }
+        }
     }
     
     func adapt(obj : ProductDetail?)
@@ -361,8 +443,46 @@ class ProductCellTitle : UITableViewCell
             captionPrice?.text = ""
         }
         
-        captionCountLove?.text = String(product["n_loves"].int!)
+        if let loved = product["love"].bool
+        {
+            isLoved = loved
+            setupLoveView()
+        }
+        captionCountLove?.text = String(product["num_lovelist"].int!)
         captionCountComment?.text = obj?.discussionCountText
+    }
+    
+    func setupLoveView()
+    {
+        if (isLoved == true)
+        {
+            sectionLove?.backgroundColor = Theme.PrimaryColor
+            for v in (sectionLove?.subviews)!
+            {
+                if (v.isKindOfClass(UILabel.classForCoder()))
+                {
+                    let l = v as! UILabel
+                    l.textColor = UIColor.whiteColor()
+                } else
+                {
+                    (v as! UIView).backgroundColor = UIColor.whiteColor()
+                }
+            }
+        } else
+        {
+            sectionLove?.backgroundColor = UIColor.whiteColor()
+            for v in (sectionLove?.subviews)!
+            {
+                if (v.isKindOfClass(UILabel.classForCoder()))
+                {
+                    let l = v as! UILabel
+                    l.textColor = UIColor(hex: "#858585")
+                } else
+                {
+                    (v as! UIView).backgroundColor = UIColor(hex: "#858585")
+                }
+            }
+        }
     }
     
     func share()
@@ -394,7 +514,7 @@ class ProductCellSeller : UITableViewCell
         }
         var product = (obj?.json)!["_data"]
         
-        captionSellerName?.text = product["shop_name"].string!
+        captionSellerName?.text = product["seller"]["fullname"].string!
         ivSellerAvatar?.setImageWithUrl((obj?.shopAvatarURL)!, placeHolderImage: nil)
     }
     
@@ -491,7 +611,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 let name = d["name"].string!
                 let p = [
                     "category_name":name,
-                    "category_id":d["id"].string!,
+                    "category_id":d["_id"].string!,
                     "range":NSStringFromRange(NSMakeRange(categoryString.length(), name.length())),
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
@@ -556,7 +676,7 @@ class ProductCellDiscussion : UITableViewCell
         
         captionDate?.text = json["time"].string!
         captionMessage?.text = obj?.message
-        captionName?.text = json["user_name"].string!
+        captionName?.text = json["sender_username"].string!
         ivCover?.setImageWithUrl((obj?.posterImageURL)!, placeHolderImage: nil)
     }
 }

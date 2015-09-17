@@ -118,7 +118,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
-        request(APIUser.Register(fullname: name!, email: email!, password: password!))
+        request(APIAuth.Register(fullname: name!, email: email!, password: password!))
             .responseJSON
             {_, _, json, err in
                 if (err != nil) { // Terdapat error
@@ -143,7 +143,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         c.fullname = data["fullname"].string!
                         
                         let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                        let pr = data["profiles"]
+                        let pr = data["profile"]
                         p.pict = pr["pict"].string!
                         
                         c.profiles = p

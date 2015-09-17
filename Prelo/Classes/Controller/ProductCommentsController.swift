@@ -16,6 +16,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     @IBOutlet var conHeightTxtMessage : NSLayoutConstraint!
     @IBOutlet var conMarginBottomSectionInput : NSLayoutConstraint!
     @IBOutlet var btnSend : UIButton!
+    @IBOutlet var loading: UIActivityIndicatorView!
+    
+    var pDetail : ProductDetail!
     
     var growHandler : GrowingTextViewHandler?
     
@@ -23,6 +26,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     var myComment : Set<Int> = [1, 2]
     
     var texts : Array<String> = ["wakaka"]
+    
+    var comments : [ProductDiscussion] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +39,12 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.delegate = self
         btnSend.addTarget(self, action: "send", forControlEvents: UIControlEvents.TouchUpInside)
         
+        tableView.tableFooterView = UIView()
+        
         growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
         growHandler?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        
+        getComments()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -59,6 +68,65 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         
         self.an_unsubscribeKeyboard()
     }
+    
+    var sellerId : String = ""
+    func getComments()
+    {
+        request(Products.GetComment(productID: pDetail.productID)).responseJSON{ req, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                let json = JSON(res!)
+                if let id = json["_data"]["seller_id"].string
+                {
+                    self.sellerId = id
+                    if let arr = json["_data"]["comments"].array
+                    {
+                        if (arr.count > 0)
+                        {
+                            for i in 0...arr.count-1
+                            {
+                                let comment = ProductDiscussion.instance(arr[i])
+                                self.comments.append(comment!)
+                            }
+                        }
+                    }
+                }
+                self.tableView.reloadData()
+            } else
+            {
+                
+            }
+        }
+    }
+    
+    @IBAction func send()
+    {
+        let m = txtMessage.text
+        if (m == "")
+        {
+            return
+        }
+        
+        self.btnSend.hidden = true
+        
+        txtMessage.resignFirstResponder()
+        txtMessage.editable = false
+        
+        request(Products.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                self.txtMessage.text = ""
+                self.growHandler?.setText(self.txtMessage.text, withAnimation: true)
+                self.txtMessage.editable = true
+                self.btnSend.hidden = false
+                self.getComments()
+            } else
+            {
+                self.txtMessage.editable = true
+                self.btnSend.hidden = false
+            }
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,30 +138,28 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     }
     
     func textViewDidChange(textView: UITextView) {
+//        if (textView.text == "")
+//        {
+//            btnSend.enabled = false
+//        } else
+//        {
+//            btnSend.enabled = true
+//        }
         growHandler?.resizeTextViewWithAnimation(true)
     }
     
-    @IBAction func send()
-    {
-        txtMessage.text = ""
-        growHandler?.setText(txtMessage.text, withAnimation: true)
-        
-        myComment.insert(total)
-        total++
-        tableView.reloadData()
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return total
+        return comments.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let i = myComment.contains(indexPath.row) ? "cell2" : "cell1"
+        let comment = comments[indexPath.row]
+        let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
         let c = tableView.dequeueReusableCellWithIdentifier(i) as! ProductCellDiscussion
         
-        c.captionMessage?.text = texts.objectAtCircleIndex(indexPath.row)
-        c.captionName?.text = "Vito Scaletta"
-        c.captionDate?.text = "2 Abad Lalu"
+        c.captionMessage?.text = comment.message
+        c.captionName?.text = comment.name
+        c.captionDate?.text = comment.timestamp
         
         return c
     }

@@ -138,40 +138,33 @@ public class ProductDetail : NSObject
     var displayPicturers : Array<String>
     {
         let ori : Array<String> = json["_data"]["display_picts"].arrayObject as! Array<String>
-        var arr : Array<String> = []
-        for name in ori
-        {
-            let url = urlForDisplayPicture(name, productID: productID)
-            arr.append(url)
-        }
-        return arr
+        return ori
+//        var arr : Array<String> = []
+//        for name in ori
+//        {
+//            let url = urlForDisplayPicture(name, productID: productID)
+//            arr.append(url)
+//        }
+//        return arr
     }
     
     var shopAvatarURL : NSURL?
     {
-        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
-        return NSURL(string: base)
-//        if let p = json["_data"]["seller"]["pict"].string
-//        {
-//            return NSURL(string : p)
-//        }
-//        return NSURL(string: "http://prelo.id/eweuh-gambar")
+//        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
+//        return NSURL(string: base)
+        if let p = json["_data"]["seller"]["pict"].string
+        {
+            return NSURL(string : p)
+        }
+        return NSURL(string: "http://prelo.id/eweuh-gambar")
     }
     
     var discussionCountText : String
     {
-//        if let num_comment = json["_data"]["num_comment"].int
-//        {
-//            return String(num_comment)
-//        }
-//        let a = json["_data"]["discussions"].array
-//        if (a?.count == 0) {
-//            return "0"
-//        } else {
-//            let f = a?.objectAtCircleIndex(0)
-//            let d = f?["discussions"].array
-//            return String((d?.count)!)
-//        }
+        if let num_comment = json["_data"]["num_comment"].int
+        {
+            return String(num_comment)
+        }
         let a = json["_data"]["discussions"].array
         if (a?.count == 0) {
             return "0"
@@ -180,16 +173,40 @@ public class ProductDetail : NSObject
             let d = f?["discussions"].array
             return String((d?.count)!)
         }
+//        let a = json["_data"]["discussions"].array
+//        if (a?.count == 0) {
+//            return "0"
+//        } else {
+//            let f = a?.objectAtCircleIndex(0)
+//            let d = f?["discussions"].array
+//            return String((d?.count)!)
+//        }
     }
     
     var discussions : Array<ProductDiscussion>?
         {
-//            let a = json["_data"]["comments"].array
+            let a = json["_data"]["comments"].array
+            if (a?.count == 0) {
+                return []
+            } else {
+                let f = a?.objectAtCircleIndex(0)
+//                let d = f?["comments"].array
+                var r : Array<ProductDiscussion> = []
+                
+                for i in 0...(a?.count)!-1
+                {
+                    let j = a?[i]
+                    let dx = ProductDiscussion.instance(j)
+                    r.append(dx!)
+                }
+                
+                return r
+//            let a = json["_data"]["discussions"].array
 //            if (a?.count == 0) {
 //                return []
 //            } else {
 //                let f = a?.objectAtCircleIndex(0)
-//                let d = f?["comments"].array
+//                let d = f?["discussions"].array
 //                var r : Array<ProductDiscussion> = []
 //                
 //                for i in 0...(d?.count)!-1
@@ -200,22 +217,6 @@ public class ProductDetail : NSObject
 //                }
 //                
 //                return r
-            let a = json["_data"]["discussions"].array
-            if (a?.count == 0) {
-                return []
-            } else {
-                let f = a?.objectAtCircleIndex(0)
-                let d = f?["discussions"].array
-                var r : Array<ProductDiscussion> = []
-                
-                for i in 0...(d?.count)!-1
-                {
-                    let j = d?[i]
-                    let dx = ProductDiscussion.instance(j)
-                    r.append(dx!)
-                }
-                
-                return r
             }
     }
 }
@@ -246,8 +247,8 @@ public class Product : NSObject
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
-        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
-//        let base = "" + json["display_picts"][0].string!
+//        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
+        let base = "" + json["display_picts"][0].string!
         if let url = NSURL(string : base)
         {
             return url
@@ -259,17 +260,17 @@ public class Product : NSObject
     
     var discussionCountText : String
         {
-            if let d = json["discussions"].int
+            if let d = json["comments"].int
             {
                 return String(d)
             }
             
-            let a = json["discussions"].array
+            let a = json["comments"].array
             if (a?.count == 0) {
                 return "0"
             } else {
                 let f = a?.objectAtCircleIndex(0)
-                let d = f?["discussions"].array
+                let d = f?["comments"].array
                 return String((d?.count)!)
             }
     }
@@ -285,12 +286,12 @@ public class Product : NSObject
     
     var discussions : [JSON]?
         {
-            let a = json["discussions"].array
+            let a = json["comments"].array
             if (a?.count == 0) {
                 return []
             } else {
                 let f = a?.objectAtCircleIndex(0)
-                let d = f?["discussions"].array
+                let d = f?["comments"].array
                 return d
             }
     }
@@ -330,17 +331,56 @@ class ProductDiscussion : NSObject
         }
     }
     
+    var name : String
+    {
+        if let n = json["sender_username"].string
+        {
+            return n
+        } else
+        {
+            return ""
+        }
+    }
+    
     var message : String
     {
-        let m = (json["message"].string)!.escapedHTML
+        let m = (json["comment"].string)!.escapedHTML
         return m
     }
     
     var posterImageURL : NSURL?
     {
-        let filename = (json["user_pict"].string!).stringByReplacingOccurrencesOfString("..\\", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        let base = DAO.UserPhotoStringURL(filename, userID: json["user_id"].string!)
-        return NSURL(string: base)
+        return NSURL(string: json["sender_pict"].string!)
+    }
+    
+    var date : NSDate?
+    var formatter : NSDateFormatter?
+    var timestamp : String
+    {
+        if (date == nil)
+        {
+            if let s = json["time"].string
+            {
+                formatter = NSDateFormatter()
+                formatter?.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                date = formatter?.dateFromString(s)
+            }
+        }
+        
+        formatter?.dateFormat = "eee"
+        
+        return (formatter?.stringFromDate(date!))!
+    }
+    
+    func isSeller(compareId : String) -> Bool
+    {
+        if let id = json["_id"].string
+        {
+            return compareId == id
+        } else
+        {
+            return false
+        }
     }
 }
 

@@ -38,8 +38,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var controllerLogin : LoginViewController?
     @IBOutlet var controllerContactPrelo : BaseViewController?
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let v = UIView()
@@ -77,6 +83,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
     }
     
     override func viewDidAppear(animated: Bool) {
