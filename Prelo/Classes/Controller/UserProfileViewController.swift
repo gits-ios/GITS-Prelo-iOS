@@ -334,7 +334,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBAction func simpanDataPressed(sender: UIButton) {
         if (fieldsVerified()) {
-            btnSimpanData.enabled = false
+            Constant.showDialog("Warning", message: "Fitur ini belum terimplementasi")
+            /*btnSimpanData.enabled = false
             
             var dataRep = UIImageJPEGRepresentation(btnUserImage.imageView!.image, 1)
             
@@ -391,7 +392,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         Constant.showDialog("Warning", message: err.description)
                         self.btnSimpanData.enabled = true
                     }
-            })
+            })*/
         }
     }
     
