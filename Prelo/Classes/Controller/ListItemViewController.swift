@@ -22,6 +22,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
     
+    var searchMode = false
+    var searchKey = ""
+    var searchBrand = false
+    var searchBrandId = ""
+    
     var refresher : UIRefreshControl?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,26 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Do any additional setup after loading the view.
         if (standalone) {
             self.titleText = standaloneCategoryName
+        } else
+        {
+            if let name = category?["name"].string
+            {
+                self.title = name
+            }
         }
+        
+        if (searchMode)
+        {
+            if (searchBrand)
+            {
+                self.title = searchKey
+            } else
+            {
+                self.title = "\"" + searchKey + "\""
+            }
+        }
+        
+        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ _, _, _, _ in }
         
         refresher = UIRefreshControl()
         refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -38,6 +62,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
         gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
         
@@ -60,6 +86,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func refresh()
     {
+        if (searchMode)
+        {
+            return
+        }
         requesting = true
         
         var catId : String?
@@ -106,6 +136,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var done = false
     func getProducts()
     {
+        if (searchMode)
+        {
+            self.searchProduct()
+            return
+        }
+        
         if (category == nil && standalone == false) {
             return
         }
@@ -126,28 +162,49 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.requesting = false
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
-                    var obj = JSON(res!)
-                    println(obj)
-                    if let arr = obj["_data"].array
-                    {
-                        if arr.count == 0
-                        {
-                            self.done = true
-                        } else
-                        {
-                            for (index : String, item : JSON) in obj["_data"]
-                            {
-                                let p = Product.instance(item)
-                                if (p != nil) {
-                                    self.products?.append(p!)
-                                }
-                            }
-                        }
-                    }
+                    self.setupData(res)
                 } else {
                     
                 }
                 self.setupGrid()
+        }
+    }
+    
+    func searchProduct()
+    {
+        requesting = true
+        
+        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+            self.requesting = false
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                self.setupData(res)
+            } else {
+                
+            }
+            self.setupGrid()
+        }
+    }
+    
+    func setupData(res : AnyObject?)
+    {
+        var obj = JSON(res!)
+        println(obj)
+        if let arr = obj["_data"].array
+        {
+            if arr.count == 0
+            {
+                self.done = true
+            } else
+            {
+                for (index : String, item : JSON) in obj["_data"]
+                {
+                    let p = Product.instance(item)
+                    if (p != nil) {
+                        self.products?.append(p!)
+                    }
+                }
+            }
         }
     }
     

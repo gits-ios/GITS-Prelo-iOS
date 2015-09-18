@@ -61,6 +61,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(animated: Bool) {
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
             getDetail()
         }
@@ -340,6 +341,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         sectionComment?.layer.borderWidth = 1
         sectionComment?.layer.cornerRadius = 2
         sectionComment?.layer.masksToBounds = true
+        
+        let tapcomment = UITapGestureRecognizer(target: self, action: "comment")
+        sectionComment?.addGestureRecognizer(tapcomment)
     }
     
     func userLoggedIn() {
@@ -356,6 +360,11 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func userLoggedOut() {
         
+    }
+    
+    func comment()
+    {
+        self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
     }
     
     var isLoved = false

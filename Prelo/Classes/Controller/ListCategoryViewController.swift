@@ -74,6 +74,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
             }
         }
         
+        if let name = categories!["_data"][0]["name"].string
+        {
+            tabs.insertObject(name.uppercaseString, atIndex: 0)
+        }
+        
         tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: tabs as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         
@@ -100,11 +105,16 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate {
     {
         let v:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
         
-        let i = Int(index)
+        var i = Int(index)
         
-        let arr = categories!["_data"][0]["children"]
-        
-        v.category = arr[i]
+        if (i == 0)
+        {
+            v.category = categories!["_data"][0]
+        } else {
+            i = i-1
+            let arr = categories!["_data"][0]["children"]
+            v.category = arr[i]
+        }
         
         return v
     }

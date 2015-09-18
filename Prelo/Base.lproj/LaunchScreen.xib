@@ -11,11 +11,11 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="Default-Landscape.png" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Default-Portrait-2048h.png" translatesAutoresizingMaskIntoConstraints="NO" id="yXt-hQ-iR0">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.20021253794404795" green="0.65521153806710819" blue="0.61660366160062341" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="yXt-hQ-iR0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2hW-9Y-9or"/>
                 <constraint firstAttribute="trailing" secondItem="yXt-hQ-iR0" secondAttribute="trailing" id="LZf-mI-scE"/>
@@ -28,6 +28,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Default-Landscape.png" width="1024" height="768"/>
+        <image name="Default-Portrait-2048h.png" width="1536" height="2048"/>
     </resources>
 </document>

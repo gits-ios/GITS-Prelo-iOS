@@ -638,3 +638,45 @@ class UserOrder : NSObject {
     }
     
 }
+
+class SearchUser : NSObject
+{
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> SearchUser? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = SearchUser()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var fullname : String
+    {
+        if let name = json?["fullname"].string
+        {
+            return name
+        }
+        return ""
+    }
+    
+    var id : String
+    {
+        if let name = json?["_id"].string
+        {
+            return name
+        }
+        return ""
+    }
+    
+    var pict : String
+        {
+            if let name = json?["profile"]["pict"].string
+            {
+                return name
+            }
+            return ""
+    }
+}
