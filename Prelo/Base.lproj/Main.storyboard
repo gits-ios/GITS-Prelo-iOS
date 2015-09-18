@@ -4579,7 +4579,7 @@ Keuntungan</string>
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpI-gQ-l0K">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xpI-gQ-l0K">
                                                 <rect key="frame" x="0.0" y="214" width="600" height="128"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0u9-qf-Cst">

@@ -32,6 +32,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         t.borderStyle = UITextBorderStyle.None
         t.placeholder = "Cari"
         t.clearButtonMode = UITextFieldViewMode.Always
+        t.returnKeyType = UIReturnKeyType.Done
         
         tableView.registerNib(UINib(nibName: "SearchResultHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "head")
         
@@ -81,6 +82,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                                     searchTag.x = 0
                                     searchTag.y = 0
                                 }
+                                let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+                                searchTag.addGestureRecognizer(tap)
+                                searchTag.userInteractionEnabled = true
+                                searchTag.captionTitle.userInteractionEnabled = true
                                 self.sectionTopSearch.addSubview(searchTag)
                                 lastView = searchTag
                             }
@@ -154,6 +159,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if (string == "\n")
+        {
+            textField.resignFirstResponder()
+            return false
+        }
         var stringx = textField.text as NSString
         
         stringx = stringx.stringByReplacingCharactersInRange(range, withString: string)
@@ -169,6 +179,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         find(keyword)
         
         return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+//        l.searchMode = true
+//        l.searchKey = currentKeyword
+//        self.navigationController?.pushViewController(l, animated: true)
+        return false
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
@@ -311,6 +329,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 self.navigationController?.pushViewController(d, animated: true)
             }
         }
+    }
+    
+    func searchTopKey(sender : UITapGestureRecognizer)
+    {
+        let searchTag = sender.view as! SearchTag
+        txtSearch.text = searchTag.captionTitle.text
+        scrollView.hidden = true
+        find(searchTag.captionTitle.text!)
     }
     
     var itemRequest : Request?
