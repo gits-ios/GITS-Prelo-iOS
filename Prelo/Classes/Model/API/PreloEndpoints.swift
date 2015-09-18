@@ -97,12 +97,14 @@ enum APITransaction : URLRequestConvertible
     static let basePath = "transaction_product/"
     
     case Purchases(status : String, current : String, limit : String)
+    case TransactionDetail(id : String)
     
     var method : Method
     {
         switch self
         {
         case .Purchases(_, _, _) : return .GET
+        case .TransactionDetail(_) : return .GET
         }
     }
     
@@ -111,6 +113,7 @@ enum APITransaction : URLRequestConvertible
         switch self
         {
         case .Purchases(_, _, _) : return "buys"
+        case .TransactionDetail(let id) : return id
         }
     }
     
@@ -125,6 +128,8 @@ enum APITransaction : URLRequestConvertible
                 "limit" : limit
             ]
             return p
+        case .TransactionDetail(_) :
+            return [:]
         }
     }
     

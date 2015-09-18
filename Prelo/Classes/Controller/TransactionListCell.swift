@@ -24,11 +24,22 @@ class TransactionListCell : UITableViewCell {
         lblPrice.text = "Rp " + userPurchase.productPrice.string
         lblCommentCount.text = userPurchase.productCommentCount.string
         lblLoveCount.text = userPurchase.productLoveCount.string
-        lblOrderStatus.text = userPurchase.progressText
+        lblOrderStatus.text = userPurchase.progressText.uppercaseString
         lblOrderTime.text = userPurchase.time
         
+        // Fix order status text width
         let sizeThatShouldFitTheContent = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
         //println("size untuk '\(lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
+        
+        // Fix order status text color
+        let orderStatusText = userPurchase.progressText
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+            lblOrderStatus.textColor = Theme.PrimaryColor
+        } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
+            lblOrderStatus.textColor == UIColor.redColor()
+        } else {
+            lblOrderStatus.textColor == Theme.ThemeOrange
+        }
     }
 }

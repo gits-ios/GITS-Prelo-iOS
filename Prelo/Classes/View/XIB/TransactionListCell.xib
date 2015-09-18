@@ -51,7 +51,7 @@
                             <constraint firstAttribute="height" constant="17" id="jRA-U2-qFW"/>
                             <constraint firstAttribute="height" constant="17" id="pD5-bG-i7l"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
@@ -89,8 +89,8 @@
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="hZk-xM-nJQ"/>
                                 <exclude reference="eCe-0m-u1i"/>
+                                <exclude reference="hZk-xM-nJQ"/>
                             </mask>
                         </variation>
                     </label>
@@ -105,9 +105,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRZ-Ox-QUR">
-                        <rect key="frame" x="89" y="38" width="25" height="17"/>
+                        <rect key="frame" x="89" y="38" width="19" height="17"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="GVw-wR-rlV"/>
+                            <constraint firstAttribute="width" constant="19" id="GVw-wR-rlV"/>
                             <constraint firstAttribute="height" constant="17" id="wUd-SM-pgQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
@@ -115,7 +115,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfw-u6-kXn">
-                        <rect key="frame" x="122" y="38" width="17" height="17"/>
+                        <rect key="frame" x="110" y="38" width="17" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="17" id="4Lq-qn-LNy"/>
                             <constraint firstAttribute="height" constant="17" id="7Wc-Fv-Tfe"/>
@@ -125,9 +125,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpf-vw-eOK">
-                        <rect key="frame" x="139" y="38" width="25" height="17"/>
+                        <rect key="frame" x="127" y="38" width="19" height="17"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="cB2-0j-jmR"/>
+                            <constraint firstAttribute="width" constant="19" id="cB2-0j-jmR"/>
                             <constraint firstAttribute="height" constant="17" id="g4O-c5-dHa"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
@@ -144,7 +144,7 @@
                     <constraint firstAttribute="trailing" secondItem="Gn2-Ga-4F8" secondAttribute="trailing" constant="8" id="PuE-CR-VBb"/>
                     <constraint firstItem="Pne-2o-Vea" firstAttribute="top" secondItem="lia-XW-Wgr" secondAttribute="bottom" constant="-2" id="Uno-Ia-rcI"/>
                     <constraint firstItem="kne-rr-5Pc" firstAttribute="leading" secondItem="S3H-5h-HB2" secondAttribute="leading" id="WhR-fG-0mc"/>
-                    <constraint firstItem="Yfw-u6-kXn" firstAttribute="leading" secondItem="bRZ-Ox-QUR" secondAttribute="trailing" constant="8" id="X9w-d5-iJB"/>
+                    <constraint firstItem="Yfw-u6-kXn" firstAttribute="leading" secondItem="bRZ-Ox-QUR" secondAttribute="trailing" constant="2" id="X9w-d5-iJB"/>
                     <constraint firstItem="bRZ-Ox-QUR" firstAttribute="leading" secondItem="Pne-2o-Vea" secondAttribute="trailing" id="bzb-A2-X8s"/>
                     <constraint firstItem="Gn2-Ga-4F8" firstAttribute="leading" secondItem="lia-XW-Wgr" secondAttribute="trailing" constant="8" id="eVL-Zh-HtF"/>
                     <constraint firstItem="bRZ-Ox-QUR" firstAttribute="top" secondItem="lia-XW-Wgr" secondAttribute="bottom" constant="-2" id="hMJ-ra-SF5"/>

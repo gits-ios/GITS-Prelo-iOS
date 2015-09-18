@@ -49,6 +49,12 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    
+    @IBAction func sellPressed(sender: AnyObject) {
+        let addProductVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
+        self.navigationController?.pushViewController(addProductVC, animated: true)
+    }
+    
     func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {
         if (index == 0) { // Diproses
             return purchaseProcessingVC

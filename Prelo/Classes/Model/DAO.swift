@@ -459,6 +459,136 @@ class UserPurchase: NSObject {
     }
 }
 
+class TransactionDetail : NSObject {
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> TransactionDetail? {
+        if (json == nil) {
+            return nil
+        } else {
+            let t = TransactionDetail()
+            t.json = json!
+            return t
+        }
+    }
+    
+    var id : String {
+        let i = (json["_id"].string)!
+        return i
+    }
+    
+    var productId : String {
+        let p = (json["product_id"].string)!
+        return p
+    }
+    
+    var sellerId : String {
+        let s = (json["seller_id"].string)!
+        return s
+    }
+    
+    var sellerName : String {
+        let s = (json["seller_name"].string)!
+        return s
+    }
+    
+    var progress : Int {
+        let p = (json["progress"].int)!
+        return p
+    }
+    
+    var progressText : String {
+        let p = (json["progress_text"].string)!
+        return p
+    }
+    
+    var productPrice : Int {
+        let p = (json["product_price"].int)!
+        return p
+    }
+    
+    var totalPrice : Int {
+        let t = (json["total_price"].int)!
+        return t
+    }
+    
+    var time : String {
+        let t = (json["time"].string)!
+        return t
+    }
+    
+    var productName : String {
+        let p = (json["product"]["name"].string)!
+        return p
+    }
+    
+    // Only take first image from json
+    var productImageURL : NSURL? {
+        if let err = json["product"]["display_picts"][0].error
+        {
+            return nil
+        }
+        let url = json["product"]["display_picts"][0].string!
+        return NSURL(string: url)
+    }
+    
+    var paymentMethod : String? {
+        if (json["payment_method"] != nil) {
+            return json["payment_method"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var paymentDate : String? {
+        if (json["payment_date"] != nil) {
+            return json["payment_date"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingName : String? {
+        if (json["shipping_name"] != nil) {
+            return json["shipping_name"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var resiNumber : String? {
+        if (json["resi_number"] != nil) {
+            return json["resi_number"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingDate : String? {
+        if (json["shipping_date"] != nil) {
+            return json["shipping_date"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var star : Int? {
+        if (json["review"]["star"] != nil) {
+            return json["review"]["star"].int
+        } else {
+            return nil
+        }
+    }
+    
+    var comment : String? {
+        if (json["review"]["comment"] != nil) {
+            return json["review"]["comment"].string
+        } else {
+            return nil
+        }
+    }
+}
+
 class UserOrder : NSObject {
     
     var json : JSON!
