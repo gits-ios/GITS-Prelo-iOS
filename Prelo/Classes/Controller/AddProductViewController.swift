@@ -726,14 +726,6 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             } else {
                 return CGFloat(AddProductCellWeight.StandardHeight)
             }
-            //            return (allowShowWeightInput == true) ? AddProductCellWeight.ExtendedHeight : AddProductCellWeight.StandardHeight
-            //            if (r == 0)
-            //            {
-            //                return 96
-            //            } else
-            //            {
-            //                return 44
-            //            }
         } else if (s == 20) {
             return 332
         } else {

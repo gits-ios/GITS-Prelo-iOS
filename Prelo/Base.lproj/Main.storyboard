@@ -3796,6 +3796,61 @@ Keuntungan</string>
             </objects>
             <point key="canvasLocation" x="3205" y="-1752"/>
         </scene>
+        <!--List Brand View Controller-->
+        <scene sceneID="jgf-jR-l5z">
+            <objects>
+                <viewController id="7lE-jW-UD2" customClass="ListBrandViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Fqj-AC-sf6"/>
+                        <viewControllerLayoutGuide type="bottom" id="fkJ-69-npK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U00-Sl-Nhz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dCD-bc-NH1">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" placeholder="Cari Merek" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chi-bI-Shf">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ukH-xB-bRX"/>
+                                </constraints>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="7lE-jW-UD2" id="Xvc-v5-lpY"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dCD-bc-NH1" firstAttribute="leading" secondItem="U00-Sl-Nhz" secondAttribute="leading" id="2gH-zB-iVR"/>
+                            <constraint firstItem="chi-bI-Shf" firstAttribute="top" secondItem="U00-Sl-Nhz" secondAttribute="top" id="AkX-zD-50G"/>
+                            <constraint firstItem="dCD-bc-NH1" firstAttribute="top" secondItem="U00-Sl-Nhz" secondAttribute="top" constant="44" id="TIF-dV-kQ9"/>
+                            <constraint firstItem="dCD-bc-NH1" firstAttribute="top" secondItem="chi-bI-Shf" secondAttribute="bottom" id="TnM-I6-ubB"/>
+                            <constraint firstItem="chi-bI-Shf" firstAttribute="leading" secondItem="U00-Sl-Nhz" secondAttribute="leading" id="hQq-9w-BV4"/>
+                            <constraint firstAttribute="trailing" secondItem="chi-bI-Shf" secondAttribute="trailing" id="lgb-mH-z28"/>
+                            <constraint firstAttribute="trailing" secondItem="dCD-bc-NH1" secondAttribute="trailing" id="roX-HM-ZGl"/>
+                            <constraint firstAttribute="bottom" secondItem="dCD-bc-NH1" secondAttribute="bottom" id="yGH-df-LoH"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TIF-dV-kQ9"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <connections>
+                        <outlet property="searchBar" destination="chi-bI-Shf" id="jgN-9b-k0C"/>
+                        <outlet property="tableView" destination="dCD-bc-NH1" id="fPd-TM-q6u"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AWo-hl-jax" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="256" y="-4630"/>
+        </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="Wcn-QA-ZZL">
             <objects>
@@ -4239,7 +4294,7 @@ Keuntungan</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ln7-Zm-kLs">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ln7-Zm-kLs">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -4302,7 +4357,7 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TgR-Xi-VLw" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TgR-Xi-VLw" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
                                                     <rect key="frame" x="500" y="12" width="92" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="92" id="3tU-ud-Q4K"/>
@@ -4444,20 +4499,33 @@ Keuntungan</string>
                                                             <constraint firstAttribute="height" constant="1" id="XCs-aC-zIk"/>
                                                         </constraints>
                                                     </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A3o-eQ-etY">
+                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                                        <state key="normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <segue destination="7lE-jW-UD2" kind="show" id="ffd-iW-SIc"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="A3o-eQ-etY" secondAttribute="bottom" id="19X-Dt-YKk"/>
                                                     <constraint firstAttribute="centerY" secondItem="EdP-jB-3bn" secondAttribute="centerY" id="4l2-YX-RV1"/>
                                                     <constraint firstItem="Kgi-vJ-gLl" firstAttribute="leading" secondItem="YnB-9M-Tht" secondAttribute="leading" id="DYw-yc-sms"/>
                                                     <constraint firstAttribute="bottom" secondItem="Kgi-vJ-gLl" secondAttribute="bottom" id="HlR-ra-2fe"/>
+                                                    <constraint firstItem="A3o-eQ-etY" firstAttribute="leading" secondItem="YnB-9M-Tht" secondAttribute="leading" id="Lur-Xa-XqO"/>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="QXt-NG-6iJ"/>
                                                     <constraint firstAttribute="centerY" secondItem="ocG-Cx-Z5p" secondAttribute="centerY" id="Uel-2f-vQ8"/>
                                                     <constraint firstAttribute="trailing" secondItem="Bk3-eX-h2g" secondAttribute="trailing" constant="8" id="XoU-wU-dny"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kgi-vJ-gLl" secondAttribute="trailing" id="ayu-z0-gQu"/>
                                                     <constraint firstAttribute="centerY" secondItem="Bk3-eX-h2g" secondAttribute="centerY" id="bRk-fy-GmK"/>
+                                                    <constraint firstItem="A3o-eQ-etY" firstAttribute="top" secondItem="YnB-9M-Tht" secondAttribute="top" id="iwf-Zi-9Yd"/>
                                                     <constraint firstItem="EdP-jB-3bn" firstAttribute="leading" secondItem="ocG-Cx-Z5p" secondAttribute="trailing" constant="8" id="qr6-om-6z1"/>
                                                     <constraint firstAttribute="height" constant="44" id="rU7-aY-6LH"/>
                                                     <constraint firstItem="ocG-Cx-Z5p" firstAttribute="leading" secondItem="YnB-9M-Tht" secondAttribute="leading" constant="8" id="smq-Pg-6g8"/>
+                                                    <constraint firstAttribute="trailing" secondItem="A3o-eQ-etY" secondAttribute="trailing" id="zZJ-cI-Yai"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Kk-0B-iYs">
@@ -4599,7 +4667,7 @@ Keuntungan</string>
                                     <constraint firstAttribute="trailing" secondItem="GwD-LC-9Pp" secondAttribute="trailing" id="sW9-EV-8F8"/>
                                 </constraints>
                             </scrollView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Cari di Prelo" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HHK-Sq-LhV">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Cari di Prelo" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="HHK-Sq-LhV">
                                 <rect key="frame" x="16" y="20" width="200" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -4607,12 +4675,16 @@ Keuntungan</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Ln7-Zm-kLs" secondAttribute="trailing" id="1fS-xg-vId"/>
                             <constraint firstItem="LSO-qb-eU0" firstAttribute="top" secondItem="f31-Je-4AJ" secondAttribute="top" id="FY5-YS-T3t"/>
+                            <constraint firstItem="T8W-db-YN9" firstAttribute="top" secondItem="Ln7-Zm-kLs" secondAttribute="bottom" id="MpG-Lv-CVp"/>
                             <constraint firstAttribute="trailing" secondItem="LSO-qb-eU0" secondAttribute="trailing" id="OzD-6N-pIS"/>
+                            <constraint firstItem="Ln7-Zm-kLs" firstAttribute="top" secondItem="f31-Je-4AJ" secondAttribute="top" id="SJv-ek-cZm"/>
                             <constraint firstItem="T8W-db-YN9" firstAttribute="top" secondItem="LSO-qb-eU0" secondAttribute="bottom" id="UPF-O8-DmV"/>
                             <constraint firstItem="GwD-LC-9Pp" firstAttribute="height" relation="greaterThanOrEqual" secondItem="f31-Je-4AJ" secondAttribute="height" id="cZS-2q-Edb"/>
                             <constraint firstItem="LSO-qb-eU0" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="iql-wf-d1x"/>
                             <constraint firstItem="GwD-LC-9Pp" firstAttribute="width" secondItem="f31-Je-4AJ" secondAttribute="width" id="ofK-jY-PLj"/>
+                            <constraint firstItem="Ln7-Zm-kLs" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="xLw-WR-uFD"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -5187,8 +5259,8 @@ Keuntungan</string>
                                                         <constraint firstAttribute="width" constant="52" id="eKt-dv-Yg9"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PR-Dc-zM3">
-                                                    <rect key="frame" x="68" y="23" width="524" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7PR-Dc-zM3">
+                                                    <rect key="frame" x="68" y="23" width="490" height="20"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.54117647058823526" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -5201,6 +5273,10 @@ Keuntungan</string>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="08x-o5-ORK">
                                                     <rect key="frame" x="566" y="30" width="26" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="26" id="Cci-Tc-QAt"/>
+                                                        <constraint firstAttribute="height" constant="26" id="NyH-3J-7cc"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="26"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -5218,11 +5294,13 @@ Keuntungan</string>
                                                 <constraint firstItem="whT-0a-OnI" firstAttribute="leading" secondItem="bD2-0u-qfZ" secondAttribute="leading" constant="8" id="bmH-QG-VzO"/>
                                                 <constraint firstAttribute="trailing" secondItem="whT-0a-OnI" secondAttribute="trailing" constant="8" id="i2v-ed-m7X"/>
                                                 <constraint firstAttribute="trailing" secondItem="08x-o5-ORK" secondAttribute="trailing" constant="8" id="m7T-mA-Snj"/>
+                                                <constraint firstItem="08x-o5-ORK" firstAttribute="leading" secondItem="7PR-Dc-zM3" secondAttribute="trailing" constant="8" id="mBl-iO-r1M"/>
                                                 <constraint firstItem="3BA-Fb-z50" firstAttribute="top" secondItem="7PR-Dc-zM3" secondAttribute="bottom" constant="4" id="oiK-Oz-0Wn"/>
                                                 <constraint firstItem="UxQ-ZC-DCy" firstAttribute="top" secondItem="bD2-0u-qfZ" secondAttribute="top" constant="16" id="qI2-eJ-QMv"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="4Da-3U-HlG"/>
                                                     <exclude reference="VJW-s9-GUj"/>
                                                 </mask>
                                             </variation>

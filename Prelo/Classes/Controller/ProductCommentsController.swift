@@ -75,6 +75,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         request(Products.GetComment(productID: pDetail.productID)).responseJSON{ req, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
+                self.comments = []
+                self.tableView.reloadData()
                 let json = JSON(res!)
                 if let id = json["_data"]["seller_id"].string
                 {

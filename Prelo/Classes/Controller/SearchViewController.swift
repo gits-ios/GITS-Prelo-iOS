@@ -31,6 +31,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         t.textColor = Theme.PrimaryColorDark
         t.borderStyle = UITextBorderStyle.None
         t.placeholder = "Cari"
+        t.clearButtonMode = UITextFieldViewMode.Always
+        
+        tableView.registerNib(UINib(nibName: "SearchResultHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "head")
         
         txtSearch = t
         
@@ -168,13 +171,69 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         return true
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        scrollView.hidden = false
+        return true
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0)
         {
-            return "PRODUK"
+            if (foundItems.count > 0)
+            {
+                return 32
+            } else
+            {
+                return 0
+            }
         } else
         {
-            return "USER"
+            if (foundUsers.count > 0)
+            {
+                return 32
+            } else
+            {
+                return 0
+            }
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let arr:[AnyObject] = (section == 0) ? foundItems : foundUsers
+        if (arr.count > 0)
+        {
+            let s = tableView.dequeueReusableHeaderFooterViewWithIdentifier("head") as! SearchResultHeader
+            let t = titleForSection(section)
+            let ss = titleForSection(section)
+            s.captionName.text = ss[1]
+            s.captionIcon.text = ss[0]
+            return s
+        } else
+        {
+            return nil
+        }
+    }
+    
+    func titleForSection(section : Int) -> [String]
+    {
+        if (section == 0)
+        {
+            if (foundItems.count > 0)
+            {
+                return ["","PRODUK"]
+            } else
+            {
+                return ["", ""]
+            }
+        } else
+        {
+            if (foundUsers.count > 0)
+            {
+                return ["","PENGGUNA"]
+            } else
+            {
+                return ["", ""]
+            }
         }
     }
     
@@ -185,16 +244,27 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0)
         {
-            return foundItems.count
+            return foundItems.count+((foundItems.count == 5) ? 1 : 0)
         } else
         {
-            return foundUsers.count
+            return foundUsers.count+((foundUsers.count == 5) ? 1 : 0)
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if (indexPath.section == 0)
         {
+            if (indexPath.row == foundItems.count)
+            {
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                if (c == nil)
+                {
+                    c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
+                }
+                c?.textLabel?.text = "Lihat semua produk \"" + currentKeyword + "\""
+                return c!
+            }
+            
             let c = tableView.dequeueReusableCellWithIdentifier("item") as! SearchItemCell
             let p = foundItems[indexPath.row]
             c.captionName.text = p.name
@@ -206,6 +276,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             return c
         } else
         {
+            if (indexPath.row == foundUsers.count)
+            {
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                if (c == nil)
+                {
+                    c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
+                }
+                c?.textLabel?.text = "Lihat semua user \"" + currentKeyword + "\""
+                return c!
+            }
+            
             let c = tableView.dequeueReusableCellWithIdentifier("user") as! SearchUserCell
             let u = foundUsers[indexPath.row]
             c.captionName.text = u.fullname
@@ -214,9 +295,29 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.section == 0)
+        {
+            if (indexPath.row == foundItems.count)
+            {
+                let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                l.searchMode = true
+                l.searchKey = currentKeyword
+                self.navigationController?.pushViewController(l, animated: true)
+            } else
+            {
+                let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                d.product = foundItems[indexPath.row]
+                self.navigationController?.pushViewController(d, animated: true)
+            }
+        }
+    }
+    
     var itemRequest : Request?
+    var currentKeyword = ""
     func find(keyword : String)
     {
+        currentKeyword = keyword
         findItem(keyword)
         findUser(keyword)
     }
@@ -228,7 +329,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 5, priceMin: 0, priceMax: 999999999))
+        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
         
         itemRequest?.responseJSON { req, resp, res, err in
             if (APIPrelo.validate(false, err: err, resp: resp))
@@ -245,6 +346,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             if let product = p
                             {
                                 self.foundItems.append(product)
+                            }
+                            if (self.foundItems.count == 5)
+                            {
+                                break
                             }
                         }
                     }
@@ -281,6 +386,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             if let product = p
                             {
                                 self.foundUsers.append(product)
+                            }
+                            if (self.foundUsers.count == 5)
+                            {
+                                break
                             }
                         }
                     }
@@ -326,4 +435,10 @@ class SearchItemCell : UITableViewCell
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionPrice : UILabel!
     @IBOutlet var ivImage : UIImageView!
+}
+
+class SearchResultHeader : UITableViewHeaderFooterView
+{
+    @IBOutlet var captionIcon : UILabel!
+    @IBOutlet var captionName : UILabel!
 }

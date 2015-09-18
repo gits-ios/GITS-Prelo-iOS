@@ -457,6 +457,7 @@ enum APISearch : URLRequestConvertible
     case Find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case GetTopSearch(limit : String)
+    case InsertTopSearch(search : String)
     
     var method : Method
         {
@@ -466,6 +467,7 @@ enum APISearch : URLRequestConvertible
             case .ProductByCategory(_, _, _, _, _, _): return .GET
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
+            case .InsertTopSearch(_): return .GET
             }
     }
     
@@ -476,7 +478,8 @@ enum APISearch : URLRequestConvertible
             case .User(_) : return "users"
             case .ProductByCategory(_, _, _, _, _, _): return "products"
             case .GetTopSearch(_): return "top"
-                case .Find(_, _, _, _, _, _, _, _) : return "products"
+            case .Find(_, _, _, _, _, _, _, _) : return "products"
+            case .InsertTopSearch(_):return "top"
             }
     }
     
@@ -508,6 +511,7 @@ enum APISearch : URLRequestConvertible
                     "price_max":priceMax,
                     "prelo":"true"
                 ]
+            case .InsertTopSearch(let s):return ["name":s]
             }
     }
     

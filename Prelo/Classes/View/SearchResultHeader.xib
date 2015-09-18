@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="CRM-kW-Ilm" customClass="SearchResultHeader" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pX8-pE-XmG">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="32"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPo-69-din">
+                            <rect key="frame" x="8" y="7" width="17" height="17"/>
+                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQl-Zp-ghG">
+                            <rect key="frame" x="33" y="7" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="pPo-69-din" secondAttribute="centerY" id="6Al-M0-fF4"/>
+                        <constraint firstItem="pPo-69-din" firstAttribute="leading" secondItem="pX8-pE-XmG" secondAttribute="leading" constant="8" id="Gc5-jI-JkK"/>
+                        <constraint firstItem="yQl-Zp-ghG" firstAttribute="centerY" secondItem="pPo-69-din" secondAttribute="centerY" constant="2" id="d5c-fE-gS4"/>
+                        <constraint firstItem="yQl-Zp-ghG" firstAttribute="leading" secondItem="pPo-69-din" secondAttribute="trailing" constant="8" id="yZb-ci-Cke"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="pX8-pE-XmG" firstAttribute="top" secondItem="CRM-kW-Ilm" secondAttribute="top" id="7fD-SK-bCH"/>
+                <constraint firstAttribute="trailing" secondItem="pX8-pE-XmG" secondAttribute="trailing" id="TkW-K4-erB"/>
+                <constraint firstItem="pX8-pE-XmG" firstAttribute="leading" secondItem="CRM-kW-Ilm" secondAttribute="leading" id="qFo-xm-33c"/>
+                <constraint firstAttribute="bottom" secondItem="pX8-pE-XmG" secondAttribute="bottom" id="wsz-xA-xMW"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="captionIcon" destination="pPo-69-din" id="w2h-kA-HsR"/>
+                <outlet property="captionName" destination="yQl-Zp-ghG" id="mSO-XO-IYU"/>
+            </connections>
+            <point key="canvasLocation" x="229" y="371"/>
+        </view>
+    </objects>
+</document>
