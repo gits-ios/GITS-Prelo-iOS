@@ -20,7 +20,6 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         super.viewDidLoad()
         
         purchaseProcessingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseProcessing, owner: nil, options: nil).first as! MyPurchaseProcessingViewController
-        purchaseProcessingVC?.previousController = self
         
         purchaseCompletedVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseCompleted, owner: nil, options: nil).first as! MyPurchaseCompletedViewController
         

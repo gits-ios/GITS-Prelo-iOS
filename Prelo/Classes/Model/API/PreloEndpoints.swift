@@ -97,6 +97,7 @@ enum APITransaction : URLRequestConvertible
     static let basePath = "transaction_product/"
     
     case Purchases(status : String, current : String, limit : String)
+    case Sells(status : String, current : String, limit : String)
     case TransactionDetail(id : String)
     
     var method : Method
@@ -104,6 +105,7 @@ enum APITransaction : URLRequestConvertible
         switch self
         {
         case .Purchases(_, _, _) : return .GET
+        case .Sells(_, _, _) : return .GET
         case .TransactionDetail(_) : return .GET
         }
     }
@@ -113,6 +115,7 @@ enum APITransaction : URLRequestConvertible
         switch self
         {
         case .Purchases(_, _, _) : return "buys"
+        case .Sells(_, _, _) : return "sells"
         case .TransactionDetail(let id) : return id
         }
     }
@@ -122,6 +125,13 @@ enum APITransaction : URLRequestConvertible
         switch self
         {
         case .Purchases(let status, let current, let limit) :
+            let p = [
+                "status" : status,
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
+        case .Sells(let status, let current, let limit) :
             let p = [
                 "status" : status,
                 "current" : current,
@@ -376,6 +386,7 @@ enum Products : URLRequestConvertible
 {
     static let basePath = "product/"
     
+    case MyProducts(current : Int, limit : Int)
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case Detail(productId : String)
     case Add(name : String, desc : String, price : String, weight : String, category : String)
@@ -388,6 +399,7 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(_, _) : return .GET
         case .ListByCategory(_, _, _, _, _, _, _): return .GET
         case .Detail(_): return .GET
         case .Add(_, _, _, _, _) : return .POST
@@ -402,6 +414,7 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(_, _) : return ""
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
         case .Add(_, _, _, _, let category) : return ""
@@ -416,6 +429,12 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(let current, let limit) :
+            let p = [
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
         case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
             return [
                 "category":catId,

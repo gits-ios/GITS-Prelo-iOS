@@ -18,7 +18,7 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet weak var consWidthLblOrderStatus: NSLayoutConstraint!
     @IBOutlet weak var lblOrderTime: UILabel!
     
-    func adapt(userPurchase : UserPurchase) {
+    func adapt(userPurchase : UserTransaction) {
         imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         lblProductName.text = userPurchase.productName
         lblPrice.text = "Rp " + userPurchase.productPrice.string

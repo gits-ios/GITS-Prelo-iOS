@@ -1,20 +1,20 @@
 //
-//  MyPurchaseProcessingViewController.swift
+//  MyProductProcessingViewController.swift
 //  Prelo
 //
-//  Created by Fransiska on 9/14/15.
+//  Created by Fransiska on 9/21/15.
 //  Copyright (c) 2015 GITS Indonesia. All rights reserved.
 //
 
 import Foundation
 
-class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class MyProductProcessingViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView : UITableView!
     @IBOutlet var lblEmpty : UILabel!
-    @IBOutlet var loading: UIActivityIndicatorView!
+    @IBOutlet var loading : UIActivityIndicatorView!
     
-    var userPurchases : Array <UserTransaction>?
+    var userProducts : Array <UserTransaction>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +33,17 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Purchase - Processing")
+        Mixpanel.sharedInstance().track("My Product - Processing")
         
-        if (userPurchases?.count == 0 || userPurchases == nil) {
-            if (userPurchases == nil) {
-                userPurchases = []
+        if (userProducts?.count == 0 || userProducts == nil) {
+            if (userProducts == nil) {
+                userProducts = []
             }
-            getUserPurchases()
+            getUserProducts()
         } else {
             self.loading.stopAnimating()
             self.loading.hidden = true
-            if (self.userPurchases?.count <= 0) {
+            if (self.userProducts?.count <= 0) {
                 self.lblEmpty.hidden = false
             } else {
                 self.tableView.hidden = false
@@ -52,25 +52,25 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         }
     }
     
-    func getUserPurchases() {
-        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
+    func getUserProducts() {
+        request(APITransaction.Sells(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
             if (err != nil) { // Terdapat error
-                println("Error getting purchase data: \(err!.description)")
+                println("Error getting product data: \(err!.description)")
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
+                if (data == nil) { // Data kembalian kosong
                     let obj : [String : String] = res as! [String : String]
                     let message = obj["_message"]
-                    println("Empty purchase data, message: \(message)")
+                    println("Empty product data, message: \(message)")
                 } else { // Berhasil
-                    println("Purchase data: \(data)")
+                    println("Product data: \(data)")
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
                         let u = UserTransaction.instance(item)
                         if (u != nil) {
-                            self.userPurchases?.append(u!)
+                            self.userProducts?.append(u!)
                         }
                     }
                 }
@@ -78,7 +78,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
             
             self.loading.stopAnimating()
             self.loading.hidden = true
-            if (self.userPurchases?.count <= 0) {
+            if (self.userProducts?.count <= 0) {
                 self.lblEmpty.hidden = false
             } else {
                 self.tableView.hidden = false
@@ -97,8 +97,8 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (userPurchases?.count > 0) {
-            return (self.userPurchases?.count)!
+        if (userProducts?.count > 0) {
+            return (self.userProducts?.count)!
         } else {
             return 0
         }
@@ -106,15 +106,15 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
-        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-        let u = userPurchases?[indexPath.item]
-        cell.adapt(u!)
-        return cell
+            var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+            let u = userProducts?[indexPath.item]
+            cell.adapt(u!)
+            return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let purchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePurchaseDetail, owner: nil, options: nil).first as! PurchaseDetailViewController
-        purchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
+        purchaseDetailVC.transactionId = userProducts?[indexPath.item].id
         self.navigationController?.pushViewController(purchaseDetailVC, animated: true)
     }
     
@@ -122,4 +122,3 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         return 64
     }
 }
-

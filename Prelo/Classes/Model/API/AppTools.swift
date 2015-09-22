@@ -110,6 +110,8 @@ class Tags : NSObject
     static let XibNameMyPurchaseProcessing = "MyPurchaseProcessing"
     static let XibNameMyPurchaseCompleted = "MyPurchaseCompleted"
     static let XibNamePurchaseDetail = "PurchaseDetail"
+    static let XibNameMyProductProcessing = "MyProductProcessing"
+    static let XibNameMyProductCompleted = "MyProductCompleted"
 }
 
 class OrderStatus : NSObject

@@ -13,16 +13,21 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     var tabSwipe : CarbonTabSwipeNavigation?
     
     var productSell : BaseViewController?
+    var productProcessing : BaseViewController?
+    var productCompleted : BaseViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         productSell = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProductSell) as? BaseViewController
-        
         productSell?.previousController = self
         
+        productProcessing = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductProcessing, owner: nil, options: nil).first as! MyProductProcessingViewController
+        
+        productCompleted = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductCompleted, owner: nil, options: nil).first as! MyProductCompletedViewController
+        
         // Do any additional setup after loading the view.
-        tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: ["Produk", "Diproses", "Selesai"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: ["PRODUK", "DIPROSES", "SELESAI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
@@ -56,6 +61,14 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         if (index == 0)
         {
             return productSell
+        }
+        else if (index == 1)
+        {
+            return productProcessing
+        }
+        else if (index == 2)
+        {
+            return productCompleted
         }
         
         let v = UIViewController()

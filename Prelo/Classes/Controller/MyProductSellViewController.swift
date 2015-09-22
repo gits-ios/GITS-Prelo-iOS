@@ -11,13 +11,14 @@ import UIKit
 class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var tableView : UITableView!
-    var products : Array<Product> = []
+    var products : Array<MyProductItem> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        /* OLD API, TO BE DELETED
         request(APIUser.MyProductSell)
             .responseJSON{_, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))
@@ -39,6 +40,24 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     
                 }
+        }*/
+        request(Products.MyProducts(current: 0, limit: 999)).responseJSON {_, resp, res, err in
+            if (APIPrelo.validate(true, err : err, resp : resp)) {
+                if let result : AnyObject = res {
+                    let j = JSON(result)
+                    let d = j["_data"].arrayObject
+                    if let data = d {
+                        println("Product data: \(data)")
+                        for json in data {
+                            self.products.append(MyProductItem.instanceMyProduct(JSON(json))!)
+                            self.tableView.tableFooterView = UIView()
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+            } else {
+                
+            }
         }
         
         tableView.dataSource = self
@@ -63,9 +82,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         m.captionTotalLove.text = p.loveCountText
         m.captionDate.text = p.time
         
-        if let isActive = p.json["is_active"].bool
-        {
-            m.captionStatus.text = isActive ? "AKTIF" : "TIDAK AKTIF"
+        if (p.statusText == "Aktif") {
+            m.captionStatus.text = "AKTIF"
+        } else {
+            m.captionStatus.text = "TIDAK AKTIF"
         }
         
         m.ivCover.image = nil
@@ -81,7 +101,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         return 80
     }
     
-    var selectedProduct : Product?
+    var selectedProduct : MyProductItem?
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         selectedProduct = products[indexPath.row]

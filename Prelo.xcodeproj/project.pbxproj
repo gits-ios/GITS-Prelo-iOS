@@ -345,6 +345,8 @@
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44C15FC91BB1326400EFEEB5 /* MyProductCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C15FC81BB1326400EFEEB5 /* MyProductCompletedViewController.swift */; };
+		44C15FCB1BB134A800EFEEB5 /* MyProductCompleted.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C15FCA1BB134A800EFEEB5 /* MyProductCompleted.xib */; };
 		44C1EA5D1BAC30B600E9CBC1 /* ListBrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C1EA5C1BAC30B600E9CBC1 /* ListBrandViewController.swift */; };
 		44C1EA611BAC30D300E9CBC1 /* SearchResultHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C1EA5E1BAC30D300E9CBC1 /* SearchResultHeader.xib */; };
 		44C1EA621BAC30D300E9CBC1 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C1EA5F1BAC30D300E9CBC1 /* SearchTag.swift */; };
@@ -354,6 +356,8 @@
 		44C1EA691BAC313D00E9CBC1 /* Default-Portrait-2048h.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C1EA671BAC313D00E9CBC1 /* Default-Portrait-2048h.png */; };
 		44C279E91BAA9B77004E227F /* PurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C279E81BAA9B77004E227F /* PurchaseDetail.xib */; };
 		44C279EB1BAA9B85004E227F /* PurchaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C279EA1BAA9B85004E227F /* PurchaseDetailViewController.swift */; };
+		44CF0C171BAFCF07007C3FCD /* MyProductProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */; };
+		44CF0C191BAFCF73007C3FCD /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -808,6 +812,8 @@
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44C15FC81BB1326400EFEEB5 /* MyProductCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductCompletedViewController.swift; sourceTree = "<group>"; };
+		44C15FCA1BB134A800EFEEB5 /* MyProductCompleted.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductCompleted.xib; sourceTree = "<group>"; };
 		44C1EA5C1BAC30B600E9CBC1 /* ListBrandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController.swift; sourceTree = "<group>"; };
 		44C1EA5E1BAC30D300E9CBC1 /* SearchResultHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultHeader.xib; sourceTree = "<group>"; };
 		44C1EA5F1BAC30D300E9CBC1 /* SearchTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTag.swift; sourceTree = "<group>"; };
@@ -817,6 +823,8 @@
 		44C1EA671BAC313D00E9CBC1 /* Default-Portrait-2048h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait-2048h.png"; sourceTree = "<group>"; };
 		44C279E81BAA9B77004E227F /* PurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseDetail.xib; sourceTree = "<group>"; };
 		44C279EA1BAA9B85004E227F /* PurchaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseDetailViewController.swift; sourceTree = "<group>"; };
+		44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductProcessingViewController.swift; sourceTree = "<group>"; };
+		44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1351,6 +1359,8 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44C15FC81BB1326400EFEEB5 /* MyProductCompletedViewController.swift */,
+				44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */,
 				44C279EA1BAA9B85004E227F /* PurchaseDetailViewController.swift */,
 				21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */,
 				21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */,
@@ -1684,6 +1694,8 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				44C15FCA1BB134A800EFEEB5 /* MyProductCompleted.xib */,
+				44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */,
 				44C279E81BAA9B77004E227F /* PurchaseDetail.xib */,
 				21104ACB1BAA8F1200947E7F /* MyPurchase.xib */,
 				21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */,
@@ -1819,6 +1831,7 @@
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
+				44CF0C191BAFCF73007C3FCD /* MyProductProcessing.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
@@ -1836,6 +1849,7 @@
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44C1EA681BAC313D00E9CBC1 /* Default-Landscape@2x.png in Resources */,
+				44C15FCB1BB134A800EFEEB5 /* MyProductCompleted.xib in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
@@ -1964,6 +1978,7 @@
 				2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */,
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
 				2127A2AA1B7B338900469CFC /* ImageSupplier.swift in Sources */,
+				44CF0C171BAFCF07007C3FCD /* MyProductProcessingViewController.swift in Sources */,
 				211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
@@ -1986,6 +2001,7 @@
 				2141BBE01B54BE4C00787F5D /* SocketAnyEvent.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */,
+				44C15FC91BB1326400EFEEB5 /* MyProductCompletedViewController.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
 				21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,

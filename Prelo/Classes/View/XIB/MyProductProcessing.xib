@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="60s-i5-hMI" customClass="MyProductProcessingViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="Fv5-gi-Ffh"/>
+                <viewControllerLayoutGuide type="bottom" id="VxY-EH-PQN"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="9uV-lk-4NX">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RVS-qa-0kJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="60s-i5-hMI" id="sUS-Mc-E9d"/>
+                            <outlet property="delegate" destination="60s-i5-hMI" id="U1J-5J-Vvm"/>
+                        </connections>
+                    </tableView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="JBT-4l-DpH" userLabel="loading">
+                        <rect key="frame" x="290" y="20" width="20" height="20"/>
+                        <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </activityIndicatorView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tidak ada pembelian yang sedang diproses" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9e-53-Yh5">
+                        <rect key="frame" x="16" y="20" width="568" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="RVS-qa-0kJ" firstAttribute="leading" secondItem="9uV-lk-4NX" secondAttribute="leading" id="36w-7g-Bx1"/>
+                    <constraint firstItem="VxY-EH-PQN" firstAttribute="top" secondItem="RVS-qa-0kJ" secondAttribute="bottom" id="4Ki-A3-FXp"/>
+                    <constraint firstAttribute="centerX" secondItem="JBT-4l-DpH" secondAttribute="centerX" id="BSw-kh-aI9"/>
+                    <constraint firstItem="F9e-53-Yh5" firstAttribute="top" secondItem="Fv5-gi-Ffh" secondAttribute="bottom" constant="20" id="BnI-5I-ffQ"/>
+                    <constraint firstItem="JBT-4l-DpH" firstAttribute="top" secondItem="Fv5-gi-Ffh" secondAttribute="bottom" constant="20" id="POu-KO-Zk1"/>
+                    <constraint firstAttribute="trailing" secondItem="RVS-qa-0kJ" secondAttribute="trailing" id="QjK-Vb-040"/>
+                    <constraint firstItem="F9e-53-Yh5" firstAttribute="leading" secondItem="9uV-lk-4NX" secondAttribute="leadingMargin" id="bz6-21-4Ci"/>
+                    <constraint firstItem="RVS-qa-0kJ" firstAttribute="top" secondItem="Fv5-gi-Ffh" secondAttribute="bottom" id="gbb-1M-LJV"/>
+                    <constraint firstItem="F9e-53-Yh5" firstAttribute="trailing" secondItem="9uV-lk-4NX" secondAttribute="trailingMargin" id="pSt-8J-MHC"/>
+                    <constraint firstAttribute="centerX" secondItem="F9e-53-Yh5" secondAttribute="centerX" id="vZ5-Tw-UUM"/>
+                </constraints>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="600" height="600"/>
+            <connections>
+                <outlet property="lblEmpty" destination="F9e-53-Yh5" id="ee4-jg-q74"/>
+                <outlet property="loading" destination="JBT-4l-DpH" id="gKy-jq-7rY"/>
+                <outlet property="tableView" destination="RVS-qa-0kJ" id="cHd-Qm-tnW"/>
+            </connections>
+            <point key="canvasLocation" x="291" y="509"/>
+        </viewController>
+    </objects>
+</document>
