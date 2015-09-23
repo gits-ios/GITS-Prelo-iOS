@@ -294,6 +294,7 @@ enum APIUser : URLRequestConvertible
     case Me
     case OrderList(status : String)
     case MyProductSell
+    case MyLovelist
     case SetupAccount(gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     
@@ -307,6 +308,7 @@ enum APIUser : URLRequestConvertible
         case .Me:return .GET
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
+        case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         }
@@ -322,6 +324,7 @@ enum APIUser : URLRequestConvertible
         case .Me : return "profile"
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
+        case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         }
@@ -349,6 +352,7 @@ enum APIUser : URLRequestConvertible
                 "status":status
             ]
         case .MyProductSell:return [:]
+        case .MyLovelist : return [:]
         case .SetupAccount(let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
             return [
                 "gender":gender,

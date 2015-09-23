@@ -141,18 +141,22 @@ class MyProductDetailViewController : BaseViewController {
         lblKurirPengiriman.text = transactionDetail?.shippingName
         lblNoPengiriman.text = transactionDetail?.resiNumber
         lblTglPengiriman.text = transactionDetail?.shippingDate
-        lblReviewContent.text = transactionDetail?.comment
+        lblReviewContent.text = transactionDetail?.reviewComment
         
         // lblDescription
         lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(transactionDetail?.paymentDate). Ingatkan Buyer untuk segera membayar"
         // TODO: ganti jadi expiration date
         
-        // TODO: nama dan gambar reviewer
+        // Nama dan gambar reviewer
+        lblReviewerName.text = transactionDetail?.reviewerName
+        if (transactionDetail?.reviewerImageURL != nil) {
+            imgReviewer.setImageWithUrl((transactionDetail?.reviewerImageURL)!, placeHolderImage: nil)
+        }
         
         // Love
         var loveText = ""
         for (var i = 0; i < 5; i++) {
-            if (i < transactionDetail?.star) {
+            if (i < transactionDetail?.reviewStar) {
                 loveText += ""
             } else {
                 loveText += ""

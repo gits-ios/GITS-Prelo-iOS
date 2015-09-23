@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Prelo2.ttf">
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+            <string>Prelo2</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyLovelistCell" id="zUU-5o-Prj" customClass="MyLovelistCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zUU-5o-Prj" id="Yal-Xy-gQQ">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Huu-Zx-Rqo" userLabel="imgProduct">
+                        <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="64" id="Vqx-dZ-UEh"/>
+                            <constraint firstAttribute="height" constant="64" id="xPy-pP-Ruz"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Very Very Long Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iue-q2-Bwi">
+                        <rect key="frame" x="72" y="6" width="215" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="bLi-Vc-bJE"/>
+                            <constraint firstAttribute="height" constant="17" id="gfe-R9-26V"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="gfe-R9-26V"/>
+                            </mask>
+                        </variation>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp 99.999.999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qln-xW-jaq">
+                        <rect key="frame" x="72" y="23" width="158" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="5fN-yj-p7d"/>
+                            <constraint firstAttribute="height" constant="17" id="Cja-Xm-ran"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5fN-yj-p7d"/>
+                            </mask>
+                        </variation>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Yp-G7-3oL">
+                        <rect key="frame" x="72" y="38" width="17" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="17" id="2ei-i1-vVs"/>
+                            <constraint firstAttribute="height" constant="17" id="xPW-on-D9p"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMo-pe-K26">
+                        <rect key="frame" x="89" y="38" width="19" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="ZGi-Z6-h4S"/>
+                            <constraint firstAttribute="width" constant="19" id="fyX-ml-tfp"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hv-OD-aEg">
+                        <rect key="frame" x="110" y="38" width="17" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="17" id="3et-0W-t5i"/>
+                            <constraint firstAttribute="height" constant="17" id="drl-Hz-npi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K3D-IT-ceZ">
+                        <rect key="frame" x="127" y="38" width="19" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="hBU-pb-NEl"/>
+                            <constraint firstAttribute="width" constant="19" id="w6L-my-TgV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="11"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frh-5W-4LM">
+                        <rect key="frame" x="295" y="5" width="20" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="deL-iQ-VER"/>
+                            <constraint firstAttribute="width" constant="20" id="qKL-Qo-euO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="10"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="deletePressed:" destination="zUU-5o-Prj" eventType="touchUpInside" id="LOe-3D-tas"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nib-2W-U7b">
+                        <rect key="frame" x="238" y="31" width="74" height="24"/>
+                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="74" id="wjo-eh-MRa"/>
+                            <constraint firstAttribute="height" constant="24" id="xJ0-bs-yZz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="13"/>
+                        <state key="normal" title=" BELI">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="beliPressed:" destination="zUU-5o-Prj" eventType="touchUpInside" id="f1m-sD-91b"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="K3D-IT-ceZ" firstAttribute="leading" secondItem="1hv-OD-aEg" secondAttribute="trailing" id="CZt-Ab-91g"/>
+                    <constraint firstItem="nib-2W-U7b" firstAttribute="top" secondItem="frh-5W-4LM" secondAttribute="bottom" constant="9" id="Dbw-RL-6bh"/>
+                    <constraint firstItem="1hv-OD-aEg" firstAttribute="leading" secondItem="TMo-pe-K26" secondAttribute="trailing" constant="2" id="G4s-aG-aB7"/>
+                    <constraint firstItem="Iue-q2-Bwi" firstAttribute="leading" secondItem="Huu-Zx-Rqo" secondAttribute="trailing" constant="8" id="G5C-pp-dtV"/>
+                    <constraint firstItem="K3D-IT-ceZ" firstAttribute="top" secondItem="qln-xW-jaq" secondAttribute="bottom" constant="-2" id="Koh-HM-AWI"/>
+                    <constraint firstItem="Huu-Zx-Rqo" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="topMargin" constant="-8" id="Nrd-Is-1PL"/>
+                    <constraint firstItem="frh-5W-4LM" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="top" constant="5" id="OIS-7V-ltr"/>
+                    <constraint firstItem="7Yp-G7-3oL" firstAttribute="leading" secondItem="Huu-Zx-Rqo" secondAttribute="trailing" constant="8" id="OJ0-Ga-QbR"/>
+                    <constraint firstItem="Huu-Zx-Rqo" firstAttribute="leading" secondItem="Yal-Xy-gQQ" secondAttribute="leading" id="PiP-KT-c3B"/>
+                    <constraint firstItem="frh-5W-4LM" firstAttribute="leading" secondItem="Iue-q2-Bwi" secondAttribute="trailing" constant="8" id="Pib-Xt-6kn"/>
+                    <constraint firstItem="Huu-Zx-Rqo" firstAttribute="leading" secondItem="Yal-Xy-gQQ" secondAttribute="leadingMargin" constant="-8" id="R4R-09-DXK"/>
+                    <constraint firstItem="TMo-pe-K26" firstAttribute="top" secondItem="qln-xW-jaq" secondAttribute="bottom" constant="-2" id="RS3-W7-iWV"/>
+                    <constraint firstItem="nib-2W-U7b" firstAttribute="trailing" secondItem="Yal-Xy-gQQ" secondAttribute="trailingMargin" id="VOU-VV-UDl"/>
+                    <constraint firstAttribute="trailing" secondItem="nib-2W-U7b" secondAttribute="trailing" constant="8" id="WW3-rh-8qj"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="frh-5W-4LM" secondAttribute="trailing" constant="-3" id="bnc-39-XXl"/>
+                    <constraint firstAttribute="trailing" secondItem="frh-5W-4LM" secondAttribute="trailing" constant="5" id="daJ-M8-9lL"/>
+                    <constraint firstItem="qln-xW-jaq" firstAttribute="top" secondItem="Iue-q2-Bwi" secondAttribute="bottom" id="j65-kl-UzO"/>
+                    <constraint firstItem="7Yp-G7-3oL" firstAttribute="top" secondItem="qln-xW-jaq" secondAttribute="bottom" constant="-2" id="kN3-BY-w5R"/>
+                    <constraint firstItem="nib-2W-U7b" firstAttribute="leading" secondItem="qln-xW-jaq" secondAttribute="trailing" constant="8" id="lKf-rb-p8E"/>
+                    <constraint firstItem="frh-5W-4LM" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="topMargin" constant="-3" id="p0T-Xy-Ca2"/>
+                    <constraint firstItem="Iue-q2-Bwi" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="top" constant="6" id="qGk-KH-ly1"/>
+                    <constraint firstItem="qln-xW-jaq" firstAttribute="leading" secondItem="Huu-Zx-Rqo" secondAttribute="trailing" constant="8" id="r0w-f2-z5l"/>
+                    <constraint firstItem="1hv-OD-aEg" firstAttribute="top" secondItem="qln-xW-jaq" secondAttribute="bottom" constant="-2" id="soI-XI-YWn"/>
+                    <constraint firstItem="TMo-pe-K26" firstAttribute="leading" secondItem="7Yp-G7-3oL" secondAttribute="trailing" id="tWF-Nr-hSO"/>
+                    <constraint firstItem="Huu-Zx-Rqo" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="top" id="vHw-SE-Ard"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Nrd-Is-1PL"/>
+                        <exclude reference="R4R-09-DXK"/>
+                        <exclude reference="VOU-VV-UDl"/>
+                        <exclude reference="bnc-39-XXl"/>
+                        <exclude reference="p0T-Xy-Ca2"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imgProduct" destination="Huu-Zx-Rqo" id="4hc-Mc-kPC"/>
+                <outlet property="lblCommentCount" destination="TMo-pe-K26" id="zcx-bp-4zX"/>
+                <outlet property="lblLoveCount" destination="K3D-IT-ceZ" id="aIt-Qo-h1l"/>
+                <outlet property="lblPrice" destination="qln-xW-jaq" id="ch5-AN-fI0"/>
+                <outlet property="lblProductName" destination="Iue-q2-Bwi" id="f0h-va-Di4"/>
+            </connections>
+            <point key="canvasLocation" x="279" y="355"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="raisa.jpg" width="152" height="152"/>
+    </resources>
+</document>

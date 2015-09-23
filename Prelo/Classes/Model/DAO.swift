@@ -622,7 +622,24 @@ class TransactionDetail : NSObject {
         }
     }
     
-    var star : Int? {
+    var reviewerName : String? {
+        if (json["review"]["buyer_fullname"] != nil) {
+            return json["review"]["buyer_fullname"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var reviewerImageURL : NSURL? {
+        if let err = json["review"]["buyer_pict"].error
+        {
+            return nil
+        }
+        let url = json["review"]["buyer_pict"].string!
+        return NSURL(string: url)
+    }
+    
+    var reviewStar : Int? {
         if (json["review"]["star"] != nil) {
             return json["review"]["star"].int
         } else {
@@ -630,12 +647,66 @@ class TransactionDetail : NSObject {
         }
     }
     
-    var comment : String? {
+    var reviewComment : String? {
         if (json["review"]["comment"] != nil) {
             return json["review"]["comment"].string
         } else {
             return nil
         }
+    }
+}
+
+class LovedProduct : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> LovedProduct? {
+        if (json == nil) {
+            return nil
+        } else {
+            let l = LovedProduct()
+            l.json = json!
+            return l
+        }
+    }
+    
+    var id : String {
+        let i = (json["_id"].string)!
+        return i
+    }
+    
+    var name : String {
+        let n = (json["name"].string)!
+        return n
+    }
+    
+    var price : Int {
+        let p = (json["price"].int)!
+        return p
+    }
+    
+    var priceOriginal : Int {
+        let p = (json["price_original"].int)!
+        return p
+    }
+    
+    var numLovelist : Int {
+        let n = (json["num_lovelist"].int)!
+        return n
+    }
+    
+    var numComment : Int {
+        let n = (json["num_comment"].int)!
+        return n
+    }
+    
+    var productImageURL : NSURL? {
+        if let err = json["display_picts"][0].error
+        {
+            return nil
+        }
+        let url = json["display_picts"][0].string!
+        return NSURL(string: url)
     }
 }
 

@@ -358,6 +358,9 @@
 		44C1EA691BAC313D00E9CBC1 /* Default-Portrait-2048h.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C1EA671BAC313D00E9CBC1 /* Default-Portrait-2048h.png */; };
 		44C279E91BAA9B77004E227F /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C279E81BAA9B77004E227F /* MyPurchaseDetail.xib */; };
 		44C279EB1BAA9B85004E227F /* MyPurchaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C279EA1BAA9B85004E227F /* MyPurchaseDetailViewController.swift */; };
+		44C365781BB2757D00756822 /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C365771BB2757D00756822 /* MyLovelistViewController.swift */; };
+		44C3657A1BB2760600756822 /* MyLovelist.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C365791BB2760600756822 /* MyLovelist.xib */; };
+		44C3657C1BB277F300756822 /* MyLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C3657B1BB277F300756822 /* MyLovelistCell.xib */; };
 		44CF0C171BAFCF07007C3FCD /* MyProductProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */; };
 		44CF0C191BAFCF73007C3FCD /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */; };
 /* End PBXBuildFile section */
@@ -827,6 +830,9 @@
 		44C1EA671BAC313D00E9CBC1 /* Default-Portrait-2048h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait-2048h.png"; sourceTree = "<group>"; };
 		44C279E81BAA9B77004E227F /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
 		44C279EA1BAA9B85004E227F /* MyPurchaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseDetailViewController.swift; sourceTree = "<group>"; };
+		44C365771BB2757D00756822 /* MyLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLovelistViewController.swift; sourceTree = "<group>"; };
+		44C365791BB2760600756822 /* MyLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyLovelist.xib; sourceTree = "<group>"; };
+		44C3657B1BB277F300756822 /* MyLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyLovelistCell.xib; sourceTree = "<group>"; };
 		44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductProcessingViewController.swift; sourceTree = "<group>"; };
 		44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1363,6 +1369,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44C365771BB2757D00756822 /* MyLovelistViewController.swift */,
 				44C15FCC1BB15E9D00EFEEB5 /* MyProductDetailViewController.swift */,
 				44C15FC81BB1326400EFEEB5 /* MyProductCompletedViewController.swift */,
 				44CF0C161BAFCF07007C3FCD /* MyProductProcessingViewController.swift */,
@@ -1699,6 +1706,8 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				44C3657B1BB277F300756822 /* MyLovelistCell.xib */,
+				44C365791BB2760600756822 /* MyLovelist.xib */,
 				44C15FCE1BB1649C00EFEEB5 /* MyProductDetail.xib */,
 				44C15FCA1BB134A800EFEEB5 /* MyProductCompleted.xib */,
 				44CF0C181BAFCF73007C3FCD /* MyProductProcessing.xib */,
@@ -1706,9 +1715,9 @@
 				21104ACB1BAA8F1200947E7F /* MyPurchase.xib */,
 				21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */,
 				21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */,
+				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21104ACE1BAA8F1200947E7F /* PhoneReverification.xib */,
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
-				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
 				21EEB45E1B87038400CAD5C9 /* Dashboard2.xib */,
 				21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */,
@@ -1823,6 +1832,7 @@
 				44C1EA691BAC313D00E9CBC1 /* Default-Portrait-2048h.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				44C3657C1BB277F300756822 /* MyLovelistCell.xib in Resources */,
 				44C15FCF1BB1649C00EFEEB5 /* MyProductDetail.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
@@ -1837,6 +1847,7 @@
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
+				44C3657A1BB2760600756822 /* MyLovelist.xib in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				44CF0C191BAFCF73007C3FCD /* MyProductProcessing.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
@@ -1992,6 +2003,7 @@
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
+				44C365781BB2757D00756822 /* MyLovelistViewController.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
 				21104ABB1BAA8ECC00947E7F /* MyPurchaseViewController.swift in Sources */,
 				21104ABC1BAA8ECC00947E7F /* PhoneReverificationViewController.swift in Sources */,

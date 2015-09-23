@@ -176,7 +176,7 @@ class MyPurchaseDetailViewController: BaseViewController {
         lblKurirPengiriman.text = transactionDetail?.shippingName
         lblNoPengiriman.text = transactionDetail?.resiNumber
         lblTglPengiriman.text = transactionDetail?.shippingDate
-        lblReviewContent.text = transactionDetail?.comment
+        lblReviewContent.text = transactionDetail?.reviewComment
         
         // lblDescription
         if (orderStatusText == OrderStatus.PembayaranPending) {
@@ -194,7 +194,7 @@ class MyPurchaseDetailViewController: BaseViewController {
         // Love
         var loveText = ""
         for (var i = 0; i < 5; i++) {
-            if (i < transactionDetail?.star) {
+            if (i < transactionDetail?.reviewStar) {
                 loveText += ""
             } else {
                 loveText += ""
