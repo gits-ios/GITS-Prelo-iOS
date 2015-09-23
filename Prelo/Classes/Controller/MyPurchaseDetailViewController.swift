@@ -1,5 +1,5 @@
 //
-//  PurchaseDetailViewController.swift
+//  MyPurchaseDetailViewController.swift
 //  Prelo
 //
 //  Created by Fransiska on 9/16/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PurchaseDetailViewController: BaseViewController {
+class MyPurchaseDetailViewController: BaseViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -99,7 +99,7 @@ class PurchaseDetailViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Purchase Detail")
+        Mixpanel.sharedInstance().track("My Purchase Detail")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -111,7 +111,7 @@ class PurchaseDetailViewController: BaseViewController {
     
     func getPurchaseDetail() {
         request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {req, _, res, err in
-            println("req = \(req)")
+            println("Purchase detail req = \(req)")
             if (err != nil) { // Terdapat error
                 println("Error getting transaction detail: \(err!.description)")
             } else {
@@ -226,6 +226,7 @@ class PurchaseDetailViewController: BaseViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    // TODO: DELETE IF UNNECESSARY
     func heightForView(text : String, font : UIFont, width : CGFloat) -> CGRect{
         let label : UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
         label.numberOfLines = 0
@@ -268,5 +269,6 @@ class PurchaseDetailViewController: BaseViewController {
     }
     
     @IBAction func reviewSellerPressed(sender: AnyObject) {
+        
     }
 }

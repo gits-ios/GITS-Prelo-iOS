@@ -113,9 +113,9 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let purchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePurchaseDetail, owner: nil, options: nil).first as! PurchaseDetailViewController
-        purchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
-        self.navigationController?.pushViewController(purchaseDetailVC, animated: true)
+        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+        myPurchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
+        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -316,6 +316,56 @@ public class Product : NSObject
     }
 }
 
+class MyProductItem : Product {
+    
+    static func instanceMyProduct(obj : JSON?) -> MyProductItem?
+    {
+        if (obj == nil) {
+            return nil
+        } else {
+            var p = MyProductItem()
+            p.json = obj!
+            return p
+        }
+    }
+    
+    var id : String {
+        let i = (json["_id"].string)!
+        return i
+    }
+    
+    override var price : String {
+        if let l = json["price"].int {
+            return String(l)
+        }
+        return ""
+    }
+    
+    override var loveCountText : String {
+        if let l = json["num_lovelist"].int {
+            return String(l)
+        }
+        return ""
+    }
+    
+    override var discussionCountText : String {
+        if let d = json["num_comment"].int {
+            return String(d)
+        }
+        return ""
+    }
+    
+    var status : Int {
+        let s = (json["status"].int)!
+        return s
+    }
+    
+    var statusText : String {
+        let s = (json["status_text"].string)!
+        return s
+    }
+}
+
 class ProductDiscussion : NSObject
 {
     var json : JSON!
@@ -381,56 +431,6 @@ class ProductDiscussion : NSObject
         {
             return false
         }
-    }
-}
-
-class MyProductItem : Product {
-    
-    static func instanceMyProduct(obj : JSON?) -> MyProductItem?
-    {
-        if (obj == nil) {
-            return nil
-        } else {
-            var p = MyProductItem()
-            p.json = obj!
-            return p
-        }
-    }
-    
-    var id : String {
-        let i = (json["_id"].string)!
-        return i
-    }
-    
-    override var price : String {
-        if let l = json["price"].int {
-            return String(l)
-        }
-        return ""
-    }
-    
-    override var loveCountText : String {
-        if let l = json["num_lovelist"].int {
-            return String(l)
-        }
-        return ""
-    }
-    
-    override var discussionCountText : String {
-        if let d = json["num_comment"].int {
-            return String(d)
-        }
-        return ""
-    }
-    
-    var status : Int {
-        let s = (json["status"].int)!
-        return s
-    }
-    
-    var statusText : String {
-        let s = (json["status_text"].string)!
-        return s
     }
 }
 

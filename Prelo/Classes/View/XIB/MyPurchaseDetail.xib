@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="SGb-W3-tFk" customClass="PurchaseDetailViewController" customModule="Prelo" customModuleProvider="target">
+        <viewController id="SGb-W3-tFk" customClass="MyPurchaseDetailViewController" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="rpq-Qv-Nb6"/>
                 <viewControllerLayoutGuide type="bottom" id="HRb-dQ-DKj"/>
