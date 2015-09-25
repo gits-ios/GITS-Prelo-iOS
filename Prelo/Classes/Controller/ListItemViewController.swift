@@ -302,11 +302,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 {
                     NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
+                    UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
                 }
             } else
             {
                 NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
+                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
             }
         }
     }

@@ -83,7 +83,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             
             let v = li.view
             v.setTranslatesAutoresizingMaskIntoConstraints(false)
-            v.backgroundColor = colors.objectAtCircleIndex(i)
+//            v.backgroundColor = colors.objectAtCircleIndex(i)
             contentView?.addSubview(v)
             self.addChildViewController(li)
             d["v"] = v
