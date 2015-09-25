@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kB-PJ-dDC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -84,7 +84,7 @@
                         <viewControllerLayoutGuide type="bottom" id="CZj-C8-kqA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uBv-3W-dZM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rui-jE-9fQ">
@@ -98,7 +98,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTa-Mx-Cia" customClass="AppButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="121" y="12" width="58" height="28"/>
+                                                <rect key="frame" x="8" y="8" width="252" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="BROWSE">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -115,12 +115,16 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerY" secondItem="wTa-Mx-Cia" secondAttribute="centerY" id="7Nq-ui-bIx"/>
-                                            <constraint firstAttribute="centerX" secondItem="wTa-Mx-Cia" secondAttribute="centerX" id="bao-0s-FPc"/>
+                                            <constraint firstItem="wTa-Mx-Cia" firstAttribute="top" secondItem="LYa-Cx-FEy" secondAttribute="top" constant="8" id="Mft-GE-ftT"/>
+                                            <constraint firstItem="wTa-Mx-Cia" firstAttribute="leading" secondItem="LYa-Cx-FEy" secondAttribute="leading" constant="8" id="N9u-sC-3Fs"/>
+                                            <constraint firstAttribute="centerX" secondItem="wTa-Mx-Cia" secondAttribute="centerX" constant="8" id="bao-0s-FPc"/>
+                                            <constraint firstAttribute="trailing" secondItem="wTa-Mx-Cia" secondAttribute="trailing" constant="40" id="ers-fh-me9"/>
                                             <constraint firstAttribute="bottom" secondItem="wTa-Mx-Cia" secondAttribute="bottom" constant="4" id="gha-dA-TAw"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="7Nq-ui-bIx"/>
+                                                <exclude reference="bao-0s-FPc"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -128,7 +132,7 @@
                                         <rect key="frame" x="300" y="0.0" width="300" height="44"/>
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZhR-y5-Nps" customClass="AppButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="109" y="12" width="83" height="28"/>
+                                                <rect key="frame" x="40" y="8" width="252" height="32"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="DASHBOARD">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -146,11 +150,15 @@
                                         <constraints>
                                             <constraint firstAttribute="centerY" secondItem="ZhR-y5-Nps" secondAttribute="centerY" id="3ne-kh-fgh"/>
                                             <constraint firstAttribute="centerX" secondItem="ZhR-y5-Nps" secondAttribute="centerX" id="7s5-SV-n2S"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZhR-y5-Nps" secondAttribute="trailing" constant="8" id="Ddl-tE-TKr"/>
+                                            <constraint firstItem="ZhR-y5-Nps" firstAttribute="top" secondItem="ImO-gU-pX3" secondAttribute="top" constant="8" id="VW3-PH-ly0"/>
+                                            <constraint firstItem="ZhR-y5-Nps" firstAttribute="leading" secondItem="ImO-gU-pX3" secondAttribute="leading" constant="40" id="hjb-4j-WlN"/>
                                             <constraint firstAttribute="bottom" secondItem="ZhR-y5-Nps" secondAttribute="bottom" constant="4" id="p0I-U5-U1h"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="3ne-kh-fgh"/>
+                                                <exclude reference="7s5-SV-n2S"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -185,23 +193,23 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Au-9S-hGK">
-                                <rect key="frame" x="274" y="472" width="52" height="52"/>
+                                <rect key="frame" x="268" y="460" width="64" height="64"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5n-7A-uZg">
-                                        <rect key="frame" x="11" y="4" width="30" height="34"/>
+                                        <rect key="frame" x="17" y="8" width="30" height="34"/>
                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="22"/>
                                         <state key="normal" title="">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9W-jG-o0T">
-                                        <rect key="frame" x="15" y="33" width="23" height="15"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JUAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9W-jG-o0T">
+                                        <rect key="frame" x="16" y="40" width="33" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0TG-cJ-Ple">
-                                        <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -214,15 +222,15 @@
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="D9W-jG-o0T" secondAttribute="centerX" id="40D-2a-f6Y"/>
                                     <constraint firstAttribute="bottom" secondItem="0TG-cJ-Ple" secondAttribute="bottom" id="8Pf-Fy-jrF"/>
-                                    <constraint firstAttribute="width" constant="52" id="9in-Tl-aH3"/>
-                                    <constraint firstAttribute="height" constant="52" id="Aqb-gg-PG4"/>
+                                    <constraint firstAttribute="width" constant="64" id="9in-Tl-aH3"/>
+                                    <constraint firstAttribute="height" constant="64" id="Aqb-gg-PG4"/>
                                     <constraint firstAttribute="centerY" secondItem="c5n-7A-uZg" secondAttribute="centerY" id="Pu3-C1-enL"/>
-                                    <constraint firstAttribute="bottom" secondItem="D9W-jG-o0T" secondAttribute="bottom" constant="4" id="Pw2-2J-fNR"/>
+                                    <constraint firstAttribute="bottom" secondItem="D9W-jG-o0T" secondAttribute="bottom" constant="8" id="Pw2-2J-fNR"/>
                                     <constraint firstAttribute="centerX" secondItem="c5n-7A-uZg" secondAttribute="centerX" id="SuB-di-kG6"/>
                                     <constraint firstItem="0TG-cJ-Ple" firstAttribute="top" secondItem="8Au-9S-hGK" secondAttribute="top" id="U6L-Oa-tZT"/>
                                     <constraint firstAttribute="trailing" secondItem="0TG-cJ-Ple" secondAttribute="trailing" id="e8N-6d-sJL"/>
                                     <constraint firstItem="0TG-cJ-Ple" firstAttribute="leading" secondItem="8Au-9S-hGK" secondAttribute="leading" id="eyY-cP-794"/>
-                                    <constraint firstItem="c5n-7A-uZg" firstAttribute="top" secondItem="8Au-9S-hGK" secondAttribute="top" constant="4" id="xMr-Oy-e3Z"/>
+                                    <constraint firstItem="c5n-7A-uZg" firstAttribute="top" secondItem="8Au-9S-hGK" secondAttribute="top" constant="8" id="xMr-Oy-e3Z"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -233,6 +241,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="8Au-9S-hGK" firstAttribute="bottom" secondItem="IUr-MR-pQm" secondAttribute="bottom" constant="-12" id="604-XN-zmp"/>
                             <constraint firstItem="IUr-MR-pQm" firstAttribute="top" secondItem="rui-jE-9fQ" secondAttribute="bottom" id="8Er-LA-Hbm"/>
                             <constraint firstItem="rui-jE-9fQ" firstAttribute="top" secondItem="xeF-fX-AVO" secondAttribute="bottom" id="8e8-Ln-i1E"/>
                             <constraint firstAttribute="trailing" secondItem="rui-jE-9fQ" secondAttribute="trailing" id="Da9-xS-BEX"/>
@@ -247,6 +256,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="8e8-Ln-i1E"/>
+                                <exclude reference="Wqy-Ch-RVW"/>
                             </mask>
                         </variation>
                     </view>
@@ -261,6 +271,8 @@
                     <connections>
                         <outlet property="btnAdd" destination="8Au-9S-hGK" id="xmp-WC-JaH"/>
                         <outlet property="btnDashboard" destination="ZhR-y5-Nps" id="Vho-0g-08d"/>
+                        <outlet property="consMarginBottomBar" destination="f1n-xz-W6k" id="ThF-NM-p2u"/>
+                        <outlet property="sectionBar" destination="IUr-MR-pQm" id="zJf-Vt-A5K"/>
                         <outlet property="sectionContent" destination="rui-jE-9fQ" id="fE6-TI-tzi"/>
                         <segue destination="l15-jv-dbf" kind="presentation" identifier="segTour" id="g7e-GM-zqN"/>
                     </connections>
@@ -330,7 +342,7 @@
                                     <outlet property="delegate" destination="l15-jv-dbf" id="87d-XL-5NA"/>
                                 </connections>
                             </scrollView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1c-kh-d25">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1c-kh-d25">
                                 <rect key="frame" x="-200" y="20" width="1000" height="40"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23L-xm-PrB">
@@ -390,7 +402,7 @@
                                     <constraint firstItem="pUM-6f-k6r" firstAttribute="width" secondItem="x1c-kh-d25" secondAttribute="width" id="xd7-Ok-GqM"/>
                                 </constraints>
                             </scrollView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
                                 <rect key="frame" x="-500" y="60" width="1600" height="64"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgR-gj-b4x">
@@ -526,6 +538,57 @@ deskripiskan, dan pasang harga.</string>
             </objects>
             <point key="canvasLocation" x="-1369" y="1107"/>
         </scene>
+        <!--Dummy Grid View Controller-->
+        <scene sceneID="6L2-h4-ao3">
+            <objects>
+                <viewController storyboardIdentifier="dummygrid" id="XCz-g3-hCi" customClass="DummyGridViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UCM-2q-4lK"/>
+                        <viewControllerLayoutGuide type="bottom" id="j10-FF-zLz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jrg-nA-MWj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Mnv-xB-1FA">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Nr3-IH-e9g">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="20" minY="20" maxX="20" maxY="20"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="gNJ-jX-iLp">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Mnv-xB-1FA" firstAttribute="top" secondItem="UCM-2q-4lK" secondAttribute="bottom" id="PuT-0H-x44"/>
+                            <constraint firstAttribute="trailing" secondItem="Mnv-xB-1FA" secondAttribute="trailing" id="Y3m-Jt-DRQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Mnv-xB-1FA" secondAttribute="bottom" id="k7f-fA-HAr"/>
+                            <constraint firstItem="Mnv-xB-1FA" firstAttribute="leading" secondItem="jrg-nA-MWj" secondAttribute="leading" id="kdj-Bv-1W0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="gridView" destination="Mnv-xB-1FA" id="fB5-Hu-u4b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ekQ-oV-kWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1369" y="1792"/>
+        </scene>
         <!--Add Product Image Source View Controller-->
         <scene sceneID="vyP-Vf-QXM">
             <objects>
@@ -535,7 +598,7 @@ deskripiskan, dan pasang harga.</string>
                         <viewControllerLayoutGuide type="bottom" id="mCf-Dh-Elu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Zvx-HP-jHV">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8J-gw-NPI">
@@ -559,7 +622,7 @@ deskripiskan, dan pasang harga.</string>
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="lvd-sT-j5R" customClass="ImageSourceCell" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <rect key="frame" x="0.0" y="8" width="128" height="128"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -1063,7 +1126,7 @@ deskripiskan, dan pasang harga.</string>
                         <viewControllerLayoutGuide type="bottom" id="C0u-Yq-c7K"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="82u-6j-jKW">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fZG-Yh-LSu">
@@ -1349,8 +1412,10 @@ deskripiskan, dan pasang harga.</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Ycu-UD-RHS" customClass="DashboardCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="208" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ycu-UD-RHS" id="JiM-NY-vsX">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCZ-Si-P3t">
@@ -1408,6 +1473,335 @@ deskripiskan, dan pasang harga.</string>
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="273" y="-360"/>
+        </scene>
+        <!--Tarik Tunai Controller-->
+        <scene sceneID="2nB-tv-vjM">
+            <objects>
+                <viewController storyboardIdentifier="TarikTunai" id="zDU-lo-36T" customClass="TarikTunaiController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UIM-GD-zd8"/>
+                        <viewControllerLayoutGuide type="bottom" id="sVi-jR-cOh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="M8c-pW-sjm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vlu-KW-CFP">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DGH-YI-jZJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="451"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="huK-bc-itu">
+                                                <rect key="frame" x="8" y="96" width="584" height="44"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mSj-Ob-Js5">
+                                                        <rect key="frame" x="0.0" y="43" width="584" height="1"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="VgB-ec-3wU"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MJf-Rb-FIL">
+                                                        <rect key="frame" x="83" y="0.0" width="501" height="43"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank Kamu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91h-jY-iY3">
+                                                        <rect key="frame" x="0.0" y="0.0" width="75" height="43"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="mSj-Ob-Js5" firstAttribute="top" secondItem="91h-jY-iY3" secondAttribute="bottom" id="54R-Gz-T3e"/>
+                                                    <constraint firstItem="MJf-Rb-FIL" firstAttribute="leading" secondItem="91h-jY-iY3" secondAttribute="trailing" constant="8" id="6UH-rt-Qig"/>
+                                                    <constraint firstAttribute="trailing" secondItem="mSj-Ob-Js5" secondAttribute="trailing" id="Atq-Z6-Bpz"/>
+                                                    <constraint firstItem="mSj-Ob-Js5" firstAttribute="top" secondItem="MJf-Rb-FIL" secondAttribute="bottom" id="DUV-Vv-T8S"/>
+                                                    <constraint firstAttribute="bottom" secondItem="mSj-Ob-Js5" secondAttribute="bottom" id="SgB-tQ-14W"/>
+                                                    <constraint firstItem="MJf-Rb-FIL" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="top" id="a7b-TY-Xhh"/>
+                                                    <constraint firstAttribute="trailing" secondItem="MJf-Rb-FIL" secondAttribute="trailing" id="c4Q-i8-8A1"/>
+                                                    <constraint firstItem="mSj-Ob-Js5" firstAttribute="leading" secondItem="huK-bc-itu" secondAttribute="leading" id="cku-2n-ztI"/>
+                                                    <constraint firstItem="91h-jY-iY3" firstAttribute="leading" secondItem="huK-bc-itu" secondAttribute="leading" id="hBc-4r-xoF"/>
+                                                    <constraint firstItem="91h-jY-iY3" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="top" id="nlg-mF-W70"/>
+                                                    <constraint firstAttribute="height" constant="44" id="trp-Rm-eWK"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ASm-4q-jcZ">
+                                                <rect key="frame" x="8" y="148" width="584" height="44"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k8B-6a-PTP">
+                                                        <rect key="frame" x="0.0" y="43" width="584" height="1"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="Pqw-aH-C7X"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xIs-io-Ymi">
+                                                        <rect key="frame" x="117" y="0.0" width="467" height="43"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nomor Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aIa-RG-xh5">
+                                                        <rect key="frame" x="0.0" y="0.0" width="109" height="43"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="k8B-6a-PTP" secondAttribute="bottom" id="1Su-2V-XWM"/>
+                                                    <constraint firstAttribute="height" constant="44" id="6NC-e4-jtA"/>
+                                                    <constraint firstItem="xIs-io-Ymi" firstAttribute="top" secondItem="ASm-4q-jcZ" secondAttribute="top" id="7zU-PF-ifA"/>
+                                                    <constraint firstItem="aIa-RG-xh5" firstAttribute="top" secondItem="ASm-4q-jcZ" secondAttribute="top" id="V4Q-ku-Jnr"/>
+                                                    <constraint firstItem="aIa-RG-xh5" firstAttribute="leading" secondItem="ASm-4q-jcZ" secondAttribute="leading" id="Yo3-yX-gBL"/>
+                                                    <constraint firstItem="k8B-6a-PTP" firstAttribute="top" secondItem="aIa-RG-xh5" secondAttribute="bottom" id="e38-e9-ouv"/>
+                                                    <constraint firstItem="k8B-6a-PTP" firstAttribute="top" secondItem="xIs-io-Ymi" secondAttribute="bottom" id="f7T-nZ-qwh"/>
+                                                    <constraint firstAttribute="trailing" secondItem="xIs-io-Ymi" secondAttribute="trailing" id="jMg-Xq-aE8"/>
+                                                    <constraint firstAttribute="trailing" secondItem="k8B-6a-PTP" secondAttribute="trailing" id="n6a-nV-BLK"/>
+                                                    <constraint firstItem="k8B-6a-PTP" firstAttribute="leading" secondItem="ASm-4q-jcZ" secondAttribute="leading" id="nBb-s7-Fkc"/>
+                                                    <constraint firstItem="xIs-io-Ymi" firstAttribute="leading" secondItem="aIa-RG-xh5" secondAttribute="trailing" constant="8" id="yBt-sy-MKq"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y6I-KC-GKp">
+                                                <rect key="frame" x="8" y="200" width="584" height="44"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1CN-0x-lkJ">
+                                                        <rect key="frame" x="0.0" y="43" width="584" height="1"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="Or3-RK-bBD"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qek-TI-QRB">
+                                                        <rect key="frame" x="144" y="0.0" width="440" height="43"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Atas Nama Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3I-3K-cms">
+                                                        <rect key="frame" x="0.0" y="0.0" width="136" height="43"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="1CN-0x-lkJ" firstAttribute="top" secondItem="P3I-3K-cms" secondAttribute="bottom" id="8Hy-q9-sfs"/>
+                                                    <constraint firstAttribute="trailing" secondItem="qek-TI-QRB" secondAttribute="trailing" id="CBV-fR-ayY"/>
+                                                    <constraint firstItem="1CN-0x-lkJ" firstAttribute="leading" secondItem="y6I-KC-GKp" secondAttribute="leading" id="F6v-FV-Y3r"/>
+                                                    <constraint firstItem="P3I-3K-cms" firstAttribute="top" secondItem="y6I-KC-GKp" secondAttribute="top" id="FBP-Gk-VHK"/>
+                                                    <constraint firstAttribute="trailing" secondItem="1CN-0x-lkJ" secondAttribute="trailing" id="MVh-5d-cCT"/>
+                                                    <constraint firstAttribute="height" constant="44" id="Nqq-Lz-xR3"/>
+                                                    <constraint firstItem="qek-TI-QRB" firstAttribute="top" secondItem="y6I-KC-GKp" secondAttribute="top" id="QZ9-vk-jFX"/>
+                                                    <constraint firstItem="qek-TI-QRB" firstAttribute="leading" secondItem="P3I-3K-cms" secondAttribute="trailing" constant="8" id="YU8-bH-Saj"/>
+                                                    <constraint firstAttribute="bottom" secondItem="1CN-0x-lkJ" secondAttribute="bottom" id="dqW-af-KEb"/>
+                                                    <constraint firstItem="P3I-3K-cms" firstAttribute="leading" secondItem="y6I-KC-GKp" secondAttribute="leading" id="fah-RK-F91"/>
+                                                    <constraint firstItem="1CN-0x-lkJ" firstAttribute="top" secondItem="qek-TI-QRB" secondAttribute="bottom" id="is5-kX-u6x"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JaY-lE-s9l">
+                                                <rect key="frame" x="8" y="252" width="584" height="44"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YKo-hs-rf8">
+                                                        <rect key="frame" x="0.0" y="43" width="584" height="1"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="wW7-io-kDC"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xk4-zh-Gxa">
+                                                        <rect key="frame" x="109" y="0.0" width="475" height="43"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upY-9f-ABV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="101" height="43"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="YKo-hs-rf8" secondAttribute="bottom" id="2pT-9J-Dr6"/>
+                                                    <constraint firstItem="Xk4-zh-Gxa" firstAttribute="leading" secondItem="upY-9f-ABV" secondAttribute="trailing" constant="8" id="7Jb-JQ-XnC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Xk4-zh-Gxa" secondAttribute="trailing" id="ACP-hT-nSc"/>
+                                                    <constraint firstItem="YKo-hs-rf8" firstAttribute="top" secondItem="upY-9f-ABV" secondAttribute="bottom" id="FiM-xm-Reh"/>
+                                                    <constraint firstAttribute="height" constant="44" id="GMe-so-wJr"/>
+                                                    <constraint firstItem="upY-9f-ABV" firstAttribute="leading" secondItem="JaY-lE-s9l" secondAttribute="leading" id="Pee-PV-nbY"/>
+                                                    <constraint firstItem="YKo-hs-rf8" firstAttribute="top" secondItem="Xk4-zh-Gxa" secondAttribute="bottom" id="Vwi-wQ-pRP"/>
+                                                    <constraint firstItem="upY-9f-ABV" firstAttribute="top" secondItem="JaY-lE-s9l" secondAttribute="top" id="WDS-w0-4zu"/>
+                                                    <constraint firstItem="YKo-hs-rf8" firstAttribute="leading" secondItem="JaY-lE-s9l" secondAttribute="leading" id="cZi-S5-PbT"/>
+                                                    <constraint firstItem="Xk4-zh-Gxa" firstAttribute="top" secondItem="JaY-lE-s9l" secondAttribute="top" id="sjW-oE-wFM"/>
+                                                    <constraint firstAttribute="trailing" secondItem="YKo-hs-rf8" secondAttribute="trailing" id="zI4-LW-goG"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5bO-5c-gS5">
+                                                <rect key="frame" x="8" y="304" width="584" height="44"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CHQ-hq-Opl">
+                                                        <rect key="frame" x="0.0" y="43" width="584" height="1"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="vaZ-L8-tD2"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qI-mg-z5n">
+                                                        <rect key="frame" x="123" y="0.0" width="461" height="43"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jumlah Penarikan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S91-qO-pmJ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="115" height="43"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="8qI-mg-z5n" firstAttribute="top" secondItem="5bO-5c-gS5" secondAttribute="top" id="3Sq-oT-CVz"/>
+                                                    <constraint firstItem="8qI-mg-z5n" firstAttribute="leading" secondItem="S91-qO-pmJ" secondAttribute="trailing" constant="8" id="4vz-Me-wEf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="CHQ-hq-Opl" secondAttribute="trailing" id="EuI-MJ-VEf"/>
+                                                    <constraint firstItem="CHQ-hq-Opl" firstAttribute="top" secondItem="8qI-mg-z5n" secondAttribute="bottom" id="FMD-Cg-DlL"/>
+                                                    <constraint firstAttribute="bottom" secondItem="CHQ-hq-Opl" secondAttribute="bottom" id="TIN-Nb-mCY"/>
+                                                    <constraint firstItem="CHQ-hq-Opl" firstAttribute="leading" secondItem="5bO-5c-gS5" secondAttribute="leading" id="URM-Dj-iAH"/>
+                                                    <constraint firstAttribute="trailing" secondItem="8qI-mg-z5n" secondAttribute="trailing" id="UTq-eH-Y3M"/>
+                                                    <constraint firstItem="S91-qO-pmJ" firstAttribute="top" secondItem="5bO-5c-gS5" secondAttribute="top" id="XYb-j3-SZO"/>
+                                                    <constraint firstItem="S91-qO-pmJ" firstAttribute="leading" secondItem="5bO-5c-gS5" secondAttribute="leading" id="aEd-uh-bH9"/>
+                                                    <constraint firstItem="CHQ-hq-Opl" firstAttribute="top" secondItem="S91-qO-pmJ" secondAttribute="bottom" id="fW3-er-5gV"/>
+                                                    <constraint firstAttribute="height" constant="44" id="t0E-dR-73L"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSQ-tA-SrI">
+                                                <rect key="frame" x="8" y="8" width="90" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.000.000.000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EGO-WJ-2xx">
+                                                <rect key="frame" x="138" y="25" width="325" height="63"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="52"/>
+                                                <color key="textColor" red="0.1215686275" green="0.53333333329999999" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rupiah" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CR9-1p-55N">
+                                                <rect key="frame" x="471" y="73" width="42" height="15"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="42" id="YMM-7q-eDD"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Penarikan minimal senilai 50.000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0t-jg-Cs8">
+                                                <rect key="frame" x="210" y="356" width="181" height="15"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41l-Uk-Sts">
+                                                <rect key="frame" x="16" y="391" width="568" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="GTR-Io-tq4"/>
+                                                    <constraint firstAttribute="height" constant="40" id="UPx-w4-lNz"/>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="sDQ-B6-dE8"/>
+                                                </constraints>
+                                                <state key="normal" title="TARIK TUNAI" backgroundImage="basic_green.png">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="disabled" title="LOADING"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="GTR-Io-tq4"/>
+                                                        <exclude reference="sDQ-B6-dE8"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="shareDone" destination="Bil-tW-9db" eventType="touchUpInside" id="iLd-cP-gre"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="JaY-lE-s9l" secondAttribute="trailing" constant="8" id="12C-Rq-dpN"/>
+                                            <constraint firstItem="JaY-lE-s9l" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="25q-4B-GXu"/>
+                                            <constraint firstAttribute="trailing" secondItem="huK-bc-itu" secondAttribute="trailing" constant="8" id="66v-Og-jC2"/>
+                                            <constraint firstItem="41l-Uk-Sts" firstAttribute="top" secondItem="g0t-jg-Cs8" secondAttribute="bottom" constant="20" id="6u4-Dv-wwB"/>
+                                            <constraint firstItem="y6I-KC-GKp" firstAttribute="top" secondItem="ASm-4q-jcZ" secondAttribute="bottom" constant="8" id="7pc-ew-Q2o"/>
+                                            <constraint firstAttribute="trailing" secondItem="ASm-4q-jcZ" secondAttribute="trailing" constant="8" id="9qY-HL-ztr"/>
+                                            <constraint firstAttribute="trailing" secondItem="y6I-KC-GKp" secondAttribute="trailing" constant="8" id="AQ8-fh-Tdo"/>
+                                            <constraint firstItem="41l-Uk-Sts" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="16" id="CP8-Ba-eKG"/>
+                                            <constraint firstItem="y6I-KC-GKp" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="DhE-5N-qdZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="41l-Uk-Sts" secondAttribute="trailing" constant="16" id="EIG-qK-AIV"/>
+                                            <constraint firstItem="WSQ-tA-SrI" firstAttribute="top" secondItem="DGH-YI-jZJ" secondAttribute="top" constant="8" id="Eis-Az-MsK"/>
+                                            <constraint firstItem="huK-bc-itu" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="FiJ-l3-qnr"/>
+                                            <constraint firstItem="5bO-5c-gS5" firstAttribute="top" secondItem="JaY-lE-s9l" secondAttribute="bottom" constant="8" id="N5F-kM-NOp"/>
+                                            <constraint firstItem="EGO-WJ-2xx" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="P1K-i2-hWv"/>
+                                            <constraint firstItem="JaY-lE-s9l" firstAttribute="top" secondItem="y6I-KC-GKp" secondAttribute="bottom" constant="8" id="Q00-9B-s5Q"/>
+                                            <constraint firstItem="EGO-WJ-2xx" firstAttribute="top" secondItem="WSQ-tA-SrI" secondAttribute="bottom" id="UW1-ro-g0e"/>
+                                            <constraint firstItem="WSQ-tA-SrI" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="VqX-ti-8Ng"/>
+                                            <constraint firstItem="g0t-jg-Cs8" firstAttribute="top" secondItem="5bO-5c-gS5" secondAttribute="bottom" constant="8" id="a9C-hU-2Gg"/>
+                                            <constraint firstItem="ASm-4q-jcZ" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="bottom" constant="8" id="c1b-dT-0Yc"/>
+                                            <constraint firstAttribute="centerX" secondItem="EGO-WJ-2xx" secondAttribute="centerX" id="d7f-Lb-J38"/>
+                                            <constraint firstItem="huK-bc-itu" firstAttribute="top" secondItem="DGH-YI-jZJ" secondAttribute="top" constant="128" id="f1Q-EU-slh"/>
+                                            <constraint firstAttribute="bottom" secondItem="41l-Uk-Sts" secondAttribute="bottom" constant="20" id="hYI-iZ-IWE"/>
+                                            <constraint firstItem="5bO-5c-gS5" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="jXF-M1-FMS"/>
+                                            <constraint firstAttribute="centerX" secondItem="g0t-jg-Cs8" secondAttribute="centerX" id="lp8-z3-sde"/>
+                                            <constraint firstItem="CR9-1p-55N" firstAttribute="leading" secondItem="EGO-WJ-2xx" secondAttribute="trailing" constant="8" id="mQF-FN-5ng"/>
+                                            <constraint firstAttribute="trailing" secondItem="5bO-5c-gS5" secondAttribute="trailing" constant="8" id="mq7-M0-dVX"/>
+                                            <constraint firstItem="huK-bc-itu" firstAttribute="top" secondItem="CR9-1p-55N" secondAttribute="bottom" constant="8" id="pdH-lY-8gn"/>
+                                            <constraint firstItem="EGO-WJ-2xx" firstAttribute="bottom" secondItem="CR9-1p-55N" secondAttribute="bottom" id="rBq-yH-buc"/>
+                                            <constraint firstItem="ASm-4q-jcZ" firstAttribute="leading" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="sIL-g8-gRw"/>
+                                            <constraint firstItem="EGO-WJ-2xx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DGH-YI-jZJ" secondAttribute="leading" constant="8" id="sjE-uI-YQs"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CR9-1p-55N" secondAttribute="trailing" constant="8" id="smY-Ke-vmp"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="f1Q-EU-slh"/>
+                                                <exclude reference="P1K-i2-hWv"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="DGH-YI-jZJ" secondAttribute="trailing" id="8hk-Uj-h13"/>
+                                    <constraint firstAttribute="bottom" secondItem="DGH-YI-jZJ" secondAttribute="bottom" id="aJ5-MW-zYM"/>
+                                    <constraint firstItem="DGH-YI-jZJ" firstAttribute="top" secondItem="vlu-KW-CFP" secondAttribute="top" id="dCk-wi-4yi"/>
+                                    <constraint firstItem="DGH-YI-jZJ" firstAttribute="leading" secondItem="vlu-KW-CFP" secondAttribute="leading" id="ymE-qe-0bk"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vlu-KW-CFP" firstAttribute="top" secondItem="M8c-pW-sjm" secondAttribute="top" id="Cc6-e1-aZp"/>
+                            <constraint firstItem="sVi-jR-cOh" firstAttribute="top" secondItem="vlu-KW-CFP" secondAttribute="bottom" id="Ct0-Ia-aXC"/>
+                            <constraint firstItem="vlu-KW-CFP" firstAttribute="leading" secondItem="M8c-pW-sjm" secondAttribute="leading" id="Iug-iB-GgD"/>
+                            <constraint firstAttribute="trailing" secondItem="vlu-KW-CFP" secondAttribute="trailing" id="KRT-bq-HFw"/>
+                            <constraint firstItem="DGH-YI-jZJ" firstAttribute="width" secondItem="M8c-pW-sjm" secondAttribute="width" id="PG8-hU-to8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="txtJumlah" destination="8qI-mg-z5n" id="Fmh-uU-06C"/>
+                        <outlet property="txtNamaBank" destination="MJf-Rb-FIL" id="Vk6-7q-zXs"/>
+                        <outlet property="txtNamaRekening" destination="qek-TI-QRB" id="v42-NR-aY7"/>
+                        <outlet property="txtNomerRekening" destination="xIs-io-Ymi" id="aK6-4R-hXi"/>
+                        <outlet property="txtPassword" destination="Xk4-zh-Gxa" id="rj6-Rn-uM9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tn7-Fc-Pfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="985" y="-1034"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="26K-Xg-QUV">
@@ -1563,21 +1957,45 @@ deskripiskan, dan pasang harga.</string>
         <!--Products-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="productBrowse" title="Products" hidesBottomBarWhenPushed="YES" id="BYZ-38-t0r" customClass="ListCategoryViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="productBrowse" title="Products" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="BYZ-38-t0r" customClass="ListCategoryViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Lo-8s-9p1">
+                                <rect key="frame" x="0.0" y="44" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </scrollView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-U0-eu3">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6Lo-8s-9p1" secondAttribute="bottom" id="EP6-Za-sv9"/>
+                            <constraint firstAttribute="trailing" secondItem="eVC-U0-eu3" secondAttribute="trailing" id="GJw-bR-yI1"/>
+                            <constraint firstItem="6Lo-8s-9p1" firstAttribute="top" secondItem="eVC-U0-eu3" secondAttribute="bottom" id="JfI-X2-jHy"/>
+                            <constraint firstItem="eVC-U0-eu3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Wde-X9-2CA"/>
+                            <constraint firstAttribute="trailing" secondItem="6Lo-8s-9p1" secondAttribute="trailing" id="XLb-V1-cVF"/>
+                            <constraint firstItem="6Lo-8s-9p1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fBw-65-H45"/>
+                            <constraint firstItem="eVC-U0-eu3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mr2-Bg-BOK"/>
+                            <constraint firstItem="6Lo-8s-9p1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="44" id="rjN-fi-iNY"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fzy-Jf-mUf"/>
+                    <connections>
+                        <outlet property="scrollCategoryName" destination="eVC-U0-eu3" id="evs-xm-Hes"/>
+                        <outlet property="scrollView" destination="6Lo-8s-9p1" id="BGK-Ae-xo7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="280" y="350"/>
+            <point key="canvasLocation" x="273" y="350"/>
         </scene>
         <!--List Item View Controller-->
         <scene sceneID="eAK-Ua-fmz">
@@ -1594,15 +2012,15 @@ deskripiskan, dan pasang harga.</string>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tgA-tR-t0q">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="8" id="tR1-Xa-K2b">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="4" id="tR1-Xa-K2b">
                                     <size key="itemSize" width="200" height="250"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="8" minY="20" maxX="8" maxY="20"/>
+                                    <inset key="sectionInset" minX="4" minY="20" maxX="4" maxY="20"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="VJW-xa-4Ee" customClass="ListItemCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="8" y="20" width="200" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
@@ -1615,9 +2033,9 @@ deskripiskan, dan pasang harga.</string>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OiJ-C3-nY9">
-                                                    <rect key="frame" x="8" y="208" width="184" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <rect key="frame" x="4" y="208" width="192" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5l-ZT-ELz">
@@ -1627,14 +2045,13 @@ deskripiskan, dan pasang harga.</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 100,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7f-5u-kJl">
-                                                    <rect key="frame" x="125" y="227" width="67" height="15"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
-                                                    <color key="textColor" red="0.0" green="0.54117647058823526" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <rect key="frame" x="135" y="228" width="61" height="14"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="11"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Rp. 100,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XU-vq-YZT">
-                                                    <rect key="frame" x="8" y="228" width="113" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <rect key="frame" x="4" y="229" width="127" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1680,13 +2097,13 @@ deskripiskan, dan pasang harga.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="p5l-ZT-ELz" firstAttribute="leading" secondItem="87x-2n-5fQ" secondAttribute="trailing" constant="2" id="1n8-Vr-jCh"/>
-                                            <constraint firstItem="OiJ-C3-nY9" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="8" id="5y6-Yu-QTy"/>
+                                            <constraint firstItem="OiJ-C3-nY9" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="4" id="5y6-Yu-QTy"/>
                                             <constraint firstItem="OiJ-C3-nY9" firstAttribute="top" secondItem="X32-1K-QZA" secondAttribute="bottom" constant="8" id="Aef-tu-wI5"/>
-                                            <constraint firstAttribute="trailing" secondItem="OiJ-C3-nY9" secondAttribute="trailing" constant="8" id="AlG-cg-uGv"/>
+                                            <constraint firstAttribute="trailing" secondItem="OiJ-C3-nY9" secondAttribute="trailing" constant="4" id="AlG-cg-uGv"/>
                                             <constraint firstItem="I7f-5u-kJl" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="8" id="CSN-dm-V95"/>
                                             <constraint firstItem="5XU-vq-YZT" firstAttribute="baseline" secondItem="I7f-5u-kJl" secondAttribute="baseline" id="GVc-Sa-xNm"/>
                                             <constraint firstAttribute="bottom" secondItem="CIM-nt-4UI" secondAttribute="bottom" constant="-20" id="GuZ-ad-s1F"/>
-                                            <constraint firstItem="5XU-vq-YZT" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="8" id="I54-is-7Cc"/>
+                                            <constraint firstItem="5XU-vq-YZT" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="4" id="I54-is-7Cc"/>
                                             <constraint firstAttribute="trailing" secondItem="X32-1K-QZA" secondAttribute="trailing" id="Ki7-WW-mw6"/>
                                             <constraint firstAttribute="bottom" secondItem="87x-2n-5fQ" secondAttribute="bottom" constant="-11" id="M1h-DA-KFf"/>
                                             <constraint firstItem="87x-2n-5fQ" firstAttribute="top" secondItem="5XU-vq-YZT" secondAttribute="bottom" constant="7" id="Pon-aY-9sf"/>
@@ -1695,7 +2112,7 @@ deskripiskan, dan pasang harga.</string>
                                             <constraint firstItem="87x-2n-5fQ" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="8" id="YFq-6w-Z3E"/>
                                             <constraint firstItem="X32-1K-QZA" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" id="Zea-bW-3vC"/>
                                             <constraint firstItem="X32-1K-QZA" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="d59-pF-1BK"/>
-                                            <constraint firstAttribute="trailing" secondItem="I7f-5u-kJl" secondAttribute="trailing" constant="8" id="d9b-Bx-U4c"/>
+                                            <constraint firstAttribute="trailing" secondItem="I7f-5u-kJl" secondAttribute="trailing" constant="4" id="d9b-Bx-U4c"/>
                                             <constraint firstItem="CIM-nt-4UI" firstAttribute="leading" secondItem="p5l-ZT-ELz" secondAttribute="trailing" constant="4" id="hFf-s4-YWd"/>
                                             <constraint firstAttribute="bottom" secondItem="No6-kQ-u3q" secondAttribute="bottom" constant="-20" id="paG-fs-XhD"/>
                                             <constraint firstItem="No6-kQ-u3q" firstAttribute="leading" secondItem="CIM-nt-4UI" secondAttribute="trailing" constant="2" id="pe7-0H-dEZ"/>
@@ -1755,7 +2172,7 @@ deskripiskan, dan pasang harga.</string>
                         <viewControllerLayoutGuide type="bottom" id="HsS-Q4-xmK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nH1-89-k4G">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="45" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oLV-dh-iXT">
@@ -1776,7 +2193,7 @@ deskripiskan, dan pasang harga.</string>
                                             </collectionViewFlowLayout>
                                             <cells>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="pot-FA-ghu" customClass="AddProductImageCell" customModule="Prelo" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -1851,7 +2268,7 @@ deskripiskan, dan pasang harga.</string>
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="3MB-aF-tRY">
-                                    <rect key="frame" x="0.0" y="1181" width="600" height="66"/>
+                                    <rect key="frame" x="0.0" y="1221" width="600" height="66"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yw8-WS-6Q6">
@@ -1878,8 +2295,10 @@ deskripiskan, dan pasang harga.</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_category" rowHeight="80" id="WoN-Nv-VIh" customClass="ProductCategoryCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="278" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WoN-Nv-VIh" id="DXW-cI-aWZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1KF-qW-YUF">
@@ -1934,8 +2353,10 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input" id="G8z-Ra-Gft" customClass="CartCellInput" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="358" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G8z-Ra-Gft" id="PO8-fj-gdE">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nama Saya" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3hv-IM-FNR">
@@ -1985,8 +2406,10 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input_2" id="cxY-VI-D5x" customClass="CartCellInput2" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="403" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxY-VI-D5x" id="bUz-SM-r0e">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehq-6h-APO">
@@ -2039,8 +2462,10 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_size" rowHeight="128" id="Hf4-jP-lUm" customClass="AddProductSizeCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="448" width="600" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hf4-jP-lUm" id="zH8-xy-7J0">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rpT-fT-9bh">
@@ -2168,14 +2593,18 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="45" id="ae0-Pe-m0D">
+                                        <rect key="frame" x="0.0" y="576" width="600" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ae0-Pe-m0D" id="ugp-qT-Zw4">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_ongkir" rowHeight="140" id="gw0-Am-GBi" customClass="AddProductShippingPaymentCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="621" width="600" height="140"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gw0-Am-GBi" id="c49-Mi-FR3">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkm-S3-6np">
@@ -2343,8 +2772,10 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_weight" rowHeight="140" id="4mw-ze-Rvq" customClass="AddProductCellWeight" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="761" width="600" height="140"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4mw-ze-Rvq" id="RLi-TQ-mt9">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-8h-ddY">
@@ -2521,8 +2952,10 @@ deskripiskan, dan pasang harga.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_share" rowHeight="320" id="2Nn-tC-Zoz" customClass="AddProductShareCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="901" width="600" height="320"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Nn-tC-Zoz" id="lEp-Ws-ekM">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="320"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VSQ-sv-E0q">
@@ -3664,7 +4097,7 @@ Keuntungan</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="KKD-Pe-4iD">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="102" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FlE-lg-MYU">
@@ -3680,8 +4113,10 @@ Keuntungan</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="PgG-YS-5KH" customClass="MyProductCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PgG-YS-5KH" id="TeM-b3-Wiv">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="meF-ae-zwd">
@@ -3860,7 +4295,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
@@ -3874,7 +4309,7 @@ Keuntungan</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="a3k-6q-hxH" customClass="CategoryPickerParentCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="8" y="20" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -3943,7 +4378,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
@@ -3980,7 +4415,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="Cyb-RE-qG0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rXR-i4-Jg0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cap-F7-jQp">
@@ -3994,7 +4429,7 @@ Keuntungan</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="AaB-mC-4p6" customClass="ImagePickerCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -4052,7 +4487,7 @@ Keuntungan</string>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell_video" id="UfP-G8-1gO" customClass="ImagePickerCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="125" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -4299,8 +4734,10 @@ Keuntungan</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="item" id="Dtg-rL-NXh" customClass="SearchItemCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtg-rL-NXh" id="y94-VI-cym">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVj-eY-b2b">
@@ -4341,8 +4778,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="user" id="188-aR-rkL" customClass="SearchUserCell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="76" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="188-aR-rkL" id="o6v-Qm-Guh">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-GL-On4">
@@ -4402,8 +4841,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sFi-da-Ewt">
+                                        <rect key="frame" x="0.0" y="130" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sFi-da-Ewt" id="7ce-O6-5gy">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -4718,7 +5159,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="R0O-T1-JZo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ti9-gR-Uiw">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -4754,16 +5195,18 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="y72-qx-QcZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="92J-hP-tVs">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lwZ-hq-8H8">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="496"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell2" rowHeight="64" id="nCS-lr-we3" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell2" rowHeight="64" id="nCS-lr-we3" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCS-lr-we3" id="EtJ-ny-W2Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of6-1G-2VK">
@@ -4854,9 +5297,11 @@ Keuntungan</string>
                                             <outlet property="captionName" destination="0lq-bG-hME" id="r4c-Zt-3nT"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" rowHeight="64" id="v3S-zN-g1B" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" rowHeight="64" id="v3S-zN-g1B" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v3S-zN-g1B" id="dwI-0B-P2v">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-hi-dDS">
@@ -5018,14 +5463,14 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="byu-l9-3s0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V0U-1e-fuu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Aaa-Fg-Hix">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Vk0-AV-B8W">
-                                    <rect key="frame" x="0.0" y="604" width="600" height="64"/>
+                                    <rect key="frame" x="0.0" y="586" width="600" height="64"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mX0-pM-sZV">
@@ -5056,8 +5501,10 @@ Keuntungan</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_title" rowHeight="110" id="q8R-Pz-c9R" customClass="ProductCellTitle" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q8R-Pz-c9R" id="gIK-IM-Dyc">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9R-tO-jK6">
@@ -5241,8 +5688,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_seller" rowHeight="86" id="s4i-zp-WWM" customClass="ProductCellSeller" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="132" width="600" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s4i-zp-WWM" id="bD2-0u-qfZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whT-0a-OnI">
@@ -5312,8 +5761,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_desc" rowHeight="240" id="knE-dY-bHP" customClass="ProductCellDescription" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="218" width="600" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="knE-dY-bHP" id="7a0-2a-3WJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQX-IN-uxF">
@@ -5531,8 +5982,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_disc_1" rowHeight="64" id="bpj-9l-XoT" customClass="ProductCellDiscussion" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="458" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bpj-9l-XoT" id="8T9-Mv-HXv">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jh5-2f-6lA">
@@ -5591,8 +6044,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_disc_2" rowHeight="64" id="a7O-2p-Vgx">
+                                        <rect key="frame" x="0.0" y="522" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a7O-2p-Vgx" id="QFi-YB-Bo7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTh-f8-RWX">
@@ -5804,7 +6259,7 @@ Keuntungan</string>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" reuseIdentifier="cell" id="8sB-SA-G4a" customClass="ShareCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -5900,7 +6355,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="lK0-hi-8sa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="TzG-rY-mDA">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddI-AH-dG5">
@@ -6277,8 +6732,10 @@ Keuntungan</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input" id="haP-ho-geD" customClass="CartCellInput" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="584" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="haP-ho-geD" id="RIM-EX-6kk">
+                                            <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nama Saya" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CJa-PH-N7e">
@@ -6329,8 +6786,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input_2" id="SFB-FX-Y6c" customClass="CartCellInput2" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="584" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SFB-FX-Y6c" id="Iji-eq-l8o">
+                                            <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqs-u9-i4M">
@@ -6383,8 +6842,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_edit" id="ECp-cN-UJc" customClass="CartCellEdit" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="110" width="584" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ECp-cN-UJc" id="MqI-Ii-b1x">
+                                            <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nE6-vN-Mvf">
@@ -6403,8 +6864,10 @@ Keuntungan</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_item" rowHeight="74" id="9mh-Sf-lhQ" customClass="CartCellItem" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="154" width="584" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9mh-Sf-lhQ" id="5yb-Ea-OqG">
+                                            <rect key="frame" x="0.0" y="0.0" width="584" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="6qY-tk-8gW">
@@ -6596,7 +7059,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="tGQ-6f-dmX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OBo-o7-ulS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Pc-2l-HUC">
@@ -6762,7 +7225,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="1Zw-bf-rvc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UyB-QE-YC8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BAA-aL-tJz">
@@ -6795,8 +7258,10 @@ Keuntungan</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input" id="YEe-tZ-vX4" customClass="CartCellInput" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YEe-tZ-vX4" id="ZxG-tY-Bl6">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nama Saya" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aux-r6-DY7">
@@ -6836,8 +7301,10 @@ Keuntungan</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input_2" id="TNY-Dt-4oF" customClass="CartCellInput2" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TNY-Dt-4oF" id="Gw0-04-Jte">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOJ-Ab-Iph">
@@ -6908,8 +7375,10 @@ Keuntungan</string>
                         </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3W4-VT-LDM">
+                                <rect key="frame" x="0.0" y="66" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W4-VT-LDM" id="KvA-hb-KVS">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -6960,6 +7429,38 @@ Keuntungan</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cxe-2i-ZeC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-517" y="-360"/>
+        </scene>
+        <!--Status Bar Container View Controller-->
+        <scene sceneID="jPc-N8-4y2">
+            <objects>
+                <viewController id="87C-Oi-o7x" customClass="StatusBarContainerViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yNO-0k-IKJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="LbA-js-tRI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lmp-b9-Nze">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ga4-1d-cxk">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <connections>
+                                    <segue destination="6kB-PJ-dDC" kind="embed" id="Rki-Qg-sjL"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.13725490196078433" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ga4-1d-cxk" firstAttribute="top" secondItem="Lmp-b9-Nze" secondAttribute="top" constant="20" id="Y9w-lF-hcD"/>
+                            <constraint firstItem="ga4-1d-cxk" firstAttribute="leading" secondItem="Lmp-b9-Nze" secondAttribute="leading" id="hRc-AP-WK8"/>
+                            <constraint firstAttribute="trailing" secondItem="ga4-1d-cxk" secondAttribute="trailing" id="ukh-Zq-NNC"/>
+                            <constraint firstItem="LbA-js-tRI" firstAttribute="top" secondItem="ga4-1d-cxk" secondAttribute="bottom" id="x34-E2-hcS"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gEa-RQ-Hqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1369" y="-1068"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="MGK-JM-MTd">
@@ -7260,7 +7761,7 @@ Keuntungan</string>
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="EI5-Rm-Spu" customClass="AddProductImageCell" customModule="Prelo" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>

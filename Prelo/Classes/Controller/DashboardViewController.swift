@@ -131,6 +131,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
             self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
         }
+        
+        if (indexPath.row == 2)
+        {
+            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            self.previousController?.navigationController?.pushViewController(t, animated: true)
+        }
+        
         if (indexPath.row == 5) {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
