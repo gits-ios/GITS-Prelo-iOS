@@ -1728,7 +1728,7 @@ deskripiskan, dan pasang harga.</string>
                                                     </mask>
                                                 </variation>
                                                 <connections>
-                                                    <action selector="shareDone" destination="Bil-tW-9db" eventType="touchUpInside" id="iLd-cP-gre"/>
+                                                    <action selector="withdraw" destination="zDU-lo-36T" eventType="touchUpInside" id="oOc-of-hRI"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1792,6 +1792,9 @@ deskripiskan, dan pasang harga.</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnWithdraw" destination="41l-Uk-Sts" id="gkv-m6-Ltu"/>
+                        <outlet property="captionPreloBalance" destination="EGO-WJ-2xx" id="kma-K2-dA6"/>
+                        <outlet property="scrollView" destination="vlu-KW-CFP" id="3Gq-CS-pDG"/>
                         <outlet property="txtJumlah" destination="8qI-mg-z5n" id="Fmh-uU-06C"/>
                         <outlet property="txtNamaBank" destination="MJf-Rb-FIL" id="Vk6-7q-zXs"/>
                         <outlet property="txtNamaRekening" destination="qek-TI-QRB" id="v42-NR-aY7"/>
