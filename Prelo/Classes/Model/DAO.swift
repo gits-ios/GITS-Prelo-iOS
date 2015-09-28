@@ -248,14 +248,13 @@ public class Product : NSObject
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
 //        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
-        let base = "" + json["display_picts"][0].string!
-        if let url = NSURL(string : base)
-        {
-            return url
-        } else {
-            return NSURL(string: "http://dev.kleora.com/images/products/")
+        if ((json["display_picts"][0].string) != nil) {
+            let base = "" + json["display_picts"][0].string!
+            if let url = NSURL(string : base) {
+                return url
+            }
         }
-//        return NSURL(string: base)
+        return NSURL(string: "http://dev.kleora.com/images/products/")
     }
     
     var discussionCountText : String

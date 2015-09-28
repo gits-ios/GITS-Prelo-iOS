@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MyLovelistCellDelegate {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var lblEmpty: UILabel!
@@ -123,6 +123,43 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.reloadData()
     }
     
+    func showLoading() {
+        // Tampilkan loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+    }
+    
+    func hideLoading() {
+        // Hilangkan loading
+        loadingPanel.hidden = true
+        loading.stopAnimating()
+    }
+    
+    func deleteCell(cell: MyLovelistCell) {
+        println("delete cell with productId = \(cell.productId)")
+        
+        // Delete data in userLovelist
+        for (var i = 0; i < userLovelist!.count; i++) {
+            let l = userLovelist?.objectAtCircleIndex(i)
+            if (l?.id == cell.productId) {
+                userLovelist?.removeAtIndex(i)
+            }
+        }
+        if (self.userLovelist?.count <= 0) {
+            self.lblEmpty.hidden = false
+            self.tableView.hidden = true
+        } else {
+            self.lblEmpty.hidden = true
+            self.tableView.hidden = false
+            self.setupTable()
+        }
+    }
+    
+    func gotoCart() {
+        let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! BaseViewController
+        self.navigationController?.pushViewController(c, animated: true)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userLovelist?.count > 0) {
             return (self.userLovelist?.count)!
@@ -134,6 +171,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: MyLovelistCell = self.tableView.dequeueReusableCellWithIdentifier("MyLovelistCell") as! MyLovelistCell
         cell.selectionStyle = .None
+        cell.delegate = self
         let u = userLovelist?[indexPath.item]
         cell.adapt(u!)
         return cell
@@ -182,6 +220,13 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
 }
 
+protocol MyLovelistCellDelegate {
+    func showLoading()
+    func hideLoading()
+    func deleteCell(cell : MyLovelistCell)
+    func gotoCart()
+}
+
 class MyLovelistCell : UITableViewCell {
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
@@ -190,6 +235,8 @@ class MyLovelistCell : UITableViewCell {
     @IBOutlet weak var lblLoveCount: UILabel!
     
     var productId : String!
+    
+    var delegate : MyLovelistCellDelegate?
     
     func adapt(lovedProduct : LovedProduct) {
         imgProduct.setImageWithUrl(lovedProduct.productImageURL!, placeHolderImage: nil)
@@ -203,22 +250,40 @@ class MyLovelistCell : UITableViewCell {
     @IBAction func beliPressed(sender: AnyObject) {
         if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
             Constant.showDialog("Warning", message: "Produk sudah ada di keranjang belanja Anda")
-            //self.performSegueWithIdentifier("segCart", sender: nil)
+            self.delegate?.gotoCart()
         } else { // Not in cart
             if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString) == nil) { // Failed
                 Constant.showDialog("Warning", message: "Gagal menyimpan produk ke keranjang belanja")
             } else { // Success
                 // TODO: Kirim API add to cart
                 Constant.showDialog("Success", message: "Produk berhasil ditambahkan ke keranjang belanja")
-                //self.performSegueWithIdentifier("segCart", sender: nil)
+                self.delegate?.gotoCart()
             }
         }
-        // TODO: delete dari lovelist
+        // Delete cell after add to cart
+        self.deletePressed(nil)
     }
     
-    @IBAction func deletePressed(sender: AnyObject) {
-        println("delete pressed")
-        // TODO: Do it
-        // sepertinya perlu pake delegate protocol ke class MyLovelistVC
+    @IBAction func deletePressed(sender: AnyObject?) {
+        // Show loading
+        self.delegate?.showLoading()
+        
+        // Send unlove API
+        request(Products.Unlove(productID: productId)).responseJSON {req, _, res, err in
+            println("Unlove req = \(req)")
+            if (err != nil) { // Terdapat error
+                println("error unlove: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let isLove : Bool = json["_data"]["love"].bool!
+                if (!isLove) { // Berhasil unlove
+                    // Delete cell
+                    self.delegate?.deleteCell(self)
+                } else { // Gagal unlove
+                    Constant.showDialog("Warning", message: "Terdapat kesalahan pada server, silahkan coba beberapa saat lagi")
+                }
+                self.delegate?.hideLoading()
+            }
+        }
     }
 }

@@ -175,8 +175,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
-        
-        let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\"}"
+        println("p = \(p)")
+        let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\", \"recipient_name\": \"Popoy\", \"recipient_phone\": \"1234567\", \"email\": \"popoy@prelo.id\"}"
         
         request(APICart.Refresh(cart: p, address: a, voucher: voucher))
             .responseJSON {_, _, res, err in
@@ -252,7 +252,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let a = AppToolsObjC.jsonStringFrom(d)
         
         self.btnSend.enabled = false
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, phone: phone, payment: selectedPayment))
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment))
             .responseJSON{_, resp, res, err in
                 self.btnSend.enabled = true
                 if (APIPrelo.validate(true, err: err, resp: resp))
@@ -263,6 +263,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         Constant.showDialog("Warning", message: error)
                     } else {
                         self.checkoutResult = JSON(res!)["_data"]
+                        println("checkoutResult = \(self.checkoutResult)")
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                         c.orderID = (self.checkoutResult?["order_id"].string)!
                         c.totalPayment = (self.checkoutResult?["final_price"].int)!
@@ -876,8 +877,8 @@ class CartCellItem : UITableViewCell
     {
         println(json)
         captionName?.text = json["name"].string!
-        captionLocation?.text = json["seller_region"]["name"].string!
-        
+        //captionLocation?.text = json["seller_region"]["name"].string!
+        captionLocation?.text = CDRegion.getRegionNameWithID(json["seller_region"].string!)
         let ori : Array<String> = json["display_picts"].arrayObject as! Array<String>
         
         ivCover?.image = nil
@@ -893,7 +894,7 @@ class CartCellItem : UITableViewCell
             captionPrice?.attributedText = attString
             shade?.hidden = false
         } else {
-            let sh = json["shippings"].array!
+            let sh = json["shipping_packages"].array!
             let first = sh.first
             var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["pricefixed"].int
             ongkir = 0

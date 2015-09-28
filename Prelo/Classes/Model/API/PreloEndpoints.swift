@@ -162,14 +162,14 @@ enum APICart : URLRequestConvertible
     static let basePath = "cart/"
     
     case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, phone : String, payment : String)
+    case Checkout(cart : String, address : String, voucher : String?, payment : String)
     
     var method : Method
     {
         switch self
         {
         case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _, _) : return .POST
+        case .Checkout(_, _, _, _) : return .POST
         }
     }
     
@@ -178,7 +178,7 @@ enum APICart : URLRequestConvertible
         switch self
         {
         case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _, _) : return "checkout"
+        case .Checkout(_, _, _, _) : return "checkout"
         }
     }
     
@@ -188,17 +188,16 @@ enum APICart : URLRequestConvertible
         {
         case .Refresh(let cart, let address, let voucher) :
                 let p = [
-                    "cart_items":cart,
+                    "cart_products":cart,
                     "shipping_address":address,
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
-        case .Checkout(let cart, let address, let voucher, let phone, let payment) :
+        case .Checkout(let cart, let address, let voucher, let payment) :
             let p = [
-                "cart_items":cart,
+                "cart_products":cart,
                 "shipping_address":address,
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
-                "payment_phone":phone,
                 "payment_method":payment
             ]
             return p
@@ -207,7 +206,7 @@ enum APICart : URLRequestConvertible
     
     var URLRequest : NSURLRequest
     {
-        let baseURL = NSURL(string: oldAPI)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
