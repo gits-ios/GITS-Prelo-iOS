@@ -137,8 +137,25 @@ public class ProductDetail : NSObject
     
     var displayPicturers : Array<String>
     {
-        let ori : Array<String> = json["_data"]["display_picts"].arrayObject as! Array<String>
-        return ori
+        if let ori : Array<String> = json["_data"]["display_picts"].arrayObject as? Array<String>
+        {
+            return ori
+        } else if let ori = json["_data"]["display_picts"].arrayObject
+        {
+            if (ori.count > 0)
+            {
+                var arr : [String] = []
+                for i in 0...ori.count-1
+                {
+                    if let o = ori[i] as? String
+                    {
+                        arr.append(o)
+                    }
+                }
+                return arr
+            }
+        }
+        return []
 //        var arr : Array<String> = []
 //        for name in ori
 //        {
@@ -247,13 +264,14 @@ public class Product : NSObject
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
-//        let base = "http://dev.kleora.com/images/products/" + json["_id"].string! + "/" + json["display_picts"][0].string!
-        if ((json["display_picts"][0].string) != nil) {
-            let base = "" + json["display_picts"][0].string!
-            if let url = NSURL(string : base) {
+        if let base = json["display_picts"][0].string
+        {
+            if let url = NSURL(string : base)
+            {
                 return url
             }
         }
+        
         return NSURL(string: "http://dev.kleora.com/images/products/")
     }
     
@@ -410,9 +428,7 @@ class ProductDiscussion : NSObject
         {
             if let s = json["time"].string
             {
-                formatter = NSDateFormatter()
-                formatter?.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                date = formatter?.dateFromString(s)
+                return s
             }
         }
         

@@ -92,6 +92,54 @@ enum APIApp : URLRequestConvertible
     }
 }
 
+enum APIWallet : URLRequestConvertible
+{
+    static let basePath = "wallet/"
+    
+    case GetBalance
+    case Withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .Withdraw(_, _, _, _, _) : return .POST
+            case .GetBalance : return .GET
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .Withdraw(_, _, _, _, _) : return "withdraw"
+            case .GetBalance : return "balance"
+            }
+    }
+    
+    var param : [String : AnyObject]?
+        {
+            switch self
+            {
+            case .Withdraw(let amount, let namaBank, let norek, let namarek, let password) : return ["amount" : amount, "target_bank":namaBank, "nomor_rekening":norek, "name":namarek, "password":password]
+            case .GetBalance : return [:]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIWallet.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            println("\(req.allHTTPHeaderFields)")
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            
+            return r
+    }
+}
+
 enum APITransaction : URLRequestConvertible
 {
     static let basePath = "transaction_product/"

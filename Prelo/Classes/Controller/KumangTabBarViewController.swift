@@ -13,10 +13,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     var numberOfControllers : Int = 0
     
     @IBOutlet var sectionContent : UIView?
+    @IBOutlet var sectionBar : UIView?
     @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
     
     @IBOutlet var btnDashboard : UIButton!
+    
+    @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
     
     var menuPopUp : MenuPopUp?
     
@@ -65,6 +68,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.setupTitle()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNew:", name: NotificationName.PushNew, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideBottomBar", name: "hideBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showBottomBar", name: "showBottomBar", object: nil)
 
         // Do any additional setup after loading the view.
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
@@ -72,7 +77,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
         
-        controllerBrowse = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as? UIViewController
+        let lc : ListCategoryViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as! ListCategoryViewController
+        lc.previousController = self
+        controllerBrowse = lc
         changeToController(controllerBrowse!)
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
@@ -81,9 +88,34 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         controllerDashboard2?.previousController = self
     }
     
+    func hideBottomBar()
+    {
+        consMarginBottomBar.constant = -76
+        UIView.animateWithDuration(1, animations: {
+            self.sectionBar?.layoutIfNeeded()
+            self.btnAdd?.layoutIfNeeded()
+        })
+    }
+    
+    func showBottomBar()
+    {
+        consMarginBottomBar.constant = 0
+        UIView.animateWithDuration(1, animations: {
+            self.sectionBar?.layoutIfNeeded()
+            self.btnAdd?.layoutIfNeeded()
+        })
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: Theme.PrimaryColor)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        showBottomBar()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -116,8 +148,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.navigationController?.pushViewController(d, animated: true)
     }
     
+    var oldController : UIViewController?
     func changeToController(newController : UIViewController)
     {
+        if let o = oldController
+        {
+            o.removeFromParentViewController()
+        }
+        
         let oldView = sectionContent?.viewWithTag(1)
         oldView?.removeFromSuperview()
         
@@ -131,6 +169,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         sectionContent?.addConstraints(horizontalConstraint)
         sectionContent?.addConstraints(verticalConstraint)
+        
+        oldController = v
+        self.addChildViewController(oldController!)
     }
     
     @IBAction func switchController(sender: AnyObject) {

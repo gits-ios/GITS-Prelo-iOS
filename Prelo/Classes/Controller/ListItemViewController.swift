@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     @IBOutlet var gridView: UICollectionView!
     
@@ -126,6 +126,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func statusBarTapped()
     {
         gridView.setContentOffset(CGPointMake(0, 10), animated: true)
+        NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -212,7 +214,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     {
         if (gridView.delegate == nil)
         {
-            width = ((UIScreen.mainScreen().bounds.size.width-24)/2)
+            width = ((UIScreen.mainScreen().bounds.size.width-12)/2)
             gridView.dataSource = self
             gridView.delegate = self
         }
@@ -242,7 +244,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: width!, height: width!+50)
+        return CGSize(width: width!, height: width!+46)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -275,7 +277,40 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     {
 //        self.navigationController?.pushViewController(d, animated: true)
 //        self.presentViewController(nav, animated: YES, completion: nil)
-        NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: selectedProduct);
+//        self.previousController?.navigationController?.setNavigationBarHidden(false, animated: true)
+        NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
+    }
+    
+    var currScrollPoint : CGPoint = CGPointZero
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        currScrollPoint = scrollView.contentOffset
+        dragging = true
+    }
+    
+    var dragging = false
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        dragging = false
+    }
+    
+    var reloaded = false
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (dragging)
+        {
+            if (currScrollPoint.y < scrollView.contentOffset.y)
+            {
+                if ((self.navigationController?.navigationBarHidden)! == false)
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                    UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                }
+            } else
+            {
+                NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+            }
+        }
     }
 
 }

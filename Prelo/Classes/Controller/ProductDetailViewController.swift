@@ -80,6 +80,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 alreadyInCart = false
             }
         }
+        
+        if ((self.navigationController?.navigationBarHidden)! == true)
+        {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
     
     func option()

@@ -173,7 +173,7 @@ class BaseViewController: UIViewController {
 //        let v = UIView(frame: CGRectMake(0, 0, l.x+l.width, l.height+4))
 //        v.addSubview(iv)
 //        v.addSubview(l)
-        let i = TintedImageView(frame: CGRectMake(0, 0, 50, 47), backgroundColor: UIColor.clearColor())
+        let i = TintedImageView(frame: CGRectMake(0, 0, 100, 100), backgroundColor: UIColor.clearColor())
         i.image = UIImage(named : "ic_prelo_logo_text")
         i.tintColor = UIColor.whiteColor()
         i.contentMode = UIViewContentMode.ScaleAspectFit
