@@ -19,7 +19,9 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet weak var lblOrderTime: UILabel!
     
     func adapt(userPurchase : UserTransaction) {
-        imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
+        if (userPurchase.productImageURL != nil) {
+            imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
+        }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "Rp " + userPurchase.productPrice.string
         lblCommentCount.text = userPurchase.productCommentCount.string

@@ -351,6 +351,17 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */; };
+		44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */; };
+		44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */; };
+		44B7087E1BBA6D86001EACBF /* MyProductProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */; };
+		44B7087F1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7087A1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift */; };
+		44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708811BBA6E19001EACBF /* MyLovelist.xib */; };
+		44B708881BBA6E19001EACBF /* MyLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708821BBA6E19001EACBF /* MyLovelistCell.xib */; };
+		44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708831BBA6E19001EACBF /* MyProductCompleted.xib */; };
+		44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708841BBA6E19001EACBF /* MyProductDetail.xib */; };
+		44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708851BBA6E19001EACBF /* MyProductProcessing.xib */; };
+		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
@@ -814,6 +825,17 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLovelistViewController.swift; sourceTree = "<group>"; };
+		44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductCompletedViewController.swift; sourceTree = "<group>"; };
+		44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductDetailViewController.swift; sourceTree = "<group>"; };
+		44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductProcessingViewController.swift; sourceTree = "<group>"; };
+		44B7087A1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseDetailViewController.swift; sourceTree = "<group>"; };
+		44B708811BBA6E19001EACBF /* MyLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyLovelist.xib; sourceTree = "<group>"; };
+		44B708821BBA6E19001EACBF /* MyLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyLovelistCell.xib; sourceTree = "<group>"; };
+		44B708831BBA6E19001EACBF /* MyProductCompleted.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductCompleted.xib; sourceTree = "<group>"; };
+		44B708841BBA6E19001EACBF /* MyProductDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductDetail.xib; sourceTree = "<group>"; };
+		44B708851BBA6E19001EACBF /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
+		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
@@ -1351,6 +1373,11 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
+				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
+				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
+				44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */,
+				44B7087A1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift */,
 				21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */,
 				21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */,
 				21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */,
@@ -1685,6 +1712,12 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
+				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
+				44B708831BBA6E19001EACBF /* MyProductCompleted.xib */,
+				44B708841BBA6E19001EACBF /* MyProductDetail.xib */,
+				44B708851BBA6E19001EACBF /* MyProductProcessing.xib */,
+				44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */,
 				21104ACB1BAA8F1200947E7F /* MyPurchase.xib */,
 				21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */,
 				21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */,
@@ -1795,6 +1828,7 @@
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
+				44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
@@ -1804,9 +1838,11 @@
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
+				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -1846,6 +1882,7 @@
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				21621CD11BA16203009BBACB /* tour_3.png in Resources */,
+				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
@@ -1864,6 +1901,7 @@
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
+				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
@@ -1883,6 +1921,7 @@
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
+				44B708881BBA6E19001EACBF /* MyLovelistCell.xib in Resources */,
 				2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
@@ -1961,11 +2000,14 @@
 				21C5AB831B858A580036FF6B /* ImagePickerViewController.swift in Sources */,
 				2113125A1B677BA000A4DA3B /* DashboardViewController.swift in Sources */,
 				2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */,
+				44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */,
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
+				44B7087E1BBA6D86001EACBF /* MyProductProcessingViewController.swift in Sources */,
 				2127A2AA1B7B338900469CFC /* ImageSupplier.swift in Sources */,
 				211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
+				44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */,
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
@@ -2031,6 +2073,7 @@
 				2141BBE11B54BE4C00787F5D /* SocketEngine.swift in Sources */,
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
+				44B7087F1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift in Sources */,
 				21104ADA1BAAA21C00947E7F /* SearchTag.swift in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
 				21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */,
@@ -2104,6 +2147,7 @@
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				2141BBAC1B54BE4C00787F5D /* ResponseSerialization.swift in Sources */,
+				44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */,
 				2141BBD31B54BE4C00787F5D /* UIWindow+BFKit.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,
@@ -2291,8 +2335,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2310,7 +2354,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "cc986de3-b308-4ddc-ae97-475afa6bb658";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2320,8 +2364,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2336,7 +2380,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "cc986de3-b308-4ddc-ae97-475afa6bb658";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

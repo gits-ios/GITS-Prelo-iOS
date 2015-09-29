@@ -164,12 +164,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     @IBAction func launchMyProducts()
     {
-        // TEMPORARAY
-        let myLovelistVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil).first as! MyLovelistViewController
-        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
-        /*let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
     
     @IBAction func launchMyPurchases() {
