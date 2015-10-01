@@ -333,7 +333,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userPhone = fieldNoHP?.text
             let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             let userReferral = fieldKodeReferral.text
-            let userDeviceId = "dor"
+            let userDeviceId = "dor" // FIXME
             
             request(APIUser.SetupAccount(gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
                 if let error = err {

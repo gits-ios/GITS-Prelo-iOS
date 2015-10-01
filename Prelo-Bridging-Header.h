@@ -24,5 +24,7 @@
 #import "MGInstagram.h"
 #import "Line.h"
 #import "LKLineActivity.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #endif

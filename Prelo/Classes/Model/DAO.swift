@@ -100,7 +100,93 @@ public class User : NSObject
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
         NSUserDefaults.standardUserDefaults().synchronize()
+        
+        self.LogoutFacebook()
     }
+    
+    static func LogoutFacebook()
+    {
+        let fbManager = FBSDKLoginManager()
+        fbManager.logOut()
+        FBSDKAccessToken.setCurrentAccessToken(nil)
+    }
+}
+
+class UserProfile : NSObject {
+    var json : JSON!
+
+    static func instance(json : JSON?) -> UserProfile? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserProfile()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        let i = (json["_id"].string)!
+        return i
+    }
+    
+    var username : String {
+        let u = (json["username"].string)!
+        return u
+    }
+    
+    var email : String {
+        let e = (json["email"].string)!
+        return e
+    }
+    
+    var fullname : String {
+        let f = (json["fullname"].string)!
+        return f
+    }
+    
+    var profPictURL : NSURL? {
+        if let err = json["profile"]["pict"].error {
+            return nil
+        }
+        let url = json["profile"]["pict"].string!
+        return NSURL(string: url)
+    }
+    
+    var phone : String? {
+        let p : String? = json["profile"]["phone"].string!
+        return p
+    }
+    
+    var regionId : String? {
+        let r : String? = json["profile"]["region_id"].string!
+        return r
+    }
+    
+    var provinceId : String? {
+        let p : String? = json["profile"]["province_id"].string!
+        return p
+    }
+    
+    var gender : String? {
+        let g : String? = json["profile"]["gender"].string!
+        return g
+    }
+    
+    var shippingIds : [String]? {
+        let s : [String]?
+        if (json["shipping_preferences_ids"] != nil) {
+            s = []
+            for (var i = 0; i < json["shipping_preferences_ids"].count; i++) {
+                s!.append(json["shipping_preferences_ids"][i].string!)
+            }
+            return s
+        } else {
+            return nil
+        }
+    }
+    
+    // TODO : others: isPhoneVerified etc
 }
 
 public class ProductDetail : NSObject

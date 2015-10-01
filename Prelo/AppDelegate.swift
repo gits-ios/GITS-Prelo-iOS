@@ -38,54 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         versionCheck()
         
-        return true
-    }
-    
-    func versionCheck() {
-        request(APIApp.Version(appType: "ios")).responseJSON
-            {_, _, res, err in
-                if (err != nil) { // Terdapat error
-                    println("Error getting version: \(err!.description)")
-                } else {
-                    let json = JSON(res!)
-                    let data = json["_data"]
-                    if (data == nil) { // Data kembalian kosong
-                        let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]
-                        println("Empty version data, error: \(message)")
-                    } else { // Berhasil
-                        println("Version data: \(data)")
-                        
-                        // Jika versi metadata baru, load dan save kembali di coredata
-                        let ver : CDVersion? = CDVersion.getOne()
-                        if (ver?.metadataVersion == data["metadata_version"].string) {
-                            println("Same metadata version")
-                        } else {
-                            println("Updating metadata")
-                            request(APIApp.Metadata).responseJSON
-                                {_, _, metaRes, metaErr in
-                                    if (metaErr != nil) { // Terdapat error
-                                        println("Error getting metadata: \(metaErr!.description)")
-                                    } else {
-                                        let metaJson = JSON(metaRes!)
-                                        let metadata = metaJson["_data"]
-                                        if (metadata == nil) { // Data kembalian kosong
-                                            let obj : [String : String] = res as! [String : String]
-                                            let message = obj["_message"]
-                                            println("Empty metadata, error: \(message)")
-                                        } else { // Berhasil
-                                            // Hapus data lama kemudian simpan yang baru
-                                            if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
-                                                CDProvince.saveProvinceRegions(metadata["provinces_regions"])
-                                            }
-                                        }
-                                    }
-                            }
-                        }
-                        CDVersion.saveVersion(data)
-                    }
-                }
-        }
+        //return true
+        
+        // Override point for customization after application launch
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -186,5 +142,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    // MARK: - Facebook Function
+    
+    func application(application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject?) -> Bool {
+            return FBSDKApplicationDelegate.sharedInstance().application(
+                application,
+                openURL: url,
+                sourceApplication: sourceApplication,
+                annotation: annotation)
+    }
+    
+    // MARK: - Version Check
+    
+    func versionCheck() {
+        request(APIApp.Version(appType: "ios")).responseJSON
+            {_, _, res, err in
+                if (err != nil) { // Terdapat error
+                    println("Error getting version: \(err!.description)")
+                } else {
+                    let json = JSON(res!)
+                    let data = json["_data"]
+                    if (data == nil) { // Data kembalian kosong
+                        let obj : [String : String] = res as! [String : String]
+                        let message = obj["_message"]
+                        println("Empty version data, error: \(message)")
+                    } else { // Berhasil
+                        println("Version data: \(data)")
+                        
+                        // Jika versi metadata baru, load dan save kembali di coredata
+                        let ver : CDVersion? = CDVersion.getOne()
+                        if (ver?.metadataVersion == data["metadata_version"].string) {
+                            println("Same metadata version")
+                        } else {
+                            println("Updating metadata")
+                            request(APIApp.Metadata).responseJSON
+                                {_, _, metaRes, metaErr in
+                                    if (metaErr != nil) { // Terdapat error
+                                        println("Error getting metadata: \(metaErr!.description)")
+                                    } else {
+                                        let metaJson = JSON(metaRes!)
+                                        let metadata = metaJson["_data"]
+                                        if (metadata == nil) { // Data kembalian kosong
+                                            let obj : [String : String] = res as! [String : String]
+                                            let message = obj["_message"]
+                                            println("Empty metadata, error: \(message)")
+                                        } else { // Berhasil
+                                            // Hapus data lama kemudian simpan yang baru
+                                            if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+                                                CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                        CDVersion.saveVersion(data)
+                    }
+                }
+        }
+    }
 }
 

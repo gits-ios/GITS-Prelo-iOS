@@ -15,7 +15,7 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var address: String?
     @NSManaged var desc: String?
     @NSManaged var gender: String?
-    @NSManaged var phone: String
+    @NSManaged var phone: String?
     @NSManaged var pict: String
     @NSManaged var postalCode: String?
     @NSManaged var regionID: String
@@ -31,5 +31,30 @@ class CDUserProfile: NSManagedObject {
         } else {
             return r?.first as? CDUserProfile
         }
+    }
+    
+    static func deleteAll() -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "CDUserProfile")
+        fetchRequest.includesPropertyValues = false
+        
+        var error : NSError?
+        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+            for result in results {
+                m?.deleteObject(result)
+            }
+            
+            var error : NSError?
+            if (m?.save(&error) != nil) {
+                println("deleteAll CDUserProfile success")
+            } else if let error = error {
+                println("deleteAll CDUserProfile failed with error : \(error.userInfo)")
+                return false
+            }
+        } else if let error = error {
+            println("deleteAll CDUserProfile failed with fetch error : \(error)")
+            return false
+        }
+        return true
     }
 }
