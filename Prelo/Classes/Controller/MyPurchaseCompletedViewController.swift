@@ -14,7 +14,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
     
-    var userPurchases : Array <UserPurchase>?
+    var userPurchases : Array <UserTransaction>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
-                        let u = UserPurchase.instance(item)
+                        let u = UserTransaction.instance(item)
                         if (u != nil) {
                             self.userPurchases?.append(u!)
                         }
@@ -113,7 +113,9 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("Row \(indexPath.row) selected")
+        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+        myPurchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
+        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

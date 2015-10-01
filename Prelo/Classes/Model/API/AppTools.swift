@@ -110,6 +110,23 @@ class Tags : NSObject
     static let XibNameMyPurchase = "MyPurchase"
     static let XibNameMyPurchaseProcessing = "MyPurchaseProcessing"
     static let XibNameMyPurchaseCompleted = "MyPurchaseCompleted"
+    static let XibNameMyPurchaseDetail = "MyPurchaseDetail"
+    static let XibNameMyProductProcessing = "MyProductProcessing"
+    static let XibNameMyProductCompleted = "MyProductCompleted"
+    static let XibNameMyProductDetail = "MyProductDetail"
+    static let XibNameMyLovelist = "MyLovelist"
+}
+
+class OrderStatus : NSObject
+{
+    static let Dipesan = "Dipesan"
+    static let Dibayar = "Dibayar"
+    static let Dikirim = "Dikirim"
+    static let PembayaranPending = "Pembayaran Pending"
+    static let Direview = "Direview"
+    static let TidakDikirimSeller = "Tidak Dikirim Seller"
+    static let Diterima = "Diterima"
+    static let DibatalkanSeller = "Dibatalkan Seller"
 }
 
 class NotificationName : NSObject

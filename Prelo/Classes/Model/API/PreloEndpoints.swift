@@ -145,12 +145,16 @@ enum APITransaction : URLRequestConvertible
     static let basePath = "transaction_product/"
     
     case Purchases(status : String, current : String, limit : String)
+    case Sells(status : String, current : String, limit : String)
+    case TransactionDetail(id : String)
     
     var method : Method
     {
         switch self
         {
         case .Purchases(_, _, _) : return .GET
+        case .Sells(_, _, _) : return .GET
+        case .TransactionDetail(_) : return .GET
         }
     }
     
@@ -159,6 +163,8 @@ enum APITransaction : URLRequestConvertible
         switch self
         {
         case .Purchases(_, _, _) : return "buys"
+        case .Sells(_, _, _) : return "sells"
+        case .TransactionDetail(let id) : return id
         }
     }
     
@@ -173,6 +179,15 @@ enum APITransaction : URLRequestConvertible
                 "limit" : limit
             ]
             return p
+        case .Sells(let status, let current, let limit) :
+            let p = [
+                "status" : status,
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
+        case .TransactionDetail(_) :
+            return [:]
         }
     }
     
@@ -195,14 +210,14 @@ enum APICart : URLRequestConvertible
     static let basePath = "cart/"
     
     case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, phone : String, payment : String)
+    case Checkout(cart : String, address : String, voucher : String?, payment : String)
     
     var method : Method
     {
         switch self
         {
         case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _, _) : return .POST
+        case .Checkout(_, _, _, _) : return .POST
         }
     }
     
@@ -211,7 +226,7 @@ enum APICart : URLRequestConvertible
         switch self
         {
         case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _, _) : return "checkout"
+        case .Checkout(_, _, _, _) : return "checkout"
         }
     }
     
@@ -226,12 +241,11 @@ enum APICart : URLRequestConvertible
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
-        case .Checkout(let cart, let address, let voucher, let phone, let payment) :
+        case .Checkout(let cart, let address, let voucher, let payment) :
             let p = [
                 "cart_products":cart,
                 "shipping_address":address,
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
-                "payment_phone":phone,
                 "payment_method":payment
             ]
             return p
@@ -327,6 +341,7 @@ enum APIUser : URLRequestConvertible
     case Me
     case OrderList(status : String)
     case MyProductSell
+    case MyLovelist
     case SetupAccount(gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     
@@ -340,6 +355,7 @@ enum APIUser : URLRequestConvertible
         case .Me:return .GET
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
+        case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         }
@@ -355,6 +371,7 @@ enum APIUser : URLRequestConvertible
         case .Me : return "profile"
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
+        case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         }
@@ -382,6 +399,7 @@ enum APIUser : URLRequestConvertible
                 "status":status
             ]
         case .MyProductSell:return [:]
+        case .MyLovelist : return [:]
         case .SetupAccount(let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
             return [
                 "gender":gender,
@@ -419,6 +437,7 @@ enum Products : URLRequestConvertible
 {
     static let basePath = "product/"
     
+    case MyProducts(current : Int, limit : Int)
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case Detail(productId : String)
     case Add(name : String, desc : String, price : String, weight : String, category : String)
@@ -431,6 +450,7 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(_, _) : return .GET
         case .ListByCategory(_, _, _, _, _, _, _): return .GET
         case .Detail(_): return .GET
         case .Add(_, _, _, _, _) : return .POST
@@ -445,6 +465,7 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(_, _) : return ""
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
         case .Add(_, _, _, _, let category) : return ""
@@ -459,6 +480,12 @@ enum Products : URLRequestConvertible
     {
         switch self
         {
+        case .MyProducts(let current, let limit) :
+            let p = [
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
         case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
             return [
                 "category":catId,

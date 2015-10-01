@@ -20,7 +20,6 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         super.viewDidLoad()
         
         purchaseProcessingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseProcessing, owner: nil, options: nil).first as! MyPurchaseProcessingViewController
-        purchaseProcessingVC?.previousController = self
         
         purchaseCompletedVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseCompleted, owner: nil, options: nil).first as! MyPurchaseCompletedViewController
         
@@ -47,6 +46,12 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
     
     func backPressed(sender: UIBarButtonItem) {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
+    @IBAction func sellPressed(sender: AnyObject) {
+        let addProductVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
+        self.navigationController?.pushViewController(addProductVC, animated: true)
     }
     
     func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {

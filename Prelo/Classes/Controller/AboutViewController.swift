@@ -42,7 +42,13 @@ class AboutViewController: BaseViewController {
         {
             d.userLoggedOut!()
         }
-        
+        request(APIAuth.Logout).responseJSON {_, _, res, err in
+            if (err != nil) {
+                println("Logout API error: \(err!.description)")
+            } else {
+                println("Logout API success")
+            }
+        }
         self.navigationController?.popViewControllerAnimated(true)
     }
 

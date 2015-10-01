@@ -131,6 +131,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
             self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
         }
+        
+        if (indexPath.row == 2)
+        {
+            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            self.previousController?.navigationController?.pushViewController(t, animated: true)
+        }
+        
         if (indexPath.row == 5) {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
@@ -149,20 +156,34 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    @IBAction func launchMyLovelist()
+    {
+        let myLovelistVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil).first as! MyLovelistViewController
+        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
+    }
+    
     @IBAction func launchMyProducts()
     {
-        /*let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
+<<<<<<< HEAD
         
+//        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+//        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+=======
+    }
+    
+    @IBAction func launchMyPurchases() {
         let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
         self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+>>>>>>> f0bf14e58c68c1ac83e331cd7eae2ec98323c35f
     }
 
     @IBAction func editProfilePressed(sender: UIButton) {
-        /*let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
-        userProfileVC.previousControllerName = "Dashboard"
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)*/
+        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+//        userProfileVC.previousControllerName = "Dashboard"
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     /*
     // MARK: - Navigation
