@@ -209,7 +209,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let a = AppToolsObjC.jsonStringFrom(d)
         
         self.btnSend.enabled = false
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, phone: phone, payment: selectedPayment))
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment))
             .responseJSON{_, resp, res, err in
                 self.btnSend.enabled = true
                 if (APIPrelo.validate(true, err: err, resp: resp))
