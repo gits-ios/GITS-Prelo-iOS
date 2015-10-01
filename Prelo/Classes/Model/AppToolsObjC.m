@@ -49,19 +49,32 @@ static UIDocumentInteractionController *staticDocController = NULL;
     
     manager.requestSerializer.timeoutInterval = 600;
     
-    [manager POST:@"http://dev.preloapp.com/api/2/products" parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:@"http://dev.prelo.id/api/product" parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if (images.count > 0) {
             for (int i = 0; i < images.count; i++)
             {
                 NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
-                NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
-                [formData appendPartWithFileData:data name:name fileName:name mimeType:@"image/jpeg"];
-          
+                if ([images[i] isKindOfClass:[UIImage class]])
+                {
+                    NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
+//                    [formData appendPartWithFormData:data name:name];
+                    [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+                }
             }
         }
+        
+//        for (NSString *key in param.allKeys)
+//        {
+//            [formData appendPartWithFormData:[param[key] dataUsingEncoding:NSUTF8StringEncoding]
+//                                        name:key];
+//        }
+        
+        NSLog(@"");
     } success:^(AFHTTPRequestOperation *op, id res) {
         success(op, res);
     } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
         failure(op, err);
     }];
 }

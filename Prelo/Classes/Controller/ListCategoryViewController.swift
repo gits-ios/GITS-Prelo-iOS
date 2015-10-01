@@ -65,7 +65,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             contentView = pContentView
         }
         
-        var colors = [UIColor.blueColor(), UIColor.greenColor()]
+        var colors = [UIColor.blueColor(), UIColor.clearColor()]
         
         var lastView : UIView?
         for i in 0...count-1
@@ -157,7 +157,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             categoryIndicator?.addConstraint(indicatorWidth!)
         }
         
-        var colors = [UIColor.blueColor(), UIColor.greenColor()]
+        var colors = [UIColor.blueColor(), UIColor.whiteColor()]
         
         var lastView : UIView?
         for i in 0...count-1

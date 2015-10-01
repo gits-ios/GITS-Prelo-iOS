@@ -8,33 +8,89 @@
 
 import UIKit
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate
 {
 
     @IBOutlet var txtName : SZTextView!
-    @IBOutlet var conHeightTxtName : NSLayoutConstraint!
-    var growerName : GrowingTextViewHandler?
     @IBOutlet var txtDescription : SZTextView!
-    @IBOutlet var conHeightTxtDesc : NSLayoutConstraint!
+    var growerName : GrowingTextViewHandler?
     var growerDesc : GrowingTextViewHandler?
     
+    @IBOutlet var conHeightTxtName : NSLayoutConstraint!
+    @IBOutlet var conHeightTxtDesc : NSLayoutConstraint!
+    @IBOutlet var conHeightWeightView : NSLayoutConstraint!
+    
     @IBOutlet var scrollView : UIScrollView!
+    @IBOutlet var imageViews : [UIImageView] = []
+    @IBOutlet var weightViews : [BorderedView] = []
+    @IBOutlet var ongkirViews : [BorderedView] = []
+    
+    @IBOutlet var txtOldPrice : UITextField!
+    @IBOutlet var txtNewPrice : UITextField!
+    @IBOutlet var txtWeight : UITextField!
+    
+    @IBOutlet var captionKondisi : UILabel!
+    @IBOutlet var captionMerek : UILabel!
+    @IBOutlet var captionKategori : UILabel!
+    
+    @IBOutlet var btnSubmit : UIButton!
+    
+    var productCategoryId = ""
+    var kodindisiId = ""
+    var merekId = ""
+    var freeOngkir = 0
+    
+    var editMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        txtWeight.hidden = true
+        
         txtName.placeholder = "Nama Produk"
         txtDescription.placeholder = "Deskripsi"
+        
+        txtName.fadeTime = 0.2
+        txtDescription.fadeTime = 0.2
         
         growerName = GrowingTextViewHandler(textView: txtName, withHeightConstraint: conHeightTxtName)
         growerName?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
         
         growerDesc = GrowingTextViewHandler(textView: txtDescription, withHeightConstraint: conHeightTxtDesc)
         growerDesc?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 100)
+        
+        selectWeight(nil)
+        selectOngkir(nil)
+        
+        var index = 0
+        for i in imageViews
+        {
+            i.tag = index
+            i.contentMode = UIViewContentMode.ScaleAspectFill
+            i.clipsToBounds = true
+            index++
+            i.userInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: "imageTapped:")
+            i.addGestureRecognizer(tap)
+        }
+        
+        if (editMode)
+        {
+            self.title = "Edit Product"
+            self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
+        } else
+        {
+            self.title = "Add Product"
+            self.btnSubmit.setTitle("Submit", forState: UIControlState.Normal)
+            self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
+        self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
     }
     
+    var notPicked = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -57,12 +113,95 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     self.scrollView.scrollRectToVisible(f, animated: true)
                 }
         })
+        
+        if (User.IsLoggedIn == false)
+        {
+            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        } else if (notPicked)
+        {
+            notPicked = false
+            self.pickImage(0, forceBackOnCancel: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
+    }
+    
+    func userLoggedIn() {
+        
+    }
+    
+    func userCancelLogin() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func imageTapped(sender : UITapGestureRecognizer)
+    {
+        let index = sender.view!.tag
+     
+        if (imageViews[index].image == nil)
+        {
+            self.pickImage(index, forceBackOnCancel: false)
+        } else {
+            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+            a.addButtonWithTitle("Edit")
+            a.addButtonWithTitle("Ganti")
+            
+            if (index != 0)
+            {
+                a.addButtonWithTitle("Hapus")
+            }
+            a.tag = index
+            a.showInView(self.view)
+        }
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
+            AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
+            let u = AdobeUXImageEditorViewController(image: imageViews[actionSheet.tag].image)
+            u.delegate = self
+            self.presentViewController(u, animated: true, completion: nil)
+        } else if (buttonIndex == 2)
+        {
+            self.pickImage(actionSheet.tag, forceBackOnCancel: false)
+        } else if (buttonIndex == 3)
+        {
+            self.imageViews[actionSheet.tag].image = nil
+        }
+    }
+    
+    func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
+        imageViews[editor.view.tag].image = image
+        editor.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
+        editor.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func pickImage(index : Int, forceBackOnCancel : Bool)
+    {
+        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, doneBlock: { imgs in
+            if (imgs.count > 0)
+            {
+                let a = imgs[0]
+                a.getImage({ img in
+                    if let i = img
+                    {
+                        self.imageViews[index].image = i
+                    }
+                })
+            } else if (forceBackOnCancel)
+            {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+        })
     }
     
     var activeTextview : UITextView?
@@ -87,6 +226,269 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
+    }
+    
+    @IBAction func selectWeight(sender : UIButton?)
+    {
+        for w in weightViews
+        {
+            self.highlightWeightView(false, weightView: w)
+        }
+        
+        if let b = sender
+        {
+            let w = weightViews[b.tag]
+            self.highlightWeightView(true, weightView: w)
+            
+            if (txtWeight.hidden)
+            {
+                txtWeight.hidden = false
+                conHeightWeightView.constant = 158
+                UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                    self.txtWeight.superview?.layoutIfNeeded()
+                    }, completion: nil)
+            }
+            
+            let berat = 500 + (b.tag * 1000)
+            txtWeight.text = String(berat)
+        }
+    }
+    
+    @IBAction func selectOngkir(sender : UIButton?)
+    {
+        for o in ongkirViews
+        {
+            self.highlightWeightView(false, weightView: o)
+        }
+        
+        if let b = sender
+        {
+            let o = ongkirViews[b.tag]
+            self.highlightWeightView(true, weightView: o)
+        }
+    }
+    
+    func highlightWeightView(highlight : Bool, weightView : BorderedView)
+    {
+        let c = highlight ? Theme.PrimaryColorDark : Theme.GrayLight
+        weightView.borderColor = c
+        
+        for v in weightView.subviews
+        {
+            if (v.isKindOfClass(UILabel.classForCoder()))
+            {
+                let l = v as! UILabel
+                l.textColor = c
+            } else if (v.isKindOfClass(TintedImageView.classForCoder()))
+            {
+                let t = v as! TintedImageView
+                t.tintColor = c
+            }
+        }
+    }
+    
+    @IBAction func pickKategori(sender : UIButton)
+    {
+        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+        p.blockDone = { data in
+            let children = JSON(data["child"]!)
+            
+            if let name = children["name"].string
+            {
+                self.captionKategori.text = name
+            }
+            
+            if let id = children["_id"].string
+            {
+                self.productCategoryId = id
+            }
+        }
+        self.navigationController?.pushViewController(p, animated: true)
+    }
+    
+    @IBAction func pickKondisi(sender : UIButton)
+    {
+        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+        p.prepDataBlock = { picker in
+            
+            picker.textTitle = "Pilih Kondisi"
+            
+            let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
+            if let url = s
+            {
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
+                    {
+                        let json = JSON(res!)
+                        let brands = json["product_conditions"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
+                        {
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
+                        }
+                        
+                        picker.selectBlock = { s in
+                            self.kodindisiId = PickerViewController.RevealHiddenString(s)
+                            self.captionKondisi.text = PickerViewController.HideHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                    } else {
+                        
+                    }
+                }
+            }
+        }
+        self.navigationController?.pushViewController(p, animated: true)
+    }
+    
+    @IBAction func pickMerek(sender : UIButton)
+    {
+        let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
+        if let url = s
+        {
+            let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+            p.prepDataBlock = { picker in
+                picker.textTitle = "Pilih Merek"
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
+                    if (APIPrelo.validate(true, err: err, resp: resp))
+                    {
+                        let json = JSON(res!)
+                        let brands = json["brands"]["_data"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
+                        {
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
+                        }
+                        
+                        picker.selectBlock = { s in
+                            self.merekId = PickerViewController.RevealHiddenString(s)
+                            self.captionMerek.text = PickerViewController.HideHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                        picker.showSearch = true
+                    } else {
+                        
+                    }
+                }
+            }
+            self.navigationController?.pushViewController(p, animated: true)
+        }
+    }
+    
+    func sendProduct()
+    {
+        let name = txtName.text
+        let desc = txtDescription.text
+        let weight = txtWeight.text
+        let oldPrice = txtOldPrice.text
+        let newPrice = txtNewPrice.text
+        
+        var imgs : [AnyObject] = []
+        for v in imageViews
+        {
+            if let i = v.image
+            {
+                imgs.append(i)
+            } else
+            {
+                imgs.append(NSNull())
+            }
+        }
+        
+        //validasi
+        if (validateString(name, message: "Nama produk masih kosong") == false)
+        {
+            return
+        }
+        
+        if (validateString(desc, message: "Deskripsi produk masih kosong") == false)
+        {
+            return
+        }
+        
+        if (validateString(weight, message: "Berat produk masih kosong") == false)
+        {
+            return
+        }
+        
+        if (validateString(oldPrice, message: "Harga Beli produk masih kosong") == false)
+        {
+            return
+        }
+        
+        if (validateString(newPrice, message: "Harga Jual produk masih kosong") == false)
+        {
+            return
+        }
+        
+        if (validateString(productCategoryId, message: "Silahkan pilih kategori produk") == false)
+        {
+            return
+        }
+        
+        if (validateString(kodindisiId, message: "Silahkan pilih kondisi produk") == false)
+        {
+            return
+        }
+        
+        if (validateString(merekId, message: "Silahkan pilih merek produk") == false)
+        {
+            return
+        }
+        
+        self.btnSubmit.enabled = false
+        AppToolsObjC.sendMultipart(
+            ["name":name,
+            "description":desc,
+            "category_id":productCategoryId,
+            "price":newPrice,
+            "price_original":oldPrice,
+            "weight":weight,
+            "free_ongkir":String(0),
+            "product_condition_id":kodindisiId,
+            "brand_id":merekId,
+            "size":"S/38/8"], images: imgs, withToken: User.Token!, success: {op, res in
+                println(res)
+                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+                let json = JSON(res!)
+                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+                if let price = json["_data"]["price"].int
+                {
+                    s.basePrice = price
+                }
+                self.navigationController?.pushViewController(s, animated: true)
+            }, failure: {op, err in
+                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
+                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+                self.btnSubmit.enabled = true
+                UIAlertView.SimpleShow("Warning", message: "Gagal")
+        })
+    }
+    
+    func validateString(text : String, message : String) -> Bool
+    {
+        if (text == "")
+        {
+            UIAlertView.SimpleShow("Perhatian", message: message)
+            return false
+        }
+        return true
     }
 
     /*

@@ -49,6 +49,9 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         
         Mixpanel.sharedInstance().track("Checkout Confirmation")
         
+        let v = [self.navigationController?.viewControllers.first! as! UIViewController, self]
+        self.navigationController?.setViewControllers(v, animated: false)
+        
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
             if (o) {

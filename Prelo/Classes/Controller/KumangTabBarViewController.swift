@@ -91,7 +91,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     func hideBottomBar()
     {
         consMarginBottomBar.constant = -76
-        UIView.animateWithDuration(1, animations: {
+        UIView.animateWithDuration(0.2, animations: {
             self.sectionBar?.layoutIfNeeded()
             self.btnAdd?.layoutIfNeeded()
         })
@@ -100,7 +100,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     func showBottomBar()
     {
         consMarginBottomBar.constant = 0
-        UIView.animateWithDuration(1, animations: {
+        UIView.animateWithDuration(0.2, animations: {
             self.sectionBar?.layoutIfNeeded()
             self.btnAdd?.layoutIfNeeded()
         })
@@ -203,7 +203,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        let i = PreloShareItem()
 //        PreloShareController.Share(i, inView: (self.navigationController?.view)!)
         
-        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         self.navigationController?.pushViewController(add, animated: true)
     }
     

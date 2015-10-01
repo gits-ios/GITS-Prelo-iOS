@@ -221,14 +221,14 @@ enum APICart : URLRequestConvertible
         {
         case .Refresh(let cart, let address, let voucher) :
                 let p = [
-                    "cart_items":cart,
+                    "cart_products":cart,
                     "shipping_address":address,
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
         case .Checkout(let cart, let address, let voucher, let phone, let payment) :
             let p = [
-                "cart_items":cart,
+                "cart_products":cart,
                 "shipping_address":address,
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "payment_phone":phone,
@@ -240,7 +240,7 @@ enum APICart : URLRequestConvertible
     
     var URLRequest : NSURLRequest
     {
-        let baseURL = NSURL(string: oldAPI)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
@@ -497,6 +497,92 @@ enum Products : URLRequestConvertible
     }
 }
 
+enum APIProduct : URLRequestConvertible
+{
+    static let basePath = "product/"
+    
+    case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case Detail(productId : String)
+    case Add(name : String, desc : String, price : String, weight : String, category : String)
+    case Love(productID : String)
+    case Unlove(productID : String)
+    case GetComment(productID : String)
+    case PostComment(productID : String, message : String, mentions : String)
+    case MyProduct(current : Int, limit : Int)
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .ListByCategory(_, _, _, _, _, _, _): return .GET
+            case .Detail(_): return .GET
+            case .Add(_, _, _, _, _) : return .POST
+            case .Love(_):return .POST
+            case .Unlove(_):return .POST
+            case .PostComment(_, _, _) : return .POST
+            case .GetComment(_) :return .GET
+            case .MyProduct(_, _): return .GET
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .ListByCategory(_, _, _, _, _, _, _): return ""
+            case .Detail(let prodId): return prodId
+            case .Add(_, _, _, _, let category) : return ""
+            case .Love(let prodId):return prodId + "/love"
+            case .Unlove(let prodId):return prodId + "/unlove"
+            case .PostComment(let pId, _, _):return pId + "/comments"
+            case .GetComment(let pId) :return pId + "/comments"
+            case .MyProduct(_, _): return ""
+            }
+    }
+    
+    var param : [String: AnyObject]?
+        {
+            switch self
+            {
+            case .ListByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
+                return [
+                    "category":catId,
+                    "location":location,
+                    "sort":sort,
+                    "current":current,
+                    "limit":limit,
+                    "price_min":priceMin,
+                    "price_max":priceMax,
+                    "prelo":"true"
+                ]
+            case .Detail(let prodId): return ["prelo":"true"]
+            case .Add(let name, let desc, let price, let weight, let category):
+                return [
+                    "name":name,
+                    "category":category,
+                    "price":price,
+                    "weight":weight,
+                    "description":desc
+                ]
+            case .Love(let pId):return ["product_id":pId]
+            case .Unlove(let pId):return ["product_id":pId]
+            case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
+            case .GetComment(let pId) :return [:]
+            case .MyProduct(let c, let l): return ["current":c, "limit":l]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIProduct.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            return r
+    }
+}
+
 enum APISearch : URLRequestConvertible
 {
     static let basePath = "search/"
@@ -618,6 +704,45 @@ enum References : URLRequestConvertible
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
+enum APIPeople : URLRequestConvertible
+{
+    static let basePath = "user/"
+    
+    case GetShopPage(id : String)
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .GetShopPage(_):return .GET
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .GetShopPage(let id):return id
+            }
+    }
+    
+    var param : [String: AnyObject]?
+        {
+            switch self
+            {
+            case .GetShopPage(_):return [:]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIPeople.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
     }
 }
 

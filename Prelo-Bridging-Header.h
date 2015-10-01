@@ -24,5 +24,6 @@
 #import "MGInstagram.h"
 #import "Line.h"
 #import "LKLineActivity.h"
+#import "ACTReporter.h"
 
 #endif

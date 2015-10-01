@@ -18,8 +18,16 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
 
         // Do any additional setup after loading the view.
         
-        request(APIUser.MyProductSell)
-            .responseJSON{_, resp, res, err in
+        getProducts()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    
+    func getProducts()
+    {
+        request(APIProduct.MyProduct(current: products.count, limit: 10))
+            .responseJSON{req, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
                     if let result: AnyObject = res
@@ -40,9 +48,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     
                 }
         }
-        
-        tableView.dataSource = self
-        tableView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {

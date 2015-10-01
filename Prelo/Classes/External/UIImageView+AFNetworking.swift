@@ -10,6 +10,7 @@ import UIKit
 @objc public protocol AFImageCacheProtocol:class{
     func cachedImageForRequest(request:NSURLRequest) -> UIImage?
     func cacheImage(image:UIImage, forRequest request:NSURLRequest);
+    func clearAll();
 }
 
 extension UIImageView {
@@ -145,6 +146,10 @@ class AFImageCache: NSCache, AFImageCacheProtocol {
     
     func cacheImage(image: UIImage, forRequest request: NSURLRequest) {
         self.setObject(image, forKey: AFImageCacheKeyFromURLRequest(request))
+    }
+    
+    func clearAll() {
+        self.removeAllObjects()
     }
 }
 

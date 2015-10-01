@@ -112,7 +112,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func getDetail()
     {
-        request(Products.Detail(productId: (product?.json)!["_id"].string!))
+        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!))
             .responseJSON{_, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
@@ -158,6 +158,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         } else
         {
 //            captionFreeOngkir.text = "+ ONGKIR"
+        }
+        
+        if let arr = detail?.json["_data"]["category_breadcrumbs"].array
+        {
+            if let id = detail?.productID
+            {
+                if let catName = arr.last?["name"].string
+                {
+                    if let price = detail?.json["_data"]["price"].int
+                    {
+                        ACTRemarketingReporter.reportWithConversionID("953474992", customParameters: ["dynx_itemid":id, "dynx_pagetype":catName, "dynx_totalvalue":price])
+                    }
+                }
+            }
         }
     }
 
@@ -251,6 +265,30 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         } else {
             return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex(indexPath.row))
+        }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row == 1)
+        {
+            let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            d.storeMode = true
+            if let name = detail?.json["_data"]["seller"]["fullname"].string
+            {
+                d.storeName = name
+            }
+            
+            if let name = detail?.json["_data"]["seller"]["_id"].string
+            {
+                d.storeId = name
+            }
+            
+            if let name = detail?.json["_data"]["seller"]["pict"].string
+            {
+                d.storePictPath = name
+            }
+            
+            self.navigationController?.pushViewController(d, animated: true)
         }
     }
     
@@ -394,7 +432,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
         isLoved = true
         setupLoveView()
-        request(Products.Love(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
+        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 if let s = self.captionCountLove?.text
@@ -414,7 +452,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     {
         isLoved = false
         setupLoveView()
-        request(Products.Unlove(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
+        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 if let s = self.captionCountLove?.text

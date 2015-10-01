@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
-    
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate
+{
     @IBOutlet var gridView: UICollectionView!
     
     var width: CGFloat? = 200
@@ -26,6 +26,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var searchKey = ""
     var searchBrand = false
     var searchBrandId = ""
+    
+    var storeMode = false
+    var storeId = ""
+    var storeName = ""
+    var storePictPath = ""
     
     var refresher : UIRefreshControl?
     override func viewDidLoad() {
@@ -51,6 +56,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             {
                 self.title = "\"" + searchKey + "\""
             }
+        } else if (storeMode)
+        {
+            self.title = storeName
         }
         
         request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ _, _, _, _ in }
@@ -62,10 +70,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
-        gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
+//        gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
         
         if (products?.count == 0 || products == nil) {
             if (products == nil) {
@@ -73,8 +81,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
             getProducts()
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -142,6 +148,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         {
             self.searchProduct()
             return
+        } else if (storeMode)
+        {
+            self.getStoreProduct()
+            return
         }
         
         if (category == nil && standalone == false) {
@@ -188,6 +198,31 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
+    var storeHeader : UIView?
+    func getStoreProduct()
+    {
+        self.requesting = true
+        request(APIPeople.GetShopPage(id: storeId)).responseJSON { req, resp, res, err in
+            self.requesting = false
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                self.setupData(res)
+            } else
+            {
+                
+            }
+            if (self.storeHeader == nil)
+            {
+                self.storeHeader = UIView()
+                self.storeHeader?.frame = CGRectMake(0, -128, UIScreen.mainScreen().bounds.width, 128)
+                self.storeHeader?.backgroundColor = UIColor.redColor()
+                self.gridView.addSubview(self.storeHeader!)
+            }
+            self.setupGrid()
+            self.gridView.contentInset = UIEdgeInsetsMake(128, 0, 0, 0)
+        }
+    }
+    
     func setupData(res : AnyObject?)
     {
         var obj = JSON(res!)
@@ -200,6 +235,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             } else
             {
                 for (index : String, item : JSON) in obj["_data"]
+                {
+                    let p = Product.instance(item)
+                    if (p != nil) {
+                        self.products?.append(p!)
+                    }
+                }
+            }
+        }
+        else if let arr = obj["_data"]["products"].array
+        {
+            if arr.count == 0
+            {
+                self.done = true
+            } else
+            {
+                for item in arr
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -231,7 +282,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        if (indexPath.row == (products?.count)!-4 && requesting == false && done == false) {
+        if (indexPath.row == (products?.count)!-4 && requesting == false && done == false && storeMode == false) {
             getProducts()
         }
         
@@ -365,4 +416,12 @@ class ListItemCell : UICollectionViewCell
             captionOldPrice.attributedText = attString
         }
     }
+}
+
+class StoreHeader : UIView
+{
+    @IBOutlet var captionName : UILabel!
+    @IBOutlet var captionLocation : UILabel!
+    @IBOutlet var captionDesc : UILabel!
+    @IBOutlet var captionReview : UILabel!
 }

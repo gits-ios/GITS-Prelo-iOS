@@ -95,34 +95,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: "", pickerPrepBlock: { picker in
                 
                 picker.startLoading()
-                
-                let url = NSBundle.mainBundle().URLForResource("metadata", withExtension: ".json")
-                
-                
-                request(References.ProvinceList)
-                    .responseJSON{_, resp, res, err in
-                        if (APIPrelo.validate(true, err: err, resp: resp))
-                        {
-                            let json = JSON(res!)["_data"].array
-                            var r : Array<String> = []
-                            let c = json?.count
-                            if (c! == 0) {
-                                picker.dismiss()
-                            } else {
-                                for i in 0...c!-1
-                                {
-                                    let j = json?[i]
-                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                    r.append(n)
-                                }
-                                picker.items = r
-                                picker.tableView.reloadData()
-                                picker.doneLoading()
-                            }
-                        } else {
-                            picker.dismiss()
-                        }
-                }
+                picker.items = CDProvince.getProvincePickerItems()
                 
                 // on select block
                 picker.selectBlock = { string in
@@ -132,31 +105,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: "", pickerPrepBlock: { picker in
                 
                 picker.startLoading()
-                
-                request(References.CityList(provinceId: self.selectedProvinsiID))
-                    .responseJSON{_, resp, res, err in
-                        if (APIPrelo.validate(true, err: err, resp: resp))
-                        {
-                            let json = JSON(res!)["_data"].array
-                            var r : Array<String> = []
-                            let c = json?.count
-                            if (c! == 0) {
-                                picker.dismiss()
-                            } else {
-                                for i in 0...c!-1
-                                {
-                                    let j = json?[i]
-                                    let n = (j?["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j?["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                    r.append(n)
-                                }
-                                picker.items = r
-                                picker.tableView.reloadData()
-                                picker.doneLoading()
-                            }
-                        } else {
-                            picker.dismiss()
-                        }
-                }
+                picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
                 
                 picker.selectBlock = { string in
                     self.selectedKotaID = PickerViewController.RevealHiddenString(string)
@@ -179,30 +128,38 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\"}"
         
         request(APICart.Refresh(cart: p, address: a, voucher: voucher))
-            .responseJSON {_, _, res, err in
-                let json = JSON(res!)
-                
-                if let error = json["_data"].error
+            .responseJSON {req, resp, res, err in
+                if let result: AnyObject = res
                 {
-                    Constant.showDialog("Warning", message: json["_message"].string!)
-                }
-                else
-                {
-                    let i = NSIndexPath(forRow: self.products.count, inSection: 0)
-                    let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
-                    if let price = json["_data"]["total_price"].int?.asPrice
+                    let json = JSON(result)
+                    
+                    if let error = json["_data"].error
                     {
-                        b.value = price
+                        Constant.showDialog("Warning", message: json["_message"].string!)
                     }
-//                    b.value = "Rp. " + String(json["_data"]["total_price"].int!)
-                    self.cells[i] = b
-                    
-                    self.arrayItem = json["_data"]["cart_details"].array!
-                    
-                    self.tableView.dataSource = self
-                    self.tableView.delegate = self
-                    self.tableView.reloadData()
-                    self.tableView.hidden = false
+                    else
+                    {
+                        let i = NSIndexPath(forRow: self.products.count, inSection: 0)
+                        let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
+                        if let price = json["_data"]["total_price"].int?.asPrice
+                        {
+                            b.value = price
+                        }
+                        //                    b.value = "Rp. " + String(json["_data"]["total_price"].int!)
+                        self.cells[i] = b
+                        
+                        self.arrayItem = json["_data"]["cart_details"].array!
+                        
+                        self.tableView.dataSource = self
+                        self.tableView.delegate = self
+                        self.tableView.reloadData()
+                        self.tableView.hidden = false
+                    }
+                } else
+                {
+                    println(err)
+                    println(resp)
+                    println(req)
                 }
         }
         
@@ -265,8 +222,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         self.checkoutResult = JSON(res!)["_data"]
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                         c.orderID = (self.checkoutResult?["order_id"].string)!
-                        c.totalPayment = (self.checkoutResult?["final_price"].int)!
+                        c.totalPayment = (self.checkoutResult?["total_price"].int)!
                         c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
+                        
+                        for p in self.products
+                        {
+                            UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+                        }
+                        UIApplication.appDelegate.saveContext()
+                        
                         self.previousController?.navigationController?.pushViewController(c, animated: true)
                         
                     }
@@ -876,14 +840,27 @@ class CartCellItem : UITableViewCell
     {
         println(json)
         captionName?.text = json["name"].string!
-        captionLocation?.text = json["seller_region"]["name"].string!
+        captionLocation?.text = ""
+//        captionLocation?.text = json["seller_region"]["name"].string!
         
-        let ori : Array<String> = json["display_picts"].arrayObject as! Array<String>
-        
-        ivCover?.image = nil
-        let s = DAO.UrlForDisplayPicture(ori.first!, productID: json["product_id"].string!)
-        let u = NSURL(string: s)
-        ivCover?.setImageWithUrl(u!, placeHolderImage: nil)
+        if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+        {
+            var ori : Array<String> = []
+            for o in raw
+            {
+                if let s = o as? String
+                {
+                    ori.append(s)
+                }
+            }
+            
+            if (ori.count > 0)
+            {
+                ivCover?.image = nil
+                let u = NSURL(string: ori.first!)
+                ivCover?.setImageWithUrl(u!, placeHolderImage: nil)
+            }
+        }
         
         if let error = json["_error"].string
         {
@@ -893,9 +870,9 @@ class CartCellItem : UITableViewCell
             captionPrice?.attributedText = attString
             shade?.hidden = false
         } else {
-            let sh = json["shippings"].array!
+            let sh = json["shipping_packages"].array!
             let first = sh.first
-            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["pricefixed"].int
+            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["price"].int
             ongkir = 0
 //            println(json)
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : "(+ONGKIR " + ongkir!.asPrice + ")"

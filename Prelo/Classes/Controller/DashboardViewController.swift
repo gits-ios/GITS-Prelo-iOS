@@ -158,12 +158,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     @IBAction func launchMyProducts()
     {
-        /*let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
         
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
-        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+//        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+//        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
 
     @IBAction func editProfilePressed(sender: UIButton) {

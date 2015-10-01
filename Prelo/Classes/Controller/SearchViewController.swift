@@ -329,6 +329,21 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)
             }
+        } else
+        {
+            if (indexPath.row == foundUsers.count)
+            {
+                
+            } else
+            {
+                let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                let u = foundUsers[indexPath.row]
+                d.storeMode = true
+                d.storeName = u.fullname
+                d.storeId = u.id
+                d.storePictPath = u.pict
+                self.navigationController?.pushViewController(d, animated: true)
+            }
         }
     }
     

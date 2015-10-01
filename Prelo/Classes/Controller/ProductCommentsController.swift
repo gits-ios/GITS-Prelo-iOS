@@ -72,7 +72,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     var sellerId : String = ""
     func getComments()
     {
-        request(Products.GetComment(productID: pDetail.productID)).responseJSON{ req, resp, res, err in
+        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON{ req, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 self.comments = []
@@ -114,7 +114,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.resignFirstResponder()
         txtMessage.editable = false
         
-        request(Products.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
+        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 self.txtMessage.text = ""

@@ -31,7 +31,8 @@ class AboutViewController: BaseViewController {
     
     @IBAction func clearCache()
     {
-        
+        UIImageView.sharedImageCache().clearAll()
+        UIAlertView.SimpleShow("Perhatian", message: "Cache Cleared")
     }
     
     @IBAction func logout()

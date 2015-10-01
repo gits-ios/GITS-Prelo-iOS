@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         versionCheck()
         
+        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
+        
         return true
     }
     

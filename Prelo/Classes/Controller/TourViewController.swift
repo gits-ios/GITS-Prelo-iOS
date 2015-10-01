@@ -44,7 +44,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         
         if (pager.currentPage == 2)
         {
-            btnNext.setTitle("Selesai", forState: UIControlState.Normal)
+            btnNext.setTitle("Mulai", forState: UIControlState.Normal)
         } else
         {
             btnNext.setTitle("Selanjutnya", forState: UIControlState.Normal)

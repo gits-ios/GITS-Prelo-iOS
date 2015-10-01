@@ -11,7 +11,10 @@ import AVFoundation
 
 typealias ImagePickerBlock = ([APImage]) -> ()
 
-class ImagePickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImagePickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AdobeUXImageEditorViewControllerDelegate
+{
+    
+    var useAviary = false
     
     var maxSelectCount : Int = 1
     var selecteds : Array<NSIndexPath> = []
@@ -47,13 +50,47 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     }
     
     override func confirm() {
-        var r : [APImage] = []
-        for i in selecteds
+        
+        if (useAviary && maxSelectCount == 1)
         {
-            r.append(images[i.item-cameraAdd])
+            var ap : APImage = APImage()
+            for i in selecteds
+            {
+                ap = images[i.item-cameraAdd]
+            }
+            ap.getImage({ img in
+                AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
+                let u = AdobeUXImageEditorViewController(image: img)
+                u.delegate = self
+                self.presentViewController(u, animated: false, completion: nil)
+            })
+        } else
+        {
+            var r : [APImage] = []
+            for i in selecteds
+            {
+                r.append(images[i.item-cameraAdd])
+            }
+            self.dismissViewControllerAnimated(true, completion: {
+                self.doneBlock!(r)
+            })
         }
-        self.dismissViewControllerAnimated(true, completion: {
-            self.doneBlock!(r)
+    }
+    
+    func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
+        self.doneBlock!([])
+        editor.dismissViewControllerAnimated(false, completion: {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+    }
+    
+    func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
+        let ap = APImage()
+        ap.image = image
+        editor.dismissViewControllerAnimated(false, completion: {
+            self.dismissViewControllerAnimated(true, completion: {
+                self.doneBlock!([ap])
+            })
         })
     }
     
@@ -150,12 +187,13 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-    static func ShowFrom(v : UIViewController, maxSelect : Int, doneBlock : ImagePickerBlock)
+    static func ShowFrom(v : UIViewController, maxSelect : Int, useAviary : Bool = false, doneBlock : ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
         let i = n.viewControllers.first as! ImagePickerViewController
         i.maxSelectCount = maxSelect
         i.doneBlock = doneBlock
+        i.useAviary = useAviary
         v.presentViewController(n, animated: true, completion: nil)
     }
     

@@ -207,33 +207,18 @@ public class ProductDetail : NSObject
                 return []
             } else {
                 let f = a?.objectAtCircleIndex(0)
-//                let d = f?["comments"].array
                 var r : Array<ProductDiscussion> = []
-                
-                for i in 0...(a?.count)!-1
+                if (a != nil)
                 {
-                    let j = a?[i]
-                    let dx = ProductDiscussion.instance(j)
-                    r.append(dx!)
+                    for i in 0...(a?.count)!-1
+                    {
+                        let j = a?[i]
+                        let dx = ProductDiscussion.instance(j)
+                        r.append(dx!)
+                    }
                 }
                 
                 return r
-//            let a = json["_data"]["discussions"].array
-//            if (a?.count == 0) {
-//                return []
-//            } else {
-//                let f = a?.objectAtCircleIndex(0)
-//                let d = f?["discussions"].array
-//                var r : Array<ProductDiscussion> = []
-//                
-//                for i in 0...(d?.count)!-1
-//                {
-//                    let j = d?[i]
-//                    let dx = ProductDiscussion.instance(j)
-//                    r.append(dx!)
-//                }
-//                
-//                return r
             }
     }
 }
@@ -287,8 +272,14 @@ public class Product : NSObject
                 return "0"
             } else {
                 let f = a?.objectAtCircleIndex(0)
-                let d = f?["comments"].array
-                return String((d?.count)!)
+                if let d = f?["comments"].array
+                {
+                    return String(d.count)
+                } else if let n = f?["num_comment"].int
+                {
+                    return String(n)
+                }
+                return "0"
             }
     }
     
