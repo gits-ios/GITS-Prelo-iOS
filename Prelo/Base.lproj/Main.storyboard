@@ -342,26 +342,28 @@
                                     <outlet property="delegate" destination="l15-jv-dbf" id="87d-XL-5NA"/>
                                 </connections>
                             </scrollView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1c-kh-d25">
-                                <rect key="frame" x="-200" y="20" width="1000" height="40"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1c-kh-d25">
+                                <rect key="frame" x="-200" y="0.0" width="1000" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23L-xm-PrB">
-                                        <rect key="frame" x="0.0" y="0.0" width="3000" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="3000" height="50"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUM-6f-k6r">
-                                                <rect key="frame" x="0.0" y="0.0" width="1000" height="40"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUM-6f-k6r">
+                                                <rect key="frame" x="0.0" y="0.0" width="1000" height="50"/>
+                                                <string key="text">Jual Beli Barang
+Aman &amp; Berkualitas</string>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beli Bergaransi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtO-5O-8Cz">
-                                                <rect key="frame" x="1000" y="0.0" width="1000" height="40"/>
+                                                <rect key="frame" x="1000" y="0.0" width="1000" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Potret &amp; Jual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibz-bF-heo">
-                                                <rect key="frame" x="2000" y="0.0" width="1000" height="40"/>
+                                                <rect key="frame" x="2000" y="0.0" width="1000" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -397,31 +399,35 @@
                                     <constraint firstAttribute="height" secondItem="23L-xm-PrB" secondAttribute="height" id="EsE-N2-3k9"/>
                                     <constraint firstAttribute="bottom" secondItem="23L-xm-PrB" secondAttribute="bottom" id="QNU-fK-g6A"/>
                                     <constraint firstItem="23L-xm-PrB" firstAttribute="top" secondItem="x1c-kh-d25" secondAttribute="top" id="R2f-eG-bZC"/>
-                                    <constraint firstAttribute="height" constant="40" id="VBE-Cf-QvX"/>
+                                    <constraint firstAttribute="height" constant="50" id="VBE-Cf-QvX"/>
                                     <constraint firstAttribute="trailing" secondItem="23L-xm-PrB" secondAttribute="trailing" id="eXf-KE-Mjb"/>
                                     <constraint firstItem="pUM-6f-k6r" firstAttribute="width" secondItem="x1c-kh-d25" secondAttribute="width" id="xd7-Ok-GqM"/>
                                 </constraints>
                             </scrollView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
-                                <rect key="frame" x="-500" y="60" width="1600" height="64"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vh4-5s-J3T">
+                                <rect key="frame" x="-500" y="50" width="1600" height="64"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgR-gj-b4x">
                                         <rect key="frame" x="0.0" y="0.0" width="4800" height="64"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jual Beli Barang Aman &amp; Berkualitas" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFC-Ca-UCY">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFC-Ca-UCY">
                                                 <rect key="frame" x="0.0" y="0.0" width="1600" height="64"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang tidak sesuai? Jaminan 100% Uang Kembali" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ub-TT-Z3M">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ub-TT-Z3M">
                                                 <rect key="frame" x="1600" y="0.0" width="1600" height="64"/>
+                                                <string key="text">Barang tidak sesuai?
+Jaminan 100% Uang Kembali</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cara seru jual barang bekasmu dalam hitungan detik." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-0q-AnO">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-0q-AnO">
                                                 <rect key="frame" x="3200" y="0.0" width="1600" height="64"/>
+                                                <string key="text">Cara seru jual barang bekasmu
+dalam hitungan detik.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -6247,6 +6253,8 @@ Keuntungan</string>
                     </navigationItem>
                     <connections>
                         <outlet property="btnAddDiscussion" destination="mX0-pM-sZV" id="cES-GZ-I2Y"/>
+                        <outlet property="btnBuy" destination="3WJ-ld-3G9" id="jiU-qw-rlg"/>
+                        <outlet property="btnTawar" destination="z2y-Ag-gm1" id="JSa-as-zxP"/>
                         <outlet property="tableView" destination="Aaa-Fg-Hix" id="zNe-MN-dj3"/>
                         <segue destination="0qH-Ls-LM7" kind="show" identifier="segCart" id="dW2-MQ-HC6"/>
                     </connections>

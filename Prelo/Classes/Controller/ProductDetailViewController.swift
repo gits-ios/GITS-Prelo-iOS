@@ -27,6 +27,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
+    @IBOutlet var btnBuy : UIButton!
+    @IBOutlet var btnTawar : UIButton!
     
 //    @IBOutlet var captionBeli: UILabel!
 //    @IBOutlet var captionPrice: UILabel!
@@ -120,6 +122,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     println(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
+                    self.tableView?.hidden = false
                     self.tableView?.reloadData()
                     self.setupView()
                 } else {
@@ -172,6 +175,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
             }
+        }
+        
+        if ((detail?.isMyProduct)! == true)
+        {
+            self.btnBuy.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
+            self.btnBuy.setTitle(" EDIT", forState: UIControlState.Normal)
+            self.btnTawar.hidden = true
         }
     }
 
@@ -301,6 +311,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
+        if ((detail?.isMyProduct)! == true)
+        {
+            let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+            a.editMode = true
+            a.editDoneBlock = {
+                self.tableView?.hidden = true
+                self.getDetail()
+            }
+            a.editProduct = self.detail
+            self.navigationController?.pushViewController(a, animated: true)
+            return
+        }
+        
         if (alreadyInCart) {
             self.performSegueWithIdentifier("segCart", sender: nil)
             return

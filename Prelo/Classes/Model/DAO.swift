@@ -156,19 +156,10 @@ public class ProductDetail : NSObject
             }
         }
         return []
-//        var arr : Array<String> = []
-//        for name in ori
-//        {
-//            let url = urlForDisplayPicture(name, productID: productID)
-//            arr.append(url)
-//        }
-//        return arr
     }
     
     var shopAvatarURL : NSURL?
     {
-//        let base = "http://images.kleora.com/images/users/" + json["_data"]["seller_id"].string! + "/" + json["_data"]["shop_profpict"].string!
-//        return NSURL(string: base)
         if let p = json["_data"]["seller"]["pict"].string
         {
             return NSURL(string : p)
@@ -190,14 +181,6 @@ public class ProductDetail : NSObject
             let d = f?["discussions"].array
             return String((d?.count)!)
         }
-//        let a = json["_data"]["discussions"].array
-//        if (a?.count == 0) {
-//            return "0"
-//        } else {
-//            let f = a?.objectAtCircleIndex(0)
-//            let d = f?["discussions"].array
-//            return String((d?.count)!)
-//        }
     }
     
     var discussions : Array<ProductDiscussion>?
@@ -220,6 +203,23 @@ public class ProductDetail : NSObject
                 
                 return r
             }
+    }
+    
+    private var _isMyProduct : Bool?
+    var isMyProduct : Bool
+    {
+        if (_isMyProduct != nil)
+        {
+            return _isMyProduct!
+        }
+        
+        if let sellerId = json?["_data"]["seller"]["_id"].string, let userId = CDUser.getOne()?.id
+        {
+            _isMyProduct = sellerId == userId
+            return _isMyProduct!
+        }
+        
+        return false
     }
 }
 

@@ -264,6 +264,7 @@
 		217874631B98516900D355A8 /* merk.json in Resources */ = {isa = PBXBuildFile; fileRef = 217874621B98516900D355A8 /* merk.json */; };
 		217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */; };
 		217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
+		2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
 		21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */; };
@@ -718,6 +719,7 @@
 		217874621B98516900D355A8 /* merk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merk.json; sourceTree = "<group>"; };
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
+		2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreHeader.xib; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
 		21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyGridViewController.swift; sourceTree = "<group>"; };
@@ -1498,6 +1500,7 @@
 				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
 				213E77141BABD8E700D3002B /* SearchResultHeader.xib */,
+				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1907,6 +1910,7 @@
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
+				2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */,
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,

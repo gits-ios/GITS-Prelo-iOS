@@ -92,6 +92,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func refresh()
     {
+        if (storeMode)
+        {
+            getStoreProduct()
+            return
+        }
+        
         if (searchMode)
         {
             return
@@ -103,7 +109,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             catId = standaloneCategoryID
         } else {
-            catId = category!["permalink"].string
+            catId = category!["_id"].string
         }
         
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
@@ -198,7 +204,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    var storeHeader : UIView?
+    var storeHeader : StoreHeader?
     func getStoreProduct()
     {
         self.requesting = true
@@ -207,19 +213,43 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 self.setupData(res)
+                
+                if (self.storeHeader == nil)
+                {
+                    self.storeHeader = NSBundle.mainBundle().loadNibNamed("StoreHeader", owner: nil, options: nil).first as? StoreHeader
+                    self.gridView.addSubview(self.storeHeader!)
+                }
+                
+                let json = JSON(res!)["_data"]
+                println(json)
+                
+                self.storeHeader?.captionName.text = json["fullname"].string
+                self.storeHeader?.captionDesc.text = json["profile"]["description"].string
+                self.storeHeader?.avatar.setImageWithUrl(NSURL(string: json["profile"]["pict"].string!)!, placeHolderImage: nil)
+                
+                var height = 0
+                
+                if let desc = self.storeHeader?.captionDesc.text
+                {
+                    height = 200 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                } else {
+                    self.storeHeader?.captionDesc.text = "-"
+                    height = 200 + Int("-".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                }
+                
+                self.storeHeader?.width = UIScreen.mainScreen().bounds.width
+                self.storeHeader?.height = CGFloat(height)
+                self.storeHeader?.y = CGFloat(-height)
+                
+                self.storeHeader?.avatar.superview?.layer.cornerRadius = (self.storeHeader?.avatar.width)!/2
+                self.storeHeader?.avatar.superview?.layer.masksToBounds = true
+                
+                self.setupGrid()
+                self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
             } else
             {
                 
             }
-            if (self.storeHeader == nil)
-            {
-                self.storeHeader = UIView()
-                self.storeHeader?.frame = CGRectMake(0, -128, UIScreen.mainScreen().bounds.width, 128)
-                self.storeHeader?.backgroundColor = UIColor.redColor()
-                self.gridView.addSubview(self.storeHeader!)
-            }
-            self.setupGrid()
-            self.gridView.contentInset = UIEdgeInsetsMake(128, 0, 0, 0)
         }
     }
     
@@ -424,4 +454,5 @@ class StoreHeader : UIView
     @IBOutlet var captionLocation : UILabel!
     @IBOutlet var captionDesc : UILabel!
     @IBOutlet var captionReview : UILabel!
+    @IBOutlet var avatar : UIImageView!
 }

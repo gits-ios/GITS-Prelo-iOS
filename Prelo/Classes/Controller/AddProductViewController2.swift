@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias EditDoneBlock = () -> ()
+
 class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate
 {
 
@@ -40,7 +42,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var merekId = ""
     var freeOngkir = 0
     
+    var editProduct : ProductDetail?
     var editMode = false
+    var editDoneBlock : EditDoneBlock = {}
+    var images : [AnyObject] = [NSNull(), NSNull(), NSNull(), NSNull(), NSNull()]
+    var rm_image1 = 0
+    var rm_image2 = 0
+    var rm_image3 = 0
+    var rm_image4 = 0
+    var rm_image5 = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,13 +90,67 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             self.title = "Edit Product"
             self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
+            
+            txtName.text = editProduct?.name
+            txtDescription.text = editProduct?.json["_data"]["description"].string
+            if let weight = editProduct?.json["_data"]["weight"].int
+            {
+                txtWeight.text = String(weight)
+                txtWeight.hidden = false
+                conHeightWeightView.constant = 158
+            }
+            
+            if let oldPrice = editProduct?.json["_data"]["price_original"].int
+            {
+                txtOldPrice.text = String(oldPrice)
+            }
+            
+            if let oldPrice = editProduct?.json["_data"]["price"].int
+            {
+                txtNewPrice.text = String(oldPrice)
+            }
+            
+            if let category_breadcrumbs = editProduct?.json["_data"]["category_breadcrumbs"].array
+            {
+                for i in 0...category_breadcrumbs.count-1
+                {
+                    let c = category_breadcrumbs[i]
+                    productCategoryId = c["_id"].string!
+                    captionKategori.text = c["name"].string!
+                }
+            }
+            
+            if let kondisi = editProduct?.json["_data"]["condition"].string, let kondisiId = editProduct?.json["_data"]["product_condition_id"].string
+            {
+                kodindisiId = kondisiId
+                captionKondisi.text = kondisi
+            }
+            
+            if let kondisi = editProduct?.json["_data"]["brand"].string, let kondisiId = editProduct?.json["_data"]["brand_id"].string
+            {
+                merekId = kondisiId
+                captionMerek.text = kondisi
+            }
+            
+            if let arr = editProduct?.json["_data"]["original_picts"].arrayObject
+            {
+                for i in 0...arr.count-1
+                {
+                    let o = arr[i]
+                    if let s = o as? String
+                    {
+                        imageViews[i].setImageWithUrl(NSURL(string: s)!, placeHolderImage: UIImage(named: "raisa.jpg"))
+                    }
+                }
+            }
+            
         } else
         {
             self.title = "Add Product"
             self.btnSubmit.setTitle("Submit", forState: UIControlState.Normal)
-            self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
         }
         
+        self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
         self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
     }
     
@@ -117,7 +181,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (User.IsLoggedIn == false)
         {
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
-        } else if (notPicked)
+        } else if (notPicked && editMode == false)
         {
             notPicked = false
             self.pickImage(0, forceBackOnCancel: true)
@@ -173,6 +237,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else if (buttonIndex == 3)
         {
             self.imageViews[actionSheet.tag].image = nil
+            switch (actionSheet.tag)
+            {
+            case 0:rm_image1 = 1
+            case 1:rm_image2 = 1
+            case 2:rm_image3 = 1
+            case 3:rm_image4 = 1
+            case 4:rm_image5 = 1
+            default:println("")
+            }
         }
     }
     
@@ -195,8 +268,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     if let i = img
                     {
                         self.imageViews[index].image = i
+                        self.images[index] = i
                     }
                 })
+                
+                switch (index)
+                {
+                case 0:self.rm_image1=0
+                case 1:self.rm_image2=0
+                case 2:self.rm_image3=0
+                case 3:self.rm_image4=0
+                case 4:self.rm_image5=0
+                default:println()
+                }
+                
             } else if (forceBackOnCancel)
             {
                 self.navigationController?.popViewControllerAnimated(true)
@@ -453,8 +538,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         self.btnSubmit.enabled = false
-        AppToolsObjC.sendMultipart(
-            ["name":name,
+        
+        var param = ["name":name,
             "description":desc,
             "category_id":productCategoryId,
             "price":newPrice,
@@ -463,16 +548,41 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "free_ongkir":String(0),
             "product_condition_id":kodindisiId,
             "brand_id":merekId,
-            "size":"S/38/8"], images: imgs, withToken: User.Token!, success: {op, res in
-                println(res)
-                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-                let json = JSON(res!)
-                let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
-                if let price = json["_data"]["price"].int
-                {
-                    s.basePrice = price
-                }
-                self.navigationController?.pushViewController(s, animated: true)
+            "size":"S/38/8"]
+        var url = "http://dev.prelo.id/api/product"
+        
+        if (editMode)
+        {
+            param["rm_image1"] = String(rm_image1)
+            param["rm_image2"] = String(rm_image2)
+            param["rm_image3"] = String(rm_image3)
+            param["rm_image4"] = String(rm_image4)
+            param["rm_image5"] = String(rm_image5)
+            url = url + "/" + (editProduct?.productID)!
+        } else
+        {
+            
+        }
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to:url, success: {op, res in
+            println(res)
+            
+            if (self.editMode)
+            {
+                Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
+                self.editDoneBlock()
+                self.navigationController?.popViewControllerAnimated(true)
+                return
+            }
+            
+            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+            let json = JSON(res!)
+            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            if let price = json["_data"]["price"].int
+            {
+                s.basePrice = price
+            }
+            self.navigationController?.pushViewController(s, animated: true)
             }, failure: {op, err in
                 Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
