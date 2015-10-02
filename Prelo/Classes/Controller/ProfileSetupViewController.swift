@@ -334,6 +334,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             disableTextFields(NSNull)
             btnApply.enabled = false
             
+            let userFullname = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
             let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
@@ -376,6 +377,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         // Save in core data
                         CDUser.deleteAll()
                         let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                        user.id = data["_id"].string!
+                        user.email = data["email"].string!
+                        user.fullname = userFullname
                         
                         CDUserProfile.deleteAll()
                         let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)

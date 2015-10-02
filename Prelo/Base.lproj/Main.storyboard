@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -1249,6 +1249,15 @@ dalam hitungan detik.</string>
                                                                 </mask>
                                                             </variation>
                                                         </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-Yc-mek">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="90"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="launchMyLovelist" destination="33S-9l-LM1" eventType="touchUpInside" id="P8f-9H-kLF"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1257,9 +1266,13 @@ dalam hitungan detik.</string>
                                                         <constraint firstAttribute="bottom" secondItem="p4b-5J-I82" secondAttribute="bottom" constant="8" id="N3a-g5-dfw"/>
                                                         <constraint firstAttribute="bottom" secondItem="JUi-h5-CUE" secondAttribute="bottom" constant="4" id="NER-Zd-2c1"/>
                                                         <constraint firstItem="JUi-h5-CUE" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" constant="4" id="OUK-na-28g"/>
+                                                        <constraint firstItem="Nqd-Yc-mek" firstAttribute="leading" secondItem="aj4-cq-xaM" secondAttribute="leading" id="P1p-Tz-hDL"/>
                                                         <constraint firstItem="JUi-h5-CUE" firstAttribute="leading" secondItem="p4b-5J-I82" secondAttribute="trailing" constant="8" id="Pkv-Wp-5ZF"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Nqd-Yc-mek" secondAttribute="bottom" id="Plb-5q-dj1"/>
                                                         <constraint firstItem="p4b-5J-I82" firstAttribute="leading" secondItem="aj4-cq-xaM" secondAttribute="leading" constant="8" id="Rt9-UU-gF3"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Nqd-Yc-mek" secondAttribute="trailing" id="S36-RT-EpG"/>
                                                         <constraint firstItem="CIu-au-kBG" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" constant="12" id="dM8-b8-hzB"/>
+                                                        <constraint firstItem="Nqd-Yc-mek" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" id="hmK-QR-sse"/>
                                                         <constraint firstAttribute="trailing" secondItem="JUi-h5-CUE" secondAttribute="trailing" id="jWW-85-3NC"/>
                                                         <constraint firstAttribute="centerX" secondItem="p4b-5J-I82" secondAttribute="centerX" id="siZ-Ug-0at"/>
                                                         <constraint firstItem="CIu-au-kBG" firstAttribute="width" secondItem="CIu-au-kBG" secondAttribute="height" multiplier="1:1" id="tf2-kU-Pj7"/>
@@ -1349,18 +1362,31 @@ dalam hitungan detik.</string>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUH-KZ-ztD">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="90"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="launchMyPurchases" destination="33S-9l-LM1" eventType="touchUpInside" id="ykm-9F-IjC"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="W8M-Db-Wpu" secondAttribute="bottom" constant="4" id="4eF-YD-hsM"/>
                                                         <constraint firstAttribute="centerX" secondItem="05X-Sk-e1G" secondAttribute="centerX" id="5jp-3i-ncA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zUH-KZ-ztD" secondAttribute="trailing" id="DvH-Hn-GEL"/>
                                                         <constraint firstAttribute="trailing" secondItem="05X-Sk-e1G" secondAttribute="trailing" constant="8" id="FSZ-Lg-K2n"/>
                                                         <constraint firstAttribute="bottom" secondItem="05X-Sk-e1G" secondAttribute="bottom" constant="8" id="Kes-vA-Rqo"/>
                                                         <constraint firstItem="W8M-Db-Wpu" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" constant="4" id="Oh2-AT-aIg"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zUH-KZ-ztD" secondAttribute="bottom" id="Qmj-hP-iJ5"/>
                                                         <constraint firstItem="W8M-Db-Wpu" firstAttribute="leading" secondItem="NYb-e2-zdZ" secondAttribute="leading" id="Tna-BU-7yK"/>
                                                         <constraint firstItem="05X-Sk-e1G" firstAttribute="leading" secondItem="W8M-Db-Wpu" secondAttribute="trailing" constant="8" id="b6p-EJ-lR2"/>
                                                         <constraint firstItem="05X-Sk-e1G" firstAttribute="top" secondItem="txG-F6-hp7" secondAttribute="bottom" constant="8" id="bxD-H0-A2I"/>
+                                                        <constraint firstItem="zUH-KZ-ztD" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" id="e7i-Iz-cyH"/>
                                                         <constraint firstItem="txG-F6-hp7" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" constant="12" id="hgG-Br-aTM"/>
+                                                        <constraint firstItem="zUH-KZ-ztD" firstAttribute="leading" secondItem="NYb-e2-zdZ" secondAttribute="leading" id="qBP-Iz-Mdg"/>
                                                         <constraint firstAttribute="centerX" secondItem="txG-F6-hp7" secondAttribute="centerX" id="zc2-cy-uM1"/>
                                                     </constraints>
                                                     <variation key="default">
