@@ -13,7 +13,7 @@ import CoreData
 class CDUser: NSManagedObject {
 
     @NSManaged var email: String
-    @NSManaged var fullname: String
+    @NSManaged var fullname: String?
     @NSManaged var id: String
     @NSManaged var others: CDUserOther
     @NSManaged var profiles: CDUserProfile

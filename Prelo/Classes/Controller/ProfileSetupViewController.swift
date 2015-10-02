@@ -58,6 +58,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var asset : ALAssetsLibrary?
     
+    // Variable from previous scene
+    var userId : String = ""
+    var userToken : String = ""
+    var userEmail : String = ""
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -335,6 +340,21 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userReferral = fieldKodeReferral.text
             let userDeviceId = "dor" // FIXME
             
+            // TODO: harusnya ini dipasang di phone verification karna kalau belum verification dianggap belum tuntas, jika exit app saat verification lalu buka app lagi harusnya belum kelogin
+            User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+            if let d = self.userRelatedDelegate
+            {
+                d.userLoggedIn!()
+            }
+            if let c = CDUser.getOne()
+            {
+                Mixpanel.sharedInstance().identify(c.id)
+                Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+            } else {
+                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+            }
+            
             request(APIUser.SetupAccount(gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
                 if let error = err {
                     Constant.showDialog("Warning", message: error.description)
@@ -353,10 +373,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         
                         let m = UIApplication.appDelegate.managedObjectContext
                         
-                        // Fetch and edit data
-                        let user : CDUser = CDUser.getOne()!
+                        // Save in core data
+                        CDUser.deleteAll()
+                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                         
-                        let userProfile : CDUserProfile = CDUserProfile.getOne()!
+                        CDUserProfile.deleteAll()
+                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
                         userProfile.regionID = self.selectedKabKotaID
                         userProfile.provinceID = self.selectedProvinsiID
                         userProfile.phone = userPhone!
@@ -371,10 +393,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         } else {
                             println("Data saved")
                             //self.btnSimpanData.enabled = true
-                            if let d = self.userRelatedDelegate
-                            {
-                                d.userLoggedIn!()
-                            }
 
                             /* Digunakan jika setelah scene ini adalah scene phone verification
                             // TODO : Coba POST phone verification dulu sebelum pindah scene

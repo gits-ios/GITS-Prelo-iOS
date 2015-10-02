@@ -144,7 +144,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                     } else { // Berhasil
                         println("Register succeed")
                         println(data)
-                        User.StoreUser(data, email : email!)
+                        
                         let m = UIApplication.appDelegate.managedObjectContext
                         let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
                         c.id = data["username"].string!
@@ -159,6 +159,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         UIApplication.appDelegate.saveContext()
                         
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        /*User.StoreUser(data, email : email!)
                         if (self.userRelatedDelegate != nil) {
                             self.userRelatedDelegate?.userLoggedIn!()
                         }
@@ -170,15 +172,15 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         } else {
                             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                        }
+                        }*/ // TO BE DELETED
                         
-                        self.toProfileSetup()
+                        self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!)
                     }
                 }
         }
         
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
-        //self.toProfileSetup()
+        //self.toProfileSetup("", userToken : "", userEmail : "")
         
         // FOR TESTING (TO PHONE VERIFICATION DIRECTLY)
         /*let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
@@ -186,9 +188,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.navigationController?.pushViewController(phoneVerificationVC, animated: true)*/
     }
     
-    func toProfileSetup() {
+    func toProfileSetup(userId : String, userToken : String, userEmail : String) {
         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+        profileSetupVC.userId = userId
+        profileSetupVC.userToken = userToken
+        profileSetupVC.userEmail = userEmail
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
@@ -208,29 +213,24 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     // MARK : Facebook Login
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
-        // Get permission from facebook
-        // FIXME: kalo login fb A terus logout terus login fb B belum bisa
-        if FBSDKAccessToken.currentAccessToken() == nil { // Haven't got permission facebook
-            let fbLoginManager = FBSDKLoginManager()
-            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-                if (error != nil) { // Process error
-                    println("Process error")
-                    User.LogoutFacebook()
-                } else if result.isCancelled { // User cancellation
-                    println("User cancel")
-                    User.LogoutFacebook()
-                } else { // Success
-                    if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
-                        // Do work
-                        self.fbLogin()
-                    } else {
-                        // Handle not getting permission
-                    }
+        // Log in and get permission from facebook
+        let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if (error != nil) { // Process error
+                println("Process error")
+                User.LogoutFacebook()
+            } else if result.isCancelled { // User cancellation
+                println("User cancel")
+                User.LogoutFacebook()
+            } else { // Success
+                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
+                    // Do work
+                    self.fbLogin()
+                } else {
+                    // Handle not getting permission
                 }
-            })
-        } else { // Got permission from facebook
-            self.fbLogin()
-        }
+            }
+        })
     }
     
     func fbLogin()
@@ -272,9 +272,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                             } else { // Berhasil
                                 println("Data = \(data)")
                                 
-                                // Save in NSUserDefaults
-                                User.StoreUser(data, email : email)
-                                
                                 // Save in core data
                                 let m = UIApplication.appDelegate.managedObjectContext
                                 var user : CDUser? = CDUser.getOne()
@@ -292,28 +289,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                                 user!.profiles = p
                                 UIApplication.appDelegate.saveContext()
                                 
-                                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
-                                if (self.userRelatedDelegate != nil) {
-                                    self.userRelatedDelegate?.userLoggedIn!()
-                                }
-                                
-                                if let c = CDUser.getOne()
-                                {
-                                    Mixpanel.sharedInstance().identify(c.id)
-                                    Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
-                                } else {
-                                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                                    Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                                }
-                                
-                                // Tell app that the user has logged in
-                                if let d = self.userRelatedDelegate
-                                {
-                                    d.userLoggedIn!()
-                                }
-                                
                                 // Check if user have set his account
-                                self.checkProfileSetup()
+                                self.checkProfileSetup(data["token"].string!)
                             }
                         }
                     }
@@ -323,8 +300,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     // Return true if user have set his account in profile setup page
-    func checkProfileSetup() {
+    // Param token is only used when user have set his account via setup account and phone verification
+    func checkProfileSetup(token : String) {
         var isProfileSet : Bool = false
+        
+        // Set token first, because APIUser.Me need token
+        User.SetToken(token)
         
         // Get user profile from API and check if required data is set
         // Required data: gender, phone, province, region, shipping
@@ -369,6 +350,28 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
                         // TODO: belum lengkap (postalCode, adress, desc, userOther jg)
+                        
+                        // Tell app that the user has logged in
+                        // Save in NSUserDefaults
+                        User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)
+                        if let d = self.userRelatedDelegate
+                        {
+                            d.userLoggedIn!()
+                        }
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                    } else {
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
                     }
                     
                     // Hide loading
@@ -381,7 +384,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
                         // Go to profile setup
-                        self.toProfileSetup()
+                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
                     }
                 }
             }

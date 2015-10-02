@@ -61,6 +61,12 @@ public class User : NSObject
         }
     }
     
+    static func SetToken(token : String?)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     static func StoreUser(user : JSON)
     {
         var id = ""
@@ -81,6 +87,14 @@ public class User : NSObject
     static func StoreUser(user : JSON, email : String)
     {
         User.StoreUser(user)
+        NSUserDefaults.standardUserDefaults().setObject(email, forKey: User.EmailKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    static func StoreUser(id : String, token : String, email : String)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)
+        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
         NSUserDefaults.standardUserDefaults().setObject(email, forKey: User.EmailKey)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
@@ -154,23 +168,35 @@ class UserProfile : NSObject {
     }
     
     var phone : String? {
-        let p : String? = json["profile"]["phone"].string!
-        return p
+        if (json["profile"]["phone"] != nil) {
+            return json["profile"]["phone"].string
+        } else {
+            return nil
+        }
     }
     
     var regionId : String? {
-        let r : String? = json["profile"]["region_id"].string!
-        return r
+        if (json["profile"]["region_id"] != nil) {
+            return json["profile"]["region_id"].string
+        } else {
+            return nil
+        }
     }
     
     var provinceId : String? {
-        let p : String? = json["profile"]["province_id"].string!
-        return p
+        if (json["profile"]["province_id"] != nil) {
+            return json["profile"]["province_id"].string
+        } else {
+            return nil
+        }
     }
     
     var gender : String? {
-        let g : String? = json["profile"]["gender"].string!
-        return g
+        if (json["profile"]["gender"] != nil) {
+            return json["profile"]["gender"].string
+        } else {
+            return nil
+        }
     }
     
     var shippingIds : [String]? {

@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let c = CDUser.getOne()
         {
             Mixpanel.sharedInstance().identify(c.id)
-            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
+            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
         } else {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
