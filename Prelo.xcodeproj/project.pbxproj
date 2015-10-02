@@ -354,6 +354,9 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */; };
+		4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */; };
+		4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */; };
 		44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */; };
 		44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */; };
 		44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */; };
@@ -834,6 +837,9 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLovelistViewController.swift; sourceTree = "<group>"; };
 		44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductCompletedViewController.swift; sourceTree = "<group>"; };
 		44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductDetailViewController.swift; sourceTree = "<group>"; };
@@ -855,6 +861,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
@@ -868,12 +875,14 @@
 				21EEB44A1B86FAFF00CAD5C9 /* StoreKit.framework in Frameworks */,
 				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
 				21EEB4461B86FADF00CAD5C9 /* MessageUI.framework in Frameworks */,
+				4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */,
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
 				216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
+				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
 				21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */,
@@ -1740,6 +1749,9 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
+				4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */,
+				4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */,
 				216799981B901C5200F18F90 /* Mixpanel */,
 				216799941B9010E900F18F90 /* Fabric.framework */,
 				216799951B9010E900F18F90 /* Crashlytics.framework */,

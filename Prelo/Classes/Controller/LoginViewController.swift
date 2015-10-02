@@ -108,15 +108,18 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.btnLogin?.enabled = true
                     } else {
                         println(data)
-                        User.StoreUser(data, email: email!)
-                        self.getProfile()
+                        self.getProfile(data["token"].string!)
                     }
                 }
         }
     }
     
-    func getProfile()
+    // Token is only stored when user have completed setup account and phone verification
+    func getProfile(token : String)
     {
+        // Set token first, because APIUser.Me need token
+        User.SetToken(token)
+        
         request(APIUser.Me)
             .responseJSON{_, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))
@@ -126,7 +129,77 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     println(json)
                     
-                    let m = UIApplication.appDelegate.managedObjectContext
+                    var isProfileSet : Bool = false
+                    
+                    let userProfileData = UserProfile.instance(json)
+                    if (userProfileData!.gender != nil &&
+                        userProfileData!.phone != nil &&
+                        userProfileData!.provinceId != nil &&
+                        userProfileData!.regionId != nil &&
+                        userProfileData!.shippingIds != nil) {
+                            isProfileSet = true
+                    }
+                    
+                    if (isProfileSet) {
+                        // Save in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
+                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                        user.id = userProfileData!.id
+                        user.email = userProfileData!.email
+                        user.fullname = userProfileData!.fullname
+                        
+                        CDUserProfile.deleteAll()
+                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                        user.profiles = userProfile
+                        userProfile.regionID = userProfileData!.regionId!
+                        userProfile.provinceID = userProfileData!.provinceId!
+                        userProfile.gender = userProfileData!.gender!
+                        userProfile.phone = userProfileData!.phone!
+                        userProfile.pict = userProfileData!.profPictURL!.absoluteString!
+                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg)
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        User.StoreUser(userProfileData!.id, token: token, email: userProfileData!.email)
+                        if (self.userRelatedDelegate != nil) {
+                            self.userRelatedDelegate?.userLoggedIn!()
+                        }
+                        
+                        //Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                        
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                        
+                        Mixpanel.sharedInstance().track("Logged In")
+                    } else {
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
+                    }
+                    
+                    // Next screen based on isProfileSet
+                    if (isProfileSet) {
+                        self.dismiss()
+                    } else {
+                        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+                        println("userProfileData.json = \(userProfileData!.json)")
+                        println("id = \(userProfileData!.id)")
+                        println("token = \(token)")
+                        println("email = \(userProfileData!.email)")
+                        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+                        profileSetupVC.userId = userProfileData!.id
+                        profileSetupVC.userToken = token
+                        profileSetupVC.userEmail = userProfileData!.email
+                        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+                    }
+                    
+                    /*let m = UIApplication.appDelegate.managedObjectContext
                     let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
                     c.id = json["_id"].string!
                     c.email = json["email"].string!
@@ -201,7 +274,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     Mixpanel.sharedInstance().track("Logged In")
                     
-                    self.dismiss()
+                    self.dismiss()*/
                 } else {
                     User.Logout()
                     self.btnLogin?.enabled = true

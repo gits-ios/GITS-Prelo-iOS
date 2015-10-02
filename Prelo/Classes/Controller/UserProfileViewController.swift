@@ -132,8 +132,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         let userProfile : CDUserProfile = CDUserProfile.getOne()!
         
         // Set fields' default value
-        fieldNama.text = user.fullname
-        lblNoHP.text = userProfile.phone
+        if (user.fullname != nil) {
+            fieldNama.text = user.fullname
+        }
+        if (userProfile.phone != nil) {
+            lblNoHP.text = userProfile.phone
+        }
         if let gender = userProfile.gender
         {
             lblJenisKelamin.text = gender

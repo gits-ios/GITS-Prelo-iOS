@@ -177,6 +177,9 @@
                                         <state key="normal" image="ic_socmed_facebook.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginFacebookPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="Asi-yL-LEz"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnG-eX-aiT">
                                         <rect key="frame" x="71" y="468" width="489" height="40"/>
@@ -190,6 +193,9 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginFacebookPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="abU-om-as7"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZw-qw-Qmx" userLabel="Path">
                                         <rect key="frame" x="8" y="516" width="55" height="40"/>
@@ -200,6 +206,9 @@
                                         <state key="normal" image="ic_socmed_path.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginPathPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="as7-2P-8KG"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Mp-n0-kCg">
                                         <rect key="frame" x="71" y="516" width="489" height="40"/>
@@ -213,6 +222,9 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginPathPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="Vag-BK-xdm"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jangan khawatir, Prelo tidak akan post tanpa persetujuan kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmt-gZ-HSd">
                                         <rect key="frame" x="40" y="564" width="488" height="15"/>
@@ -305,13 +317,30 @@
                             </mask>
                         </variation>
                     </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bB1-aW-Bv8" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-N1-3ZS" userLabel="loading">
+                                <rect key="frame" x="290" y="25" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="KZV-N1-3ZS" secondAttribute="centerX" id="NEQ-BX-gpL"/>
+                            <constraint firstItem="KZV-N1-3ZS" firstAttribute="top" secondItem="bB1-aW-Bv8" secondAttribute="top" constant="25" id="ezU-lH-PvM"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <gestureRecognizers/>
                 <constraints>
+                    <constraint firstItem="bB1-aW-Bv8" firstAttribute="leading" secondItem="CTs-ke-s1q" secondAttribute="leading" id="NPB-w0-oC2"/>
+                    <constraint firstItem="bB1-aW-Bv8" firstAttribute="top" secondItem="CTs-ke-s1q" secondAttribute="top" id="Ngw-45-5BQ"/>
+                    <constraint firstAttribute="trailing" secondItem="bB1-aW-Bv8" secondAttribute="trailing" id="PRz-Ww-TRw"/>
                     <constraint firstAttribute="trailingMargin" secondItem="YlJ-Cn-IJP" secondAttribute="trailing" id="RBj-dq-JhZ"/>
                     <constraint firstItem="YlJ-Cn-IJP" firstAttribute="leading" secondItem="CTs-ke-s1q" secondAttribute="leadingMargin" id="S6b-da-kVX"/>
                     <constraint firstItem="YlJ-Cn-IJP" firstAttribute="top" secondItem="QDZ-EF-Nyx" secondAttribute="bottom" id="Yvb-Rn-P9I"/>
+                    <constraint firstItem="kgU-hG-0jI" firstAttribute="top" secondItem="bB1-aW-Bv8" secondAttribute="bottom" id="i1H-cd-NmE"/>
                     <constraint firstItem="YlJ-Cn-IJP" firstAttribute="leading" secondItem="CTs-ke-s1q" secondAttribute="leadingMargin" constant="-16" id="s3h-zV-uG5"/>
                     <constraint firstAttribute="trailingMargin" secondItem="YlJ-Cn-IJP" secondAttribute="trailing" constant="-16" id="uU4-MO-PrK"/>
                     <constraint firstItem="kgU-hG-0jI" firstAttribute="top" secondItem="YlJ-Cn-IJP" secondAttribute="bottom" id="vUY-1m-ipu"/>
@@ -331,6 +360,8 @@
             <connections>
                 <outlet property="btnRegister" destination="gfE-Sc-zdJ" id="Pma-TV-Ct0"/>
                 <outlet property="btnTermCondition" destination="QWx-rJ-Vdi" id="CMz-1o-ybw"/>
+                <outlet property="loading" destination="KZV-N1-3ZS" id="sK8-lQ-cfo"/>
+                <outlet property="loadingPanel" destination="bB1-aW-Bv8" id="e28-SH-Wxk"/>
                 <outlet property="scrollView" destination="YlJ-Cn-IJP" id="qvn-hd-ZX6"/>
                 <outlet property="txtEmail" destination="Yt1-5Y-dQ6" id="r06-eV-AyN"/>
                 <outlet property="txtName" destination="ER3-2O-upS" id="ntN-1j-tTC"/>
