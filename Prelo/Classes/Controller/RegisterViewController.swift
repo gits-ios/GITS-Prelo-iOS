@@ -441,4 +441,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             }
         }
     }
+    
+    func hideLoading() {
+        loadingPanel.hidden = true
+        loading.stopAnimating()
+    }
 }

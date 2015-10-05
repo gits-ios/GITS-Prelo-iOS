@@ -10,6 +10,7 @@ import Foundation
 
 protocol PathLoginDelegate {
     func pathLoginSuccess(userData : JSON, token : String)
+    func hideLoading()
 }
 
 class PathLoginViewController : BaseViewController, UIWebViewDelegate {
@@ -38,6 +39,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         println("currentURL = \(currentURL)")
         
         if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
+            self.delegate?.hideLoading()
             // Back to prev scene
             self.navigationController?.popViewControllerAnimated(true)
         } else if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
@@ -70,11 +72,13 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                                     self.delegate?.pathLoginSuccess(json["user"], token: pathToken)
                                 } else { // Not OK
                                     Constant.showDialog("Warning", message: json["reason"].string!)
+                                    self.delegate?.hideLoading()
                                 }
                             }
                         }
                     } else { // Not OK
                         Constant.showDialog("Warning", message: json["reason"].string!)
+                        self.delegate?.hideLoading()
                     }
                 }
             }
