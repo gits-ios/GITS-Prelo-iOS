@@ -273,6 +273,7 @@ enum APIAuth : URLRequestConvertible
     case Register(username : String, fullname : String, email : String, password : String)
     case Login(email : String, password : String)
     case LoginFacebook(email : String, fullname : String, fbId : String, fbAccessToken : String)
+    case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case Logout
     
     var method : Method
@@ -282,6 +283,7 @@ enum APIAuth : URLRequestConvertible
             case .Register(_, _, _, _) : return .POST
             case .Login(_, _) : return .POST
             case .LoginFacebook(_, _, _, _) : return .POST
+            case .LoginPath(_, _, _, _) : return .POST
             case .Logout : return .POST
             }
     }
@@ -293,6 +295,7 @@ enum APIAuth : URLRequestConvertible
             case .Register(_, _, _, _) : return "register"
             case .Login(_, _) : return "login"
             case .LoginFacebook(_, _, _, _) : return "login/facebook"
+            case .LoginPath(_, _, _, _) : return "login/path"
             case .Logout : return "logout"
             }
     }
@@ -321,6 +324,14 @@ enum APIAuth : URLRequestConvertible
                     "fullname" : fullname,
                     "fb_id" : fbId,
                     "fb_access_token" : fbAccessToken
+                ]
+                return p
+            case .LoginPath(let email, let fullname, let pathId, let pathAccessToken) :
+                let p = [
+                    "email" : email,
+                    "fullname" : fullname,
+                    "path_id" : pathId,
+                    "path_access_token" : pathAccessToken
                 ]
                 return p
             case .Logout :

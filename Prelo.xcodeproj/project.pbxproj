@@ -368,6 +368,9 @@
 		44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708841BBA6E19001EACBF /* MyProductDetail.xib */; };
 		44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708851BBA6E19001EACBF /* MyProductProcessing.xib */; };
 		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
+		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
+		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
+		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
@@ -851,6 +854,9 @@
 		44B708841BBA6E19001EACBF /* MyProductDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductDetail.xib; sourceTree = "<group>"; };
 		44B708851BBA6E19001EACBF /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
+		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
+		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
+		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
@@ -1421,6 +1427,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
 				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
@@ -1492,6 +1499,7 @@
 			isa = PBXGroup;
 			children = (
 				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
+				44B93C7C1BBEC40800036173 /* PathEndpoints.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1764,6 +1772,7 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				44B93C7A1BBEA51B00036173 /* PathLogin.xib */,
 				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
 				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
 				44B708831BBA6E19001EACBF /* MyProductCompleted.xib */,
@@ -1956,6 +1965,7 @@
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
+				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
@@ -2094,9 +2104,11 @@
 				216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */,
 				2141BBE21B54BE4C00787F5D /* SocketEngineClient.swift in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */,
 				2141BBB01B54BE4C00787F5D /* README.md in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */,
 				211BC99A1B96EBBE00FDB1DC /* PreloShareController.swift in Sources */,
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,

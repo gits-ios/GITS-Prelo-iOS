@@ -115,6 +115,7 @@ class Tags : NSObject
     static let XibNameMyProductCompleted = "MyProductCompleted"
     static let XibNameMyProductDetail = "MyProductDetail"
     static let XibNameMyLovelist = "MyLovelist"
+    static let XibNamePathLogin = "PathLogin"
 }
 
 class OrderStatus : NSObject

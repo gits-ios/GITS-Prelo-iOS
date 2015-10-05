@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
+class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate {
     
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtUsername: UITextField!
@@ -251,7 +251,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                     let userId =  result["id"] as! String
                     let name = result["name"] as! String
                     let email = result["email"] as! String
-                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large"
+                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     
                     println("result = \(result)")
@@ -265,12 +265,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
-                            if (data == nil) { // Data kembalian kosong
-                                let obj : [String : String] = res as! [String : String]
-                                let message = obj["_message"]
-                                Constant.showDialog("Warning", message: "Empty data, message: \(message)")
+                            if (data == nil || data == []) { // Data kembalian kosong
+                                println("Empty facebook login data")
                             } else { // Berhasil
-                                println("Data = \(data)")
+                                println("Facebook login data = \(data)")
                                 
                                 // Save in core data
                                 let m = UIApplication.appDelegate.managedObjectContext
@@ -316,10 +314,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    Constant.showDialog("Warning", message: "Empty data, message: \(message)")
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty profile data")
                 } else { // Berhasil
                     println("Data = \(data)")
                     let userProfileData = UserProfile.instance(data)
@@ -349,7 +345,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
                         userProfile.gender = userProfileData!.gender!
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
-                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg)
+                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
                         
                         // Tell app that the user has logged in
                         // Save in NSUserDefaults
@@ -394,5 +390,55 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate {
     // MARK : Path Login
     
     @IBAction func loginPathPressed(sender: AnyObject) {
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        pathLoginVC.delegate = self
+        self.navigationController?.pushViewController(pathLoginVC, animated: true)
+    }
+    
+    func pathLoginSuccess(userData : JSON, token : String) {
+        let pathId = userData["id"].string!
+        let pathName = userData["name"].string!
+        let email = userData["email"].string!
+        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
+            println("Path login req = \(req)")
+            
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: (err?.description)!)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty path login data")
+                } else { // Berhasil
+                    println("Path login data: \(data)")
+                    
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    var user : CDUser? = CDUser.getOne()
+                    if (user == nil) {
+                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                    }
+                    user!.id = data["username"].string!
+                    user!.email = data["email"].string!
+                    user!.fullname = data["fullname"].string!
+                    
+                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                    let pr = data["profile"]
+                    p.pict = pr["pict"].string!
+                    
+                    user!.profiles = p
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Check if user have set his account
+                    self.checkProfileSetup(data["token"].string!)
+                }
+            }
+        }
     }
 }
