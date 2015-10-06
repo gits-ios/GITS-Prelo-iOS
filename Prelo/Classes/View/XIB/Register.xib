@@ -321,14 +321,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-N1-3ZS" userLabel="loading">
-                                <rect key="frame" x="290" y="25" width="20" height="20"/>
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KZV-N1-3ZS" secondAttribute="centerX" id="NEQ-BX-gpL"/>
+                            <constraint firstAttribute="centerY" secondItem="KZV-N1-3ZS" secondAttribute="centerY" id="ep9-eo-HLh"/>
                             <constraint firstItem="KZV-N1-3ZS" firstAttribute="top" secondItem="bB1-aW-Bv8" secondAttribute="top" constant="25" id="ezU-lH-PvM"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ezU-lH-PvM"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

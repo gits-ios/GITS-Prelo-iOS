@@ -210,7 +210,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
-    // MARK : Facebook Login
+    // MARK: Facebook Login
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
         // Log in and get permission from facebook
@@ -387,7 +387,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
-    // MARK : Path Login
+    // MARK: Path Login
     
     @IBAction func loginPathPressed(sender: AnyObject) {
         // Show loading
