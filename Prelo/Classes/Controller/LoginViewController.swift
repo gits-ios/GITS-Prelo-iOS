@@ -184,6 +184,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     UIApplication.appDelegate.saveContext()
                     
                     CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                     if (self.userRelatedDelegate != nil) {
                         self.userRelatedDelegate?.userLoggedIn!()
                     }

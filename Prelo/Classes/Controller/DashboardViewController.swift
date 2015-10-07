@@ -156,6 +156,19 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    @IBAction func launchMyPage()
+    {
+        if let me = CDUser.getOne()
+        {
+            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            l.storeMode = true
+            l.storeName = me.fullname
+            l.storeId = me.id
+            self.navigationController?.pushViewController(l, animated: true)
+        }
+        
+    }
+    
     @IBAction func launchMyLovelist()
     {
         let myLovelistVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil).first as! MyLovelistViewController

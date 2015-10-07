@@ -98,6 +98,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 txtWeight.text = String(weight)
                 txtWeight.hidden = false
                 conHeightWeightView.constant = 158
+                var index = 0
+                if (weight >= 1000 && weight < 2000)
+                {
+                    index = 1
+                } else if (weight >= 2000)
+                {
+                    index = 2
+                }
+                
+                selectOngkirByIndex(0)
+                selectWeightByIndex(index, overrideWeight: false)
             }
             
             if let oldPrice = editProduct?.json["_data"]["price_original"].int
@@ -339,6 +350,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    func selectWeightByIndex(index : Int, overrideWeight : Bool)
+    {
+        let w = weightViews[index]
+        self.highlightWeightView(true, weightView: w)
+        
+        if (txtWeight.hidden)
+        {
+            txtWeight.hidden = false
+            conHeightWeightView.constant = 158
+            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.txtWeight.superview?.layoutIfNeeded()
+                }, completion: nil)
+        }
+        
+        if (overrideWeight)
+        {
+            let berat = 500 + (index * 1000)
+            txtWeight.text = String(berat)
+        }
+    }
+    
     @IBAction func selectOngkir(sender : UIButton?)
     {
         for o in ongkirViews
@@ -351,6 +383,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let o = ongkirViews[b.tag]
             self.highlightWeightView(true, weightView: o)
         }
+    }
+    
+    func selectOngkirByIndex(index : Int)
+    {
+        let o = ongkirViews[index]
+        self.highlightWeightView(true, weightView: o)
     }
     
     func highlightWeightView(highlight : Bool, weightView : BorderedView)

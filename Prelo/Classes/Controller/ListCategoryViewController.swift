@@ -37,7 +37,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //        } else {
 //            
 //        }
-        getCategory()
+//        getCategory()
     }
     
     var contentView : UIView?
@@ -213,7 +213,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         scrollCategoryName.layoutIfNeeded()
         contentCategoryNames?.layoutIfNeeded()
         
-        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
+        setCurrentTab((categoryNames.count > 1) ? 0 : 0)
     }
     
     var currentTabIndex = 0

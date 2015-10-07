@@ -108,6 +108,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func backPressed(sender: UIBarButtonItem) {
+        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
         if let d = self.userRelatedDelegate
         {
             d.userLoggedIn!()

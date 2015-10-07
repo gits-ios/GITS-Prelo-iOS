@@ -50,8 +50,10 @@
             <string>Prelo2</string>
             <string>Prelo2</string>
             <string>Prelo2</string>
+            <string>Prelo2</string>
         </mutableArray>
         <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
@@ -350,7 +352,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUM-6f-k6r">
                                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="50"/>
-                                                <string key="text">Jual Beli Barang
+                                                <string key="text">Jual Beli Barang Bekas
 Aman &amp; Berkualitas</string>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1198,6 +1200,15 @@ dalam hitungan detik.</string>
                                                         <constraint firstAttribute="height" constant="1" id="1LZ-Ff-DeF"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R17-hY-EvF">
+                                                    <rect key="frame" x="20" y="16" width="540" height="64"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="launchMyPage" destination="33S-9l-LM1" eventType="touchUpInside" id="CTJ-LG-w21"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -1205,15 +1216,19 @@ dalam hitungan detik.</string>
                                                 <constraint firstItem="qmP-5d-n5A" firstAttribute="top" secondItem="8wl-Qq-cKt" secondAttribute="top" constant="16" id="N9e-U5-p9u"/>
                                                 <constraint firstAttribute="trailing" secondItem="AMU-42-JlY" secondAttribute="trailing" id="Pcg-A3-BS3"/>
                                                 <constraint firstAttribute="centerY" secondItem="fkl-kw-IQX" secondAttribute="centerY" id="UTi-XC-xqe"/>
+                                                <constraint firstItem="qmP-5d-n5A" firstAttribute="leading" secondItem="R17-hY-EvF" secondAttribute="leading" id="Vkh-YQ-J26"/>
                                                 <constraint firstItem="uC7-a6-gop" firstAttribute="leading" secondItem="8wl-Qq-cKt" secondAttribute="leading" id="gSm-aJ-Dtb"/>
                                                 <constraint firstItem="uC7-a6-gop" firstAttribute="top" secondItem="8wl-Qq-cKt" secondAttribute="top" id="i6X-f4-i0j"/>
+                                                <constraint firstItem="qmP-5d-n5A" firstAttribute="top" secondItem="R17-hY-EvF" secondAttribute="top" id="jI2-fo-4Ms"/>
                                                 <constraint firstItem="AMU-42-JlY" firstAttribute="leading" secondItem="8wl-Qq-cKt" secondAttribute="leading" id="job-zF-6Ah"/>
                                                 <constraint firstAttribute="bottom" secondItem="uC7-a6-gop" secondAttribute="bottom" id="kHb-Jt-wob"/>
                                                 <constraint firstAttribute="trailing" secondItem="fkl-kw-IQX" secondAttribute="trailing" constant="8" id="ovP-hg-CM5"/>
+                                                <constraint firstItem="fkl-kw-IQX" firstAttribute="trailing" secondItem="R17-hY-EvF" secondAttribute="trailing" constant="32" id="psk-G1-N1K"/>
                                                 <constraint firstAttribute="bottom" secondItem="AMU-42-JlY" secondAttribute="bottom" id="qyo-Ye-ln1"/>
                                                 <constraint firstAttribute="trailing" secondItem="uC7-a6-gop" secondAttribute="trailing" id="snT-ZW-RDj"/>
                                                 <constraint firstItem="fkl-kw-IQX" firstAttribute="leading" secondItem="qmP-5d-n5A" secondAttribute="trailing" constant="8" id="tmA-EW-Gwp"/>
                                                 <constraint firstAttribute="bottom" secondItem="qmP-5d-n5A" secondAttribute="bottom" constant="16" id="vku-rL-McI"/>
+                                                <constraint firstItem="qmP-5d-n5A" firstAttribute="bottom" secondItem="R17-hY-EvF" secondAttribute="bottom" id="zAS-Bg-4XH"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRb-Gu-aWC">
@@ -1501,32 +1516,51 @@ dalam hitungan detik.</string>
                                                             <constraint firstAttribute="height" constant="1" id="VgB-ec-3wU"/>
                                                         </constraints>
                                                     </view>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MJf-Rb-FIL">
-                                                        <rect key="frame" x="83" y="0.0" width="501" height="43"/>
-                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bank Kamu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91h-jY-iY3">
                                                         <rect key="frame" x="0.0" y="0.0" width="75" height="43"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1p-tf-v6m">
+                                                        <rect key="frame" x="571" y="13" width="13" height="17"/>
+                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
+                                                        <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Bank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8s-gQ-2aH">
+                                                        <rect key="frame" x="490" y="12" width="73" height="20"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXP-SU-Sbp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="584" height="43"/>
+                                                        <state key="normal">
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="selectBank" destination="zDU-lo-36T" eventType="touchUpInside" id="jtM-D5-4gI"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="mSj-Ob-Js5" firstAttribute="top" secondItem="91h-jY-iY3" secondAttribute="bottom" id="54R-Gz-T3e"/>
-                                                    <constraint firstItem="MJf-Rb-FIL" firstAttribute="leading" secondItem="91h-jY-iY3" secondAttribute="trailing" constant="8" id="6UH-rt-Qig"/>
+                                                    <constraint firstAttribute="centerY" secondItem="p1p-tf-v6m" secondAttribute="centerY" id="5Eq-Zh-jhj"/>
                                                     <constraint firstAttribute="trailing" secondItem="mSj-Ob-Js5" secondAttribute="trailing" id="Atq-Z6-Bpz"/>
-                                                    <constraint firstItem="mSj-Ob-Js5" firstAttribute="top" secondItem="MJf-Rb-FIL" secondAttribute="bottom" id="DUV-Vv-T8S"/>
+                                                    <constraint firstItem="p1p-tf-v6m" firstAttribute="leading" secondItem="H8s-gQ-2aH" secondAttribute="trailing" constant="8" id="J8H-Vx-eHu"/>
+                                                    <constraint firstAttribute="trailing" secondItem="YXP-SU-Sbp" secondAttribute="trailing" id="OHx-Hn-BMf"/>
                                                     <constraint firstAttribute="bottom" secondItem="mSj-Ob-Js5" secondAttribute="bottom" id="SgB-tQ-14W"/>
-                                                    <constraint firstItem="MJf-Rb-FIL" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="top" id="a7b-TY-Xhh"/>
-                                                    <constraint firstAttribute="trailing" secondItem="MJf-Rb-FIL" secondAttribute="trailing" id="c4Q-i8-8A1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="p1p-tf-v6m" secondAttribute="trailing" id="cIf-4Q-Spj"/>
+                                                    <constraint firstItem="mSj-Ob-Js5" firstAttribute="top" secondItem="YXP-SU-Sbp" secondAttribute="bottom" id="cj0-8U-wV0"/>
                                                     <constraint firstItem="mSj-Ob-Js5" firstAttribute="leading" secondItem="huK-bc-itu" secondAttribute="leading" id="cku-2n-ztI"/>
                                                     <constraint firstItem="91h-jY-iY3" firstAttribute="leading" secondItem="huK-bc-itu" secondAttribute="leading" id="hBc-4r-xoF"/>
                                                     <constraint firstItem="91h-jY-iY3" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="top" id="nlg-mF-W70"/>
+                                                    <constraint firstItem="YXP-SU-Sbp" firstAttribute="leading" secondItem="huK-bc-itu" secondAttribute="leading" id="rTd-IM-eDj"/>
+                                                    <constraint firstItem="YXP-SU-Sbp" firstAttribute="top" secondItem="huK-bc-itu" secondAttribute="top" id="tmK-FQ-ZBM"/>
                                                     <constraint firstAttribute="height" constant="44" id="trp-Rm-eWK"/>
+                                                    <constraint firstAttribute="centerY" secondItem="H8s-gQ-2aH" secondAttribute="centerY" id="wCn-4C-JZE"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ASm-4q-jcZ">
@@ -1795,7 +1829,7 @@ dalam hitungan detik.</string>
                         <outlet property="captionPreloBalance" destination="EGO-WJ-2xx" id="kma-K2-dA6"/>
                         <outlet property="scrollView" destination="vlu-KW-CFP" id="3Gq-CS-pDG"/>
                         <outlet property="txtJumlah" destination="8qI-mg-z5n" id="Fmh-uU-06C"/>
-                        <outlet property="txtNamaBank" destination="MJf-Rb-FIL" id="Vk6-7q-zXs"/>
+                        <outlet property="txtNamaBank" destination="H8s-gQ-2aH" id="5Dt-zH-s71"/>
                         <outlet property="txtNamaRekening" destination="qek-TI-QRB" id="v42-NR-aY7"/>
                         <outlet property="txtNomerRekening" destination="xIs-io-Ymi" id="aK6-4R-hXi"/>
                         <outlet property="txtPassword" destination="Xk4-zh-Gxa" id="rj6-Rn-uM9"/>
@@ -1881,8 +1915,9 @@ dalam hitungan detik.</string>
                                     <constraint firstAttribute="width" constant="20" id="opg-MJ-djb"/>
                                 </constraints>
                             </view>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="PreloIconWhite.png" translatesAutoresizingMaskIntoConstraints="NO" id="csR-HG-ldU">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_prelo_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="csR-HG-ldU" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                 <rect key="frame" x="200" y="80" width="200" height="95"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="plc-hv-gBl"/>
                                     <constraint firstAttribute="width" secondItem="csR-HG-ldU" secondAttribute="height" multiplier="493:233" id="wLZ-AK-Cac"/>
@@ -1946,12 +1981,42 @@ in Bandung</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rg-Mc-Zh2" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="540" width="560" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5WB-pD-F3y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="CLEAR CACHE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                        <color key="value" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clearCache" destination="67s-Rd-7nY" eventType="touchUpInside" id="frZ-o3-glV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.65557110922426665" blue="0.59516014694058483" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="ezR-VQ-11N" secondAttribute="centerX" id="0JJ-5h-LVE"/>
                             <constraint firstItem="csR-HG-ldU" firstAttribute="top" secondItem="gTv-ZD-pY4" secondAttribute="bottom" constant="60" id="3OE-Vn-eL9"/>
                             <constraint firstAttribute="centerX" secondItem="An2-gb-kvv" secondAttribute="centerX" id="3cK-sN-QtR"/>
+                            <constraint firstItem="P8F-it-nWK" firstAttribute="top" secondItem="2rg-Mc-Zh2" secondAttribute="bottom" constant="20" id="4h4-9R-Pp6"/>
+                            <constraint firstAttribute="trailing" secondItem="2rg-Mc-Zh2" secondAttribute="trailing" constant="20" id="64Q-uU-bAI"/>
                             <constraint firstItem="P8F-it-nWK" firstAttribute="top" secondItem="ezR-VQ-11N" secondAttribute="bottom" constant="20" id="AF9-ze-y1e"/>
                             <constraint firstItem="csR-HG-ldU" firstAttribute="leading" secondItem="IRo-k2-zbu" secondAttribute="leading" constant="54" id="EKE-gU-DTo"/>
                             <constraint firstAttribute="centerY" secondItem="csR-HG-ldU" secondAttribute="centerY" id="Hjo-hW-0Fr"/>
@@ -1962,6 +2027,7 @@ in Bandung</string>
                             <constraint firstItem="ezR-VQ-11N" firstAttribute="leading" secondItem="9NN-WD-vJR" secondAttribute="trailing" id="geW-SW-mvj"/>
                             <constraint firstAttribute="trailing" secondItem="WeA-Uv-Qzk" secondAttribute="trailing" constant="20" id="jqb-eH-a6c"/>
                             <constraint firstItem="P8F-it-nWK" firstAttribute="top" secondItem="9NN-WD-vJR" secondAttribute="bottom" constant="20" id="pDe-UL-RfL"/>
+                            <constraint firstItem="2rg-Mc-Zh2" firstAttribute="leading" secondItem="IRo-k2-zbu" secondAttribute="leading" constant="20" id="vLZ-tP-6sN"/>
                             <constraint firstAttribute="centerX" secondItem="csR-HG-ldU" secondAttribute="centerX" id="wgq-rb-lAg"/>
                             <constraint firstAttribute="trailing" secondItem="csR-HG-ldU" secondAttribute="trailing" constant="54" id="z7K-Of-1n6"/>
                         </constraints>
@@ -1975,6 +2041,8 @@ in Bandung</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="btnClear" destination="9NN-WD-vJR" id="au1-14-ERN"/>
+                        <outlet property="btnClear2" destination="2rg-Mc-Zh2" id="7t5-o8-oda"/>
                         <outlet property="btnLogout" destination="WeA-Uv-Qzk" id="TW6-HN-god"/>
                     </connections>
                 </viewController>
@@ -6169,7 +6237,7 @@ Keuntungan</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhL-rB-wD0">
                                         <rect key="frame" x="300" y="0.0" width="300" height="44"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WJ-ld-3G9">
+                                            <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3WJ-ld-3G9">
                                                 <rect key="frame" x="8" y="8" width="284" height="28"/>
                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="15"/>
                                                 <state key="normal" title=" BELI" backgroundImage="basic_orange.png">
@@ -6221,15 +6289,29 @@ Keuntungan</string>
                                             <constraint firstItem="z2y-Ag-gm1" firstAttribute="top" secondItem="mNo-WR-qUf" secondAttribute="top" constant="8" id="fd2-DB-NK2"/>
                                         </constraints>
                                     </view>
+                                    <button hidden="YES" opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYS-ZA-rzW">
+                                        <rect key="frame" x="8" y="8" width="584" height="28"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="15"/>
+                                        <state key="normal" title=" BELI" backgroundImage="basic_orange.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addToCart:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="iXC-1O-VJM"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="FhL-rB-wD0" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="top" id="Ae0-EN-kym"/>
+                                    <constraint firstAttribute="bottom" secondItem="FYS-ZA-rzW" secondAttribute="bottom" constant="8" id="BiG-Fy-g6y"/>
                                     <constraint firstAttribute="trailing" secondItem="FhL-rB-wD0" secondAttribute="trailing" id="Egc-KX-BIO"/>
                                     <constraint firstItem="mNo-WR-qUf" firstAttribute="leading" secondItem="hx6-gT-uZY" secondAttribute="leading" id="G3n-4U-TJi"/>
                                     <constraint firstItem="FhL-rB-wD0" firstAttribute="leading" secondItem="mNo-WR-qUf" secondAttribute="trailing" id="WJz-Km-BOE"/>
+                                    <constraint firstItem="FYS-ZA-rzW" firstAttribute="leading" secondItem="hx6-gT-uZY" secondAttribute="leading" constant="8" id="aCw-HS-mG0"/>
                                     <constraint firstAttribute="bottom" secondItem="FhL-rB-wD0" secondAttribute="bottom" id="cgY-1S-quU"/>
+                                    <constraint firstAttribute="trailing" secondItem="FYS-ZA-rzW" secondAttribute="trailing" constant="8" id="ead-zA-iDa"/>
                                     <constraint firstAttribute="height" constant="44" id="iHa-KT-Zfm"/>
+                                    <constraint firstItem="FYS-ZA-rzW" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="top" constant="8" id="khz-qK-dmY"/>
                                     <constraint firstItem="mNo-WR-qUf" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="top" id="kjS-Aq-hwF"/>
                                     <constraint firstAttribute="bottom" secondItem="mNo-WR-qUf" secondAttribute="bottom" id="uMB-Ru-2fH"/>
                                     <constraint firstAttribute="width" secondItem="FhL-rB-wD0" secondAttribute="width" multiplier="2" id="vTE-zw-ERg"/>
@@ -8966,7 +9048,6 @@ Label / Merek</string>
         </scene>
     </scenes>
     <resources>
-        <image name="PreloIconWhite.png" width="493" height="233"/>
         <image name="basic_facebook.png" width="5" height="5"/>
         <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>
@@ -8982,6 +9063,7 @@ Label / Merek</string>
         <image name="ic_logo_white.png" width="76" height="76"/>
         <image name="ic_love.png" width="256" height="256"/>
         <image name="ic_prelo_balance.png" width="256" height="256"/>
+        <image name="ic_prelo_logo_text.png" width="100" height="47"/>
         <image name="ic_tag.png" width="128" height="128"/>
         <image name="raisa.jpg" width="152" height="152"/>
         <image name="rsz_ic_bca.png" width="128" height="39"/>

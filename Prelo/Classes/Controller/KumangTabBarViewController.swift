@@ -56,13 +56,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         v.backgroundColor = UIColor.clearColor()
         self.navigationItem.titleView = v
         
-        if (User.IsLoggedIn)
-        {
-            btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
-        } else
-        {
-            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
-        }
+        self.updateLoginButton()
         
         self.setupNormalOptions()
         self.setupTitle()
@@ -86,6 +80,19 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         controllerDashboard?.previousController = self
         controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
         controllerDashboard2?.previousController = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLoginButton", name: "userLoggedIn", object: nil)
+    }
+    
+    func updateLoginButton()
+    {
+        if (User.IsLoggedIn)
+        {
+            btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
+        } else
+        {
+            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        }
     }
     
     func hideBottomBar()
@@ -118,6 +125,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
     }
     
+    var iSAlreadyGetCategory = false
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -133,6 +141,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         if (tour == false)
         {
             self.performSegueWithIdentifier("segTour", sender: nil)
+        } else
+        {
+            if (iSAlreadyGetCategory == false)
+            {
+                iSAlreadyGetCategory = true
+                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
+            }
         }
     }
     

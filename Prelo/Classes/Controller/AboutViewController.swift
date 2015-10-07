@@ -11,6 +11,10 @@ import UIKit
 class AboutViewController: BaseViewController {
 
     @IBOutlet var btnLogout : BorderedButton!
+    @IBOutlet var btnClear : BorderedButton!
+    @IBOutlet var btnClear2 : BorderedButton!
+    
+    
     var isShowLogout : Bool = true
     
     override func viewDidLoad() {
@@ -18,6 +22,8 @@ class AboutViewController: BaseViewController {
         
         if (!isShowLogout) {
             self.btnLogout.hidden = true
+            self.btnClear.hidden = true
+            self.btnClear2.hidden = false
         }
         
         self.title = "About"

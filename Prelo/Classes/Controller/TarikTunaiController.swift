@@ -11,7 +11,7 @@ import UIKit
 class TarikTunaiController: BaseViewController, UIScrollViewDelegate
 {
     
-    @IBOutlet var txtNamaBank : UITextField!
+    @IBOutlet var txtNamaBank : UILabel!
     @IBOutlet var txtNomerRekening : UITextField!
     @IBOutlet var txtNamaRekening : UITextField!
     @IBOutlet var txtPassword : UITextField!
@@ -88,7 +88,21 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     @IBAction func withdraw()
     {
         let amount = txtJumlah.text
-        let namaBank = txtNamaBank.text
+        let i = (amount as NSString).integerValue
+        
+        if i < 50000
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
+            return
+        }
+        
+        var namaBank = ""
+        if let nb = txtNamaBank.text
+        {
+            namaBank = nb
+        }
+        
+        namaBank = namaBank.stringByReplacingOccurrencesOfString("Bank ", withString: "")
         let norek = txtNomerRekening.text
         let namarek = txtNamaRekening.text
         let pass = txtPassword.text
@@ -105,7 +119,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     UIAlertView.SimpleShow("Perhatian", message: message)
                 } else
                 {
-                    self.getBalance()
+//                    self.getBalance()
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik tunai telah diterima")
+                    self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             } else
             {
@@ -113,5 +129,17 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
             }
             
         }
+    }
+    
+    @IBAction func selectBank()
+    {
+        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+        
+        p.items = ["Bank Mandiri", "Bank BCA", "Bank BNI"]
+        p.selectBlock = { value in
+            self.txtNamaBank.text = value
+        }
+        
+        self.navigationController?.pushViewController(p, animated: true)
     }
 }

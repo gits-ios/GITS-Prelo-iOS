@@ -231,18 +231,48 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 if let desc = self.storeHeader?.captionDesc.text
                 {
-                    height = 200 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    height = 260 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
                 } else {
-                    self.storeHeader?.captionDesc.text = "-"
-                    height = 200 + Int("-".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
+                    self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()
+                    height = 260 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
                 }
-                
                 self.storeHeader?.width = UIScreen.mainScreen().bounds.width
                 self.storeHeader?.height = CGFloat(height)
                 self.storeHeader?.y = CGFloat(-height)
                 
                 self.storeHeader?.avatar.superview?.layer.cornerRadius = (self.storeHeader?.avatar.width)!/2
                 self.storeHeader?.avatar.superview?.layer.masksToBounds = true
+                
+                self.storeHeader?.btnEdit.hidden = true
+                if let id = json["_id"].string, let me = CDUser.getOne()
+                {
+                    if (id == me.id)
+                    {
+                        self.storeHeader?.btnEdit.hidden = false
+                    }
+                }
+                
+                if let count = self.products?.count
+                {
+                    self.storeHeader?.captionTotal.text = String(count) + " PRODUK"
+                }
+                
+                self.storeHeader?.captionLocation.text = "Unknown"
+                
+                if let regionId = json["profile"]["region_id"].string, let province_id = json["profile"]["province_id"].string
+                {
+                    // yang ini go, region sama province nya null.
+                    if let region = CDRegion.getRegionNameWithID(regionId), let province = CDProvince.getProvinceNameWithID(province_id)
+                    {
+                        self.storeHeader?.captionLocation.text = region + ", " + province
+                    }
+                }
+                
+                self.storeHeader?.editBlock = {
+                    let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+                    self.navigationController?.pushViewController(userProfileVC, animated: true)
+                }
                 
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
@@ -455,4 +485,13 @@ class StoreHeader : UIView
     @IBOutlet var captionDesc : UILabel!
     @IBOutlet var captionReview : UILabel!
     @IBOutlet var avatar : UIImageView!
+    @IBOutlet var btnEdit : UIButton!
+    @IBOutlet var captionTotal : UILabel!
+    
+    var editBlock : ()->() = {}
+    
+    @IBAction func edit()
+    {
+        self.editBlock()
+    }
 }

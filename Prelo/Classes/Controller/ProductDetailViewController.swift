@@ -87,6 +87,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         }
+        
+        if (UIApplication.sharedApplication().statusBarHidden)
+        {
+            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        }
     }
     
     func option()
@@ -179,9 +184,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if ((detail?.isMyProduct)! == true)
         {
-            self.btnBuy.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
-            self.btnBuy.setTitle(" EDIT", forState: UIControlState.Normal)
+            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
+            {
+                b.hidden = false
+                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
+                b.setTitle(" EDIT", forState: UIControlState.Normal)
+            }
+            self.btnBuy.hidden = true
             self.btnTawar.hidden = true
+            
         }
     }
 
