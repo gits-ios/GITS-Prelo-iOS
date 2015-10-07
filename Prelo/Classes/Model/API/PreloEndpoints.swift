@@ -140,6 +140,54 @@ enum APIWallet : URLRequestConvertible
     }
 }
 
+enum APINotif : URLRequestConvertible
+{
+    static let basePath = "notification/"
+    
+    case GetNotifs(time : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .GetNotifs(_) : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .GetNotifs(_) : return ""
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .GetNotifs(let time) :
+            let p = [
+                "time" : time
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotif.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
 enum APITransaction : URLRequestConvertible
 {
     static let basePath = "transaction_product/"

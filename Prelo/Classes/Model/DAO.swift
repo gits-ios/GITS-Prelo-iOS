@@ -843,8 +843,54 @@ class NotificationItem : NSObject {
     }
     
     var message : String {
-        let m = (json["message"].string)!
+        let m = (json["text"].string)!
         return m
+    }
+    
+    var ownderId : String {
+        let o = (json["owner_id"].string)!
+        return o
+    }
+    
+    var name : String {
+        let n = (json["name"].string)!
+        return n
+    }
+    
+    var type : Int {
+        let t = (json["type"].int)!
+        return t
+    }
+    
+    var actionText : String {
+        let a = (json["action_text"].string)!
+        return a
+    }
+    
+    var objectName : String {
+        let o = (json["object_name"].string)!
+        return o
+    }
+    
+    var objectId : String {
+        let o = (json["object_id"].string)!
+        return o
+    }
+    
+    var time : String {
+        let t = (json["time"].string)!
+        return t
+    }
+    
+    var leftImageURL : NSURL {
+        return NSURL(string: json["left_image"].string!)!
+    }
+    
+    var rightImageURL : NSURL? {
+        if let err = json["right_image"].error {
+            return nil
+        }
+        return NSURL(string: json["right_image"].string!)!
     }
 }
 

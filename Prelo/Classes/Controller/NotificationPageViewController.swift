@@ -89,42 +89,52 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     }
     
     func getNotificationItems() {
-        let dat1 = "{\"message\":\"hahahaha\"}"
-        let dum1 = NotificationItem.instance(JSON(dat1))
-        let dat2 = "{\"message\":\"hihihihi\"}"
-        let dum2 = NotificationItem.instance(JSON(dat2))
-        let dat3 = "{\"message\":\"huhuhuhu\"}"
-        let dum3 = NotificationItem.instance(JSON(dat3))
-        let dat4 = "{\"message\":\"hehehehe\"}"
-        let dum4 = NotificationItem.instance(JSON(dat4))
-        let dat5 = "{\"message\":\"hohohoho\"}"
-        let dum5 = NotificationItem.instance(JSON(dat5))
-        let dat6 = "{\"message\":\"hohohoho\"}"
-        let dum6 = NotificationItem.instance(JSON(dat6))
-        let dat7 = "{\"message\":\"hohohoho\"}"
-        let dum7 = NotificationItem.instance(JSON(dat7))
-        let dat8 = "{\"message\":\"hohohoho\"}"
-        let dum8 = NotificationItem.instance(JSON(dat8))
-        
-        var itemsT : [NotificationItem] = notifItems![TitleTransaksi]!
-        itemsT.append(dum1!)
-        itemsT.append(dum2!)
-        var itemsI : [NotificationItem] = notifItems![TitleInbox]!
-        itemsI.append(dum3!)
-        itemsI.append(dum4!)
-        var itemsA : [NotificationItem] = notifItems![TitleAktivitas]!
-        itemsA.append(dum5!)
-        itemsA.append(dum6!)
-        itemsA.append(dum7!)
-        itemsA.append(dum8!)
-        notifItems?.updateValue(itemsT, forKey: TitleTransaksi)
-        notifItems?.updateValue(itemsI, forKey: TitleInbox)
-        notifItems?.updateValue(itemsA, forKey: TitleAktivitas)
-        
-        self.loadingPanel.hidden = true
-        self.loading.stopAnimating()
-        self.tableView.hidden = false
-        self.setupTable()
+        request(APINotif.GetNotifs(time: "")).responseJSON {req, _, res, err in
+            println("Get notif req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Error getting notifications: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty notif")
+                } else { // Berhasil
+                    println("Notifs: \(data)")
+                    
+                    // Store data into variable
+                    var itemsTransaction : [NotificationItem] = []
+                    var itemsInbox : [NotificationItem] = []
+                    var itemsActivity : [NotificationItem] = []
+                    for (i : String, itemNotifs : JSON) in data {
+                        for (j : String, itemNotif : JSON) in itemNotifs {
+                            let n = NotificationItem.instance(itemNotif)
+                            if (n != nil) {
+                                if (i == "tp_notif") { // Transaksi
+                                    itemsTransaction.append(n!)
+                                } else if (i == "inbox") { // Inbox
+                                    itemsInbox.append(n!)
+                                } else if (i == "activity") { // Aktivitas
+                                    itemsActivity.append(n!)
+                                }
+                            }
+                        }
+                    }
+                    self.notifItems?.updateValue(itemsTransaction, forKey: self.TitleTransaksi)
+                    self.notifItems?.updateValue(itemsInbox, forKey: self.TitleInbox)
+                    self.notifItems?.updateValue(itemsActivity, forKey: self.TitleAktivitas)
+                }
+            }
+            
+            self.loadingPanel.hidden = true
+            self.loading.stopAnimating()
+            let notifCount = self.getNotifCount()
+            if (notifCount <= 0) {
+                self.lblEmpty.hidden = false
+            } else {
+                self.tableView.hidden = false
+                self.setupTable()
+            }
+        }
     }
     
     func setupTable() {
@@ -180,6 +190,19 @@ class NotificationPageCell : UITableViewCell {
     @IBOutlet weak var lblTime: UILabel!
     
     func adapt(notifItem : NotificationItem) {
-        //lblMessage.text = notifItem.message
+        // Set images
+        imgUser.setImageWithUrl(notifItem.leftImageURL, placeHolderImage: nil)
+        if (notifItem.rightImageURL != nil) {
+            imgProduct.setImageWithUrl(notifItem.rightImageURL!, placeHolderImage: nil)
+        }
+        
+        // Set texts
+        let nsMsg = notifItem.message as NSString
+        var msgAttrString = NSMutableAttributedString(string: notifItem.message, attributes: [NSFontAttributeName: AppFont.PreloAwesome.getFont(12)!])
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.GrayDark, range: nsMsg.rangeOfString(notifItem.message))
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notifItem.name))
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notifItem.objectName))
+        lblMessage.attributedText = msgAttrString
+        lblTime.text = notifItem.time
     }
 }
