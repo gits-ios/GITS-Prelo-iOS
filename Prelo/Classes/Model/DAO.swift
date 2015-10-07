@@ -828,6 +828,26 @@ class LovedProduct : NSObject {
     }
 }
 
+class NotificationItem : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> NotificationItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = NotificationItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var message : String {
+        let m = (json["message"].string)!
+        return m
+    }
+}
+
 class UserOrder : NSObject {
     
     var json : JSON!

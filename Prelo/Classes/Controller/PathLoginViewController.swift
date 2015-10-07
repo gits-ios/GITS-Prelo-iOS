@@ -19,6 +19,9 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     
     @IBOutlet weak var webView: UIWebView!
     
+    @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     let pathClientId = "b0b1aca06485dadc5f9c04e799914107277a4a42"
     let pathClientSecret = "2f53945d5e9a94659dae8c982a47df24515cae79"
     let pathDeclineUrlString = "https://partner.path.com/oauth2/decline"
@@ -32,9 +35,24 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         self.webView.loadRequest(requestObj)
         
         webView.delegate = self
+        
+        // Show loading
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.hidden = false
+        loading.startAnimating()
+    }
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
+        // Hide loading
+        loadingPanel.hidden = true
+        loading.stopAnimating()
+        
         let currentURL = webView.request?.URL
         println("currentURL = \(currentURL)")
         

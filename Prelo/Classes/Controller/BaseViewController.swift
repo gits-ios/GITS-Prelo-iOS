@@ -139,6 +139,8 @@ class BaseViewController: UIViewController {
         
         troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
         
+        bell.addTarget(self, action: "launchNotifPage", forControlEvents: UIControlEvents.TouchUpInside)
+        
         search.addTarget(self, action: "launchSearch", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
@@ -155,6 +157,12 @@ class BaseViewController: UIViewController {
     {
         let search = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch) as! UIViewController
         self.navigationController?.pushViewController(search, animated: true)
+    }
+    
+    func launchNotifPage()
+    {
+        let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPage, owner: nil, options: nil).first as! NotificationPageViewController
+        self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     
     func setupTitle()
