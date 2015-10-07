@@ -60,9 +60,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
                 let json = JSON(res!)
                 let data = json["_data"]
                 if (data == nil || data == []) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty purchase data, message: \(message)")
+                    println("Empty purchase data")
                 } else { // Berhasil
                     println("Purchase data: \(data)")
                     

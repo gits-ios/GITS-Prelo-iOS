@@ -162,7 +162,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             l.storeMode = true
-            l.storeName = me.fullname
+            if let fullname = me.fullname
+            {
+                l.storeName = fullname
+            }
             l.storeId = me.id
             self.navigationController?.pushViewController(l, animated: true)
         }

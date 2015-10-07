@@ -971,6 +971,9 @@ dalam hitungan detik.</string>
                                                     <color key="titleColor" red="0.1843137255" green="0.26274509800000001" blue="0.5450980392" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="Xy3-At-JYG"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCj-BJ-qxp">
                                                 <rect key="frame" x="54" y="363" width="526" height="32"/>
@@ -979,6 +982,9 @@ dalam hitungan detik.</string>
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginFacebookPressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="Bek-jy-mF6"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZA-UU-UMx">
                                                 <rect key="frame" x="20" y="403" width="32" height="44"/>
@@ -987,6 +993,9 @@ dalam hitungan detik.</string>
                                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginPathPressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="NX4-ae-9FR"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbq-TP-ruR">
                                                 <rect key="frame" x="54" y="409" width="526" height="32"/>
@@ -995,6 +1004,9 @@ dalam hitungan detik.</string>
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="loginPathPressed:" destination="SC6-78-TIB" eventType="touchUpInside" id="2fp-26-ml4"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo tidak akan post apapun tanpa persetujuan kamu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0dI-IX-RVA">
                                                 <rect key="frame" x="20" y="449" width="560" height="15"/>
@@ -1086,6 +1098,20 @@ dalam hitungan detik.</string>
                                     <constraint firstAttribute="trailing" secondItem="Vyh-Wd-53b" secondAttribute="trailing" id="wZc-hv-ybA"/>
                                 </constraints>
                             </scrollView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HDP-xK-5to">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="61W-54-KPR">
+                                        <rect key="frame" x="282" y="282" width="37" height="37"/>
+                                        <color key="color" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="61W-54-KPR" secondAttribute="centerX" id="0cs-uD-6ZS"/>
+                                    <constraint firstAttribute="centerY" secondItem="61W-54-KPR" secondAttribute="centerY" id="fcg-rD-zOd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -1093,8 +1119,12 @@ dalam hitungan detik.</string>
                             <constraint firstAttribute="trailing" secondItem="fmx-du-Wub" secondAttribute="trailing" id="9QS-wh-IL1"/>
                             <constraint firstItem="Vyh-Wd-53b" firstAttribute="width" secondItem="NYA-JP-6Ka" secondAttribute="width" id="AxV-Hb-TX0"/>
                             <constraint firstItem="fmx-du-Wub" firstAttribute="leading" secondItem="NYA-JP-6Ka" secondAttribute="leading" id="LHL-l5-FbE"/>
+                            <constraint firstItem="HDP-xK-5to" firstAttribute="top" secondItem="NYA-JP-6Ka" secondAttribute="top" id="TxN-IL-S0J"/>
+                            <constraint firstAttribute="trailing" secondItem="HDP-xK-5to" secondAttribute="trailing" id="a9h-NW-nJ2"/>
                             <constraint firstItem="P0U-BL-ZJR" firstAttribute="top" secondItem="fmx-du-Wub" secondAttribute="bottom" id="hhA-MV-3nF"/>
+                            <constraint firstItem="HDP-xK-5to" firstAttribute="leading" secondItem="NYA-JP-6Ka" secondAttribute="leading" id="kJB-BJ-4UU"/>
                             <constraint firstItem="fmx-du-Wub" firstAttribute="top" secondItem="NYA-JP-6Ka" secondAttribute="top" id="nwq-VW-2JS"/>
+                            <constraint firstItem="P0U-BL-ZJR" firstAttribute="top" secondItem="HDP-xK-5to" secondAttribute="bottom" id="rAH-xD-K9o"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="65z-j7-pcc" appends="YES" id="OLV-HV-NTr"/>
@@ -1103,6 +1133,8 @@ dalam hitungan detik.</string>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="btnLogin" destination="N9l-yB-Paz" id="jFd-hY-wWz"/>
+                        <outlet property="loading" destination="61W-54-KPR" id="h5S-aD-ikN"/>
+                        <outlet property="loadingPanel" destination="HDP-xK-5to" id="aH5-4L-q4C"/>
                         <outlet property="scrollView" destination="fmx-du-Wub" id="Edh-H1-INS"/>
                         <outlet property="txtEmail" destination="oag-LW-8Hk" id="leE-FH-yBp"/>
                         <outlet property="txtPassword" destination="3fI-7x-YwT" id="n72-WU-z9J"/>
@@ -1264,6 +1296,15 @@ dalam hitungan detik.</string>
                                                                 </mask>
                                                             </variation>
                                                         </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-Yc-mek">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="90"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="launchMyLovelist" destination="33S-9l-LM1" eventType="touchUpInside" id="P8f-9H-kLF"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1272,9 +1313,13 @@ dalam hitungan detik.</string>
                                                         <constraint firstAttribute="bottom" secondItem="p4b-5J-I82" secondAttribute="bottom" constant="8" id="N3a-g5-dfw"/>
                                                         <constraint firstAttribute="bottom" secondItem="JUi-h5-CUE" secondAttribute="bottom" constant="4" id="NER-Zd-2c1"/>
                                                         <constraint firstItem="JUi-h5-CUE" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" constant="4" id="OUK-na-28g"/>
+                                                        <constraint firstItem="Nqd-Yc-mek" firstAttribute="leading" secondItem="aj4-cq-xaM" secondAttribute="leading" id="P1p-Tz-hDL"/>
                                                         <constraint firstItem="JUi-h5-CUE" firstAttribute="leading" secondItem="p4b-5J-I82" secondAttribute="trailing" constant="8" id="Pkv-Wp-5ZF"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Nqd-Yc-mek" secondAttribute="bottom" id="Plb-5q-dj1"/>
                                                         <constraint firstItem="p4b-5J-I82" firstAttribute="leading" secondItem="aj4-cq-xaM" secondAttribute="leading" constant="8" id="Rt9-UU-gF3"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Nqd-Yc-mek" secondAttribute="trailing" id="S36-RT-EpG"/>
                                                         <constraint firstItem="CIu-au-kBG" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" constant="12" id="dM8-b8-hzB"/>
+                                                        <constraint firstItem="Nqd-Yc-mek" firstAttribute="top" secondItem="aj4-cq-xaM" secondAttribute="top" id="hmK-QR-sse"/>
                                                         <constraint firstAttribute="trailing" secondItem="JUi-h5-CUE" secondAttribute="trailing" id="jWW-85-3NC"/>
                                                         <constraint firstAttribute="centerX" secondItem="p4b-5J-I82" secondAttribute="centerX" id="siZ-Ug-0at"/>
                                                         <constraint firstItem="CIu-au-kBG" firstAttribute="width" secondItem="CIu-au-kBG" secondAttribute="height" multiplier="1:1" id="tf2-kU-Pj7"/>
@@ -1364,18 +1409,31 @@ dalam hitungan detik.</string>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUH-KZ-ztD">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="90"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="launchMyPurchases" destination="33S-9l-LM1" eventType="touchUpInside" id="ykm-9F-IjC"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="W8M-Db-Wpu" secondAttribute="bottom" constant="4" id="4eF-YD-hsM"/>
                                                         <constraint firstAttribute="centerX" secondItem="05X-Sk-e1G" secondAttribute="centerX" id="5jp-3i-ncA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zUH-KZ-ztD" secondAttribute="trailing" id="DvH-Hn-GEL"/>
                                                         <constraint firstAttribute="trailing" secondItem="05X-Sk-e1G" secondAttribute="trailing" constant="8" id="FSZ-Lg-K2n"/>
                                                         <constraint firstAttribute="bottom" secondItem="05X-Sk-e1G" secondAttribute="bottom" constant="8" id="Kes-vA-Rqo"/>
                                                         <constraint firstItem="W8M-Db-Wpu" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" constant="4" id="Oh2-AT-aIg"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zUH-KZ-ztD" secondAttribute="bottom" id="Qmj-hP-iJ5"/>
                                                         <constraint firstItem="W8M-Db-Wpu" firstAttribute="leading" secondItem="NYb-e2-zdZ" secondAttribute="leading" id="Tna-BU-7yK"/>
                                                         <constraint firstItem="05X-Sk-e1G" firstAttribute="leading" secondItem="W8M-Db-Wpu" secondAttribute="trailing" constant="8" id="b6p-EJ-lR2"/>
                                                         <constraint firstItem="05X-Sk-e1G" firstAttribute="top" secondItem="txG-F6-hp7" secondAttribute="bottom" constant="8" id="bxD-H0-A2I"/>
+                                                        <constraint firstItem="zUH-KZ-ztD" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" id="e7i-Iz-cyH"/>
                                                         <constraint firstItem="txG-F6-hp7" firstAttribute="top" secondItem="NYb-e2-zdZ" secondAttribute="top" constant="12" id="hgG-Br-aTM"/>
+                                                        <constraint firstItem="zUH-KZ-ztD" firstAttribute="leading" secondItem="NYb-e2-zdZ" secondAttribute="leading" id="qBP-Iz-Mdg"/>
                                                         <constraint firstAttribute="centerX" secondItem="txG-F6-hp7" secondAttribute="centerX" id="zc2-cy-uM1"/>
                                                     </constraints>
                                                     <variation key="default">

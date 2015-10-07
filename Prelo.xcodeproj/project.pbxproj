@@ -354,6 +354,9 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */; };
+		4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */; };
+		4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */; };
 		44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */; };
 		44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */; };
 		44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */; };
@@ -365,9 +368,15 @@
 		44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708841BBA6E19001EACBF /* MyProductDetail.xib */; };
 		44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708851BBA6E19001EACBF /* MyProductProcessing.xib */; };
 		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
+		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
+		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
+		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
+		44C18DAB1BC3C00300BC8303 /* NotificationPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */; };
+		44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */; };
+		44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -834,6 +843,9 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLovelistViewController.swift; sourceTree = "<group>"; };
 		44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductCompletedViewController.swift; sourceTree = "<group>"; };
 		44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductDetailViewController.swift; sourceTree = "<group>"; };
@@ -845,9 +857,15 @@
 		44B708841BBA6E19001EACBF /* MyProductDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductDetail.xib; sourceTree = "<group>"; };
 		44B708851BBA6E19001EACBF /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
+		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
+		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
+		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
+		44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageViewController.swift; sourceTree = "<group>"; };
+		44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPage.xib; sourceTree = "<group>"; };
+		44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -855,6 +873,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
@@ -868,12 +887,14 @@
 				21EEB44A1B86FAFF00CAD5C9 /* StoreKit.framework in Frameworks */,
 				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
 				21EEB4461B86FADF00CAD5C9 /* MessageUI.framework in Frameworks */,
+				4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */,
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
 				216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
+				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
 				21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */,
@@ -1412,6 +1433,8 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */,
+				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
 				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
@@ -1483,6 +1506,7 @@
 			isa = PBXGroup;
 			children = (
 				21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */,
+				44B93C7C1BBEC40800036173 /* PathEndpoints.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1740,6 +1764,9 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
+				4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */,
+				4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */,
 				216799981B901C5200F18F90 /* Mixpanel */,
 				216799941B9010E900F18F90 /* Fabric.framework */,
 				216799951B9010E900F18F90 /* Crashlytics.framework */,
@@ -1752,6 +1779,9 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */,
+				44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */,
+				44B93C7A1BBEA51B00036173 /* PathLogin.xib */,
 				44B708811BBA6E19001EACBF /* MyLovelist.xib */,
 				44B708821BBA6E19001EACBF /* MyLovelistCell.xib */,
 				44B708831BBA6E19001EACBF /* MyProductCompleted.xib */,
@@ -1904,6 +1934,7 @@
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
+				44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
@@ -1924,6 +1955,7 @@
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				21621CD11BA16203009BBACB /* tour_3.png in Resources */,
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
+				44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
@@ -1943,6 +1975,7 @@
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
+				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
@@ -2081,9 +2114,11 @@
 				216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */,
 				2141BBE21B54BE4C00787F5D /* SocketEngineClient.swift in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */,
 				2141BBB01B54BE4C00787F5D /* README.md in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */,
 				211BC99A1B96EBBE00FDB1DC /* PreloShareController.swift in Sources */,
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
@@ -2182,6 +2217,7 @@
 				21C5AB851B859A250036FF6B /* BaseNavigationController.swift in Sources */,
 				21D387421B6B95A500D0FA90 /* FakeBridge.m in Sources */,
 				2141BBBE1B54BE4C00787F5D /* NSMutableArray+BFKit.swift in Sources */,
+				44C18DAB1BC3C00300BC8303 /* NotificationPageViewController.swift in Sources */,
 				21679A3F1B901C5300F18F90 /* MPSurvey.m in Sources */,
 				21679A171B901C5300F18F90 /* MPAbstractABTestDesignerMessage.m in Sources */,
 				2141BBC71B54BE4C00787F5D /* UIColor+BFKit.swift in Sources */,

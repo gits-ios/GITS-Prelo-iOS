@@ -61,6 +61,12 @@ public class User : NSObject
         }
     }
     
+    static func SetToken(token : String?)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     static func StoreUser(user : JSON)
     {
         var id = ""
@@ -85,6 +91,14 @@ public class User : NSObject
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    static func StoreUser(id : String, token : String, email : String)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)
+        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
+        NSUserDefaults.standardUserDefaults().setObject(email, forKey: User.EmailKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     static func Logout()
     {
         Mixpanel.sharedInstance().track("Logged Out")
@@ -100,7 +114,105 @@ public class User : NSObject
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
         NSUserDefaults.standardUserDefaults().synchronize()
+        
+        self.LogoutFacebook()
     }
+    
+    static func LogoutFacebook()
+    {
+        let fbManager = FBSDKLoginManager()
+        fbManager.logOut()
+        FBSDKAccessToken.setCurrentAccessToken(nil)
+    }
+}
+
+class UserProfile : NSObject {
+    var json : JSON!
+
+    static func instance(json : JSON?) -> UserProfile? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserProfile()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        let i = (json["_id"].string)!
+        return i
+    }
+    
+    var username : String {
+        let u = (json["username"].string)!
+        return u
+    }
+    
+    var email : String {
+        let e = (json["email"].string)!
+        return e
+    }
+    
+    var fullname : String {
+        let f = (json["fullname"].string)!
+        return f
+    }
+    
+    var profPictURL : NSURL? {
+        if let err = json["profile"]["pict"].error {
+            return nil
+        }
+        let url = json["profile"]["pict"].string!
+        return NSURL(string: url)
+    }
+    
+    var phone : String? {
+        if (json["profile"]["phone"] != nil) {
+            return json["profile"]["phone"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var regionId : String? {
+        if (json["profile"]["region_id"] != nil) {
+            return json["profile"]["region_id"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var provinceId : String? {
+        if (json["profile"]["province_id"] != nil) {
+            return json["profile"]["province_id"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var gender : String? {
+        if (json["profile"]["gender"] != nil) {
+            return json["profile"]["gender"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingIds : [String]? {
+        let s : [String]?
+        if (json["shipping_preferences_ids"] != nil) {
+            s = []
+            for (var i = 0; i < json["shipping_preferences_ids"].count; i++) {
+                s!.append(json["shipping_preferences_ids"][i].string!)
+            }
+            return s
+        } else {
+            return nil
+        }
+    }
+    
+    // TODO : others: isPhoneVerified etc
 }
 
 public class ProductDetail : NSObject
@@ -713,6 +825,26 @@ class LovedProduct : NSObject {
         }
         let url = json["display_picts"][0].string!
         return NSURL(string: url)
+    }
+}
+
+class NotificationItem : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> NotificationItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = NotificationItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var message : String {
+        let m = (json["message"].string)!
+        return m
     }
 }
 

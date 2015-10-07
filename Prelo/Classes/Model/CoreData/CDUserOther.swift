@@ -33,4 +33,39 @@ class CDUserOther: NSManagedObject {
     @NSManaged var twitterTokenSecret: String
     @NSManaged var shippingIDs: NSData
 
+    static func getOne() -> CDUserOther? {
+        let fetchReq = NSFetchRequest(entityName: "CDUserOther")
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return r?.first as? CDUserOther
+        }
+    }
+    
+    static func deleteAll() -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "CDUserOther")
+        fetchRequest.includesPropertyValues = false
+        
+        var error : NSError?
+        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+            for result in results {
+                m?.deleteObject(result)
+            }
+            
+            var error : NSError?
+            if (m?.save(&error) != nil) {
+                println("deleteAll CDUserOther success")
+            } else if let error = error {
+                println("deleteAll CDUserOther failed with error : \(error.userInfo)")
+                return false
+            }
+        } else if let error = error {
+            println("deleteAll CDUserOther failed with fetch error : \(error)")
+            return false
+        }
+        return true
+    }
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="H93-vn-V8I" customClass="PathLoginViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="b9h-K8-Ebt"/>
+                <viewControllerLayoutGuide type="bottom" id="s1i-VU-oaq"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="9j1-TP-4E5">
+                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZqO-ww-qb8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </webView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZl-pq-Xq6" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VBN-Cz-vRr" userLabel="loading">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="VBN-Cz-vRr" secondAttribute="centerY" id="FR9-q6-Vpn"/>
+                            <constraint firstAttribute="centerX" secondItem="VBN-Cz-vRr" secondAttribute="centerX" id="jI1-zZ-qkm"/>
+                            <constraint firstItem="VBN-Cz-vRr" firstAttribute="top" secondItem="jZl-pq-Xq6" secondAttribute="top" constant="25" id="q7f-XM-f9Y"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="q7f-XM-f9Y"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="jZl-pq-Xq6" firstAttribute="leading" secondItem="9j1-TP-4E5" secondAttribute="leading" id="9am-8A-bi4"/>
+                    <constraint firstItem="jZl-pq-Xq6" firstAttribute="top" secondItem="b9h-K8-Ebt" secondAttribute="bottom" id="Ag6-fS-J11"/>
+                    <constraint firstAttribute="trailing" secondItem="jZl-pq-Xq6" secondAttribute="trailing" id="Kzq-iI-GMt"/>
+                    <constraint firstItem="s1i-VU-oaq" firstAttribute="top" secondItem="ZqO-ww-qb8" secondAttribute="bottom" id="M4o-uk-r5G"/>
+                    <constraint firstItem="ZqO-ww-qb8" firstAttribute="leading" secondItem="9j1-TP-4E5" secondAttribute="leading" id="Tbi-yV-DqH"/>
+                    <constraint firstItem="ZqO-ww-qb8" firstAttribute="top" secondItem="b9h-K8-Ebt" secondAttribute="bottom" constant="-20" id="ZcQ-dZ-ljH"/>
+                    <constraint firstAttribute="trailing" secondItem="ZqO-ww-qb8" secondAttribute="trailing" id="edC-Je-QaF"/>
+                    <constraint firstItem="ZqO-ww-qb8" firstAttribute="top" secondItem="b9h-K8-Ebt" secondAttribute="bottom" id="ezh-gk-w8U"/>
+                    <constraint firstItem="s1i-VU-oaq" firstAttribute="top" secondItem="jZl-pq-Xq6" secondAttribute="bottom" id="hpv-sS-zg6"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="ZcQ-dZ-ljH"/>
+                    </mask>
+                </variation>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <connections>
+                <outlet property="loading" destination="VBN-Cz-vRr" id="6GX-1T-FY2"/>
+                <outlet property="loadingPanel" destination="jZl-pq-Xq6" id="hQu-bt-D2u"/>
+                <outlet property="webView" destination="ZqO-ww-qb8" id="C3n-4b-NyB"/>
+            </connections>
+            <point key="canvasLocation" x="345" y="537"/>
+        </viewController>
+    </objects>
+</document>

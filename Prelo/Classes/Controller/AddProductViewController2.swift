@@ -166,6 +166,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     var notPicked = true
+    var allowLaunchLogin = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -191,7 +192,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (User.IsLoggedIn == false)
         {
-            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+            if (allowLaunchLogin)
+            {
+                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+            }
         } else if (notPicked && editMode == false)
         {
             notPicked = false
@@ -210,6 +214,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     func userCancelLogin() {
+        allowLaunchLogin = false
         self.navigationController?.popViewControllerAnimated(true)
     }
     

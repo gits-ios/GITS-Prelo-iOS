@@ -25,5 +25,7 @@
 #import "Line.h"
 #import "LKLineActivity.h"
 #import "ACTReporter.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #endif

@@ -19,6 +19,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     var userLovelist : Array <LovedProduct>?
     var selectedProduct : Product?
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +125,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.reloadData()
     }
     
+    // MARK: - MyLovelistCellDelegate Functions
+    
     func showLoading() {
         // Tampilkan loading
         loadingPanel.hidden = false
@@ -159,6 +163,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! BaseViewController
         self.navigationController?.pushViewController(c, animated: true)
     }
+    
+    // MARK: - UITableViewDelegate Functions
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userLovelist?.count > 0) {
@@ -214,11 +220,15 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         return 64
     }
     
+    // MARK: - IBActions
+    
     @IBAction func sellPressed(sender: AnyObject) {
         let addProductVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
         self.navigationController?.pushViewController(addProductVC, animated: true)
     }
 }
+
+// MARK: - MyLovelistCell Protocol
 
 protocol MyLovelistCellDelegate {
     func showLoading()
