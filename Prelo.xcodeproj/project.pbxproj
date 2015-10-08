@@ -371,6 +371,7 @@
 		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
+		44BB8EF51BC654AC0052B020 /* PreloNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
@@ -860,6 +861,7 @@
 		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
+		44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreloNotificationListener.swift; path = Socket/PreloNotificationListener.swift; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
@@ -1423,6 +1425,7 @@
 			isa = PBXGroup;
 			children = (
 				2141BB481B54BE4C00787F5D /* External */,
+				44BB8EF31BC654850052B020 /* Socket */,
 				21AE67AE1B4A59F400D2CF63 /* Controller */,
 				21AE67AF1B4A59F400D2CF63 /* Model */,
 				21AE67B11B4A59F400D2CF63 /* View */,
@@ -1804,6 +1807,14 @@
 			path = XIB;
 			sourceTree = "<group>";
 		};
+		44BB8EF31BC654850052B020 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
+			);
+			name = Socket;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2054,6 +2065,7 @@
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				2141BBA81B54BE4C00787F5D /* Download.swift in Sources */,
+				44BB8EF51BC654AC0052B020 /* PreloNotificationListener.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,

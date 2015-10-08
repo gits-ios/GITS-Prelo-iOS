@@ -47,7 +47,7 @@ enum AppFont
     optional func userCancelLogin()
 }
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 
     var userRelatedDelegate : UserRelatedDelegate?
     
@@ -133,6 +133,15 @@ class BaseViewController: UIViewController {
     
     func setupNormalOptions()
     {
+        // Get the number of new notifications
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener.delegate = self
+        notifListener.setupSocket()
+        notifListener.connectSocket()
+        let newNotifCount = notifListener.newNotifCount
+        
+        // Set top right bar buttons
         let search = createSearchButton()
         let bell = createBellButton()
         let troli = createTroliButton()
@@ -221,6 +230,11 @@ class BaseViewController: UIViewController {
         return createButtonWithIcon(AppFont.Prelo2, icon: "")
     }
     
+    // MARK: - PreloNotifListenerDelegate function
+    
+    func showNotifCount(count: Int) {
+        println("showNotifCount: \(count)")
+    }
 
     /*
     // MARK: - Navigation

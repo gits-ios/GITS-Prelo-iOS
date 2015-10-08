@@ -39,6 +39,12 @@ public class User : NSObject
         }
     }
     
+    static var Id : String?
+    {
+        let i = NSUserDefaults.standardUserDefaults().stringForKey(User.IdKey)
+        return i
+    }
+    
     static var Token : String?
     {
         let s = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey)
