@@ -55,6 +55,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     private static var GlobalStoryboard : UIStoryboard?
     
+    var badgeView : GIBadgeView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -143,7 +145,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
         // Set top right bar buttons
         let search = createSearchButton()
-        let bell = createBellButton()
+        let bell = createBellButton(newNotifCount)
         let troli = createTroliButton()
         
         troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
@@ -215,14 +217,35 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         return b
     }
     
+    func createButtonWithIconAndNumber(appFont : AppFont, icon : String, num : Int) -> UIButton {
+        var b : UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        var name = "Prelo2"
+        switch appFont
+        {
+        case .Prelo2:name = "Prelo2"
+        case .PreloAwesome:name = "PreloAwesome"
+        }
+        let f = UIFont(name: name, size: 18)
+        b.titleLabel?.font = f
+        b.setTitle(icon, forState: UIControlState.Normal)
+        b.frame = CGRectMake(0, 0, 24, 36)
+        if (num > 0) {
+            let badge = GIBadgeView.new()
+            badge.badgeValue = num
+            badge.backgroundColor = Theme.ThemeOrage
+            b.addSubview(badge)
+        }
+        return b
+    }
+        
     func createSearchButton()->UIButton
     {
         return createButtonWithIcon(AppFont.Prelo2, icon: "")
     }
     
-    func createBellButton()->UIButton
+    func createBellButton(num : Int)->UIButton
     {
-        return createButtonWithIcon(AppFont.Prelo2, icon: "")
+        return createButtonWithIconAndNumber(AppFont.Prelo2, icon: "", num: num)
     }
     
     func createTroliButton()->UIButton
@@ -234,6 +257,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func showNotifCount(count: Int) {
         println("showNotifCount: \(count)")
+        setupNormalOptions()
     }
 
     /*

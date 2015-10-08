@@ -192,6 +192,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBAction func switchController(sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+            self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
             if (changeToBrowseCount == 0) {
@@ -204,6 +205,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             if (User.IsLoggedIn) {
                 println("To Dashboard")
                 controllerDashboard?.previousController = self
+                self.setupNormalOptions() // Agar notification terupdate
                 changeToController(controllerDashboard!)
             } else {
                 println("To Dashboard2")

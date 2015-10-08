@@ -372,6 +372,7 @@
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
 		44BB8EF51BC654AC0052B020 /* PreloNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */; };
+		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
@@ -862,6 +863,8 @@
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
 		44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreloNotificationListener.swift; path = Socket/PreloNotificationListener.swift; sourceTree = "<group>"; };
+		44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIBadgeView.h; sourceTree = "<group>"; };
+		44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GIBadgeView.m; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
@@ -1045,6 +1048,8 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
+				44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
@@ -2152,6 +2157,7 @@
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
+				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
