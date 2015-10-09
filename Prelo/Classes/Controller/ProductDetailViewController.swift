@@ -194,6 +194,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.btnTawar.hidden = true
             
         }
+        
+        self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+        self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     @IBAction func dismiss(sender: AnyObject)
@@ -345,6 +348,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         } else {
             setupView()
             self.performSegueWithIdentifier("segCart", sender: nil)
+        }
+    }
+    
+    @IBAction func tawar(sender : UIView)
+    {
+        if let d = self.detail
+        {
+            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+            t.tawarItem = d
+            self.navigationController?.pushViewController(t, animated: true)
         }
     }
     

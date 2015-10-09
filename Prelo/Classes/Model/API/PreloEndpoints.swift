@@ -140,6 +140,62 @@ enum APIWallet : URLRequestConvertible
     }
 }
 
+enum APIInbox : URLRequestConvertible
+{
+    static let basePath = "inbox/"
+    
+    case GetInboxes
+    case GetInboxMessage (inboxId : String)
+    case StartNewOne (productId : String, type : Int, message : String)
+    case SendTo (inboxId : String, type : Int, message : String)
+    
+    var method : Method
+        {
+            switch self
+            {
+            case .GetInboxes : return .GET
+            case .GetInboxMessage(_) : return .GET
+            case .StartNewOne (_, _, _) : return .POST
+            case .SendTo (_, _, _) : return .POST
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .GetInboxes : return ""
+            case .GetInboxMessage(let inboxId) : return inboxId
+            case .SendTo (let inboxId, _, _) : return inboxId
+            case .StartNewOne(_, _, _) : return ""
+            }
+    }
+    
+    var param : [String : AnyObject]?
+        {
+            switch self
+            {
+            case .GetInboxes : return [:]
+            case .GetInboxMessage(_) : return [:]
+            case .StartNewOne(let prodId, let type, let m) : return ["product_id":prodId, "message_type":String(type), "message":m]
+            case .SendTo (_, let type, let message) : return ["message_type":type, "message":message]
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIInbox.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            println("\(req.allHTTPHeaderFields)")
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            
+            return r
+    }
+}
+
 enum APITransaction : URLRequestConvertible
 {
     static let basePath = "transaction_product/"

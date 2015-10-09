@@ -82,14 +82,34 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     {
         var phone = ""
         var address = ""
+        var fullname = ""
+        var postalcode = ""
+        
         if let profile = user?.profiles
         {
-            phone = profile.phone!
-            address = profile.address!
+            if let x = profile.phone
+            {
+                phone = x
+            }
+            
+            if let x = profile.address
+            {
+                address = x
+            }
+            
+            if let x = profile.postalCode
+            {
+                postalcode = x
+            }
+        }
+        
+        if let x = user?.fullname
+        {
+            fullname = x
         }
         
         self.cells = [
-            NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : (user?.fullname)!),
+            NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
             NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
             NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
             NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: "", pickerPrepBlock: { picker in
@@ -112,7 +132,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
             }),
-            NSIndexPath(forRow: 3, inSection: 2):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : (user?.profiles.postalCode)!)
+            NSIndexPath(forRow: 3, inSection: 2):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
         ]
     }
     

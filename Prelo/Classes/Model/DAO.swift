@@ -215,7 +215,7 @@ class UserProfile : NSObject {
     // TODO : others: isPhoneVerified etc
 }
 
-public class ProductDetail : NSObject
+public class ProductDetail : NSObject, TawarItem
 {
     var json : JSON!
     
@@ -332,6 +332,101 @@ public class ProductDetail : NSObject
         }
         
         return false
+    }
+    
+    var productImage : NSURL {
+        if let s = displayPicturers.first
+        {
+            if let url = NSURL(string : s)
+            {
+                return url
+            }
+        }
+        
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var itemName : String
+    {
+        return name
+    }
+    
+    var title : String {
+        return name
+    }
+    
+    var price : String {
+        if let fullname = json["_data"]["price"].int
+        {
+            return fullname.asPrice
+        }
+        return ""
+    }
+    
+    var sellerId : String {
+        if let fullname = json["_data"]["seller"]["_id"].string
+        {
+            return fullname
+        }
+        return ""
+    }
+    
+    var sellerImage : NSURL {
+        if let fullname = json["_data"]["seller"]["pict"].string
+        {
+            if let url = NSURL(string : fullname)
+            {
+                return url
+            }
+        }
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var sellerName : String {
+        if let fullname = json["_data"]["seller"]["fullname"].string
+        {
+            return fullname
+        }
+        return ""
+    }
+    
+    var buyerId : String {
+        if let id = CDUser.getOne()?.id
+        {
+            return id
+        }
+        return ""
+    }
+    
+    var buyerImage : NSURL {
+        if let pict = CDUser.getOne()?.profiles.pict
+        {
+            if let url = NSURL(string : pict)
+            {
+                return url
+            }
+        }
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var buyerName : String {
+        if let fullname = CDUser.getOne()?.fullname
+        {
+            return fullname
+        }
+        return ""
+    }
+    
+    var sellerIsMe : Bool {
+        return false
+    }
+    
+    var threadId : String {
+        return ""
+    }
+    
+    var itemId : String {
+        return productID
     }
 }
 
@@ -937,5 +1032,205 @@ class SearchUser : NSObject
                 return name
             }
             return ""
+    }
+}
+
+class Inbox : NSObject, TawarItem
+{
+    var json : JSON!
+    
+    init (jsn : JSON)
+    {
+        json = jsn
+    }
+    
+    var id : String
+    {
+        if let x = json["_id"].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var judul : String
+    {
+        if let x = json["title"].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var message : String
+    {
+        if let x = json["preview_message"].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var imageURL : NSURL
+    {
+        if let x = json["image_path"].string
+        {
+            if let url = NSURL(string : x)
+            {
+                return url
+            }
+        }
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var type : String
+    {
+        if let x = json["inbox_type"].int
+        {
+            return String(x)
+        }
+        return ""
+    }
+    
+    var itemName : String {
+        return judul
+    }
+    
+    var productImage : NSURL {
+        return imageURL
+    }
+    
+    var title : String {
+        return judul
+    }
+    
+    var price : String {
+        if let x = json["product_price"].int
+        {
+            return x.asPrice
+        }
+        return ""
+    }
+    
+    var sellerId : String {
+        let identifier = sellerIsMe ? "user_id1" : "user_id2"
+        if let x = json[identifier].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var sellerImage : NSURL {
+        let identifier = sellerIsMe ? "image_path_user1" : "image_path_user2"
+        if let x = json[identifier].string
+        {
+            if let url = NSURL(string : x)
+            {
+                return url
+            }
+        }
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var sellerName : String {
+        let identifier = sellerIsMe ? "fullname_user1" : "fullname_user1"
+        if let x = json[identifier].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var buyerId : String {
+        let identifier = sellerIsMe ? "user_id2" : "user_id1"
+        if let x = json[identifier].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var buyerImage : NSURL {
+        let identifier = sellerIsMe ? "image_path_user2" : "image_path_user1"
+        if let x = json[identifier].string
+        {
+            if let url = NSURL(string : x)
+            {
+                return url
+            }
+        }
+        return NSURL(string : "http://prelo.do")!
+    }
+    
+    var buyerName : String {
+        let identifier = sellerIsMe ? "fullname_user1" : "fullname_user1"
+        if let x = json[identifier].string
+        {
+            return x
+        }
+        return ""
+    }
+    
+    var sellerIsMe : Bool {
+        if let x = json["thread_starter"].bool
+        {
+            return !x
+        }
+        return false
+    }
+    
+    var threadId : String {
+        return id
+    }
+    
+    var itemId : String {
+        return ""
+    }
+}
+
+class InboxMessage : NSObject
+{
+    var id : String!
+    var senderId : String!
+    var messageType : Int = 0
+    var message : String!
+    var time : String!
+    var isMe : Bool = false
+    
+    init (msgJSON : JSON)
+    {
+        if let x = msgJSON["_id"].string
+        {
+            id = x
+        }
+        
+        if let x = msgJSON["sender_id"].string
+        {
+            senderId = x
+        }
+        
+        if let x = msgJSON["message_type"].int
+        {
+            messageType = x
+        }
+        
+        if let x = msgJSON["message"].string
+        {
+            message = x
+        }
+        
+        if let x = msgJSON["time"].string
+        {
+            time = x
+        }
+        
+        if let myId = CDUser.getOne()?.id
+        {
+            if (myId == senderId)
+            {
+                isMe = true
+            }
+        }
     }
 }

@@ -173,6 +173,7 @@
 		21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
 		21621CD01BA16203009BBACB /* tour_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCE1BA16203009BBACB /* tour_2.png */; };
 		21621CD11BA16203009BBACB /* tour_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCF1BA16203009BBACB /* tour_3.png */; };
+		21629A2A1BC51A4A00ACD014 /* TawarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21629A291BC51A4A00ACD014 /* TawarViewController.swift */; };
 		21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21660B221B70A9D000910CF1 /* CartProduct.swift */; };
 		216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */; };
 		216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */; };
@@ -265,6 +266,7 @@
 		217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */; };
 		217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
 		2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */; };
+		219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F2D421BC75F5100C14C1F /* InboxViewController.swift */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
 		21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */; };
@@ -573,6 +575,7 @@
 		21621CCC1BA1337D009BBACB /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
 		21621CCE1BA16203009BBACB /* tour_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_2.png; sourceTree = "<group>"; };
 		21621CCF1BA16203009BBACB /* tour_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_3.png; sourceTree = "<group>"; };
+		21629A291BC51A4A00ACD014 /* TawarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TawarViewController.swift; sourceTree = "<group>"; };
 		21660B221B70A9D000910CF1 /* CartProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartProduct.swift; sourceTree = "<group>"; };
 		216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bca@2x.png"; sourceTree = "<group>"; };
 		216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bni@2x.png"; sourceTree = "<group>"; };
@@ -729,6 +732,7 @@
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
 		2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreHeader.xib; sourceTree = "<group>"; };
+		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
 		21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyGridViewController.swift; sourceTree = "<group>"; };
@@ -1483,6 +1487,8 @@
 				21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
+				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
+				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1855,6 +1861,7 @@
 				TargetAttributes = {
 					2115E6C71B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = FA5P8G36Y9;
 					};
 					2115E6DF1B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
@@ -2103,6 +2110,7 @@
 				21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
 				21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */,
+				21629A2A1BC51A4A00ACD014 /* TawarViewController.swift in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
 				211312581B67638F00A4DA3B /* Constant.swift in Sources */,
@@ -2171,6 +2179,7 @@
 				2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */,
 				21D387601B6B967A00D0FA90 /* CarbonSwipeRefresh.m in Sources */,
 				21C658A01B8F01E10037F85F /* AboutViewController.swift in Sources */,
+				219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */,
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				2141BBBF1B54BE4C00787F5D /* NSMutableDictionary+BFKit.swift in Sources */,
@@ -2413,7 +2422,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2445,8 +2454,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",

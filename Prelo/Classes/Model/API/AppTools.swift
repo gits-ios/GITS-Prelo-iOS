@@ -96,6 +96,8 @@ class Tags : NSObject
     static let StoryBoardIdPreloShare = "PreloShare"
     static let StoryBoardIdPreloTour = "PreloTour"
     static let StoryBoardIdTarikTunai = "TarikTunai"
+    static let StoryBoardIdTawar = "Tawar"
+    static let StoryBoardIdInbox = "Inbox"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"

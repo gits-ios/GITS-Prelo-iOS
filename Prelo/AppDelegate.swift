@@ -36,10 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
         
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-//            
-//        })
-        
         self.versionCheck()
         
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
@@ -100,10 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                        let message = obj["_message"]
 //                        println("Empty metadata, error: \(message)")
                     } else { // Berhasil
-                        // Hapus data lama kemudian simpan yang baru
-                        if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
-                            CDProvince.saveProvinceRegions(metadata["provinces_regions"])
-                        }
+                        // Hapus data lama kemudian simpan yang baru // asynchronous!!
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                            if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+                                CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+                            }
+                        })
                     }
                 }
         }
