@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let StatusBarTapNotificationName = "statusbartapped"
     
-    var preloNotifListener : PreloNotificationListener = PreloNotificationListener()
+    var preloNotifListener : PreloNotificationListener!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
 //            
 //        })
+        
+        preloNotifListener = PreloNotificationListener()
         
         self.versionCheck()
         

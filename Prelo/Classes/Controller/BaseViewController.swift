@@ -139,8 +139,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
         notifListener.delegate = self
-        notifListener.setupSocket()
-        notifListener.connectSocket()
+        if (User.IsLoggedIn) {
+            notifListener.setupSocket()
+            notifListener.connectSocket()
+        }
         let newNotifCount = notifListener.newNotifCount
         
         // Set top right bar buttons
@@ -255,11 +257,15 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     // MARK: - PreloNotifListenerDelegate function
     
-    func showNotifCount(count: Int) {
-        println("showNotifCount: \(count)")
+    func showNewNotifCount(count: Int) {
+        println("showNewNotifCount: \(count)")
         setupNormalOptions()
     }
-
+    
+    func refreshNotifPage() {
+        // Do nothing, handled by NotificationPageVC itself
+    }
+    
     /*
     // MARK: - Navigation
 

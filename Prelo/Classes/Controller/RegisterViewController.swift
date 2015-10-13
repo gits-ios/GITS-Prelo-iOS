@@ -347,6 +347,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
                         // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
                         
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
+                        
                         // Tell app that the user has logged in
                         // Save in NSUserDefaults
                         User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)

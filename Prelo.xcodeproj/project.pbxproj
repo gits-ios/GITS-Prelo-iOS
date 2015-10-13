@@ -379,6 +379,7 @@
 		44C18DAB1BC3C00300BC8303 /* NotificationPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */; };
 		44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */; };
 		44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */; };
+		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -871,6 +872,7 @@
 		44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageViewController.swift; sourceTree = "<group>"; };
 		44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPage.xib; sourceTree = "<group>"; };
 		44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageCell.xib; sourceTree = "<group>"; };
+		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1266,6 +1268,7 @@
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
+				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -2088,6 +2091,7 @@
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
+				44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */,
 				21C5AB831B858A580036FF6B /* ImagePickerViewController.swift in Sources */,
 				2113125A1B677BA000A4DA3B /* DashboardViewController.swift in Sources */,
 				2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */,

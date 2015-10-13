@@ -104,7 +104,7 @@ static CGFloat const kBadgeViewDefaultFontSize = 12.0;
 
     // Set our frame and corner radius based on those calculations.
     //
-    self.frame = CGRectMake(CGRectGetWidth(self.superview.frame) - (width / 2.0), -(height / 2.0), width, height);
+    self.frame = CGRectMake(CGRectGetWidth(self.superview.frame) - (width / 2.0) - 3, -(height / 2.0) + 7, width, height); // Lil customization
     self.layer.cornerRadius = height / 2.0;
 
     // Center the badge label.

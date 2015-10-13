@@ -131,6 +131,13 @@ class OrderStatus : NSObject
     static let DibatalkanSeller = "Dibatalkan Seller"
 }
 
+class NotificationType : NSObject
+{
+    static let Transaksi = "Transaksi"
+    static let Inbox = "Inbox"
+    static let Aktivitas = "Aktivitas"
+}
+
 class NotificationName : NSObject
 {
     static let PushNew = "pushnew"

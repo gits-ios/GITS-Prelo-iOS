@@ -391,6 +391,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         user.profiles = userProfile
                         // TODO: Simpan shipping, referral, deviceid di coredata
                         
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap?
+                        
                         // Save data
                         var saveErr : NSError? = nil
                         if (!m!.save(&saveErr)) {

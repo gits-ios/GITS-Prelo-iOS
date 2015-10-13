@@ -144,13 +144,15 @@ enum APINotif : URLRequestConvertible
 {
     static let basePath = "notification/"
     
-    case GetNotifs(time : String)
+    case GetNotifs
+    case OpenNotifs
     
     var method : Method
     {
         switch self
         {
-        case .GetNotifs(_) : return .GET
+        case .GetNotifs : return .GET
+        case .OpenNotifs : return .POST
         }
     }
     
@@ -158,7 +160,8 @@ enum APINotif : URLRequestConvertible
     {
         switch self
         {
-        case .GetNotifs(_) : return ""
+        case .GetNotifs : return ""
+        case .OpenNotifs : return "open"
         }
     }
     
@@ -166,11 +169,10 @@ enum APINotif : URLRequestConvertible
     {
         switch self
         {
-        case .GetNotifs(let time) :
-            let p = [
-                "time" : time
-            ]
-            return p
+        case .GetNotifs :
+            return [:]
+        case .OpenNotifs :
+            return [:]
         }
     }
     

@@ -137,6 +137,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     println(json)
                     
+                    // Cek apakah user telah melewati setup account dan phone verification
+                    
                     var isProfileSet : Bool = false
                     
                     let userProfileData = UserProfile.instance(json)
@@ -165,7 +167,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfile.gender = userProfileData!.gender!
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
-                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg)
+                        // TODO: belum lengkap (postalCode, adress, desc dll)
+                        
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
                         
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                         
@@ -207,7 +216,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.navigationController?.pushViewController(profileSetupVC, animated: true)
                     }
                     
-                    /*let m = UIApplication.appDelegate.managedObjectContext
+                    /* TO BE DELETED
+                    let m = UIApplication.appDelegate.managedObjectContext
                     let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
                     c.id = json["_id"].string!
                     c.email = json["email"].string!
@@ -477,6 +487,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
                         // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
+                        
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
                         
                         // Tell app that the user has logged in
                         // Save in NSUserDefaults
