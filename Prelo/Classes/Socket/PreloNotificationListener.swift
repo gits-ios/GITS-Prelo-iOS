@@ -21,13 +21,15 @@ class PreloNotificationListener {
     
     var delegate : PreloNotifListenerDelegate?
     
+    var willReconnect = false
+    
     init() {
         // Init notif count
         NotificationPageViewController.refreshNotifications()
     }
     
     func setupSocket() {
-        if (!self.socket.connected && !self.socket.connecting) {
+        if ((!self.socket.connected || willReconnect) && !self.socket.connecting) {
             self.socket.on("connect") {data, ack in
                 println("Socket is connected")
                 
@@ -38,23 +40,24 @@ class PreloNotificationListener {
             
             // Listening for notification
             self.socket.on("notification") {data, ack in
-                println("You've got a notification: \(data)")
-                self.handleNotification(JSON(data!)[0])
+                if (!self.willReconnect) {
+                    println("You've got a notification: \(data)")
+                    self.handleNotification(JSON(data!)[0])
+                }
             }
             
             // FOR TESTING
             //self.socket.onAny {println("Got socket event: \($0.event), with items: \($0.items)")}
+            
+            if (willReconnect) {
+                self.willReconnect = false
+                self.socket.reconnect()
+            } else {
+                self.socket.connect()
+            }
         }
     }
-    
-    func connectSocket() {
-        self.socket.connect()
-    }
-    
-    func disconnectSocket() {
-        self.socket.disconnect(fast: true)
-    }
-    
+        
     func handleNotification(json : JSON) {
         // Add new notif to core data
         for (i : String, itemNotifs : JSON) in json {

@@ -58,7 +58,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         self.updateLoginButton()
         
-        self.setupNormalOptions()
+        //self.setupNormalOptions()
         self.setupTitle()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNew:", name: NotificationName.PushNew, object: nil)
@@ -118,6 +118,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: Theme.PrimaryColor)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         showBottomBar()
+        self.setupNormalOptions()
     }
     
     override func viewWillDisappear(animated: Bool) {

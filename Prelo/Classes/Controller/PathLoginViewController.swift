@@ -25,7 +25,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     let pathClientId = "b0b1aca06485dadc5f9c04e799914107277a4a42"
     let pathClientSecret = "2f53945d5e9a94659dae8c982a47df24515cae79"
     let pathDeclineUrlString = "https://partner.path.com/oauth2/decline"
-    let pathLoginSuccessUrlString = "https://prelo.id/path/callback"
+    let pathLoginSuccessUrlString = "https://prelo.co.id/path/callback"
     
     override func viewDidLoad() {
         super.viewDidLoad()

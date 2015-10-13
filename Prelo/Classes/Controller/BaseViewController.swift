@@ -141,7 +141,6 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         notifListener.delegate = self
         if (User.IsLoggedIn) {
             notifListener.setupSocket()
-            notifListener.connectSocket()
         }
         let newNotifCount = notifListener.newNotifCount
         
