@@ -55,6 +55,9 @@ class AboutViewController: BaseViewController {
                 println("Logout API success")
             }
         }
+        
+        let del = UIApplication.sharedApplication().delegate as! AppDelegate
+        del.messagePool.stop()
         self.navigationController?.popViewControllerAnimated(true)
     }
 

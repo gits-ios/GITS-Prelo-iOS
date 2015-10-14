@@ -96,4 +96,9 @@ class MessagePool: NSObject
     {
         socket.emit("register", (CDUser.getOne()?.id)!)
     }
+    
+    func stop()
+    {
+        socket.close(fast: false)
+    }
 }
