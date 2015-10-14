@@ -10,13 +10,17 @@ import UIKit
 import CoreData
 //import UIViewController_KeyboardAnimation
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate {
 
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtEmail : UITextField?
     @IBOutlet var txtPassword : UITextField?
     
     @IBOutlet var btnLogin : UIButton?
+    
+    @IBOutlet weak var loadingPanel: UIView?
+    @IBOutlet weak var loading: UIActivityIndicatorView?
+    
     
     var navController : UINavigationController?
     
@@ -39,7 +43,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         scrollView?.delegate = self
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        // Do any additional setup after loading the view.
+        
+        // Hide loading
+        loadingPanel?.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel?.hidden = true
+        loading?.stopAnimating()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -92,11 +100,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         btnLogin?.enabled = false
         
         let email = txtEmail?.text
-<<<<<<< HEAD
         request(APIAuth.Login(email: email!, password: (txtPassword?.text)!))
-=======
-        request(APIAuth.Login(usernameOrEmail: email!, password: (txtPassword?.text)!))
->>>>>>> 84681d6490fbc346a5ff26e0a259800abfc23164
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {
@@ -112,15 +116,18 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.btnLogin?.enabled = true
                     } else {
                         println(data)
-                        User.StoreUser(data, email: email!)
-                        self.getProfile()
+                        self.getProfile(data["token"].string!)
                     }
                 }
         }
     }
     
-    func getProfile()
+    // Token is only stored when user have completed setup account and phone verification
+    func getProfile(token : String)
     {
+        // Set token first, because APIUser.Me need token
+        User.SetToken(token)
+        
         request(APIUser.Me)
             .responseJSON{_, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))
@@ -130,7 +137,93 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     println(json)
                     
+                    // Cek apakah user telah melewati setup account dan phone verification
+                    
+                    var isProfileSet : Bool = false
+                    
+                    let userProfileData = UserProfile.instance(json)
+                    if (userProfileData!.gender != nil &&
+                        userProfileData!.phone != nil &&
+                        userProfileData!.provinceId != nil &&
+                        userProfileData!.regionId != nil &&
+                        userProfileData!.shippingIds != nil) {
+                            isProfileSet = true
+                    }
+                    
+                    if (isProfileSet) {
+                        // Save in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
+                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                        user.id = userProfileData!.id
+                        user.email = userProfileData!.email
+                        user.fullname = userProfileData!.fullname
+                        
+                        CDUserProfile.deleteAll()
+                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                        user.profiles = userProfile
+                        userProfile.regionID = userProfileData!.regionId!
+                        userProfile.provinceID = userProfileData!.provinceId!
+                        userProfile.gender = userProfileData!.gender!
+                        userProfile.phone = userProfileData!.phone!
+                        userProfile.pict = userProfileData!.profPictURL!.absoluteString!
+                        // TODO: belum lengkap (postalCode, adress, desc dll)
+                        
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        User.StoreUser(userProfileData!.id, token: token, email: userProfileData!.email)
+                        if (self.userRelatedDelegate != nil) {
+                            self.userRelatedDelegate?.userLoggedIn!()
+                        }
+                        
+                        //Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                        
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                        
+                        Mixpanel.sharedInstance().track("Logged In")
+                    } else {
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
+                    }
+                    
+                    // Next screen based on isProfileSet
+                    if (isProfileSet) {
+                        self.dismiss()
+                    } else {
+                        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+                        println("userProfileData.json = \(userProfileData!.json)")
+                        println("id = \(userProfileData!.id)")
+                        println("token = \(token)")
+                        println("email = \(userProfileData!.email)")
+                        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+                        profileSetupVC.userId = userProfileData!.id
+                        profileSetupVC.userToken = token
+                        profileSetupVC.userEmail = userProfileData!.email
+                        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+                    }
+                    
+<<<<<<< HEAD
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                    
+                    /*let m = UIApplication.appDelegate.managedObjectContext
+=======
+                    /* TO BE DELETED
                     let m = UIApplication.appDelegate.managedObjectContext
+>>>>>>> 9653df2322743e9a31834115c1d64d409eadc600
                     let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
                     c.id = json["_id"].string!
                     c.email = json["email"].string!
@@ -188,6 +281,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     UIApplication.appDelegate.saveContext()
                     
                     CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                     if (self.userRelatedDelegate != nil) {
                         self.userRelatedDelegate?.userLoggedIn!()
                     }
@@ -205,7 +299,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     Mixpanel.sharedInstance().track("Logged In")
                     
-                    self.dismiss()
+                    self.dismiss()*/
                 } else {
                     User.Logout()
                     self.btnLogin?.enabled = true
@@ -263,4 +357,256 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     */
 
+    // MARK: - Facebook Login
+    
+    @IBAction func loginFacebookPressed(sender: AnyObject) {
+        // Log in and get permission from facebook
+        let fbLoginManager = FBSDKLoginManager()
+        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if (error != nil) { // Process error
+                println("Process error")
+                User.LogoutFacebook()
+            } else if result.isCancelled { // User cancellation
+                println("User cancel")
+                User.LogoutFacebook()
+            } else { // Success
+                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
+                    // Do work
+                    self.fbLogin()
+                } else {
+                    // Handle not getting permission
+                }
+            }
+        })
+    }
+    
+    func fbLogin()
+    {
+        // Show loading
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
+        
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
+            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                if ((error) != nil) {
+                    // Handle error
+                    println("Error fetching facebook profile")
+                } else {
+                    // Handle Profile Photo URL String
+                    let userId =  result["id"] as! String
+                    let name = result["name"] as! String
+                    let email = result["email"] as! String
+                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
+                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                    
+                    println("result = \(result)")
+                    println("profilePictureUrl = \(profilePictureUrl)")
+                    println("accessToken = \(accessToken)")
+                    
+                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
+                        println("Fb login req = \(req)")
+                        if (err != nil) { // Terdapat error
+                            Constant.showDialog("Warning", message: (err?.description)!)
+                        } else {
+                            let json = JSON(res!)
+                            let data = json["_data"]
+                            if (data == nil || data == []) { // Data kembalian kosong
+                                println("Empty facebook login data")
+                            } else { // Berhasil
+                                println("Facebook login data = \(data)")
+                                
+                                // Save in core data
+                                let m = UIApplication.appDelegate.managedObjectContext
+                                var user : CDUser? = CDUser.getOne()
+                                if (user == nil) {
+                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                }
+                                user!.id = data["username"].string!
+                                user!.email = data["email"].string!
+                                user!.fullname = data["fullname"].string!
+                                
+                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                                let pr = data["profile"]
+                                p.pict = pr["pict"].string!
+                                
+                                user!.profiles = p
+                                UIApplication.appDelegate.saveContext()
+                                
+                                // Check if user have set his account
+                                self.checkProfileSetup(data["token"].string!)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    // Return true if user have set his account in profile setup page
+    // Param token is only used when user have set his account via setup account and phone verification
+    func checkProfileSetup(token : String) {
+        var isProfileSet : Bool = false
+        
+        // Set token first, because APIUser.Me need token
+        User.SetToken(token)
+        
+        // Get user profile from API and check if required data is set
+        // Required data: gender, phone, province, region, shipping
+        request(APIUser.Me).responseJSON {req, _, res, err in
+            println("Get profile req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: (err?.description)!)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty profile data")
+                } else { // Berhasil
+                    println("Data = \(data)")
+                    let userProfileData = UserProfile.instance(data)
+                    
+                    if (userProfileData!.gender != nil &&
+                        userProfileData!.phone != nil &&
+                        userProfileData!.provinceId != nil &&
+                        userProfileData!.regionId != nil &&
+                        userProfileData!.shippingIds != nil) {
+                            isProfileSet = true
+                    }
+                    
+                    if (isProfileSet) {
+                        // Set in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
+                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                        user.id = userProfileData!.id
+                        user.email = userProfileData!.email
+                        user.fullname = userProfileData!.fullname
+                        
+                        CDUserProfile.deleteAll()
+                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                        user.profiles = userProfile
+                        userProfile.regionID = userProfileData!.regionId!
+                        userProfile.provinceID = userProfileData!.provinceId!
+                        userProfile.gender = userProfileData!.gender!
+                        userProfile.phone = userProfileData!.phone!
+                        userProfile.pict = userProfileData!.profPictURL!.absoluteString!
+                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
+                        
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        // TODO: belum lengkap
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
+                        
+                        // Tell app that the user has logged in
+                        // Save in NSUserDefaults
+                        User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)
+                        if let d = self.userRelatedDelegate
+                        {
+                            d.userLoggedIn!()
+                        }
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                    } else {
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
+                    }
+                    
+                    // Hide loading
+                    self.loadingPanel?.hidden = true
+                    self.loading?.stopAnimating()
+                    
+                    // Next screen based on isProfileSet
+                    if (isProfileSet) {
+                        // Go to dashboard
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    } else {
+                        // Go to profile setup
+                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                    }
+                }
+            }
+        }
+    }
+    
+    func toProfileSetup(userId : String, userToken : String, userEmail : String) {
+        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+        profileSetupVC.userId = userId
+        profileSetupVC.userToken = userToken
+        profileSetupVC.userEmail = userEmail
+        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+    }
+    
+    // MARK: - Path Login
+    
+    @IBAction func loginPathPressed(sender: AnyObject) {
+        // Show loading
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
+        
+        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        pathLoginVC.delegate = self
+        self.navigationController?.pushViewController(pathLoginVC, animated: true)
+    }
+    
+    func pathLoginSuccess(userData : JSON, token : String) {
+        let pathId = userData["id"].string!
+        let pathName = userData["name"].string!
+        let email = userData["email"].string!
+        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
+            println("Path login req = \(req)")
+            
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: (err?.description)!)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty path login data")
+                } else { // Berhasil
+                    println("Path login data: \(data)")
+                    
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    var user : CDUser? = CDUser.getOne()
+                    if (user == nil) {
+                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                    }
+                    user!.id = data["username"].string!
+                    user!.email = data["email"].string!
+                    user!.fullname = data["fullname"].string!
+                    
+                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                    let pr = data["profile"]
+                    p.pict = pr["pict"].string!
+                    
+                    user!.profiles = p
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Check if user have set his account
+                    self.checkProfileSetup(data["token"].string!)
+                }
+            }
+        }
+    }
+    
+    func hideLoading() {
+        loadingPanel?.hidden = true
+        loading?.stopAnimating()
+    }
 }

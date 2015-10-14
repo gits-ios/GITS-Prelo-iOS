@@ -66,7 +66,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! InboxCell
         let i = inboxes[indexPath.row]
         
-        cell.captionName.text = i.opIsMe ? i.theirName : i.myName
+        cell.captionName.text = i.theirName
         cell.captionMessage.text = i.message
         cell.captionProductName.text = i.itemName
         cell.iv.setImageWithUrl(i.imageURL, placeHolderImage: nil)

@@ -43,11 +43,16 @@ class AboutViewController: BaseViewController {
     
     @IBAction func logout()
     {
+        // Clear local data
         User.Logout()
+        
+        // Tell delegate class if any
         if let d = self.userRelatedDelegate
         {
             d.userLoggedOut!()
         }
+        
+        // Tell server
         request(APIAuth.Logout).responseJSON {_, _, res, err in
             if (err != nil) {
                 println("Logout API error: \(err!.description)")
@@ -58,6 +63,17 @@ class AboutViewController: BaseViewController {
         
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
         del.messagePool.stop()
+        
+        // Disconnect socket
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener.willReconnect = true // Pengganti disconnect
+        // Set top bar notif number to 0
+        if (notifListener.newNotifCount != 0) {
+            notifListener.setNewNotifCount(0)
+        }
+        
+        // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)
     }
 

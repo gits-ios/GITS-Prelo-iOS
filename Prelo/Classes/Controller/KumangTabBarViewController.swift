@@ -58,7 +58,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         self.updateLoginButton()
         
-        self.setupNormalOptions()
+        //self.setupNormalOptions()
         self.setupTitle()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNew:", name: NotificationName.PushNew, object: nil)
@@ -118,6 +118,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: Theme.PrimaryColor)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         showBottomBar()
+        self.setupNormalOptions()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -192,6 +193,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBAction func switchController(sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+            self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
             if (changeToBrowseCount == 0) {
@@ -204,6 +206,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             if (User.IsLoggedIn) {
                 println("To Dashboard")
                 controllerDashboard?.previousController = self
+                self.setupNormalOptions() // Agar notification terupdate
                 changeToController(controllerDashboard!)
             } else {
                 println("To Dashboard2")

@@ -375,12 +375,15 @@
 		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
+		44BB8EF51BC654AC0052B020 /* PreloNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */; };
+		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
 		44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
 		44C18DAB1BC3C00300BC8303 /* NotificationPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */; };
 		44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */; };
 		44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */; };
+		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -868,12 +871,16 @@
 		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
+		44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreloNotificationListener.swift; path = Socket/PreloNotificationListener.swift; sourceTree = "<group>"; };
+		44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIBadgeView.h; sourceTree = "<group>"; };
+		44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GIBadgeView.m; sourceTree = "<group>"; };
 		44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSetup.xib; sourceTree = "<group>"; };
 		44C10A661B8C8145006D8770 /* basic_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "basic_green@2x.png"; sourceTree = "<group>"; };
 		44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageViewController.swift; sourceTree = "<group>"; };
 		44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPage.xib; sourceTree = "<group>"; };
 		44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageCell.xib; sourceTree = "<group>"; };
+		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1052,6 +1059,8 @@
 			isa = PBXGroup;
 			children = (
 				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
+				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
+				44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
@@ -1268,6 +1277,7 @@
 				210DF0F41B734D3A004AE3D9 /* CDUser.swift */,
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
+				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1432,6 +1442,7 @@
 			isa = PBXGroup;
 			children = (
 				2141BB481B54BE4C00787F5D /* External */,
+				44BB8EF31BC654850052B020 /* Socket */,
 				21AE67AE1B4A59F400D2CF63 /* Controller */,
 				21AE67AF1B4A59F400D2CF63 /* Model */,
 				21AE67B11B4A59F400D2CF63 /* View */,
@@ -1816,6 +1827,14 @@
 			path = XIB;
 			sourceTree = "<group>";
 		};
+		44BB8EF31BC654850052B020 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
+			);
+			name = Socket;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2067,6 +2086,7 @@
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				2141BBA81B54BE4C00787F5D /* Download.swift in Sources */,
+				44BB8EF51BC654AC0052B020 /* PreloNotificationListener.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
@@ -2084,6 +2104,7 @@
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
+				44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */,
 				21C5AB831B858A580036FF6B /* ImagePickerViewController.swift in Sources */,
 				2113125A1B677BA000A4DA3B /* DashboardViewController.swift in Sources */,
 				2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */,
@@ -2154,6 +2175,7 @@
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
+				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
@@ -2452,7 +2474,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2482,7 +2504,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

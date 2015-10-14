@@ -45,7 +45,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
         */
         
-        self.setupNormalOptions()
+        //self.setupNormalOptions()
         self.setupTitle()
 
         menus = [

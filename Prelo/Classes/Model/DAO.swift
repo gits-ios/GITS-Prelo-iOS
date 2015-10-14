@@ -40,6 +40,12 @@ public class User : NSObject
         }
     }
     
+    static var Id : String?
+    {
+        let i = NSUserDefaults.standardUserDefaults().stringForKey(User.IdKey)
+        return i
+    }
+    
     static var Token : String?
     {
         let s = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey)
@@ -932,26 +938,6 @@ class LovedProduct : NSObject {
     }
 }
 
-class NotificationItem : NSObject {
-    
-    var json : JSON!
-    
-    static func instance(json : JSON?) -> NotificationItem? {
-        if (json == nil) {
-            return nil
-        } else {
-            let n = NotificationItem()
-            n.json = json!
-            return n
-        }
-    }
-    
-    var message : String {
-        let m = (json["message"].string)!
-        return m
-    }
-}
-
 class UserOrder : NSObject {
     
     var json : JSON!
@@ -1193,9 +1179,9 @@ class Inbox : NSObject, TawarItem
     }
     
     var opIsMe : Bool {
-        if let x = json["thread_starter"].bool
+        if let x = json["user_id1"].string, let myId = CDUser.getOne()?.id
         {
-            return !x
+            return x == myId
         }
         return false
     }

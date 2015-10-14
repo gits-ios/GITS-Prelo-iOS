@@ -8,21 +8,19 @@
 
 import Foundation
 
-class NotificationPageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class NotificationPageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, PreloNotifListenerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    let TitleTransaksi : String = "Transaksi"
-    let TitleInbox : String = "Inbox"
-    let TitleAktivitas : String = "Aktivitas"
     lazy var notifSections : [String] = {
         [unowned self] in
-        return [self.TitleTransaksi, self.TitleInbox, self.TitleAktivitas]
+        return [NotificationType.Transaksi, NotificationType.Inbox, NotificationType.Aktivitas]
     }()
-    var notifItems : [String : [NotificationItem]]?
+    
+    var notifications : [String : [CDNotification]]?
     
     // MARK: - Init
     
@@ -46,29 +44,64 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        Mixpanel.sharedInstance().track("Notification Page")
+        
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        self.refreshPage(false)
+    }
+    
+    func refreshPage(isRefreshFromSocket : Bool) {
         loadingPanel.hidden = false
         loading.startAnimating()
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("Notification Page")
-        
-        let notifCount = getNotifCount()
-        if (notifCount == 0 || notifItems == nil) { // Mungkin belum getNotif atau memang notif kosong
-            if (notifItems == nil) {
-                // Inisiasi array
-                notifItems = [:]
-                for s in notifSections {
-                    notifItems?.updateValue([], forKey: s)
+        // Tell server that the user opens notification page
+        request(APINotif.OpenNotifs).responseJSON {req, _, res, err in
+            println("Open notif req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Refreshing notifications error: \(err!.description)")
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data == nil || data == false) { // Gagal
+                    Constant.showDialog("Warning", message: "Refreshing notifications error")
+                    self.navigationController?.popViewControllerAnimated(true)
+                } else { // Berhasil
+                    println("Data: \(data)")
+                    
+                    // Set the number of notifications in top right bar to 0
+                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let notifListener = delegate.preloNotifListener
+                    if (notifListener.newNotifCount != 0) {
+                        notifListener.setNewNotifCount(0)
+                        // Set all notif data to opened
+                        CDNotification.setAllNotifToOpened()
+                    }
+                    
+                    // Retrieve notif data
+                    if (self.notifications == nil || isRefreshFromSocket) { // Belum mengambil dari core data (baru membuka notif page) atau ada notif dari socket saat membuka notif page
+                        // Ambil dari core data
+                        self.notifications = [:]
+                        for s in self.notifSections {
+                            self.notifications!.updateValue(CDNotification.getNotifInSection(s), forKey: s)
+                        }
+                    }
+                    
+                    self.loadingPanel.hidden = true
+                    self.loading.stopAnimating()
+                    if (CDNotification.getNotifCount() == 0) { // Notif kosong
+                        self.lblEmpty.hidden = false
+                    } else { // Notif tidak kosong
+                        self.tableView.hidden = false
+                        self.setupTable()
+                    }
+                    
+                    // Activate PreloNotifListenerDelegate
+                    notifListener.delegate = self
                 }
             }
-            getNotificationItems()
-        } else { // Sudah getNotif
-            self.loadingPanel.hidden = true
-            self.loading.stopAnimating()
-            self.tableView.hidden = false
-            self.setupTable()
         }
     }
     
@@ -76,55 +109,44 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    // Get total notifications from all sections
-    func getNotifCount() -> Int {
-        var count : Int = 0
-        for s in notifSections {
-            if (notifItems?[s] != nil) {
-                let notifCount = notifItems?[s]?.count
-                count += notifCount!
+    static func refreshNotifications() {
+        CDNotification.deleteAll()
+        request(APINotif.GetNotifs).responseJSON {req, _, res, err in
+            println("Get notif req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Error getting notifications: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty notif")
+                } else { // Berhasil
+                    println("Notifs: \(data)")
+                    
+                    // Store data into core data
+                    // Tambahin dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket urutannya tetap terjaga
+                    for (i : String, notifs : JSON) in data {
+                        for (var j = notifs.count - 1; j >= 0; j--) {
+                            let n : JSON = notifs[j]
+                            var notifType : String = ""
+                            if (i == "tp_notif") { // Transaksi
+                                notifType = NotificationType.Transaksi
+                            } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                                notifType = NotificationType.Inbox
+                            } else if (i == "activity") { // Aktivitas
+                                notifType = NotificationType.Aktivitas
+                            }
+                            CDNotification.newOne(notifType, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string)
+                        }
+                    }
+                    
+                    // Set the number of notifications in top right bar
+                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let notifListener = delegate.preloNotifListener
+                    notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
+                }
             }
         }
-        return count
-    }
-    
-    func getNotificationItems() {
-        let dat1 = "{\"message\":\"hahahaha\"}"
-        let dum1 = NotificationItem.instance(JSON(dat1))
-        let dat2 = "{\"message\":\"hihihihi\"}"
-        let dum2 = NotificationItem.instance(JSON(dat2))
-        let dat3 = "{\"message\":\"huhuhuhu\"}"
-        let dum3 = NotificationItem.instance(JSON(dat3))
-        let dat4 = "{\"message\":\"hehehehe\"}"
-        let dum4 = NotificationItem.instance(JSON(dat4))
-        let dat5 = "{\"message\":\"hohohoho\"}"
-        let dum5 = NotificationItem.instance(JSON(dat5))
-        let dat6 = "{\"message\":\"hohohoho\"}"
-        let dum6 = NotificationItem.instance(JSON(dat6))
-        let dat7 = "{\"message\":\"hohohoho\"}"
-        let dum7 = NotificationItem.instance(JSON(dat7))
-        let dat8 = "{\"message\":\"hohohoho\"}"
-        let dum8 = NotificationItem.instance(JSON(dat8))
-        
-        var itemsT : [NotificationItem] = notifItems![TitleTransaksi]!
-        itemsT.append(dum1!)
-        itemsT.append(dum2!)
-        var itemsI : [NotificationItem] = notifItems![TitleInbox]!
-        itemsI.append(dum3!)
-        itemsI.append(dum4!)
-        var itemsA : [NotificationItem] = notifItems![TitleAktivitas]!
-        itemsA.append(dum5!)
-        itemsA.append(dum6!)
-        itemsA.append(dum7!)
-        itemsA.append(dum8!)
-        notifItems?.updateValue(itemsT, forKey: TitleTransaksi)
-        notifItems?.updateValue(itemsI, forKey: TitleInbox)
-        notifItems?.updateValue(itemsA, forKey: TitleAktivitas)
-        
-        self.loadingPanel.hidden = true
-        self.loading.stopAnimating()
-        self.tableView.hidden = false
-        self.setupTable()
     }
     
     func setupTable() {
@@ -149,17 +171,17 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionTitle : String = notifSections[section]
-        let sectionNotifItems : [NotificationItem] = notifItems![sectionTitle]!
-        return sectionNotifItems.count
+        let sectionNotifs : [CDNotification] = notifications![sectionTitle]!
+        return sectionNotifs.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: NotificationPageCell = self.tableView.dequeueReusableCellWithIdentifier("NotificationPageCell") as! NotificationPageCell
         cell.selectionStyle = .None
         let sectionTitle : String = notifSections[indexPath.section]
-        let sectionNotifItems : [NotificationItem] = notifItems![sectionTitle]!
-        let notifItem : NotificationItem = sectionNotifItems[indexPath.row]
-        cell.adapt(notifItem)
+        let sectionNotifs : [CDNotification] = notifications![sectionTitle]!
+        let notif : CDNotification = sectionNotifs[sectionNotifs.count - (indexPath.row + 1)]
+        cell.adapt(notif)
         return cell
     }
     
@@ -170,6 +192,16 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 72
     }
+    
+    // MARK: - PreloNotifListenerDelegate function
+    
+    override func showNewNotifCount(count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshNotifPage() {
+        self.refreshPage(true)
+    }
 }
 
 class NotificationPageCell : UITableViewCell {
@@ -179,7 +211,20 @@ class NotificationPageCell : UITableViewCell {
     @IBOutlet weak var lblMessage: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     
-    func adapt(notifItem : NotificationItem) {
-        //lblMessage.text = notifItem.message
+    func adapt(notif : CDNotification) {
+        // Set images
+        imgUser.setImageWithUrl(NSURL(string: notif.leftImage)!, placeHolderImage: nil)
+        if (notif.rightImage != nil) {
+            imgProduct.setImageWithUrl(NSURL(string: notif.rightImage!)!, placeHolderImage: nil)
+        }
+        
+        // Set texts
+        let nsMsg = notif.message as NSString
+        var msgAttrString = NSMutableAttributedString(string: notif.message, attributes: [NSFontAttributeName: AppFont.PreloAwesome.getFont(12)!])
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.GrayDark, range: nsMsg.rangeOfString(notif.message))
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notif.name))
+        msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notif.objectName))
+        lblMessage.attributedText = msgAttrString
+        lblTime.text = notif.time
     }
 }
