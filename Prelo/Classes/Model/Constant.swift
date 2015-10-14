@@ -8,6 +8,8 @@
 
 import UIKit
 
+var dateFormatter : NSDateFormatter = NSDateFormatter()
+
 class Constant: NSObject {
     static var escapesSymbols : [String : String] = ["&amp;":"&"]
     
@@ -41,6 +43,47 @@ extension String
         }
         
         return s
+    }
+    
+    var int : Int {
+        return (self as NSString).integerValue
+    }
+}
+
+extension NSDate
+{
+    var relativeDescription : String {
+        let detik = Int(fabs(self.timeIntervalSinceNow))
+        if (detik < 60)
+        {
+            return "\(detik) detik yang lalu"
+        }
+        
+        let menit = detik / 60
+        if (menit < 60)
+        {
+            return "\(menit) menit yang lalu"
+        }
+        
+        let jam = menit / 60
+        if (jam < 24)
+        {
+            return "\(jam) jam yang lalu"
+        }
+        
+        let hari = jam / 24
+        if (hari < 7)
+        {
+            return "\(hari) hari yang lalu"
+        }
+        
+        dateFormatter.dateFormat = "dd MMM"
+        let s = dateFormatter.stringFromDate(self)
+        if (s != "") {
+            return s
+        }
+        
+        return "Dari zaman batu"
     }
 }
 

@@ -19,8 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     static let StatusBarTapNotificationName = "statusbartapped"
+    
+    var messagePool : MessagePool!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        messagePool = MessagePool()
+        messagePool.start()
         
         Fabric.with([Crashlytics.self()])
         Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
@@ -42,8 +47,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //return true
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
+    
+    func userLoggedIn()
+    {
+        messagePool.start()
     }
     
     func versionCheck() {

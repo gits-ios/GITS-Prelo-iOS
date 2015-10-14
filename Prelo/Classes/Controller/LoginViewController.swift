@@ -207,6 +207,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.navigationController?.pushViewController(profileSetupVC, animated: true)
                     }
                     
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                    
                     /*let m = UIApplication.appDelegate.managedObjectContext
                     let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
                     c.id = json["_id"].string!

@@ -40,6 +40,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                         for i in 0...arr.count-1
                         {
                             let inbox = arr[i]
+                            println(inbox)
                             self.inboxes.append(Inbox(jsn: inbox))
                         }
                     }
@@ -65,10 +66,31 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! InboxCell
         let i = inboxes[indexPath.row]
         
-        cell.captionName.text = i.sellerIsMe ? i.buyerName : i.sellerName
+        cell.captionName.text = i.opIsMe ? i.theirName : i.myName
         cell.captionMessage.text = i.message
         cell.captionProductName.text = i.itemName
         cell.iv.setImageWithUrl(i.imageURL, placeHolderImage: nil)
+        cell.captionTime.text = i.date.relativeDescription
+        
+        if (i.threadState == 0)
+        {
+            cell.captionType.text = "PESAN"
+        }
+        
+        if (i.threadState == 1)
+        {
+            cell.captionType.text = "TAWARAN BARU"
+        }
+        
+        if (i.threadState == 2)
+        {
+            cell.captionType.text = "TAWARAN DITERIMA"
+        }
+        
+        if (i.threadState == 3)
+        {
+            cell.captionType.text = "TAWARAN DITOLAK"
+        }
         
         return cell
     }

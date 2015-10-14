@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
@@ -363,7 +364,7 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var sellerId : String {
+    var theirId : String {
         if let fullname = json["_data"]["seller"]["_id"].string
         {
             return fullname
@@ -371,7 +372,7 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var sellerImage : NSURL {
+    var theirImage : NSURL {
         if let fullname = json["_data"]["seller"]["pict"].string
         {
             if let url = NSURL(string : fullname)
@@ -382,7 +383,7 @@ public class ProductDetail : NSObject, TawarItem
         return NSURL(string : "http://prelo.do")!
     }
     
-    var sellerName : String {
+    var theirName : String {
         if let fullname = json["_data"]["seller"]["fullname"].string
         {
             return fullname
@@ -390,7 +391,7 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var buyerId : String {
+    var myId : String {
         if let id = CDUser.getOne()?.id
         {
             return id
@@ -398,7 +399,7 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var buyerImage : NSURL {
+    var myImage : NSURL {
         if let pict = CDUser.getOne()?.profiles.pict
         {
             if let url = NSURL(string : pict)
@@ -409,7 +410,7 @@ public class ProductDetail : NSObject, TawarItem
         return NSURL(string : "http://prelo.do")!
     }
     
-    var buyerName : String {
+    var myName : String {
         if let fullname = CDUser.getOne()?.fullname
         {
             return fullname
@@ -417,7 +418,7 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var sellerIsMe : Bool {
+    var opIsMe : Bool {
         return false
     }
     
@@ -427,6 +428,14 @@ public class ProductDetail : NSObject, TawarItem
     
     var itemId : String {
         return productID
+    }
+    
+    var threadState : Int {
+        return 0
+    }
+    
+    var bargainPrice : Int {
+        return 0
     }
 }
 
@@ -1038,10 +1047,21 @@ class SearchUser : NSObject
 class Inbox : NSObject, TawarItem
 {
     var json : JSON!
+    var date : NSDate = NSDate()
     
     init (jsn : JSON)
     {
         json = jsn
+        
+        if let dateString = json["update_time"].string
+        {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let x = formatter.dateFromString(dateString)
+            {
+                date = x
+            }
+        }
     }
     
     var id : String
@@ -1112,8 +1132,8 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var sellerId : String {
-        let identifier = sellerIsMe ? "user_id1" : "user_id2"
+    var myId : String {
+        let identifier = opIsMe ? "user_id1" : "user_id2"
         if let x = json[identifier].string
         {
             return x
@@ -1121,8 +1141,8 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var sellerImage : NSURL {
-        let identifier = sellerIsMe ? "image_path_user1" : "image_path_user2"
+    var myImage : NSURL {
+        let identifier = opIsMe ? "image_path_user1" : "image_path_user2"
         if let x = json[identifier].string
         {
             if let url = NSURL(string : x)
@@ -1133,8 +1153,8 @@ class Inbox : NSObject, TawarItem
         return NSURL(string : "http://prelo.do")!
     }
     
-    var sellerName : String {
-        let identifier = sellerIsMe ? "fullname_user1" : "fullname_user1"
+    var myName : String {
+        let identifier = opIsMe ? "fullname_user1" : "fullname_user2"
         if let x = json[identifier].string
         {
             return x
@@ -1142,8 +1162,8 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var buyerId : String {
-        let identifier = sellerIsMe ? "user_id2" : "user_id1"
+    var theirId : String {
+        let identifier = opIsMe ? "user_id2" : "user_id1"
         if let x = json[identifier].string
         {
             return x
@@ -1151,8 +1171,8 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var buyerImage : NSURL {
-        let identifier = sellerIsMe ? "image_path_user2" : "image_path_user1"
+    var theirImage : NSURL {
+        let identifier = opIsMe ? "image_path_user2" : "image_path_user1"
         if let x = json[identifier].string
         {
             if let url = NSURL(string : x)
@@ -1163,8 +1183,8 @@ class Inbox : NSObject, TawarItem
         return NSURL(string : "http://prelo.do")!
     }
     
-    var buyerName : String {
-        let identifier = sellerIsMe ? "fullname_user1" : "fullname_user1"
+    var theirName : String {
+        let identifier = opIsMe ? "fullname_user2" : "fullname_user1"
         if let x = json[identifier].string
         {
             return x
@@ -1172,7 +1192,7 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var sellerIsMe : Bool {
+    var opIsMe : Bool {
         if let x = json["thread_starter"].bool
         {
             return !x
@@ -1185,21 +1205,82 @@ class Inbox : NSObject, TawarItem
     }
     
     var itemId : String {
+        if let x = json["object_id"].string
+        {
+            return x
+        }
         return ""
+    }
+    
+    var threadState : Int {
+        if let s = json["current_state"].int
+        {
+            return s
+        }
+        return 0
+    }
+    
+    var bargainPrice : Int {
+        if let s = json["current_bargain_amount"].int
+        {
+            return s
+        }
+        return 0
     }
 }
 
 class InboxMessage : NSObject
 {
+    static var formatter : NSDateFormatter = NSDateFormatter()
+    
+    var sending : Bool = false
     var id : String!
     var senderId : String!
     var messageType : Int = 0
     var message : String!
-    var time : String!
+    var dynamicMessage : String {
+        
+        if (messageType == 1)
+        {
+            return "Tawar \n" + message.int.asPrice
+        }
+        
+        if (messageType == 2)
+        {
+            return "Terima Tawaran\n" + message.int.asPrice
+        }
+        
+        if (messageType == 3)
+        {
+            return "Tolak Tawar\n" + message.int.asPrice
+        }
+        
+        return message
+    }
+    var dateTime : NSDate = NSDate()
+    private var _time : String = ""
+    var time : String {
+        
+        set {
+            _time = newValue
+            InboxMessage.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let date = InboxMessage.formatter.dateFromString(_time)
+            {
+                dateTime = date
+            }
+        }
+        
+        get {
+            return _time
+        }
+        
+    }
     var isMe : Bool = false
+    var failedToSend : Bool = false
     
     init (msgJSON : JSON)
     {
+        super.init()
         if let x = msgJSON["_id"].string
         {
             id = x
@@ -1232,5 +1313,50 @@ class InboxMessage : NSObject
                 isMe = true
             }
         }
+    }
+    
+    override init() {
+        
+    }
+    
+    static func messageFromMe(localIndex : Int, type : Int, message : String, time : String) -> InboxMessage
+    {
+        let i = InboxMessage()
+        
+        i.senderId = CDUser.getOne()?.id
+        i.id = String(localIndex)
+        i.messageType = type
+        i.message = message
+        i.time = time
+        i.isMe = true
+        i.failedToSend = false
+        
+        return i
+    }
+    
+    private var lastThreadId = ""
+    private var lastCompletion : (InboxMessage)->() = {m in }
+    func sendTo(threadId : String, completion : (InboxMessage)->())
+    {
+        lastThreadId = threadId
+        lastCompletion = completion
+        sending = true
+        self.failedToSend = false
+        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: message)).responseJSON { req, resp, res, err in
+            self.sending = false
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                
+            } else
+            {
+                self.failedToSend = true
+            }
+            completion(self)
+        }
+    }
+    
+    func resend()
+    {
+        self.sendTo(lastThreadId, completion: lastCompletion)
     }
 }

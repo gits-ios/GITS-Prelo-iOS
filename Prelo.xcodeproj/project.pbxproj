@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000B91BCB89D500E16611 /* MessagePool.swift */; };
+		210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */; };
 		210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 210107F81B687ED4005698D1 /* Prelo2.ttf */; };
 		210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */; };
@@ -392,6 +394,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePool.swift; sourceTree = "<group>"; };
+		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
 		210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_backarrow@2x.png"; sourceTree = "<group>"; };
@@ -1047,6 +1051,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
@@ -1489,6 +1494,7 @@
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
 				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
 				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
+				210000B91BCB89D500E16611 /* MessagePool.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2200,6 +2206,7 @@
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				21C7ADCB1B73AB8B003C3945 /* SearchViewController.swift in Sources */,
+				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
 				44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */,
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
@@ -2275,6 +2282,7 @@
 				21156EB81B8F4293001D7842 /* ServerTrustPolicy.swift in Sources */,
 				2141BBB31B54BE4C00787F5D /* BFLog.swift in Sources */,
 				2141BBB51B54BE4C00787F5D /* BFSystemSound.swift in Sources */,
+				210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */,
 				21D4F1D11B65DDAB0089DF4F /* KumangTabBarViewController.swift in Sources */,
 				2141BBCD1B54BE4C00787F5D /* UIScrollView+BFKit.swift in Sources */,
 			);
@@ -2421,7 +2429,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2444,7 +2452,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2454,7 +2462,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2474,7 +2482,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

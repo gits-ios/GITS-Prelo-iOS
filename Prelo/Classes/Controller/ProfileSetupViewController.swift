@@ -391,6 +391,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         user.profiles = userProfile
                         // TODO: Simpan shipping, referral, deviceid di coredata
                         
+                        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                        
                         // Save data
                         var saveErr : NSError? = nil
                         if (!m!.save(&saveErr)) {
