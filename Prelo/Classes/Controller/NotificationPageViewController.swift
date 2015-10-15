@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotificationPageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, PreloNotifListenerDelegate {
+class NotificationPageViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, PreloNotifListenerDelegate, UserRelatedDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lblEmpty: UILabel!
@@ -21,6 +21,8 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     }()
     
     var notifications : [String : [CDNotification]]?
+    
+    var allowLaunchLogin = true
     
     // MARK: - Init
     
@@ -47,7 +49,18 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         Mixpanel.sharedInstance().track("Notification Page")
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        self.refreshPage(false)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (User.IsLoggedIn == false) {
+            if (allowLaunchLogin) {
+                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+            }
+        } else {
+            self.refreshPage(false)
+        }
     }
     
     func refreshPage(isRefreshFromSocket : Bool) {
@@ -161,6 +174,17 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         tableView.reloadData()
     }
     
+    // MARK: - UserRelatedDelegate Functions
+    
+    func userCancelLogin() {
+        allowLaunchLogin = false
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func userLoggedIn() {
+        allowLaunchLogin = false
+    }
+    
     // MARK: - TableViewDelegate Functions
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -189,7 +213,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println("Row \(indexPath.row) in section \(indexPath.section) selected")
         let sectionTitle : String = notifSections[indexPath.section]
-        let sectionNotifs : [CDNotification] = notifications![sectionTitle]!
+        var sectionNotifs : [CDNotification] = notifications![sectionTitle]!
         let notif : CDNotification = sectionNotifs[sectionNotifs.count - (indexPath.row + 1)]
         request(APINotif.ReadNotif(notifId: notif.id)).responseJSON {req, _, res, err in
             println("Read notif req = \(req)")
@@ -240,8 +264,9 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                         }
                     }
                     
-                    // TODO: Delete notif from core data and refresh table
-                    
+                    // Delete read notif from variable and core data
+                    CDNotification.deleteNotifWithId(notif.id)
+                    self.notifications![sectionTitle]!.removeAtIndex(sectionNotifs.count - (indexPath.row + 1))
                 }
             }
         }

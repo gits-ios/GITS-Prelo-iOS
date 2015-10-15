@@ -152,4 +152,28 @@ class CDNotification : NSManagedObject {
             println("setAllNotifToOpened success")
         }
     }
+    
+    static func deleteNotifWithId(id : String) {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "id like[c] %@", id)
+        let fetchRequest = NSFetchRequest(entityName: "CDNotification")
+        fetchRequest.includesPropertyValues = false
+        fetchRequest.predicate = predicate
+        
+        var error : NSError?
+        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+            for result in results {
+                m?.deleteObject(result)
+            }
+            
+            var error : NSError?
+            if (m?.save(&error) != nil) {
+                println("Notification with id:\(id) deleted")
+            } else if let error = error {
+                println("delete Notification failed with error : \(error.userInfo)")
+            }
+        } else if let error = error {
+            println("delete Notification failed with fetch error : \(error)")
+        }
+    }
 }
