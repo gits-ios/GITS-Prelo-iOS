@@ -146,6 +146,7 @@ enum APINotif : URLRequestConvertible
     
     case GetNotifs
     case OpenNotifs
+    case ReadNotif(notifId : String)
     
     var method : Method
     {
@@ -153,6 +154,7 @@ enum APINotif : URLRequestConvertible
         {
         case .GetNotifs : return .GET
         case .OpenNotifs : return .POST
+        case .ReadNotif(_) : return .POST
         }
     }
     
@@ -162,6 +164,7 @@ enum APINotif : URLRequestConvertible
         {
         case .GetNotifs : return ""
         case .OpenNotifs : return "open"
+        case .ReadNotif(let notifId) : return "\(notifId)/read"
         }
     }
     
@@ -172,6 +175,8 @@ enum APINotif : URLRequestConvertible
         case .GetNotifs :
             return [:]
         case .OpenNotifs :
+            return [:]
+        case .ReadNotif(_) :
             return [:]
         }
     }

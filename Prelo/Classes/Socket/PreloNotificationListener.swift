@@ -72,7 +72,7 @@ class PreloNotificationListener {
                 } else if (i == "activity") { // Aktivitas
                     notifType = NotificationType.Aktivitas
                 }
-                CDNotification.newOne(notifType, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string)
+                CDNotification.newOne(notifType, id : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string)
                 newNotifCount++
             }
         }

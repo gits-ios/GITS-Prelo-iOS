@@ -111,39 +111,41 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     
     static func refreshNotifications() {
         CDNotification.deleteAll()
-        request(APINotif.GetNotifs).responseJSON {req, _, res, err in
-            println("Get notif req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting notifications: \(err!.description)")
-            } else {
-                let json = JSON(res!)
-                let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
-                    println("Empty notif")
-                } else { // Berhasil
-                    println("Notifs: \(data)")
-                    
-                    // Store data into core data
-                    // Tambahin dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket urutannya tetap terjaga
-                    for (i : String, notifs : JSON) in data {
-                        for (var j = notifs.count - 1; j >= 0; j--) {
-                            let n : JSON = notifs[j]
-                            var notifType : String = ""
-                            if (i == "tp_notif") { // Transaksi
-                                notifType = NotificationType.Transaksi
-                            } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
-                                notifType = NotificationType.Inbox
-                            } else if (i == "activity") { // Aktivitas
-                                notifType = NotificationType.Aktivitas
+        if (User.IsLoggedIn) {
+            request(APINotif.GetNotifs).responseJSON {req, _, res, err in
+                println("Get notif req = \(req)")
+                if (err != nil) { // Terdapat error
+                    Constant.showDialog("Warning", message: "Error getting notifications: \(err!.description)")
+                } else {
+                    let json = JSON(res!)
+                    let data = json["_data"]
+                    if (data == nil || data == []) { // Data kembalian kosong
+                        println("Empty notif")
+                    } else { // Berhasil
+                        println("Notifs: \(data)")
+                        
+                        // Store data into core data
+                        // Tambahin dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket urutannya tetap terjaga
+                        for (i : String, notifs : JSON) in data {
+                            for (var j = notifs.count - 1; j >= 0; j--) {
+                                let n : JSON = notifs[j]
+                                var notifType : String = ""
+                                if (i == "tp_notif") { // Transaksi
+                                    notifType = NotificationType.Transaksi
+                                } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                                    notifType = NotificationType.Inbox
+                                } else if (i == "activity") { // Aktivitas
+                                    notifType = NotificationType.Aktivitas
+                                }
+                                CDNotification.newOne(notifType, id : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string)
                             }
-                            CDNotification.newOne(notifType, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string)
                         }
+                        
+                        // Set the number of notifications in top right bar
+                        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        let notifListener = delegate.preloNotifListener
+                        notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
                     }
-                    
-                    // Set the number of notifications in top right bar
-                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    let notifListener = delegate.preloNotifListener
-                    notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
                 }
             }
         }
@@ -177,7 +179,6 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: NotificationPageCell = self.tableView.dequeueReusableCellWithIdentifier("NotificationPageCell") as! NotificationPageCell
-        cell.selectionStyle = .None
         let sectionTitle : String = notifSections[indexPath.section]
         let sectionNotifs : [CDNotification] = notifications![sectionTitle]!
         let notif : CDNotification = sectionNotifs[sectionNotifs.count - (indexPath.row + 1)]
@@ -187,6 +188,63 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println("Row \(indexPath.row) in section \(indexPath.section) selected")
+        let sectionTitle : String = notifSections[indexPath.section]
+        let sectionNotifs : [CDNotification] = notifications![sectionTitle]!
+        let notif : CDNotification = sectionNotifs[sectionNotifs.count - (indexPath.row + 1)]
+        request(APINotif.ReadNotif(notifId: notif.id)).responseJSON {req, _, res, err in
+            println("Read notif req = \(req)")
+            if (err != nil) { // Terdapat error
+                println("Send read notifications error: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data == nil || data == false) { // Gagal
+                    println("Send read notifications error")
+                } else { // Berhasil
+                    println("Data: \(data)")
+                    
+                    if (sectionTitle == NotificationType.Transaksi) {
+                        // Goto transaction detail
+                        if (notif.ownerId == User.Id) { // User is seller
+                            // Goto MyProductDetail
+                            let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
+                            myProductDetailVC.transactionId = notif.objectId
+                            self.navigationController?.pushViewController(myProductDetailVC, animated: true)
+                        } else { // User is buyer
+                            // Goto MyPurchaseDetail
+                            let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+                            myPurchaseDetailVC.transactionId = notif.objectId
+                            self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+                        }
+                    } else if (sectionTitle == NotificationType.Inbox) {
+                        // TODO: goto inbox
+                    } else if (sectionTitle == NotificationType.Aktivitas) {
+                        // Get product detail from API
+                        request(Products.Detail(productId: notif.objectId)).responseJSON {req, _, res, err in
+                            println("Get product detail req = \(req)")
+                            if (err != nil) { // Terdapat error
+                                Constant.showDialog("Warning", message: "Error getting product detail: \(err!.description)")
+                            } else {
+                                let json = JSON(res!)
+                                if (json == nil || json == []) { // Data kembalian kosong
+                                    println("Empty product detail")
+                                } else { // Berhasil
+                                    let pDetail = ProductDetail.instance(json)
+                                    
+                                    // Goto product comments
+                                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                                    p.pDetail = pDetail
+                                    self.navigationController?.pushViewController(p, animated: true)
+                                }
+                            }
+                        }
+                    }
+                    
+                    // TODO: Delete notif from core data and refresh table
+                    
+                }
+            }
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

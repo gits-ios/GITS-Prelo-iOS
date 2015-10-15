@@ -5,6 +5,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leftImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -75,7 +76,7 @@
     </entity>
     <elements>
         <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="CDNotification" positionX="135" positionY="9" width="128" height="225"/>
+        <element name="CDNotification" positionX="135" positionY="9" width="128" height="240"/>
         <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
         <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
         <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>

@@ -13,6 +13,7 @@ import CoreData
 class CDNotification : NSManagedObject {
     
     @NSManaged var notifType : String
+    @NSManaged var id : String
     @NSManaged var opened : Bool
     @NSManaged var read : Bool
     @NSManaged var message : String
@@ -25,10 +26,11 @@ class CDNotification : NSManagedObject {
     @NSManaged var leftImage : String
     @NSManaged var rightImage : String?
     
-    static func newOne(notifType : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : Int, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?) -> CDNotification? {
+    static func newOne(notifType : String, id : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : Int, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?) -> CDNotification? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDNotification", inManagedObjectContext: m!) as! CDNotification
         r.notifType = notifType
+        r.id = id
         r.opened = opened
         r.read = read
         r.message = message
