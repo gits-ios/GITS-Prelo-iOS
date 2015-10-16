@@ -13,7 +13,13 @@ protocol PreloNotifListenerDelegate {
     func refreshNotifPage()
 }
 
-class PreloNotificationListener {
+protocol PreloSocketDelegate
+{
+    func socketReceiveSomething(data : NSArray?, ack : AckEmitter?)
+}
+
+class PreloNotificationListener : PreloSocketDelegate
+{
     
     let socket = SocketIOClient(socketURL: "dev.prelo.id")
     
@@ -26,6 +32,13 @@ class PreloNotificationListener {
     init() {
         // Init notif count
         NotificationPageViewController.refreshNotifications()
+        
+        // todo add delegate to Main Socket Class
+        // PreloSocket.sharedInstance().registerDelegate(self, event:"eventName")
+    }
+    
+    func socketReceiveSomething(data: NSArray?, ack: AckEmitter?) {
+        self.handleNotification(JSON(data!)[0])
     }
     
     func setupSocket() {
