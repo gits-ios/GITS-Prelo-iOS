@@ -174,13 +174,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
                         }*/ // TO BE DELETED
                         
-                        self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!)
+                        self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false)
                     }
                 }
         }
         
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
-        //self.toProfileSetup("", userToken : "", userEmail : "")
+        //self.toProfileSetup("", userToken : "", userEmail : "", isSocmedAccount : false)
         
         // FOR TESTING (TO PHONE VERIFICATION DIRECTLY)
         /*let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
@@ -188,12 +188,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         self.navigationController?.pushViewController(phoneVerificationVC, animated: true)*/
     }
     
-    func toProfileSetup(userId : String, userToken : String, userEmail : String) {
+    func toProfileSetup(userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool) {
         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         profileSetupVC.userId = userId
         profileSetupVC.userToken = userToken
         profileSetupVC.userEmail = userEmail
+        profileSetupVC.isSocmedAccount = isSocmedAccount
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
@@ -387,7 +388,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
                         // Go to profile setup
-                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : true)
                     }
                 }
             }

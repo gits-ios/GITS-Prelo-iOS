@@ -929,7 +929,7 @@ class LovedProduct : NSObject {
     }
     
     var productImageURL : NSURL? {
-        if let err = json["display_picts"][0].error
+        if (json["display_picts"][0].string == nil)
         {
             return nil
         }

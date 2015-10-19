@@ -12,21 +12,32 @@ import CoreData
 class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     
-    @IBOutlet weak var groupUploadFoto: UIView!
+    // Groups index:
+    // 0 : Group Upload Foto
+    // 1 : Group Fullname
+    // 2 : Group Jenis Kelamin
+    // 3 : Group No HP
+    // 4 : Group Verifikasi HP
+    // 5 : Group Kota
+    // 6 : Group Shipping Options
+    // 7 : Group Referal
+    // 8 : Group Apply
+    @IBOutlet var groups: [UIView]!
+    @IBOutlet var consTopGroups: [NSLayoutConstraint]!
+    
     @IBOutlet weak var btnUserImage: UIButton!
     
-    @IBOutlet weak var groupFullname: UIView!
+    @IBOutlet weak var lblFullname: UILabel!
     @IBOutlet weak var fieldFullname: UITextField!
     
     @IBOutlet weak var consTopGroupJenKel: NSLayoutConstraint!
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
-    @IBOutlet weak var groupNoHP: UIView!
     @IBOutlet weak var fieldNoHP: UITextField!
     
     @IBOutlet weak var consTopGroupVerifikasiHP: NSLayoutConstraint!
-    @IBOutlet weak var groupVerifikasiHP: UIView!
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
     
@@ -37,10 +48,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblJneCheckbox: UILabel!
     @IBOutlet weak var lblTikiCheckbox: UILabel!
     
-    @IBOutlet weak var groupReferral: UIView!
     @IBOutlet weak var fieldKodeReferral: UITextField!
     
-    @IBOutlet weak var consTopBtnApply: NSLayoutConstraint!
     @IBOutlet weak var btnApply: UIButton!
     
     var jneSelected : Bool = false
@@ -63,22 +72,21 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var userToken : String = ""
     var userEmail : String = ""
     
+    var isSocmedAccount : Bool!
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         setNavBarButtons()
+        setupContent()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideGroups()
-        
-        // Border untuk tombol user image
-        btnUserImage.layer.borderWidth = 1
-        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
+        //hideGroups()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -87,9 +95,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, self.deltaHeight + r.height, 0)
+                    self.consHeightContentView.constant += r.height
                 } else {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, self.deltaHeight, 0)
+                    self.consHeightContentView.constant -= r.height
                 }
             }, completion: nil)
     }
@@ -119,10 +127,55 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             d.userLoggedIn!()
         }
         self.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
-    func hideGroups() {
+    func setupContent() {
+        
+        // Arrange groups
+        var p : [Bool]!
+        if (self.isSocmedAccount == true) {
+            p = [false, true, true, true, false, true, true, true, true]
+        } else {
+            p = [false, false, true, true, false, true, true, true, true]
+        }
+        arrangeGroups(p)
+        
+        // If user uses socmed account, change fullname field to username field
+        if (self.isSocmedAccount == true) {
+            lblFullname.text = "Username"
+            fieldFullname.placeholder = "Username"
+        }
+        
+        // Border untuk tombol user image
+        btnUserImage.layer.borderWidth = 1
+        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
+    }
+    
+    func arrangeGroups(isShowGroups : [Bool]) {
+        let narrowSpace : CGFloat = 15
+        let wideSpace : CGFloat = 25
+        var deltaX : CGFloat = 0
+        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-8
+            let isShowGroup : Bool = isShowGroups[i]
+            if isShowGroup {
+                groups[i].hidden = false
+                // Manual narrow/wide space
+                if (i == 0 || (i == 2 && !groups[1].hidden) || i == 3) { // Narrow space before group
+                    deltaX += narrowSpace
+                } else { // Wide space before group
+                    deltaX += wideSpace
+                }
+                consTopGroups[i].constant = deltaX
+                deltaX += groups[i].frame.size.height
+            } else {
+                groups[i].hidden = true
+            }
+        }
+        // Set content view height
+        consHeightContentView.constant = deltaX + narrowSpace
+    }
+    
+    /*func hideGroups() {
         groupUploadFoto.hidden = true
         groupFullname.hidden = true
         groupVerifikasiHP.hidden = true
@@ -154,7 +207,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Sesuaikan tinggi scrollview content
         self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)*/
-    }
+    }*/ // TO BE DELETED
     
     @IBAction func disableTextFields(sender : AnyObject)
     {
@@ -335,12 +388,16 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             disableTextFields(NSNull)
             btnApply.enabled = false
             
+            var username = ""
+            if (self.isSocmedAccount == true) {
+                username = (fieldFullname?.text)!
+            }
             let userFullname = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
             let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             let userReferral = fieldKodeReferral.text
-            let userDeviceId = "dor" // FIXME
+            let userDeviceId = "dor" // FIXME: device id
             
             // TODO: harusnya ini dipasang di phone verification karna kalau belum verification dianggap belum tuntas, jika exit app saat verification lalu buka app lagi harusnya belum kelogin
             User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
@@ -357,7 +414,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
             }
             
-            request(APIUser.SetupAccount(gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
+            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
                 if let error = err {
                     Constant.showDialog("Warning", message: error.description)
                     self.btnApply.enabled = true

@@ -32,7 +32,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Very Very Long Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iue-q2-Bwi">
-                        <rect key="frame" x="72" y="6" width="215" height="17"/>
+                        <rect key="frame" x="72" y="6" width="192" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="bLi-Vc-bJE"/>
                             <constraint firstAttribute="height" constant="17" id="gfe-R9-26V"/>
@@ -102,12 +102,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frh-5W-4LM">
-                        <rect key="frame" x="295" y="5" width="20" height="17"/>
+                        <rect key="frame" x="272" y="0.0" width="43" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="17" id="deL-iQ-VER"/>
-                            <constraint firstAttribute="width" constant="20" id="qKL-Qo-euO"/>
+                            <constraint firstAttribute="height" constant="31" id="deL-iQ-VER"/>
+                            <constraint firstAttribute="width" constant="43" id="qKL-Qo-euO"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="10"/>
+                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="-24" maxY="0.0"/>
                         <state key="normal" title="">
                             <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -135,12 +136,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="K3D-IT-ceZ" firstAttribute="leading" secondItem="1hv-OD-aEg" secondAttribute="trailing" id="CZt-Ab-91g"/>
-                    <constraint firstItem="nib-2W-U7b" firstAttribute="top" secondItem="frh-5W-4LM" secondAttribute="bottom" constant="9" id="Dbw-RL-6bh"/>
+                    <constraint firstItem="nib-2W-U7b" firstAttribute="top" secondItem="frh-5W-4LM" secondAttribute="bottom" id="Dbw-RL-6bh"/>
                     <constraint firstItem="1hv-OD-aEg" firstAttribute="leading" secondItem="TMo-pe-K26" secondAttribute="trailing" constant="2" id="G4s-aG-aB7"/>
                     <constraint firstItem="Iue-q2-Bwi" firstAttribute="leading" secondItem="Huu-Zx-Rqo" secondAttribute="trailing" constant="8" id="G5C-pp-dtV"/>
                     <constraint firstItem="K3D-IT-ceZ" firstAttribute="top" secondItem="qln-xW-jaq" secondAttribute="bottom" constant="-2" id="Koh-HM-AWI"/>
                     <constraint firstItem="Huu-Zx-Rqo" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="topMargin" constant="-8" id="Nrd-Is-1PL"/>
-                    <constraint firstItem="frh-5W-4LM" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="top" constant="5" id="OIS-7V-ltr"/>
+                    <constraint firstItem="frh-5W-4LM" firstAttribute="top" secondItem="Yal-Xy-gQQ" secondAttribute="top" id="OIS-7V-ltr"/>
                     <constraint firstItem="7Yp-G7-3oL" firstAttribute="leading" secondItem="Huu-Zx-Rqo" secondAttribute="trailing" constant="8" id="OJ0-Ga-QbR"/>
                     <constraint firstItem="Huu-Zx-Rqo" firstAttribute="leading" secondItem="Yal-Xy-gQQ" secondAttribute="leading" id="PiP-KT-c3B"/>
                     <constraint firstItem="frh-5W-4LM" firstAttribute="leading" secondItem="Iue-q2-Bwi" secondAttribute="trailing" constant="8" id="Pib-Xt-6kn"/>
