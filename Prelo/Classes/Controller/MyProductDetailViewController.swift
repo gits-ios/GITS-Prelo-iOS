@@ -215,6 +215,24 @@ class MyProductDetailViewController : BaseViewController {
     }
     
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
-        
+        // Get product detail from API
+        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
+            println("Get product detail req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Error getting product detail: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                if (json == nil || json == []) { // Data kembalian kosong
+                    println("Empty product detail")
+                } else { // Berhasil
+                    let pDetail = ProductDetail.instance(json)
+                    
+                    // Goto chat
+                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    t.tawarItem = pDetail
+                    self.navigationController?.pushViewController(t, animated: true)
+                }
+            }
+        }
     }
 }

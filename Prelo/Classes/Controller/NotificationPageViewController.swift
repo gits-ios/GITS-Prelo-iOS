@@ -145,7 +145,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                                 var notifType : String = ""
                                 if (i == "tp_notif") { // Transaksi
                                     notifType = NotificationType.Transaksi
-                                } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                                } else if (i == "inbox_notif") { // Inbox
                                     notifType = NotificationType.Inbox
                                 } else if (i == "activity") { // Aktivitas
                                     notifType = NotificationType.Aktivitas
@@ -241,9 +241,29 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                             self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
                         }
                     } else if (sectionTitle == NotificationType.Inbox) {
-                        // TODO: goto inbox
+                        // Get inbox detail
+                        request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON {req, _, res, err in
+                            println("Get inbox message req = \(req)")
+                            if (err != nil) { // Terdapat error
+                                Constant.showDialog("Warning", message: "Error getting inbox message: \(err!.description)")
+                            } else {
+                                let json = JSON(res!)
+                                let data = json["_data"]
+                                if (data == nil || data == []) { // Data kembalian kosong
+                                    println("Empty inbox message data")
+                                } else { // Berhasil
+                                    println("data = \(data)")
+                                    let inboxData = Inbox(jsn: data)
+                                    
+                                    // Goto inbox
+                                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                                    t.tawarItem = inboxData
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                }
+                            }
+                        }
                     } else if (sectionTitle == NotificationType.Aktivitas) {
-                        // Get product detail from API
+                        // Get product detail
                         request(Products.Detail(productId: notif.objectId)).responseJSON {req, _, res, err in
                             println("Get product detail req = \(req)")
                             if (err != nil) { // Terdapat error
@@ -253,6 +273,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                                 if (json == nil || json == []) { // Data kembalian kosong
                                     println("Empty product detail")
                                 } else { // Berhasil
+                                    println("json = \(json)")
                                     let pDetail = ProductDetail.instance(json)
                                     
                                     // Goto product comments
@@ -300,7 +321,7 @@ class NotificationPageCell : UITableViewCell {
         if (notif.rightImage != nil) {
             imgProduct.setImageWithUrl(NSURL(string: notif.rightImage!)!, placeHolderImage: nil)
         }
-        
+                
         // Set texts
         let nsMsg = notif.message as NSString
         var msgAttrString = NSMutableAttributedString(string: notif.message, attributes: [NSFontAttributeName: AppFont.PreloAwesome.getFont(12)!])
