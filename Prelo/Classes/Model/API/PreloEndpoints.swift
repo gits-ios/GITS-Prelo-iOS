@@ -146,6 +146,7 @@ enum APINotif : URLRequestConvertible
     
     case GetNotifs
     case OpenNotifs
+    case ReadNotif(notifId : String)
     
     var method : Method
     {
@@ -153,6 +154,7 @@ enum APINotif : URLRequestConvertible
         {
         case .GetNotifs : return .GET
         case .OpenNotifs : return .POST
+        case .ReadNotif(_) : return .POST
         }
     }
     
@@ -162,6 +164,7 @@ enum APINotif : URLRequestConvertible
         {
         case .GetNotifs : return ""
         case .OpenNotifs : return "open"
+        case .ReadNotif(let notifId) : return "\(notifId)/read"
         }
     }
     
@@ -172,6 +175,8 @@ enum APINotif : URLRequestConvertible
         case .GetNotifs :
             return [:]
         case .OpenNotifs :
+            return [:]
+        case .ReadNotif(_) :
             return [:]
         }
     }
@@ -195,6 +200,7 @@ enum APIInbox : URLRequestConvertible
     static let basePath = "inbox/"
     
     case GetInboxes
+    case GetInboxByProductID(productId : String)
     case GetInboxMessage (inboxId : String)
     case StartNewOne (productId : String, type : Int, message : String)
     case SendTo (inboxId : String, type : Int, message : String)
@@ -203,6 +209,7 @@ enum APIInbox : URLRequestConvertible
         {
             switch self
             {
+            case .GetInboxByProductID(_) : return .GET
             case .GetInboxes : return .GET
             case .GetInboxMessage(_) : return .GET
             case .StartNewOne (_, _, _) : return .POST
@@ -214,6 +221,7 @@ enum APIInbox : URLRequestConvertible
         {
             switch self
             {
+            case .GetInboxByProductID(let prodId) : return "product/"+prodId
             case .GetInboxes : return ""
             case .GetInboxMessage(let inboxId) : return inboxId
             case .SendTo (let inboxId, _, _) : return inboxId
@@ -225,6 +233,7 @@ enum APIInbox : URLRequestConvertible
         {
             switch self
             {
+            case .GetInboxByProductID(_) : return [:]
             case .GetInboxes : return [:]
             case .GetInboxMessage(_) : return [:]
             case .StartNewOne(let prodId, let type, let m) : return ["product_id":prodId, "message_type":String(type), "message":m]
@@ -515,7 +524,7 @@ enum APIUser : URLRequestConvertible
     case OrderList(status : String)
     case MyProductSell
     case MyLovelist
-    case SetupAccount(gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
+    case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     
     var method : Method
@@ -529,7 +538,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         }
     }
@@ -545,7 +554,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         }
     }
@@ -573,8 +582,9 @@ enum APIUser : URLRequestConvertible
             ]
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
-        case .SetupAccount(let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
+        case .SetupAccount(let username, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
             return [
+                "username":username,
                 "gender":gender,
                 "phone":phone,
                 "province":province,

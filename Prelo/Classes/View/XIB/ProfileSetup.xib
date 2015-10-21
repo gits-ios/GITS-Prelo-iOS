@@ -835,24 +835,37 @@
                                             <constraint firstItem="xoa-bh-z1I" firstAttribute="top" secondItem="n4V-1H-u9k" secondAttribute="top" id="jso-Dn-Csc"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONd-KC-eB9">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aty-Np-VSc" userLabel="Group Apply">
                                         <rect key="frame" x="8" y="910" width="584" height="40"/>
-                                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONd-KC-eB9">
+                                                <rect key="frame" x="0.0" y="0.0" width="584" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="iMl-P7-6wK"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="APPLY">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="disabled" title="LOADING.."/>
+                                                <connections>
+                                                    <action selector="applyPressed:" destination="cCn-ql-NMv" eventType="touchUpInside" id="fZJ-NR-zqH"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="iMl-P7-6wK"/>
+                                            <constraint firstAttribute="height" constant="40" id="3Uj-UI-Xt1"/>
+                                            <constraint firstItem="ONd-KC-eB9" firstAttribute="leading" secondItem="Aty-Np-VSc" secondAttribute="leading" id="XCH-hA-JGk"/>
+                                            <constraint firstItem="ONd-KC-eB9" firstAttribute="top" secondItem="Aty-Np-VSc" secondAttribute="top" id="Xlg-Zq-M06"/>
+                                            <constraint firstAttribute="trailing" secondItem="ONd-KC-eB9" secondAttribute="trailing" id="dhg-X3-GzF"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="APPLY">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="disabled" title="LOADING.."/>
-                                        <connections>
-                                            <action selector="applyPressed:" destination="cCn-ql-NMv" eventType="touchUpInside" id="fZJ-NR-zqH"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="n4V-1H-u9k" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="809" id="03G-ZX-fTK"/>
                                     <constraint firstItem="aej-xc-zGt" firstAttribute="top" secondItem="E7a-PD-ejz" secondAttribute="bottom" constant="270" id="0OI-Ot-rOw"/>
                                     <constraint firstItem="E7a-PD-ejz" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="4PO-7r-qA9"/>
                                     <constraint firstItem="MJ7-Je-553" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="27" id="5wz-Bk-btK"/>
@@ -863,25 +876,38 @@
                                     <constraint firstAttribute="height" constant="968" id="BY6-ZP-au9"/>
                                     <constraint firstAttribute="trailing" secondItem="Gxb-X2-XNj" secondAttribute="trailing" constant="8" id="CB3-I7-6sl"/>
                                     <constraint firstItem="n4V-1H-u9k" firstAttribute="top" secondItem="Gxb-X2-XNj" secondAttribute="bottom" constant="44" id="CfI-vu-gwC"/>
-                                    <constraint firstAttribute="trailing" secondItem="ONd-KC-eB9" secondAttribute="trailing" constant="8" id="JQc-IM-7ZN"/>
                                     <constraint firstItem="Gxb-X2-XNj" firstAttribute="top" secondItem="aej-xc-zGt" secondAttribute="bottom" constant="42" id="MAl-lo-bzD"/>
-                                    <constraint firstItem="ONd-KC-eB9" firstAttribute="top" secondItem="Gxb-X2-XNj" secondAttribute="bottom" constant="145" id="NtG-Ba-jc4"/>
+                                    <constraint firstItem="Aty-Np-VSc" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="910" id="NvR-Nw-HB3"/>
                                     <constraint firstItem="MJ7-Je-553" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="OZY-g7-hJj"/>
                                     <constraint firstItem="kPa-bT-jOM" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="PRj-XT-70y"/>
                                     <constraint firstAttribute="trailing" secondItem="E7a-PD-ejz" secondAttribute="trailing" constant="8" id="PxW-t9-CSn"/>
                                     <constraint firstAttribute="trailing" secondItem="n4V-1H-u9k" secondAttribute="trailing" constant="8" id="QDG-lZ-GIC"/>
+                                    <constraint firstItem="Gxb-X2-XNj" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="633" id="Rmr-xf-JHf"/>
                                     <constraint firstAttribute="trailing" secondItem="n2h-nz-vi1" secondAttribute="trailing" constant="8" id="Xr7-KC-GkH"/>
                                     <constraint firstItem="kPa-bT-jOM" firstAttribute="top" secondItem="E7a-PD-ejz" secondAttribute="bottom" constant="87" id="boc-SA-MYB"/>
                                     <constraint firstItem="aej-xc-zGt" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="eht-Bg-S9o"/>
                                     <constraint firstAttribute="trailing" secondItem="kPa-bT-jOM" secondAttribute="trailing" constant="8" id="nwj-D4-rKh"/>
                                     <constraint firstItem="U9W-Zj-pT5" firstAttribute="top" secondItem="E7a-PD-ejz" secondAttribute="bottom" constant="8" id="pfh-xd-1X0"/>
+                                    <constraint firstAttribute="trailing" secondItem="Aty-Np-VSc" secondAttribute="trailing" constant="8" id="qEI-za-Rmn"/>
+                                    <constraint firstItem="Aty-Np-VSc" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="sL2-un-tPT"/>
+                                    <constraint firstItem="aej-xc-zGt" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="457" id="u8a-E7-mbB"/>
+                                    <constraint firstItem="U9W-Zj-pT5" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="195" id="vUp-L9-6RI"/>
                                     <constraint firstItem="n2h-nz-vi1" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="vpV-43-MfJ"/>
                                     <constraint firstItem="Gxb-X2-XNj" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="vsN-Ty-CnB"/>
+                                    <constraint firstItem="kPa-bT-jOM" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="274" id="wAd-d5-25b"/>
                                     <constraint firstItem="E7a-PD-ejz" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="147" id="wNH-IQ-XJd"/>
-                                    <constraint firstItem="ONd-KC-eB9" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="wzu-Qh-a2i"/>
                                     <constraint firstItem="U9W-Zj-pT5" firstAttribute="leading" secondItem="mCU-2p-hNQ" secondAttribute="leading" constant="8" id="xNK-Wm-Zvj"/>
                                     <constraint firstItem="n2h-nz-vi1" firstAttribute="top" secondItem="mCU-2p-hNQ" secondAttribute="top" constant="99" id="zO9-QW-cH9"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="pfh-xd-1X0"/>
+                                        <exclude reference="boc-SA-MYB"/>
+                                        <exclude reference="0OI-Ot-rOw"/>
+                                        <exclude reference="MAl-lo-bzD"/>
+                                        <exclude reference="CfI-vu-gwC"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <constraints>
@@ -910,9 +936,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="1032"/>
             <connections>
-                <outlet property="btnApply" destination="ONd-KC-eB9" id="uOx-xe-B95"/>
+                <outlet property="btnApply" destination="ONd-KC-eB9" id="Q5s-eP-Y8H"/>
                 <outlet property="btnUserImage" destination="eFa-9K-KzQ" id="ali-l0-c0m"/>
-                <outlet property="consTopBtnApply" destination="NtG-Ba-jc4" id="Eyd-6c-6FO"/>
+                <outlet property="consHeightContentView" destination="BY6-ZP-au9" id="fXc-Xm-pj8"/>
                 <outlet property="consTopGroupJenKel" destination="wNH-IQ-XJd" id="muL-W1-xgU"/>
                 <outlet property="consTopGroupKota" destination="0OI-Ot-rOw" id="mMT-FS-qdV"/>
                 <outlet property="consTopGroupVerifikasiHP" destination="boc-SA-MYB" id="7tp-Yw-tb4"/>
@@ -921,17 +947,31 @@
                 <outlet property="fieldKodeVerifikasi" destination="wGA-C9-Nm3" id="sMZ-W9-eM5"/>
                 <outlet property="fieldNoHP" destination="Z9t-5a-RYV" id="rLD-Ma-o0Y"/>
                 <outlet property="fieldVerifikasiNoHP" destination="nhz-su-dk9" id="Ncw-7L-hwS"/>
-                <outlet property="groupFullname" destination="n2h-nz-vi1" id="0Nz-Pw-yeK"/>
-                <outlet property="groupNoHP" destination="U9W-Zj-pT5" id="m5c-jU-dLQ"/>
-                <outlet property="groupReferral" destination="n4V-1H-u9k" id="Pai-By-thF"/>
-                <outlet property="groupUploadFoto" destination="MJ7-Je-553" id="ro7-6P-8yh"/>
-                <outlet property="groupVerifikasiHP" destination="kPa-bT-jOM" id="Moo-S1-bCR"/>
+                <outlet property="lblFullname" destination="B0O-Na-xOR" id="rOC-we-X22"/>
                 <outlet property="lblJenisKelamin" destination="QgY-cl-mOd" id="5An-Ml-FFB"/>
                 <outlet property="lblJneCheckbox" destination="jld-8W-9ny" id="Fir-VU-70v"/>
                 <outlet property="lblKabKota" destination="3xT-ua-ceI" id="s2u-yc-Ia9"/>
                 <outlet property="lblProvinsi" destination="rij-nU-lhE" id="jcU-Y2-eP3"/>
                 <outlet property="lblTikiCheckbox" destination="W0e-6F-NOn" id="FqS-ik-YNC"/>
                 <outlet property="scrollView" destination="KSH-cy-Q7e" id="eWc-v5-JqC"/>
+                <outletCollection property="groups" destination="MJ7-Je-553" collectionClass="NSMutableArray" id="vdH-e9-Max"/>
+                <outletCollection property="groups" destination="n2h-nz-vi1" collectionClass="NSMutableArray" id="BTf-C0-PHT"/>
+                <outletCollection property="groups" destination="E7a-PD-ejz" collectionClass="NSMutableArray" id="mZ2-7M-D6m"/>
+                <outletCollection property="groups" destination="U9W-Zj-pT5" collectionClass="NSMutableArray" id="s2r-f8-rzK"/>
+                <outletCollection property="groups" destination="kPa-bT-jOM" collectionClass="NSMutableArray" id="bMz-Wk-1Nx"/>
+                <outletCollection property="groups" destination="aej-xc-zGt" collectionClass="NSMutableArray" id="c7d-5K-EuL"/>
+                <outletCollection property="groups" destination="Gxb-X2-XNj" collectionClass="NSMutableArray" id="hQQ-Vp-ImI"/>
+                <outletCollection property="groups" destination="n4V-1H-u9k" collectionClass="NSMutableArray" id="tZl-Ux-vms"/>
+                <outletCollection property="groups" destination="Aty-Np-VSc" collectionClass="NSMutableArray" id="2M9-FL-yLN"/>
+                <outletCollection property="consTopGroups" destination="5wz-Bk-btK" collectionClass="NSMutableArray" id="fjb-mC-XfX"/>
+                <outletCollection property="consTopGroups" destination="zO9-QW-cH9" collectionClass="NSMutableArray" id="dIk-VS-gjv"/>
+                <outletCollection property="consTopGroups" destination="wNH-IQ-XJd" collectionClass="NSMutableArray" id="qvC-4H-qZX"/>
+                <outletCollection property="consTopGroups" destination="vUp-L9-6RI" collectionClass="NSMutableArray" id="qXe-NH-vq9"/>
+                <outletCollection property="consTopGroups" destination="wAd-d5-25b" collectionClass="NSMutableArray" id="ndA-1P-EYZ"/>
+                <outletCollection property="consTopGroups" destination="u8a-E7-mbB" collectionClass="NSMutableArray" id="rUT-Op-nsl"/>
+                <outletCollection property="consTopGroups" destination="Rmr-xf-JHf" collectionClass="NSMutableArray" id="gBu-hN-FGg"/>
+                <outletCollection property="consTopGroups" destination="03G-ZX-fTK" collectionClass="NSMutableArray" id="aTG-bD-KYK"/>
+                <outletCollection property="consTopGroups" destination="NvR-Nw-HB3" collectionClass="NSMutableArray" id="Y2M-5O-Eon"/>
             </connections>
             <point key="canvasLocation" x="809" y="382"/>
         </viewController>

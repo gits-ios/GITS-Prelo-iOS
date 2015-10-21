@@ -357,6 +357,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
             t.tawarItem = d
+            t.loadInboxFirst = true
+            t.prodId = d.productID
             self.navigationController?.pushViewController(t, animated: true)
         }
     }

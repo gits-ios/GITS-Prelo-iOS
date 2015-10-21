@@ -204,16 +204,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (isProfileSet) {
                         self.dismiss()
                     } else {
-                        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
-                        println("userProfileData.json = \(userProfileData!.json)")
-                        println("id = \(userProfileData!.id)")
-                        println("token = \(token)")
-                        println("email = \(userProfileData!.email)")
-                        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
-                        profileSetupVC.userId = userProfileData!.id
-                        profileSetupVC.userToken = token
-                        profileSetupVC.userEmail = userProfileData!.email
-                        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+                        // Go to profile setup
+                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : false)
                     }
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
@@ -530,19 +522,20 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
                         // Go to profile setup
-                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                        self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : true)
                     }
                 }
             }
         }
     }
     
-    func toProfileSetup(userId : String, userToken : String, userEmail : String) {
+    func toProfileSetup(userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool) {
         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         profileSetupVC.userId = userId
         profileSetupVC.userToken = userToken
         profileSetupVC.userEmail = userEmail
+        profileSetupVC.isSocmedAccount = isSocmedAccount
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
@@ -562,7 +555,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
-        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        var profilePictureUrl : String?
+        if (userData["photo"]["medium"]["url"].string != nil) {
+            profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        }
         
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")

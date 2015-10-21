@@ -7,6 +7,7 @@
         <attribute name="packageId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leftImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>

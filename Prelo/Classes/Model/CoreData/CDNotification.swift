@@ -13,6 +13,7 @@ import CoreData
 class CDNotification : NSManagedObject {
     
     @NSManaged var notifType : String
+    @NSManaged var id : String
     @NSManaged var opened : Bool
     @NSManaged var read : Bool
     @NSManaged var message : String
@@ -25,10 +26,11 @@ class CDNotification : NSManagedObject {
     @NSManaged var leftImage : String
     @NSManaged var rightImage : String?
     
-    static func newOne(notifType : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : Int, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?) -> CDNotification? {
+    static func newOne(notifType : String, id : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : Int, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?) -> CDNotification? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDNotification", inManagedObjectContext: m!) as! CDNotification
         r.notifType = notifType
+        r.id = id
         r.opened = opened
         r.read = read
         r.message = message
@@ -148,6 +150,30 @@ class CDNotification : NSManagedObject {
             println("setAllNotifToOpened failed")
         } else {
             println("setAllNotifToOpened success")
+        }
+    }
+    
+    static func deleteNotifWithId(id : String) {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "id like[c] %@", id)
+        let fetchRequest = NSFetchRequest(entityName: "CDNotification")
+        fetchRequest.includesPropertyValues = false
+        fetchRequest.predicate = predicate
+        
+        var error : NSError?
+        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+            for result in results {
+                m?.deleteObject(result)
+            }
+            
+            var error : NSError?
+            if (m?.save(&error) != nil) {
+                println("Notification with id:\(id) deleted")
+            } else if let error = error {
+                println("delete Notification failed with error : \(error.userInfo)")
+            }
+        } else if let error = error {
+            println("delete Notification failed with fetch error : \(error)")
         }
     }
 }

@@ -38,6 +38,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var conHeightTextView : NSLayoutConstraint!
     var textViewGrowHandler : GrowingTextViewHandler!
     
+    var prodId : String = ""
+    var loadInboxFirst = false
     var tawarItem : TawarItem!
     var inboxMessages : [InboxMessage] = []
     var first = true
@@ -76,7 +78,23 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnTawar1.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         btnTawar2.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        if (tawarItem.opIsMe && tawarItem.threadState == 0)
+        adjustButtons()
+        
+        if (loadInboxFirst)
+        {
+            getInbox()
+        } else
+        {
+            if (tawarItem.threadId != "")
+            {
+                getMessages()
+            }
+        }
+    }
+    
+    func adjustButtons()
+    {
+        if (tawarItem.opIsMe == false && tawarItem.threadState == 0)
         {
             btnTawar1.hidden = true
             btnBeli.hidden = true
@@ -86,7 +104,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (tawarItem.threadState == 1) // udah di tawar
         {
             
-            if (tawarItem.opIsMe)
+            if (tawarItem.opIsMe == false)
             {
                 btnTawar1.hidden = true
                 btnBeli.hidden = true
@@ -103,11 +121,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 
                 btnBatal.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
             }
-        }
-        
-        if (tawarItem.threadId != "")
-        {
-            getMessages()
         }
     }
     
@@ -135,6 +148,21 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
         del.messagePool.removeDelegate(tawarItem.threadId)
         self.an_unsubscribeKeyboard()
+    }
+    
+    func getInbox()
+    {
+        self.tableView.hidden = true
+        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { req, resp, res, err in
+            self.tableView.hidden = false
+            let json = JSON(res!)
+            let data = json["data"]
+            let i = Inbox(jsn: data)
+            self.tawarItem = i
+            self.adjustButtons()
+            self.getMessages()
+            println(res)
+        }
     }
     
     func getMessages()
