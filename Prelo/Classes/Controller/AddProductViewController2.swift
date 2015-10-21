@@ -107,8 +107,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     index = 2
                 }
                 
-                selectOngkirByIndex(0)
                 selectWeightByIndex(index, overrideWeight: false)
+            }
+            
+            if let ongkir = editProduct?.json["_data"]["free_ongkir"].int
+            {
+                let index = (ongkir == 1) ? 0 : 1
+                selectOngkirByIndex(index)
             }
             
             if let oldPrice = editProduct?.json["_data"]["price_original"].int
@@ -387,6 +392,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             let o = ongkirViews[b.tag]
             self.highlightWeightView(true, weightView: o)
+            if (b.tag == 0) {
+                freeOngkir = 1
+            } else
+            {
+                freeOngkir = 0
+            }
         }
     }
     
@@ -588,7 +599,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "price":newPrice,
             "price_original":oldPrice,
             "weight":weight,
-            "free_ongkir":String(0),
+            "free_ongkir":String(freeOngkir),
             "product_condition_id":kodindisiId,
             "brand_id":merekId,
             "size":"S/38/8"]
@@ -603,6 +614,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             param["rm_image5"] = String(rm_image5)
             url = url + "/" + (editProduct?.productID)!
         } else
+        {
+            
+        }
+        
+        func printFullname(name : String)
         {
             
         }

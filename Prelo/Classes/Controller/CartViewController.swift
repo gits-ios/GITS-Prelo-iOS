@@ -108,6 +108,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             fullname = x
         }
         
+        var c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
+        c.keyboardType = UIKeyboardType.NumberPad
+        
         self.cells = [
             NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
             NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
@@ -132,10 +135,66 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
             }),
-            NSIndexPath(forRow: 3, inSection: 2):BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
+            NSIndexPath(forRow: 3, inSection: 2):c
         ]
     }
     
+    func adjustTotal()
+    {
+        var totalOngkir = 0
+        for i in 0...products.count-1
+        {
+            let cp = products[i]
+            
+            let json = arrayItem[i]
+            if let free = json["free_ongkir"].bool
+            {
+                if (free)
+                {
+                    continue
+                }
+            }
+            
+            if let arr = json["shipping_packages"].array
+            {
+                var sh = arr[0]
+                if (cp.packageId != "")
+                {
+                    for x in 0...arr.count-1
+                    {
+                        let shipping = arr[x]
+                        if let id = shipping["_id"].string
+                        {
+                            if (id == cp.packageId)
+                            {
+                                sh = shipping
+                            }
+                        }
+                    }
+                }
+                if let price = sh["price"].int
+                {
+                    totalOngkir += price
+                }
+            }
+            
+        }
+        
+        let b = cells[NSIndexPath(forRow: products.count, inSection: 0)]
+        if let total = self.currentCart?["_data"]["total_price"].int, let d = b
+        {
+            d.value = (totalOngkir + total).asPrice
+            if let c = cellViews[NSIndexPath(forRow: products.count, inSection: 0)] as? CartCellInput
+            {
+                c.txtField.text = d.value
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    var currentCart : JSON?
+    var bonusAvailable = false
     func synch()
     {
         tableView.hidden = true
@@ -145,13 +204,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
+        println(p)
+        
         let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\"}"
         
         request(APICart.Refresh(cart: p, address: a, voucher: voucher))
             .responseJSON {req, resp, res, err in
+                
+                println(res)
+                println()
+                
                 if let result: AnyObject = res
                 {
                     let json = JSON(result)
+                    self.currentCart = json
                     
                     if let error = json["_data"].error
                     {
@@ -165,8 +231,23 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         {
                             b.value = price
                         }
-                        //                    b.value = "Rp. " + String(json["_data"]["total_price"].int!)
                         self.cells[i] = b
+                        
+                        if let bonus = json["_data"]["bonus_available"].int
+                        {
+                            if (bonus != 0)
+                            {
+                                self.bonusAvailable = true
+                                let b2 = BaseCartData.instance("Bonus Prelo", placeHolder: nil, enable : false)
+                                if let price = json["_data"]["bonus_available"].int?.asPrice
+                                {
+                                    b2.value = price
+                                }
+                                b2.enable = false
+                                let i2 = NSIndexPath(forRow: self.products.count+1, inSection: 0)
+                                self.cells[i2] = b2
+                            }
+                        }
                         
                         self.arrayItem = json["_data"]["cart_details"].array!
                         
@@ -174,6 +255,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         self.tableView.delegate = self
                         self.tableView.reloadData()
                         self.tableView.hidden = false
+                        self.adjustTotal()
                     }
                 } else
                 {
@@ -225,6 +307,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
+        var user = CDUser.getOne()
+        user?.profiles.address = address
+        user?.profiles.postalCode = postal
+        UIApplication.appDelegate.saveContext()
+        
         let d = ["address":address, "province_id":selectedProvinsiID, "region_id":selectedKotaID, "postal_code":postal]
         let a = AppToolsObjC.jsonStringFrom(d)
         
@@ -234,6 +321,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.btnSend.enabled = true
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
+                    println(res)
                     var json = JSON(res!)
                     if let error = json["_message"].string
                     {
@@ -244,6 +332,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         c.orderID = (self.checkoutResult?["order_id"].string)!
                         c.totalPayment = (self.checkoutResult?["total_price"].int)!
                         c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
+                        c.transactionId = (self.checkoutResult?["transaction_id"].string)!
                         
                         for p in self.products
                         {
@@ -296,7 +385,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (section == 2) {
             return 4
         } else if (section == 0) {
-            return arrayItem.count+1
+            return arrayItem.count+1+((self.bonusAvailable) ? 1 : 0)
         } else if (section == 1) {
             return 2
         } else {
@@ -319,6 +408,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item") as! CartCellItem
+                let cp = products[indexPath.row]
+                i.selectedPaymentId = cp.packageId
                 i.adapt(arrayItem[indexPath.row])
                 i.cartItemCellDelegate = self
                 
@@ -329,6 +420,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 {
                     i.topLine?.hidden = true
                 }
+                
+                i.indexPath = indexPath
                 
                 cell = i
             }
@@ -522,6 +615,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func setPaymentOption(sender : UITapGestureRecognizer)
     {
+        let v = sender.view!
+        let i = v.tag
+        
+        if (i > 0)
+        {
+            UIAlertView.SimpleShow("Coming Soon :)", message: "")
+            return
+        }
         for b in sectionsPaymentOption
         {
             b.cartSelectAsPayment(false)
@@ -529,8 +630,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let b = sender.view as! BorderedView
         b.cartSelectAsPayment(true)
-        let v = sender.view!
-        let i = v.tag
+        
         let x = (UIScreen.mainScreen().bounds.size.width-32) * -CGFloat(i)
         consOffsetPaymentDesc?.constant = x
         
@@ -538,10 +638,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
 
     func itemNeedDelete(indexPath: NSIndexPath) {
+        let j = arrayItem[indexPath.row]
+        println(j)
         arrayItem.removeAtIndex(indexPath.row)
+        
+        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        let x = AppToolsObjC.jsonStringFrom(c)
+        
+        println(x)
+        
         let p = products[indexPath.row]
         products.removeAtIndex(indexPath.row)
-        
+        println(p.cpID)
         UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
         UIApplication.appDelegate.saveContext()
         
@@ -555,9 +663,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func itemNeedUpdateShipping(indexPath: NSIndexPath) {
         let j = arrayItem[indexPath.row]
+        let cp = products[indexPath.row]
         println(j)
         var names : Array<String> = []
-        if let shippings = j["shippings"].arrayObject
+        var arr = j["shipping_packages"].array
+        if let shippings = j["shipping_packages"].arrayObject
         {
             for s in shippings
             {
@@ -567,21 +677,32 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     names.append(name)
                 }
             }
-        }
-        
-        if (names.count > 0)
-        {
-            ActionSheetStringPicker.showPickerWithTitle("Select Shipping", rows: names, initialSelection: 0, doneBlock: {picker, index, value in
-                
-                }, cancelBlock: {picker in
-                    
-                }, origin: self.view)
+            
+            if (names.count > 0)
+            {
+                ActionSheetStringPicker.showPickerWithTitle("Select Shipping", rows: names, initialSelection: 0, doneBlock: {picker, index, value in
+                    let sjson = arr?[index]
+                    if let pid = sjson?["_id"].string
+                    {
+                        cp.packageId = pid
+                        let c = self.cellViews[indexPath] as! CartCellItem
+                        c.selectedPaymentId = pid
+                        c.adapt(self.arrayItem[indexPath.row])
+                        UIApplication.appDelegate.saveContext()
+                        self.tableView.reloadData()
+                        self.adjustTotal()
+                    }
+                    }, cancelBlock: {picker in
+                        
+                    }, origin: self.view)
+            }
         }
     }
     
     // MARK: - User Related Delegate
     func userLoggedIn() {
         user = CDUser.getOne()
+        products = CartProduct.getAll(User.EmailOrEmptyString)
         tableView.hidden = false
         createCells()
         synch()
@@ -620,6 +741,7 @@ class BaseCartData : NSObject
     var value : String?
     var enable : Bool = true
     var image : UIImage?
+    var keyboardType = UIKeyboardType.Default
     
     var pickerPrepDataBlock : PrepDataBlock?
     
@@ -844,7 +966,7 @@ class CartCellItem : UITableViewCell
     @IBOutlet var captionName : UILabel?
     @IBOutlet var captionPrice : UILabel?
     @IBOutlet var captionLocation : UILabel?
-    @IBOutlet var btnShippment : UILabel?
+    @IBOutlet var btnShippment : UIButton?
     @IBOutlet var ivCover : UIImageView?
     
     @IBOutlet var bottomLine : UIView?
@@ -854,6 +976,7 @@ class CartCellItem : UITableViewCell
         return false
     }
     
+    var selectedPaymentId : String = ""
     var cartItemCellDelegate : CartItemCellDelegate?
     
     func adapt (json : JSON)
@@ -861,7 +984,6 @@ class CartCellItem : UITableViewCell
         println(json)
         captionName?.text = json["name"].string!
         captionLocation?.text = ""
-//        captionLocation?.text = json["seller_region"]["name"].string!
         
         if let raw : Array<AnyObject> = json["display_picts"].arrayObject
         {
@@ -891,12 +1013,29 @@ class CartCellItem : UITableViewCell
             shade?.hidden = false
         } else {
             let sh = json["shipping_packages"].array!
-            let first = sh.first
-            var ongkir = json["is_free_ongkir"].bool == true ? 0 : first?["price"].int
-            ongkir = 0
-//            println(json)
-            let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : "(+ONGKIR " + ongkir!.asPrice + ")"
-            var priceString = json["price"].int!.asPrice
+            var first = sh.first
+            for i in 0...sh.count-1
+            {
+                let s = sh[i]
+                let id = s["_id"].string!
+                if (id == selectedPaymentId)
+                {
+                    first = s
+                }
+            }
+            if (selectedPaymentId == "")
+            {
+                first = sh.first
+            }
+            var ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
+            
+            if let name = first?["name"].string
+            {
+                self.btnShippment?.setTitle(name, forState: UIControlState.Normal)
+            }
+            
+            let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : " (+ONGKIR " + ongkir!.asPrice + ")"
+            var priceString = json["price"].int!.asPrice + ongkirString
             let string = priceString + "" + ""
             let attString = NSMutableAttributedString(string: string)
             attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorDark, NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: AppToolsObjC.rangeOf(priceString, inside: string))
@@ -913,6 +1052,7 @@ class CartCellItem : UITableViewCell
     {
         if let d = cartItemCellDelegate
         {
+            var row = indexPath.row
             d.itemNeedDelete(indexPath)
         }
     }

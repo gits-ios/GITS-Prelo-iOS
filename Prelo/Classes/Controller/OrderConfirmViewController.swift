@@ -14,13 +14,17 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     var cellData : [NSIndexPath : BaseCartData] = [:]
     
-    var orderID : String?
+    var orderID : String = ""
+    var transactionId : String = ""
     
     let titleOrderID = "Order ID"
     let titleBankTujuan = "Bank Tujuan"
     let titleBankKamu = "Bank Kamu"
     let titleRekening = "Rekening Atas Nama"
     let titleNominal = "Nominal Transfer"
+    
+    var overBack = false
+    var first = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +33,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
 
         // Do any additional setup after loading the view.
         
-        cellData[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instance(titleOrderID, placeHolder: "", value: orderID!, enable : false)
+        cellData[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instance(titleOrderID, placeHolder: "", value: orderID, enable : false)
         cellData[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance(titleBankTujuan, placeHolder: "", value: "", pickerPrepBlock: { picker in
             
             picker.items = ["Bank BCA", "Bank Mandiri", "Bank BNI"]
@@ -47,10 +51,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.sharedInstance().track("Checkout Confirmation")
+        if (first && overBack)
+        {
+            var x = self.navigationController?.viewControllers
+            x?.removeAtIndex((x?.count)!-2)
+            self.navigationController?.setViewControllers(x, animated: false)
+            first = false
+        }
         
-        let v = [self.navigationController?.viewControllers.first! as! UIViewController, self]
-        self.navigationController?.setViewControllers(v, animated: false)
+        Mixpanel.sharedInstance().track("Checkout Confirmation")
         
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
@@ -142,7 +151,25 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBAction func sendConfirm()
     {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        var orderId = transactionId
+        var bankTo = cellData[NSIndexPath(forRow: 0, inSection: 0)]
+        var bankFrom = cellData[NSIndexPath(forRow: 0, inSection: 0)]
+        var name = cellData[NSIndexPath(forRow: 0, inSection: 0)]
+        var nominal = cellData[NSIndexPath(forRow: 0, inSection: 0)]
+        
+        if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
+        {
+            let x = (nom as NSString).integerValue
+            request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                }
+            }
+        } else
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi semua data")
+        }
     }
 
     /*

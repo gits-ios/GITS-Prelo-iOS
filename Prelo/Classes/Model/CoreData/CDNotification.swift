@@ -18,7 +18,7 @@ class CDNotification : NSManagedObject {
     @NSManaged var message : String
     @NSManaged var ownerId : String
     @NSManaged var name : String
-    @NSManaged var type : Int
+    @NSManaged var type : NSNumber
     @NSManaged var objectName : String
     @NSManaged var objectId : String
     @NSManaged var time : String
@@ -34,7 +34,7 @@ class CDNotification : NSManagedObject {
         r.message = message
         r.ownerId = ownerId
         r.name = name
-        r.type = type
+        r.type = NSNumber(integer: type)
         r.objectName = objectName
         r.objectId = objectId
         r.time = time

@@ -264,6 +264,7 @@
 		21679A5C1B901CDA00F18F90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5B1B901CDA00F18F90 /* SystemConfiguration.framework */; };
 		21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5D1B901CE700F18F90 /* CoreGraphics.framework */; };
 		21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21679A5F1B901DD400F18F90 /* libicucore.dylib */; };
+		217251371BD4A18000926CA3 /* ContactPreloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217251361BD4A18000926CA3 /* ContactPreloViewController.swift */; };
 		217874631B98516900D355A8 /* merk.json in Resources */ = {isa = PBXBuildFile; fileRef = 217874621B98516900D355A8 /* merk.json */; };
 		217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */; };
 		217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
@@ -735,6 +736,7 @@
 		21679A5B1B901CDA00F18F90 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		21679A5D1B901CE700F18F90 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		21679A5F1B901DD400F18F90 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		217251361BD4A18000926CA3 /* ContactPreloViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPreloViewController.swift; sourceTree = "<group>"; };
 		217874621B98516900D355A8 /* merk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = merk.json; sourceTree = "<group>"; };
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
@@ -1506,6 +1508,7 @@
 				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
 				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
 				210000B91BCB89D500E16611 /* MessagePool.swift */,
+				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2277,6 +2280,7 @@
 				2141BBC21B54BE4C00787F5D /* NSProcessInfo+BFKit.swift in Sources */,
 				2141BBC91B54BE4C00787F5D /* UIFont+BFKit.swift in Sources */,
 				212C7D351B71F3EA00360C6A /* KumangCustomView.swift in Sources */,
+				217251371BD4A18000926CA3 /* ContactPreloViewController.swift in Sources */,
 				2141BBC11B54BE4C00787F5D /* NSObject+BFKit.swift in Sources */,
 				2141BBE41B54BE4C00787F5D /* SocketFixUTF8.swift in Sources */,
 				2119FE371BA2BC25006EF0CB /* AddProductViewController2.swift in Sources */,
@@ -2474,7 +2478,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2504,7 +2508,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

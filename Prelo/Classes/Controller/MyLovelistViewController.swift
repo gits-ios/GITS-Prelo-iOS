@@ -262,7 +262,7 @@ class MyLovelistCell : UITableViewCell {
             Constant.showDialog("Warning", message: "Produk sudah ada di keranjang belanja Anda")
             self.delegate?.gotoCart()
         } else { // Not in cart
-            if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString) == nil) { // Failed
+            if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
                 Constant.showDialog("Warning", message: "Gagal menyimpan produk ke keranjang belanja")
             } else { // Success
                 // TODO: Kirim API add to cart

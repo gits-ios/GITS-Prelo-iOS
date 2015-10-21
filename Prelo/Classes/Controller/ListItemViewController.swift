@@ -231,11 +231,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 if let desc = self.storeHeader?.captionDesc.text
                 {
-                    height = 260 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    height = 272 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
                 } else {
                     self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()
-                    height = 260 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    height = 272 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
                 }
                 self.storeHeader?.width = UIScreen.mainScreen().bounds.width
                 self.storeHeader?.height = CGFloat(height)

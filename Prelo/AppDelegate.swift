@@ -57,6 +57,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
         
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+        {
+            let setting = UIUserNotificationSettings(forTypes: (UIUserNotificationType.Badge|UIUserNotificationType.Sound|UIUserNotificationType.Alert), categories: nil)
+            UIApplication.sharedApplication().registerUserNotificationSettings(setting)
+        } else
+        {
+            let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
+            UIApplication.sharedApplication().registerForRemoteNotificationTypes(types)
+        }
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -236,6 +246,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 openURL: url,
                 sourceApplication: sourceApplication,
                 annotation: annotation)
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        println("Action : \(identifier)")
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        println("TOKEN : \(deviceToken)")
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("ERROR : \(error)")
     }
     
     // MARK: - Version Check

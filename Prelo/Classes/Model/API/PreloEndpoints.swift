@@ -311,6 +311,51 @@ enum APITransaction : URLRequestConvertible
     }
 }
 
+enum APITransaction2 : URLRequestConvertible
+{
+    static let basePath = "transaction"
+    case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String)
+
+    var method : Method {
+        switch self
+        {
+        default : return .POST
+        }
+    }
+    
+    var path : String {
+        switch self
+        {
+        case  .ConfirmPayment(_, _, _, _, let orderId) : return orderId + "/payment"
+        }
+    }
+    
+    var param : [String : AnyObject] {
+        switch self
+        {
+        case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _) :
+            return [
+                "target_bank":bankTo,
+                "source_bank":bankFrom,
+                "name":nama,
+                "nominal":nominal
+            ]
+        }
+    }
+    
+    var URLRequest : NSURLRequest {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction2.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+            
+        println("\(req.allHTTPHeaderFields)")
+            
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param)).0
+            
+        return r
+    }
+}
+
 enum APICart : URLRequestConvertible
 {
     static let basePath = "cart/"

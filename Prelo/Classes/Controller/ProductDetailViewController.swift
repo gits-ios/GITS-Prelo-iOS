@@ -343,7 +343,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             return
         }
         
-        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString) == nil) {
+        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()

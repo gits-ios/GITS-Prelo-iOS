@@ -99,6 +99,7 @@ class MessagePool: NSObject
     
     func stop()
     {
-        socket.close(fast: false)
+        
+        
     }
 }

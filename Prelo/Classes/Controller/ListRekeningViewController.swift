@@ -19,14 +19,33 @@ class ListRekeningViewController: BaseViewController {
     
     @IBOutlet var firstTap : UITapGestureRecognizer!
     
-    var rekenings = [["name":"Lord Kumang", "no":"123187263", "cabang":"Sorong", "bank_name":"Bank BCA"], ["name":"Lord Atep", "no":"878346587", "cabang":"Bandung", "bank_name":"Bank Mandiri"], ["name":"Lord Bendtner", "no":"298172391", "cabang":"Aceh", "bank_name":"Bank BNI"]]
+    var rekenings = [
+        ["name":"Fransiska PutriWinaHadiwidjana", "no":"06-404-72-677", "cabang":"Pucang Anom", "bank_name":"Bank BCA"],
+        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"131-007-304-1990", "cabang":"Cab. Bandung Dago", "bank_name":"Bank Mandiri"],
+        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"037-351-4488", "cabang":"Cab. Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.tapped(firstTap)
-//        setupViewRekeing(rekenings[0])
+    }
+    
+    var first = true
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let arr = self.navigationController?.viewControllers
+        {
+            if (first)
+            {
+                var x = arr
+                x.removeAtIndex(x.count-2)
+                x.removeAtIndex(x.count-2)
+                self.navigationController?.setViewControllers(x, animated: false)
+                first = false
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,14 +93,14 @@ class ListRekeningViewController: BaseViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
     }
-    */
 
 }

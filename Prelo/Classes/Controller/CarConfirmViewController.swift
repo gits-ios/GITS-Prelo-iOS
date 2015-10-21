@@ -11,6 +11,7 @@ import UIKit
 class CarConfirmViewController: BaseViewController {
 
     var orderID = ""
+    var transactionId = ""
     var totalPayment = 0
     var paymentMethod = ""
     
@@ -60,6 +61,7 @@ class CarConfirmViewController: BaseViewController {
         {
             let o = segue.destinationViewController as! OrderConfirmViewController
             o.orderID = self.orderID
+            o.transactionId = transactionId
         }
     }
 

@@ -189,7 +189,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             
         } else
         {
-            if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString) == nil) {
+            if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
                 success = false
                 Constant.showDialog("Failed", message: "Gagal Menyimpan")
             }

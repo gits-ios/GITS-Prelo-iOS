@@ -13,14 +13,18 @@ import CoreData
 class CartProduct: NSManagedObject {
 
     @NSManaged var cpID: String
+    @NSManaged var name: String
+    @NSManaged var packageId: String
     @NSManaged var email: String
 
-    static func newOne(cpID : String, email : String) -> CartProduct?
+    static func newOne(cpID : String, email : String, name : String) -> CartProduct?
     {
         let m = UIApplication.appDelegate.managedObjectContext
         let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m!) as! CartProduct
         c.cpID = cpID
         c.email = email
+        c.packageId = ""
+        c.name = name
         var err : NSError?
         if ((m?.save(&err))! == false) {
             return nil
@@ -72,7 +76,7 @@ class CartProduct: NSManagedObject {
         if (r == nil) {
             return []
         } else {
-            return r!
+            return (r?.sorted{ $0.name < $1.name})!
         }
     }
     
@@ -92,6 +96,6 @@ class CartProduct: NSManagedObject {
     
     var toDictionary : [String : String]
     {
-        return ["product_id":self.cpID, "email":self.email]
+        return ["product_id":self.cpID, "email":self.email, "shipping_package_id":packageId]
     }
 }

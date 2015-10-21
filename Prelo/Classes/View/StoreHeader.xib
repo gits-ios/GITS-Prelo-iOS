@@ -20,10 +20,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4JK-DK-Z99">
-                    <rect key="frame" x="0.0" y="184" width="600" height="102"/>
+                    <rect key="frame" x="0.0" y="196" width="600" height="90"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UiQ-dh-a5R">
-                            <rect key="frame" x="8" y="36" width="584" height="58"/>
+                            <rect key="frame" x="8" y="36" width="584" height="46"/>
                             <string key="text">Label
 Label
 Label</string>
@@ -32,7 +32,7 @@ Label</string>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDF-Yj-aqQ">
-                            <rect key="frame" x="0.0" y="101" width="600" height="1"/>
+                            <rect key="frame" x="0.0" y="89" width="600" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="xUD-h5-H3C"/>
@@ -87,7 +87,7 @@ Label</string>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abN-FJ-Vln">
-                    <rect key="frame" x="0.0" y="152" width="600" height="32"/>
+                    <rect key="frame" x="0.0" y="164" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-3L-eo2">
                             <rect key="frame" x="193" y="0.0" width="215" height="32"/>
@@ -169,16 +169,16 @@ Label</string>
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dashboard_cover.png" translatesAutoresizingMaskIntoConstraints="NO" id="saT-TT-F5P">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="152"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="164"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="152" id="Vdc-aD-MKp"/>
+                        <constraint firstAttribute="height" constant="164" id="Vdc-aD-MKp"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZL-hh-xAI">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="152"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="164"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fsB-B7-KsL">
-                            <rect key="frame" x="260" y="28" width="80" height="80"/>
+                            <rect key="frame" x="260" y="24" width="80" height="80"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tZw-8e-gaQ">
                                     <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -201,17 +201,32 @@ Label</string>
                             </userDefinedRuntimeAttributes>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCo-9k-qop">
-                            <rect key="frame" x="280" y="115" width="40" height="20"/>
+                            <rect key="frame" x="280" y="111" width="40" height="20"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-bo-D9H">
-                            <rect key="frame" x="562" y="117" width="30" height="27"/>
-                            <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                            <state key="normal" title="">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-bo-D9H" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                            <rect key="frame" x="241" y="136" width="119" height="20"/>
+                            <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="12"/>
+                            <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
+                            <state key="normal" title=" EDIT PROFILE">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                    <color key="value" red="0.97254901959999995" green="0.54117647059999996" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="edit" destination="YhO-QL-dRU" eventType="touchUpInside" id="8Yj-aD-BfJ"/>
                             </connections>
@@ -220,12 +235,18 @@ Label</string>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="mCo-9k-qop" firstAttribute="top" secondItem="fsB-B7-KsL" secondAttribute="bottom" constant="7" id="9kP-Ts-PSl"/>
-                        <constraint firstAttribute="centerY" secondItem="fsB-B7-KsL" secondAttribute="centerY" constant="8" id="BoC-sx-FsI"/>
+                        <constraint firstAttribute="centerY" secondItem="fsB-B7-KsL" secondAttribute="centerY" constant="18" id="BoC-sx-FsI"/>
                         <constraint firstAttribute="centerX" secondItem="mCo-9k-qop" secondAttribute="centerX" id="Rat-vn-f6R"/>
                         <constraint firstAttribute="bottom" secondItem="QZP-bo-D9H" secondAttribute="bottom" constant="8" id="Ud6-BR-Eml"/>
                         <constraint firstAttribute="centerX" secondItem="fsB-B7-KsL" secondAttribute="centerX" id="rjz-Jl-Xc2"/>
+                        <constraint firstAttribute="centerX" secondItem="QZP-bo-D9H" secondAttribute="centerX" id="vV4-P0-DU5"/>
                         <constraint firstAttribute="trailing" secondItem="QZP-bo-D9H" secondAttribute="trailing" constant="8" id="wkM-0x-dpe"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="wkM-0x-dpe"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

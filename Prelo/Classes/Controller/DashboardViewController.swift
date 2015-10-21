@@ -125,6 +125,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         return cell
     }
     
+    var contactUs : UIViewController?
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.row == 0)
@@ -143,6 +144,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         {
             let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
             self.previousController?.navigationController?.pushViewController(t, animated: true)
+        }
+        
+        if (indexPath.row == 4)
+        {
+            let c = self.storyboard?.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+            contactUs = c
+            if let v = c.view, let p = self.previousController?.navigationController?.view
+            {
+                v.alpha = 0
+                v.frame = p.bounds
+                self.previousController?.navigationController?.view.addSubview(v)
+                
+                v.alpha = 0
+                UIView.animateWithDuration(0.2, animations: {
+                    v.alpha = 1
+                })
+            }
         }
         
         if (indexPath.row == 5) {
