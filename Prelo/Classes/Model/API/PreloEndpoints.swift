@@ -628,6 +628,7 @@ enum Products : URLRequestConvertible
     case Unlove(productID : String)
     case GetComment(productID : String)
     case PostComment(productID : String, message : String, mentions : String)
+    case PostReview(productID : String, comment : String, star : Int)
     
     var method : Method
     {
@@ -641,6 +642,7 @@ enum Products : URLRequestConvertible
         case .Unlove(_):return .POST
         case .PostComment(_, _, _) : return .POST
         case .GetComment(_) :return .GET
+        case .PostReview(_, _, _) : return .POST
         }
     }
     
@@ -656,6 +658,7 @@ enum Products : URLRequestConvertible
         case .Unlove(let prodId):return prodId + "/unlove"
         case .PostComment(let pId, _, _):return pId + "/comments"
         case .GetComment(let pId) :return pId + "/comments"
+        case .PostReview(let pId, _, _) : return pId + "/review"
         }
     }
     
@@ -693,6 +696,11 @@ enum Products : URLRequestConvertible
         case .Unlove(let pId):return ["product_id":pId]
         case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
         case .GetComment(let pId) :return [:]
+        case .PostReview(_, let comment, let star) :
+            return [
+                "comment" : comment,
+                "star" : star
+            ]
         }
     }
     
