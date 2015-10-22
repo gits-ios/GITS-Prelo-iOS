@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MyProductDetailViewController : BaseViewController {
+class MyProductDetailViewController : BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -56,8 +56,24 @@ class MyProductDetailViewController : BaseViewController {
     @IBOutlet weak var lblHearts: UILabel!
     @IBOutlet weak var lblReviewContent: UILabel!
     
+    @IBOutlet weak var vwShadow: UIView!
+    @IBOutlet weak var vwKonfKirim: UIView!
+    @IBOutlet weak var lblKonfKurir: UILabel!
+    @IBOutlet weak var lblKonfOngkir: UILabel!
+    @IBOutlet weak var fldKonfNoResi: UITextField!
+    @IBOutlet weak var vwFotoBuktiContent: UIView!
+    @IBOutlet weak var vwIconKamera: UIView!
+    @IBOutlet weak var imgFotoBukti: UIImageView!
+    @IBOutlet weak var btnFotoBukti: UIButton!
+    @IBOutlet weak var btnKonfBatal: UIButton!
+    @IBOutlet weak var btnKonfKirim: UIButton!
+    @IBOutlet weak var consTopVwKonfKirim: NSLayoutConstraint!
+    var imagePicker : UIImagePickerController!
+    
     var transactionId : String?
     var transactionDetail : TransactionDetail?
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +87,22 @@ class MyProductDetailViewController : BaseViewController {
         super.viewWillAppear(animated)
         
         Mixpanel.sharedInstance().track("My Product Detail")
+        
+        // Agar shadow transparan
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+        
+        // Sembunyikan shadow dan pop up
+        vwShadow.hidden = true
+        vwKonfKirim.hidden = true
+        
+        // Agar icon kamera menjadi bulat
+        vwIconKamera.layer.cornerRadius = (vwIconKamera.frame.size.width) / 2
+        
+        // Set delegate
+        fldKonfNoResi.delegate = self
+        fldKonfNoResi.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        
+        self.validateKonfKirimFields()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -78,6 +110,20 @@ class MyProductDetailViewController : BaseViewController {
         
         // Load content
         getProductDetail()
+        
+        // Penanganan kemunculan keyboard
+        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+            if (o) {
+                self.consTopVwKonfKirim.constant = 10
+            } else {
+                self.consTopVwKonfKirim.constant = 100
+            }
+        }, completion: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.an_unsubscribeKeyboard()
     }
     
     func getProductDetail() {
@@ -166,6 +212,10 @@ class MyProductDetailViewController : BaseViewController {
         attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
         lblHearts.attributedText = attrStringLove
         
+        // Konfirmasi Pengiriman pop up
+        lblKonfKurir.text = transactionDetail?.shippingName
+        lblKonfOngkir.text = "Rp 8000" // FIXME: Ongkir
+        
         // Fix order status text width
         let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
         consWidthOrderStatus.constant = orderStatusFitSize.width
@@ -210,8 +260,168 @@ class MyProductDetailViewController : BaseViewController {
         consHeightContentView.constant = deltaX + narrowSpace
     }
     
-    @IBAction func konfirmasiPengirimanPressed(sender: AnyObject) {
+    // MARK: - GestureRecognizer Functions
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    // MARK: - ImagePickerDelegate Functions
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        imagePicker.dismissViewControllerAnimated(true, completion: nil)
         
+        imgFotoBukti.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        vwFotoBuktiContent.hidden = true
+        vwShadow.hidden = false
+        vwKonfKirim.hidden = false
+        
+        self.validateKonfKirimFields()
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+        
+        vwShadow.hidden = false
+        vwKonfKirim.hidden = false
+        
+        self.validateKonfKirimFields()
+    }
+    
+    // MARK: - UITextFieldDelegate Functions
+    
+    func textFieldDidChange(textField: UITextField) {
+        self.validateKonfKirimFields()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        fldKonfNoResi.resignFirstResponder()
+    }
+    
+    @IBAction func konfirmasiPengirimanPressed(sender: AnyObject) {
+        vwShadow.hidden = false
+        vwKonfKirim.hidden = false
+    }
+    
+    @IBAction func fotoBuktiPressed(sender: AnyObject) {
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        if TARGET_IPHONE_SIMULATOR == 1 {
+            imagePicker.sourceType = .PhotoLibrary
+        } else {
+            imagePicker.sourceType = .Camera
+        }
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    @IBAction func konfBatalPressed(sender: AnyObject) {
+        vwShadow.hidden = true
+        vwKonfKirim.hidden = true
+    }
+    
+    @IBAction func konfKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        
+        /*var imgData = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        
+        request(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text, image: imgData)).responseJSON {req, _, res, err in
+            println("Upload resi req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+                self.sendMode(false)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")
+                    self.sendMode(false)
+                } else { // Berhasil
+                    println("data = \(data)")
+                    Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+        }*/
+        
+        /*var imgData = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        
+        if (imgData != nil) {
+            var request = NSMutableURLRequest(URL: NSURL(string:"http://dev.prelo.id/api/transaction_product/\(self.transactionId!)/sent")!)
+            var session = NSURLSession.sharedSession()
+            
+            request.HTTPMethod = "POST"
+            
+            var boundary = NSString(format: "---------------------------14737809831466499882746641449")
+            var contentType = NSString(format: "multipart/form-data; boundary=%@",boundary)
+            request.addValue(contentType as String, forHTTPHeaderField: "Content-Type")
+            
+            var body = NSMutableData.alloc()
+            
+            // Title
+            body.appendData(NSString(format: "\r\n--%@\r\n",boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
+            body.appendData(NSString(format:"Content-Disposition: form-data; name=\"image\"\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
+            body.appendData("image".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+            
+            // Image
+            body.appendData(NSString(format: "\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
+            body.appendData(NSString(format:"Content-Disposition: form-data; name=\"profile_img\"; filename=\"img.jpg\"\\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
+            body.appendData(NSString(format: "Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
+            body.appendData(imgData)
+            body.appendData(NSString(format: "\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
+            
+            request.HTTPBody = body
+            
+            var returnData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+            
+            var returnString = NSString(data: returnData!, encoding: NSUTF8StringEncoding)
+        }*/
+        
+        /*AppToolsObjC.sendMultipart(["resi_number" : fldKonfNoResi.text], images: [imgFotoBukti.image!], withToken: User.Token!, success: {op, res in
+            println("konfKirim res = \(res)")
+            Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
+            self.navigationController?.popViewControllerAnimated(true)
+        }, failure: {op, err in
+            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+            self.sendMode(false)
+        })*/
+        
+        /*var dataRep = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        
+        upload(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text), multipartFormData: { form in
+                form.appendBodyPart(data: dataRep, name: "image", mimeType: "image/jpeg")
+            }, encodingCompletion: { result in
+                switch result {
+                case .Success(let s, _, _) :
+                    s.responseJSON {_, _, res, err in
+                        println("res = \(res)")
+                        if let error = err {
+                            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+                            self.sendMode(false)
+                        } else if let result : AnyObject = res {
+                            let json = JSON(result)
+                            println("json = \(json)")
+                            let data : Bool? = json["_data"].bool
+                            if (data == nil || data == false) { // Gagal
+                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")
+                                self.sendMode(false)
+                            } else { // Berhasil
+                                Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
+                                self.navigationController?.popViewControllerAnimated(true)
+                            }
+                        }
+                    }
+                case .Failure(let err) :
+                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+                    self.sendMode(false)
+                }
+        })*/
     }
     
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
@@ -233,6 +443,38 @@ class MyProductDetailViewController : BaseViewController {
                     self.navigationController?.pushViewController(t, animated: true)
                 }
             }
+        }
+    }
+    
+    // MARK: - Other Functions
+    
+    func validateKonfKirimFields() {
+        if (fldKonfNoResi.text.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
+            // Disable tombol kirim
+            btnKonfKirim.backgroundColor = Theme.GrayLight
+            btnKonfKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnKonfKirim.backgroundColor = Theme.PrimaryColor
+            btnKonfKirim.userInteractionEnabled = true
+        }
+    }
+    
+    func sendMode(mode: Bool) {
+        if (mode) {
+            fldKonfNoResi.userInteractionEnabled = false
+            btnFotoBukti.userInteractionEnabled = false
+            btnKonfBatal.userInteractionEnabled = false
+            btnKonfKirim.userInteractionEnabled = false
+            btnKonfKirim.setTitle("MENGIRIM...", forState: .Normal)
+            btnKonfKirim.backgroundColor = Theme.PrimaryColorDark
+        } else {
+            fldKonfNoResi.userInteractionEnabled = true
+            btnFotoBukti.userInteractionEnabled = true
+            btnKonfBatal.userInteractionEnabled = true
+            btnKonfKirim.userInteractionEnabled = true
+            btnKonfKirim.setTitle("KIRIM", forState: .Normal)
+            btnKonfKirim.backgroundColor = Theme.PrimaryColor
         }
     }
 }

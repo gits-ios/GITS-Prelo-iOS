@@ -182,7 +182,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         } else if (orderStatusText == OrderStatus.PembayaranPending) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Direview) {
-            p = [true, false, true, false, true, true, true, true, true, true]// FIXME: 3 dari belakang ganti false
+            p = [true, false, true, false, true, true, true, false, true, true]
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
@@ -348,29 +348,29 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     @IBAction func rvwKirimPressed(sender: AnyObject) {
-        self.btnRvwBatal.userInteractionEnabled = false
-        self.btnRvwKirim.titleLabel!.text = "MENGIRIM..."
-        self.btnRvwKirim.userInteractionEnabled = false
+        self.sendMode(true)
         request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {req, _, res, err in
             println("Post review req = \(req)")
             if (err != nil) { // Terdapat error
                 Constant.showDialog("Warning", message: "Error posting review: \(err!.description)")
-                self.btnRvwBatal.userInteractionEnabled = true
-                self.btnRvwKirim.titleLabel!.text = "KIRIM"
-                self.btnRvwKirim.userInteractionEnabled = true
+                self.sendMode(false)
             } else {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data == nil || data == false) { // Gagal
                     println("Error posting review")
-                    self.btnRvwBatal.userInteractionEnabled = true
-                    self.btnRvwKirim.titleLabel!.text = "KIRIM"
-                    self.btnRvwKirim.userInteractionEnabled = true
+                    self.sendMode(false)
                 } else { // Berhasil
                     println("data = \(data)")
                     Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                    self.sendMode(false)
                     self.vwShadow.hidden = true
                     self.vwReviewSeller.hidden = true
+                    
+                    // Reload content
+                    self.contentView.hidden = true
+                    self.loading.startAnimating()
+                    self.getPurchaseDetail()
                 }
             }
         }
@@ -391,6 +391,30 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         if (txtvwReview.text.isEmpty) {
             txtvwReview.text = TxtvwReviewPlaceholder
             txtvwReview.textColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    // MARK: - Other Functions
+    
+    func sendMode(mode: Bool) {
+        if (mode) {
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = false
+            }
+            self.txtvwReview.userInteractionEnabled = false
+            self.btnRvwBatal.userInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = false
+        } else {
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = true
+            }
+            self.txtvwReview.userInteractionEnabled = true
+            self.btnRvwBatal.userInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = true
         }
     }
 }
