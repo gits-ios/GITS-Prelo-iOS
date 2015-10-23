@@ -41,6 +41,64 @@ static UIDocumentInteractionController *staticDocController = NULL;
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
++ (void)PATHPostPhoto:(UIImage *)image param:(NSDictionary *)param token:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", token] forHTTPHeaderField:@"Authorization"];
+    manager.requestSerializer.timeoutInterval = 600;
+    
+    [manager POST:@"https://partner.path.com/1/moment/photo" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.1) name:@"image" fileName:@"prelo.jpg" mimeType:@"image/jpeg"];
+        NSDictionary *header = @{
+                                 @"Content-Disposition":@"form-data; name=\"data\"",
+                                 @"Content-Type":@"application/json"
+                                 };
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
+        [formData appendPartWithHeaders:header body:jsonData];
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        [[[UIAlertView alloc] initWithTitle:@"Path" message:@"Posted to path :)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+}
+
++ (void)sendMultipart:(NSDictionary *)param to:(NSString *)path images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", token] forHTTPHeaderField:@"Authorization"];
+    manager.requestSerializer.timeoutInterval = 600;
+    
+    [manager POST:path parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSInteger looped = 0;
+        for (NSString *key in param.allKeys)
+        {
+            NSDictionary *d = param[key];
+            NSString *filename = d[@"filename"];
+            if (!filename)
+            {
+                filename = @"";
+            }
+            NSData *data = d[@"data"];
+            NSString *mime = d[@"mimetype"];
+            [formData appendPartWithFileData:data name:key fileName:filename mimeType:mime];
+            looped++;
+        }
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+}
+
 + (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
     [AppToolsObjC sendMultipart:param images:images withToken:token to:@"http://dev.prelo.id/api/product" success:success failure:failure];

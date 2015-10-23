@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
+        <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="packageId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="leftImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notifType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="opened" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="ownerId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="read" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="rightImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="CDProvince" representedClassName="CDProvince" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="regions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDRegion" inverseName="province" inverseEntity="CDRegion" syncable="YES"/>
+    </entity>
+    <entity name="CDRegion" representedClassName="CDRegion" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="province" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDProvince" inverseName="regions" inverseEntity="CDProvince" syncable="YES"/>
+    </entity>
+    <entity name="CDUser" representedClassName="CDUser" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fullname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="others" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUserOther" inverseName="user" inverseEntity="CDUserOther" syncable="YES"/>
+        <relationship name="profiles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUserProfile" inverseName="user" inverseEntity="CDUserProfile" syncable="YES"/>
+    </entity>
+    <entity name="CDUserOther" representedClassName="CDUserOther" syncable="YES">
+        <attribute name="emailVerified" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="fbAccessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbUsername" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="instagramAccessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="instagramID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="instagramUsername" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isActiveSeller" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="lastLogin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneVerified" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="registerTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="seller" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="shippingIDs" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="shopName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shopPermalink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simplePermalink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitterAccessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitterID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitterTokenSecret" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="others" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <entity name="CDUserProfile" representedClassName="CDUserProfile" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pict" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postalCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provinceID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="regionID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="profiles" inverseEntity="CDUser" syncable="YES"/>
+    </entity>
+    <entity name="CDVersion" representedClassName="CDVersion" syncable="YES">
+        <attribute name="appVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadataVersion" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+<<<<<<< HEAD
+        <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="CDNotification" positionX="135" positionY="9" width="128" height="225"/>
+=======
+        <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="CDNotification" positionX="135" positionY="9" width="128" height="240"/>
+>>>>>>> 0cee4142564edb442ccdde9edc80d333d913cb6f
+        <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
+        <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
+        <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
+        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
+        <element name="CDUserProfile" positionX="153" positionY="9" width="128" height="180"/>
+        <element name="CDVersion" positionX="153" positionY="27" width="128" height="75"/>
+    </elements>
+</model>

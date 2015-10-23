@@ -26,7 +26,7 @@ struct PreloShareAgent
     var availibility : Bool = false
 }
 
-class PreloShareController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate
+class PreloShareController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentInteractionControllerDelegate, UIGestureRecognizerDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate
 {
 
     static var sharer : PreloShareController = PreloShareController()
@@ -53,12 +53,17 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (CDUser.pathTokenAvailable())
+        {
+            
+        }
+        
         let url = NSURL(string : "")
         let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
         agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor.brownColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
         agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#3b5998"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"fb://")!)))
         agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#00aced"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"twitter://timeline")!)))
-        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#cb2027"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
+        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#cb2027"), availibility: true))
         agents.append(PreloShareAgent(title: "Whatsapp", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#4dc247"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"whatsapp://app")!)))
         agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#4dc247"), availibility: Line.isLineInstalled()))
         agents.append(PreloShareAgent(title: "Salin", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
@@ -165,14 +170,79 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    func loginPath()
+    {
+        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        pathLoginVC.delegate = self
+        pathLoginVC.standAlone = true
+        let n = UINavigationController(rootViewController: pathLoginVC)
+        self.presentViewController(n, animated: true, completion: nil)
+    }
+    
+    func pathLoginSuccess(userData: JSON, token: String) {
+        registerPathToken(userData, token : token)
+        postToPath(pathImage!, token: token)
+    }
+    
+    func postToPath(image : UIImage, token : String)
+    {
+        let param = [
+            "caption":(item?.text)!
+        ]
+        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
+        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
+        a.show()
+        AppToolsObjC.PATHPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
+            a.dismissWithClickedButtonIndex(0, animated: true)
+            self.hide()
+            }, failure: nil)
+    }
+    
+    func hideLoading() {
+        
+    }
+    
+    func registerPathToken(userData : JSON, token : String)
+    {
+        let pathId = userData["id"].string!
+        let pathName = userData["name"].string!
+        let email = userData["email"].string!
+        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
+            println("Path login req = \(req)")
+            
+            if (err != nil) { // Terdapat error
+                
+            } else {
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
+    
     var mgInstagram : MGInstagram?
+    var pathImage : UIImage?
     func share(a : PreloShareAgent, image : UIImage)
     {
         if (a.title.lowercaseString == "instagram")
         {
             mgInstagram = MGInstagram()
             mgInstagram?.postImage(image, inView: self.view)
-//            MGInstagram().postImage(image, inView: self.view)
+        }
+        
+        if (a.title.lowercaseString == "path")
+        {
+            pathImage = image
+            if (CDUser.pathTokenAvailable())
+            {
+                postToPath(image, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+            } else
+            {
+                loginPath()
+            }
+            
         }
         
         if (a.title.lowercaseString == "whatsapp")

@@ -26,6 +26,10 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (CAGradientLayer *)gradientViewWithColor:(NSArray *)arrayColor withView:(UIView *)view;
 
++ (void) PATHPostPhoto:(UIImage *) image param:(NSDictionary *)param token:(NSString *)token success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
++ (void) sendMultipart:(NSDictionary *)param to:(NSString *)path images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 + (void) sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 + (void) sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success

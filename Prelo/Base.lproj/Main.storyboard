@@ -3657,10 +3657,10 @@ yang kamu gunakan</string>
                         <viewControllerLayoutGuide type="bottom" id="aur-uu-95S"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Q6-8V-fG5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FFS-7H-uzf">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FFS-7H-uzf">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3dS-JO-Z5K">
@@ -4195,7 +4195,9 @@ Keuntungan</string>
                             <constraint firstItem="FFS-7H-uzf" firstAttribute="top" secondItem="OY3-7e-YaE" secondAttribute="bottom" id="RZU-f8-QBh"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="LAi-FQ-7Hy"/>
                     <connections>
+                        <outlet property="btnSend" destination="7NE-RZ-5EY" id="zRa-Jl-JRk"/>
                         <outlet property="captionCharge" destination="30N-1w-BQg" id="M6i-AI-azP"/>
                         <outlet property="captionChargePercent" destination="QPv-74-Qyn" id="nYC-Qv-JMy"/>
                         <outlet property="captionPrice" destination="Dmv-aY-hGC" id="NhQ-5g-msW"/>
@@ -4219,7 +4221,7 @@ Keuntungan</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxK-TK-H0B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="985" y="-1752"/>
+            <point key="canvasLocation" x="1691" y="-1744"/>
         </scene>
         <!--My Product View Controller-->
         <scene sceneID="A3j-dz-k9Z">
@@ -4453,10 +4455,10 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="8LY-jt-2f4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EI3-fD-ZpS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-rW-1kl">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="8" id="FVZ-S0-ZdO">
@@ -4536,10 +4538,10 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="xcA-Ah-exn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hRr-9x-ECc">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hVm-Vu-0b4">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -10360,6 +10362,23 @@ Label / Merek</string>
             </objects>
             <point key="canvasLocation" x="-1377" y="-1752"/>
         </scene>
+        <!--Base Navigation Controller-->
+        <scene sceneID="9rB-x4-HO1">
+            <objects>
+                <navigationController id="nGb-Zs-ZJq" customClass="BaseNavigationController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8Oy-7d-CkX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Bil-tW-9db" kind="relationship" relationship="rootViewController" id="cuL-Ez-B43"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Uj-A2-Xqz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1691" y="-1034"/>
+        </scene>
     </scenes>
     <resources>
         <image name="basic_facebook.png" width="5" height="5"/>
@@ -10388,8 +10407,9 @@ Label / Merek</string>
         <image name="tour_3.png" width="828" height="1472"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pME-IT-gHt"/>
+        <segue reference="W6Y-eo-D2Q"/>
         <segue reference="MUV-Ui-6Bn"/>
-        <segue reference="gU7-9Q-bxr"/>
+        <segue reference="pME-IT-gHt"/>
+        <segue reference="cuL-Ez-B43"/>
     </inferredMetricsTieBreakers>
 </document>

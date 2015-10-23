@@ -22,6 +22,8 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
+    var standAlone = false
+    
     let pathClientId = "b0b1aca06485dadc5f9c04e799914107277a4a42"
     let pathClientSecret = "2f53945d5e9a94659dae8c982a47df24515cae79"
     let pathDeclineUrlString = "https://partner.path.com/oauth2/decline"
@@ -29,6 +31,9 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
         
         let url = NSURL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
         let requestObj = NSURLRequest(URL: url!)
@@ -40,6 +45,11 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         loadingPanel.hidden = false
         loading.startAnimating()
+    }
+    
+    func batal()
+    {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func webViewDidStartLoad(webView: UIWebView) {
@@ -59,7 +69,13 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
             self.delegate?.hideLoading()
             // Back to prev scene
-            self.navigationController?.popViewControllerAnimated(true)
+            if (self.standAlone)
+            {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else
+            {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
         } else if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
             let code : String = codeParam.substringWithRange(Range(start: advance(codeParam.startIndex, 5), end: codeParam.endIndex))
@@ -102,7 +118,14 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             }
             
             // Back to prev scene
-            self.navigationController?.popViewControllerAnimated(true)
+//            self.navigationController?.popViewControllerAnimated(true)
+            if (self.standAlone)
+            {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else
+            {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
         }
     }
 }

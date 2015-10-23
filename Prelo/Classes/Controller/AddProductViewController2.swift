@@ -641,6 +641,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 s.basePrice = price
             }
+            s.productID = (json["_data"]["_id"].string)!
             self.navigationController?.pushViewController(s, animated: true)
             }, failure: {op, err in
                 Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])

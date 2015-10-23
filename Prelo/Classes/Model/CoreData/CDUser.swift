@@ -18,6 +18,16 @@ class CDUser: NSManagedObject {
     @NSManaged var others: CDUserOther
     @NSManaged var profiles: CDUserProfile
     
+    static func pathTokenAvailable() -> Bool
+    {
+        if let t = NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")
+        {
+            return true
+        }
+        
+        return false
+    }
+    
     static func getOne() -> CDUser?
     {
         let fetchReq = NSFetchRequest(entityName: "CDUser")

@@ -347,6 +347,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             {
                 s.basePrice = price
             }
+            s.productID = (json["data"]["_data"].string)!
             self.navigationController?.pushViewController(s, animated: true)
         }, failure: {op, err in
             Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
