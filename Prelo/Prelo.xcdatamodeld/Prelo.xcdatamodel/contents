@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
         <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -7,10 +7,11 @@
         <attribute name="packageId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ids" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leftImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="names" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notifType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectName" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,6 +21,7 @@
         <attribute name="rightImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="CDProvince" representedClassName="CDProvince" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -78,7 +80,7 @@
     </entity>
     <elements>
         <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="CDNotification" positionX="135" positionY="9" width="128" height="225"/>
+        <element name="CDNotification" positionX="135" positionY="9" width="128" height="270"/>
         <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
         <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
         <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
