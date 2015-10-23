@@ -73,6 +73,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    @IBAction func termConditionPressed(sender: AnyObject) {
+        let termConditionVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameTermCondition, owner: nil, options: nil).first as! TermConditionViewController
+        self.navigationController?.pushViewController(termConditionVC, animated: true)
+    }
+    
     func fieldsVerified() -> Bool {
         if (txtUsername?.text == "") {
             var placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])

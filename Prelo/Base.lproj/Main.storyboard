@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -5347,7 +5347,7 @@ Keuntungan</string>
         <!--Product Comments Controller-->
         <scene sceneID="1Rl-xF-ar3">
             <objects>
-                <viewController id="89O-n7-3Ld" customClass="ProductCommentsController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductComments" id="89O-n7-3Ld" customClass="ProductCommentsController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BQi-o3-SDA"/>
                         <viewControllerLayoutGuide type="bottom" id="y72-qx-QcZ"/>

@@ -271,7 +271,7 @@ enum APITransaction : URLRequestConvertible
     case Purchases(status : String, current : String, limit : String)
     case Sells(status : String, current : String, limit : String)
     case TransactionDetail(id : String)
-    case ConfirmShipping(tpId : String, resiNum : String, image : NSData)
+    case ConfirmShipping(tpId : String, resiNum : String)
     
     var method : Method
     {
@@ -280,7 +280,7 @@ enum APITransaction : URLRequestConvertible
         case .Purchases(_, _, _) : return .GET
         case .Sells(_, _, _) : return .GET
         case .TransactionDetail(_) : return .GET
-        case .ConfirmShipping(_, _, _) : return .POST
+        case .ConfirmShipping(_, _) : return .POST
         }
     }
     
@@ -291,7 +291,7 @@ enum APITransaction : URLRequestConvertible
         case .Purchases(_, _, _) : return "buys"
         case .Sells(_, _, _) : return "sells"
         case .TransactionDetail(let id) : return id
-        case .ConfirmShipping(let tpId, _, _) : return "\(tpId)/sent"
+        case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
         }
     }
     
@@ -315,10 +315,9 @@ enum APITransaction : URLRequestConvertible
             return p
         case .TransactionDetail(_) :
             return [:]
-        case .ConfirmShipping(_, let resiNum, let image) :
+        case .ConfirmShipping(_, let resiNum) :
             let p = [
-                "resi_number" : resiNum,
-                "image" : image
+                "resi_number" : resiNum
             ]
             return p
         }

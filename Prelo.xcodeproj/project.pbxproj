@@ -373,6 +373,8 @@
 		44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708841BBA6E19001EACBF /* MyProductDetail.xib */; };
 		44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708851BBA6E19001EACBF /* MyProductProcessing.xib */; };
 		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
+		44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */; };
+		44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B861021BDA92D20020A9E3 /* TermCondition.xib */; };
 		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
@@ -870,6 +872,8 @@
 		44B708841BBA6E19001EACBF /* MyProductDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductDetail.xib; sourceTree = "<group>"; };
 		44B708851BBA6E19001EACBF /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
+		44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermConditionViewController.swift; sourceTree = "<group>"; };
+		44B861021BDA92D20020A9E3 /* TermCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermCondition.xib; sourceTree = "<group>"; };
 		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
@@ -1455,6 +1459,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */,
 				44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */,
 				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
@@ -1826,6 +1831,7 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
+				44B861021BDA92D20020A9E3 /* TermCondition.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1985,6 +1991,7 @@
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
+				44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
@@ -2094,6 +2101,7 @@
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
+				44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */,
 				2141BBC31B54BE4C00787F5D /* NSString+BFKit.swift in Sources */,

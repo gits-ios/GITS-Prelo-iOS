@@ -329,73 +329,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func konfKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         
-        /*var imgData = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
-        
-        request(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text, image: imgData)).responseJSON {req, _, res, err in
-            println("Upload resi req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
-                self.sendMode(false)
-            } else {
-                let json = JSON(res!)
-                let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
-                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")
-                    self.sendMode(false)
-                } else { // Berhasil
-                    println("data = \(data)")
-                    Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-            }
-        }*/
-        
-        /*var imgData = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
-        
-        if (imgData != nil) {
-            var request = NSMutableURLRequest(URL: NSURL(string:"http://dev.prelo.id/api/transaction_product/\(self.transactionId!)/sent")!)
-            var session = NSURLSession.sharedSession()
-            
-            request.HTTPMethod = "POST"
-            
-            var boundary = NSString(format: "---------------------------14737809831466499882746641449")
-            var contentType = NSString(format: "multipart/form-data; boundary=%@",boundary)
-            request.addValue(contentType as String, forHTTPHeaderField: "Content-Type")
-            
-            var body = NSMutableData.alloc()
-            
-            // Title
-            body.appendData(NSString(format: "\r\n--%@\r\n",boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
-            body.appendData(NSString(format:"Content-Disposition: form-data; name=\"image\"\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
-            body.appendData("image".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-            
-            // Image
-            body.appendData(NSString(format: "\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
-            body.appendData(NSString(format:"Content-Disposition: form-data; name=\"profile_img\"; filename=\"img.jpg\"\\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
-            body.appendData(NSString(format: "Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding)!)
-            body.appendData(imgData)
-            body.appendData(NSString(format: "\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding)!)
-            
-            request.HTTPBody = body
-            
-            var returnData = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
-            
-            var returnString = NSString(data: returnData!, encoding: NSUTF8StringEncoding)
-        }*/
-        
-        /*AppToolsObjC.sendMultipart(["resi_number" : fldKonfNoResi.text], images: [imgFotoBukti.image!], withToken: User.Token!, success: {op, res in
-            println("konfKirim res = \(res)")
-            Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-            self.navigationController?.popViewControllerAnimated(true)
-        }, failure: {op, err in
-            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
-            self.sendMode(false)
-        })*/
-        
-        /*var dataRep = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        var dataRep = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
         
         upload(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text), multipartFormData: { form in
-                form.appendBodyPart(data: dataRep, name: "image", mimeType: "image/jpeg")
+            form.appendBodyPart(data: dataRep, name: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
             }, encodingCompletion: { result in
                 switch result {
                 case .Success(let s, _, _) :
@@ -409,7 +346,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                             println("json = \(json)")
                             let data : Bool? = json["_data"].bool
                             if (data == nil || data == false) { // Gagal
-                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")
+                                let msg = json["message"]
+                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal: \(msg)")
                                 self.sendMode(false)
                             } else { // Berhasil
                                 Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
@@ -421,7 +359,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                     Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
                     self.sendMode(false)
                 }
-        })*/
+        })
     }
     
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {

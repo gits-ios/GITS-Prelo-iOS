@@ -120,6 +120,7 @@ class Tags : NSObject
     static let XibNameMyLovelist = "MyLovelist"
     static let XibNamePathLogin = "PathLogin"
     static let XibNameNotificationPage = "NotificationPage"
+    static let XibNameTermCondition = "TermCondition"
 }
 
 class OrderStatus : NSObject
