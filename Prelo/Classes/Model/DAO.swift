@@ -219,6 +219,14 @@ class UserProfile : NSObject {
         }
     }
     
+    var isPhoneVerified : Bool? {
+        if (json["others"]["is_phone_verified"] != nil) {
+            return json["others"]["is_phone_verified"].bool
+        } else {
+            return nil
+        }
+    }
+    
     // TODO : others: isPhoneVerified etc
 }
 

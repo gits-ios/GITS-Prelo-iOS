@@ -45,14 +45,14 @@ enum APIApp : URLRequestConvertible
     static let basePath = "app/"
     
     case Version(appType : String)
-    case Metadata
+    case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
     
     var method : Method
     {
         switch self
         {
         case .Version(_) : return .GET
-        case .Metadata : return .GET
+        case .Metadata(_, _, _, _, _, _) : return .GET
         }
     }
     
@@ -61,7 +61,7 @@ enum APIApp : URLRequestConvertible
         switch self
         {
         case .Version(_) : return "version"
-        case .Metadata : return "metadata"
+        case .Metadata(_, _, _, _, _, _) : return "metadata"
         }
     }
     
@@ -74,7 +74,16 @@ enum APIApp : URLRequestConvertible
                 "app_type" : appType
             ]
             return p
-        case .Metadata : return [:]
+        case .Metadata(let brands, let categories, let categorySizes, let shippings, let productConditions, let provincesRegions) :
+            let p = [
+                "brands" : brands,
+                "categories" : categories,
+                "cateogry_sizes" : categorySizes,
+                "shippings" : shippings,
+                "product_conditions" : productConditions,
+                "provinces_regions" : provincesRegions
+            ]
+            return p
         }
     }
     
@@ -543,6 +552,8 @@ enum APIUser : URLRequestConvertible
     case MyLovelist
     case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
+    case ResendVerificationSms(phone : String)
+    case VerifyPhone(phone : String, phoneCode : String)
     
     var method : Method
     {
@@ -557,6 +568,8 @@ enum APIUser : URLRequestConvertible
         case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
+        case .ResendVerificationSms(_) : return .POST
+        case .VerifyPhone(_, _) : return .POST
         }
     }
     
@@ -573,6 +586,8 @@ enum APIUser : URLRequestConvertible
         case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
+        case .ResendVerificationSms(_) : return "verify/resend_phone"
+        case .VerifyPhone(_, _) : return "verify/phone"
         }
     }
     
@@ -620,6 +635,15 @@ enum APIUser : URLRequestConvertible
                 "shop_name":shopName,
                 "description":description,
                 "shipping":shipping
+            ]
+        case .ResendVerificationSms(let phone) :
+            return [
+                "phone" : phone
+            ]
+        case .VerifyPhone(let phone, let phoneCode) :
+            return [
+                "phone" : phone,
+                "phone_code" : phoneCode
             ]
         }
     }

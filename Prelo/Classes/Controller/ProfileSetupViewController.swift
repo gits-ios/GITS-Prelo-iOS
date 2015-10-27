@@ -85,8 +85,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //hideGroups()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -174,40 +172,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         // Set content view height
         consHeightContentView.constant = deltaX + narrowSpace
     }
-    
-    /*func hideGroups() {
-        groupUploadFoto.hidden = true
-        groupFullname.hidden = true
-        groupVerifikasiHP.hidden = true
-        
-        // Naikin group lainnya
-        let separateHeight : CGFloat = 30
-        consTopGroupJenKel.constant -= groupUploadFoto.frame.size.height + groupFullname.frame.size.height + separateHeight
-        deltaHeight -= groupUploadFoto.frame.size.height + groupFullname.frame.size.height + separateHeight
-        consTopGroupKota.constant -= groupVerifikasiHP.frame.size.height + separateHeight
-        deltaHeight -= groupVerifikasiHP.frame.size.height + separateHeight
-        
-        // Sesuaikan tinggi scrollview content
-        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)
-        
-        /* Digunakan untuk FGD 4 Sept
-        groupFullname.hidden = true
-        groupNoHP.hidden = true
-        //groupReferral.hidden = true
-
-        // Naikin group lainnya
-        let separateHeight : CGFloat = 30
-        consTopGroupJenKel.constant -= groupFullname.frame.size.height
-        deltaHeight -= groupFullname.frame.size.height
-        consTopGroupVerifikasiHP.constant -= groupNoHP.frame.size.height
-        consTopGroupKota.constant -= groupNoHP.frame.size.height
-        deltaHeight -= groupNoHP.frame.size.height
-        //consTopBtnApply.constant -= groupReferral.frame.size.height + separateHeight
-        //deltaHeight -= groupReferral.frame.size.height + separateHeight
-        
-        // Sesuaikan tinggi scrollview content
-        self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, deltaHeight, 0)*/
-    }*/ // TO BE DELETED
     
     @IBAction func disableTextFields(sender : AnyObject)
     {
@@ -399,22 +363,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userReferral = fieldKodeReferral.text
             let userDeviceId = "dor" // FIXME: device id
             
-            // TODO: harusnya ini dipasang di phone verification karna kalau belum verification dianggap belum tuntas, jika exit app saat verification lalu buka app lagi harusnya belum kelogin
-            User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
-            if let d = self.userRelatedDelegate
-            {
-                d.userLoggedIn!()
-            }
-            if let c = CDUser.getOne()
-            {
-                Mixpanel.sharedInstance().identify(c.id)
-                Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-            } else {
-                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-            }
+            // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
+            // Set token first, because APIUser.SetupAccount need token
+            User.SetToken(self.userToken)
             
             request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
+                
+                // Delete token because user is considered not logged in
+                User.SetToken(nil)
+                
                 if let error = err {
                     Constant.showDialog("Warning", message: error.description)
                     self.btnApply.enabled = true
@@ -450,7 +407,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        // TODO: belum lengkap?
+                        // TODO: belum lengkap? simpan token socmed bila dari socmed
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                         
@@ -460,17 +417,17 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             println("Error while saving data")
                         } else {
                             println("Data saved")
-                            //self.btnSimpanData.enabled = true
-
-                            /* Digunakan jika setelah scene ini adalah scene phone verification
-                            // TODO : Coba POST phone verification dulu sebelum pindah scene
 
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+                            phoneVerificationVC.userId = self.userId
+                            phoneVerificationVC.userToken = self.userToken
+                            phoneVerificationVC.userEmail = self.userEmail
+                            phoneVerificationVC.isShowBackBtn = true
                             self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                            */
                             
                             // FOR TESTING (SKIP PHONE VERIFICATION)
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            //self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
                 }

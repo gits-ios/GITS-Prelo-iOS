@@ -165,20 +165,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                         
-                        /*User.StoreUser(data, email : email!)
-                        if (self.userRelatedDelegate != nil) {
-                            self.userRelatedDelegate?.userLoggedIn!()
-                        }
-                        
-                        if let c = CDUser.getOne()
-                        {
-                            Mixpanel.sharedInstance().identify(c.id)
-                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
-                        } else {
-                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                        }*/ // TO BE DELETED
-                        
                         self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false)
                     }
                 }
@@ -201,6 +187,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.userEmail = userEmail
         profileSetupVC.isSocmedAccount = isSocmedAccount
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
+    }
+    
+    func toPhoneVerification(userId : String, userToken : String, userEmail : String) {
+        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+        phoneVerificationVC.userId = userId
+        phoneVerificationVC.userToken = userToken
+        phoneVerificationVC.userEmail = userEmail
+        phoneVerificationVC.isShowBackBtn = false
+        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -389,8 +385,17 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     
                     // Next screen based on isProfileSet
                     if (isProfileSet) {
-                        // Go to dashboard
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        // If user haven't verified phone number, goto PhoneVerificationVC
+                        if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
+                            // Go to dashboard
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        } else {
+                            // Delete token because user is considered not logged in
+                            User.SetToken(nil)
+                            
+                            // Goto PhoneVerificationVC
+                            self.toPhoneVerification(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                        }
                     } else {
                         // Go to profile setup
                         self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : true)

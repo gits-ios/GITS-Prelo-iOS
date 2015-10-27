@@ -16,12 +16,30 @@ class PhoneVerificationViewController : BaseViewController {
     @IBOutlet weak var btnVerifikasi: UIButton!
     @IBOutlet weak var btnKirimUlang: UIButton!
     
+    // Variable from previous scene
+    var userId : String = ""
+    var userToken : String = ""
+    var userEmail : String = ""
+    var isShowBackBtn : Bool = false
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func viewDidLoad() {
+        // Show phone number
+        let userProfile : CDUserProfile = CDUserProfile.getOne()!
+        lblNoHp.text = userProfile.phone
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Verifikasi Handphone", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
+        if (isShowBackBtn) {
+            let newBackButton = UIBarButtonItem(title: " Verifikasi Handphone", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+            newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+            self.navigationItem.leftBarButtonItem = newBackButton
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -69,12 +87,71 @@ class PhoneVerificationViewController : BaseViewController {
     
     @IBAction func verifikasiPressed(sender: UIButton) {
         if (fieldsVerified()) {
-            Constant.showDialog("Success", message: "Verifikasi berhasil")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
+            // Set token first, because APIUser.ResendVerificationSms need token
+            User.SetToken(self.userToken)
+            
+            request(APIUser.VerifyPhone(phone: self.lblNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON {req, _, res, err in
+                // Delete token because user is considered not logged in
+                User.SetToken(nil)
+                
+                println("Verify phone req = \(req)")
+                if (err != nil) {
+                    Constant.showDialog("Warning", message: "Verify phone error: \(err?.description)")
+                } else {
+                    let json = JSON(res!)
+                    let data : Bool? = json["_data"].bool
+                    if (data == nil || data == false) { // Gagal
+                        Constant.showDialog("Warning", message: "Verify phone error")
+                    } else { // Berhasil
+                        println("data = \(data)")
+                        
+                        // Set user to logged in
+                        User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+                        if let d = self.userRelatedDelegate
+                        {
+                            d.userLoggedIn!()
+                        }
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                        
+                        // Dismiss view
+                        Constant.showDialog("Success", message: "Verifikasi berhasil")
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                }
+            }
         }
     }
     
     @IBAction func kirimUlangPressed(sender: UIButton) {
-        Constant.showDialog("Success", message: "Sms telah dikirim ulang")
+        // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
+        // Set token first, because APIUser.ResendVerificationSms need token
+        User.SetToken(self.userToken)
+        
+        request(APIUser.ResendVerificationSms(phone: self.lblNoHp.text!)).responseJSON {req, _, res, err in
+            // Delete token because user is considered not logged in
+            User.SetToken(nil)
+            
+            println("Resend verification sms req = \(req)")
+            if (err != nil) {
+                Constant.showDialog("Warning", message: "Resend sms error: \(err?.description)")
+            } else {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data == nil || data == false) { // Gagal
+                    Constant.showDialog("Warning", message: "Resend sms error")
+                } else { // Berhasil
+                    println("data = \(data)")
+                    Constant.showDialog("Success", message: "Sms telah dikirim ulang")
+                }
+            }
+        }
     }
 }
