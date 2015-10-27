@@ -28,5 +28,6 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "GIBadgeView.h"
+#import "AKPickerView.h"
 
 #endif

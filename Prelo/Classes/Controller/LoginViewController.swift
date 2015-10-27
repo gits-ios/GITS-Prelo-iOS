@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 //import UIViewController_KeyboardAnimation
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, UIAlertViewDelegate {
 
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtEmail : UITextField?
@@ -41,6 +41,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
 
         scrollView?.delegate = self
+        
+        txtEmail?.placeholder = "Username / Email"
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         
@@ -86,6 +88,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         self.navigationController?.pushViewController(registerVC, animated: true)
     }
     
+    @IBAction func forgotPassword(sender : AnyObject?)
+    {
+        let a = UIAlertView(title: "Lupa Password", message: "Masukan Username / Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
+        a.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        a.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 1)
+        {
+            request(.POST, "http://dev.prelo.id/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON { req, resp, res, err in
+                println(res)
+                UIAlertView.SimpleShow("Perhatian", message: "Email pemberitahuan sudah kami kirim ke alamat email kamu :)")
+            }
+        }
+    }
+    
     @IBAction func login(sender : AnyObject)
     {
         btnLogin?.enabled = false
@@ -100,6 +119,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         btnLogin?.enabled = false
         
         let email = txtEmail?.text
+        
+        if (email == "")
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username / email")
+            return
+        }
+        
         request(APIAuth.Login(email: email!, password: (txtPassword?.text)!))
             .responseJSON
             {_, _, json, err in

@@ -22,6 +22,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     static let TAG_START_HIDDEN = "œ"
     static let TAG_END_HIDDEN = "∑"
     
+    var merkMode = false
+    
     @IBOutlet var searchBar : UISearchBar!
     
     var showSearch : Bool
@@ -103,6 +105,11 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         
         self.tableView.tableFooterView = UIView()
         searchBar.delegate = self
+        
+        if (merkMode)
+        {
+            searchBar.placeholder = "Cari Atau Tambahkan Merek"
+        }
         
         self.showSearch = false
         
@@ -187,6 +194,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                 }
                 return false
             })
+            
+            usedItems.insert("Tambahkan merek '"+searchBar.text+"'", atIndex: 0)
         }
     }
     

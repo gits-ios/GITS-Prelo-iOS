@@ -19,6 +19,8 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchBar.placeholder = "Cari Merek atau Tambah Merek Baru"
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
@@ -80,7 +82,11 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return brands.count
+        if (searchBar.text == "")
+        {
+            return brands.count
+        }
+        return brands.count+1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -90,16 +96,40 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         }
         
-        let b = brands[indexPath.row]
-        if let name = b["name"].string
+        if (searchBar.text == "")
         {
-            c?.textLabel?.text = name
+            let b = brands[indexPath.row]
+            if let name = b["name"].string
+            {
+                c?.textLabel?.text = name
+            }
+        } else
+        {
+            if (indexPath.row == 0)
+            {
+                c?.textLabel?.text = "Gunakan '"+searchBar.text+"'"
+            } else
+            {
+                let b = brands[indexPath.row-1]
+                if let name = b["name"].string
+                {
+                    c?.textLabel?.text = name
+                }
+            }
         }
         
         return c!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if (searchBar.text == "")
+        {
+            
+        } else
+        {
+            
+        }
+        
         let b = brands[indexPath.row]
         if let id = b["_id"].string, name = b["name"].string
         {

@@ -27,17 +27,18 @@ class CDVersion: NSManagedObject {
     }
     
     static func saveVersion(json : JSON) {
+        println(json)
         let m = UIApplication.appDelegate.managedObjectContext
         let ver : CDVersion? = self.getOne()
         if (ver != nil) {
             // Update
             ver?.appVersion = json["version"].string!
-            ver?.metadataVersion = json["metadata_version"].string!
+//            ver?.metadataVersion = json["metadata_version"].string!
         } else {
             // Make new
             let newVer = NSEntityDescription.insertNewObjectForEntityForName("CDVersion", inManagedObjectContext: m!) as! CDVersion
             newVer.appVersion = json["version"].string!
-            newVer.metadataVersion = json["metadata_version"].string!
+//            newVer.metadataVersion = json["metadata_version"].string!
         }
         
         var err : NSError?

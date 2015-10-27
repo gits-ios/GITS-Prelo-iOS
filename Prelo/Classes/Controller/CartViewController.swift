@@ -365,6 +365,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
             },
         completion: nil)
+        
+        let checkTour = NSUserDefaults.standardUserDefaults().boolForKey("cartTour")
+        if (checkTour == false)
+        {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "cartTour")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.performSegueWithIdentifier("segTour", sender: nil)
+            
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddProductShareViewController: BaseViewController, PathLoginDelegate {
+class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate {
     
     @IBOutlet var arrayRow1 : [AddProductShareButton] = []
     @IBOutlet var arrayRow2 : [AddProductShareButton] = []
@@ -67,6 +67,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate {
                     loginFacebook()
                 }
                 
+                if (tag == 0)
+                {
+                    let ins = InstagramLoginViewController()
+                    self.navigationController?.pushViewController(ins, animated: true)
+                }
+                
             } else if (b.titleLabel?.text == "") // checked, uncheck it
             {
                 b.setTitle("", forState: UIControlState.Normal)
@@ -76,6 +82,22 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate {
         let p = percentages[tag]
         chargePercent = chargePercent + (p * (sender.active ? -1 : 1))
         adaptCharge()
+    }
+    
+    func instagramLoginFailed() {
+        
+    }
+    
+    func instagramLoginSuccess(token: String) {
+        request(APISocial.StoreInstagramToken(token: token)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                
+            } else
+            {
+                self.select(self.pathSender!)
+            }
+        }
     }
     
     func loginFacebook() {
@@ -187,9 +209,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate {
         {
             first = false
             super.viewDidAppear(animated)
-            var m = self.navigationController?.viewControllers
-            m?.removeAtIndex((m?.count)!-2)
-            self.navigationController?.viewControllers = m!
+//            var m = self.navigationController?.viewControllers
+//            m?.removeAtIndex((m?.count)!-2)
+//            self.navigationController?.viewControllers = m!
         }
     }
     

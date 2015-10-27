@@ -10,7 +10,7 @@ import UIKit
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate
 {
 
     @IBOutlet var txtName : SZTextView!
@@ -21,6 +21,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var conHeightTxtName : NSLayoutConstraint!
     @IBOutlet var conHeightTxtDesc : NSLayoutConstraint!
     @IBOutlet var conHeightWeightView : NSLayoutConstraint!
+    @IBOutlet var conHeightSize : NSLayoutConstraint!
     
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var imageViews : [UIImageView] = []
@@ -36,6 +37,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionKategori : UILabel!
     
     @IBOutlet var btnSubmit : UIButton!
+    
+    @IBOutlet var sizePicker : AKPickerView!
+    @IBOutlet var txtSize : UITextField!
+    
+    @IBOutlet var captionSize1 : UILabel!
+    @IBOutlet var captionSize2 : UILabel!
+    @IBOutlet var captionSize3 : UILabel!
+    
+    var sizes : Array<String> = []
     
     var productCategoryId = ""
     var kodindisiId = ""
@@ -56,6 +66,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
+        conHeightSize.constant = 0
+        sizePicker.superview?.hidden = true
+        
+        sizePicker.dataSource = self
+        sizePicker.delegate = self
+        
+        sizePicker.font = UIFont.systemFontOfSize(16)
+        sizePicker.highlightedFont = UIFont(name: "HelveticaNeue-Light", size: 16)
+        sizePicker.interitemSpacing = 20
+        sizePicker.fisheyeFactor = 0.001
+        sizePicker.pickerViewStyle = AKPickerViewStyle.Style3D
+        sizePicker.maskDisabled = false
         
         txtWeight.hidden = true
         
@@ -212,6 +235,19 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
+    }
+    
+    func numberOfItemsInPickerView(pickerView: AKPickerView!) -> Int {
+        return sizes.count
+    }
+    
+    func pickerView(pickerView: AKPickerView!, titleForItem item: Int) -> String! {
+        return sizes[item]
+    }
+    
+    func pickerView(pickerView: AKPickerView!, didSelectItem item: Int) {
+        let s = sizes[item]
+        txtSize.text = s.stringByReplacingOccurrencesOfString("\n", withString: "/")
     }
     
     func userLoggedIn() {
@@ -441,8 +477,81 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 self.productCategoryId = id
             }
+            
+            self.getSizes()
         }
         self.navigationController?.pushViewController(p, animated: true)
+    }
+    
+    func getSizes()
+    {
+        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {req, resp, res, err in
+            println(res)
+            if let x: AnyObject = res
+            {
+                let json = JSON(x)
+                let jsizes = json["_data"]["sizes"]
+                if let arr = jsizes["size_types"].array
+                {
+                    var sml : Array<String> = []
+                    var usa : Array<String> = []
+                    var eur : Array<String> = []
+                    for i in 0...arr.count-1
+                    {
+                        let d = arr[i]
+                        let name = d["name"].string!
+                        if let strings = d["sizes"].arrayObject
+                        {
+                            for c in 0...strings.count-1
+                            {
+                                if (i == 0)
+                                {
+                                    self.captionSize1.text = name
+                                    sml.append(strings[c] as! String)
+                                }
+                                
+                                if (i == 1)
+                                {
+                                    self.captionSize2.text = name
+                                    usa.append(strings[c] as! String)
+                                }
+                                
+                                if (i == 2)
+                                {
+                                    self.captionSize3.text = name
+                                    eur.append(strings[c] as! String)
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    self.sizes = []
+                    for i in 0...sml.count-1
+                    {
+                        self.sizes.append(usa[i] + "\n" + ((sml.count > 0) ? sml[i] : "") + "\n" + ((eur.count > 0) ? eur[i] : ""))
+                    }
+                    
+                    if (self.sizes.count > 0)
+                    {
+//                        self.sizePicker.selectItem(0, animated: false)
+                        self.sizePicker.collectionView.reloadData()
+                        self.sizePicker.selectItem(0, animated: false)
+                        self.conHeightSize.constant = 146
+                        self.sizePicker.superview?.hidden = false
+                    } else
+                    {
+                        self.conHeightSize.constant = 0
+                        self.sizePicker.superview?.hidden = true
+                    }
+                }
+            } else
+            {
+                self.conHeightSize.constant = 0
+                self.sizePicker.superview?.hidden = true
+            }
+            
+        }
     }
     
     @IBAction func pickKondisi(sender : UIButton)
@@ -494,6 +603,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if let url = s
         {
             let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+            p.merkMode = true
             p.prepDataBlock = { picker in
                 picker.textTitle = "Pilih Merek"
                 request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
@@ -514,7 +624,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         
                         picker.selectBlock = { s in
                             self.merekId = PickerViewController.RevealHiddenString(s)
-                            self.captionMerek.text = PickerViewController.HideHiddenString(s)
+                            var x : String = PickerViewController.HideHiddenString(s)
+                            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+                            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+                            self.captionMerek.text = x
                         }
                         
                         picker.items = items
@@ -586,9 +699,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
-        if (validateString(merekId, message: "Silahkan pilih merek produk") == false)
+        if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek produk")
             return
+        }
+        
+        if (conHeightSize.constant != 0 && txtSize.text == "")
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih ukuran")
         }
         
         self.btnSubmit.enabled = false
@@ -602,7 +721,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "free_ongkir":String(freeOngkir),
             "product_condition_id":kodindisiId,
             "brand_id":merekId,
-            "size":"S/38/8"]
+            "size":txtSize.text]
+        
+        if (merekId == "")
+        {
+            param.removeValueForKey("brand_id")
+            param["proposed_brand"] = captionMerek.text
+        }
+        
         var url = "http://dev.prelo.id/api/product"
         
         if (editMode)
@@ -655,7 +781,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     {
         if (text == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: message)
+            if (message != "")
+            {
+                UIAlertView.SimpleShow("Perhatian", message: message)
+            }
             return false
         }
         return true

@@ -16,6 +16,13 @@
 		210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AF1B8DD088000F2939 /* ic_hanger@2x.png */; };
 		210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959B01B8DD088000F2939 /* ic_tag@2x.png */; };
 		210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */; };
+		2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2109BCA11BDDF85E004F36C5 /* tour_1.jpg */; };
+		2109BCA51BDDF85E004F36C5 /* tour_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2109BCA21BDDF85E004F36C5 /* tour_2.jpg */; };
+		2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2109BCA31BDDF85E004F36C5 /* tour_3.jpg */; };
+		2109BCA81BDDF957004F36C5 /* InstagramLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */; };
+		2109BCAA1BDE228E004F36C5 /* CheckoutTourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */; };
+		2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */; };
+		2109BCB01BDF3529004F36C5 /* AKPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCAF1BDF3529004F36C5 /* AKPickerView.m */; };
 		210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210DF0E81B730764004AE3D9 /* ic_cc@2x.png */; };
 		210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210DF0E91B730764004AE3D9 /* ic_dollar@2x.png */; };
 		210DF0EF1B734CFD004AE3D9 /* CDUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */; };
@@ -171,10 +178,7 @@
 		215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */; };
 		215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */; };
 		215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
-		21621CC91BA1327E009BBACB /* tour_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CC61BA1327E009BBACB /* tour_1.png */; };
 		21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
-		21621CD01BA16203009BBACB /* tour_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCE1BA16203009BBACB /* tour_2.png */; };
-		21621CD11BA16203009BBACB /* tour_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 21621CCF1BA16203009BBACB /* tour_3.png */; };
 		21629A2A1BC51A4A00ACD014 /* TawarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21629A291BC51A4A00ACD014 /* TawarViewController.swift */; };
 		21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21660B221B70A9D000910CF1 /* CartProduct.swift */; };
 		216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */; };
@@ -407,6 +411,14 @@
 		210959AF1B8DD088000F2939 /* ic_hanger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_hanger@2x.png"; sourceTree = "<group>"; };
 		210959B01B8DD088000F2939 /* ic_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_tag@2x.png"; sourceTree = "<group>"; };
 		210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRekeningViewController.swift; sourceTree = "<group>"; };
+		2109BCA11BDDF85E004F36C5 /* tour_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_1.jpg; sourceTree = "<group>"; };
+		2109BCA21BDDF85E004F36C5 /* tour_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_2.jpg; sourceTree = "<group>"; };
+		2109BCA31BDDF85E004F36C5 /* tour_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_3.jpg; sourceTree = "<group>"; };
+		2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramLoginViewController.swift; sourceTree = "<group>"; };
+		2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutTourViewController.swift; sourceTree = "<group>"; };
+		2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = checkout_tour_1.jpg; sourceTree = "<group>"; };
+		2109BCAE1BDF3529004F36C5 /* AKPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKPickerView.h; sourceTree = "<group>"; };
+		2109BCAF1BDF3529004F36C5 /* AKPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKPickerView.m; sourceTree = "<group>"; };
 		210DF0E81B730764004AE3D9 /* ic_cc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cc@2x.png"; sourceTree = "<group>"; };
 		210DF0E91B730764004AE3D9 /* ic_dollar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_dollar@2x.png"; sourceTree = "<group>"; };
 		210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDUserProfile.swift; sourceTree = "<group>"; };
@@ -579,10 +591,7 @@
 		215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_love@2x.png"; sourceTree = "<group>"; };
 		215E6CD31B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
-		21621CC61BA1327E009BBACB /* tour_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_1.png; sourceTree = "<group>"; };
 		21621CCC1BA1337D009BBACB /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
-		21621CCE1BA16203009BBACB /* tour_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_2.png; sourceTree = "<group>"; };
-		21621CCF1BA16203009BBACB /* tour_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tour_3.png; sourceTree = "<group>"; };
 		21629A291BC51A4A00ACD014 /* TawarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TawarViewController.swift; sourceTree = "<group>"; };
 		21660B221B70A9D000910CF1 /* CartProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartProduct.swift; sourceTree = "<group>"; };
 		216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bca@2x.png"; sourceTree = "<group>"; };
@@ -957,6 +966,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2109BCAD1BDF3529004F36C5 /* AKPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				2109BCAE1BDF3529004F36C5 /* AKPickerView.h */,
+				2109BCAF1BDF3529004F36C5 /* AKPickerView.m */,
+			);
+			path = AKPickerView;
+			sourceTree = "<group>";
+		};
 		2115E6BF1B4A27E500509D2A = {
 			isa = PBXGroup;
 			children = (
@@ -1060,6 +1078,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				2109BCAD1BDF3529004F36C5 /* AKPickerView */,
 				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */,
@@ -1509,6 +1528,8 @@
 				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
 				210000B91BCB89D500E16611 /* MessagePool.swift */,
 				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
+				2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */,
+				2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1577,9 +1598,10 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				21621CCE1BA16203009BBACB /* tour_2.png */,
-				21621CCF1BA16203009BBACB /* tour_3.png */,
-				21621CC61BA1327E009BBACB /* tour_1.png */,
+				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
+				2109BCA11BDDF85E004F36C5 /* tour_1.jpg */,
+				2109BCA21BDDF85E004F36C5 /* tour_2.jpg */,
+				2109BCA31BDDF85E004F36C5 /* tour_3.jpg */,
 				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
 				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
 				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
@@ -1939,9 +1961,9 @@
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
-				21621CC91BA1327E009BBACB /* tour_1.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
+				2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
 				44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
@@ -1979,22 +2001,24 @@
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
+				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
+				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
-				21621CD11BA16203009BBACB /* tour_3.png in Resources */,
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
+				2109BCA51BDDF85E004F36C5 /* tour_2.jpg in Resources */,
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */,
 				21156EBC1B8F5B5D001D7842 /* UserProfile.xib in Resources */,
@@ -2026,7 +2050,6 @@
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
-				21621CD01BA16203009BBACB /* tour_2.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
@@ -2150,6 +2173,7 @@
 				2141BBB91B54BE4C00787F5D /* Dictionary+BFKit.swift in Sources */,
 				2141BBB61B54BE4C00787F5D /* BFTouchID.swift in Sources */,
 				216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */,
+				2109BCB01BDF3529004F36C5 /* AKPickerView.m in Sources */,
 				2141BBE21B54BE4C00787F5D /* SocketEngineClient.swift in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */,
@@ -2158,6 +2182,7 @@
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */,
 				211BC99A1B96EBBE00FDB1DC /* PreloShareController.swift in Sources */,
+				2109BCAA1BDE228E004F36C5 /* CheckoutTourViewController.swift in Sources */,
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -2271,6 +2296,7 @@
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,
 				2141BBB41B54BE4C00787F5D /* BFPassword.swift in Sources */,
 				2141BBAE1B54BE4C00787F5D /* Validation.swift in Sources */,
+				2109BCA81BDDF957004F36C5 /* InstagramLoginViewController.swift in Sources */,
 				2141BBCA1B54BE4C00787F5D /* UIImage+BFKit.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
@@ -2478,7 +2504,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2508,7 +2534,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "de533d44-617b-4ec5-b0ca-1cabfcd87bdc";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

@@ -92,6 +92,54 @@ enum APIApp : URLRequestConvertible
     }
 }
 
+enum APISocial : URLRequestConvertible
+{
+    static let basePath = "socmed/"
+    
+    case StoreInstagramToken(token : String)
+    
+    var method : Method
+        {
+            switch self
+            {
+            default : return .POST
+            }
+    }
+    
+    var path : String
+        {
+            switch self
+            {
+            case .StoreInstagramToken(_) : return "instagram"
+            }
+    }
+    
+    var param : [String : AnyObject]?
+        {
+            switch self
+            {
+            case .StoreInstagramToken(let appType) :
+                let p = [
+                    "access_token" : appType
+                ]
+                return p
+            }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISocial.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            println("\(req.allHTTPHeaderFields)")
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            
+            return r
+    }
+}
+
 enum APIWallet : URLRequestConvertible
 {
     static let basePath = "wallet/"
@@ -881,6 +929,7 @@ enum References : URLRequestConvertible
     case CategoryList
     case ProvinceList
     case CityList(provinceId : String)
+    case BrandAndSizeByCategory(category : String)
     
     var method : Method
     {
@@ -889,6 +938,7 @@ enum References : URLRequestConvertible
         case .CategoryList:return .GET
         case .ProvinceList:return .GET
         case .CityList(_):return .GET
+        case .BrandAndSizeByCategory(_) : return .GET
         }
     }
     
@@ -899,6 +949,7 @@ enum References : URLRequestConvertible
         case .CategoryList:return "categories"
         case .ProvinceList:return "provinces"
         case .CityList(_):return "cities"
+        case .BrandAndSizeByCategory(_) : return "brands_sizes"
         }
     }
     
@@ -909,6 +960,7 @@ enum References : URLRequestConvertible
         case .CategoryList:return ["prelo":"true"]
         case .ProvinceList:return ["prelo":"true"]
         case .CityList(let pId):return ["province":pId, "prelo":"true"]
+        case .BrandAndSizeByCategory(let catId) : return ["category_id":catId]
         }
     }
     
