@@ -79,7 +79,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) {
+                if (data == nil) { // Terdapat error
                     let obj : [String : String] = res as! [String : String]
                     let message = obj["_message"]
                     Constant.showDialog("Warning", message: "Error getting checkout list, message: \(message)")

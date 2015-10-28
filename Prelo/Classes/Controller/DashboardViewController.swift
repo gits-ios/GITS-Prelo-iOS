@@ -128,25 +128,30 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     var contactUs : UIViewController?
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.row == 0)
+        if (indexPath.row == 0) // Inbox
         {
             let i = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
             self.previousController?.navigationController?.pushViewController(i, animated: true)
         }
         
-        if (indexPath.row == 1) {
-            //println("Konfirmasi Pembayaran")
+        if (indexPath.row == 1) { // Konfirmasi Bayar
             let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
             self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
         }
         
-        if (indexPath.row == 2)
+        if (indexPath.row == 2) // Dompet
         {
             let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
             self.previousController?.navigationController?.pushViewController(t, animated: true)
         }
         
-        if (indexPath.row == 4)
+        if (indexPath.row == 3) // Voucher Gratis
+        {
+            let referralPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil).first as! ReferralPageViewController
+            self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
+        }
+        
+        if (indexPath.row == 4) // Hubungi Prelo
         {
             let c = self.storyboard?.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
             contactUs = c
@@ -163,19 +168,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             }
         }
         
-        if (indexPath.row == 5) {
+        if (indexPath.row == 5) // About
+        {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
             a.isShowLogout = true
             self.previousController?.navigationController?.pushViewController(a, animated: true)
         }
         
-        if (indexPath.row == 6)
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
-        }
-        
-        if (indexPath.row == 6)
+        if (indexPath.row == 6) // Tutorial
         {
             self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
         }

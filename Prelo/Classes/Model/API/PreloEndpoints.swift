@@ -611,6 +611,8 @@ enum APIUser : URLRequestConvertible
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
+    case ReferralData
+    case SetReferral(referralCode : String, deviceId : String)
     
     var method : Method
     {
@@ -627,6 +629,8 @@ enum APIUser : URLRequestConvertible
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
+        case .ReferralData : return .GET
+        case .SetReferral(_, _) : return .POST
         }
     }
     
@@ -645,6 +649,8 @@ enum APIUser : URLRequestConvertible
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
+        case .ReferralData : return "referral_bonus"
+        case .SetReferral(_, _) : return "referral"
         }
     }
     
@@ -702,6 +708,14 @@ enum APIUser : URLRequestConvertible
                 "phone" : phone,
                 "phone_code" : phoneCode
             ]
+        case .ReferralData :
+            return [:]
+        case .SetReferral(let referralCode, let deviceId) :
+            let p = [
+                "referral_code" : referralCode,
+                "device_id" : deviceId
+            ]
+            return p
         }
     }
     
