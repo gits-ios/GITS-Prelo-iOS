@@ -141,8 +141,8 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         //println("Row \(indexPath.row) selected")
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
-        let u = userCheckouts?[indexPath.item]
-        orderConfirmVC.orderID = "" // FIXME: benerin
+        let u : UserCheckout = (userCheckouts?[indexPath.item])!
+        orderConfirmVC.orderID = u.orderId
         self.navigationController?.pushViewController(orderConfirmVC, animated: true)
     }
     
