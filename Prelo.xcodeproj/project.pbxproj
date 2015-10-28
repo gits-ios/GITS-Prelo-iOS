@@ -2641,7 +2641,7 @@
 				2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */,
 				2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */,
 			);
-			currentVersion = 2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */;
+			currentVersion = 2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

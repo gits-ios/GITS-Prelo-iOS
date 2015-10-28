@@ -209,9 +209,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         {
             first = false
             super.viewDidAppear(animated)
-//            var m = self.navigationController?.viewControllers
-//            m?.removeAtIndex((m?.count)!-2)
-//            self.navigationController?.viewControllers = m!
+            var m = self.navigationController?.viewControllers
+            m?.removeAtIndex((m?.count)!-2)
+            self.navigationController?.viewControllers = m!
         }
     }
     
