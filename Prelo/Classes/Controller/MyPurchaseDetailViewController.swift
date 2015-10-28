@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MyPurchaseDetailViewController: BaseViewController {
+class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -55,6 +55,20 @@ class MyPurchaseDetailViewController: BaseViewController {
     @IBOutlet weak var lblHearts: UILabel!
     @IBOutlet weak var lblReviewContent: UILabel!
     
+    @IBOutlet weak var vwShadow: UIView!
+    @IBOutlet weak var vwReviewSeller: UIView!
+    @IBOutlet weak var lblRvwSellerName: UILabel!
+    @IBOutlet weak var lblRvwProductName: UILabel!
+    @IBOutlet weak var txtvwReview: UITextView!
+    @IBOutlet weak var btnRvwBatal: UIButton!
+    @IBOutlet weak var btnRvwKirim: UIButton!
+    @IBOutlet var btnsRvwLove: [UIButton]!
+    var loveValue : Int = 0
+    var txtvwGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
+    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
+    
     var transactionId : String?
     var transactionDetail : TransactionDetail?
     
@@ -100,6 +114,15 @@ class MyPurchaseDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         Mixpanel.sharedInstance().track("My Purchase Detail")
+        
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+        vwShadow.hidden = true
+        vwReviewSeller.hidden = true
+        txtvwReview.delegate = self
+        txtvwReview.text = TxtvwReviewPlaceholder
+        txtvwReview.textColor = UIColor.lightGrayColor()
+        txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
+        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -107,6 +130,19 @@ class MyPurchaseDetailViewController: BaseViewController {
         
         // Load content
         getPurchaseDetail()
+        
+        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+            if (o) {
+                self.consTopVwReviewSeller.constant = 10
+            } else {
+                self.consTopVwReviewSeller.constant = 150
+            }
+        }, completion: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.an_unsubscribeKeyboard()
     }
     
     func getPurchaseDetail() {
@@ -204,6 +240,10 @@ class MyPurchaseDetailViewController: BaseViewController {
         attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
         lblHearts.attributedText = attrStringLove
         
+        // Review Seller pop up
+        lblRvwSellerName.text = transactionDetail?.sellerName
+        lblRvwProductName.text = transactionDetail?.productName
+        
         // Fix order status text width
         let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
         consWidthOrderStatus.constant = orderStatusFitSize.width
@@ -262,6 +302,18 @@ class MyPurchaseDetailViewController: BaseViewController {
         consHeightContentView.constant = deltaX + narrowSpace
     }
     
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        txtvwReview.resignFirstResponder()
+    }
+    
     @IBAction func konfirmasiPembayaranPressed(sender: AnyObject) {
         let orderConfirmVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
         orderConfirmVC.orderID = transactionDetail!.id
@@ -269,6 +321,100 @@ class MyPurchaseDetailViewController: BaseViewController {
     }
     
     @IBAction func reviewSellerPressed(sender: AnyObject) {
-        
+        vwShadow.hidden = false
+        vwReviewSeller.hidden = false
+    }
+    
+    @IBAction func rvwLovePressed(sender: UIButton) {
+        var isFound = false
+        for (var i = 0; i < btnsRvwLove.count; i++) {
+            let b = btnsRvwLove[i]
+            if (!isFound) {
+                if (sender == b) {
+                    isFound = true
+                    loveValue = i + 1
+                    println("loveValue = \(loveValue)")
+                }
+                b.titleLabel!.text = ""
+            } else {
+                b.titleLabel!.text = ""
+            }
+        }
+    }
+    
+    @IBAction func rvwBatalPressed(sender: AnyObject) {
+        vwShadow.hidden = true
+        vwReviewSeller.hidden = true
+    }
+    
+    @IBAction func rvwKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {req, _, res, err in
+            println("Post review req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Error posting review: \(err!.description)")
+                self.sendMode(false)
+            } else {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data == nil || data == false) { // Gagal
+                    println("Error posting review")
+                    self.sendMode(false)
+                } else { // Berhasil
+                    println("data = \(data)")
+                    Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                    self.sendMode(false)
+                    self.vwShadow.hidden = true
+                    self.vwReviewSeller.hidden = true
+                    
+                    // Reload content
+                    self.contentView.hidden = true
+                    self.loading.startAnimating()
+                    self.getPurchaseDetail()
+                }
+            }
+        }
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (txtvwReview.textColor == UIColor.lightGrayColor()) {
+            txtvwReview.text = ""
+            txtvwReview.textColor = Theme.GrayDark
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if (txtvwReview.text.isEmpty) {
+            txtvwReview.text = TxtvwReviewPlaceholder
+            txtvwReview.textColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    // MARK: - Other Functions
+    
+    func sendMode(mode: Bool) {
+        if (mode) {
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = false
+            }
+            self.txtvwReview.userInteractionEnabled = false
+            self.btnRvwBatal.userInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = false
+        } else {
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = true
+            }
+            self.txtvwReview.userInteractionEnabled = true
+            self.btnRvwBatal.userInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = true
+        }
     }
 }

@@ -45,14 +45,14 @@ enum APIApp : URLRequestConvertible
     static let basePath = "app/"
     
     case Version(appType : String)
-    case Metadata
+    case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
     
     var method : Method
     {
         switch self
         {
         case .Version(_) : return .GET
-        case .Metadata : return .GET
+        case .Metadata(_, _, _, _, _, _) : return .GET
         }
     }
     
@@ -61,7 +61,7 @@ enum APIApp : URLRequestConvertible
         switch self
         {
         case .Version(_) : return "version"
-        case .Metadata : return "metadata"
+        case .Metadata(_, _, _, _, _, _) : return "metadata"
         }
     }
     
@@ -74,7 +74,16 @@ enum APIApp : URLRequestConvertible
                 "app_type" : appType
             ]
             return p
-        case .Metadata : return [:]
+        case .Metadata(let brands, let categories, let categorySizes, let shippings, let productConditions, let provincesRegions) :
+            let p = [
+                "brands" : brands,
+                "categories" : categories,
+                "cateogry_sizes" : categorySizes,
+                "shippings" : shippings,
+                "product_conditions" : productConditions,
+                "provinces_regions" : provincesRegions
+            ]
+            return p
         }
     }
     
@@ -195,6 +204,7 @@ enum APINotif : URLRequestConvertible
     case GetNotifs
     case OpenNotifs
     case ReadNotif(notifId : String)
+    case ReadMultiNotif(objectId : String, type : String)
     
     var method : Method
     {
@@ -203,6 +213,7 @@ enum APINotif : URLRequestConvertible
         case .GetNotifs : return .GET
         case .OpenNotifs : return .POST
         case .ReadNotif(_) : return .POST
+        case .ReadMultiNotif(_, _) : return .POST
         }
     }
     
@@ -213,6 +224,7 @@ enum APINotif : URLRequestConvertible
         case .GetNotifs : return ""
         case .OpenNotifs : return "open"
         case .ReadNotif(let notifId) : return "\(notifId)/read"
+        case .ReadMultiNotif(_, _) : return "read_multiple"
         }
     }
     
@@ -226,6 +238,12 @@ enum APINotif : URLRequestConvertible
             return [:]
         case .ReadNotif(_) :
             return [:]
+        case .ReadMultiNotif(let objectId, let type) :
+            let p = [
+                "object_id" : objectId,
+                "type" : type
+            ]
+            return p
         }
     }
     
@@ -310,6 +328,7 @@ enum APITransaction : URLRequestConvertible
     case Purchases(status : String, current : String, limit : String)
     case Sells(status : String, current : String, limit : String)
     case TransactionDetail(id : String)
+    case ConfirmShipping(tpId : String, resiNum : String)
     
     var method : Method
     {
@@ -318,6 +337,7 @@ enum APITransaction : URLRequestConvertible
         case .Purchases(_, _, _) : return .GET
         case .Sells(_, _, _) : return .GET
         case .TransactionDetail(_) : return .GET
+        case .ConfirmShipping(_, _) : return .POST
         }
     }
     
@@ -328,6 +348,7 @@ enum APITransaction : URLRequestConvertible
         case .Purchases(_, _, _) : return "buys"
         case .Sells(_, _, _) : return "sells"
         case .TransactionDetail(let id) : return id
+        case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
         }
     }
     
@@ -351,6 +372,11 @@ enum APITransaction : URLRequestConvertible
             return p
         case .TransactionDetail(_) :
             return [:]
+        case .ConfirmShipping(_, let resiNum) :
+            let p = [
+                "resi_number" : resiNum
+            ]
+            return p
         }
     }
     
@@ -574,6 +600,8 @@ enum APIUser : URLRequestConvertible
     case MyLovelist
     case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
+    case ResendVerificationSms(phone : String)
+    case VerifyPhone(phone : String, phoneCode : String)
     
     var method : Method
     {
@@ -588,6 +616,8 @@ enum APIUser : URLRequestConvertible
         case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
+        case .ResendVerificationSms(_) : return .POST
+        case .VerifyPhone(_, _) : return .POST
         }
     }
     
@@ -604,6 +634,8 @@ enum APIUser : URLRequestConvertible
         case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
+        case .ResendVerificationSms(_) : return "verify/resend_phone"
+        case .VerifyPhone(_, _) : return "verify/phone"
         }
     }
     
@@ -652,6 +684,15 @@ enum APIUser : URLRequestConvertible
                 "description":description,
                 "shipping":shipping
             ]
+        case .ResendVerificationSms(let phone) :
+            return [
+                "phone" : phone
+            ]
+        case .VerifyPhone(let phone, let phoneCode) :
+            return [
+                "phone" : phone,
+                "phone_code" : phoneCode
+            ]
         }
     }
     
@@ -677,6 +718,7 @@ enum Products : URLRequestConvertible
     case GetComment(productID : String)
     case PostComment(productID : String, message : String, mentions : String)
     case ShareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
+    case PostReview(productID : String, comment : String, star : Int)
     
     var method : Method
     {
@@ -691,6 +733,7 @@ enum Products : URLRequestConvertible
         case .PostComment(_, _, _) : return .POST
         case .GetComment(_) :return .GET
         case .ShareCommission(_, _, _, _, _) : return .POST
+        case .PostReview(_, _, _) : return .POST
         }
     }
     
@@ -707,6 +750,7 @@ enum Products : URLRequestConvertible
         case .PostComment(let pId, _, _):return pId + "/comments"
         case .GetComment(let pId) :return pId + "/comments"
         case .ShareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
+        case .PostReview(let pId, _, _) : return pId + "/review"
         }
     }
     
@@ -745,6 +789,11 @@ enum Products : URLRequestConvertible
         case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
         case .GetComment(let pId) :return [:]
         case .ShareCommission(let pId, let i, let p, let f, let t) : return ["instagram":i, "facebook":f, "path":p, "twitter":t]
+        case .PostReview(_, let comment, let star) :
+            return [
+                "comment" : comment,
+                "star" : star
+            ]
         }
     }
     

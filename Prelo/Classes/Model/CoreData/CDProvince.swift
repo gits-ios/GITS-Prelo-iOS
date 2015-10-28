@@ -91,4 +91,15 @@ class CDProvince : NSManagedObject {
             return (r!.first as! CDProvince).name
         }
     }
+    
+    static func getProvinceCount() -> Int {
+        let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
+        if (err != nil || r == nil) {
+            return 0
+        } else {
+            return r!.count
+        }
+    }
 }

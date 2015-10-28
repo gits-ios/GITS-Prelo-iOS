@@ -228,92 +228,22 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     // Next screen based on isProfileSet
                     if (isProfileSet) {
-                        self.dismiss()
+                        // If user haven't verified phone number, goto PhoneVerificationVC
+                        if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
+                            self.dismiss()
+                        } else {
+                            // Delete token because user is considered not logged in
+                            User.SetToken(nil)
+                            
+                            // Goto PhoneVerificationVC
+                            self.toPhoneVerification(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                        }
                     } else {
                         // Go to profile setup
                         self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : false)
                     }
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-                    
-                    /* TO BE DELETED
-                    let m = UIApplication.appDelegate.managedObjectContext
-                    let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                    c.id = json["_id"].string!
-                    c.email = json["email"].string!
-                    c.fullname = json["fullname"].string!
-                    
-                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                    let pr = json["profiles"]
-                    if let address = pr["address"].string
-                    {
-                        p.address = address
-                    } else {
-                        p.address = ""
-                    }
-                    if let desc = pr["description"].string
-                    {
-                        p.desc = desc
-                    } else {
-                        p.desc = ""
-                    }
-                    if let phone = pr["phone"].string
-                    {
-                        p.phone = phone
-                    } else {
-                        p.phone = ""
-                    }
-                    if let pict = pr["pict"].string
-                    {
-                        p.pict = pict
-                    } else {
-                        p.pict = ""
-                    }
-                    if let postal = pr["postal_code"].string
-                    {
-                        p.postalCode = postal
-                    } else
-                    {
-                        p.postalCode = ""
-                    }
-                    if let region = pr["region_id"].string
-                    {
-                        p.regionID = region
-                    } else
-                    {
-                        p.regionID = ""
-                    }
-                    if let province = pr["province_id"].string
-                    {
-                        p.provinceID = province
-                    } else
-                    {
-                        p.provinceID = ""
-                    }
-                    
-                    c.profiles = p
-                    UIApplication.appDelegate.saveContext()
-                    
-                    CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
-                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-                    if (self.userRelatedDelegate != nil) {
-                        self.userRelatedDelegate?.userLoggedIn!()
-                    }
-                    
-//                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                    
-                    if let c = CDUser.getOne()
-                    {
-                        Mixpanel.sharedInstance().identify(c.id)
-                        Mixpanel.sharedInstance().people.set(["$first_name":c.fullname, "$name":c.email, "user_id":c.id])
-                    } else {
-                        Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                    }
-                    
-                    Mixpanel.sharedInstance().track("Logged In")
-                    
-                    self.dismiss()*/
                 } else {
                     User.Logout()
                     self.btnLogin?.enabled = true
@@ -544,8 +474,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     // Next screen based on isProfileSet
                     if (isProfileSet) {
-                        // Go to dashboard
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        // If user haven't verified phone number, goto PhoneVerificationVC
+                        if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
+                            // Go to dashboard
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        } else {
+                            // Delete token because user is considered not logged in
+                            User.SetToken(nil)
+                            
+                            // Goto PhoneVerificationVC
+                            self.toPhoneVerification(userProfileData!.id, userToken : token, userEmail : userProfileData!.email)
+                        }
                     } else {
                         // Go to profile setup
                         self.toProfileSetup(userProfileData!.id, userToken : token, userEmail : userProfileData!.email, isSocmedAccount : true)
@@ -553,16 +492,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 }
             }
         }
-    }
-    
-    func toProfileSetup(userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool) {
-        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
-        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
-        profileSetupVC.userId = userId
-        profileSetupVC.userToken = userToken
-        profileSetupVC.userEmail = userEmail
-        profileSetupVC.isSocmedAccount = isSocmedAccount
-        self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
     // MARK: - Path Login
@@ -626,5 +555,27 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func hideLoading() {
         loadingPanel?.hidden = true
         loading?.stopAnimating()
+    }
+    
+    // MARK: Other functions
+    
+    func toProfileSetup(userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool) {
+        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+        profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
+        profileSetupVC.userId = userId
+        profileSetupVC.userToken = userToken
+        profileSetupVC.userEmail = userEmail
+        profileSetupVC.isSocmedAccount = isSocmedAccount
+        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+    }
+    
+    func toPhoneVerification(userId : String, userToken : String, userEmail : String) {
+        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+        phoneVerificationVC.userId = userId
+        phoneVerificationVC.userToken = userToken
+        phoneVerificationVC.userEmail = userEmail
+        phoneVerificationVC.isShowBackBtn = false
+        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
     }
 }

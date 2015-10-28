@@ -13,7 +13,7 @@ import CoreData
 class CDNotification : NSManagedObject {
     
     @NSManaged var notifType : String
-    @NSManaged var id : String
+    @NSManaged var ids : String
     @NSManaged var opened : Bool
     @NSManaged var read : Bool
     @NSManaged var message : String
@@ -25,23 +25,27 @@ class CDNotification : NSManagedObject {
     @NSManaged var time : String
     @NSManaged var leftImage : String
     @NSManaged var rightImage : String?
+    @NSManaged var weight : NSNumber
+    @NSManaged var names : String
     
-    static func newOne(notifType : String, id : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : Int, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?) -> CDNotification? {
+    static func newOne(notifType : String, ids : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : NSNumber, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?, weight : NSNumber, names : String) -> CDNotification? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDNotification", inManagedObjectContext: m!) as! CDNotification
         r.notifType = notifType
-        r.id = id
+        r.ids = ids
         r.opened = opened
         r.read = read
         r.message = message
         r.ownerId = ownerId
         r.name = name
-        r.type = NSNumber(integer: type)
+        r.type = type
         r.objectName = objectName
         r.objectId = objectId
         r.time = time
         r.leftImage = leftImage
         r.rightImage = rightImage
+        r.weight = weight
+        r.names = names
         var err : NSError?
         if ((m?.save(&err))! == false) {
             return nil
@@ -153,9 +157,9 @@ class CDNotification : NSManagedObject {
         }
     }
     
-    static func deleteNotifWithId(id : String) {
+    static func deleteNotifWithIds(ids : String) {
         let m = UIApplication.appDelegate.managedObjectContext
-        let predicate = NSPredicate(format: "id like[c] %@", id)
+        let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
         fetchRequest.includesPropertyValues = false
         fetchRequest.predicate = predicate
@@ -168,12 +172,27 @@ class CDNotification : NSManagedObject {
             
             var error : NSError?
             if (m?.save(&error) != nil) {
-                println("Notification with id:\(id) deleted")
+                println("Notification with ids:\(ids) deleted")
             } else if let error = error {
                 println("delete Notification failed with error : \(error.userInfo)")
             }
         } else if let error = error {
             println("delete Notification failed with fetch error : \(error)")
+        }
+    }
+    
+    static func getNotifWithObjectId(objectId : String, andType type : NSNumber) -> CDNotification? {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "objectId like[c] %@ AND type == %@", objectId, type)
+        let fetchReq = NSFetchRequest(entityName: "CDNotification")
+        fetchReq.predicate = predicate
+        
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDNotification)
         }
     }
 }

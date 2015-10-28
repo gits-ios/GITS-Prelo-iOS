@@ -13,7 +13,12 @@ import CoreData
 class CDVersion: NSManagedObject {
 
     @NSManaged var appVersion: String
-    @NSManaged var metadataVersion: String
+    @NSManaged var brandsVersion : NSNumber
+    @NSManaged var categoriesVersion : NSNumber
+    @NSManaged var categorySizesVersion : NSNumber
+    @NSManaged var shippingsVersion : NSNumber
+    @NSManaged var productConditionsVersion : NSNumber
+    @NSManaged var provincesRegionsVersion : NSNumber
     
     static func getOne() -> CDVersion? {
         let fetchReq = NSFetchRequest(entityName : "CDVersion")
@@ -26,19 +31,29 @@ class CDVersion: NSManagedObject {
         }
     }
     
-    static func saveVersion(json : JSON) {
-        println(json)
+    static func saveVersions(json : JSON) {
         let m = UIApplication.appDelegate.managedObjectContext
         let ver : CDVersion? = self.getOne()
         if (ver != nil) {
             // Update
             ver?.appVersion = json["version"].string!
-//            ver?.metadataVersion = json["metadata_version"].string!
+            ver?.brandsVersion = json["metadata_versions"]["brands"].number!
+            ver?.categoriesVersion = json["metadata_versions"]["categories"].number!
+            ver?.categorySizesVersion = json["metadata_versions"]["category_sizes"].number!
+            ver?.shippingsVersion = json["metadata_versions"]["shippings"].number!
+            ver?.productConditionsVersion = json["metadata_versions"]["product_conditions"].number!
+            ver?.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         } else {
             // Make new
             let newVer = NSEntityDescription.insertNewObjectForEntityForName("CDVersion", inManagedObjectContext: m!) as! CDVersion
             newVer.appVersion = json["version"].string!
-//            newVer.metadataVersion = json["metadata_version"].string!
+            newVer.appVersion = json["version"].string!
+            newVer.brandsVersion = json["metadata_versions"]["brands"].number!
+            newVer.categoriesVersion = json["metadata_versions"]["categories"].number!
+            newVer.categorySizesVersion = json["metadata_versions"]["category_sizes"].number!
+            newVer.shippingsVersion = json["metadata_versions"]["shippings"].number!
+            newVer.productConditionsVersion = json["metadata_versions"]["product_conditions"].number!
+            newVer.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         }
         
         var err : NSError?

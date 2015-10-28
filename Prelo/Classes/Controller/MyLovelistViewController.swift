@@ -217,7 +217,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 64
+        return 80
     }
     
     // MARK: - IBActions

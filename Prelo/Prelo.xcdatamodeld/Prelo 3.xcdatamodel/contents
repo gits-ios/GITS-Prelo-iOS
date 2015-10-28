@@ -1,43 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CartProduct" representedClassName="CartProduct" syncable="YES">
         <attribute name="cpID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="packageId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="CDBrand" representedClassName="CDBrand" syncable="YES">
-        <attribute name="categoryIds" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="v" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-    </entity>
-    <entity name="CDCategory" representedClassName="CDCategory" syncable="YES">
-        <attribute name="categorySizeId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="imageName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isParent" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="level" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="order" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="permalink" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="children" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDCategory" inverseName="parent" inverseEntity="CDCategory" syncable="YES"/>
-        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDCategory" inverseName="children" inverseEntity="CDCategory" syncable="YES"/>
-    </entity>
-    <entity name="CDCategorySize" representedClassName="CDCategorySize" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="typeOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="typeSizes" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="v" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-    </entity>
     <entity name="CDNotification" representedClassName="CDNotification" syncable="YES">
-        <attribute name="ids" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="leftImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="names" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notifType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectName" optional="YES" attributeType="String" syncable="YES"/>
@@ -47,13 +20,6 @@
         <attribute name="rightImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="weight" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-    </entity>
-    <entity name="CDProductCondition" representedClassName="CDProductCondition" syncable="YES">
-        <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="order" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="CDProvince" representedClassName="CDProvince" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -64,12 +30,6 @@
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="province" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDProvince" inverseName="regions" inverseEntity="CDProvince" syncable="YES"/>
-    </entity>
-    <entity name="CDShipping" representedClassName="CDShipping" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="packageId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="packageName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDUser" representedClassName="CDUser" syncable="YES">
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -114,26 +74,16 @@
     </entity>
     <entity name="CDVersion" representedClassName="CDVersion" syncable="YES">
         <attribute name="appVersion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="brandsVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="categoriesVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="categorySizesVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="productConditionsVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="provincesRegionsVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="shippingsVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="metadataVersion" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CartProduct" positionX="-27" positionY="-144" width="128" height="105"/>
-        <element name="CDCategorySize" positionX="144" positionY="63" width="128" height="133"/>
-        <element name="CDNotification" positionX="-180" positionY="180" width="128" height="270"/>
-        <element name="CDProductCondition" positionX="153" positionY="216" width="128" height="103"/>
-        <element name="CDProvince" positionX="-180" positionY="72" width="128" height="90"/>
-        <element name="CDRegion" positionX="-180" positionY="-54" width="128" height="90"/>
-        <element name="CDShipping" positionX="-18" positionY="-18" width="128" height="103"/>
-        <element name="CDUser" positionX="126" positionY="-144" width="128" height="120"/>
+        <element name="CartProduct" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="CDNotification" positionX="135" positionY="9" width="128" height="225"/>
+        <element name="CDProvince" positionX="135" positionY="9" width="128" height="90"/>
+        <element name="CDRegion" positionX="144" positionY="18" width="128" height="90"/>
+        <element name="CDUser" positionX="187" positionY="-54" width="128" height="120"/>
         <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
-        <element name="CDUserProfile" positionX="135" positionY="-423" width="128" height="180"/>
-        <element name="CDVersion" positionX="-9" positionY="345" width="128" height="150"/>
-        <element name="CDCategory" positionX="-11" positionY="117" width="128" height="193"/>
-        <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
+        <element name="CDUserProfile" positionX="153" positionY="9" width="128" height="180"/>
+        <element name="CDVersion" positionX="153" positionY="27" width="128" height="75"/>
     </elements>
 </model>

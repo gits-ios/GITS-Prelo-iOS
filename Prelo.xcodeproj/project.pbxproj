@@ -377,6 +377,10 @@
 		44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708841BBA6E19001EACBF /* MyProductDetail.xib */; };
 		44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708851BBA6E19001EACBF /* MyProductProcessing.xib */; };
 		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
+		44B779DD1BDF4AF300D93D2D /* CDCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DC1BDF4AF300D93D2D /* CDCategory.swift */; };
+		44B779DF1BDF72BB00D93D2D /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
+		44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */; };
+		44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B861021BDA92D20020A9E3 /* TermCondition.xib */; };
 		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
@@ -388,6 +392,9 @@
 		44C18DAB1BC3C00300BC8303 /* NotificationPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */; };
 		44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */; };
 		44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */; };
+		44D32A121BDF161E00EFC1E3 /* CDProductCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */; };
+		44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
+		44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
 /* End PBXBuildFile section */
 
@@ -750,6 +757,7 @@
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
 		2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreHeader.xib; sourceTree = "<group>"; };
+		2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3.xcdatamodel"; sourceTree = "<group>"; };
 		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
@@ -879,6 +887,10 @@
 		44B708841BBA6E19001EACBF /* MyProductDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductDetail.xib; sourceTree = "<group>"; };
 		44B708851BBA6E19001EACBF /* MyProductProcessing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductProcessing.xib; sourceTree = "<group>"; };
 		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
+		44B779DC1BDF4AF300D93D2D /* CDCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategory.swift; sourceTree = "<group>"; };
+		44B779DE1BDF72BB00D93D2D /* CDBrand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrand.swift; sourceTree = "<group>"; };
+		44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermConditionViewController.swift; sourceTree = "<group>"; };
+		44B861021BDA92D20020A9E3 /* TermCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermCondition.xib; sourceTree = "<group>"; };
 		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
@@ -891,6 +903,9 @@
 		44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageViewController.swift; sourceTree = "<group>"; };
 		44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPage.xib; sourceTree = "<group>"; };
 		44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageCell.xib; sourceTree = "<group>"; };
+		44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDProductCondition.swift; sourceTree = "<group>"; };
+		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
+		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategorySize.swift; sourceTree = "<group>"; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1299,6 +1314,11 @@
 				210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */,
 				210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */,
 				44D58C491BC7C8C800F85F13 /* CDNotification.swift */,
+				44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */,
+				44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */,
+				44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */,
+				44B779DC1BDF4AF300D93D2D /* CDCategory.swift */,
+				44B779DE1BDF72BB00D93D2D /* CDBrand.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1474,6 +1494,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */,
 				44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */,
 				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
@@ -1848,6 +1869,7 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
+				44B861021BDA92D20020A9E3 /* TermCondition.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2009,6 +2031,7 @@
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
+				44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
@@ -2100,12 +2123,14 @@
 				21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */,
 				2127A2A81B7B336000469CFC /* AddProductImageSourceViewController.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
+				44D32A121BDF161E00EFC1E3 /* CDProductCondition.swift in Sources */,
 				210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
 				2141BBBA1B54BE4C00787F5D /* NSArray+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
 				2141BBE31B54BE4C00787F5D /* SocketEventHandler.swift in Sources */,
+				44B779DF1BDF72BB00D93D2D /* CDBrand.swift in Sources */,
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
@@ -2117,6 +2142,7 @@
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
+				44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */,
 				2141BBC31B54BE4C00787F5D /* NSString+BFKit.swift in Sources */,
@@ -2146,6 +2172,7 @@
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
+				44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */,
 				21104ABB1BAA8ECC00947E7F /* MyPurchaseViewController.swift in Sources */,
 				21104ABC1BAA8ECC00947E7F /* PhoneReverificationViewController.swift in Sources */,
 				2141BBD11B54BE4C00787F5D /* UIView+BFKit.swift in Sources */,
@@ -2186,6 +2213,7 @@
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
 				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				44B779DD1BDF4AF300D93D2D /* CDCategory.swift in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
@@ -2336,6 +2364,7 @@
 				2141BBB51B54BE4C00787F5D /* BFSystemSound.swift in Sources */,
 				210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */,
 				21D4F1D11B65DDAB0089DF4F /* KumangTabBarViewController.swift in Sources */,
+				44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */,
 				2141BBCD1B54BE4C00787F5D /* UIScrollView+BFKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2504,7 +2533,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "6baab485-4464-4c64-811b-a5218d055c7b";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2534,7 +2563,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "6baab485-4464-4c64-811b-a5218d055c7b";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
@@ -2609,9 +2638,10 @@
 		2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */,
 				2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */,
 			);
-			currentVersion = 2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */;
+			currentVersion = 2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
