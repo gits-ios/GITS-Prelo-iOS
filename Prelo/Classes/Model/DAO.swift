@@ -948,54 +948,145 @@ class LovedProduct : NSObject {
     }
 }
 
-class UserOrder : NSObject {
+class UserCheckout : NSObject {
     
     var json : JSON!
+    var transactionProducts : [UserCheckoutProduct]!
     
-    static func instance(json : JSON?) -> UserOrder? {
+    static func instance(json : JSON?) -> UserCheckout? {
         if (json == nil) {
             return nil
         } else {
-            let u = UserOrder()
+            let u = UserCheckout()
             u.json = json!
+            u.transactionProducts = []
+            for (var i = 0; i < u.json["transaction_products"].count; i++) {
+                let t = u.json["transaction_products"][i]
+                if (t != nil) {
+                    u.transactionProducts.append(UserCheckoutProduct.instanceCheckoutProduct(t)!)
+                }
+            }
             return u
         }
     }
     
-    var transactionID : String {
-        let t = (json["transaction_id"].string)!
-        return t
+    var id : String {
+        if let i = json["_id"].string {
+            return i
+        }
+        return ""
     }
     
-    var productImageURL : NSURL? {
-        if let err = json["product_display_pict"].error
+    var paymentMethod : String {
+        if let p = json["payment_method"].string {
+            return p
+        }
+        return ""
+    }
+    
+    var progress : Int {
+        if let p = json["progress"].int {
+            return p
+        }
+        return 0
+    }
+    
+    var buyerId : String {
+        if let b = json["buyer_id"].string {
+            return b
+        }
+        return ""
+    }
+    
+    var totalPrice : Int {
+        if let t = json["total_price"].int {
+            return t
+        }
+        return 0
+    }
+    
+    var v : Int {
+        if let v = json["__v"].int {
+            return v
+        }
+        return 0
+    }
+    
+    var orderIdValid : Bool {
+        if let o = json["order_id_valid"].bool {
+            return o
+        }
+        return false
+    }
+    
+    var orderId : String {
+        if let o = json["order_id"].string {
+            return o
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let t = json["time"].string {
+            return t
+        }
+        return ""
+    }
+    
+    var progressText : String {
+        if let p = json["progress_text"].string {
+            return p
+        }
+        return ""
+    }
+}
+
+class UserCheckoutProduct : TransactionDetail {
+    
+    static func instanceCheckoutProduct(obj : JSON?) -> UserCheckoutProduct?
+    {
+        if (obj == nil) {
+            return nil
+        } else {
+            var p = UserCheckoutProduct()
+            p.json = obj!
+            return p
+        }
+    }
+    
+    var orderIndex : Int {
+        if let o = json["order_index"].int
+        {
+            return o
+        }
+        return 0
+    }
+    
+    var shippingTimeMin : Int {
+        if let s = json["shipping_time_min"].int
+        {
+            return s
+        }
+        return 0
+    }
+    
+    var shippingTimeMax : Int {
+        if let s = json["shipping_time_max"].int
+        {
+            return s
+        }
+        return 0
+    }
+    
+    // Only take first image from json
+    override var productImageURL : NSURL? {
+        if let err = json["display_picts"][0].error
         {
             return nil
         }
-        let url = "http://dev.kleora.com/images/products/" + json["product_id"].string! + "/" + json["product_display_pict"].string!
+        let url = json["display_picts"][0].string!
         return NSURL(string: url)
     }
-    
-    var productName : String {
-        let n = (json["product_name"].string)!.escapedHTML
-        return n
-    }
-    
-    var price : String {
-        let p = (json["transaction_product_price_formatted"].string)!.escapedHTML
-        return p
-    }
-    
-    var timespan : String {
-        let t = (json["time_from_now"].string)!.escapedHTML
-        return t
-    }
-    
-    var productSeller : String {
-        let s = (json["seller_name"].string)!.escapedHTML
-        return s
-    }
-    
 }
 
 class SearchUser : NSObject

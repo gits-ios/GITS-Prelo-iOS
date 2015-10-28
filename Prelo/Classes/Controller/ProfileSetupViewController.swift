@@ -361,7 +361,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userPhone = fieldNoHP?.text
             let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             let userReferral = fieldKodeReferral.text
-            let userDeviceId = "dor" // FIXME: device id
+            let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
             // Set token first, because APIUser.SetupAccount need token

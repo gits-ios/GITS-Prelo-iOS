@@ -11,10 +11,11 @@ import Foundation
 class PaymentConfirmationViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView: UITableView!
-    @IBOutlet weak var lblEmpty: UILabel!
-    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet var lblEmpty: UILabel!
+    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet var loading: UIActivityIndicatorView!
     
-    var userOrders : Array <UserOrder>?
+    var userCheckouts : Array <UserCheckout>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,12 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         var paymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
         tableView.registerNib(paymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
         
+        // Tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: " My Order", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
         // DEBUG: Tableview bounds and frame
         //println("tableView bounds = \(tableView.bounds)")
         //println("tableView frame = \(tableView.frame)")
@@ -33,41 +40,71 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.hidden = false
         loading.startAnimating()
         tableView.hidden = true
         lblEmpty.hidden = true
         
         Mixpanel.sharedInstance().track("Payment Confirmation")
         
-        if (userOrders?.count == 0 || userOrders == nil) {
-            if (userOrders == nil) {
-                userOrders = []
+        if (userCheckouts == nil || userCheckouts?.count == 0) {
+            if (userCheckouts == nil) {
+                userCheckouts = []
             }
-            getUserOrders()
-        }
-    }
-    
-    func getUserOrders() {
-        request(APIUser.OrderList(status:"process"))
-        .responseJSON { req, _, res, err in
-            if (err != nil) {
-                println(err)
-            } else {
-                var obj = JSON(res!)
-                for (index : String, item : JSON) in obj["_data"] {
-                    let u = UserOrder.instance(item)
-                    if (u != nil) {
-                        self.userOrders?.append(u!)
-                    }
-                }
-            }
+            getUserCheckouts()
+        } else {
+            self.loadingPanel.hidden = true
             self.loading.stopAnimating()
-            self.loading.hidden = true
-            if (self.userOrders?.count <= 0) {
+            if (self.userCheckouts?.count <= 0) {
                 self.lblEmpty.hidden = false
             } else {
                 self.tableView.hidden = false
                 self.setupTable()
+            }
+        }
+    }
+    
+    func backPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func getUserCheckouts() {
+        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {req, _, res, err in
+            println("Checkout list req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Error getting checkout list: \(err!.description)")
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil) {
+                    let obj : [String : String] = res as! [String : String]
+                    let message = obj["_message"]
+                    Constant.showDialog("Warning", message: "Error getting checkout list, message: \(message)")
+                    self.navigationController?.popViewControllerAnimated(true)
+                } else { // Berhasil
+                    println("Checkout list : \(data)")
+                    
+                    // Store data into variable
+                    for (index : String, item : JSON) in data {
+                        let u = UserCheckout.instance(item)
+                        if (u != nil) {
+                            self.userCheckouts?.append(u!)
+                        }
+                    }
+                    
+                    // Show table or empty label
+                    self.loadingPanel.hidden = true
+                    self.loading.stopAnimating()
+                    if (self.userCheckouts?.count <= 0) {
+                        self.lblEmpty.hidden = false
+                    } else {
+                        self.tableView.hidden = false
+                        self.setupTable()
+                    }
+                }
             }
         }
     }
@@ -82,9 +119,11 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.reloadData()
     }
     
+    // MARK: - UITableViewDelegate Functions
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (userOrders?.count > 0) {
-            return (self.userOrders?.count)!
+        if (userCheckouts?.count > 0) {
+            return (self.userCheckouts?.count)!
         } else {
             return 0
         }
@@ -92,7 +131,8 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: PaymentConfirmationCell = self.tableView.dequeueReusableCellWithIdentifier("PaymentConfirmationCell") as! PaymentConfirmationCell
-        let u = userOrders?[indexPath.item]
+        cell.selectionStyle = .None
+        let u = userCheckouts?[indexPath.item]
         cell.adapt(u!)
         return cell
     }
@@ -101,37 +141,54 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         //println("Row \(indexPath.row) selected")
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
-        let u = userOrders?[indexPath.item]
-        orderConfirmVC.orderID = u!.transactionID
+        let u = userCheckouts?[indexPath.item]
+        orderConfirmVC.orderID = "" // FIXME: benerin
         self.navigationController?.pushViewController(orderConfirmVC, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 64
+        return 130
     }
 }
 
 class PaymentConfirmationCell : UITableViewCell {
-    @IBOutlet var imgProduct: UIImageView!
-    @IBOutlet var lblProductName: UILabel!
-    @IBOutlet var lblPrice: UILabel!
-    @IBOutlet var lblOrderStatus: UILabel!
+    @IBOutlet var lblOrderId: UILabel!
     @IBOutlet var lblOrderTime: UILabel!
-    @IBOutlet var lblProductSeller: UILabel!
-    
+    @IBOutlet var lblProductCount: UILabel!
+    @IBOutlet var imgProducts: [UIImageView]!
+    @IBOutlet var vwEllipsis: UIView!
+    @IBOutlet var lblPrice: UILabel!
+
     override func layoutSubviews() {
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         let screenWidth = screenSize.width
-        self.bounds = CGRectMake(0.0, 0.0, screenWidth, 64.0)
+        self.bounds = CGRectMake(0.0, 0.0, screenWidth, 130.0)
         super.layoutSubviews()
     }
     
-    func adapt(userOrder : UserOrder) {
-        imgProduct.setImageWithUrl(userOrder.productImageURL!, placeHolderImage: nil)
-        lblProductName.text = userOrder.productName
-        lblPrice.text = userOrder.price
-        lblOrderStatus.text = "DIPESAN"
-        lblOrderTime.text = userOrder.timespan
-        lblProductSeller.text = userOrder.productSeller
+    func adapt(userCheckout : UserCheckout) {
+        lblOrderId.text = "Order ID #\(userCheckout.orderId)"
+        lblOrderTime.text = userCheckout.time
+        lblPrice.text = "Rp \(userCheckout.totalPrice)"
+        let pCount : Int = userCheckout.transactionProducts.count
+        lblProductCount.text = "\(pCount) Barang"
+        
+        // Tentukan jumlah gambar yang akan dimunculkan
+        var imgCount = pCount
+        if (imgCount > 4) {
+            // Max gambar adalah 4
+            imgCount = 4
+            
+            // Munculkan ellipsis
+            vwEllipsis.hidden = false
+        } else {
+            // Sembunyikan ellipsis
+            vwEllipsis.hidden = true
+        }
+        
+        // Munculkan gambar
+        for (var i = 1; i <= imgCount; i++) {
+            imgProducts[imgCount - i].setImageWithUrl(userCheckout.transactionProducts[i - 1].productImageURL!, placeHolderImage: nil)
+        }
     }
 }
