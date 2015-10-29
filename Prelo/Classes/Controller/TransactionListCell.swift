@@ -23,7 +23,7 @@ class TransactionListCell : UITableViewCell {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         }
         lblProductName.text = userPurchase.productName
-        lblPrice.text = "Rp " + userPurchase.productPrice.string
+        lblPrice.text = "\(userPurchase.productPrice.asPrice)"
         lblCommentCount.text = userPurchase.productCommentCount.string
         lblLoveCount.text = userPurchase.productLoveCount.string
         lblOrderStatus.text = userPurchase.progressText.uppercaseString

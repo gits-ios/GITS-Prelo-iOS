@@ -169,9 +169,14 @@ class PaymentConfirmationCell : UITableViewCell {
     func adapt(userCheckout : UserCheckout) {
         lblOrderId.text = "Order ID #\(userCheckout.orderId)"
         lblOrderTime.text = userCheckout.time
-        lblPrice.text = "Rp \(userCheckout.totalPrice)"
+        lblPrice.text = "\(userCheckout.totalPrice.asPrice)"
         let pCount : Int = userCheckout.transactionProducts.count
         lblProductCount.text = "\(pCount) Barang"
+        
+        // Kosongkan gambar terlebih dahulu
+        for (var j = 0; j < imgProducts.count; j++) {
+            imgProducts[j].image = nil
+        }
         
         // Tentukan jumlah gambar yang akan dimunculkan
         var imgCount = pCount

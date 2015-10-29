@@ -249,7 +249,7 @@ class MyLovelistCell : UITableViewCell {
     func adapt(lovedProduct : LovedProduct) {
         imgProduct.setImageWithUrl(lovedProduct.productImageURL!, placeHolderImage: nil)
         lblProductName.text = lovedProduct.name
-        lblPrice.text = "Rp " + lovedProduct.price.string
+        lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string
         lblLoveCount.text = lovedProduct.numLovelist.string
         productId = lovedProduct.id

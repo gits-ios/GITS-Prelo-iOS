@@ -33,6 +33,12 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
+        
+        // Tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: " Produk Saya", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     var first = true
@@ -50,6 +56,10 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         }
     }
 
+    func backPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
