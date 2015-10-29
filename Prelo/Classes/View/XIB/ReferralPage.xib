@@ -466,8 +466,26 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="796"/>
             <connections>
+                <outlet property="btnEmail" destination="aDg-T4-n51" id="KzR-u7-pBR"/>
+                <outlet property="btnFacebook" destination="hKl-x5-eS5" id="Vnu-xC-pdb"/>
+                <outlet property="btnInstagram" destination="gDu-70-gid" id="Gol-bi-rFz"/>
+                <outlet property="btnLine" destination="V9t-DG-Fh3" id="YqD-FB-Cd8"/>
+                <outlet property="btnMore" destination="7ph-CQ-adm" id="bxy-e7-5zg"/>
+                <outlet property="btnPath" destination="1Ub-SD-3ZM" id="7LW-Sl-a4e"/>
+                <outlet property="btnSms" destination="ghA-1h-hMS" id="uM2-Lv-ibI"/>
                 <outlet property="btnSubmit" destination="Seh-Ye-MJq" id="kuG-6z-zq3"/>
+                <outlet property="btnTwitter" destination="XYN-TQ-2hH" id="ITd-x2-OYf"/>
+                <outlet property="btnWhatsApp" destination="MeZ-Fn-Yxl" id="BOz-n9-M7v"/>
                 <outlet property="fieldKodeReferral" destination="KeJ-9v-UNu" id="dcT-rd-IWq"/>
+                <outlet property="imgEmail" destination="g89-0y-M8d" id="hOr-4w-pLF"/>
+                <outlet property="imgFacebook" destination="spb-kg-1m1" id="1Vz-rk-3SB"/>
+                <outlet property="imgInstagram" destination="WuA-CM-SuJ" id="tVk-Fa-xXq"/>
+                <outlet property="imgLine" destination="7dR-ia-nbp" id="TBM-hX-dJu"/>
+                <outlet property="imgMore" destination="ifi-Wn-ZPl" id="pmF-AM-kJr"/>
+                <outlet property="imgPath" destination="f36-8A-QXT" id="Pzl-eG-K9Q"/>
+                <outlet property="imgSms" destination="Y5V-ge-YRN" id="ZvY-eH-MXQ"/>
+                <outlet property="imgTwitter" destination="qUD-NA-Vl4" id="QaJ-9O-c51"/>
+                <outlet property="imgWhatsApp" destination="EdM-Un-VpD" id="5xO-F6-YX2"/>
                 <outlet property="lblKodeReferral" destination="DAb-m0-Agf" id="din-Dn-fGr"/>
                 <outlet property="lblSaldo" destination="E8x-77-P9p" id="9dG-Pd-pr4"/>
                 <outlet property="progressBonus" destination="DDw-t9-9AC" id="Tjc-uP-I7O"/>

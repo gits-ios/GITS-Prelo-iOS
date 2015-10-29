@@ -511,7 +511,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let pathName = userData["name"].string!
         let email = userData["email"].string!
         var profilePictureUrl : String?
-        if (userData["photo"]["medium"]["url"].string != nil) {
+        if (userData["photo"] != nil) {
             profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
         
@@ -544,6 +544,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     user!.profiles = p
                     UIApplication.appDelegate.saveContext()
+                    
+                    // Save in NSUserDefaults
+                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
                     // Check if user have set his account
                     self.checkProfileSetup(data["token"].string!)

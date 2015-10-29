@@ -208,7 +208,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
-        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")

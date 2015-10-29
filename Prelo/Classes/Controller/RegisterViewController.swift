@@ -421,7 +421,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
-        let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        if (userData["photo"] != nil) {
+            let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        }
 
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")
@@ -452,6 +454,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     
                     user!.profiles = p
                     UIApplication.appDelegate.saveContext()
+                    
+                    // Save in NSUserDefaults
+                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
                     // Check if user have set his account
                     self.checkProfileSetup(data["token"].string!)

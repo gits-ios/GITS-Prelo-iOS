@@ -7,13 +7,37 @@
 //
 
 import Foundation
+import Social
+import MessageUI
 
-class ReferralPageViewController: BaseViewController {
+class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var lblSaldo: UILabel!
     @IBOutlet weak var progressBonus: UIProgressView!
     @IBOutlet weak var lblKodeReferral: UILabel!
+    
+    @IBOutlet weak var imgInstagram: UIImageView!
+    @IBOutlet weak var imgFacebook: UIImageView!
+    @IBOutlet weak var imgTwitter: UIImageView!
+    @IBOutlet weak var imgPath: UIImageView!
+    @IBOutlet weak var imgWhatsApp: UIImageView!
+    @IBOutlet weak var imgLine: UIImageView!
+    @IBOutlet weak var imgSms: UIImageView!
+    @IBOutlet weak var imgEmail: UIImageView!
+    @IBOutlet weak var imgMore: UIImageView!
+    
+    @IBOutlet weak var btnInstagram: UIButton!
+    @IBOutlet weak var btnFacebook: UIButton!
+    @IBOutlet weak var btnTwitter: UIButton!
+    @IBOutlet weak var btnPath: UIButton!
+    @IBOutlet weak var btnWhatsApp: UIButton!
+    @IBOutlet weak var btnLine: UIButton!
+    @IBOutlet weak var btnSms: UIButton!
+    @IBOutlet weak var btnEmail: UIButton!
+    @IBOutlet weak var btnMore: UIButton!
+    
     @IBOutlet weak var fieldKodeReferral: UITextField!
     @IBOutlet weak var vwSubmit: UIView!
     @IBOutlet weak var btnSubmit: UIButton!
@@ -23,6 +47,8 @@ class ReferralPageViewController: BaseViewController {
     let MAX_BONUS_TIMES : Float = 10
     let BONUS_AMOUNT : Int = 25000
     
+    var shareImageName = "raisa.jpg"
+    
     // MARK: - Init
     
     override func viewWillAppear(animated: Bool) {
@@ -31,6 +57,38 @@ class ReferralPageViewController: BaseViewController {
         Mixpanel.sharedInstance().track("Referral Page")
         
         self.getReferralData()
+        
+        // Atur opacity tombol
+        // Instagram
+        imgInstagram.alpha = 0.3
+        // Facebook
+        imgFacebook.alpha = 0.3
+        // Twitter
+        imgTwitter.alpha = 0.3
+        // Path
+        imgPath.alpha = 1
+        // Whatsapp
+        imgWhatsApp.alpha = 0.3
+        // Line
+        imgLine.alpha = 0.3
+        // SMS
+        if (MFMessageComposeViewController.canSendText()) {
+            imgSms.alpha = 1
+            btnSms.userInteractionEnabled = true
+        } else {
+            imgSms.alpha = 0.3
+            btnSms.userInteractionEnabled = false
+        }
+        // Email
+        if (MFMailComposeViewController.canSendMail()) {
+            imgEmail.alpha = 1
+            btnEmail.userInteractionEnabled = true
+        } else {
+            imgEmail.alpha = 0.3
+            btnEmail.userInteractionEnabled = false
+        }
+        // More
+        imgMore.alpha = 0.3
     }
     
     override func viewDidLoad() {
@@ -107,6 +165,70 @@ class ReferralPageViewController: BaseViewController {
         }
     }
     
+    // MARK: - MFMessage Delegate Functions
+    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - MFMail Delegate Functions
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - Path
+    
+    func loginPath()
+    {
+        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        pathLoginVC.delegate = self
+        pathLoginVC.standAlone = true
+        let n = UINavigationController(rootViewController: pathLoginVC)
+        self.presentViewController(n, animated: true, completion: nil)
+    }
+    
+    func hideLoading() {
+        // Do nothing
+    }
+    
+    func pathLoginSuccess(userData: JSON, token: String) {
+        registerPathToken(userData, token : token)
+        postToPath(UIImage(named:shareImageName)!, token: token)
+    }
+    
+    func registerPathToken(userData : JSON, token : String) {
+        let pathId = userData["id"].string!
+        let pathName = userData["name"].string!
+        let email = userData["email"].string!
+        if (userData["photo"] != nil) {
+            let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
+        }
+        
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
+            println("Path login req = \(req)")
+            
+            if (err != nil) { // Terdapat error
+                
+            } else {
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
+    
+    func postToPath(image : UIImage, token : String) {
+        let caption = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
+        let param = [
+            "caption": caption
+        ]
+        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
+        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
+        a.show()
+        AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": caption], token: token, success: {_, _ in
+            a.dismissWithClickedButtonIndex(0, animated: true)
+        }, failure: nil)
+    }
+    
     // MARK: - IBActions
     
     @IBAction func instagramPressed(sender: AnyObject) {
@@ -122,7 +244,11 @@ class ReferralPageViewController: BaseViewController {
     }
     
     @IBAction func pathPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (CDUser.pathTokenAvailable()) {
+            postToPath(UIImage(named:shareImageName)!, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+        } else {
+            loginPath()
+        }
     }
     
     @IBAction func whatsappPressed(sender: AnyObject) {
@@ -134,11 +260,21 @@ class ReferralPageViewController: BaseViewController {
     }
     
     @IBAction func smsPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        var message = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
+        let composer = MFMessageComposeViewController()
+        composer.body = message
+        composer.messageComposeDelegate = self
+        
+        self.presentViewController(composer, animated: true, completion: nil)
     }
     
     @IBAction func emailPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        var message = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
+        let composer = MFMailComposeViewController()
+        composer.setMessageBody(message, isHTML: false)
+        composer.mailComposeDelegate = self
+        
+        self.presentViewController(composer, animated: true, completion: nil)
     }
     
     @IBAction func morePressed(sender: AnyObject) {

@@ -36,6 +36,8 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         
+        // Tombol jual ga mau diklik, sementara sembunyiin dulu
+        viewJualButton.hidden = true
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
         viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
