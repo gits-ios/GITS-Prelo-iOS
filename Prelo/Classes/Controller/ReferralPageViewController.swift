@@ -10,7 +10,7 @@ import Foundation
 import Social
 import MessageUI
 
-class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate {
+class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -42,12 +42,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     @IBOutlet weak var vwSubmit: UIView!
     @IBOutlet weak var btnSubmit: UIButton!
     
+    var mgInstagram : MGInstagram?
+    
     var saldo : Int = 0
     
     let MAX_BONUS_TIMES : Float = 10
     let BONUS_AMOUNT : Int = 25000
     
-    var shareImageName = "raisa.jpg"
+    var shareImage : UIImage = UIImage(named:"raisa.jpg")!
+    var shareText : String = ""
     
     // MARK: - Init
     
@@ -60,17 +63,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         // Atur opacity tombol
         // Instagram
-        imgInstagram.alpha = 0.3
+        imgInstagram.alpha = 1
         // Facebook
-        imgFacebook.alpha = 0.3
+        imgFacebook.alpha = 1
         // Twitter
-        imgTwitter.alpha = 0.3
+        imgTwitter.alpha = 1
         // Path
         imgPath.alpha = 1
         // Whatsapp
-        imgWhatsApp.alpha = 0.3
+        imgWhatsApp.alpha = 1
         // Line
-        imgLine.alpha = 0.3
+        imgLine.alpha = 1
         // SMS
         if (MFMessageComposeViewController.canSendText()) {
             imgSms.alpha = 1
@@ -152,6 +155,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     if (data["referral"]["referral_code_used"] != nil) {
                         self.vwSubmit.hidden = true
                     }
+                    
+                    // Set shareText
+                    self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
                 }
             }
         }
@@ -192,7 +198,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     func pathLoginSuccess(userData: JSON, token: String) {
         registerPathToken(userData, token : token)
-        postToPath(UIImage(named:shareImageName)!, token: token)
+        postToPath(shareImage, token: token)
     }
     
     func registerPathToken(userData : JSON, token : String) {
@@ -216,62 +222,101 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func postToPath(image : UIImage, token : String) {
-        let caption = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
         let param = [
-            "caption": caption
+            "caption": shareText
         ]
         let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
         let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
-        AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": caption], token: token, success: {_, _ in
+        AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
             a.dismissWithClickedButtonIndex(0, animated: true)
         }, failure: nil)
+    }
+    
+    // MARK: - Instagram
+    
+    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
+    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+        println("DidEndPreview")
     }
     
     // MARK: - IBActions
     
     @IBAction func instagramPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+            mgInstagram = MGInstagram()
+            mgInstagram?.postImage(shareImage, withCaption: shareText, inView: self.view, delegate: self)
+        } else {
+            Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+        }
     }
     
     @IBAction func facebookPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
+            let url = NSURL(string:"http://prelo.co.id")
+            let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            composer.addURL(url!)
+            composer.addImage(shareImage)
+            composer.setInitialText(shareText)
+            self.presentViewController(composer, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+        }
     }
     
     @IBAction func twitterPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
+            let url = NSURL(string:"http://prelo.co.id")
+            let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            composer.addURL(url!)
+            composer.addImage(shareImage)
+            composer.setInitialText(shareText)
+            self.presentViewController(composer, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+        }
     }
     
     @IBAction func pathPressed(sender: AnyObject) {
         if (CDUser.pathTokenAvailable()) {
-            postToPath(UIImage(named:shareImageName)!, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+            postToPath(shareImage, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
         } else {
             loginPath()
         }
     }
     
     @IBAction func whatsappPressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
+            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
+            UIApplication.sharedApplication().openURL(url!)
+        } else {
+            Constant.showDialog("No Whatsapp", message: "Silakan install Whatsapp dari app store terlebih dahulu")
+        }
     }
     
     @IBAction func linePressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+        if (Line.isLineInstalled()) {
+            Line.shareText(shareText)
+        } else {
+            Constant.showDialog("No Line app", message: "Silakan install Line dari app store terlebih dahulu")
+        }
     }
     
     @IBAction func smsPressed(sender: AnyObject) {
-        var message = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
         let composer = MFMessageComposeViewController()
-        composer.body = message
+        composer.body = shareText
         composer.messageComposeDelegate = self
         
         self.presentViewController(composer, animated: true, completion: nil)
     }
     
     @IBAction func emailPressed(sender: AnyObject) {
-        var message = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(lblKodeReferral.text!)"
         let composer = MFMailComposeViewController()
-        composer.setMessageBody(message, isHTML: false)
+        composer.setMessageBody(shareText, isHTML: false)
         composer.mailComposeDelegate = self
         
         self.presentViewController(composer, animated: true, completion: nil)
