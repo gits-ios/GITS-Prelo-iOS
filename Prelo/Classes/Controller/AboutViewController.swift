@@ -43,6 +43,11 @@ class AboutViewController: BaseViewController {
     
     @IBAction func logout()
     {
+        // Remove deviceRegId so the device won't receive push notification
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("deviceregid")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        LoginViewController.SendDeviceRegId(onFinish: nil)
+        
         // Clear local data
         User.Logout()
         

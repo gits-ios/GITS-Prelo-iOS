@@ -363,11 +363,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let userReferral = fieldKodeReferral.text
             let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             
+            // Get device token
+            let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
+            //println("deviceToken = \(deviceToken)")
+            
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
             // Set token first, because APIUser.SetupAccount need token
             User.SetToken(self.userToken)
             
-            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId)).responseJSON { _, _, res, err in
+            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { _, _, res, err in
                 
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)

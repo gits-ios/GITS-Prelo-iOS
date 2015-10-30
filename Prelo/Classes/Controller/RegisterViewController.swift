@@ -387,8 +387,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     if (isProfileSet) {
                         // If user haven't verified phone number, goto PhoneVerificationVC
                         if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
-                            // Go to dashboard
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            // Send deviceRegId before dismiss
+                            LoginViewController.SendDeviceRegId(onFinish: self.dismiss())
                         } else {
                             // Delete token because user is considered not logged in
                             User.SetToken(nil)

@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        
-        
         messagePool = MessagePool()
         messagePool.start()
         
@@ -59,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
         
+        // Register push notification
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
         {
             let setting = UIUserNotificationSettings(forTypes: (UIUserNotificationType.Badge|UIUserNotificationType.Sound|UIUserNotificationType.Alert), categories: nil)
@@ -67,6 +66,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
             UIApplication.sharedApplication().registerForRemoteNotificationTypes(types)
+        }
+        
+        // Handling push notification
+        if (launchOptions != nil) {
+            if let remoteNotif = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+                if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
+                    //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
+                    let notifType : String? = remoteNotifAps["tipe"] as! String?
+                    //Constant.showDialog("notifType", message: "\(notifType)")
+                    if (notifType?.lowercaseString == "notification") {
+                        NSUserDefaults.standardUserDefaults().setObject("notification", forKey: "apnsredirect")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                    } else if (notifType?.lowercaseString == "inbox") {
+                        NSUserDefaults.standardUserDefaults().setObject("inbox", forKey: "apnsredirect")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                    }
+                }
+            }
         }
         
         // Override point for customization after application launch
@@ -332,11 +349,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("TOKEN : \(deviceToken)")
+        println("deviceToken = \(deviceToken)")
+        
+        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        var deviceRegId: String = (deviceToken.description as NSString)
+            .stringByTrimmingCharactersInSet(characterSet)
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        
+        println("deviceRegId = \(deviceRegId)")
+        
+        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        // Set deviceRegId for push notif if user is logged in
+        if (User.IsLoggedIn) {
+            LoginViewController.SendDeviceRegId(onFinish: nil)
+        }
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         println("ERROR : \(error)")
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("userInfo = \(userInfo)")
+        
+        if (application.applicationState == UIApplicationState.Active) {
+            println("App were active when receiving remote notification")
+        } else {
+            println("App weren't active when receiving remote notification")
+        }
     }
 }
 

@@ -344,8 +344,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     let json = JSON(res!)
                     if (json["_data"] == nil) {
                         let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]!
-                        Constant.showDialog("Warning", message: "Error setting referral, message: \(message)")
+                        let message = obj["_message"]
+                        if (message != nil) {
+                            Constant.showDialog("Warning", message: "Error setting referral, message: \(message!)")
+                        }
                     } else {
                         let isSuccess = json["_data"].bool!
                         if (isSuccess) { // Berhasil

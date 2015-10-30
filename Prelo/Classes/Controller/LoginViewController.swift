@@ -35,6 +35,43 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         parent.presentViewController(n, animated: animated, completion: nil)
     }
     
+    static func SendDeviceRegId(#onFinish: ()?) {
+        // Store device registration ID to server
+        // Di titik inilah user dianggap login/logout, sehingga di titik inilah user mulai/berhenti menerima push notification
+        // Get device token
+        var deviceToken : String = ""
+        if (NSUserDefaults.standardUserDefaults().stringForKey("deviceregid") != nil) {
+            deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
+        }
+        request(APIUser.SetDeviceRegId(deviceRegId: deviceToken)).responseJSON {req, _, res, err in
+            println("Set deviceRegId req = \(req)")
+            if (err != nil) { // Terdapat error
+                println("Error setting deviceRegId: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                if (json["_data"] == nil) {
+                    let obj : [String : String] = res as! [String : String]
+                    let message = obj["_message"]
+                    if (message != nil) {
+                        println("Error setting deviceRegId, message: \(message!)")
+                    }
+                } else {
+                    let isSuccess = json["_data"].int!
+                    if (isSuccess == 1) { // Berhasil
+                        println("Kode deviceRegId berhasil ditambahkan: \(deviceToken)")
+                    } else { // Gagal
+                        println("Error setting deviceRegId")
+                    }
+                }
+            }
+            
+            // Execute onFinish
+            if (onFinish != nil) {
+                onFinish
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -230,7 +267,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (isProfileSet) {
                         // If user haven't verified phone number, goto PhoneVerificationVC
                         if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
-                            self.dismiss()
+                            // Send deviceRegId before dismiss
+                            LoginViewController.SendDeviceRegId(onFinish: self.dismiss())
                         } else {
                             // Delete token because user is considered not logged in
                             User.SetToken(nil)
@@ -476,8 +514,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (isProfileSet) {
                         // If user haven't verified phone number, goto PhoneVerificationVC
                         if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
-                            // Go to dashboard
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            // Send deviceRegId before dismiss
+                            LoginViewController.SendDeviceRegId(onFinish: self.dismiss())
                         } else {
                             // Delete token because user is considered not logged in
                             User.SetToken(nil)
