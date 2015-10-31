@@ -256,6 +256,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
+        println(json)
         return json["_data"]["_id"].string!
     }
     
@@ -285,6 +286,30 @@ public class ProductDetail : NSObject, TawarItem
             }
         }
         return []
+    }
+    
+    var originalPicturers : Array<String>
+        {
+            println(json)
+            if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
+            {
+                return ori
+            } else if let ori = json["_data"]["original_picts"].arrayObject
+            {
+                if (ori.count > 0)
+                {
+                    var arr : [String] = []
+                    for i in 0...ori.count-1
+                    {
+                        if let o = ori[i] as? String
+                        {
+                            arr.append(o)
+                        }
+                    }
+                    return arr
+                }
+            }
+            return []
     }
     
     var shopAvatarURL : NSURL?
@@ -435,7 +460,7 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var opIsMe : Bool {
-        return false
+        return true
     }
     
     var threadId : String {
@@ -1019,6 +1044,15 @@ class SearchUser : NSObject
             return name
         }
         return ""
+    }
+    
+    var username : String
+        {
+            if let name = json?["username"].string
+            {
+                return name
+            }
+            return ""
     }
     
     var id : String

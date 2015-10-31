@@ -19,7 +19,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.placeholder = "Cari Merek atau Tambah Merek Baru"
+        searchBar.placeholder = "Cari Merek"
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -42,10 +42,8 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
                     let json = JSON(res!)
-                    if let arr = json["brands"].array
-                    {
-                        self.rawBrands = arr
-                    }
+                    let brands = json["brands"]["_data"].array
+                    self.rawBrands = brands!
                     self.filter()
                     self.tableView.reloadData()
                 } else

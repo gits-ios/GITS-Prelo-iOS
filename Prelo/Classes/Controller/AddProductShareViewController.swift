@@ -198,6 +198,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         }
         
         adaptCharge()
+        
+        self.title = "Kesempatan Terbatas"
     }
     
     var first = true
@@ -218,10 +220,19 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     func adaptCharge()
     {
         captionChargePercent.text = Double(100 - chargePercent).roundString + " %"
+        if (captionChargePercent.text == "0 %")
+        {
+            captionChargePercent.text = "FREE!"
+        }
         let charge = Double(basePrice) * chargePercent / 100
-        let string = "Charge Prelo " + Int(charge).asPrice + " (" + chargePercent.roundString + "%)"
+        var string = "Charge Prelo : " + Int(charge).asPrice + " (" + chargePercent.roundString + "%)"
+        if (chargePercent == 0)
+        {
+            string = "Charge Prelo : FREE"
+        }
         var attString = NSMutableAttributedString(string: string)
         attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor()], range: AppToolsObjC.rangeOf(chargePercent.roundString+"%", inside: string))
+        attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.rangeOf("FREE", inside: string))
         captionCharge.attributedText = attString
         captionPrice.text = (basePrice - Int(charge)).asPrice
     }

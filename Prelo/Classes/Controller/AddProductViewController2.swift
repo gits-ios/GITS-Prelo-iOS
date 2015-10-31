@@ -10,7 +10,7 @@ import UIKit
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
 {
 
     @IBOutlet var txtName : SZTextView!
@@ -227,7 +227,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else if (notPicked && editMode == false)
         {
             notPicked = false
-            self.pickImage(0, forceBackOnCancel: true)
+            self.pickImage(0, forceBackOnCancel: true, directToCamera : true)
         }
     }
     
@@ -235,6 +235,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
+    }
+    
+    @IBAction func showFAQ(sender : UIView?)
+    {
+        let w = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+        w.url = "http://prelo.id/syarat-ketentuan"
+        w.titleString = "Syarat & Ketentuan"
+        let n = BaseNavigationController()
+        n.setViewControllers([w], animated: false)
+        self.presentViewController(n, animated: true, completion: nil)
     }
     
     func numberOfItemsInPickerView(pickerView: AKPickerView!) -> Int {
@@ -267,17 +277,48 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             self.pickImage(index, forceBackOnCancel: false)
         } else {
-            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-            a.addButtonWithTitle("Edit")
-            a.addButtonWithTitle("Ganti")
-            
-            if (index != 0)
+            let a = self.storyboard?.instantiateViewControllerWithIdentifier("AddProductFullscreen") as! AddProductImageFullScreen
+            a.index = index
+            let ap = APImage()
+            ap.image = imageViews[index].image
+            a.apImage = ap
+            if (index == 0)
             {
-                a.addButtonWithTitle("Hapus")
+                a.disableDelete = true
             }
-            a.tag = index
-            a.showInView(self.view)
+            a.fullScreenDelegate = self
+            let n = BaseNavigationController()
+            n.setViewControllers([a], animated: false)
+            self.presentViewController(n, animated: true, completion: nil)
+            
+//            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
+//            a.addButtonWithTitle("Edit")
+//            a.addButtonWithTitle("Ganti")
+//            
+//            if (index != 0)
+//            {
+//                a.addButtonWithTitle("Hapus")
+//            }
+//            a.tag = index
+//            a.showInView(self.view)
         }
+    }
+    
+    func imageFullScreenDidDelete(controller: AddProductImageFullScreen) {
+        self.imageViews[controller.index].image = nil
+        switch (controller.index)
+        {
+        case 0:rm_image1 = 1
+        case 1:rm_image2 = 1
+        case 2:rm_image3 = 1
+        case 3:rm_image4 = 1
+        case 4:rm_image5 = 1
+        default:println("")
+        }
+    }
+    
+    func imageFullScreenDidReplace(controller: AddProductImageFullScreen, image: APImage) {
+        imageViews[controller.index].image = image.image
     }
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -315,9 +356,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         editor.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func pickImage(index : Int, forceBackOnCancel : Bool)
+    func pickImage(index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
     {
-        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, doneBlock: { imgs in
+        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, diretToCamera : directToCamera, doneBlock: { imgs in
             if (imgs.count > 0)
             {
                 let a = imgs[0]
@@ -493,6 +534,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let jsizes = json["_data"]["sizes"]
                 if let arr = jsizes["size_types"].array
                 {
+                    self.captionSize1.text = ""
+                    self.captionSize2.text = ""
+                    self.captionSize3.text = ""
                     var sml : Array<String> = []
                     var usa : Array<String> = []
                     var eur : Array<String> = []
@@ -768,6 +812,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 s.basePrice = price
             }
             s.productID = (json["_data"]["_id"].string)!
+            NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
             self.navigationController?.pushViewController(s, animated: true)
             }, failure: {op, err in
                 Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])

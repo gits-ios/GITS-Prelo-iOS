@@ -273,6 +273,9 @@
 		217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */; };
 		217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
 		2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */; };
+		21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */; };
+		21983BF01BE1DE3A00F0C24E /* PreloWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */; };
+		21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */; };
 		219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F2D421BC75F5100C14C1F /* InboxViewController.swift */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
@@ -757,6 +760,9 @@
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
 		2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreHeader.xib; sourceTree = "<group>"; };
+		21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductImageFullScreen.swift; sourceTree = "<group>"; };
+		21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloWebViewController.swift; sourceTree = "<group>"; };
+		21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
 		2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3.xcdatamodel"; sourceTree = "<group>"; };
 		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
@@ -1551,6 +1557,9 @@
 				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
 				2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */,
 				2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */,
+				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
+				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
+				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2168,6 +2177,7 @@
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
 				44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */,
+				21983BF01BE1DE3A00F0C24E /* PreloWebViewController.swift in Sources */,
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
@@ -2235,6 +2245,7 @@
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
+				21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */,
 				2141BBA61B54BE4C00787F5D /* README.md in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
@@ -2266,6 +2277,7 @@
 				219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */,
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */,
 				2141BBBF1B54BE4C00787F5D /* NSMutableDictionary+BFKit.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,

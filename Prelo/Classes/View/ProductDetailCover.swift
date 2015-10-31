@@ -15,6 +15,7 @@ class ProductDetailCover: UIView {
     var parent : UIViewController?
     
     var imageURLS : Array<String> = []
+    var largeImageURLS : Array<String> = []
     
     private func setup(images : Array<String>)
     {
@@ -33,7 +34,8 @@ class ProductDetailCover: UIView {
     {
         let index = (sender.view?.tag)!
         let c = CoverZoomController()
-        c.images = imageURLS
+        c.images = largeImageURLS
+        c.index = index
         self.parent?.presentViewController(c, animated: true, completion: nil)
     }
     
@@ -72,6 +74,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     var scrollView : UIScrollView?
     
     var images : Array<String> = []
+    var index = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +113,13 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         }
         
         scrollView?.contentSize = CGSizeMake(x, (scrollView?.height)!)
+        scrollView?.hidden = true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        scrollView?.contentOffset = CGPoint(x: index*Int((scrollView?.width)!), y: 0)
+        scrollView?.hidden = false
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {

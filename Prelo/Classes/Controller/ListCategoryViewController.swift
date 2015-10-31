@@ -24,6 +24,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         super.viewDidLoad()
         scrollView.delegate = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "grandRefresh", name: "refreshHome", object: nil)
 //        setupScroll()
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -38,6 +39,17 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //            
 //        }
 //        getCategory()
+    }
+    
+    func grandRefresh()
+    {
+        listItemViews.removeAll(keepCapacity: false)
+        for v in self.contentView?.subviews as! [UIView]
+        {
+            v.removeFromSuperview()
+        }
+        
+        getCategory()
     }
     
     var contentView : UIView?

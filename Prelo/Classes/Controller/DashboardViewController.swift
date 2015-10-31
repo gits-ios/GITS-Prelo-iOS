@@ -60,7 +60,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "PreloAwesome":"0"
             ],
             [
-                "title":"Dompet",
+                "title":"Tarik Uang",
                 "icon":"",
                 "PreloAwesome":"0"
             ],

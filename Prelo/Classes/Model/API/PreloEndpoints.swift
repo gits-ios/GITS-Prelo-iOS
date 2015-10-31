@@ -302,7 +302,8 @@ enum APIInbox : URLRequestConvertible
             case .GetInboxByProductID(_) : return [:]
             case .GetInboxes : return [:]
             case .GetInboxMessage(_) : return [:]
-            case .StartNewOne(let prodId, let type, let m) : return ["product_id":prodId, "message_type":String(type), "message":m]
+            case .StartNewOne(let prodId, let type, let m) :
+                return ["product_id":prodId, "message_type":String(type), "message":m]
             case .SendTo (_, let type, let message) : return ["message_type":type, "message":message]
             }
     }

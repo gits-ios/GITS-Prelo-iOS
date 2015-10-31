@@ -156,8 +156,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { req, resp, res, err in
             self.tableView.hidden = false
             let json = JSON(res!)
-            let data = json["data"]
+            let data = json["_data"]
             let i = Inbox(jsn: data)
+            println(data)
             self.tawarItem = i
             self.adjustButtons()
             self.getMessages()
@@ -172,6 +173,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 let json = JSON(res!)
+                println(res)
                 if let arr = json["_data"]["messages"].array
                 {
                     if (arr.count > 0)
@@ -305,10 +307,25 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func startNew(type : Int, message : String)
     {
-        request(APIInbox.StartNewOne(productId: tawarItem.itemId, type: type, message: message)).responseJSON {req, resp, res, err in
+        request(APIInbox.StartNewOne(productId: prodId, type: type, message: message)).responseJSON {req, resp, res, err in
+            println(res)
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
-                self.navigationController?.popViewControllerAnimated(true)
+                let json = JSON(res!)
+                let data = json["_data"]
+                let inbox = Inbox(jsn: data)
+                self.tawarItem = inbox
+                
+                let localId = self.inboxMessages.count
+                let date = NSDate()
+                let f = NSDateFormatter()
+                f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                var time = f.stringFromDate(date)
+                let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
+                self.inboxMessages.append(i)
+                self.textView.text = ""
+                self.tableView.reloadData()
+                self.scrollToBottom()
             } else
             {
                 

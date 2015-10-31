@@ -16,9 +16,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var tableView : UITableView!
     @IBOutlet var sectionTopSearch : UIView!
+    @IBOutlet var sectionHistorySearch : UIView!
     @IBOutlet var topSearchLoading : UIActivityIndicatorView!
     
     @IBOutlet var conHeightSectionTopSearch : NSLayoutConstraint!
+    @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
     
     var foundItems : [Product] = []
     var foundUsers : [SearchUser] = []
@@ -104,11 +106,38 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             }
         }
         
+        setupHistory()
+        
         scrollView.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.tableFooterView = UIView()
+    }
+    
+    func setupHistory()
+    {
+        let arrx = sectionHistorySearch.subviews as! [UIView]
+        for v in arrx
+        {
+            v.removeFromSuperview()
+        }
+        
+        let arr : [String] = AppToolsObjC.searchHistories() as! [String]
+        var y : CGFloat = 0.0
+        for s in arr
+        {
+            let tag = SearchTag.instance(s)
+            tag.x = 0
+            tag.y = y
+            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+            tag.addGestureRecognizer(tap)
+            tag.userInteractionEnabled = true
+            tag.captionTitle.userInteractionEnabled = true
+            sectionHistorySearch.addSubview(tag)
+            conHeightSectionHistorySearch.constant = tag.maxY
+            y = tag.maxY
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -322,6 +351,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.searchMode = true
                 l.searchKey = currentKeyword
+                request(APISearch.InsertTopSearch(search: txtSearch.text))
+                AppToolsObjC.insertNewSearch(txtSearch.text)
+                setupHistory()
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
@@ -333,6 +365,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundUsers.count)
             {
+                let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
+                u.keyword = txtSearch.text
+                self.navigationController?.pushViewController(u, animated: true)
                 
             } else
             {
@@ -340,6 +375,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let u = foundUsers[indexPath.row]
                 d.storeMode = true
                 d.storeName = u.fullname
+                
+                request(APISearch.InsertTopSearch(search: u.fullname))
+                AppToolsObjC.insertNewSearch(u.fullname)
+                setupHistory()
+                
                 d.storeId = u.id
                 d.storePictPath = u.pict
                 self.navigationController?.pushViewController(d, animated: true)
