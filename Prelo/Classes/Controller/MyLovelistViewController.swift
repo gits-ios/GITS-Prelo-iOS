@@ -64,7 +64,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         } else {
             self.loadingPanel.hidden = true
             self.loading.stopAnimating()
-            self.loading.hidden = true
             if (self.userLovelist?.count <= 0) {
                 self.lblEmpty.hidden = false
             } else {
@@ -86,10 +85,10 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
+                if (data == nil) {
                     let obj : [String : String] = res as! [String : String]
                     let message = obj["_message"]
-                    println("Empty lovelist, message: \(message)")
+                    println("Error getting lovelist, message: \(message)")
                 } else { // Berhasil
                     println("Lovelist: \(data)")
                     
@@ -105,7 +104,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
             
             self.loadingPanel.hidden = true
             self.loading.stopAnimating()
-            self.loading.hidden = true
             if (self.userLovelist?.count <= 0) {
                 self.lblEmpty.hidden = false
             } else {
@@ -251,7 +249,7 @@ class MyLovelistCell : UITableViewCell {
     func adapt(lovedProduct : LovedProduct) {
         imgProduct.setImageWithUrl(lovedProduct.productImageURL!, placeHolderImage: nil)
         lblProductName.text = lovedProduct.name
-        lblPrice.text = "Rp " + lovedProduct.price.string
+        lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string
         lblLoveCount.text = lovedProduct.numLovelist.string
         productId = lovedProduct.id

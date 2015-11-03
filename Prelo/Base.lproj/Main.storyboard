@@ -7725,6 +7725,117 @@ dalam keranjang belanja</string>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BAA-aL-tJz">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="gZy-qr-Cea">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="336"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4O-fr-dGP">
+                                            <rect key="frame" x="8" y="144" width="584" height="192"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="192" id="JgT-2q-a0a"/>
+                                            </constraints>
+                                            <connections>
+                                                <segue destination="DWV-bX-bV2" kind="embed" id="2Zk-mt-sgU"/>
+                                            </connections>
+                                        </containerView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFq-6H-ixY">
+                                            <rect key="frame" x="8" y="116" width="100" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byr-4Z-F8i">
+                                            <rect key="frame" x="8" y="8" width="62" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6W-jP-zBl">
+                                            <rect key="frame" x="116" y="8" width="476" height="20"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eiT-yQ-snT">
+                                            <rect key="frame" x="116" y="36" width="476" height="20"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4Q-mF-4U2">
+                                            <rect key="frame" x="8" y="36" width="35" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r48-PT-8Ts">
+                                            <rect key="frame" x="8" y="64" width="52" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y8H-Ng-uG1">
+                                            <rect key="frame" x="116" y="64" width="44" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="QVm-jc-0oD"/>
+                                                <constraint firstAttribute="width" constant="44" id="xbZ-Dd-TjQ"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d1n-bt-wrd">
+                                            <rect key="frame" x="161" y="64" width="44" height="44"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qfv-4p-jj0">
+                                            <rect key="frame" x="206" y="64" width="44" height="44"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVA-FB-IKL">
+                                            <rect key="frame" x="252" y="64" width="44" height="44"/>
+                                            <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="D4O-fr-dGP" secondAttribute="bottom" id="1rl-v3-T73"/>
+                                        <constraint firstAttribute="trailing" secondItem="D4O-fr-dGP" secondAttribute="trailing" constant="8" id="33s-ZT-2Kp"/>
+                                        <constraint firstItem="Y8H-Ng-uG1" firstAttribute="top" secondItem="d1n-bt-wrd" secondAttribute="top" id="8Ey-EA-yTa"/>
+                                        <constraint firstItem="eiT-yQ-snT" firstAttribute="top" secondItem="t6W-jP-zBl" secondAttribute="bottom" constant="8" id="EQp-QD-Xf9"/>
+                                        <constraint firstItem="d1n-bt-wrd" firstAttribute="height" secondItem="qfv-4p-jj0" secondAttribute="height" id="IMf-nE-rXl"/>
+                                        <constraint firstItem="t6W-jP-zBl" firstAttribute="leading" secondItem="Byr-4Z-F8i" secondAttribute="trailing" constant="46" id="KPQ-ak-EB7"/>
+                                        <constraint firstItem="d1n-bt-wrd" firstAttribute="top" secondItem="qfv-4p-jj0" secondAttribute="top" id="KnL-Oj-JND"/>
+                                        <constraint firstItem="Y8H-Ng-uG1" firstAttribute="leading" secondItem="eiT-yQ-snT" secondAttribute="leading" id="Ljx-99-FIb"/>
+                                        <constraint firstItem="r48-PT-8Ts" firstAttribute="top" secondItem="U4Q-mF-4U2" secondAttribute="bottom" constant="8" id="MCp-Rc-Tdg"/>
+                                        <constraint firstItem="FFq-6H-ixY" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="NxY-Q9-y2z"/>
+                                        <constraint firstItem="r48-PT-8Ts" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="O2u-is-Qry"/>
+                                        <constraint firstItem="d1n-bt-wrd" firstAttribute="leading" secondItem="Y8H-Ng-uG1" secondAttribute="trailing" constant="1" id="OjD-K9-XZ3"/>
+                                        <constraint firstItem="Byr-4Z-F8i" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="Pi2-84-8L3"/>
+                                        <constraint firstItem="U4Q-mF-4U2" firstAttribute="top" secondItem="Byr-4Z-F8i" secondAttribute="bottom" constant="8" id="Qi4-D3-5os"/>
+                                        <constraint firstItem="eiT-yQ-snT" firstAttribute="leading" secondItem="t6W-jP-zBl" secondAttribute="leading" id="Tca-E0-6wV"/>
+                                        <constraint firstItem="Y8H-Ng-uG1" firstAttribute="top" secondItem="eiT-yQ-snT" secondAttribute="bottom" constant="8" id="UJ4-7P-FI3"/>
+                                        <constraint firstAttribute="trailing" secondItem="eiT-yQ-snT" secondAttribute="trailing" constant="8" id="YMb-Oa-O65"/>
+                                        <constraint firstItem="Byr-4Z-F8i" firstAttribute="top" secondItem="gZy-qr-Cea" secondAttribute="top" constant="8" id="YYI-NB-DXD"/>
+                                        <constraint firstItem="QVA-FB-IKL" firstAttribute="height" secondItem="qfv-4p-jj0" secondAttribute="height" id="ZNA-xt-xPi"/>
+                                        <constraint firstItem="Y8H-Ng-uG1" firstAttribute="height" secondItem="d1n-bt-wrd" secondAttribute="height" id="a0Y-mi-UJS"/>
+                                        <constraint firstItem="QVA-FB-IKL" firstAttribute="width" secondItem="qfv-4p-jj0" secondAttribute="width" id="a8A-z4-Dp0"/>
+                                        <constraint firstItem="U4Q-mF-4U2" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="eze-Oo-5Pj"/>
+                                        <constraint firstItem="D4O-fr-dGP" firstAttribute="top" secondItem="FFq-6H-ixY" secondAttribute="bottom" constant="8" id="feG-4T-TaI"/>
+                                        <constraint firstItem="FFq-6H-ixY" firstAttribute="top" secondItem="gZy-qr-Cea" secondAttribute="top" constant="8" id="iCa-Q9-jKt"/>
+                                        <constraint firstItem="t6W-jP-zBl" firstAttribute="top" secondItem="gZy-qr-Cea" secondAttribute="top" constant="8" id="jP6-Ay-p0A"/>
+                                        <constraint firstItem="Y8H-Ng-uG1" firstAttribute="width" secondItem="d1n-bt-wrd" secondAttribute="width" id="ldl-hC-XdJ"/>
+                                        <constraint firstItem="qfv-4p-jj0" firstAttribute="leading" secondItem="d1n-bt-wrd" secondAttribute="trailing" constant="1" id="njw-ug-DtU"/>
+                                        <constraint firstItem="QVA-FB-IKL" firstAttribute="top" secondItem="qfv-4p-jj0" secondAttribute="top" id="nua-Yk-cKE"/>
+                                        <constraint firstItem="D4O-fr-dGP" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="rHR-w3-kl7"/>
+                                        <constraint firstAttribute="trailing" secondItem="t6W-jP-zBl" secondAttribute="trailing" constant="8" id="suV-Qe-TB7"/>
+                                        <constraint firstItem="d1n-bt-wrd" firstAttribute="width" secondItem="qfv-4p-jj0" secondAttribute="width" id="tWd-R0-CYS"/>
+                                        <constraint firstItem="QVA-FB-IKL" firstAttribute="leading" secondItem="qfv-4p-jj0" secondAttribute="trailing" constant="2" id="uI1-iv-KXh"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="iCa-Q9-jKt"/>
+                                        </mask>
+                                    </variation>
+                                </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="BpD-3J-PWj">
                                     <rect key="frame" x="0.0" y="110" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -7847,7 +7958,17 @@ dalam keranjang belanja</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="captionMore" destination="QVA-FB-IKL" id="dZS-4F-7Qp"/>
+                        <outlet property="captionOrderID" destination="t6W-jP-zBl" id="rTX-XL-xcn"/>
+                        <outlet property="captionOrderTotal" destination="eiT-yQ-snT" id="f2D-mH-l28"/>
+                        <outlet property="img1" destination="Y8H-Ng-uG1" id="81l-Of-red"/>
+                        <outlet property="img2" destination="d1n-bt-wrd" id="o74-gl-WEV"/>
+                        <outlet property="img3" destination="qfv-4p-jj0" id="HOZ-1S-E0V"/>
                         <outlet property="tableView" destination="BAA-aL-tJz" id="2LZ-4W-6VI"/>
+                        <outletCollection property="imgs" destination="Y8H-Ng-uG1" collectionClass="NSMutableArray" id="ayy-cY-BsS"/>
+                        <outletCollection property="imgs" destination="d1n-bt-wrd" collectionClass="NSMutableArray" id="8UF-3y-Qeb"/>
+                        <outletCollection property="imgs" destination="qfv-4p-jj0" collectionClass="NSMutableArray" id="fsw-s4-xGg"/>
+                        <outletCollection property="imgs" destination="QVA-FB-IKL" collectionClass="NSMutableArray" id="FIE-nv-rBG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BYa-Ss-Eet" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8034,10 +8155,10 @@ dalam keranjang belanja</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ysg-35-cuL" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="175" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="176" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bca.png" translatesAutoresizingMaskIntoConstraints="NO" id="h1L-Zn-G4e" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="159" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="160" height="64"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -8059,10 +8180,10 @@ dalam keranjang belanja</string>
                                 </connections>
                             </view>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJ8-eD-aGl" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="183" y="0.0" width="218" height="80"/>
+                                <rect key="frame" x="184" y="0.0" width="216" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_mandiri.png" translatesAutoresizingMaskIntoConstraints="NO" id="XNz-01-7H0" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="202" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="200" height="64"/>
                                         <color key="tintColor" red="0.66014617679999998" green="0.66012644769999995" blue="0.66013765339999997" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                 </subviews>
@@ -8084,10 +8205,10 @@ dalam keranjang belanja</string>
                                 </connections>
                             </view>
                             <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HzM-2z-7Ib" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="409" y="0.0" width="175" height="80"/>
+                                <rect key="frame" x="408" y="0.0" width="176" height="80"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rsz_ic_bni.png" translatesAutoresizingMaskIntoConstraints="NO" id="sY6-DT-2OC" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="159" height="64"/>
+                                        <rect key="frame" x="8" y="8" width="160" height="64"/>
                                         <color key="tintColor" red="0.66014617681503296" green="0.6601264476776123" blue="0.66013765335083008" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                 </subviews>
@@ -8126,7 +8247,7 @@ dalam keranjang belanja</string>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Nomor Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2a-sY-gBE">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Nomor Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="X2a-sY-gBE">
                                 <rect key="frame" x="117" y="118" width="459" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -8138,7 +8259,7 @@ dalam keranjang belanja</string>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Nomor Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1E-Ng-CcR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Nomor Rekening" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="I1E-Ng-CcR">
                                 <rect key="frame" x="117" y="166" width="459" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -9649,8 +9770,9 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IW7-Lm-vGM">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_call.png" translatesAutoresizingMaskIntoConstraints="NO" id="IW7-Lm-vGM" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="1p4-Yz-gvq"/>
                                                     <constraint firstAttribute="height" constant="55" id="tSe-ew-fE8"/>
@@ -9713,8 +9835,9 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-7h-MfR">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_sms.png" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-7h-MfR" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="4vy-eI-gK6"/>
                                                     <constraint firstAttribute="height" constant="55" id="dpn-P8-Ryv"/>
@@ -9771,8 +9894,9 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ogk-DO-qeW">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_email.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ogk-DO-qeW" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="NRR-bn-FxD"/>
                                                     <constraint firstAttribute="height" constant="55" id="y1I-0N-ucf"/>
@@ -9826,8 +9950,10 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dqm-yi-Jei">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_line.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dqm-yi-Jei" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="39s-ON-0Y7"/>
                                                     <constraint firstAttribute="height" constant="55" id="mik-kt-E8v"/>
@@ -9884,8 +10010,9 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nMB-zI-eUN">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_wasap.png" translatesAutoresizingMaskIntoConstraints="NO" id="nMB-zI-eUN" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="6Hu-Lb-Rxg"/>
                                                     <constraint firstAttribute="width" constant="55" id="PMl-HH-WPh"/>
@@ -9939,8 +10066,9 @@ Label / Merek</string>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pI1-eM-AI1">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_bbm.png" translatesAutoresizingMaskIntoConstraints="NO" id="pI1-eM-AI1" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="3DU-5H-1Hc"/>
                                                     <constraint firstAttribute="width" constant="55" id="UhI-2d-v9J"/>
@@ -10841,6 +10969,12 @@ Label / Merek</string>
         <image name="basic_path.png" width="5" height="5"/>
         <image name="category_placeholder" width="828" height="1472"/>
         <image name="checkout_tour_1.jpg" width="720" height="1280"/>
+        <image name="cu_bbm.png" width="128" height="128"/>
+        <image name="cu_call.png" width="256" height="256"/>
+        <image name="cu_email.png" width="256" height="256"/>
+        <image name="cu_line.png" width="256" height="256"/>
+        <image name="cu_sms.png" width="256" height="256"/>
+        <image name="cu_wasap.png" width="256" height="256"/>
         <image name="ic_backarrow.png" width="128" height="128"/>
         <image name="ic_cacat.png" width="128" height="128"/>
         <image name="ic_cc.png" width="256" height="256"/>
@@ -10861,9 +10995,10 @@ Label / Merek</string>
         <image name="tour_3.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gv4-pa-FxU"/>
-        <segue reference="gU7-9Q-bxr"/>
-        <segue reference="pME-IT-gHt"/>
         <segue reference="dW2-MQ-HC6"/>
+        <segue reference="pME-IT-gHt"/>
+        <segue reference="2Zk-mt-sgU"/>
+        <segue reference="gU7-9Q-bxr"/>
+        <segue reference="gv4-pa-FxU"/>
     </inferredMetricsTieBreakers>
 </document>

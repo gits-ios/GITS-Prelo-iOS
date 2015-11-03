@@ -121,6 +121,7 @@ class Tags : NSObject
     static let XibNamePathLogin = "PathLogin"
     static let XibNameNotificationPage = "NotificationPage"
     static let XibNameTermCondition = "TermCondition"
+    static let XibNameReferralPage = "ReferralPage"
 }
 
 class OrderStatus : NSObject

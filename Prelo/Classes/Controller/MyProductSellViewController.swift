@@ -22,6 +22,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        // Register custom cell
+        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
     }
     
     func getProducts()
@@ -36,6 +40,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                         let d = j["_data"].arrayObject
                         if let data = d
                         {
+                            println("Product list data = \(data)")
                             for json in data
                             {
                                 self.products.append(Product.instance(JSON(json))!)
@@ -60,6 +65,40 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        let p = products[indexPath.row]
+        
+        cell.lblProductName.text = p.name
+        cell.lblPrice.text = p.price
+        cell.lblOrderTime.text = p.time
+        
+        let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
+        cell.lblCommentCount.text = "\(commentCount)"
+        
+        let loveCount : Int = (p.json["num_lovelist"] != nil) ? p.json["num_lovelist"].int! : 0
+        cell.lblLoveCount.text = "\(loveCount)"
+        
+        cell.imgProduct.image = nil
+        if let url = p.coverImageURL {
+            cell.imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+        }
+        
+        let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
+        cell.lblOrderStatus.text = status.uppercaseString
+        if (status == "Aktif") {
+            cell.lblOrderStatus.textColor = Theme.PrimaryColor
+        } else {
+            cell.lblOrderStatus.textColor = UIColor.redColor()
+        }
+        
+        // Fix product status text width
+        let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
+        //println("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+        cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
+        
+        return cell
+        
+        /* If using MyProductCell
         let m = tableView.dequeueReusableCellWithIdentifier("cell") as! MyProductCell
         let p = products[indexPath.row]
         m.captionName.text = p.name
@@ -79,11 +118,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             m.ivCover.setImageWithUrl(url, placeHolderImage: nil)
         }
         
-        return m
+        return m*/
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 80
+        //return 80 // If using MyProductCell
+        return 64
     }
     
     var selectedProduct : Product?

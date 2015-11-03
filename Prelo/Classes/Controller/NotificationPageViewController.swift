@@ -426,6 +426,8 @@ class NotificationPageCell : UITableViewCell {
         imgUser.setImageWithUrl(NSURL(string: notif.leftImage)!, placeHolderImage: nil)
         if (notif.rightImage != nil) {
             imgProduct.setImageWithUrl(NSURL(string: notif.rightImage!)!, placeHolderImage: nil)
+        } else {
+            imgProduct.image = nil
         }
         
         // Set texts

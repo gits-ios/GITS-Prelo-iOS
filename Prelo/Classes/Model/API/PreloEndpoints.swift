@@ -33,7 +33,8 @@ extension NSMutableURLRequest
         
         if (User.IsLoggedIn) {
 //            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
-            r.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
+            let t = User.Token!
+            r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
         }
         
         return r
@@ -330,6 +331,7 @@ enum APITransaction : URLRequestConvertible
     case Sells(status : String, current : String, limit : String)
     case TransactionDetail(id : String)
     case ConfirmShipping(tpId : String, resiNum : String)
+    case CheckoutList(current : String, limit : String)
     
     var method : Method
     {
@@ -339,6 +341,7 @@ enum APITransaction : URLRequestConvertible
         case .Sells(_, _, _) : return .GET
         case .TransactionDetail(_) : return .GET
         case .ConfirmShipping(_, _) : return .POST
+        case .CheckoutList(_, _) : return .GET
         }
     }
     
@@ -350,6 +353,7 @@ enum APITransaction : URLRequestConvertible
         case .Sells(_, _, _) : return "sells"
         case .TransactionDetail(let id) : return id
         case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
+        case .CheckoutList(_, _) : return "checkouts"
         }
     }
     
@@ -376,6 +380,12 @@ enum APITransaction : URLRequestConvertible
         case .ConfirmShipping(_, let resiNum) :
             let p = [
                 "resi_number" : resiNum
+            ]
+            return p
+        case .CheckoutList(let current, let limit) :
+            let p = [
+                "current" : current,
+                "limit" : limit
             ]
             return p
         }
@@ -599,10 +609,13 @@ enum APIUser : URLRequestConvertible
     case OrderList(status : String)
     case MyProductSell
     case MyLovelist
-    case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String)
+    case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
     case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
+    case ReferralData
+    case SetReferral(referralCode : String, deviceId : String)
+    case SetDeviceRegId(deviceRegId : String)
     
     var method : Method
     {
@@ -615,10 +628,13 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
+        case .ReferralData : return .GET
+        case .SetReferral(_, _) : return .POST
+        case .SetDeviceRegId(_) : return .POST
         }
     }
     
@@ -633,10 +649,13 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _, _) : return ""
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
+        case .ReferralData : return "referral_bonus"
+        case .SetReferral(_, _) : return "referral"
+        case .SetDeviceRegId(_) : return "set_device_registration_id"
         }
     }
     
@@ -663,7 +682,7 @@ enum APIUser : URLRequestConvertible
             ]
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
-        case .SetupAccount(let username, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId):
+        case .SetupAccount(let username, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
             return [
                 "username":username,
                 "gender":gender,
@@ -672,7 +691,9 @@ enum APIUser : URLRequestConvertible
                 "region":region,
                 "shipping":shipping,
                 "referral_code":referralCode,
-                "device_id":deviceId
+                "device_id":deviceId,
+                "device_registration_id":deviceRegId,
+                "device_type":"APNS"
             ]
         case .SetProfile(let fullname, let phone, let address, let region, let postalCode, let shopName, let description, let shipping):
             return [
@@ -694,6 +715,20 @@ enum APIUser : URLRequestConvertible
                 "phone" : phone,
                 "phone_code" : phoneCode
             ]
+        case .ReferralData :
+            return [:]
+        case .SetReferral(let referralCode, let deviceId) :
+            let p = [
+                "referral_code" : referralCode,
+                "device_id" : deviceId
+            ]
+            return p
+        case .SetDeviceRegId(let deviceRegId) :
+            let p = [
+                "registered_device_id" : deviceRegId,
+                "device_type" : "APNS"
+            ]
+            return p
         }
     }
     

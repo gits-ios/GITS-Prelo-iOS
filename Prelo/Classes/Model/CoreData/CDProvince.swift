@@ -27,7 +27,7 @@ class CDProvince : NSManagedObject {
                 let regJson = provJson["regions"][j]
                 let r : CDRegion = CDRegion.newOne(regJson["_id"].string!, name: regJson["name"].string!, province: p)!
                 p.regions.addObject(r)
-                println("Region: \(r.name) added to province: \(p.name)")
+                //println("Region: \(r.name) added to province: \(p.name)")
             }
         }
         

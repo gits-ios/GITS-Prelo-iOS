@@ -301,6 +301,18 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         super.viewDidAppear(animated)
 //        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
+        
+        // APNS redirect if any
+        let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
+        if (apnsRedirect != nil) {
+            if (apnsRedirect == "notification") {
+                self.launchNotifPage()
+            } else if (apnsRedirect == "inbox") {
+                let i = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
+                self.navigationController?.pushViewController(i, animated: true)
+            }
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("apnsredirect")
+        }
     }
     
     func getCategory()

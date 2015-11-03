@@ -10,6 +10,12 @@
 		210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000B91BCB89D500E16611 /* MessagePool.swift */; };
 		210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */; };
 		210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 210107F81B687ED4005698D1 /* Prelo2.ttf */; };
+		210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */; };
+		210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */; };
+		210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */; };
+		210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */; };
+		210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */; };
+		210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */; };
 		210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */; };
 		210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AE1B8DD088000F2939 /* ic_cacat@2x.png */; };
@@ -366,6 +372,17 @@
 		21F4FCE51B61E9AE00223028 /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */; };
 		21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */; };
+		440AF6581BE0DEA500074CBC /* ReferralPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */; };
+		440AF65A1BE0DF1600074CBC /* ReferralPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6591BE0DF1600074CBC /* ReferralPage.xib */; };
+		440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */; };
+		440AF6651BE1090800074CBC /* ic_round_email.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF65C1BE1090800074CBC /* ic_round_email.png */; };
+		440AF6661BE1090800074CBC /* ic_round_facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF65D1BE1090800074CBC /* ic_round_facebook.png */; };
+		440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF65E1BE1090800074CBC /* ic_round_instagram.png */; };
+		440AF6681BE1090800074CBC /* ic_round_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF65F1BE1090800074CBC /* ic_round_line.png */; };
+		440AF6691BE1090800074CBC /* ic_round_path.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6601BE1090800074CBC /* ic_round_path.png */; };
+		440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6611BE1090800074CBC /* ic_round_sms.png */; };
+		440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6621BE1090800074CBC /* ic_round_twitter.png */; };
+		440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6631BE1090800074CBC /* ic_round_whatsapp.png */; };
 		4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */; };
 		4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */; };
 		4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */; };
@@ -415,6 +432,12 @@
 		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePool.swift; sourceTree = "<group>"; };
 		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
+		210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_bbm@2x.png"; sourceTree = "<group>"; };
+		210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_call@2x.png"; sourceTree = "<group>"; };
+		210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_email@2x.png"; sourceTree = "<group>"; };
+		210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_line@2x.png"; sourceTree = "<group>"; };
+		210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_sms@2x.png"; sourceTree = "<group>"; };
+		210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_wasap@2x.png"; sourceTree = "<group>"; };
 		210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_backarrow@2x.png"; sourceTree = "<group>"; };
 		210959AE1B8DD088000F2939 /* ic_cacat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cacat@2x.png"; sourceTree = "<group>"; };
@@ -879,6 +902,17 @@
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
 		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralPageViewController.swift; sourceTree = "<group>"; };
+		440AF6591BE0DF1600074CBC /* ReferralPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralPage.xib; sourceTree = "<group>"; };
+		440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_ellipsis.png; sourceTree = "<group>"; };
+		440AF65C1BE1090800074CBC /* ic_round_email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_email.png; sourceTree = "<group>"; };
+		440AF65D1BE1090800074CBC /* ic_round_facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_facebook.png; sourceTree = "<group>"; };
+		440AF65E1BE1090800074CBC /* ic_round_instagram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_instagram.png; sourceTree = "<group>"; };
+		440AF65F1BE1090800074CBC /* ic_round_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_line.png; sourceTree = "<group>"; };
+		440AF6601BE1090800074CBC /* ic_round_path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_path.png; sourceTree = "<group>"; };
+		440AF6611BE1090800074CBC /* ic_round_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_sms.png; sourceTree = "<group>"; };
+		440AF6621BE1090800074CBC /* ic_round_twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_twitter.png; sourceTree = "<group>"; };
+		440AF6631BE1090800074CBC /* ic_round_whatsapp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_whatsapp.png; sourceTree = "<group>"; };
 		4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -1500,6 +1534,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
 				44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */,
 				44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */,
 				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
@@ -1628,6 +1663,21 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
+				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
+				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
+				210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */,
+				210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */,
+				210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */,
+				440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */,
+				440AF65C1BE1090800074CBC /* ic_round_email.png */,
+				440AF65D1BE1090800074CBC /* ic_round_facebook.png */,
+				440AF65E1BE1090800074CBC /* ic_round_instagram.png */,
+				440AF65F1BE1090800074CBC /* ic_round_line.png */,
+				440AF6601BE1090800074CBC /* ic_round_path.png */,
+				440AF6611BE1090800074CBC /* ic_round_sms.png */,
+				440AF6621BE1090800074CBC /* ic_round_twitter.png */,
+				440AF6631BE1090800074CBC /* ic_round_whatsapp.png */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				2109BCA11BDDF85E004F36C5 /* tour_1.jpg */,
 				2109BCA21BDDF85E004F36C5 /* tour_2.jpg */,
@@ -1879,6 +1929,7 @@
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				44B861021BDA92D20020A9E3 /* TermCondition.xib */,
+				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1984,13 +2035,17 @@
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
+				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
 				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */,
 				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
+				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
+				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
+				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
@@ -2001,6 +2056,7 @@
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
+				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -2014,18 +2070,25 @@
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
+				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
+				440AF6661BE1090800074CBC /* ic_round_facebook.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
+				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
 				217874631B98516900D355A8 /* merk.json in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
+				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
 				44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
+				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
+				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
+				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
 				2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */,
@@ -2037,12 +2100,15 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
+				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
+				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
+				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				44C18DAD1BC3C03500BC8303 /* NotificationPage.xib in Resources */,
@@ -2082,6 +2148,7 @@
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
+				440AF65A1BE0DF1600074CBC /* ReferralPage.xib in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
@@ -2338,6 +2405,7 @@
 				2141BBAE1B54BE4C00787F5D /* Validation.swift in Sources */,
 				2109BCA81BDDF957004F36C5 /* InstagramLoginViewController.swift in Sources */,
 				2141BBCA1B54BE4C00787F5D /* UIImage+BFKit.swift in Sources */,
+				440AF6581BE0DEA500074CBC /* ReferralPageViewController.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
@@ -2545,7 +2613,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6baab485-4464-4c64-811b-a5218d055c7b";
+				PROVISIONING_PROFILE = "6a66407e-bc70-42e5-95d0-9b90c8d4da0d";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2575,7 +2643,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6baab485-4464-4c64-811b-a5218d055c7b";
+				PROVISIONING_PROFILE = "6a66407e-bc70-42e5-95d0-9b90c8d4da0d";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

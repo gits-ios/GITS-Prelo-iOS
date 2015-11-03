@@ -121,13 +121,18 @@ class PhoneVerificationViewController : BaseViewController {
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
                         }
                         
-                        // Dismiss view
-                        Constant.showDialog("Success", message: "Verifikasi berhasil")
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        // Send deviceRegId before finish
+                        LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
                     }
                 }
             }
         }
+    }
+    
+    func phoneVerificationSucceed() {
+        // Dismiss view
+        Constant.showDialog("Success", message: "Verifikasi berhasil")
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func kirimUlangPressed(sender: UIButton) {

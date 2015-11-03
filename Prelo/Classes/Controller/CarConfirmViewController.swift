@@ -15,6 +15,8 @@ class CarConfirmViewController: BaseViewController {
     var totalPayment = 0
     var paymentMethod = ""
     
+    var items : [JSON] = []
+    
     @IBOutlet var paymentDescription : UIView?
     @IBOutlet var paymentDescriptionHeight : NSLayoutConstraint?
     
@@ -22,6 +24,11 @@ class CarConfirmViewController: BaseViewController {
     @IBOutlet var captionTotalPayment : UILabel?
     @IBOutlet var captionPaymentMethod : UILabel?
     @IBOutlet var captionName : UILabel?
+    
+//    @IBOutlet var iv1 : UIImageView!
+//    @IBOutlet var iv2 : UIImageView!
+//    @IBOutlet var iv3 : UIImageView!
+//    @IBOutlet var captionIVMore : UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +44,22 @@ class CarConfirmViewController: BaseViewController {
         captionPaymentMethod?.text = paymentMethod
         
         captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalizedString + "\nKami baru saja mengirimkan email konfirmasi pesanan Kamu :"
+    }
+    
+    var first = true
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if let arr = self.navigationController?.viewControllers
+        {
+            if (first)
+            {
+                var x = arr
+                x.removeAtIndex(x.count-2)
+                x.removeAtIndex(x.count-2)
+                self.navigationController?.setViewControllers(x, animated: false)
+                first = false
+            }
+        }
     }
     
     func backSkipTwo()
@@ -62,6 +85,35 @@ class CarConfirmViewController: BaseViewController {
             let o = segue.destinationViewController as! OrderConfirmViewController
             o.orderID = self.orderID
             o.transactionId = transactionId
+            o.total = totalPayment
+            
+            var imgs : [NSURL] = []
+            
+            for i in 0...items.count-1
+            {
+                let json = items[i]
+                if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+                {
+                    var ori : Array<String> = []
+                    for o in raw
+                    {
+                        if let s = o as? String
+                        {
+                            ori.append(s)
+                        }
+                    }
+                    
+                    if (ori.count > 0)
+                    {
+                        if let u = NSURL(string: ori.first!)
+                        {
+                            imgs.append(u)
+                        }
+                    }
+                }
+            }
+            
+            o.images = imgs
         }
     }
 

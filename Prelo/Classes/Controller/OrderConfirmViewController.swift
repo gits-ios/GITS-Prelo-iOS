@@ -11,11 +11,20 @@ import UIKit
 class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var tableView : UITableView?
+    @IBOutlet var captionOrderID : UILabel!
+    @IBOutlet var captionOrderTotal : UILabel!
+    @IBOutlet var captionMore : UILabel!
+    @IBOutlet var img1 : UIImageView!
+    @IBOutlet var img2 : UIImageView!
+    @IBOutlet var img3 : UIImageView!
+    @IBOutlet var imgs : [UIView] = []
     
     var cellData : [NSIndexPath : BaseCartData] = [:]
     
     var orderID : String = ""
     var transactionId : String = ""
+    var images : [NSURL] = []
+    var total : Int = 0
     
     let titleOrderID = "Order ID"
     let titleBankTujuan = "Bank Tujuan"
@@ -46,6 +55,28 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         
         tableView?.dataSource = self
         tableView?.delegate = self
+        
+        for v in imgs
+        {
+            v.hidden = true
+        }
+        for i in 0...images.count-1
+        {
+            let v = imgs[i]
+            v.hidden = false
+            
+            if (i < 3)
+            {
+                let im = v as! UIImageView
+                im.setImageWithUrl(images[i], placeHolderImage: nil)
+            } else if (i < 4)
+            {
+                captionMore.text = String(images.count-3) + "+"
+            }
+        }
+        
+        captionOrderID.text = orderID
+        captionOrderTotal.text = total.asPrice
     }
     
     override func viewDidAppear(animated: Bool) {

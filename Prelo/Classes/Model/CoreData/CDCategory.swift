@@ -53,7 +53,7 @@ class CDCategory: NSManagedObject {
         for (var i = 0; i < json.count; i++) {
             let childJson = json[i]
             let c = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m!) as! CDCategory
-            println("a CDCategory created")
+            //println("a CDCategory created")
             c.id = childJson["_id"].string!
             c.name = childJson["name"].string!
             c.permalink = childJson["permalink"].string!
