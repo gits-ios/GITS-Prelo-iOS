@@ -9,11 +9,12 @@
 import Foundation
 import CoreData
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var imgUser: UIImageView!
     @IBOutlet weak var btnUserImage: UIButton!
     
     @IBOutlet weak var btnLoginInstagram: UIButton!
@@ -47,8 +48,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     var isPickingProvinsi : Bool = false
     var isPickingKabKota : Bool = false
     var isPickingJenKel : Bool = false
+    var isUserPictUpdated : Bool = false
     
     var asset : ALAssetsLibrary?
+    
+    let FldTentangShopPlaceholder = "Produk kamu terpercaya? Yakinkan di sini"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +78,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         Mixpanel.sharedInstance().track("Setup Account")
+        
+        // Update fieldTentangShop height
+        self.textViewDidChange(fieldTentangShop)
+        
+        // Handling keyboard animation
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 
@@ -130,8 +139,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         // Fetch data from core data
         let user : CDUser = CDUser.getOne()!
         let userProfile : CDUserProfile = CDUserProfile.getOne()!
+        let userOther : CDUserOther = CDUserOther.getOne()!
         
         // Set fields' default value
+        if (userProfile.pict != "") {
+            imgUser.setImageWithUrl(NSURL(string: userProfile.pict)!, placeHolderImage: nil)
+        }
         if (user.fullname != nil) {
             fieldNama.text = user.fullname
         }
@@ -148,13 +161,41 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         if (userProfile.postalCode != nil) {
             fieldKodePos.text = userProfile.postalCode
         }
+        
+        // About shop
         if (userProfile.desc != nil) {
             fieldTentangShop.text = userProfile.desc
+            fieldTentangShop.textColor = Theme.GrayDark
+        } else {
+            fieldTentangShop.text = FldTentangShopPlaceholder
+            fieldTentangShop.textColor = UIColor.lightGrayColor()
         }
-        self.textViewDidChange(self.fieldTentangShop)
-        // TODO: ambil shipping options
+        fieldTentangShop.delegate = self
+        
+        // Province and region
         lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfile.provinceID)
         lblKabKota.text = CDRegion.getRegionNameWithID(userProfile.regionID)
+        self.selectedProvinsiID = userProfile.provinceID
+        self.selectedKabKotaID = userProfile.regionID
+        
+        // Shipping
+        let shippingIds : [String] = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
+        //println("shippingIds = \(shippingIds)")
+        for (var i = 0; i < shippingIds.count; i++) {
+            let shipId : String = shippingIds[i]
+            let shipName : String = CDShipping.getShippingCompleteNameWithId(shipId)!
+            if (shipName == "JNE Reguler") {
+                jneSelected = true
+                lblJneCheckbox.text = "";
+                lblJneCheckbox.font = AppFont.Prelo2.getFont(19)!
+                lblJneCheckbox.textColor = Theme.ThemeOrange
+            } else if (shipName == "TIKI Reguler") {
+                tikiSelected = true
+                lblTikiCheckbox.text = "";
+                lblTikiCheckbox.font = AppFont.Prelo2.getFont(19)!
+                lblTikiCheckbox.textColor = Theme.ThemeOrange
+            }
+        }
     }
     
     func pickerDidSelect(item: String) {
@@ -170,17 +211,18 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    @IBAction func userImagePressed(sender: UIButton) {
+    @IBAction func pilihFotoPressed(sender: UIButton) {
         ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
             { imgs in
                 if (imgs.count > 0) {
-                    self.btnUserImage.setImage(ImageSourceCell.defaultImage, forState: UIControlState.Normal)
+                    self.imgUser.image = ImageSourceCell.defaultImage
                     
                     let img : APImage = imgs[0]
                     
                     if ((img.image) != nil)
                     {
-                        self.btnUserImage.setImage(img.image, forState: UIControlState.Normal)
+                        self.imgUser.image = img.image
+                        self.isUserPictUpdated = true
                     } else if (imgs[0].usingAssets == true) {
                         
                         if (self.asset == nil) {
@@ -194,7 +236,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                                     let ref = rep.fullScreenImage().takeUnretainedValue()
                                     let i = UIImage(CGImage: ref)
                                     dispatch_async(dispatch_get_main_queue(), {
-                                        self.btnUserImage.setImage(i, forState: UIControlState.Normal)
+                                        self.imgUser.image = i
+                                        self.isUserPictUpdated = true
                                     })
                                 }
                                 }, failureBlock: { error in
@@ -205,10 +248,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             }
         )
-    }
-    
-    @IBAction func uploadFotoPressed(sender: UIButton) {
-        // TODO : upload foto saja
     }
     
     @IBAction func loginInstagramPressed(sender: UIButton) {
@@ -230,6 +269,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBAction func nomorHpPressed(sender: AnyObject) {
         let phoneReverificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneReverification, owner: nil, options: nil).first as! PhoneReverificationViewController
         phoneReverificationVC.verifiedHP = lblNoHP.text
+        phoneReverificationVC.prevVC = self
         self.navigationController?.pushViewController(phoneReverificationVC, animated: true)
     }
     
@@ -278,6 +318,33 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
+    // MARK: - Phone Verification Delegate Functions
+    
+    func phoneVerified(newPhone: String) {
+        // Change label
+        self.lblNoHP.text = newPhone
+        
+        // Update core data
+        var userProfile = CDUserProfile.getOne()!
+        userProfile.phone = newPhone
+        let m = UIApplication.appDelegate.managedObjectContext
+        var err : NSError?
+        if ((m?.save(&err))! == false) {
+            println("Update phone in core data failed")
+        } else {
+            println("Update phone in core data success")
+        }
+    }
+    
+    // MARK: - Textview Delegate Functions
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (textView.textColor == UIColor.lightGrayColor()) {
+            textView.text = ""
+            textView.textColor = Theme.GrayDark
+        }
+    }
+    
     func textViewDidChange(textView: UITextView) {
         let fieldTentangShopHeight = fieldTentangShop.frame.size.height
         var sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
@@ -288,6 +355,13 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Update tinggi textview
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if (textView.text.isEmpty) {
+            textView.text = FldTentangShopPlaceholder
+            textView.textColor = UIColor.lightGrayColor()
+        }
     }
     
     @IBAction func JneRegulerPressed(sender: UIButton) {
@@ -338,65 +412,85 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBAction func simpanDataPressed(sender: UIButton) {
         if (fieldsVerified()) {
-            Constant.showDialog("Warning", message: "Fitur ini belum terimplementasi")
-            /*btnSimpanData.enabled = false
-            
-            var dataRep = UIImageJPEGRepresentation(btnUserImage.imageView!.image, 1)
+            btnSimpanData.enabled = false
             
             var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             
-            upload(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: "Alamat pengiriman dummy", region: selectedKabKotaID, postalCode: "Postal code dummy", shopName: "Shop name dummy", Description: fieldTentangShop.text, Shipping: shipping), multipartFormData: { form in
+            if (!self.isUserPictUpdated) {
+                request(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping)).responseJSON {req, _, res, err in
+                    if let error = err {
+                        Constant.showDialog("Warning", message: "Edit profile error: \(error.description)")
+                        self.btnSimpanData.enabled = true
+                    } else {
+                        let json = JSON(res!)
+                        self.simpanDataSucceed(json)
+                    }
+                }
+            } else {
+                var dataRep = UIImageJPEGRepresentation(imgUser.image, 1)
                 
-                form.appendBodyPart(data : dataRep, name:"userID", mimeType:"image/jpg") // TODO: nama sesuai dengan userID yang didapat setelah register
-                
-                }, encodingCompletion: { result in
-                    switch result
-                    {
-                    case .Success(let x, _, _):
-                        x.responseJSON{_, _, res, err in
-                            
-                            if let error = err
-                            {
-                                // error, gagal
-                                Constant.showDialog("Warning", message: error.description)
-                                self.btnSimpanData.enabled = true
-                            } else if let result : AnyObject = res
-                            {
-                                // sukses
-                                let json = JSON(result)
-                                println("json = \(json)")
-                                let m = UIApplication.appDelegate.managedObjectContext
+                upload(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping), multipartFormData: { form in
+                    
+                    form.appendBodyPart(data : dataRep, name:"image", fileName: "image.jpeg", mimeType:"image/jpg")
+                    
+                    }, encodingCompletion: { result in
+                        switch result
+                        {
+                        case .Success(let x, _, _):
+                            x.responseJSON{_, _, res, err in
                                 
-                                // Fetch and edit data
-                                let user : CDUser = CDUser.getOne()!
-                                user.fullname = self.fieldNama.text
-                                
-                                let userProfile : CDUserProfile = CDUserProfile.getOne()!
-                                userProfile.desc = self.fieldTentangShop.text
-                                userProfile.phone = self.lblNoHP.text!
-                                //userProfile.pict = dataRep
-                                userProfile.regionID = self.selectedKabKotaID
-                                userProfile.provinceID = self.selectedProvinsiID
-                                user.profiles = userProfile
-                                
-                                // Save data
-                                var saveErr : NSError? = nil
-                                if (!m!.save(&saveErr)) {
-                                    println("Error while saving data")
-                                } else {
-                                    println("Data saved")
-                                    //self.btnSimpanData.enabled = true
-                                    self.navigationController?.popViewControllerAnimated(true)
+                                if let error = err
+                                {
+                                    // error, gagal
+                                    Constant.showDialog("Warning", message: error.description)
+                                    self.btnSimpanData.enabled = true
+                                } else if let result : AnyObject = res
+                                {
+                                    // sukses
+                                    let json = JSON(result)
+                                    self.simpanDataSucceed(json)
                                 }
                             }
+                            
+                        case .Failure(let err):
+                            println(err) // failed
+                            Constant.showDialog("Warning", message: err.description)
+                            self.btnSimpanData.enabled = true
                         }
-                        
-                    case .Failure(let err):
-                        println(err) // failed
-                        Constant.showDialog("Warning", message: err.description)
-                        self.btnSimpanData.enabled = true
-                    }
-            })*/
+                })
+            }
+        }
+    }
+    
+    func simpanDataSucceed(json : JSON) {
+        println("json = \(json)")
+        let data = json["_data"]
+        let profile : UserProfile = UserProfile.instance(data)!
+        let m = UIApplication.appDelegate.managedObjectContext
+        
+        // Fetch and edit data
+        let user : CDUser = CDUser.getOne()!
+        user.fullname = profile.fullname
+        
+        let userProfile : CDUserProfile = CDUserProfile.getOne()!
+        userProfile.address = profile.address
+        userProfile.desc = profile.desc
+        userProfile.gender = profile.gender
+        userProfile.phone = profile.phone
+        userProfile.pict = "\(profile.profPictURL)"
+        userProfile.postalCode = profile.postalCode
+        userProfile.regionID = profile.regionId!
+        userProfile.provinceID = profile.provinceId!
+        user.profiles = userProfile
+        
+        // Save data
+        var saveErr : NSError? = nil
+        if (!m!.save(&saveErr)) {
+            println("Error while saving data")
+        } else {
+            println("Data saved")
+            //self.btnSimpanData.enabled = true
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
     

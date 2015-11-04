@@ -398,7 +398,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                         user.id = data["_id"].string!
                         user.email = data["email"].string!
-                        user.fullname = userFullname
+                        user.fullname = data["fullname"].string!
                         
                         CDUserProfile.deleteAll()
                         let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
@@ -406,11 +406,18 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         userProfile.provinceID = self.selectedProvinsiID
                         userProfile.phone = userPhone!
                         userProfile.gender = self.lblJenisKelamin.text!
+                        userProfile.pict = data["profile"]["pict"].string!
                         user.profiles = userProfile
-                        // TODO: Simpan shipping, referral, deviceid di coredata
+                        // TODO: Simpan referral, deviceid di coredata
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        var shippingArr : [String] = []
+                        for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
+                            let s : String = data["shipping_preferences_ids"][i].string!
+                            shippingArr.append(s)
+                        }
+                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
                         // TODO: belum lengkap? simpan token socmed bila dari socmed
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)

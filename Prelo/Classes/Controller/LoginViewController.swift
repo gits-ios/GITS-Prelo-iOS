@@ -40,7 +40,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Di titik inilah user dianggap login/logout, sehingga di titik inilah user mulai/berhenti menerima push notification
         // Get device token
         var deviceToken : String = ""
-        if (NSUserDefaults.standardUserDefaults().stringForKey("deviceregid") != nil) {
+        if (User.IsLoggedIn && NSUserDefaults.standardUserDefaults().stringForKey("deviceregid") != nil) {
             deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
         }
         request(APIUser.SetDeviceRegId(deviceRegId: deviceToken)).responseJSON {req, _, res, err in
@@ -227,14 +227,30 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         user.profiles = userProfile
                         userProfile.regionID = userProfileData!.regionId!
                         userProfile.provinceID = userProfileData!.provinceId!
-                        userProfile.gender = userProfileData!.gender!
-                        userProfile.phone = userProfileData!.phone!
+                        userProfile.gender = userProfileData!.gender
+                        userProfile.phone = userProfileData!.phone
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
-                        // TODO: belum lengkap (postalCode, adress, desc dll)
+                        userProfile.postalCode = userProfileData!.postalCode
+                        userProfile.address = userProfileData!.address
+                        userProfile.desc = userProfileData!.desc
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        // TODO: belum lengkap
+                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
+                        userOther.fbAccessToken = (userProfileData!.fbAccessToken != nil) ? (userProfileData!.fbAccessToken!) : ""
+                        userOther.fbID = (userProfileData!.fbId != nil) ? (userProfileData!.fbId!) : ""
+                        userOther.fbUsername = (userProfileData!.fbUsername != nil) ? (userProfileData!.fbUsername!) : ""
+                        userOther.instagramAccessToken = (userProfileData!.instagramAccessToken != nil) ? (userProfileData!.instagramAccessToken!) : ""
+                        userOther.instagramID = (userProfileData!.instagramId != nil) ? (userProfileData!.instagramId!) : ""
+                        userOther.instagramUsername = (userProfileData!.instagramUsername != nil) ? (userProfileData!.instagramUsername!) : ""
+                        userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
+                        userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
+                        userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
+                        userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
+                        userOther.twitterAccessToken = (userProfileData!.twitterAccessToken != nil) ? (userProfileData!.twitterAccessToken!) : ""
+                        userOther.twitterID = (userProfileData!.twitterId != nil) ? (userProfileData!.twitterId!) : ""
+                        userOther.twitterTokenSecret = (userProfileData!.twitterTokenSecret != nil) ? (userProfileData!.twitterTokenSecret!) : ""
+                        // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                         
                         // Refresh notifications
                         NotificationPageViewController.refreshNotifications()
@@ -474,11 +490,28 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfile.gender = userProfileData!.gender!
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
-                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
+                        userProfile.postalCode = userProfileData!.postalCode
+                        userProfile.address = userProfileData!.address
+                        userProfile.desc = userProfileData!.desc
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        // TODO: belum lengkap
+                        var shippingArr : [String] = []
+                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
+                        userOther.fbAccessToken = (userProfileData!.fbAccessToken != nil) ? (userProfileData!.fbAccessToken!) : ""
+                        userOther.fbID = (userProfileData!.fbId != nil) ? (userProfileData!.fbId!) : ""
+                        userOther.fbUsername = (userProfileData!.fbUsername != nil) ? (userProfileData!.fbUsername!) : ""
+                        userOther.instagramAccessToken = (userProfileData!.instagramAccessToken != nil) ? (userProfileData!.instagramAccessToken!) : ""
+                        userOther.instagramID = (userProfileData!.instagramId != nil) ? (userProfileData!.instagramId!) : ""
+                        userOther.instagramUsername = (userProfileData!.instagramUsername != nil) ? (userProfileData!.instagramUsername!) : ""
+                        userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
+                        userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
+                        userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
+                        userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
+                        userOther.twitterAccessToken = (userProfileData!.twitterAccessToken != nil) ? (userProfileData!.twitterAccessToken!) : ""
+                        userOther.twitterID = (userProfileData!.twitterId != nil) ? (userProfileData!.twitterId!) : ""
+                        userOther.twitterTokenSecret = (userProfileData!.twitterTokenSecret != nil) ? (userProfileData!.twitterTokenSecret!) : ""
+                        // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                         
                         // Refresh notifications
                         NotificationPageViewController.refreshNotifications()

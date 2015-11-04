@@ -226,7 +226,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                         // Simpan di core data dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket tinggal dipasang di akhir sehingga urutannya tetap terjaga
                         for (var l = resNotifs.count - 1; l >= 0; l--) {
                             let rN = resNotifs[l]
-                            CDNotification.newOne(rN["notif_type"]! as! String, ids: rN["ids"]! as! String, opened: rN["opened"]! as! Bool, read: rN["read"]! as! Bool, message: rN["text"]! as! String, ownerId: rN["owner_id"]! as! String, name: rN["name"]! as! String, type: rN["type"]! as! NSNumber, objectName: rN["object_name"]! as! String, objectId: rN["object_id"]! as! String, time: rN["time"]! as! String, leftImage: rN["left_image"]! as! String, rightImage: rN["right_image"]! as? String, weight: rN["weight"]! as! NSNumber, names: rN["names"] as! String)
+                            CDNotification.newOne(rN["notif_type"]! as! String, ids: rN["ids"]! as! String, opened: rN["opened"]! as! Bool, read: rN["read"]! as! Bool, message: rN["text"]! as! String, ownerId: rN["owner_id"]! as! String, name: rN["name"]! as! String, type: rN["type"]! as! NSNumber, objectName: rN["object_name"]! as! String, objectId: rN["object_id"]! as! String, time: rN["time"]! as! String, leftImage: rN["left_image"]! as! String, rightImage: rN["right_image"] as? String, weight: rN["weight"]! as! NSNumber, names: rN["names"] as! String)
                         }
                         
                         // Set the number of notifications in top right bar

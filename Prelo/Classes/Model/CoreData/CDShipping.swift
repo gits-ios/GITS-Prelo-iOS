@@ -78,4 +78,18 @@ class CDShipping: NSManagedObject {
             return r!.count
         }
     }
+    
+    static func getShippingCompleteNameWithId(id : String) -> String? {
+        let predicate = NSPredicate(format: "packageId like[c] %@", id)
+        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        fetchReq.predicate = predicate
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            let s = r!.first as! CDShipping
+            return "\(s.name) \(s.packageName)"
+        }
+    }
 }

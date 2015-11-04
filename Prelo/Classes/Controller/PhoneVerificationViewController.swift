@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol PhoneVerificationDelegate {
+    func phoneVerified(newPhone : String)
+}
+
 class PhoneVerificationViewController : BaseViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -16,22 +20,20 @@ class PhoneVerificationViewController : BaseViewController {
     @IBOutlet weak var btnVerifikasi: UIButton!
     @IBOutlet weak var btnKirimUlang: UIButton!
     
+    var delegate : PhoneVerificationDelegate?
+    
     // Variable from previous scene
     var userId : String = ""
     var userToken : String = ""
     var userEmail : String = ""
     var isShowBackBtn : Bool = false
+    var isReverification : Bool = false
+    var reverificationNoHP : String = ""
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    override func viewDidLoad() {
-        // Show phone number
-        let userProfile : CDUserProfile = CDUserProfile.getOne()!
-        lblNoHp.text = userProfile.phone
         
         // Tombol back
         self.navigationItem.hidesBackButton = true
@@ -40,6 +42,18 @@ class PhoneVerificationViewController : BaseViewController {
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
             self.navigationItem.leftBarButtonItem = newBackButton
         }
+        
+        // Show phone number
+        if (self.isReverification) {
+            lblNoHp.text = self.reverificationNoHP
+        } else {
+            let userProfile : CDUserProfile = CDUserProfile.getOne()!
+            lblNoHp.text = userProfile.phone
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -87,13 +101,17 @@ class PhoneVerificationViewController : BaseViewController {
     
     @IBAction func verifikasiPressed(sender: UIButton) {
         if (fieldsVerified()) {
-            // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-            // Set token first, because APIUser.ResendVerificationSms need token
-            User.SetToken(self.userToken)
+            if (!self.isReverification) {
+                // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
+                // Set token first, because APIUser.ResendVerificationSms need token
+                User.SetToken(self.userToken)
+            }
             
             request(APIUser.VerifyPhone(phone: self.lblNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON {req, _, res, err in
-                // Delete token because user is considered not logged in
-                User.SetToken(nil)
+                if (!self.isReverification) {
+                    // Delete token because user is considered not logged in
+                    User.SetToken(nil)
+                }
                 
                 println("Verify phone req = \(req)")
                 if (err != nil) {
@@ -106,23 +124,31 @@ class PhoneVerificationViewController : BaseViewController {
                     } else { // Berhasil
                         println("data = \(data)")
                         
-                        // Set user to logged in
-                        User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
-                        if let d = self.userRelatedDelegate
-                        {
-                            d.userLoggedIn!()
+                        if (self.isReverification) { // User is changing phone number from edit profile
+                            self.phoneReverificationSucceed()
+                            
+                            if let d = self.delegate {
+                                d.phoneVerified(self.lblNoHp.text!)
+                            }
+                        } else { // User is setting up new account
+                            // Set user to logged in
+                            User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+                            if let d = self.userRelatedDelegate
+                            {
+                                d.userLoggedIn!()
+                            }
+                            if let c = CDUser.getOne()
+                            {
+                                Mixpanel.sharedInstance().identify(c.id)
+                                Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                            } else {
+                                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                            }
+                            
+                            // Send deviceRegId before finish
+                            LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
                         }
-                        if let c = CDUser.getOne()
-                        {
-                            Mixpanel.sharedInstance().identify(c.id)
-                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-                        } else {
-                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                        }
-                        
-                        // Send deviceRegId before finish
-                        LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
                     }
                 }
             }
@@ -135,14 +161,24 @@ class PhoneVerificationViewController : BaseViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func phoneReverificationSucceed() {
+        // Pop 2 views (self and phoneReverificationVC)
+        let viewControllers: [UIViewController] = self.navigationController?.viewControllers as! [UIViewController]
+        self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
+    }
+    
     @IBAction func kirimUlangPressed(sender: UIButton) {
-        // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-        // Set token first, because APIUser.ResendVerificationSms need token
-        User.SetToken(self.userToken)
+        if (!self.isReverification) {
+            // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
+            // Set token first, because APIUser.ResendVerificationSms need token
+            User.SetToken(self.userToken)
+        }
         
         request(APIUser.ResendVerificationSms(phone: self.lblNoHp.text!)).responseJSON {req, _, res, err in
-            // Delete token because user is considered not logged in
-            User.SetToken(nil)
+            if (!self.isReverification) {
+                // Delete token because user is considered not logged in
+                User.SetToken(nil)
+            }
             
             println("Resend verification sms req = \(req)")
             if (err != nil) {

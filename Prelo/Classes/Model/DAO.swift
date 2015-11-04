@@ -208,6 +208,30 @@ class UserProfile : NSObject {
         }
     }
     
+    var postalCode : String? {
+        if (json["profile"]["postal_code"] != nil) {
+            return json["profile"]["postal_code"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var address : String? {
+        if (json["profile"]["address"] != nil) {
+            return json["profile"]["address"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var desc : String? {
+        if (json["profile"]["description"] != nil) {
+            return json["profile"]["description"].string
+        } else {
+            return nil
+        }
+    }
+    
     var shippingIds : [String]? {
         let s : [String]?
         if (json["shipping_preferences_ids"] != nil) {
@@ -229,7 +253,214 @@ class UserProfile : NSObject {
         }
     }
     
-    // TODO : others: isPhoneVerified etc
+    var registerTime : String? {
+        let j = json["others"]["register_time"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var lastLogin : String? {
+        let j = json["others"]["last_login"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var userPermalink : String? {
+        let j = json["others"]["user_permalink"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var phoneCode : String? {
+        let j = json["others"]["phone_code"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var numReviewer : Int? {
+        let j = json["others"]["num_reviewer"]
+        if (j != nil) {
+            return j.int
+        } else {
+            return nil
+        }
+    }
+    
+    var totalStar : Int? {
+        let j = json["others"]["total_star"]
+        if (j != nil) {
+            return j.int
+        } else {
+            return nil
+        }
+    }
+    
+    var lastOpenNotif : String? {
+        let j = json["others"]["last_open_notification"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var resetPwdCode : String? {
+        let j = json["others"]["reset_password_code"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var resetPwdTime : String? {
+        let j = json["others"]["reset_password_time"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var deviceRegId : String? {
+        let j = json["others"]["device_registration_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var deviceType : String? {
+        let j = json["others"]["device_type"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    
+    
+    var fbId : String? {
+        let j = json["others"]["fb_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var fbUsername : String? {
+        let j = json["others"]["fb_username"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var fbAccessToken : String? {
+        let j = json["others"]["fb_access_token"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var pathId : String? {
+        let j = json["others"]["path_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var pathUsername : String? {
+        let j = json["others"]["path_username"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var pathAccessToken : String? {
+        let j = json["others"]["path_access_token"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var instagramId : String? {
+        let j = json["others"]["instagram_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var instagramUsername : String? {
+        let j = json["others"]["instagram_username"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var instagramAccessToken : String? {
+        let j = json["others"]["instagram_access_token"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var twitterId : String? {
+        let j = json["others"]["twitter_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var twitterAccessToken : String? {
+        let j = json["others"]["twitter_access_token"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var twitterTokenSecret : String? {
+        let j = json["others"]["twitter_token_secret"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
 }
 
 public class ProductDetail : NSObject, TawarItem

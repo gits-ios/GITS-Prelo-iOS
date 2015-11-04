@@ -22,7 +22,7 @@ class CDUserOther: NSManagedObject {
     @NSManaged var isActiveSeller: NSNumber
     @NSManaged var lastLogin: String
     @NSManaged var phoneCode: String
-    @NSManaged var phoneVerified: NSNumber
+    @NSManaged var phoneVerified: Bool
     @NSManaged var registerTime: String
     @NSManaged var seller: NSNumber
     @NSManaged var shopName: String

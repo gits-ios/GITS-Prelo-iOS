@@ -57,6 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
         
+        // Default deviceRegId so it's not nil
+        NSUserDefaults.standardUserDefaults().setObject("", forKey: "deviceregid")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
         // Register push notification
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
         {

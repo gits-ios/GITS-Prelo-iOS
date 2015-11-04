@@ -13,11 +13,11 @@ class PhoneReverificationViewController : BaseViewController {
     @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var lblNoHP : UILabel!
     @IBOutlet weak var fieldNoHP : UITextField!
-    @IBOutlet weak var btnVerifikasi : UIButton!
-    @IBOutlet weak var fieldKodeVerifikasi : UITextField!
-    @IBOutlet weak var btnGantiNomor : UIButton!
+    @IBOutlet weak var btnVerifikasiNoHP : UIButton!
     
     var verifiedHP : String?
+    
+    var prevVC : UserProfileViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,6 @@ class PhoneReverificationViewController : BaseViewController {
     @IBAction func disableTextFields(sender : AnyObject)
     {
         fieldNoHP?.resignFirstResponder()
-        fieldKodeVerifikasi?.resignFirstResponder()
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
@@ -76,15 +75,28 @@ class PhoneReverificationViewController : BaseViewController {
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
-            Constant.showDialog("Success", message: "SMS verifikasi telah dikirim")
-        }
-    }
-    
-    @IBAction func gantiNomorPressed(sender: AnyObject) {
-        if (fieldKodeVerifikasi.text == "") {
-            Constant.showDialog("Warning", message: "Kode verifikasi harus diisi, cek SMS Anda")
-        } else {
-            Constant.showDialog("Success", message: "Nomor HP berhasil diganti")
+            request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON {req, _, res, err in
+                
+                println("Resend verification sms req = \(req)")
+                if (err != nil) {
+                    Constant.showDialog("Warning", message: "Resend sms error: \(err?.description)")
+                } else {
+                    let json = JSON(res!)
+                    let data : Bool? = json["_data"].bool
+                    if (data == nil || data == false) { // Gagal
+                        Constant.showDialog("Warning", message: "Resend sms error")
+                    } else { // Berhasil
+                        println("data = \(data)")
+                        
+                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                        phoneVerificationVC.isReverification = true
+                        phoneVerificationVC.reverificationNoHP = self.fieldNoHP.text
+                        phoneVerificationVC.isShowBackBtn = true
+                        phoneVerificationVC.delegate = self.prevVC
+                        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                    }
+                }
+            }
         }
     }
     

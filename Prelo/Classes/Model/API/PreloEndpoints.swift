@@ -8,6 +8,7 @@
 
 import UIKit
 
+//let prelloHost = "https://prelo.co.id/api/"
 let prelloHost = "http://dev.prelo.id/api/"
 let oldAPI = "http://dev.preloapp.com/api/2/"
 //let prelloHost = "http://dev.preloapp.com/api/2/"
@@ -34,6 +35,7 @@ extension NSMutableURLRequest
         if (User.IsLoggedIn) {
 //            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
             r.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
+            println("User token = \(User.Token!)")
         }
         
         return r
@@ -608,7 +610,7 @@ enum APIUser : URLRequestConvertible
     case MyProductSell
     case MyLovelist
     case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
-    case SetProfile(fullname : String, phone : String, address : String, region : String, postalCode : String, shopName : String, Description : String, Shipping : String)
+    case SetProfile(fullname : String, phone : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
     case ReferralData
@@ -648,7 +650,7 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _, _, _) : return "setup"
-        case .SetProfile(_, _, _, _, _, _, _, _) : return ""
+        case .SetProfile(_, _, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
         case .ReferralData : return "referral_bonus"
@@ -693,14 +695,14 @@ enum APIUser : URLRequestConvertible
                 "device_registration_id":deviceRegId,
                 "device_type":"APNS"
             ]
-        case .SetProfile(let fullname, let phone, let address, let region, let postalCode, let shopName, let description, let shipping):
+        case .SetProfile(let fullname, let phone, let address, let province, let region, let postalCode, let description, let shipping):
             return [
                 "fullname":fullname,
                 "phone":phone,
                 "address":address,
+                "province":province,
                 "region":region,
                 "postal_code":postalCode,
-                "shop_name":shopName,
                 "description":description,
                 "shipping":shipping
             ]
