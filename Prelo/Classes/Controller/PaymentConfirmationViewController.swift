@@ -142,7 +142,14 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
         let u : UserCheckout = (userCheckouts?[indexPath.item])!
+        var imgs : [NSURL] = []
+        for (var i = 0; i < u.transactionProducts.count; i++) {
+            let c : UserCheckoutProduct = u.transactionProducts[i]
+            imgs.append(c.productImageURL!)
+        }
         orderConfirmVC.orderID = u.orderId
+        orderConfirmVC.total = u.totalPrice
+        orderConfirmVC.images = imgs
         self.navigationController?.pushViewController(orderConfirmVC, animated: true)
     }
     
