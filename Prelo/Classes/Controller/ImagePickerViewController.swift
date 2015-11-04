@@ -15,6 +15,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
 {
     
     var useAviary = false
+    var directToCameraFirst = true
     var directToCamera = false
     
     var maxSelectCount : Int = 1
@@ -47,13 +48,14 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        /*if (cameraAdd == 1)
+        if (cameraAdd == 1 && directToCamera && directToCameraFirst)
         {
             let i = UIImagePickerController()
             i.sourceType = UIImagePickerControllerSourceType.Camera
             i.delegate = self
             self.presentViewController(i, animated: true, completion: nil)
-        }*/
+            directToCameraFirst = false
+        }
     }
     
     override func dismiss() {
