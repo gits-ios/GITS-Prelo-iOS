@@ -53,7 +53,8 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func getUserPurchases() {
-        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
+        request(APITransaction.CheckoutList(current: "0", limit: "200")).responseJSON {_, _, res, err in
+            println(res)
             if (err != nil) { // Terdapat error
                 println("Error getting purchase data: \(err!.description)")
             } else {

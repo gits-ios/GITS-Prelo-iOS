@@ -15,6 +15,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
 {
     
     var useAviary = false
+    var directToCamera = false
     
     var maxSelectCount : Int = 1
     var selecteds : Array<NSIndexPath> = []
@@ -42,6 +43,17 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         })
         
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if (cameraAdd == 1)
+        {
+            let i = UIImagePickerController()
+            i.sourceType = UIImagePickerControllerSourceType.Camera
+            i.delegate = self
+            self.presentViewController(i, animated: true, completion: nil)
+        }
     }
     
     override func dismiss() {
@@ -187,13 +199,14 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-    static func ShowFrom(v : UIViewController, maxSelect : Int, useAviary : Bool = false, doneBlock : ImagePickerBlock)
+    static func ShowFrom(v : UIViewController, maxSelect : Int, useAviary : Bool = false, diretToCamera : Bool = false, doneBlock : ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
         let i = n.viewControllers.first as! ImagePickerViewController
         i.maxSelectCount = maxSelect
         i.doneBlock = doneBlock
         i.useAviary = useAviary
+        i.directToCamera = diretToCamera
         v.presentViewController(n, animated: true, completion: nil)
     }
     

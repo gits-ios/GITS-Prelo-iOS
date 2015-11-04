@@ -17,7 +17,7 @@ protocol ProductCellDelegate
     func cellTappedCategory(categoryName : String, categoryID : String)
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
 {
     
     var product : Product?
@@ -30,13 +30,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : UIButton!
     
-//    @IBOutlet var captionBeli: UILabel!
-//    @IBOutlet var captionPrice: UILabel!
-    
-//    @IBOutlet var captionFreeOngkir: UILabel!
-    
-//    @IBOutlet var ivChat: UIImageView!
-    
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
@@ -45,8 +38,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         
         let i = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-//        ivChat.tintColor = UIColor.whiteColor()
-//        ivChat.image = i
+        
+        self.btnAddDiscussion?.addTarget(self, action: "segAddComment:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        btnBuy.hidden = true
+        btnTawar.hidden = true
         
         btnAddDiscussion?.layer.cornerRadius = 4
         btnAddDiscussion?.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -72,7 +68,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         Mixpanel.sharedInstance().track("Product Detail")
-        self.titleText = detail?.json["_data"]["name"].string!
+        self.title = product?.name
         
         if let d = self.detail
         {
@@ -144,6 +140,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         let p = ProductDetailCover.instance((detail?.displayPicturers)!)
         p?.parent = self
+        p?.largeImageURLS = (detail?.originalPicturers)!
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
@@ -192,7 +189,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
             self.btnBuy.hidden = true
             self.btnTawar.hidden = true
-            
+        } else
+        {
+            btnBuy.hidden = false
+            btnTawar.hidden = false
         }
         
         self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
@@ -363,6 +363,34 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    var loginComment = false
+    @IBAction func segAddComment(sender : UIView?)
+    {
+        if (User.IsLoggedIn == false)
+        {
+            loginComment = true
+            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        } else
+        {
+            self.performSegueWithIdentifier("segAddComment", sender: nil)
+        }
+    }
+    
+    func userCancelLogin() {
+        
+    }
+    
+    func userLoggedIn() {
+        if (loginComment)
+        {
+            self.performSegueWithIdentifier("segAddComment", sender: nil)
+        }
+    }
+    
+    func userLoggedOut() {
+        
+    }
+    
     
     // MARK: - Navigation
 
@@ -394,8 +422,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     @IBOutlet var sectionLove : UIView?
     @IBOutlet var sectionComment : UIView?
+    @IBOutlet var sectionBrandReview : UIView?
     
     @IBOutlet var btnShare : UIButton?
+    
+    @IBOutlet var conWidthOngkir : NSLayoutConstraint!
+    @IBOutlet var conMarginOngkir : NSLayoutConstraint!
     
     var parent : UIViewController?
     
@@ -408,9 +440,29 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
         var product = (obj?.json)!["_data"]
         
+        var w : CGFloat = 106.0
+        
+        if let free_ongkir = product["free_ongkir"].bool
+        {
+            
+        } else
+        {
+            w = 16.0
+        }
+        
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-16)
-        return 90+s.height
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-w)
+        
+        var reviewHeight : CGFloat = 32.0
+        if let brand_under_review = product["brand_under_review"].bool
+        {
+            if (brand_under_review == false)
+            {
+                reviewHeight = 0.0
+            }
+        }
+        
+        return CGFloat(90.0) + s.height + reviewHeight
     }
     
     override func awakeFromNib() {
@@ -443,6 +495,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         {
             callApiLove()
             loving = false
+        } else
+        {
+            self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
         }
     }
     
@@ -456,11 +511,18 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func comment()
     {
-        self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
+        if (User.IsLoggedIn == false)
+        {
+            LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
+        } else
+        {
+            self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
+        }
     }
     
     var isLoved = false
     var loving = false
+    var loveCount = 0
     func love()
     {
         if (User.IsLoggedIn == false)
@@ -480,6 +542,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             return
         }
         isLoved = true
+        loveCount+=1
         setupLoveView()
         request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
@@ -500,6 +563,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     func callApiUnlove()
     {
         isLoved = false
+        loveCount-=1
         setupLoveView()
         request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
@@ -523,9 +587,25 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             return
         }
         
-        detail = obj
-        
         var product = (obj?.json)!["_data"]
+        if (detail == nil)
+        {
+            detail = obj
+            isLoved = (product["love"].bool)!
+            loveCount = product["num_lovelist"].int!
+        }
+        
+        if let free_ongkir = product["free_ongkir"].bool
+        {
+            if (free_ongkir == false)
+            {
+                
+            }
+        } else
+        {
+            conWidthOngkir.constant = 0
+            conMarginOngkir.constant = 0
+        }
         
         captionTitle?.text = obj?.name
         if let oldPrice = product["price_original"].int?.asPrice
@@ -544,13 +624,20 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             captionPrice?.text = ""
         }
         
-        if let loved = product["love"].bool
+        if (isLoved)
         {
-            isLoved = loved
             setupLoveView()
         }
-        captionCountLove?.text = String(product["num_lovelist"].int!)
+        captionCountLove?.text = String(loveCount)
         captionCountComment?.text = obj?.discussionCountText
+        
+        if let brand_under_review = product["brand_under_review"].bool
+        {
+            if (brand_under_review == false)
+            {
+                sectionBrandReview?.hidden = true
+            }
+        }
     }
     
     func setupLoveView()
@@ -616,6 +703,19 @@ class ProductCellSeller : UITableViewCell
         var product = (obj?.json)!["_data"]
         
         captionSellerName?.text = product["seller"]["fullname"].string!
+        let average_star = product["seller"]["average_star"].int!
+        var stars = ""
+        for x in 1...4
+        {
+            if (x <= average_star)
+            {
+                stars = stars+""
+            } else
+            {
+                stars = stars+""
+            }
+        }
+        captionSellerRating?.text = stars
         ivSellerAvatar?.setImageWithUrl((obj?.shopAvatarURL)!, placeHolderImage: nil)
     }
     

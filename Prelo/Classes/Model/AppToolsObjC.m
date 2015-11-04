@@ -36,6 +36,32 @@ static UIDocumentInteractionController *staticDocController = NULL;
     }
 }
 
++ (NSArray *)searchHistories
+{
+    NSArray *arr = [[NSUserDefaults standardUserDefaults] stringArrayForKey:@"search"];
+    if (arr)
+    {
+        return arr;
+    } else
+    {
+        return @[];
+    }
+}
+
++ (void)insertNewSearch:(NSString *)keyword
+{
+    NSMutableArray *arr = [AppToolsObjC searchHistories].mutableCopy;
+    [arr insertObject:keyword atIndex:0];
+    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"search"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (void) clearSearch
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"search"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 + (NSString *)stringWithData:(NSData *)data
 {
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

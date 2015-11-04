@@ -10,6 +10,12 @@
 		210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000B91BCB89D500E16611 /* MessagePool.swift */; };
 		210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */; };
 		210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 210107F81B687ED4005698D1 /* Prelo2.ttf */; };
+		210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */; };
+		210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */; };
+		210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */; };
+		210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */; };
+		210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */; };
+		210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */; };
 		210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */; };
 		210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AE1B8DD088000F2939 /* ic_cacat@2x.png */; };
@@ -273,6 +279,9 @@
 		217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */; };
 		217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
 		2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */; };
+		21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */; };
+		21983BF01BE1DE3A00F0C24E /* PreloWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */; };
+		21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */; };
 		219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F2D421BC75F5100C14C1F /* InboxViewController.swift */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
@@ -423,6 +432,12 @@
 		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePool.swift; sourceTree = "<group>"; };
 		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
+		210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_bbm@2x.png"; sourceTree = "<group>"; };
+		210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_call@2x.png"; sourceTree = "<group>"; };
+		210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_email@2x.png"; sourceTree = "<group>"; };
+		210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_line@2x.png"; sourceTree = "<group>"; };
+		210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_sms@2x.png"; sourceTree = "<group>"; };
+		210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_wasap@2x.png"; sourceTree = "<group>"; };
 		210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_backarrow@2x.png"; sourceTree = "<group>"; };
 		210959AE1B8DD088000F2939 /* ic_cacat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cacat@2x.png"; sourceTree = "<group>"; };
@@ -768,6 +783,9 @@
 		217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarContainerViewController.swift; sourceTree = "<group>"; };
 		217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiController.swift; sourceTree = "<group>"; };
 		2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreHeader.xib; sourceTree = "<group>"; };
+		21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductImageFullScreen.swift; sourceTree = "<group>"; };
+		21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloWebViewController.swift; sourceTree = "<group>"; };
+		21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
 		2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 3.xcdatamodel"; sourceTree = "<group>"; };
 		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
@@ -1574,6 +1592,9 @@
 				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
 				2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */,
 				2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */,
+				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
+				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
+				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1642,6 +1663,12 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
+				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
+				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
+				210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */,
+				210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */,
+				210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */,
 				440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */,
 				440AF65C1BE1090800074CBC /* ic_round_email.png */,
 				440AF65D1BE1090800074CBC /* ic_round_facebook.png */,
@@ -2017,6 +2044,7 @@
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
+				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2141BBAF1B54BE4C00787F5D /* LICENSE in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
@@ -2028,6 +2056,7 @@
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
+				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -2041,6 +2070,7 @@
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
+				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
 				440AF6661BE1090800074CBC /* ic_round_facebook.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
@@ -2057,6 +2087,8 @@
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
+				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
+				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
 				2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */,
@@ -2071,6 +2103,7 @@
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
+				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
@@ -2211,6 +2244,7 @@
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
 				44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */,
+				21983BF01BE1DE3A00F0C24E /* PreloWebViewController.swift in Sources */,
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				21104AC91BAA8EF800947E7F /* CDRegion.swift in Sources */,
@@ -2278,6 +2312,7 @@
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
+				21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */,
 				2141BBA61B54BE4C00787F5D /* README.md in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
@@ -2309,6 +2344,7 @@
 				219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */,
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */,
 				2141BBBF1B54BE4C00787F5D /* NSMutableDictionary+BFKit.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,

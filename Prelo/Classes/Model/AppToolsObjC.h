@@ -37,6 +37,9 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (NSString *) stringWithData:(NSData *)data;
 
++ (NSArray *) searchHistories;
++ (void) insertNewSearch:(NSString *)keyword;
+
 + (void) shareToInstagram:(UIImage *)image from:(UIViewController *)parent;
 
 @end

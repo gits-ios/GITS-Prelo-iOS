@@ -327,12 +327,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     {
                         Constant.showDialog("Warning", message: error)
                     } else {
+                        println(res)
                         self.checkoutResult = JSON(res!)["_data"]
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                         c.orderID = (self.checkoutResult?["order_id"].string)!
                         c.totalPayment = (self.checkoutResult?["total_price"].int)!
                         c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
                         c.transactionId = (self.checkoutResult?["transaction_id"].string)!
+                        c.items = self.arrayItem
                         
                         for p in self.products
                         {

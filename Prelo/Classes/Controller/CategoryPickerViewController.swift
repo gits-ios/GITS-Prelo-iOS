@@ -67,12 +67,14 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         }
         
         if let imageName = j["image_name"].string {
-            if let url = NSURL(string: imageName) {
-                if let data = NSData(contentsOfURL: url) {
-                    c.imageView.contentMode = UIViewContentMode.ScaleAspectFit
-                    c.imageView.image = UIImage(data: data)
-                }
-            }
+            c.imageView.backgroundColor = UIColor.whiteColor()
+            c.imageView.setImageWithUrl(NSURL(string: imageName)!, placeHolderImage: nil)
+//            if let url = NSURL(string: imageName) {
+//                if let data = NSData(contentsOfURL: url) {
+//                    c.imageView.contentMode = UIViewContentMode.ScaleAspectFit
+//                    c.imageView.image = UIImage(data: data)
+//                }
+//            }
         }
         
         return c

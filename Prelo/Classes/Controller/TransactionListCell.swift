@@ -18,14 +18,20 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet weak var consWidthLblOrderStatus: NSLayoutConstraint!
     @IBOutlet weak var lblOrderTime: UILabel!
     
+    @IBOutlet var imgProduct2 : UIImageView!
+    @IBOutlet var imgProduct3 : UIImageView!
+    @IBOutlet var captionMore : UILabel!
+    
+    @IBOutlet var imgs : [UIView] = []
+    
     func adapt(userPurchase : UserTransaction) {
         if (userPurchase.productImageURL != nil) {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         }
         lblProductName.text = userPurchase.productName
-        lblPrice.text = "\(userPurchase.productPrice.asPrice)"
-        lblCommentCount.text = userPurchase.productCommentCount.string
-        lblLoveCount.text = userPurchase.productLoveCount.string
+        lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
+        lblCommentCount.text = ""
+        lblLoveCount.text = ""
         lblOrderStatus.text = userPurchase.progressText.uppercaseString
         lblOrderTime.text = userPurchase.time
         
@@ -42,6 +48,46 @@ class TransactionListCell : UITableViewCell {
             lblOrderStatus.textColor == UIColor.redColor()
         } else {
             lblOrderStatus.textColor == Theme.ThemeOrange
+        }
+        
+        let images = userPurchase.productImages
+        for v in imgs
+        {
+            v.hidden = true
+        }
+        
+        if (images.count > 0)
+        {
+            for i in 0...images.count-1
+            {
+                if (i > imgs.count-1)
+                {
+                    break
+                }
+                
+                let v = imgs[i]
+                v.hidden = false
+                let url = images[i]
+                if (i == 0)
+                {
+                    imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+                }
+                
+                if (i == 1)
+                {
+                    imgProduct2.setImageWithUrl(url, placeHolderImage: nil)
+                }
+                
+                if (i == 2)
+                {
+                    imgProduct3.setImageWithUrl(url, placeHolderImage: nil)
+                }
+                
+                if (i == 3)
+                {
+                    captionMore.text = String(images.count-3) + "+"
+                }
+            }
         }
     }
 }

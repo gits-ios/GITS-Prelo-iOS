@@ -34,8 +34,9 @@ extension NSMutableURLRequest
         
         if (User.IsLoggedIn) {
 //            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
-            r.setValue("Token " + User.Token!, forHTTPHeaderField: "Authorization")
-            println("User token = \(User.Token!)")
+            let t = User.Token!
+            r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
+            println("User token = \(t)")
         }
         
         return r
@@ -304,7 +305,8 @@ enum APIInbox : URLRequestConvertible
             case .GetInboxByProductID(_) : return [:]
             case .GetInboxes : return [:]
             case .GetInboxMessage(_) : return [:]
-            case .StartNewOne(let prodId, let type, let m) : return ["product_id":prodId, "message_type":String(type), "message":m]
+            case .StartNewOne(let prodId, let type, let m) :
+                return ["product_id":prodId, "message_type":String(type), "message":m]
             case .SendTo (_, let type, let message) : return ["message_type":type, "message":message]
             }
     }

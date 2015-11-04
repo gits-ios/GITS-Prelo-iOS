@@ -487,6 +487,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
+        println(json)
         return json["_data"]["_id"].string!
     }
     
@@ -516,6 +517,30 @@ public class ProductDetail : NSObject, TawarItem
             }
         }
         return []
+    }
+    
+    var originalPicturers : Array<String>
+        {
+            println(json)
+            if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
+            {
+                return ori
+            } else if let ori = json["_data"]["original_picts"].arrayObject
+            {
+                if (ori.count > 0)
+                {
+                    var arr : [String] = []
+                    for i in 0...ori.count-1
+                    {
+                        if let o = ori[i] as? String
+                        {
+                            arr.append(o)
+                        }
+                    }
+                    return arr
+                }
+            }
+            return []
     }
     
     var shopAvatarURL : NSURL?
@@ -666,7 +691,7 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var opIsMe : Bool {
-        return false
+        return true
     }
     
     var threadId : String {
@@ -917,6 +942,24 @@ class UserTransaction: NSObject {
         }
     }
     
+    var productImages : [NSURL] {
+        let arr = json["transaction_products"].array!
+        var images : [NSURL] = []
+        if (arr.count == 0) {
+            return images
+        }
+        for i in 0...arr.count-1
+        {
+            let d = arr[i]
+            let p = Product.instance(d)
+            if let url = p?.coverImageURL
+            {
+                images.append(url)
+            }
+        }
+        return images
+    }
+    
     var id : String {
         let t = (json["_id"].string)!
         return t
@@ -953,17 +996,21 @@ class UserTransaction: NSObject {
     }
     
     var productName : String {
-        let p = (json["product"]["name"].string)!
+        let arr = json["transaction_products"].array!
+        let p = arr[0]["product_name"].string!
+//        let p = (json["product"]["name"].string)!
         return p
     }
     
     // Only take first image from json
     var productImageURL : NSURL? {
-        if let err = json["product"]["display_picts"][0].error
+        let arr = json["transaction_products"].array!
+        
+        if let err = arr[0]["display_picts"][0].error
         {
             return nil
         }
-        let url = json["product"]["display_picts"][0].string!
+        let url = arr[0]["display_picts"][0].string!
         return NSURL(string: url)
     }
     
@@ -1341,6 +1388,15 @@ class SearchUser : NSObject
             return name
         }
         return ""
+    }
+    
+    var username : String
+        {
+            if let name = json?["username"].string
+            {
+                return name
+            }
+            return ""
     }
     
     var id : String

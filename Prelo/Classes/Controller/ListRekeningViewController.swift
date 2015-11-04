@@ -34,18 +34,6 @@ class ListRekeningViewController: BaseViewController {
     var first = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let arr = self.navigationController?.viewControllers
-        {
-            if (first)
-            {
-                var x = arr
-                x.removeAtIndex(x.count-2)
-                x.removeAtIndex(x.count-2)
-                self.navigationController?.setViewControllers(x, animated: false)
-                first = false
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {
