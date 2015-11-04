@@ -47,13 +47,13 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if (cameraAdd == 1)
+        /*if (cameraAdd == 1)
         {
             let i = UIImagePickerController()
             i.sourceType = UIImagePickerControllerSourceType.Camera
             i.delegate = self
             self.presentViewController(i, animated: true, completion: nil)
-        }
+        }*/
     }
     
     override func dismiss() {
