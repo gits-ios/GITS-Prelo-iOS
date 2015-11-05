@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 typealias EditDoneBlock = () -> ()
 
 class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
 {
 
-    @IBOutlet var txtName : SZTextView!
+    @IBOutlet var txtName : UITextField!
+    @IBOutlet var txtAlasanJual : UITextField!
+    @IBOutlet var txtSpesial : UITextField!
+    @IBOutlet var txtDeskripsiCacat : UITextField!
     @IBOutlet var txtDescription : SZTextView!
     var growerName : GrowingTextViewHandler?
     var growerDesc : GrowingTextViewHandler?
@@ -21,6 +25,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var conHeightTxtName : NSLayoutConstraint!
     @IBOutlet var conHeightTxtDesc : NSLayoutConstraint!
     @IBOutlet var conHeightWeightView : NSLayoutConstraint!
+    @IBOutlet var conHeightCacat : NSLayoutConstraint!
     @IBOutlet var conHeightSize : NSLayoutConstraint!
     
     @IBOutlet var scrollView : UIScrollView!
@@ -83,12 +88,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtWeight.hidden = true
         
         txtName.placeholder = "Nama Produk"
-        txtDescription.placeholder = "Deskripsi"
+        txtDescription.placeholder = "Spesifikasi (Optional)"
         
-        txtName.fadeTime = 0.2
+//        txtName.fadeTime = 0.2
         txtDescription.fadeTime = 0.2
         
-        growerName = GrowingTextViewHandler(textView: txtName, withHeightConstraint: conHeightTxtName)
+//        growerName = GrowingTextViewHandler(textView: txtName, withHeightConstraint: conHeightTxtName)
         growerName?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
         
         growerDesc = GrowingTextViewHandler(textView: txtDescription, withHeightConstraint: conHeightTxtDesc)
@@ -626,7 +631,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         
                         picker.selectBlock = { s in
                             self.kodindisiId = PickerViewController.RevealHiddenString(s)
-                            self.captionKondisi.text = PickerViewController.HideHiddenString(s)
+                            let x = PickerViewController.HideHiddenString(s)
+                            self.captionKondisi.text = x
+                            if (x.lowercaseString == "cukup bagus")
+                            {
+                                self.conHeightCacat.constant = 44
+                                self.txtDeskripsiCacat.hidden = false
+                            } else
+                            {
+                                self.conHeightCacat.constant = 0
+                                self.txtDeskripsiCacat.hidden = true
+                            }
                         }
                         
                         picker.items = items
@@ -647,42 +662,65 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if let url = s
         {
             let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
-            p.merkMode = true
-            p.prepDataBlock = { picker in
-                picker.textTitle = "Pilih Merek"
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
-                    {
-                        let json = JSON(res!)
-                        let brands = json["brands"]["_data"].array
-                        var items : Array<String> = []
-                        if let arrBrands = brands
-                        {
-                            for i in 0...(arrBrands.count)-1
-                            {
-                                let j = arrBrands[i]
-                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                items.append(m)
-                            }
-                        }
-                        
-                        picker.selectBlock = { s in
-                            self.merekId = PickerViewController.RevealHiddenString(s)
-                            var x : String = PickerViewController.HideHiddenString(s)
-                            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-                            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
-                            self.captionMerek.text = x
-                        }
-                        
-                        picker.items = items
-                        picker.tableView.reloadData()
-                        picker.doneLoading()
-                        picker.showSearch = true
-                    } else {
-                        
-                    }
-                }
+            
+            let req = NSFetchRequest(entityName: "CDBrand")
+            let arr = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.executeFetchRequest(req, error: nil) as! [CDBrand]
+            
+            var names : [String] = []
+            
+            for b in arr
+            {
+                let s = b.name + PickerViewController.TAG_START_HIDDEN + b.id + PickerViewController.TAG_END_HIDDEN
+                names.append(s)
             }
+            
+            p.merkMode = true
+            p.items = names
+            p.selectBlock = { s in
+                self.merekId = PickerViewController.RevealHiddenString(s)
+                var x : String = PickerViewController.HideHiddenString(s)
+                x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+                x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+                self.captionMerek.text = x
+            }
+            p.showSearch = true
+            
+            
+//            p.prepDataBlock = { picker in
+//                picker.textTitle = "Pilih Merek"
+//                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
+//                    if (APIPrelo.validate(true, err: err, resp: resp))
+//                    {
+//                        let json = JSON(res!)
+//                        let brands = json["brands"]["_data"].array
+//                        var items : Array<String> = []
+//                        if let arrBrands = brands
+//                        {
+//                            for i in 0...(arrBrands.count)-1
+//                            {
+//                                let j = arrBrands[i]
+//                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+//                                items.append(m)
+//                            }
+//                        }
+//                        
+//                        picker.selectBlock = { s in
+//                            self.merekId = PickerViewController.RevealHiddenString(s)
+//                            var x : String = PickerViewController.HideHiddenString(s)
+//                            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+//                            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+//                            self.captionMerek.text = x
+//                        }
+//                        
+//                        picker.items = items
+//                        picker.tableView.reloadData()
+//                        picker.doneLoading()
+//                        picker.showSearch = true
+//                    } else {
+//                        
+//                    }
+//                }
+//            }
             self.navigationController?.pushViewController(p, animated: true)
         }
     }
@@ -694,6 +732,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let weight = txtWeight.text
         let oldPrice = txtOldPrice.text
         let newPrice = txtNewPrice.text
+        let special = txtSpesial.text
+        let deflect = txtDeskripsiCacat.text
+        let alasan = txtAlasanJual.text
         
         var imgs : [AnyObject] = []
         for v in imageViews
@@ -713,10 +754,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
-        if (validateString(desc, message: "Deskripsi produk masih kosong") == false)
-        {
-            return
-        }
+//        if (validateString(desc, message: "Deskripsi produk masih kosong") == false)
+//        {
+//            return
+//        }
         
         if (validateString(weight, message: "Berat produk masih kosong") == false)
         {
@@ -743,6 +784,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
+        if (validateString(alasan, message: "Silahkan isi alasan jual kamu") == false)
+        {
+            return
+        }
+        
+        if (validateString(deflect, message: "") == false && txtDeskripsiCacat.hidden == false)
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat produk kamu")
+            return
+        }
+        
         if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
             UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek produk")
@@ -764,13 +816,31 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "weight":weight,
             "free_ongkir":String(freeOngkir),
             "product_condition_id":kodindisiId,
+            "sell_reason":alasan,
+            "defect_description":deflect,
+            "special_story":special,
             "brand_id":merekId,
             "size":txtSize.text]
+        
+        if (desc == "")
+        {
+            param.removeValueForKey("description")
+        }
         
         if (merekId == "")
         {
             param.removeValueForKey("brand_id")
             param["proposed_brand"] = captionMerek.text
+        }
+        
+        if (special == "")
+        {
+            param.removeValueForKey("special_story")
+        }
+        
+        if (alasan == "")
+        {
+            param.removeValueForKey("sell_reason")
         }
         
         var url = "http://dev.prelo.id/api/product"
