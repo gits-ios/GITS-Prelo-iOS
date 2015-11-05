@@ -39,9 +39,22 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUs-Fp-7Uj" userLabel="Group Upload Foto">
                                         <rect key="frame" x="8" y="27" width="584" height="64"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I4l-cm-c43">
+                                            <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qfi-Ym-Y7o">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
-                                            </imageView>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I4l-cm-c43">
+                                                        <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="I4l-cm-c43" firstAttribute="top" secondItem="Qfi-Ym-Y7o" secondAttribute="top" id="Emi-4C-61I"/>
+                                                    <constraint firstItem="I4l-cm-c43" firstAttribute="leading" secondItem="Qfi-Ym-Y7o" secondAttribute="leading" id="I9E-T3-RQG"/>
+                                                    <constraint firstAttribute="trailing" secondItem="I4l-cm-c43" secondAttribute="trailing" id="Rmj-NV-nlQ"/>
+                                                    <constraint firstAttribute="width" constant="64" id="VOf-qN-54W"/>
+                                                    <constraint firstAttribute="height" constant="64" id="ZTR-lC-TjO"/>
+                                                    <constraint firstAttribute="bottom" secondItem="I4l-cm-c43" secondAttribute="bottom" id="j2E-lb-UMM"/>
+                                                </constraints>
+                                            </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                                 <constraints>
@@ -78,8 +91,10 @@
                                         <constraints>
                                             <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="3Pn-CZ-Mr1"/>
                                             <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="4kh-45-v4M"/>
+                                            <constraint firstItem="Qfi-Ym-Y7o" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="K73-M5-khM"/>
                                             <constraint firstItem="wzG-eu-RHF" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="Kmv-bn-IfJ"/>
                                             <constraint firstAttribute="height" constant="64" id="PhR-D8-oWN"/>
+                                            <constraint firstItem="Qfi-Ym-Y7o" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="QgN-47-UD0"/>
                                             <constraint firstItem="n0W-Im-eAT" firstAttribute="top" secondItem="fr2-q0-Q8A" secondAttribute="bottom" constant="7" id="V8a-Z9-vMu"/>
                                             <constraint firstAttribute="trailing" secondItem="fr2-q0-Q8A" secondAttribute="trailing" id="WuS-Px-sm3"/>
                                             <constraint firstItem="wzG-eu-RHF" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="XrD-QC-DXs"/>
@@ -120,13 +135,22 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="LOGIN INSTAGRAM">
+                                                <state key="normal">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="loginInstagramPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="lLV-nm-PpZ"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN INSTAGRAM" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2C3-GV-unz">
+                                                <rect key="frame" x="82" y="25" width="483" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="j2p-jn-bxV"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tee-7Q-JvI" userLabel="Facebook">
                                                 <rect key="frame" x="0.0" y="73" width="55" height="40"/>
                                                 <constraints>
@@ -148,7 +172,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="LOGIN FACEBOOK">
+                                                <state key="normal">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -156,6 +180,15 @@
                                                     <action selector="loginFacebookPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="ZP7-wO-GFa"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN FACEBOOK" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eg7-3Y-pu6">
+                                                <rect key="frame" x="82" y="73" width="483" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="658-t0-Y16"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3S-Hc-bo5" userLabel="Twitter">
                                                 <rect key="frame" x="0.0" y="121" width="55" height="40"/>
                                                 <constraints>
@@ -177,7 +210,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="LOGIN TWITTER">
+                                                <state key="normal">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -185,6 +218,15 @@
                                                     <action selector="loginTwitterPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="gDC-SM-0g7"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN TWITTER" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kz8-QP-Hfg">
+                                                <rect key="frame" x="82" y="121" width="483" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="mUe-yF-mvA"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4dG-ma-Qaq" userLabel="Path">
                                                 <rect key="frame" x="0.0" y="169" width="55" height="40"/>
                                                 <constraints>
@@ -206,7 +248,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="LOGIN PATH">
+                                                <state key="normal">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -214,32 +256,53 @@
                                                     <action selector="loginPathPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="sE2-EV-unu"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN PATH" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdE-gw-p9T">
+                                                <rect key="frame" x="82" y="169" width="483" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="vcQ-VV-Qub"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="4hB-w0-4Dq" firstAttribute="leading" secondItem="PLV-3Q-3qI" secondAttribute="leading" id="0rm-V9-YTO"/>
                                             <constraint firstAttribute="trailing" secondItem="Rk3-kg-X1r" secondAttribute="trailing" id="9FH-0O-xQY"/>
+                                            <constraint firstItem="eg7-3Y-pu6" firstAttribute="top" secondItem="Aiq-rk-Wkk" secondAttribute="top" id="D4i-vw-ftk"/>
                                             <constraint firstItem="M6E-BQ-ROs" firstAttribute="leading" secondItem="PLV-3Q-3qI" secondAttribute="leading" id="FpZ-Yx-vgS"/>
                                             <constraint firstAttribute="trailing" secondItem="4hB-w0-4Dq" secondAttribute="trailing" id="Gkh-lJ-fLC"/>
+                                            <constraint firstItem="Kz8-QP-Hfg" firstAttribute="leading" secondItem="Y2z-wt-VNh" secondAttribute="leading" constant="19" id="Jlm-pt-wIa"/>
                                             <constraint firstItem="zYg-iZ-rly" firstAttribute="top" secondItem="4hB-w0-4Dq" secondAttribute="bottom" constant="8" id="P6f-OE-Job"/>
                                             <constraint firstAttribute="trailing" secondItem="Aiq-rk-Wkk" secondAttribute="trailing" id="RnE-EA-3ai"/>
+                                            <constraint firstItem="zYg-iZ-rly" firstAttribute="trailing" secondItem="2C3-GV-unz" secondAttribute="trailing" constant="19" id="TcP-lZ-DdQ"/>
+                                            <constraint firstItem="zYg-iZ-rly" firstAttribute="leading" secondItem="2C3-GV-unz" secondAttribute="leading" constant="-19" id="UgN-eP-vaa"/>
                                             <constraint firstAttribute="height" constant="209" id="VXK-IE-hkC"/>
+                                            <constraint firstItem="Kz8-QP-Hfg" firstAttribute="top" secondItem="Y2z-wt-VNh" secondAttribute="top" id="X7Z-uC-0lr"/>
                                             <constraint firstItem="4hB-w0-4Dq" firstAttribute="top" secondItem="PLV-3Q-3qI" secondAttribute="top" id="XJd-QU-56X"/>
                                             <constraint firstItem="tee-7Q-JvI" firstAttribute="top" secondItem="M6E-BQ-ROs" secondAttribute="bottom" constant="8" id="YwN-Zq-EVn"/>
+                                            <constraint firstItem="sdE-gw-p9T" firstAttribute="leading" secondItem="Rk3-kg-X1r" secondAttribute="leading" constant="19" id="dTs-7s-A00"/>
                                             <constraint firstItem="Aiq-rk-Wkk" firstAttribute="leading" secondItem="tee-7Q-JvI" secondAttribute="trailing" constant="8" id="dcS-xo-T61"/>
                                             <constraint firstItem="4dG-ma-Qaq" firstAttribute="top" secondItem="a3S-Hc-bo5" secondAttribute="bottom" constant="8" id="g2d-UG-Ry1"/>
                                             <constraint firstItem="tee-7Q-JvI" firstAttribute="leading" secondItem="PLV-3Q-3qI" secondAttribute="leading" id="hd1-Kj-jG4"/>
                                             <constraint firstItem="4dG-ma-Qaq" firstAttribute="leading" secondItem="PLV-3Q-3qI" secondAttribute="leading" id="heh-13-50y"/>
+                                            <constraint firstItem="zYg-iZ-rly" firstAttribute="top" secondItem="2C3-GV-unz" secondAttribute="top" id="j85-Dv-PMd"/>
                                             <constraint firstItem="Rk3-kg-X1r" firstAttribute="top" secondItem="Y2z-wt-VNh" secondAttribute="bottom" constant="8" id="ktJ-ZP-yft"/>
                                             <constraint firstAttribute="trailing" secondItem="Y2z-wt-VNh" secondAttribute="trailing" id="lYM-As-Wy7"/>
                                             <constraint firstItem="zYg-iZ-rly" firstAttribute="leading" secondItem="M6E-BQ-ROs" secondAttribute="trailing" constant="8" id="m3v-8g-3gs"/>
                                             <constraint firstItem="M6E-BQ-ROs" firstAttribute="top" secondItem="4hB-w0-4Dq" secondAttribute="bottom" constant="8" id="n41-zj-zHh"/>
+                                            <constraint firstItem="Kz8-QP-Hfg" firstAttribute="trailing" secondItem="Y2z-wt-VNh" secondAttribute="trailing" constant="-19" id="omx-Ji-fpw"/>
+                                            <constraint firstItem="eg7-3Y-pu6" firstAttribute="trailing" secondItem="Aiq-rk-Wkk" secondAttribute="trailing" constant="-19" id="rJl-Yk-k5a"/>
                                             <constraint firstAttribute="trailing" secondItem="zYg-iZ-rly" secondAttribute="trailing" id="tep-QZ-I7i"/>
                                             <constraint firstItem="Y2z-wt-VNh" firstAttribute="top" secondItem="Aiq-rk-Wkk" secondAttribute="bottom" constant="8" id="tnj-Cj-K0l"/>
                                             <constraint firstItem="a3S-Hc-bo5" firstAttribute="leading" secondItem="PLV-3Q-3qI" secondAttribute="leading" id="uUT-l4-3oG"/>
+                                            <constraint firstItem="sdE-gw-p9T" firstAttribute="top" secondItem="Rk3-kg-X1r" secondAttribute="top" id="un1-ik-nkZ"/>
                                             <constraint firstItem="a3S-Hc-bo5" firstAttribute="top" secondItem="tee-7Q-JvI" secondAttribute="bottom" constant="8" id="vaT-XP-Zyd"/>
                                             <constraint firstItem="Y2z-wt-VNh" firstAttribute="leading" secondItem="a3S-Hc-bo5" secondAttribute="trailing" constant="8" id="w46-46-Jn4"/>
                                             <constraint firstItem="Aiq-rk-Wkk" firstAttribute="top" secondItem="zYg-iZ-rly" secondAttribute="bottom" constant="8" id="wKi-3Q-8gI"/>
                                             <constraint firstItem="Rk3-kg-X1r" firstAttribute="leading" secondItem="4dG-ma-Qaq" secondAttribute="trailing" constant="8" id="xzZ-5g-feD"/>
+                                            <constraint firstItem="sdE-gw-p9T" firstAttribute="trailing" secondItem="Rk3-kg-X1r" secondAttribute="trailing" constant="-19" id="yHy-qG-Pqa"/>
+                                            <constraint firstItem="eg7-3Y-pu6" firstAttribute="leading" secondItem="Aiq-rk-Wkk" secondAttribute="leading" constant="19" id="zkF-5x-pSU"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BWe-gK-ODw" userLabel="Group Data Diri">
@@ -1020,6 +1083,19 @@
                             </mask>
                         </variation>
                     </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7V-UM-C6Z" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1136"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="y0H-x9-vBk" userLabel="loading">
+                                <rect key="frame" x="290" y="25" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="y0H-x9-vBk" secondAttribute="centerX" id="P9u-sr-zjC"/>
+                            <constraint firstItem="y0H-x9-vBk" firstAttribute="top" secondItem="h7V-UM-C6Z" secondAttribute="top" constant="25" id="rzJ-rP-uNo"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <gestureRecognizers/>
@@ -1029,8 +1105,12 @@
                     <constraint firstItem="P6O-W2-hdL" firstAttribute="top" secondItem="TdC-7n-nuM" secondAttribute="bottom" id="GJd-BY-gLf"/>
                     <constraint firstItem="TdC-7n-nuM" firstAttribute="top" secondItem="YfT-x8-PUe" secondAttribute="bottom" id="GcX-L9-tVm"/>
                     <constraint firstAttribute="trailingMargin" secondItem="TdC-7n-nuM" secondAttribute="trailing" constant="-16" id="LcH-5t-hjG"/>
+                    <constraint firstItem="h7V-UM-C6Z" firstAttribute="leading" secondItem="MK9-6E-9tI" secondAttribute="leading" id="NbQ-AQ-0N8"/>
                     <constraint firstAttribute="trailing" secondItem="TdC-7n-nuM" secondAttribute="trailing" id="UQz-90-NXk"/>
                     <constraint firstItem="TdC-7n-nuM" firstAttribute="leading" secondItem="MK9-6E-9tI" secondAttribute="leadingMargin" constant="-16" id="dOu-G9-jZ5"/>
+                    <constraint firstAttribute="trailing" secondItem="h7V-UM-C6Z" secondAttribute="trailing" id="mlK-vb-u1P"/>
+                    <constraint firstItem="h7V-UM-C6Z" firstAttribute="top" secondItem="YfT-x8-PUe" secondAttribute="bottom" id="qsB-OQ-g5U"/>
+                    <constraint firstItem="P6O-W2-hdL" firstAttribute="top" secondItem="h7V-UM-C6Z" secondAttribute="bottom" id="yW1-Cc-F3G"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -1046,10 +1126,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="1200"/>
             <connections>
-                <outlet property="btnLoginFacebook" destination="Aiq-rk-Wkk" id="QBD-Bo-D9G"/>
-                <outlet property="btnLoginInstagram" destination="zYg-iZ-rly" id="mE3-Mu-ecY"/>
-                <outlet property="btnLoginPath" destination="Rk3-kg-X1r" id="sO3-dn-s6c"/>
-                <outlet property="btnLoginTwitter" destination="Y2z-wt-VNh" id="m5Z-vE-0RI"/>
                 <outlet property="btnSimpanData" destination="2rL-4Y-FGg" id="cFy-BW-ewh"/>
                 <outlet property="btnUserImage" destination="wzG-eu-RHF" id="pBd-5Z-Mn5"/>
                 <outlet property="contentViewHeightConstraint" destination="bDv-Tb-VoO" id="DSc-8B-FLR"/>
@@ -1062,9 +1138,15 @@
                 <outlet property="lblJenisKelamin" destination="zZr-F2-JEd" id="Tez-UT-L2Y"/>
                 <outlet property="lblJneCheckbox" destination="y8J-me-V4n" id="xLd-yR-jeG"/>
                 <outlet property="lblKabKota" destination="uaT-ie-m9g" id="vzp-CY-5Yk"/>
+                <outlet property="lblLoginFacebook" destination="eg7-3Y-pu6" id="0Bo-8s-38W"/>
+                <outlet property="lblLoginInstagram" destination="2C3-GV-unz" id="QNi-0O-pR8"/>
+                <outlet property="lblLoginPath" destination="sdE-gw-p9T" id="U62-cy-Jke"/>
+                <outlet property="lblLoginTwitter" destination="Kz8-QP-Hfg" id="eCU-m7-BRX"/>
                 <outlet property="lblNoHP" destination="ozF-RZ-e41" id="1R7-3L-Ef1"/>
                 <outlet property="lblProvinsi" destination="dDR-fx-KgW" id="iKu-Rb-fXd"/>
                 <outlet property="lblTikiCheckbox" destination="M3M-wy-drc" id="qfu-DG-gHO"/>
+                <outlet property="loading" destination="y0H-x9-vBk" id="keF-cx-7fx"/>
+                <outlet property="loadingPanel" destination="h7V-UM-C6Z" id="ghv-ga-wjJ"/>
                 <outlet property="scrollView" destination="TdC-7n-nuM" id="g4H-gZ-pnh"/>
             </connections>
             <point key="canvasLocation" x="-504" y="426"/>

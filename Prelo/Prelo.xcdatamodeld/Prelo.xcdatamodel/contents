@@ -88,6 +88,9 @@
         <attribute name="instagramUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isActiveSeller" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastLogin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pathAccessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pathID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pathUsername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phoneCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phoneVerified" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="registerTime" optional="YES" attributeType="String" syncable="YES"/>
@@ -123,6 +126,8 @@
     </entity>
     <elements>
         <element name="CartProduct" positionX="-27" positionY="-144" width="128" height="105"/>
+        <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
+        <element name="CDCategory" positionX="-11" positionY="117" width="128" height="193"/>
         <element name="CDCategorySize" positionX="144" positionY="63" width="128" height="133"/>
         <element name="CDNotification" positionX="-180" positionY="180" width="128" height="270"/>
         <element name="CDProductCondition" positionX="153" positionY="216" width="128" height="103"/>
@@ -130,10 +135,8 @@
         <element name="CDRegion" positionX="-180" positionY="-54" width="128" height="90"/>
         <element name="CDShipping" positionX="-18" positionY="-18" width="128" height="103"/>
         <element name="CDUser" positionX="126" positionY="-144" width="128" height="120"/>
-        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="360"/>
+        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="405"/>
         <element name="CDUserProfile" positionX="135" positionY="-423" width="128" height="180"/>
         <element name="CDVersion" positionX="-9" positionY="345" width="128" height="150"/>
-        <element name="CDCategory" positionX="-11" positionY="117" width="128" height="193"/>
-        <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
     </elements>
 </model>

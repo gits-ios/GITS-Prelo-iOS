@@ -13,9 +13,9 @@ import CoreData
 class CDUserOther: NSManagedObject {
 
     @NSManaged var emailVerified: NSNumber
-    @NSManaged var fbAccessToken: String
-    @NSManaged var fbID: String
-    @NSManaged var fbUsername: String
+    @NSManaged var fbAccessToken: String?
+    @NSManaged var fbID: String?
+    @NSManaged var fbUsername: String?
     @NSManaged var instagramAccessToken: String
     @NSManaged var instagramID: String
     @NSManaged var instagramUsername: String
@@ -31,6 +31,9 @@ class CDUserOther: NSManagedObject {
     @NSManaged var twitterAccessToken: String
     @NSManaged var twitterID: String
     @NSManaged var twitterTokenSecret: String
+    @NSManaged var pathID: String?
+    @NSManaged var pathUsername: String?
+    @NSManaged var pathAccessToken: String?
     @NSManaged var shippingIDs: NSData
 
     static func getOne() -> CDUserOther? {

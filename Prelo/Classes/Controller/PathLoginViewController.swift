@@ -49,7 +49,14 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
     
     func batal()
     {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if (self.standAlone)
+        {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else
+        {
+            self.delegate?.hideLoading()
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     func webViewDidStartLoad(webView: UIWebView) {

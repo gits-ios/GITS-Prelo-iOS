@@ -56,7 +56,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 
                 let o = me?.others
                 
-                let fbt = o?.fbAccessToken
+                let fbt = o?.fbAccessToken!
                 var fbtoken = ""
                 if let t = fbt
                 {

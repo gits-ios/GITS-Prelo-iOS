@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, UIAlertViewDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
@@ -17,10 +17,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBOutlet weak var imgUser: UIImageView!
     @IBOutlet weak var btnUserImage: UIButton!
     
-    @IBOutlet weak var btnLoginInstagram: UIButton!
-    @IBOutlet weak var btnLoginFacebook: UIButton!
-    @IBOutlet weak var btnLoginTwitter: UIButton!
-    @IBOutlet weak var btnLoginPath: UIButton!
+    @IBOutlet weak var lblLoginInstagram: UILabel!
+    @IBOutlet weak var lblLoginFacebook: UILabel!
+    @IBOutlet weak var lblLoginTwitter: UILabel!
+    @IBOutlet weak var lblLoginPath: UILabel!
     
     @IBOutlet weak var fieldNama: UITextField!
     @IBOutlet weak var lblNoHP: UILabel!
@@ -38,6 +38,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBOutlet weak var btnSimpanData: UIButton!
     
+    @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     var jneSelected : Bool = false
     var tikiSelected : Bool = false
     let JNE_REGULAR_ID = "54087faabaede1be0b000001"
@@ -49,6 +52,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     var isPickingKabKota : Bool = false
     var isPickingJenKel : Bool = false
     var isUserPictUpdated : Bool = false
+    
+    var isLoggedInInstagram : Bool = false
+    var isLoggedInFacebook : Bool = false
+    var isLoggedInTwitter : Bool = false
+    var isLoggedInPath : Bool = false
     
     var asset : ALAssetsLibrary?
     
@@ -64,15 +72,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         btnUserImage.layer.borderWidth = 1
         btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
         
-        // Border untuk tombol login social media
-        btnLoginInstagram.layer.borderWidth = 1
-        btnLoginFacebook.layer.borderWidth = 1
-        btnLoginTwitter.layer.borderWidth = 1
-        btnLoginPath.layer.borderWidth = 1
-        btnLoginInstagram.layer.borderColor = UIColor.lightGrayColor().CGColor
-        btnLoginFacebook.layer.borderColor = UIColor.lightGrayColor().CGColor
-        btnLoginTwitter.layer.borderColor = UIColor.lightGrayColor().CGColor
-        btnLoginPath.layer.borderColor = UIColor.lightGrayColor().CGColor
+        // Tampilan loading
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.hidden = true
+        loading.stopAnimating()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -196,6 +199,16 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 lblTikiCheckbox.textColor = Theme.ThemeOrange
             }
         }
+        
+        // Socmed
+        if ((userOther.fbAccessToken != nil) && (userOther.fbID != nil) && (userOther.fbUsername != nil)) { // Sudah login
+            self.lblLoginFacebook.text = userOther.fbUsername
+            self.isLoggedInFacebook = true
+        }
+        if ((userOther.pathAccessToken != nil) && (userOther.pathID != nil) && (userOther.pathUsername != nil)) { // Sudah login
+            self.lblLoginPath.text = userOther.pathUsername
+            self.isLoggedInPath = true
+        }
     }
     
     func pickerDidSelect(item: String) {
@@ -255,7 +268,89 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     @IBAction func loginFacebookPressed(sender: UIButton) {
-        // TODO : login facebook
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        if (!isLoggedInFacebook) { // Then login
+            // Log in and get permission from facebook
+            let fbLoginManager = FBSDKLoginManager()
+            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+                if (error != nil) { // Process error
+                    println("Process error")
+                    User.LogoutFacebook()
+                } else if result.isCancelled { // User cancellation
+                    println("User cancel")
+                    User.LogoutFacebook()
+                } else { // Success
+                    if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
+                        // Do work
+                        self.fbLogin()
+                    } else {
+                        // Handle not getting permission
+                    }
+                }
+            })
+        } else { // Then logout
+            let logoutAlert = UIAlertView(title: "Facebook Logout", message: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", delegate: self, cancelButtonTitle: "No")
+            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.show()
+        }
+    }
+    
+    func fbLogin()
+    {
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
+            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                if ((error) != nil) {
+                    // Handle error
+                    println("Error fetching facebook profile")
+                } else {
+                    // Handle Profile Photo URL String
+                    let userId =  result["id"] as! String
+                    let name = result["name"] as! String
+                    let email = result["email"] as! String
+                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                    
+                    println("result = \(result)")
+                    println("accessToken = \(accessToken)")
+                    
+                    request(APISocial.PostFacebookData(id: userId, username: name, token: accessToken)).responseJSON {req, _, res, err in
+                        println("Post fb data req = \(req)")
+                        
+                        if (err != nil) { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                        } else {
+                            let json = JSON(res!)
+                            let data = json["_data"].bool
+                            if (data != nil && data == true) { // Berhasil
+                                // Save in core data
+                                let userOther : CDUserOther = CDUserOther.getOne()!
+                                userOther.fbID = userId
+                                userOther.fbUsername = name
+                                userOther.fbAccessToken = accessToken
+                                UIApplication.appDelegate.saveContext()
+                                
+                                // Adjust fb button
+                                self.lblLoginFacebook.text = name
+                                self.isLoggedInFacebook = true
+                                
+                                // Hide loading
+                                self.hideLoading()
+                            } else { // Terdapat error
+                                Constant.showDialog("Warning", message: "Post FB data error")
+                            }
+                        }
+                    }
+                }
+            })
+        }
     }
     
     @IBAction func loginTwitterPressed(sender: UIButton) {
@@ -263,7 +358,58 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     @IBAction func loginPathPressed(sender: UIButton) {
-        // TODO : login path
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        if (!isLoggedInPath) { // Login
+            let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+            pathLoginVC.delegate = self
+            self.navigationController?.pushViewController(pathLoginVC, animated: true)
+        } else { // Logout
+            let logoutAlert = UIAlertView(title: "Path Logout", message: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", delegate: self, cancelButtonTitle: "No")
+            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.show()
+        }
+    }
+    
+    func pathLoginSuccess(userData: JSON, token: String) {
+        let pathId = userData["id"].string!
+        let pathName = userData["name"].string!
+        let email = userData["email"].string!
+        
+        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON {req, _, res, err in
+            println("Post path data req = \(req)")
+            
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"].bool
+                if (data != nil && data == true) { // Berhasil
+                    // Save in core data
+                    let userOther : CDUserOther = CDUserOther.getOne()!
+                    userOther.pathID = pathId
+                    userOther.pathUsername = pathName
+                    userOther.pathAccessToken = token
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Adjust path button
+                    self.lblLoginPath.text = pathName
+                    self.isLoggedInPath = true
+                    
+                    // Hide loading
+                    self.hideLoading()
+                } else { // Terdapat error
+                    Constant.showDialog("Warning", message: "Post path data error")
+                }
+            }
+        }
+    }
+    
+    func hideLoading() {
+        loadingPanel.hidden = true
+        loading.stopAnimating()
     }
     
     @IBAction func nomorHpPressed(sender: AnyObject) {
@@ -315,6 +461,77 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             p?.title = "Kota/Kabupaten"
             self.view.endEditing(true)
             self.navigationController?.pushViewController(p!, animated: true)
+        }
+    }
+    
+    // MARK: - UIAlertView Delegate Functions
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if (buttonIndex == 0) { // "No"
+            // Hide loading
+            self.hideLoading()
+        } else if (buttonIndex == 1) { // "Yes"
+            if (alertView.title == "Instagram Logout") {
+                
+            } else if (alertView.title == "Facebook Logout") {
+                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
+                    println("Post FB data req = \(req)")
+                    
+                    if (err != nil) { // Terdapat error
+                        Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                    } else {
+                        let json = JSON(res!)
+                        let data = json["_data"].bool
+                        if (data != nil && data == true) { // Berhasil
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.fbID = nil
+                            userOther.fbUsername = nil
+                            userOther.fbAccessToken = nil
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust fb button
+                            self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                            self.isLoggedInFacebook = false
+                            
+                            // Hide loading
+                            self.hideLoading()
+                        } else { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post FB data error")
+                        }
+                    }
+                }
+            } else if (alertView.title == "Twitter Logout") {
+                
+            } else if (alertView.title == "Path Logout") {
+                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
+                    println("Post path data req = \(req)")
+                    
+                    if (err != nil) { // Terdapat error
+                        Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+                    } else {
+                        let json = JSON(res!)
+                        let data = json["_data"].bool
+                        if (data != nil && data == true) { // Berhasil
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.pathID = nil
+                            userOther.pathUsername = nil
+                            userOther.pathAccessToken = nil
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust path button
+                            self.lblLoginPath.text = "LOGIN PATH"
+                            self.isLoggedInPath = false
+                            
+                            // Hide loading
+                            self.hideLoading()
+                        } else { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post path data error")
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -413,6 +630,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBAction func simpanDataPressed(sender: UIButton) {
         if (fieldsVerified()) {
             btnSimpanData.enabled = false
+            loadingPanel.hidden = false
+            loading.startAnimating()
             
             var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             
@@ -444,6 +663,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                                     // error, gagal
                                     Constant.showDialog("Warning", message: error.description)
                                     self.btnSimpanData.enabled = true
+                                    self.loadingPanel.hidden = true
+                                    self.loading.stopAnimating()
                                 } else if let result : AnyObject = res
                                 {
                                     // sukses
@@ -456,6 +677,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             println(err) // failed
                             Constant.showDialog("Warning", message: err.description)
                             self.btnSimpanData.enabled = true
+                            self.loadingPanel.hidden = true
+                            self.loading.stopAnimating()
                         }
                 })
             }
@@ -486,10 +709,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         // Save data
         var saveErr : NSError? = nil
         if (!m!.save(&saveErr)) {
-            println("Error while saving data")
+            Constant.showDialog("Warning", message: "Error while saving data")
+            self.btnSimpanData.enabled = true
+            self.loadingPanel.hidden = true
+            self.loading.stopAnimating()
         } else {
             println("Data saved")
-            //self.btnSimpanData.enabled = true
             self.navigationController?.popViewControllerAnimated(true)
         }
     }

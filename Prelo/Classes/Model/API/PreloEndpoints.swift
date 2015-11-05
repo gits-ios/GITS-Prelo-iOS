@@ -109,6 +109,8 @@ enum APISocial : URLRequestConvertible
     static let basePath = "socmed/"
     
     case StoreInstagramToken(token : String)
+    case PostFacebookData(id: String, username: String, token : String)
+    case PostPathData(id : String, username : String, token : String)
     
     var method : Method
         {
@@ -123,6 +125,8 @@ enum APISocial : URLRequestConvertible
             switch self
             {
             case .StoreInstagramToken(_) : return "instagram"
+            case .PostFacebookData(_, _, _) : return "facebook"
+            case .PostPathData(_, _, _) : return "path"
             }
     }
     
@@ -133,6 +137,20 @@ enum APISocial : URLRequestConvertible
             case .StoreInstagramToken(let appType) :
                 let p = [
                     "access_token" : appType
+                ]
+                return p
+            case .PostFacebookData(let id, let username, let token) :
+                let p = [
+                    "fb_id" : id,
+                    "fb_username" : username,
+                    "access_token" : token
+                ]
+                return p
+            case .PostPathData(let id, let username, let token) :
+                let p = [
+                    "path_id" : id,
+                    "path_username" : username,
+                    "access_token" : token
                 ]
                 return p
             }
