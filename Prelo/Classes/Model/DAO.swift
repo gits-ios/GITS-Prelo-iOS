@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import TwitterKit
 
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
@@ -132,6 +133,14 @@ public class User : NSObject
         let fbManager = FBSDKLoginManager()
         fbManager.logOut()
         FBSDKAccessToken.setCurrentAccessToken(nil)
+    }
+    
+    static func LogoutTwitter()
+    {
+        let store = Twitter.sharedInstance().sessionStore
+        if let userID = store.session()!.userID {
+            store.logOutUserID(userID)
+        }
     }
 }
 
@@ -437,6 +446,15 @@ class UserProfile : NSObject {
     
     var twitterId : String? {
         let j = json["others"]["twitter_id"]
+        if (j != nil) {
+            return j.string
+        } else {
+            return nil
+        }
+    }
+    
+    var twitterUsername : String? {
+        let j = json["others"]["twitter_username"]
         if (j != nil) {
             return j.string
         } else {

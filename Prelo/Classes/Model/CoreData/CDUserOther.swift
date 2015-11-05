@@ -16,9 +16,9 @@ class CDUserOther: NSManagedObject {
     @NSManaged var fbAccessToken: String?
     @NSManaged var fbID: String?
     @NSManaged var fbUsername: String?
-    @NSManaged var instagramAccessToken: String
-    @NSManaged var instagramID: String
-    @NSManaged var instagramUsername: String
+    @NSManaged var instagramAccessToken: String?
+    @NSManaged var instagramID: String?
+    @NSManaged var instagramUsername: String?
     @NSManaged var isActiveSeller: NSNumber
     @NSManaged var lastLogin: String
     @NSManaged var phoneCode: String
@@ -28,9 +28,10 @@ class CDUserOther: NSManagedObject {
     @NSManaged var shopName: String
     @NSManaged var shopPermalink: String
     @NSManaged var simplePermalink: String
-    @NSManaged var twitterAccessToken: String
-    @NSManaged var twitterID: String
-    @NSManaged var twitterTokenSecret: String
+    @NSManaged var twitterAccessToken: String?
+    @NSManaged var twitterID: String?
+    @NSManaged var twitterUsername: String?
+    @NSManaged var twitterTokenSecret: String?
     @NSManaged var pathID: String?
     @NSManaged var pathUsername: String?
     @NSManaged var pathAccessToken: String?

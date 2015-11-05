@@ -11,6 +11,7 @@ import UIKit
 protocol InstagramLoginDelegate
 {
     func instagramLoginSuccess(token : String)
+    func instagramLoginSuccess(token : String, id : String, name : String)
     func instagramLoginFailed()
 }
 
@@ -90,6 +91,13 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
             if let token = json["access_token"].string
             {
                 self.instagramLoginDelegate?.instagramLoginSuccess(token)
+                
+                let id = json["user"]["id"]
+                let name = json["user"]["full_name"]
+                if (id != nil && name != nil) {
+                    self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
+                }
+                
                 self.dismiss()
             }
             

@@ -41,6 +41,17 @@
 				<key>KitName</key>
 				<string>Crashlytics</string>
 			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>ftRCFzeIdlmNmZLwVZbX4AP8d</string>
+					<key>consumerSecret</key>
+					<string>0aqltUHmLJyOgdEYHFqTOP9K7pFLFNBvzmzgCWTRpyDv2nl7Fr</string>
+				</dict>
+				<key>KitName</key>
+				<string>Twitter</string>
+			</dict>
 		</array>
 	</dict>
 	<key>FacebookAppID</key>

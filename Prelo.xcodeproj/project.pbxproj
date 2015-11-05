@@ -401,6 +401,9 @@
 		44B779DF1BDF72BB00D93D2D /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
 		44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */; };
 		44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B861021BDA92D20020A9E3 /* TermCondition.xib */; };
+		44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */; };
+		44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */; };
+		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
 		44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B93C7A1BBEA51B00036173 /* PathLogin.xib */; };
 		44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
@@ -931,6 +934,9 @@
 		44B779DE1BDF72BB00D93D2D /* CDBrand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrand.swift; sourceTree = "<group>"; };
 		44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermConditionViewController.swift; sourceTree = "<group>"; };
 		44B861021BDA92D20020A9E3 /* TermCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermCondition.xib; sourceTree = "<group>"; };
+		44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
+		44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TwitterKitResources.bundle; sourceTree = "<group>"; };
+		44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLoginViewController.swift; sourceTree = "<group>"; };
 		44B93C7A1BBEA51B00036173 /* PathLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathLogin.xib; sourceTree = "<group>"; };
 		44B93C7C1BBEC40800036173 /* PathEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathEndpoints.swift; sourceTree = "<group>"; };
@@ -977,10 +983,12 @@
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
+				44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
 				21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
 				21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */,
+				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1892,6 +1900,9 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */,
+				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
+				44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */,
 				4453F43D1BBBFF6D00FE7CB5 /* Bolts.framework */,
 				4453F43E1BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework */,
 				4453F43B1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework */,
@@ -2138,6 +2149,7 @@
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
+				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
 				211312561B6760F600A4DA3B /* ProductDetailCover.xib in Resources */,
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,

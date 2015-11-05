@@ -8,8 +8,9 @@
 
 import Foundation
 import CoreData
+import TwitterKit
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, UIAlertViewDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, UIAlertViewDelegate {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
@@ -201,14 +202,60 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
         
         // Socmed
-        if ((userOther.fbAccessToken != nil) && (userOther.fbID != nil) && (userOther.fbUsername != nil)) { // Sudah login
-            self.lblLoginFacebook.text = userOther.fbUsername
+        if (self.checkFbLogin(userOther)) { // Sudah login
+            self.lblLoginFacebook.text = userOther.fbUsername!
             self.isLoggedInFacebook = true
         }
-        if ((userOther.pathAccessToken != nil) && (userOther.pathID != nil) && (userOther.pathUsername != nil)) { // Sudah login
-            self.lblLoginPath.text = userOther.pathUsername
+        if (self.checkInstagramLogin(userOther)) { // Sudah login
+            self.lblLoginInstagram.text = userOther.instagramUsername!
+            self.isLoggedInInstagram = true
+        }
+        if (self.checkTwitterLogin(userOther)) { // Sudah login
+            self.lblLoginTwitter.text = "@\(userOther.twitterUsername!)"
+            self.isLoggedInTwitter = true
+        }
+        if (self.checkPathLogin(userOther)) { // Sudah login
+            self.lblLoginPath.text = userOther.pathUsername!
             self.isLoggedInPath = true
         }
+    }
+    
+    func checkFbLogin(userOther : CDUserOther) -> Bool {
+        return (userOther.fbAccessToken != nil) &&
+            (userOther.fbAccessToken != "") &&
+            (userOther.fbID != nil) &&
+            (userOther.fbID != "") &&
+            (userOther.fbUsername != nil) &&
+            (userOther.fbUsername != "")
+    }
+    
+    func checkInstagramLogin(userOther : CDUserOther) -> Bool {
+        return (userOther.instagramAccessToken != nil) &&
+            (userOther.instagramAccessToken != "") &&
+            (userOther.instagramID != nil) &&
+            (userOther.instagramID != "") &&
+            (userOther.instagramUsername != nil) &&
+            (userOther.instagramUsername != "")
+    }
+    
+    func checkTwitterLogin(userOther : CDUserOther) -> Bool {
+        return (userOther.twitterAccessToken != nil) &&
+            (userOther.twitterAccessToken != "") &&
+            (userOther.twitterID != nil) &&
+            (userOther.twitterID != "") &&
+            (userOther.twitterUsername != nil) &&
+            (userOther.twitterUsername != "") &&
+            (userOther.twitterTokenSecret != nil) &&
+            (userOther.twitterTokenSecret != "")
+    }
+    
+    func checkPathLogin(userOther : CDUserOther) -> Bool {
+        return (userOther.pathAccessToken != nil) &&
+            (userOther.pathAccessToken != "") &&
+            (userOther.pathID != nil) &&
+            (userOther.pathID != "") &&
+            (userOther.pathUsername != nil) &&
+            (userOther.pathUsername != "")
     }
     
     func pickerDidSelect(item: String) {
@@ -264,7 +311,57 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     @IBAction func loginInstagramPressed(sender: UIButton) {
-        // TODO : login instagram
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        if (!isLoggedInInstagram) { // Then login
+            let instaLogin = InstagramLoginViewController()
+            instaLogin.instagramLoginDelegate = self
+            self.navigationController?.pushViewController(instaLogin, animated: true)
+        } else { // Then logout
+            let logoutAlert = UIAlertView(title: "Instagram Logout", message: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", delegate: self, cancelButtonTitle: "No")
+            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.show()
+        }
+    }
+    
+    func instagramLoginSuccess(token: String, id: String, name: String) {
+        request(APISocial.PostInstagramData(id: id, username: name, token: token)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp)) {
+                let json = JSON(res!)
+                let data = json["_data"].bool
+                if (data != nil && data == true) { // Berhasil
+                    // Save in core data
+                    let userOther : CDUserOther = CDUserOther.getOne()!
+                    userOther.instagramID = id
+                    userOther.instagramUsername = name
+                    userOther.instagramAccessToken = token
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Adjust path button
+                    self.lblLoginInstagram.text = name
+                    self.isLoggedInInstagram = true
+                    
+                    // Hide loading
+                    self.hideLoading()
+                } else { // Terdapat error
+                    Constant.showDialog("Warning", message: "Post instagram data error")
+                    self.hideLoading()
+                }
+            } else {
+                self.hideLoading()
+            }
+        }
+    }
+    
+    func instagramLoginSuccess(token: String) {
+        // Do nothing
+    }
+    
+    func instagramLoginFailed() {
+        // Hide loading
+        self.hideLoading()
     }
     
     @IBAction func loginFacebookPressed(sender: UIButton) {
@@ -354,7 +451,55 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     @IBAction func loginTwitterPressed(sender: UIButton) {
-        // TODO : login twitter
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        if (!isLoggedInTwitter) { // Then login
+            Twitter.sharedInstance().logInWithCompletion { session, error in
+                if (session != nil) {
+                    let twId = session!.userID
+                    let twUsername = session!.userName
+                    let twToken = session!.authToken
+                    let twSecret = session!.authTokenSecret
+                    
+                    request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, _, res, err in
+                        println("Post twitter data req = \(req)")
+                        
+                        if (err != nil) { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                        } else {
+                            let json = JSON(res!)
+                            let data = json["_data"].bool
+                            if (data != nil && data == true) { // Berhasil
+                                // Save in core data
+                                let userOther : CDUserOther = CDUserOther.getOne()!
+                                userOther.twitterID = twId
+                                userOther.twitterUsername = twUsername
+                                userOther.twitterAccessToken = twToken
+                                userOther.twitterTokenSecret = twSecret
+                                UIApplication.appDelegate.saveContext()
+                                
+                                // Adjust path button
+                                self.lblLoginTwitter.text = "@\(twUsername)"
+                                self.isLoggedInTwitter = true
+                                
+                                // Hide loading
+                                self.hideLoading()
+                            } else { // Terdapat error
+                                Constant.showDialog("Warning", message: "Post twitter data error")
+                            }
+                        }
+                    }
+                } else {
+                    self.hideLoading()
+                }
+            }
+        } else { // Then logout
+            let logoutAlert = UIAlertView(title: "Twitter Logout", message: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", delegate: self, cancelButtonTitle: "No")
+            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.show()
+        }
     }
     
     @IBAction func loginPathPressed(sender: UIButton) {
@@ -362,11 +507,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         loadingPanel.hidden = false
         loading.startAnimating()
         
-        if (!isLoggedInPath) { // Login
+        if (!isLoggedInPath) { // Then login
             let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
             pathLoginVC.delegate = self
             self.navigationController?.pushViewController(pathLoginVC, animated: true)
-        } else { // Logout
+        } else { // Then logout
             let logoutAlert = UIAlertView(title: "Path Logout", message: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButtonWithTitle("Yes")
             logoutAlert.show()
@@ -472,7 +617,33 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.hideLoading()
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
-                
+                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
+                    println("Post instagram data req = \(req)")
+                    
+                    if (err != nil) { // Terdapat error
+                        Constant.showDialog("Warning", message: "Post instagram data error: \(err!.description)")
+                    } else {
+                        let json = JSON(res!)
+                        let data = json["_data"].bool
+                        if (data != nil && data == true) { // Berhasil
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.instagramID = nil
+                            userOther.instagramUsername = nil
+                            userOther.instagramAccessToken = nil
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust instagram button
+                            self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
+                            self.isLoggedInInstagram = false
+                        } else { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post instagram data error")
+                        }
+                        
+                        // Hide loading
+                        self.hideLoading()
+                    }
+                }
             } else if (alertView.title == "Facebook Logout") {
                 request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
                     println("Post FB data req = \(req)")
@@ -483,6 +654,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         let json = JSON(res!)
                         let data = json["_data"].bool
                         if (data != nil && data == true) { // Berhasil
+                            // End session
+                            User.LogoutFacebook()
+                            
                             // Save in core data
                             let userOther : CDUserOther = CDUserOther.getOne()!
                             userOther.fbID = nil
@@ -493,16 +667,46 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             // Adjust fb button
                             self.lblLoginFacebook.text = "LOGIN FACEBOOK"
                             self.isLoggedInFacebook = false
-                            
-                            // Hide loading
-                            self.hideLoading()
                         } else { // Terdapat error
                             Constant.showDialog("Warning", message: "Post FB data error")
                         }
+                        
+                        // Hide loading
+                        self.hideLoading()
                     }
                 }
             } else if (alertView.title == "Twitter Logout") {
-                
+                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {req, _, res, err in
+                    println("Post twitter data req = \(req)")
+                    
+                    if (err != nil) { // Terdapat error
+                        Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                    } else {
+                        let json = JSON(res!)
+                        let data = json["_data"].bool
+                        if (data != nil && data == true) { // Berhasil
+                            // End session
+                            User.LogoutTwitter()
+                            
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.twitterID = nil
+                            userOther.twitterUsername = nil
+                            userOther.twitterAccessToken = nil
+                            userOther.twitterTokenSecret = nil
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust twitter button
+                            self.lblLoginTwitter.text = "LOGIN TWITTER"
+                            self.isLoggedInTwitter = false
+                        } else { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post twitter data error")
+                        }
+                        
+                        // Hide loading
+                        self.hideLoading()
+                    }
+                }
             } else if (alertView.title == "Path Logout") {
                 request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
                     println("Post path data req = \(req)")
@@ -523,12 +727,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             // Adjust path button
                             self.lblLoginPath.text = "LOGIN PATH"
                             self.isLoggedInPath = false
-                            
-                            // Hide loading
-                            self.hideLoading()
                         } else { // Terdapat error
                             Constant.showDialog("Warning", message: "Post path data error")
                         }
+                        
+                        // Hide loading
+                        self.hideLoading()
                     }
                 }
             }

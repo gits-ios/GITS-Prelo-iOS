@@ -109,8 +109,10 @@ enum APISocial : URLRequestConvertible
     static let basePath = "socmed/"
     
     case StoreInstagramToken(token : String)
-    case PostFacebookData(id: String, username: String, token : String)
+    case PostInstagramData(id : String, username : String, token : String)
+    case PostFacebookData(id : String, username : String, token : String)
     case PostPathData(id : String, username : String, token : String)
+    case PostTwitterData(id : String, username : String, token : String, secret : String)
     
     var method : Method
         {
@@ -125,8 +127,10 @@ enum APISocial : URLRequestConvertible
             switch self
             {
             case .StoreInstagramToken(_) : return "instagram"
+            case .PostInstagramData(_, _, _) : return "instagram"
             case .PostFacebookData(_, _, _) : return "facebook"
             case .PostPathData(_, _, _) : return "path"
+            case .PostTwitterData(_, _, _, _) : return "twitter"
             }
     }
     
@@ -137,6 +141,13 @@ enum APISocial : URLRequestConvertible
             case .StoreInstagramToken(let appType) :
                 let p = [
                     "access_token" : appType
+                ]
+                return p
+            case .PostInstagramData(let id, let username, let token) :
+                let p = [
+                    "instagram_id" : id,
+                    "instagram_username" : username,
+                    "access_token" : token
                 ]
                 return p
             case .PostFacebookData(let id, let username, let token) :
@@ -151,6 +162,14 @@ enum APISocial : URLRequestConvertible
                     "path_id" : id,
                     "path_username" : username,
                     "access_token" : token
+                ]
+                return p
+            case .PostTwitterData(let id, let username, let token, let secret) :
+                let p = [
+                    "twitter_id" : id,
+                    "twitter_username" : username,
+                    "access_token" : token,
+                    "token_secret" : secret
                 ]
                 return p
             }

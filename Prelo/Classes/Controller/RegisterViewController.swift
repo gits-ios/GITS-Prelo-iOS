@@ -347,11 +347,31 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         userProfile.gender = userProfileData!.gender!
                         userProfile.phone = userProfileData!.phone!
                         userProfile.pict = userProfileData!.profPictURL!.absoluteString!
-                        // TODO: belum lengkap (postalCode, adress, desc, userOther jg), simpan token facebook kalau fungsi ini dipanggil dari fbLogin, simpan token path kalau fungsi ini dipanggil dari pathLoginSuccess
+                        userProfile.postalCode = userProfileData!.postalCode
+                        userProfile.address = userProfileData!.address
+                        userProfile.desc = userProfileData!.desc
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        // TODO: belum lengkap
+                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
+                        userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
+                        userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
+                        userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
+                        userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
+                        userOther.fbAccessToken = userProfileData!.fbAccessToken
+                        userOther.fbID = userProfileData!.fbId
+                        userOther.fbUsername = userProfileData!.fbUsername
+                        userOther.instagramAccessToken = userProfileData!.instagramAccessToken
+                        userOther.instagramID = userProfileData!.instagramId
+                        userOther.instagramUsername = userProfileData!.instagramUsername
+                        userOther.twitterAccessToken = userProfileData!.twitterAccessToken
+                        userOther.twitterID = userProfileData!.twitterId
+                        userOther.twitterUsername = userProfileData!.twitterUsername
+                        userOther.twitterTokenSecret = userProfileData!.twitterTokenSecret
+                        userOther.pathAccessToken = userProfileData!.pathAccessToken
+                        userOther.pathID = userProfileData!.pathId
+                        userOther.pathUsername = userProfileData!.pathUsername
+                        // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                         
                         // Refresh notifications
                         NotificationPageViewController.refreshNotifications()

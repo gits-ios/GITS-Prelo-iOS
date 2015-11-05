@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Fabric
 import Crashlytics
+import TwitterKit
 
 //import AdobeCreativeSDKCore
 
@@ -29,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         messagePool = MessagePool()
         messagePool.start()
         
-        Fabric.with([Crashlytics.self()])
+        Fabric.with([Crashlytics.self(), Twitter.self()])
         Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
         
         

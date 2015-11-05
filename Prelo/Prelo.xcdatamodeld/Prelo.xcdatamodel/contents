@@ -102,6 +102,7 @@
         <attribute name="twitterAccessToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twitterID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="twitterTokenSecret" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="twitterUsername" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUser" inverseName="others" inverseEntity="CDUser" syncable="YES"/>
     </entity>
     <entity name="CDUserProfile" representedClassName="CDUserProfile" syncable="YES">
@@ -135,7 +136,7 @@
         <element name="CDRegion" positionX="-180" positionY="-54" width="128" height="90"/>
         <element name="CDShipping" positionX="-18" positionY="-18" width="128" height="103"/>
         <element name="CDUser" positionX="126" positionY="-144" width="128" height="120"/>
-        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="405"/>
+        <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="420"/>
         <element name="CDUserProfile" positionX="135" positionY="-423" width="128" height="180"/>
         <element name="CDVersion" positionX="-9" positionY="345" width="128" height="150"/>
     </elements>

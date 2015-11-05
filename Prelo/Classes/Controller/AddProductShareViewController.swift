@@ -88,6 +88,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
     }
     
+    func instagramLoginSuccess(token: String, id: String, name: String) {
+        
+    }
+    
     func instagramLoginSuccess(token: String) {
         request(APISocial.StoreInstagramToken(token: token)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))

@@ -237,19 +237,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
                         userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
-                        userOther.fbAccessToken = (userProfileData!.fbAccessToken != nil) ? (userProfileData!.fbAccessToken!) : ""
-                        userOther.fbID = (userProfileData!.fbId != nil) ? (userProfileData!.fbId!) : ""
-                        userOther.fbUsername = (userProfileData!.fbUsername != nil) ? (userProfileData!.fbUsername!) : ""
-                        userOther.instagramAccessToken = (userProfileData!.instagramAccessToken != nil) ? (userProfileData!.instagramAccessToken!) : ""
-                        userOther.instagramID = (userProfileData!.instagramId != nil) ? (userProfileData!.instagramId!) : ""
-                        userOther.instagramUsername = (userProfileData!.instagramUsername != nil) ? (userProfileData!.instagramUsername!) : ""
                         userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
                         userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
                         userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
                         userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
-                        userOther.twitterAccessToken = (userProfileData!.twitterAccessToken != nil) ? (userProfileData!.twitterAccessToken!) : ""
-                        userOther.twitterID = (userProfileData!.twitterId != nil) ? (userProfileData!.twitterId!) : ""
-                        userOther.twitterTokenSecret = (userProfileData!.twitterTokenSecret != nil) ? (userProfileData!.twitterTokenSecret!) : ""
+                        userOther.fbAccessToken = userProfileData!.fbAccessToken
+                        userOther.fbID = userProfileData!.fbId
+                        userOther.fbUsername = userProfileData!.fbUsername
+                        userOther.instagramAccessToken = userProfileData!.instagramAccessToken
+                        userOther.instagramID = userProfileData!.instagramId
+                        userOther.instagramUsername = userProfileData!.instagramUsername
+                        userOther.twitterAccessToken = userProfileData!.twitterAccessToken
+                        userOther.twitterID = userProfileData!.twitterId
+                        userOther.twitterUsername = userProfileData!.twitterUsername
+                        userOther.twitterTokenSecret = userProfileData!.twitterTokenSecret
+                        userOther.pathAccessToken = userProfileData!.pathAccessToken
+                        userOther.pathID = userProfileData!.pathId
+                        userOther.pathUsername = userProfileData!.pathUsername
                         // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                         
                         // Refresh notifications
@@ -470,7 +474,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfileData!.provinceId != nil &&
                         userProfileData!.regionId != nil &&
                         userProfileData!.shippingIds != nil) {
-                            isProfileSet = true
+                        isProfileSet = true
                     }
                     
                     if (isProfileSet) {
@@ -496,21 +500,24 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        var shippingArr : [String] = []
                         userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
-                        userOther.fbAccessToken = (userProfileData!.fbAccessToken != nil) ? (userProfileData!.fbAccessToken!) : ""
-                        userOther.fbID = (userProfileData!.fbId != nil) ? (userProfileData!.fbId!) : ""
-                        userOther.fbUsername = (userProfileData!.fbUsername != nil) ? (userProfileData!.fbUsername!) : ""
-                        userOther.instagramAccessToken = (userProfileData!.instagramAccessToken != nil) ? (userProfileData!.instagramAccessToken!) : ""
-                        userOther.instagramID = (userProfileData!.instagramId != nil) ? (userProfileData!.instagramId!) : ""
-                        userOther.instagramUsername = (userProfileData!.instagramUsername != nil) ? (userProfileData!.instagramUsername!) : ""
                         userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
                         userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
                         userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
                         userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
-                        userOther.twitterAccessToken = (userProfileData!.twitterAccessToken != nil) ? (userProfileData!.twitterAccessToken!) : ""
-                        userOther.twitterID = (userProfileData!.twitterId != nil) ? (userProfileData!.twitterId!) : ""
-                        userOther.twitterTokenSecret = (userProfileData!.twitterTokenSecret != nil) ? (userProfileData!.twitterTokenSecret!) : ""
+                        userOther.fbAccessToken = userProfileData!.fbAccessToken
+                        userOther.fbID = userProfileData!.fbId
+                        userOther.fbUsername = userProfileData!.fbUsername
+                        userOther.instagramAccessToken = userProfileData!.instagramAccessToken
+                        userOther.instagramID = userProfileData!.instagramId
+                        userOther.instagramUsername = userProfileData!.instagramUsername
+                        userOther.twitterAccessToken = userProfileData!.twitterAccessToken
+                        userOther.twitterID = userProfileData!.twitterId
+                        userOther.twitterUsername = userProfileData!.twitterUsername
+                        userOther.twitterTokenSecret = userProfileData!.twitterTokenSecret
+                        userOther.pathAccessToken = userProfileData!.pathAccessToken
+                        userOther.pathID = userProfileData!.pathId
+                        userOther.pathUsername = userProfileData!.pathUsername
                         // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                         
                         // Refresh notifications
