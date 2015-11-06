@@ -65,7 +65,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         self.title = tawarItem.title
         header.captionProductName.text = tawarItem.itemName
-        header.captionPrice.text = tawarItem.price
+        if (tawarItem.bargainPrice != 0)
+        {
+            header.captionPrice.text = tawarItem.bargainPrice.asPrice
+            header.captionOldPrice.text = tawarItem.price
+        } else
+        {
+            header.captionPrice.text = tawarItem.price
+            header.captionOldPrice.text = ""
+        }
         header.captionUsername.text = tawarItem.myName
         header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
         
@@ -539,6 +547,7 @@ class TawarHeader : UIView
     @IBOutlet var ivProduct : UIImageView!
     @IBOutlet var captionProductName : UILabel!
     @IBOutlet var captionPrice : UILabel!
+    @IBOutlet var captionOldPrice : UILabel!
     @IBOutlet var captionUsername : UILabel!
     @IBOutlet var btnTawar : UIButton!
     @IBOutlet var btnTawarFull : UIButton!

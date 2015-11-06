@@ -18,6 +18,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.title = "Inbox"
         
         tableView.tableFooterView = UIView()
         
