@@ -8,8 +8,8 @@
 
 import UIKit
 
-//let prelloHost = "https://prelo.co.id/api/"
-let prelloHost = "http://dev.prelo.id/api/"
+let prelloHost = "https://prelo.co.id/api/"
+//let prelloHost = "http://dev.prelo.id/api/"
 let oldAPI = "http://dev.preloapp.com/api/2/"
 //let prelloHost = "http://dev.preloapp.com/api/2/"
 
