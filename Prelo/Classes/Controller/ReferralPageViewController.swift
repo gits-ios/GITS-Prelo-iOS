@@ -257,7 +257,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func facebookPressed(sender: AnyObject) {
         if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
-            let url = NSURL(string:"http://prelo.co.id")
+            let url = NSURL(string:AppTools.PreloBaseUrl)
             let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             composer.addURL(url!)
             composer.addImage(shareImage)
@@ -270,7 +270,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func twitterPressed(sender: AnyObject) {
         if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
-            let url = NSURL(string:"http://prelo.co.id")
+            let url = NSURL(string:AppTools.PreloBaseUrl)
             let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             composer.addURL(url!)
             composer.addImage(shareImage)

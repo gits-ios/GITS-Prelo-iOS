@@ -253,7 +253,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "http://prelo.co.id.id/p/" + name
+            name = "\(AppTools.PreloBaseUrl)/p/" + name
             message = (message! + "\n\n" + name).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
             let url = NSURL(string : "whatsapp://send?text="+message!)
             UIApplication.sharedApplication().openURL(url!)
@@ -266,7 +266,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "http://prelo.co.id.id/p/" + name
+            name = "\(AppTools.PreloBaseUrl)/p/" + name
             UIPasteboard.generalPasteboard().string = name
             UIAlertView.SimpleShow("", message: "Sukses di salin")
         }
@@ -279,7 +279,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "http://prelo.co.id.id/p/" + name
+            name = "\(AppTools.PreloBaseUrl)/p/" + name
             message = (message! + "\n\n" + name)
             let composer = MFMessageComposeViewController()
             composer.body = message
@@ -296,7 +296,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "http://prelo.co.id.id/p/" + name
+            name = "\(AppTools.PreloBaseUrl)/p/" + name
             message = (message! + "\n\n" + name)
             let composer = MFMailComposeViewController()
             composer.setMessageBody(message, isHTML: false)
@@ -313,7 +313,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "http://prelo.co.id.id/p/" + name
+            name = "\(AppTools.PreloBaseUrl)/p/" + name
             message = (message! + "\n\n" + name)
             Line.shareText(message)
         }
@@ -329,7 +329,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 {
                     name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
                 }
-                name = "http://prelo.co.id.id/p/" + name
+                name = "\(AppTools.PreloBaseUrl)/p/" + name
                 let url = NSURL(string:name)
                 let composer = SLComposeViewController(forServiceType: type)
                 composer.addURL(url!)

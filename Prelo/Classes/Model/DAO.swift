@@ -567,7 +567,7 @@ public class ProductDetail : NSObject, TawarItem
         {
             return NSURL(string : p)
         }
-        return NSURL(string: "http://prelo.id/eweuh-gambar")
+        return NSURL(string: "\(AppTools.PreloBaseUrl)/eweuh-gambar")
     }
     
     var discussionCountText : String

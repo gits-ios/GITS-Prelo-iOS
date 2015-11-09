@@ -21,7 +21,7 @@ protocol PreloSocketDelegate
 class PreloNotificationListener : PreloSocketDelegate
 {
     
-    let socket = SocketIOClient(socketURL: "dev.prelo.id")
+    let socket = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
     
     var newNotifCount : Int = 0
     

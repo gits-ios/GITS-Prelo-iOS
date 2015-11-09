@@ -231,8 +231,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         } else if (notPicked && editMode == false)
         {
-            notPicked = false
-            self.pickImage(0, forceBackOnCancel: true, directToCamera : true)
+//            notPicked = false
+//            self.pickImage(0, forceBackOnCancel: true, directToCamera : true)
         }
     }
     
@@ -576,10 +576,35 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     }
                     
                     self.sizes = []
-                    for i in 0...sml.count-1
+                    let tempCount = sml.count >= usa.count ? sml.count : usa.count
+                    let sizeCount = tempCount >= eur.count ? tempCount : eur.count
+                    for i in 0...sizeCount-1
                     {
-                        self.sizes.append(usa[i] + "\n" + ((sml.count > 0) ? sml[i] : "") + "\n" + ((eur.count > 0) ? eur[i] : ""))
+                        var usaString = " "
+                        if (i < usa.count-1) // usa is safe
+                        {
+                            usaString = usa[i]
+                        }
+                        
+                        var smlString = " "
+                        if (i < sml.count-1) // sml is safe
+                        {
+                            smlString = sml[i]
+                        }
+                        
+                        var eurString = " "
+                        if (i < eur.count-1) // eur is safe
+                        {
+                            eurString = eur[i]
+                        }
+                        
+                        var sizeString = usaString + "\n" + smlString + "\n" + eurString
+                        self.sizes.append(sizeString)
                     }
+//                    for i in 0...sml.count-1
+//                    {
+//                        self.sizes.append(usa[i] + "\n" + ((sml.count > 0) ? sml[i] : "") + "\n" + ((eur.count > 0) ? eur[i] : ""))
+//                    }
                     
                     if (self.sizes.count > 0)
                     {
@@ -843,7 +868,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             param.removeValueForKey("sell_reason")
         }
         
-        var url = "http://dev.prelo.id/api/product"
+        var url = "\(AppTools.PreloBaseUrl)/api/product"
         
         if (editMode)
         {
