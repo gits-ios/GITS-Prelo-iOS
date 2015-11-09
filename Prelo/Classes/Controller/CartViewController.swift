@@ -415,7 +415,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if (s == 0) {
-            if (r == arrayItem.count) {
+            if ((self.bonusAvailable && r == arrayItem.count + 1) || (!self.bonusAvailable && r == arrayItem.count)) { // Total
+                cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
+            } else if (self.bonusAvailable && r == arrayItem.count) { // Prelo Bonus
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item") as! CartCellItem
