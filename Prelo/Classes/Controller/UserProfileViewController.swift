@@ -480,7 +480,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                                 userOther.twitterTokenSecret = twSecret
                                 UIApplication.appDelegate.saveContext()
                                 
-                                // Adjust path button
+                                // Save in NSUserDefaults
+                                NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                                NSUserDefaults.standardUserDefaults().synchronize()
+                                
+                                // Adjust twitter button
                                 self.lblLoginTwitter.text = "@\(twUsername)"
                                 self.isLoggedInTwitter = true
                                 

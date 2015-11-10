@@ -553,6 +553,7 @@ enum APIAuth : URLRequestConvertible
     case Login(email : String, password : String)
     case LoginFacebook(email : String, fullname : String, fbId : String, fbAccessToken : String)
     case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
+    case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
     case Logout
     
     var method : Method
@@ -563,6 +564,7 @@ enum APIAuth : URLRequestConvertible
             case .Login(_, _) : return .POST
             case .LoginFacebook(_, _, _, _) : return .POST
             case .LoginPath(_, _, _, _) : return .POST
+            case .LoginTwitter(_, _, _, _, _, _) : return .POST
             case .Logout : return .POST
             }
     }
@@ -575,6 +577,7 @@ enum APIAuth : URLRequestConvertible
             case .Login(_, _) : return "login"
             case .LoginFacebook(_, _, _, _) : return "login/facebook"
             case .LoginPath(_, _, _, _) : return "login/path"
+            case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
             case .Logout : return "logout"
             }
     }
@@ -611,6 +614,16 @@ enum APIAuth : URLRequestConvertible
                     "fullname" : fullname,
                     "path_id" : pathId,
                     "path_access_token" : pathAccessToken
+                ]
+                return p
+            case .LoginTwitter(let email, let fullname, let username, let id, let accessToken, let tokenSecret) :
+                let p = [
+                    "email" : email,
+                    "fullname" : fullname,
+                    "twitter_username" : username,
+                    "twitter_id" : id,
+                    "twitter_access_token" : accessToken,
+                    "twitter_token_secret" : tokenSecret
                 ]
                 return p
             case .Logout :

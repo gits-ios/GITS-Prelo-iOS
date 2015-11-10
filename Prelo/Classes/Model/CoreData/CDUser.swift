@@ -28,6 +28,16 @@ class CDUser: NSManagedObject {
         return false
     }
     
+    static func twitterTokenAvailable() -> Bool
+    {
+        if let t = NSUserDefaults.standardUserDefaults().stringForKey("twittertoken")
+        {
+            return true
+        }
+        
+        return false
+    }
+    
     static func getOne() -> CDUser?
     {
         let fetchReq = NSFetchRequest(entityName: "CDUser")

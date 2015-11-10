@@ -300,7 +300,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                                 UIApplication.appDelegate.saveContext()
                                 
                                 // Check if user have set his account
-                                self.checkProfileSetup(data["token"].string!)
+                                //self.checkProfileSetup(data["token"].string!)
+                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
                             }
                         }
                     }
@@ -309,6 +310,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
+    /* TO BE DELETED, kalo ga ada masalah setelah ngegabungin checkProfileSetup di loginVC & registerVC
     // Return true if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
     func checkProfileSetup(token : String) {
@@ -433,6 +435,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 }
             }
         }
+    }*/
+    
+    // MARK: Twitter Login
+    
+    @IBAction func loginTwitterPressed(sender: AnyObject) {
+        // Show loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
+        
+        LoginViewController.LoginWithTwitter(self)
     }
     
     // MARK: Path Login
@@ -490,7 +502,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
                     // Check if user have set his account
-                    self.checkProfileSetup(data["token"].string!)
+                    //self.checkProfileSetup(data["token"].string!)
+                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
                 }
             }
         }

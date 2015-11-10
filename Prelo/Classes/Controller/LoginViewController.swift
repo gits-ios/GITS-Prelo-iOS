@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import TwitterKit
 //import UIViewController_KeyboardAnimation
 
 class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, UIAlertViewDelegate {
@@ -68,6 +69,224 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             // Execute onFinish
             if (onFinish != nil) {
                 onFinish
+            }
+        }
+    }
+    
+    // Return true if user have set his account in profile setup page
+    // Param token is only used when user have set his account via setup account and phone verification
+    static func CheckProfileSetup(sender : BaseViewController, token : String) {
+        var isProfileSet : Bool = false
+        
+        // Set token first, because APIUser.Me need token
+        User.SetToken(token)
+        
+        // Get user profile from API and check if required data is set
+        // Required data: gender, phone, province, region, shipping
+        request(APIUser.Me).responseJSON {req, _, res, err in
+            println("Get profile req = \(req)")
+            if (err != nil) { // Terdapat error
+                Constant.showDialog("Warning", message: (err?.description)!)
+            } else {
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty profile data")
+                } else { // Berhasil
+                    println("Data = \(data)")
+                    let userProfileData = UserProfile.instance(data)
+                    
+                    if (userProfileData!.gender != nil &&
+                        userProfileData!.phone != nil &&
+                        userProfileData!.provinceId != nil &&
+                        userProfileData!.regionId != nil &&
+                        userProfileData!.shippingIds != nil) {
+                            isProfileSet = true
+                    }
+                    
+                    if (isProfileSet) {
+                        // Set in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
+                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                        user.id = userProfileData!.id
+                        user.email = userProfileData!.email
+                        user.fullname = userProfileData!.fullname
+                        
+                        CDUserProfile.deleteAll()
+                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                        user.profiles = userProfile
+                        userProfile.regionID = userProfileData!.regionId!
+                        userProfile.provinceID = userProfileData!.provinceId!
+                        userProfile.gender = userProfileData!.gender!
+                        userProfile.phone = userProfileData!.phone!
+                        userProfile.pict = userProfileData!.profPictURL!.absoluteString!
+                        userProfile.postalCode = userProfileData!.postalCode
+                        userProfile.address = userProfileData!.address
+                        userProfile.desc = userProfileData!.desc
+                        
+                        CDUserOther.deleteAll()
+                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
+                        userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
+                        userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
+                        userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
+                        userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
+                        userOther.fbAccessToken = userProfileData!.fbAccessToken
+                        userOther.fbID = userProfileData!.fbId
+                        userOther.fbUsername = userProfileData!.fbUsername
+                        userOther.instagramAccessToken = userProfileData!.instagramAccessToken
+                        userOther.instagramID = userProfileData!.instagramId
+                        userOther.instagramUsername = userProfileData!.instagramUsername
+                        userOther.twitterAccessToken = userProfileData!.twitterAccessToken
+                        userOther.twitterID = userProfileData!.twitterId
+                        userOther.twitterUsername = userProfileData!.twitterUsername
+                        userOther.twitterTokenSecret = userProfileData!.twitterTokenSecret
+                        userOther.pathAccessToken = userProfileData!.pathAccessToken
+                        userOther.pathID = userProfileData!.pathId
+                        userOther.pathUsername = userProfileData!.pathUsername
+                        // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
+                        
+                        // Refresh notifications
+                        NotificationPageViewController.refreshNotifications()
+                        
+                        // Tell app that the user has logged in
+                        // Save in NSUserDefaults
+                        User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)
+                        if let d = sender.userRelatedDelegate
+                        {
+                            d.userLoggedIn!()
+                        }
+                        
+                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                        
+                        if let c = CDUser.getOne()
+                        {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                        } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                        }
+                    } else {
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
+                    }
+                    
+                    // Next screen based on isProfileSet
+                    if (isProfileSet) {
+                        // If user haven't verified phone number, goto PhoneVerificationVC
+                        if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
+                            // Send deviceRegId before dismiss
+                            LoginViewController.SendDeviceRegId(onFinish: sender.dismiss())
+                        } else {
+                            // Delete token because user is considered not logged in
+                            User.SetToken(nil)
+                            
+                            // Goto PhoneVerificationVC
+                            let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            phoneVerificationVC.userRelatedDelegate = sender.userRelatedDelegate
+                            phoneVerificationVC.userId = userProfileData!.id
+                            phoneVerificationVC.userToken = token
+                            phoneVerificationVC.userEmail = userProfileData!.email
+                            phoneVerificationVC.isShowBackBtn = false
+                            sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                        }
+                    } else {
+                        // Go to profile setup
+                        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+                        profileSetupVC.userRelatedDelegate = sender.userRelatedDelegate
+                        profileSetupVC.userId = userProfileData!.id
+                        profileSetupVC.userToken = token
+                        profileSetupVC.userEmail = userProfileData!.email
+                        profileSetupVC.isSocmedAccount = true
+                        sender.navigationController?.pushViewController(profileSetupVC, animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func LoginWithTwitter(sender : BaseViewController) {
+        Twitter.sharedInstance().logInWithCompletion { session, error in
+            if (session != nil) {
+                let twId = session!.userID
+                let twUsername = session!.userName
+                let twToken = session!.authToken
+                let twSecret = session!.authTokenSecret
+                var twFullname = ""
+                
+                let twClient = TWTRAPIClient()
+                let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
+                let twParams = [
+                    "user_id" : twId,
+                    "screen_name" : twUsername
+                ]
+                var twErr : NSError?
+                
+                let twReq = Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: twShowUserEndpoint, parameters: twParams, error: &twErr)
+                
+                if (twErr != nil) { // Error
+                    Constant.showDialog("Warning", message: "Error getting twitter data: \(twErr)")
+                    sender.dismiss()
+                } else {
+                    twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
+                        if (err != nil) { // Error
+                            Constant.showDialog("Warning", message: "Error getting twitter data: \(err)")
+                            sender.dismiss()
+                        } else { // Succes
+                            var jsonErr : NSError?
+                            let json : AnyObject? = NSJSONSerialization.JSONObjectWithData(res!, options: nil, error: &jsonErr)
+                            let data = JSON(json!)
+                            println("Twitter user show json: \(data)")
+                            
+                            twFullname = data["name"].string!
+                            
+                            request(APIAuth.LoginTwitter(email: "\(twUsername)@twitter.com", fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON { req, _, res, err in
+                                println("Twitter login req = \(req)")
+                                
+                                if (err != nil) {
+                                    Constant.showDialog("Warning", message: "Error login twitter: \(err!.description)")
+                                } else {
+                                    let json = JSON(res!)
+                                    let data = json["_data"]
+                                    if (data == nil || data == []) { // Data kembalian kosong
+                                        println("Empty twitter login data")
+                                    } else { // Berhasil
+                                        println("Twitter login data: \(data)")
+                                        
+                                        // Save in core data
+                                        let m = UIApplication.appDelegate.managedObjectContext
+                                        var user : CDUser? = CDUser.getOne()
+                                        if (user == nil) {
+                                            user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                        }
+                                        user!.id = data["username"].string!
+                                        user!.email = data["email"].string!
+                                        user!.fullname = data["fullname"].string!
+                                        
+                                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                                        let pr = data["profile"]
+                                        p.pict = pr["pict"].string!
+                                        
+                                        user!.profiles = p
+                                        UIApplication.appDelegate.saveContext()
+                                        
+                                        // Save in NSUserDefaults
+                                        NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                                        NSUserDefaults.standardUserDefaults().synchronize()
+                                        
+                                        // Check if user have set his account
+                                        LoginViewController.CheckProfileSetup(sender, token: data["token"].string!)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                Constant.showDialog("Twitter login canceled", message: "")
+                sender.dismiss()
             }
         }
     }
@@ -437,7 +656,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 UIApplication.appDelegate.saveContext()
                                 
                                 // Check if user have set his account
-                                self.checkProfileSetup(data["token"].string!)
+                                //self.checkProfileSetup(data["token"].string!)
+                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
                             }
                         }
                     }
@@ -446,6 +666,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
+    /* TO BE DELETED, kalo ga ada masalah setelah ngegabungin checkProfileSetup di loginVC & registerVC
     // Return true if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
     func checkProfileSetup(token : String) {
@@ -474,7 +695,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfileData!.provinceId != nil &&
                         userProfileData!.regionId != nil &&
                         userProfileData!.shippingIds != nil) {
-                        isProfileSet = true
+                            isProfileSet = true
                     }
                     
                     if (isProfileSet) {
@@ -570,6 +791,16 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 }
             }
         }
+    }*/
+    
+    // MARK: Twitter Login
+    
+    @IBAction func loginTwitterPressed(sender: AnyObject) {
+        // Show loading
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
+        
+        LoginViewController.LoginWithTwitter(self)
     }
     
     // MARK: - Path Login
@@ -628,7 +859,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
                     // Check if user have set his account
-                    self.checkProfileSetup(data["token"].string!)
+                    //self.checkProfileSetup(data["token"].string!)
+                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
                 }
             }
         }

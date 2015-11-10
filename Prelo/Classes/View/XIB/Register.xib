@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -30,6 +30,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrV-8s-vh2" userLabel="btn_back">
                                         <rect key="frame" x="8" y="8" width="25" height="28"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="Cth-Sz-t0K"/>
                                             <constraint firstAttribute="width" constant="25" id="qPL-IL-Kc2"/>
@@ -45,6 +46,7 @@
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b99-du-caE">
                                         <rect key="frame" x="12" y="151" width="548" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="lGu-Dv-E9N"/>
                                         </constraints>
@@ -54,6 +56,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUT-t6-ai7">
                                         <rect key="frame" x="8" y="181" width="552" height="1"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="z8x-6e-rsU"/>
@@ -61,6 +64,7 @@
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yt1-5Y-dQ6">
                                         <rect key="frame" x="12" y="189" width="548" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="EAr-4O-Rve"/>
                                         </constraints>
@@ -70,6 +74,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NzJ-ov-kKz">
                                         <rect key="frame" x="8" y="217" width="552" height="1"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Zzv-ri-rVz"/>
@@ -77,6 +82,7 @@
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Kata Sandi" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="365-IE-73c">
                                         <rect key="frame" x="12" y="227" width="548" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="db4-Xz-7EA"/>
                                         </constraints>
@@ -86,6 +92,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uSB-Xz-EGr">
                                         <rect key="frame" x="8" y="255" width="552" height="1"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="2QK-7H-Exd"/>
@@ -93,6 +100,7 @@
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Ulangi Kata Sandi" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qAU-kW-CcL">
                                         <rect key="frame" x="12" y="265" width="548" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="he6-zx-GMS"/>
                                         </constraints>
@@ -102,6 +110,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkb-L4-mjZ">
                                         <rect key="frame" x="10" y="294" width="552" height="1"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="q8x-jJ-GNT"/>
@@ -109,6 +118,7 @@
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nama Lengkap" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ER3-2O-upS">
                                         <rect key="frame" x="12" y="303" width="548" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="dUh-DX-vWU"/>
                                         </constraints>
@@ -118,6 +128,7 @@
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HbT-wV-IyE">
                                         <rect key="frame" x="8" y="332" width="552" height="1"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="k8P-bJ-cY7"/>
@@ -125,6 +136,7 @@
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-NW-6HB">
                                         <rect key="frame" x="40" y="348" width="488" height="30"/>
+                                        <animations/>
                                         <attributedString key="attributedText">
                                             <fragment content="Dengan mendaftar berarti Anda setuju dengan ">
                                                 <attributes>
@@ -152,12 +164,14 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWx-rJ-Vdi">
                                         <rect key="frame" x="40" y="348" width="488" height="30"/>
+                                        <animations/>
                                         <connections>
                                             <action selector="termConditionPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="HBx-VQ-6pQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfE-Sc-zdJ">
                                         <rect key="frame" x="8" y="397" width="552" height="44"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="KEh-r5-kC2"/>
@@ -173,6 +187,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qA9-Cf-diJ" userLabel="Facebook">
                                         <rect key="frame" x="8" y="468" width="55" height="40"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="55" id="ajA-v1-W1x"/>
                                             <constraint firstAttribute="height" constant="40" id="mNY-8b-A9x"/>
@@ -186,6 +201,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnG-eX-aiT">
                                         <rect key="frame" x="71" y="468" width="489" height="40"/>
+                                        <animations/>
                                         <color key="backgroundColor" red="0.1764705882" green="0.27058823529999998" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="7xw-Gv-BYs"/>
@@ -202,47 +218,52 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZw-qw-Qmx" userLabel="Path">
                                         <rect key="frame" x="8" y="516" width="55" height="40"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="55" id="Pes-uc-ybb"/>
                                             <constraint firstAttribute="height" constant="40" id="aYE-72-0o0"/>
                                         </constraints>
-                                        <state key="normal" image="ic_socmed_path.png">
+                                        <state key="normal" image="ic_socmed_twitter.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="loginPathPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="as7-2P-8KG"/>
+                                            <action selector="loginTwitterPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="5me-01-hif"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Mp-n0-kCg">
                                         <rect key="frame" x="71" y="516" width="489" height="40"/>
-                                        <color key="backgroundColor" red="0.88235294119999996" green="0.1529411765" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.12549019607843137" green="0.75686274509803919" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="yAI-kW-ADr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="LOGIN PATH">
+                                        <state key="normal" title="LOGIN TWITTER">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="loginPathPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="Vag-BK-xdm"/>
+                                            <action selector="loginTwitterPressed:" destination="MUf-3y-RbF" eventType="touchUpInside" id="arj-TM-lm7"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jangan khawatir, Prelo tidak akan post tanpa persetujuan kamu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmt-gZ-HSd">
                                         <rect key="frame" x="40" y="564" width="488" height="15"/>
+                                        <animations/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="12"/>
                                         <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ico_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="b4i-eX-z37">
                                         <rect key="frame" x="185" y="40" width="199" height="91"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="91" id="NHi-J3-k7X"/>
                                             <constraint firstAttribute="width" constant="199" id="xTN-KE-SaY"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="b99-du-caE" firstAttribute="leading" secondItem="C9h-Rp-CKr" secondAttribute="leading" constant="12" id="102-QO-Fdy"/>
@@ -306,6 +327,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="C9h-Rp-CKr" secondAttribute="trailing" id="6mB-7l-ddN"/>
                             <constraint firstAttribute="width" secondItem="C9h-Rp-CKr" secondAttribute="width" id="8ow-qx-OLJ"/>
@@ -325,9 +347,11 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-N1-3ZS" userLabel="loading">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <animations/>
                                 <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KZV-N1-3ZS" secondAttribute="centerX" id="NEQ-BX-gpL"/>
                             <constraint firstAttribute="centerY" secondItem="KZV-N1-3ZS" secondAttribute="centerY" id="ep9-eo-HLh"/>
@@ -340,6 +364,7 @@
                         </variation>
                     </view>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <gestureRecognizers/>
                 <constraints>
@@ -389,6 +414,6 @@
     <resources>
         <image name="ic_ico_label.png" width="1222" height="578"/>
         <image name="ic_socmed_facebook.png" width="147" height="109"/>
-        <image name="ic_socmed_path.png" width="147" height="109"/>
+        <image name="ic_socmed_twitter.png" width="147" height="109"/>
     </resources>
 </document>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TwitterKit
 
 class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate {
     
@@ -47,7 +48,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             if (b.titleLabel?.text == "") { // unchek, check it!
                 b.setTitle("", forState: UIControlState.Normal)
                 
-                if (tag == 1 && CDUser.pathTokenAvailable() == false)
+                if (tag == 1 && CDUser.pathTokenAvailable() == false) // Path
                 {
                     let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
                     pathLoginVC.delegate = self
@@ -62,17 +63,23 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 {
                     fbtoken = t
                 }
-                if (tag == 2 &&  fbtoken == "")
+                if (tag == 2 &&  fbtoken == "") // Facebook
                 {
                     loginFacebook()
                 }
                 
-                if (tag == 0)
+                if (tag == 0) // Instagram
                 {
                     let ins = InstagramLoginViewController()
                     self.navigationController?.pushViewController(ins, animated: true)
                 }
                 
+                if (tag == 3) // Twitter
+                {
+                    if (CDUser.twitterTokenAvailable() == false) {
+                        self.loginTwitter()
+                    }
+                }
             } else if (b.titleLabel?.text == "") // checked, uncheck it
             {
                 b.setTitle("", forState: UIControlState.Normal)
@@ -100,6 +107,45 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             } else
             {
                 self.select(self.pathSender!)
+            }
+        }
+    }
+    
+    func loginTwitter() {
+        Twitter.sharedInstance().logInWithCompletion { session, error in
+            if (session != nil) {
+                let twId = session!.userID
+                let twUsername = session!.userName
+                let twToken = session!.authToken
+                let twSecret = session!.authTokenSecret
+                
+                request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, _, res, err in
+                    println("Post twitter data req = \(req)")
+                    
+                    if (err != nil) { // Terdapat error
+                        Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                    } else {
+                        let json = JSON(res!)
+                        let data = json["_data"].bool
+                        if (data != nil && data == true) { // Berhasil
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.twitterID = twId
+                            userOther.twitterUsername = twUsername
+                            userOther.twitterAccessToken = twToken
+                            userOther.twitterTokenSecret = twSecret
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Save in NSUserDefaults
+                            NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                        } else { // Terdapat error
+                            Constant.showDialog("Warning", message: "Post twitter data error")
+                        }
+                    }
+                }
+            } else {
+                self.hideLoading()
             }
         }
     }

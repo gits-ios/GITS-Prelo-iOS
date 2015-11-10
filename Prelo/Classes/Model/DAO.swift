@@ -124,6 +124,7 @@ public class User : NSObject
         NSUserDefaults.standardUserDefaults().synchronize()
         
         NSUserDefaults.standardUserDefaults().removeObjectForKey("pathtoken")
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("twittertoken")
         
         self.LogoutFacebook()
     }
