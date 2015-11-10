@@ -419,6 +419,8 @@
 		44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
 		44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
+		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
+		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -953,6 +955,8 @@
 		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
 		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategorySize.swift; sourceTree = "<group>"; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
+		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
+		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1141,6 +1145,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				FDF7281C1BF1CA9A00C0D843 /* Regex.swift */,
 				2109BCAD1BDF3529004F36C5 /* AKPickerView */,
 				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
@@ -1710,6 +1715,7 @@
 				21C6587A1B8EE4E10037F85F /* default */,
 				210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */,
 				210959AE1B8DD088000F2939 /* ic_cacat@2x.png */,
+				FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */,
 				210959AF1B8DD088000F2939 /* ic_hanger@2x.png */,
 				210959B01B8DD088000F2939 /* ic_tag@2x.png */,
 				44C10A661B8C8145006D8770 /* basic_green@2x.png */,
@@ -2075,6 +2081,7 @@
 				21104AD21BAA8F1200947E7F /* MyPurchaseCompleted.xib in Resources */,
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
+				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
@@ -2214,6 +2221,7 @@
 				44D32A121BDF161E00EFC1E3 /* CDProductCondition.swift in Sources */,
 				210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
+				FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */,
 				2141BBBA1B54BE4C00787F5D /* NSArray+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
@@ -2625,7 +2633,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cc986de3-b308-4ddc-ae97-475afa6bb658";
+				PROVISIONING_PROFILE = "59e06801-6e89-456c-9a14-e0411204b005";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2655,7 +2663,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cc986de3-b308-4ddc-ae97-475afa6bb658";
+				PROVISIONING_PROFILE = "59e06801-6e89-456c-9a14-e0411204b005";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

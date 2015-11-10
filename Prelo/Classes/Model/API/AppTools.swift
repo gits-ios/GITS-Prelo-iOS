@@ -43,8 +43,13 @@ extension Int
 }
 
 class AppTools: NSObject {
+    // Development
     static var PreloBaseUrl = "http://dev.prelo.id"
     static var PreloBaseUrlShort = "dev.prelo.id"
+    
+    // Production
+//    static var PreloBaseUrl = "https://prelo.co.id"
+//    static var PreloBaseUrlShort = "prelo.co.id"
 }
 
 class Theme : NSObject

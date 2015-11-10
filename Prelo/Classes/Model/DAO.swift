@@ -1376,12 +1376,11 @@ class UserCheckoutProduct : TransactionDetail {
     
     // Only take first image from json
     override var productImageURL : NSURL? {
-        if let err = json["display_picts"][0].error
+        if let u = json["display_picts"][0].string
         {
-            return nil
+            return NSURL(string: u)
         }
-        let url = json["display_picts"][0].string!
-        return NSURL(string: url)
+        return NSURL(string: "\(AppTools.PreloBaseUrl)/images/products/default.png")
     }
 }
 

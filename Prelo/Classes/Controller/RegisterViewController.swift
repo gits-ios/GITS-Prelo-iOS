@@ -32,6 +32,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         loadingPanel.hidden = true
         loading.stopAnimating()
+        
+        txtName?.autocapitalizationType = .Words
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -83,6 +85,14 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             var placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtUsername?.attributedPlaceholder = placeholder
             return false
+        } else {
+            let usernameRegex = "^[a-zA-Z0-9_]{4,15}$"
+            if (txtUsername?.text.match(usernameRegex) == false) {
+                txtUsername?.text = ""
+                var placeholder = NSAttributedString(string: "Username: 4-15 char (a-z, A-Z, 0-9, _)", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+                txtUsername?.attributedPlaceholder = placeholder
+                return false
+            }
         }
         if (txtEmail?.text == "") {
             var placeholder = NSAttributedString(string: "Email harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])

@@ -117,6 +117,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             startLoading()
             prepDataBlock!(picker: self)
         }
+        
+        searchBar.autocapitalizationType = .Words
+        
         // Do any additional setup after loading the view.
     }
     

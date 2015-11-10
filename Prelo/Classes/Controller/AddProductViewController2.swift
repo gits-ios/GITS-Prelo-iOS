@@ -196,6 +196,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
         self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
+        
+        txtName.autocapitalizationType = .Words
+        txtAlasanJual.autocapitalizationType = .Sentences
+        txtSpesial.autocapitalizationType = .Sentences
+        txtDeskripsiCacat.autocapitalizationType = .Sentences
     }
     
     var notPicked = true

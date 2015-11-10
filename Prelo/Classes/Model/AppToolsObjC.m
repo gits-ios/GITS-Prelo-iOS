@@ -127,8 +127,8 @@ static UIDocumentInteractionController *staticDocController = NULL;
 
 + (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
-    //[AppToolsObjC sendMultipart:param images:images withToken:token to:@"http://dev.prelo.id/api/product" success:success failure:failure];
-    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"https://prelo.co.id/api/product" success:success failure:failure];
+    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"http://dev.prelo.id/api/product" success:success failure:failure];
+//    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"https://prelo.co.id/api/product" success:success failure:failure];
 }
 
 + (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure

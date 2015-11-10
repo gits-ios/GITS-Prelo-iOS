@@ -221,8 +221,8 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - IBActions
     
     @IBAction func sellPressed(sender: AnyObject) {
-        let addProductVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct) as! AddProductViewController
-        self.navigationController?.pushViewController(addProductVC, animated: true)
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        self.navigationController?.pushViewController(add, animated: true)
     }
 }
 

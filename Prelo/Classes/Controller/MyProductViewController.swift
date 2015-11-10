@@ -16,6 +16,8 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     var productProcessing : BaseViewController?
     var productCompleted : BaseViewController?
 
+    @IBOutlet weak var viewJualButton: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +41,13 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         let newBackButton = UIBarButtonItem(title: " Produk Saya", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
+        
+        // Buat tombol jual menjadi bentuk bulat dan selalu di depan
+        viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
+        viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
+        viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
+        viewJualButton.layer.shadowOpacity = 0.3
+        self.view.bringSubviewToFront(viewJualButton)
     }
     
     var first = true
@@ -86,6 +95,10 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         return v
     }
     
+    @IBAction func jualPressed(sender: AnyObject) {
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        self.navigationController?.pushViewController(add, animated: true)
+    }
 
     /*
     // MARK: - Navigation

@@ -18,7 +18,7 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = NSURL(string: "https://prelo.id/syarat-ketentuan")
+        let url = NSURL(string: "https://prelo.co.id/syarat-ketentuan")
         let requestObj = NSURLRequest(URL: url!)
         self.webView.loadRequest(requestObj)
         
