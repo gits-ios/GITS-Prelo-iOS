@@ -111,11 +111,35 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
         c.keyboardType = UIKeyboardType.NumberPad
         
+        var pID = ""
+        var rID = ""
+        if let u = CDUser.getOne()
+        {
+            pID = u.profiles.provinceID
+            rID = u.profiles.regionID
+            
+            if let i = CDProvince.getProvinceNameWithID(pID)
+            {
+                pID = i
+            } else
+            {
+                pID = ""
+            }
+            
+            if let i = CDRegion.getRegionNameWithID(rID)
+            {
+                rID = i
+            } else
+            {
+                rID = ""
+            }
+        }
+        
         self.cells = [
             NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
             NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
             NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
-            NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: "", pickerPrepBlock: { picker in
+            NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
                 picker.startLoading()
                 picker.items = CDProvince.getProvincePickerItems()
@@ -123,15 +147,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // on select block
                 picker.selectBlock = { string in
                     self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
+                    let user = CDUser.getOne()!
+                    user.profiles.provinceID = self.selectedProvinsiID
                 }
             }),
-            NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: "", pickerPrepBlock: { picker in
+            NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
                 
                 picker.startLoading()
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
                 
                 picker.selectBlock = { string in
                     self.selectedKotaID = PickerViewController.RevealHiddenString(string)
+                    let user = CDUser.getOne()!
+                    user.profiles.regionID = self.selectedKotaID
+                    self.synch()
                 }
                 
             }),
@@ -157,33 +186,36 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             
             if let arr = json["shipping_packages"].array
             {
-                var sh = arr[0]
-                if (cp.packageId != "")
+                if (arr.count > 0)
                 {
-                    for x in 0...arr.count-1
+                    var sh = arr[0]
+                    if (cp.packageId != "")
                     {
-                        let shipping = arr[x]
-                        if let id = shipping["_id"].string
+                        for x in 0...arr.count-1
                         {
-                            if (id == cp.packageId)
+                            let shipping = arr[x]
+                            if let id = shipping["_id"].string
                             {
-                                sh = shipping
+                                if (id == cp.packageId)
+                                {
+                                    sh = shipping
+                                }
                             }
                         }
                     }
-                }
-                if let price = sh["price"].int
-                {
-                    totalOngkir += price
+                    if let price = sh["price"].int
+                    {
+                        totalOngkir += price
+                    }
                 }
             }
             
         }
         
-        let b = cells[NSIndexPath(forRow: products.count, inSection: 0)]
+        let b = cells[NSIndexPath(forRow: products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)]
         if let total = self.currentCart?["_data"]["total_price"].int, let d = b
         {
-            d.value = (totalOngkir + total).asPrice
+            d.value = (totalOngkir + total - self.bonusValue).asPrice
             if let c = cellViews[NSIndexPath(forRow: products.count, inSection: 0)] as? CartCellInput
             {
                 c.txtField.text = d.value
@@ -193,6 +225,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.tableView.reloadData()
     }
     
+    var bonusValue : Int = 0
     var currentCart : JSON?
     var bonusAvailable = false
     func synch()
@@ -206,7 +239,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         println(p)
         
-        let a = "{\"address\": \"alamat\", \"province_id\": \"533f812d6d07364195779445\", \"region_id\": \"53a6b95d0ceb958f78000026\", \"postal_code\": \"12345\"}"
+        var pID = ""
+        var rID = ""
+        if let u = CDUser.getOne()
+        {
+            pID = u.profiles.provinceID
+            rID = u.profiles.regionID
+        }
+        
+        let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
         
         request(APICart.Refresh(cart: p, address: a, voucher: voucher))
             .responseJSON {req, resp, res, err in
@@ -225,18 +266,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     else
                     {
-                        let i = NSIndexPath(forRow: self.products.count, inSection: 0)
-                        let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
-                        if let price = json["_data"]["total_price"].int?.asPrice
-                        {
-                            b.value = price
-                        }
-                        self.cells[i] = b
-                        
                         if let bonus = json["_data"]["bonus_available"].int
                         {
                             if (bonus != 0)
                             {
+                                self.bonusValue = bonus
                                 self.bonusAvailable = true
                                 let b2 = BaseCartData.instance("Bonus Prelo", placeHolder: nil, enable : false)
                                 if let price = json["_data"]["bonus_available"].int?.asPrice
@@ -244,10 +278,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                     b2.value = price
                                 }
                                 b2.enable = false
-                                let i2 = NSIndexPath(forRow: self.products.count+1, inSection: 0)
+                                let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
                                 self.cells[i2] = b2
+                                
                             }
                         }
+                        
+                        let i = NSIndexPath(forRow: self.products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)
+                        let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
+                        if let price = json["_data"]["total_price"].int?.asPrice
+                        {
+                            b.value = price
+                        }
+                        self.cells[i] = b
                         
                         self.arrayItem = json["_data"]["cart_details"].array!
                         
@@ -508,7 +551,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let s = indexPath.section
         let r = indexPath.row
         if (s == 0) {
-            if (r == arrayItem.count) {
+            if (r >= arrayItem.count) {
+                if (self.bonusAvailable && r == arrayItem.count)
+                {
+                    return 24
+                }
                 return 44
             } else {
                 return 74
@@ -904,6 +951,9 @@ class CartCellInput : BaseCartCell
             if (i.location != NSNotFound)
             {
                 txtField.keyboardType = UIKeyboardType.DecimalPad
+            } else
+            {
+                txtField.keyboardType = (item?.keyboardType)!
             }
         }
         

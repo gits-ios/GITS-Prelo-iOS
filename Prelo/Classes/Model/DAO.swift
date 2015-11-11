@@ -504,6 +504,36 @@ public class ProductDetail : NSObject, TawarItem
         
     }
     
+    var specialStory : String {
+        if let u = json["_data"]["special_story"].string
+        {
+            return u
+        } else
+        {
+            return ""
+        }
+    }
+    
+    var defectDescription : String {
+        if let u = json["_data"]["defect_description"].string
+        {
+            return u
+        } else
+        {
+            return ""
+        }
+    }
+    
+    var sellReason : String {
+        if let u = json["_data"]["sell_reason"].string
+        {
+            return u
+        } else
+        {
+            return ""
+        }
+    }
+    
     var productID : String
     {
         println(json)
@@ -828,6 +858,26 @@ public class Product : NSObject
             return t
         }
         return ""
+    }
+    
+    var specialStory : String? {
+        if let s = json["special_story"].string
+        {
+            return s
+        } else
+        {
+            return ""
+        }
+    }
+    
+    var avatar : NSURL? {
+        if var seller_pict_thumb = json["seller_pict_thumb"].string
+        {
+            seller_pict_thumb = seller_pict_thumb.stringByReplacingOccurrencesOfString(" ", withString: "")
+            let url = NSURL(string : seller_pict_thumb)
+            return url!
+        }
+        return nil
     }
 }
 

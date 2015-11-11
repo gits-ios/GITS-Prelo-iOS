@@ -84,7 +84,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         {
             return brands.count
         }
-        return brands.count+1
+        return brands.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -94,27 +94,30 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         }
         
-        if (searchBar.text == "")
+        let b = brands[indexPath.row]
+        if let name = b["name"].string
         {
-            let b = brands[indexPath.row]
-            if let name = b["name"].string
-            {
-                c?.textLabel?.text = name
-            }
-        } else
-        {
-            if (indexPath.row == 0)
-            {
-                c?.textLabel?.text = "Gunakan '"+searchBar.text+"'"
-            } else
-            {
-                let b = brands[indexPath.row-1]
-                if let name = b["name"].string
-                {
-                    c?.textLabel?.text = name
-                }
-            }
+            c?.textLabel?.text = name
         }
+        
+//        if (searchBar.text == "")
+//        {
+//            let b = brands[indexPath.row]
+//            if let name = b["name"].string
+//            {
+//                c?.textLabel?.text = name
+//            }
+//        } else
+//        {
+        
+//            if (indexPath.row == 0)
+//            {
+//                c?.textLabel?.text = "Gunakan '"+searchBar.text+"'"
+//            } else
+//            {
+//                
+//            }
+//        }
         
         return c!
     }

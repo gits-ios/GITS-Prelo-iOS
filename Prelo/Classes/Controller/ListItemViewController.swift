@@ -212,6 +212,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.requesting = false
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
+                println(res)
                 self.setupData(res)
                 
                 if (self.storeHeader == nil)
@@ -285,6 +286,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func setupData(res : AnyObject?)
     {
+        println(res)
         var obj = JSON(res!)
         println(obj)
         if let arr = obj["_data"].array
@@ -436,6 +438,9 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var captionMyLove: UILabel!
     @IBOutlet var captionComment: UILabel!
     @IBOutlet var sectionLove : UIView!
+    @IBOutlet var avatar : UIImageView!
+    @IBOutlet var captionSpecialStory : UILabel!
+    @IBOutlet var sectionSpecialStory : UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -453,6 +458,26 @@ class ListItemCell : UICollectionViewCell
         captionLove.text = String(loveCount == nil ? 0 : loveCount!)
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
+        
+        avatar.contentMode = .ScaleAspectFill
+        avatar.layer.cornerRadius = avatar.bounds.width / 2
+        avatar.layer.masksToBounds = true
+        
+        if (product.specialStory == "")
+        {
+            sectionSpecialStory.hidden = true
+        } else
+        {
+            sectionSpecialStory.hidden = false
+            captionSpecialStory.text = product.specialStory
+            if let url = product.avatar
+            {
+                avatar.setImageWithUrl(url, placeHolderImage: UIImage(named : "raisa.jpg"))
+            } else
+            {
+                avatar.image = nil
+            }
+        }
         
         let loved = obj["is_preloved"].bool
         if (loved == true)

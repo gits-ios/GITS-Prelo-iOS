@@ -357,6 +357,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
+                request(APISearch.InsertTopSearch(search: txtSearch.text))
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)

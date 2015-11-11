@@ -346,9 +346,39 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func forgotPassword(sender : AnyObject?)
     {
-        let a = UIAlertView(title: "Lupa Password", message: "Masukan Username / Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
-        a.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        a.show()
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+        {
+            let x = UIAlertController(title: "Lupa Password", message: "Masukan Username / Email", preferredStyle: .Alert)
+            x.addTextFieldWithConfigurationHandler({ textfield in
+                textfield.placeholder = "Username / Email"
+            })
+            let actionOK = UIAlertAction(title: "OK", style: .Default, handler: { act in
+
+                let txtField = x.textFields![0] as! UITextField
+                self.callAPIForgotPassword((txtField.text)!)
+            })
+            
+            let actionCancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in
+                
+            })
+            
+            x.addAction(actionOK)
+            x.addAction(actionCancel)
+            self.presentViewController(x, animated: true, completion: nil)
+        } else
+        {
+            let a = UIAlertView(title: "Lupa Password", message: "Masukan Username / Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
+            a.alertViewStyle = UIAlertViewStyle.PlainTextInput
+            a.show()
+        }
+    }
+    
+    func callAPIForgotPassword(email : String)
+    {
+        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON { req, resp, res, err in
+            println(res)
+            UIAlertView.SimpleShow("Perhatian", message: "Email pemberitahuan sudah kami kirim ke alamat email kamu :)")
+        }
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -379,6 +409,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (email == "")
         {
             UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username / email")
+            btnLogin?.enabled = true
             return
         }
         

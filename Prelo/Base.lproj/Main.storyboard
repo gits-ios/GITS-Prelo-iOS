@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -2425,6 +2425,34 @@ in Bandung</string>
                                                         <constraint firstAttribute="centerY" secondItem="bXc-uy-4CD" secondAttribute="centerY" id="yXD-F3-CUE"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WM2-Ez-8Ku">
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="32"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXw-ln-4O9">
+                                                            <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="28" id="K31-Ai-lEP"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yN-QT-Nu6">
+                                                            <rect key="frame" x="34" y="2" width="164" height="28"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="32" id="2eV-5j-W1p"/>
+                                                        <constraint firstAttribute="trailing" secondItem="7yN-QT-Nu6" secondAttribute="trailing" constant="2" id="BdA-Le-U0e"/>
+                                                        <constraint firstItem="7yN-QT-Nu6" firstAttribute="top" secondItem="WM2-Ez-8Ku" secondAttribute="top" constant="2" id="Jjn-ao-fhL"/>
+                                                        <constraint firstItem="VXw-ln-4O9" firstAttribute="top" secondItem="WM2-Ez-8Ku" secondAttribute="top" constant="2" id="YRE-27-XZW"/>
+                                                        <constraint firstAttribute="bottom" secondItem="7yN-QT-Nu6" secondAttribute="bottom" constant="2" id="amP-JL-PS7"/>
+                                                        <constraint firstAttribute="bottom" secondItem="VXw-ln-4O9" secondAttribute="bottom" constant="2" id="kII-u7-KWv"/>
+                                                        <constraint firstItem="VXw-ln-4O9" firstAttribute="leading" secondItem="WM2-Ez-8Ku" secondAttribute="leading" constant="2" id="reC-U8-xM0"/>
+                                                        <constraint firstItem="7yN-QT-Nu6" firstAttribute="leading" secondItem="VXw-ln-4O9" secondAttribute="trailing" constant="4" id="wJZ-eI-jkb"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2450,9 +2478,12 @@ in Bandung</string>
                                             <constraint firstItem="X32-1K-QZA" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="d59-pF-1BK"/>
                                             <constraint firstAttribute="trailing" secondItem="I7f-5u-kJl" secondAttribute="trailing" constant="4" id="d9b-Bx-U4c"/>
                                             <constraint firstItem="CIM-nt-4UI" firstAttribute="leading" secondItem="p5l-ZT-ELz" secondAttribute="trailing" constant="4" id="hFf-s4-YWd"/>
+                                            <constraint firstItem="WM2-Ez-8Ku" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" id="iEo-Ah-f0V"/>
+                                            <constraint firstItem="WM2-Ez-8Ku" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="ipF-ea-q0t"/>
                                             <constraint firstAttribute="bottom" secondItem="No6-kQ-u3q" secondAttribute="bottom" constant="-20" id="paG-fs-XhD"/>
                                             <constraint firstItem="No6-kQ-u3q" firstAttribute="leading" secondItem="CIM-nt-4UI" secondAttribute="trailing" constant="2" id="pe7-0H-dEZ"/>
                                             <constraint firstAttribute="bottom" secondItem="p5l-ZT-ELz" secondAttribute="bottom" constant="-20" id="tls-S3-w5h"/>
+                                            <constraint firstAttribute="trailing" secondItem="WM2-Ez-8Ku" secondAttribute="trailing" id="v1P-4g-Ytd"/>
                                             <constraint firstItem="I7f-5u-kJl" firstAttribute="leading" secondItem="5XU-vq-YZT" secondAttribute="trailing" constant="4" id="xJ2-3q-Xzq"/>
                                             <constraint firstAttribute="trailing" secondItem="JBC-Cc-yTc" secondAttribute="trailing" constant="8" id="y03-Bs-baa"/>
                                         </constraints>
@@ -2463,14 +2494,17 @@ in Bandung</string>
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <outlet property="avatar" destination="VXw-ln-4O9" id="x9w-gJ-coM"/>
                                             <outlet property="captionComment" destination="p5l-ZT-ELz" id="4fF-hz-aR7"/>
                                             <outlet property="captionLove" destination="No6-kQ-u3q" id="SlD-Qu-xho"/>
                                             <outlet property="captionMyLove" destination="bXc-uy-4CD" id="XnB-2X-ZtW"/>
                                             <outlet property="captionOldPrice" destination="5XU-vq-YZT" id="Ok8-Xc-hbj"/>
                                             <outlet property="captionPrice" destination="I7f-5u-kJl" id="vnS-ix-kbU"/>
+                                            <outlet property="captionSpecialStory" destination="7yN-QT-Nu6" id="DPh-IB-0AQ"/>
                                             <outlet property="captionTitle" destination="OiJ-C3-nY9" id="2jJ-JB-zbe"/>
                                             <outlet property="ivCover" destination="X32-1K-QZA" id="33I-RE-REV"/>
                                             <outlet property="sectionLove" destination="JBC-Cc-yTc" id="iuA-A5-eJn"/>
+                                            <outlet property="sectionSpecialStory" destination="WM2-Ez-8Ku" id="YKv-jx-Jzk"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -9056,24 +9090,24 @@ dalam keranjang belanja</string>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TUk-fb-6G7">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1190"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3yp-Ph-599">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3yp-Ph-599">
                                                 <rect key="frame" x="0.0" y="256" width="600" height="371"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
                                                         <rect key="frame" x="32" y="7" width="109" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-UW-yHv">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-UW-yHv">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
                                                         <rect key="frame" x="8" y="37" width="584" height="70"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="category_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ghp-VO-iUz">
@@ -9092,14 +9126,14 @@ dalam keranjang belanja</string>
                                                                     <constraint firstAttribute="height" constant="1" id="98l-G5-CnZ"/>
                                                                 </constraints>
                                                             </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
                                                                 <rect key="frame" x="568" y="22" width="16" height="16"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Pilih Kategori" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKU-Dz-Nsd">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Kategori" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKU-Dz-Nsd">
                                                                 <rect key="frame" x="463" y="20" width="97" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -9136,7 +9170,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="height" constant="70" id="zFs-zn-f8R"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pZJ-Fd-s3C">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pZJ-Fd-s3C">
                                                         <rect key="frame" x="8" y="327" width="584" height="44"/>
                                                         <subviews>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKJ-Yw-VzC" customClass="SZTextView">
@@ -9186,7 +9220,7 @@ dalam keranjang belanja</string>
                                                             </mask>
                                                         </variation>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-Uf-qri">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-Uf-qri">
                                                         <rect key="frame" x="8" y="239" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kondisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fam-24-aea">
@@ -9196,14 +9230,14 @@ dalam keranjang belanja</string>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
                                                                 <rect key="frame" x="568" y="14" width="16" height="16"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-x0-KFg">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-x0-KFg">
                                                                 <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -9248,7 +9282,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="bottom" secondItem="5Ny-ro-6cN" secondAttribute="bottom" id="uy6-Iv-vmM"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m5j-aA-Rx4">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5j-aA-Rx4">
                                                         <rect key="frame" x="8" y="107" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nama Produk" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GAI-vt-th6">
@@ -9294,7 +9328,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="height" constant="44" id="rxo-5C-bDI"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-eo-JaJ">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-eo-JaJ">
                                                         <rect key="frame" x="8" y="151" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(Optional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SE3-lR-N6e">
@@ -9340,7 +9374,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="trailing" secondItem="SE3-lR-N6e" secondAttribute="trailing" id="ujn-pm-bb4"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-7D-1Bw">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-7D-1Bw">
                                                         <rect key="frame" x="8" y="195" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Alasan Jual" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wW1-Ei-3h2">
@@ -9386,7 +9420,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="trailing" secondItem="GFB-1O-aa6" secondAttribute="trailing" id="ogx-l9-PTp"/>
                                                         </constraints>
                                                     </view>
-                                                    <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBx-Fq-PLS">
+                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBx-Fq-PLS">
                                                         <rect key="frame" x="8" y="283" width="584" height="0.0"/>
                                                         <subviews>
                                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Deskripsi Cacat" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qc-Gb-dWv">
@@ -9432,7 +9466,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstAttribute="trailing" secondItem="8qc-Gb-dWv" secondAttribute="trailing" id="v5o-Ze-WpZ"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-D2-lLx">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-D2-lLx">
                                                         <rect key="frame" x="8" y="283" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merek" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOl-Vo-Sby">
@@ -9442,14 +9476,14 @@ dalam keranjang belanja</string>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
                                                                 <rect key="frame" x="568" y="14" width="16" height="16"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVD-Aq-2ph">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVD-Aq-2ph">
                                                                 <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -9541,17 +9575,17 @@ dalam keranjang belanja</string>
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wp6-P0-qTY">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wp6-P0-qTY">
                                                 <rect key="frame" x="0.0" y="936" width="600" height="118"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tm-iW-iXJ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tm-iW-iXJ">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
                                                         <rect key="frame" x="33" y="8" width="44" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -9757,17 +9791,17 @@ dalam keranjang belanja</string>
                                                     <constraint firstAttribute="trailing" secondItem="IAE-zW-iXW" secondAttribute="trailing" constant="8" id="z3K-5L-cP6"/>
                                                 </constraints>
                                             </view>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtY-vt-c7n">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xtY-vt-c7n">
                                                 <rect key="frame" x="8" y="635" width="584" height="146"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGP-CC-TvA">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGP-CC-TvA">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
                                                         <rect key="frame" x="24" y="0.0" width="59" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -9873,24 +9907,24 @@ dalam keranjang belanja</string>
                                                     <constraint firstItem="eGP-CC-TvA" firstAttribute="leading" secondItem="xtY-vt-c7n" secondAttribute="leading" id="zek-kz-Hp9"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sqq-ri-s9Q">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqq-ri-s9Q">
                                                 <rect key="frame" x="0.0" y="788" width="600" height="148"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONB-9m-hhm">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONB-9m-hhm">
                                                         <rect key="frame" x="9" y="1" width="16" height="16"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8c-Ge-cN3">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8c-Ge-cN3">
                                                         <rect key="frame" x="33" y="0.0" width="110" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OUi-2O-pXU">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUi-2O-pXU">
                                                         <rect key="frame" x="8" y="29" width="584" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vlO-ht-DaJ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
@@ -10016,7 +10050,7 @@ dalam keranjang belanja</string>
                                                             <constraint firstItem="BJh-1W-NI6" firstAttribute="leading" secondItem="vlO-ht-DaJ" secondAttribute="trailing" constant="4" id="kdC-Rx-tD7"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ4-Qu-tlC">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ4-Qu-tlC">
                                                         <rect key="frame" x="8" y="115" width="584" height="14"/>
                                                         <animations/>
                                                         <attributedString key="attributedText">
@@ -10030,7 +10064,7 @@ dalam keranjang belanja</string>
                                                         </attributedString>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJA-Cx-oTA">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJA-Cx-oTA">
                                                         <rect key="frame" x="231" y="133" width="139" height="15"/>
                                                         <animations/>
                                                         <constraints>
@@ -10081,14 +10115,14 @@ dalam keranjang belanja</string>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xaC-RP-CkD">
                                                 <rect key="frame" x="0.0" y="952" width="600" height="170"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYx-ZX-cDd">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYx-ZX-cDd">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-eb-cgM">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-eb-cgM">
                                                         <rect key="frame" x="33" y="8" width="49" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -11833,7 +11867,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="trailing" secondItem="qXl-6u-CPr" secondAttribute="trailing" constant="8" id="pgd-c7-lqx"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
                                                     <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
@@ -11922,7 +11956,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="trailing" secondItem="bG5-Pj-7NV" secondAttribute="trailing" constant="8" id="da1-dd-sSi"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
                                                     <rect key="frame" x="586" y="8" width="7" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
@@ -11944,7 +11978,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="height" constant="2" id="tGJ-So-lnZ"/>
                                                     </constraints>
                                                 </view>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zf-NP-G3P">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zf-NP-G3P">
                                                     <rect key="frame" x="497" y="7" width="30" height="34"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="22"/>

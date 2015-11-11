@@ -188,6 +188,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
             
+            self.txtAlasanJual.text = editProduct?.sellReason
+            self.txtDeskripsiCacat.text = editProduct?.defectDescription
+            self.txtSpesial.text = editProduct?.specialStory
+            
         } else
         {
             self.title = "Add Product"
