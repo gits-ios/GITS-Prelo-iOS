@@ -705,14 +705,14 @@ class ProductCellSeller : UITableViewCell
         captionSellerName?.text = product["seller"]["fullname"].string!
         let average_star = product["seller"]["average_star"].int!
         var stars = ""
-        for x in 1...4
+        for x in 1...5
         {
             if (x <= average_star)
             {
-                stars = stars+""
+                stars = stars+""
             } else
             {
-                stars = stars+""
+                stars = stars+""
             }
         }
         captionSellerRating?.text = stars
@@ -734,6 +734,8 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     @IBOutlet var captionSize : UILabel?
     @IBOutlet var captionCondition : UILabel?
     @IBOutlet var captionFrom : UILabel?
+    @IBOutlet var captionConditionDesc : UILabel?
+    @IBOutlet var captionAlasanJual : UILabel?
     
     @IBOutlet var captionCategory : ZSWTappableLabel?
     
@@ -755,6 +757,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let desc = product["description"].string!
         var desc2 : NSString = NSString(string: desc)
         
+        var desc3 = ""
+        if let ss = obj?.specialStory
+        {
+            if (ss != "")
+            {
+                desc3 = "\"" + ss + "\"\n\n"
+            }
+        }
+        
+        desc2 = desc3 + (desc2 as String)
+        
         let size = desc2.boundingRectWithSize(cons, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
         let s = "Jaminan 100% uang kembali jika pesananmu tidak sampai".boundsWithFontSize(UIFont.systemFontOfSize(12), width: UIScreen.mainScreen().bounds.size.width-66)
@@ -775,7 +788,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let cs = categoryString.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-101)
         
-        return 163+size.height+s.height+cs.height+8
+        var cs2 = (obj?.defectDescription)!
+        if (cs2 == "")
+        {
+            cs2 = "-"
+        }
+        let cs2Size = cs2.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-136)
+        
+        var al = (obj?.sellReason)!
+        let alSize = al.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-100)
+        
+        return 163+size.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height
     }
     
     func adapt(obj : ProductDetail?)
@@ -785,7 +808,16 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         var product = (obj?.json)!["_data"]
         
-        captionDesc?.text = product["description"].string!
+        var desc = ""
+        if let ss = obj?.specialStory
+        {
+            if (ss != "")
+            {
+                desc = "\"" + ss + "\"\n\n"
+            }
+        }
+        
+        captionDesc?.text = desc + product["description"].string!
         captionDate?.text = product["time"].string!
         captionCondition?.text = product["condition"].string!
         if let region = product["seller_region"]["name"].string
@@ -800,7 +832,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         } else {
             captionMerk?.text = "Unknown"
         }
-        captionSize?.text = " "
+        captionSize?.text = "-"
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
@@ -836,6 +868,21 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         
         captionCategory?.attributedText = attString
+        
+        var sellReason = (obj?.sellReason)!
+        if (sellReason == "")
+        {
+            sellReason = "-"
+        }
+        
+        captionAlasanJual?.text = sellReason
+        
+        var defect = (obj?.defectDescription)!
+        if (defect == "")
+        {
+            defect = "-"
+        }
+        captionConditionDesc?.text = defect
     }
     
     func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {

@@ -80,6 +80,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                 Constant.showDialog("Warning", message: "Error getting checkout list: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
+                println(res)
                 let json = JSON(res!)
                 let data = json["_data"]
                 if (data == nil) { // Terdapat error
