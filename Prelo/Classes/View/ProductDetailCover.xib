@@ -132,6 +132,7 @@
             <connections>
                 <outletCollection property="imageViews" destination="cpH-Me-DGE" collectionClass="NSMutableArray" id="QD4-4R-kuI"/>
                 <outletCollection property="imageViews" destination="v4S-iA-VX3" collectionClass="NSMutableArray" id="HQF-OM-qIT"/>
+                <outletCollection property="imageViews" destination="nv7-2b-2Nb" collectionClass="NSMutableArray" id="pYZ-uw-iyW"/>
             </connections>
         </view>
         <view contentMode="scaleToFill" id="W55-lh-x9Q" customClass="ProductDetailCover" customModule="Prelo" customModuleProvider="target">
