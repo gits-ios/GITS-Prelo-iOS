@@ -275,7 +275,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                     let json = JSON(res!)
                                     let data = json["_data"]
                                     if (data == nil || data == []) { // Data kembalian kosong
-                                        println("Empty twitter login data")
+                                        if (json["_message"] != nil) {
+                                            Constant.showDialog("Warning", message: json["_message"].string!)
+                                            var vcLogin = sender as? LoginViewController
+                                            if (vcLogin != nil) {
+                                                vcLogin!.hideLoading()
+                                            }
+                                            var vcRegister = sender as? RegisterViewController
+                                            if (vcRegister != nil) {
+                                                vcRegister!.hideLoading()
+                                            }
+                                        }
                                     } else { // Berhasil
                                         println("Twitter login data: \(data)")
                                         
