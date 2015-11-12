@@ -36,9 +36,12 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         
+        // Set title
+        self.title = "Produk Saya"
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Produk Saya", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         

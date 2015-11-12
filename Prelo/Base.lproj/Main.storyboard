@@ -295,12 +295,32 @@
                         <outlet property="consMarginBottomBar" destination="f1n-xz-W6k" id="ThF-NM-p2u"/>
                         <outlet property="sectionBar" destination="IUr-MR-pQm" id="zJf-Vt-A5K"/>
                         <outlet property="sectionContent" destination="rui-jE-9fQ" id="fE6-TI-tzi"/>
-                        <segue destination="l15-jv-dbf" kind="presentation" identifier="segTour" id="g7e-GM-zqN"/>
+                        <segue destination="6Oe-4z-yhz" kind="presentation" identifier="segTour" id="xXr-i3-icS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="op2-wF-2F6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1369" y="350"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JCm-Wc-ds5">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="6Oe-4z-yhz" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ahl-ux-zz6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="l15-jv-dbf" kind="relationship" relationship="rootViewController" id="9iG-EZ-dbz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kcb-5H-zPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2175" y="1107"/>
         </scene>
         <!--Tour View Controller-->
         <scene sceneID="otA-2z-1oY">
@@ -564,6 +584,10 @@ dalam hitungan detik.</string>
                             </mask>
                         </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="s4I-W0-ZnE"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="btnNext" destination="Axn-N3-T8w" id="S80-15-z8e"/>
                         <outlet property="pager" destination="8nQ-Hv-4K3" id="fhw-RQ-Kw3"/>
@@ -1226,7 +1250,9 @@ dalam hitungan detik.</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="btnClose" destination="2sQ-Hb-TdJ" id="bnK-VO-pNt"/>
                         <outlet property="btnLogin" destination="N9l-yB-Paz" id="jFd-hY-wWz"/>
+                        <outlet property="groupRegister" destination="noE-uE-tGq" id="8FC-Rg-JSj"/>
                         <outlet property="loading" destination="61W-54-KPR" id="h5S-aD-ikN"/>
                         <outlet property="loadingPanel" destination="HDP-xK-5to" id="aH5-4L-q4C"/>
                         <outlet property="scrollView" destination="fmx-du-Wub" id="Edh-H1-INS"/>
@@ -4673,6 +4699,13 @@ Keuntungan</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk yang kamu jual akan tampil di sini" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-V7-54G">
+                                <rect key="frame" x="16" y="42" width="568" height="16"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JJS-ga-UMV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
@@ -4808,10 +4841,13 @@ Keuntungan</string>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="oyx-V7-54G" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" constant="16" id="4m6-Jn-O9y"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="top" secondItem="Ase-V8-rwA" secondAttribute="top" id="7wW-c6-07O"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="Hq9-9O-isw"/>
                             <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" id="V0K-VA-MAE"/>
                             <constraint firstAttribute="trailing" secondItem="JJS-ga-UMV" secondAttribute="trailing" id="nbk-nh-GeJ"/>
+                            <constraint firstItem="oyx-V7-54G" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="22" id="vm8-ay-vpg"/>
+                            <constraint firstAttribute="trailing" secondItem="oyx-V7-54G" secondAttribute="trailing" constant="16" id="xZt-dv-Kbz"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -4819,6 +4855,8 @@ Keuntungan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="d03-Tg-REX"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="lblEmpty" destination="oyx-V7-54G" id="Cg1-PC-5mO"/>
+                        <outlet property="loading" destination="FlE-lg-MYU" id="8FH-GM-1Ev"/>
                         <outlet property="tableView" destination="JJS-ga-UMV" id="3jT-c0-g0X"/>
                     </connections>
                 </viewController>
@@ -12131,10 +12169,10 @@ Label / Merek</string>
         <image name="tour_3.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="pME-IT-gHt"/>
+        <segue reference="gv4-pa-FxU"/>
         <segue reference="MUV-Ui-6Bn"/>
         <segue reference="2Zk-mt-sgU"/>
-        <segue reference="gv4-pa-FxU"/>
         <segue reference="gU7-9Q-bxr"/>
-        <segue reference="pME-IT-gHt"/>
     </inferredMetricsTieBreakers>
 </document>

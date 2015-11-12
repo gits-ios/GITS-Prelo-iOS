@@ -301,7 +301,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                                 
                                 // Check if user have set his account
                                 //self.checkProfileSetup(data["token"].string!)
-                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                             }
                         }
                     }
@@ -503,7 +503,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
-                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                 }
             }
         }

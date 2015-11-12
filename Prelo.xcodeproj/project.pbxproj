@@ -421,6 +421,9 @@
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
 		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
 		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
+		FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
+		FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */; };
+		FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF728241BF24F7900C0D843 /* CategoryPreferencesCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -957,6 +960,9 @@
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
 		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPreferencesViewController.swift; sourceTree = "<group>"; };
+		FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryPreferences.xib; sourceTree = "<group>"; };
+		FDF728241BF24F7900C0D843 /* CategoryPreferencesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryPreferencesCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1547,6 +1553,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
 				44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */,
 				44C18DAA1BC3C00300BC8303 /* NotificationPageViewController.swift */,
@@ -1947,6 +1954,8 @@
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
 				44B861021BDA92D20020A9E3 /* TermCondition.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
+				FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */,
+				FDF728241BF24F7900C0D843 /* CategoryPreferencesCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2074,6 +2083,7 @@
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
+				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
@@ -2105,6 +2115,7 @@
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
+				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -2446,6 +2457,7 @@
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
 				21104ABE1BAA8ECC00947E7F /* TransactionListCell.swift in Sources */,
 				2141BBA91B54BE4C00787F5D /* Manager.swift in Sources */,
+				FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				212007C61B6A102600D9C84B /* LoginViewController.swift in Sources */,
 				215C52671B6B1ED200EA4E61 /* AppTools.swift in Sources */,

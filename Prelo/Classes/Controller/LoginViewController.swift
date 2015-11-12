@@ -22,13 +22,22 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     @IBOutlet weak var loadingPanel: UIView?
     @IBOutlet weak var loading: UIActivityIndicatorView?
     
+    @IBOutlet var btnClose : UIButton?
+    @IBOutlet weak var groupRegister: UIView!
+    var isFromTourVC : Bool = false
     
     var navController : UINavigationController?
     
     static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool)
     {
+        LoginViewController.Show(parent, userRelatedDelegate: userRelatedDelegate, animated: animated, isFromTourVC: false)
+    }
+    
+    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool, isFromTourVC : Bool)
+    {
         let l = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
         l.userRelatedDelegate = userRelatedDelegate
+        l.isFromTourVC = isFromTourVC
         
         let n = BaseNavigationController(rootViewController : l)
         n.setNavigationBarHidden(true, animated: false)
@@ -75,7 +84,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     // Return true if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
-    static func CheckProfileSetup(sender : BaseViewController, token : String) {
+    static func CheckProfileSetup(sender : BaseViewController, token : String, isSocmedAccount : Bool) {
         var isProfileSet : Bool = false
         
         // Set token first, because APIUser.Me need token
@@ -95,6 +104,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 } else { // Berhasil
                     println("Data = \(data)")
                     let userProfileData = UserProfile.instance(data)
+                    
+                    // Update user preferenced categories in NSUserDefaults
+                    let catPrefIds = userProfileData!.categoryPrefIds
+                    if (catPrefIds != nil && catPrefIds!.count >= 3) {
+                        NSUserDefaults.standardUserDefaults().setObject(catPrefIds![0], forKey: UserDefaultsKey.CategoryPref1)
+                        NSUserDefaults.standardUserDefaults().setObject(catPrefIds![1], forKey: UserDefaultsKey.CategoryPref2)
+                        NSUserDefaults.standardUserDefaults().setObject(catPrefIds![2], forKey: UserDefaultsKey.CategoryPref3)
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                    }
                     
                     if (userProfileData!.gender != nil &&
                         userProfileData!.phone != nil &&
@@ -199,7 +217,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         profileSetupVC.userId = userProfileData!.id
                         profileSetupVC.userToken = token
                         profileSetupVC.userEmail = userProfileData!.email
-                        profileSetupVC.isSocmedAccount = true
+                        profileSetupVC.isSocmedAccount = isSocmedAccount
                         sender.navigationController?.pushViewController(profileSetupVC, animated: true)
                     }
                 }
@@ -277,7 +295,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                         NSUserDefaults.standardUserDefaults().synchronize()
                                         
                                         // Check if user have set his account
-                                        LoginViewController.CheckProfileSetup(sender, token: data["token"].string!)
+                                        LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true)
                                     }
                                 }
                             }
@@ -301,6 +319,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         txtEmail?.placeholder = "Username / Email"
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+        
+        // Hide close button if necessary
+        if (isFromTourVC) {
+            self.btnClose!.hidden = true
+            self.groupRegister.hidden = true
+        }
         
         // Hide loading
         loadingPanel?.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
@@ -429,12 +453,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         self.btnLogin?.enabled = true
                     } else {
                         println(data)
-                        self.getProfile(data["token"].string!)
+                        //self.getProfile(data["token"].string!)
+                        LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false)
                     }
                 }
         }
     }
     
+    /* TO BE DELETED, kalo ga ada masalah setelah ngegabungin checkProfileSetup di loginVC & registerVC
     // Token is only stored when user have completed setup account and phone verification
     func getProfile(token : String)
     {
@@ -557,7 +583,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     self.btnLogin?.enabled = true
                 }
         }
-    }
+    }*/
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -688,7 +714,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 
                                 // Check if user have set his account
                                 //self.checkProfileSetup(data["token"].string!)
-                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                             }
                         }
                     }
@@ -891,7 +917,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
-                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                 }
             }
         }

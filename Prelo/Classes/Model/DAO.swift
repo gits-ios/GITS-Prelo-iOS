@@ -255,6 +255,19 @@ class UserProfile : NSObject {
         }
     }
     
+    var categoryPrefIds : [String]? {
+        let c : [String]?
+        if (json["others"]["category_preferences_ids"] != nil) {
+            c = []
+            for (var i = 0; i < json["others"]["category_preferences_ids"].count; i++) {
+                c!.append(json["others"]["category_preferences_ids"][i].string!)
+            }
+            return c
+        } else {
+            return nil
+        }
+    }
+    
     var isPhoneVerified : Bool? {
         if (json["others"]["is_phone_verified"] != nil) {
             return json["others"]["is_phone_verified"].bool

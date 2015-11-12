@@ -663,6 +663,7 @@ enum APIUser : URLRequestConvertible
     case ReferralData
     case SetReferral(referralCode : String, deviceId : String)
     case SetDeviceRegId(deviceRegId : String)
+    case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
     
     var method : Method
     {
@@ -682,6 +683,7 @@ enum APIUser : URLRequestConvertible
         case .ReferralData : return .GET
         case .SetReferral(_, _) : return .POST
         case .SetDeviceRegId(_) : return .POST
+        case .SetUserPreferencedCategories(_, _, _) : return .POST
         }
     }
     
@@ -703,6 +705,7 @@ enum APIUser : URLRequestConvertible
         case .ReferralData : return "referral_bonus"
         case .SetReferral(_, _) : return "referral"
         case .SetDeviceRegId(_) : return "set_device_registration_id"
+        case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
         }
     }
     
@@ -774,6 +777,13 @@ enum APIUser : URLRequestConvertible
             let p = [
                 "registered_device_id" : deviceRegId,
                 "device_type" : "APNS"
+            ]
+            return p
+        case .SetUserPreferencedCategories(let categ1, let categ2, let categ3) :
+            let p = [
+                "category1" : categ1,
+                "category2" : categ2,
+                "category3" : categ3
             ]
             return p
         }

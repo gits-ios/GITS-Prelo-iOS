@@ -102,4 +102,19 @@ class CDCategory: NSManagedObject {
             return r!.count
         }
     }
+    
+    static func getCategoriesInLevel(level : NSNumber) -> [CDCategory] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "level == %@", level)
+        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        fetchReq.predicate = predicate
+        
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r == nil || r?.count == 0) {
+            return []
+        } else {
+            return (r as! [CDCategory])
+        }
+    }
 }
