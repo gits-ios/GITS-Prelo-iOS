@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate {
+class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate, UITextFieldDelegate {
     
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtUsername: UITextField!
@@ -34,6 +34,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         loading.stopAnimating()
         
         txtName?.autocapitalizationType = .Words
+        
+        // Set delegate
+        txtUsername.delegate = self
+        txtEmail!.delegate = self
+        txtPassword!.delegate = self
+        txtRepeatPassword!.delegate = self
+        txtName!.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -134,6 +141,26 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             self.btnRegister?.enabled = false
             register()
         }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == self.txtUsername) {
+            textField.resignFirstResponder()
+            self.txtEmail?.becomeFirstResponder()
+        } else if (textField == self.txtEmail) {
+            textField.resignFirstResponder()
+            self.txtPassword?.becomeFirstResponder()
+        }  else if (textField == self.txtPassword) {
+            textField.resignFirstResponder()
+            self.txtRepeatPassword?.becomeFirstResponder()
+        } else if (textField == self.txtRepeatPassword) {
+            textField.resignFirstResponder()
+            self.txtName?.becomeFirstResponder()
+        } else if (textField == self.txtName) {
+            textField.resignFirstResponder()
+            self.registerPressed(textField)
+        }
+        return true
     }
     
     func register() {
