@@ -128,6 +128,7 @@ class Tags : NSObject
     static let XibNameNotificationPage = "NotificationPage"
     static let XibNameTermCondition = "TermCondition"
     static let XibNameReferralPage = "ReferralPage"
+    static let XibNameCategoryPreferences = "CategoryPreferences"
 }
 
 class OrderStatus : NSObject
@@ -154,10 +155,55 @@ class NotificationName : NSObject
     static let PushNew = "pushnew"
 }
 
+class UserDefaultsKey : NSObject
+{
+    static let CategorySaved = "categorysaved"
+    static let CategoryPref1 = "categorypref1"
+    static let CategoryPref2 = "categorypref2"
+    static let CategoryPref3 = "categorypref3"
+    static let Tour = "tour"
+}
+
 extension NSUserDefaults
 {
     static func lastSavedAssetURL() -> NSURL?
     {
         return NSUserDefaults.standardUserDefaults().objectForKey("lastAssetURL") as? NSURL
+    }
+    
+    static func isCategorySaved() -> Bool
+    {
+        let saved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategorySaved) as! Bool?
+        if (saved == true) {
+            return true
+        }
+        return false
+    }
+    
+    static func categoryPref1() -> String
+    {
+        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref1) as! String?
+        if (c != nil) {
+            return c!
+        }
+        return ""
+    }
+    
+    static func categoryPref2() -> String
+    {
+        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref2) as! String?
+        if (c != nil) {
+            return c!
+        }
+        return ""
+    }
+    
+    static func categoryPref3() -> String
+    {
+        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref3) as! String?
+        if (c != nil) {
+            return c!
+        }
+        return ""
     }
 }

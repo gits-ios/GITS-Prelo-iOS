@@ -17,13 +17,21 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     @IBOutlet var scrollViewTitle : UIScrollView!
     @IBOutlet var scrollViewSubtitle : UIScrollView!
     
+    var parent : BaseViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "tour")
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: UserDefaultsKey.Tour)
 //        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        self.navigationController?.navigationBarHidden = true
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,7 +64,9 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     {
         if (pager.currentPage == 2)
         {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
+            catPrefVC.parent = parent
+            self.navigationController?.pushViewController(catPrefVC, animated: true)
         } else
         {
             scrollView.setContentOffset(CGPointMake(CGFloat(CGFloat(pager.currentPage+1) * UIScreen.mainScreen().bounds.width), CGFloat(0)), animated: true)

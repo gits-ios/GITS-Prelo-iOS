@@ -126,7 +126,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
     }
     
-    var iSAlreadyGetCategory = false
+    var isAlreadyGetCategory : Bool = false
+    var isAlreadyTour : Bool = false
+    var userDidLoggedIn : Bool?
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -138,18 +140,21 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
-        let tour = NSUserDefaults.standardUserDefaults().boolForKey("tour")
-        if (tour == false)
-        {
-            self.performSegueWithIdentifier("segTour", sender: nil)
-        } else
-        {
-            if (iSAlreadyGetCategory == false)
-            {
-                iSAlreadyGetCategory = true
+        // Tour dipanggil setiap kali buka app dalam keadaan logout
+        // Jika buka app dalam keadaan login lalu logout, tidak perlu panggil tour karna category preferences pasti sudah ada
+        // Get category selalu dipanggil jika tour tidak dipanggil
+        if (!isAlreadyTour && !User.IsLoggedIn && !isAlreadyGetCategory) {
+            self.performSegueWithIdentifier("segTour", sender: self)
+            isAlreadyTour = true
+        } else {
+            if (userDidLoggedIn == false && User.IsLoggedIn) { // Jika user baru saja log in
+                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
+            } else if (!isAlreadyGetCategory) { // Jika baru saja membuka app
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
+                isAlreadyGetCategory = true
             }
         }
+        userDidLoggedIn = User.IsLoggedIn
     }
     
     func pushNew(sender : AnyObject)
@@ -266,15 +271,16 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     
-
-    /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "segTour") {
+            var t = segue.destinationViewController.viewControllers?.first as! TourViewController
+            t.parent = sender as? BaseViewController
+        }
     }
-    */
 
 }

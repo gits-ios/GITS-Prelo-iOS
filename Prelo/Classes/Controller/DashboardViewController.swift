@@ -78,12 +78,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
-            ],
+            ]/*,
             [
                 "title":"Tutorial",
                 "icon":"",
                 "PreloAwesome":"1"
-            ]
+            ]*/
         ]
         
         tableView?.dataSource = self
@@ -178,7 +178,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if (indexPath.row == 6) // Tutorial
         {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
+            self.previousController?.performSegueWithIdentifier("segTour", sender: self)
         }
     }
     
@@ -221,13 +221,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        userProfileVC.previousControllerName = "Dashboard"
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
 
