@@ -426,7 +426,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         println("Post fb data req = \(req)")
                         
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                            Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"].bool
@@ -471,7 +471,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         println("Post twitter data req = \(req)")
                         
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                            Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"].bool
@@ -535,7 +535,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             println("Post path data req = \(req)")
             
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+                Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
             } else {
                 let json = JSON(res!)
                 let data = json["_data"].bool
@@ -629,7 +629,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post instagram data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post instagram data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post instagram data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -657,7 +657,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post FB data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -688,7 +688,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post twitter data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -720,7 +720,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post path data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -850,7 +850,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             if (!self.isUserPictUpdated) {
                 request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping)).responseJSON {req, _, res, err in
                     if let error = err {
-                        Constant.showDialog("Warning", message: "Edit profile error: \(error.description)")
+                        Constant.showDialog("Warning", message: "Edit profile error")//: \(error.description)")
                         self.btnSimpanData.enabled = true
                     } else {
                         let json = JSON(res!)
@@ -873,7 +873,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                                 if let error = err
                                 {
                                     // error, gagal
-                                    Constant.showDialog("Warning", message: error.description)
+                                    Constant.showDialog("Warning", message: "Error saving data")//:error.description)
                                     self.btnSimpanData.enabled = true
                                     self.loadingPanel.hidden = true
                                     self.loading.stopAnimating()
@@ -887,7 +887,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             
                         case .Failure(let err):
                             println(err) // failed
-                            Constant.showDialog("Warning", message: err.description)
+                            Constant.showDialog("Warning", message: "Error saving data")//:err.description)
                             self.btnSimpanData.enabled = true
                             self.loadingPanel.hidden = true
                             self.loading.stopAnimating()

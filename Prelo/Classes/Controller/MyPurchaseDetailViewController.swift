@@ -352,7 +352,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {req, _, res, err in
             println("Post review req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error posting review: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error posting review")//: \(err!.description)")
                 self.sendMode(false)
             } else {
                 let json = JSON(res!)

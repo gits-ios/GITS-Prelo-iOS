@@ -93,7 +93,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                 println("Request token req = \(req)")
                 
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: (err?.description)!)
+                    Constant.showDialog("Warning", message: "Error get token path")//(err?.description)!)
                 } else {
                     let json = JSON(res!)
                     println("json = \(json)")
@@ -105,7 +105,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                         request(APIPathUser.GetSelfData(token: pathToken)).responseJSON {req, _, res, err in
                             println("Request get self data = \(req)")
                             if (err != nil) { // Terdapat error
-                                Constant.showDialog("Warning", message: (err?.description)!)
+                                Constant.showDialog("Warning", message: "Error get token path")//: (err?.description)!)
                             } else {
                                 let json = JSON(res!)
                                 println("json = \(json)")

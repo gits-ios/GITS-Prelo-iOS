@@ -1170,7 +1170,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Gagal", message: error.description)
+                UIAlertView.SimpleShow("Gagal", message: "")//error.description)
             }
             return false
         } else

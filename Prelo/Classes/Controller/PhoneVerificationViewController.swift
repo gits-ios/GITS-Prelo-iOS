@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Crashlytics
 
 protocol PhoneVerificationDelegate {
     func phoneVerified(newPhone : String)
@@ -50,6 +51,9 @@ class PhoneVerificationViewController : BaseViewController {
             let userProfile : CDUserProfile = CDUserProfile.getOne()!
             lblNoHp.text = userProfile.phone
         }
+        
+        // Field input is uppercase
+        self.fieldKodeVerifikasi.autocapitalizationType = UITextAutocapitalizationType.AllCharacters
     }
     
     override func viewDidLoad() {
@@ -115,39 +119,51 @@ class PhoneVerificationViewController : BaseViewController {
                 
                 println("Verify phone req = \(req)")
                 if (err != nil) {
-                    Constant.showDialog("Warning", message: "Verify phone error: \(err?.description)")
+                    Constant.showDialog("Warning", message: "Verify phone error")//: \(err?.description)")
                 } else {
                     let json = JSON(res!)
-                    let data : Bool? = json["_data"].bool
-                    if (data == nil || data == false) { // Gagal
-                        Constant.showDialog("Warning", message: "Verify phone error")
-                    } else { // Berhasil
-                        println("data = \(data)")
-                        
-                        if (self.isReverification) { // User is changing phone number from edit profile
-                            self.phoneReverificationSucceed()
-                            
-                            if let d = self.delegate {
-                                d.phoneVerified(self.lblNoHp.text!)
+                    if (json["_data"] == nil) {
+                        let obj : [String : String] = res as! [String : String]
+                        let message = obj["_message"]
+                        if (message != nil) {
+                            Constant.showDialog("Warning", message: "\(message!)")
+                        }
+                    } else {
+                        let isSuccess = json["_data"].bool!
+                        if (isSuccess) { // Berhasil
+                            if (self.isReverification) { // User is changing phone number from edit profile
+                                self.phoneReverificationSucceed()
+                                
+                                if let d = self.delegate {
+                                    d.phoneVerified(self.lblNoHp.text!)
+                                }
+                            } else { // User is setting up new account
+                                // Set user to logged in
+                                User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+                                if let d = self.userRelatedDelegate
+                                {
+                                    d.userLoggedIn!()
+                                }
+                                if let c = CDUser.getOne()
+                                {
+                                    Mixpanel.sharedInstance().identify(c.id)
+                                    Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                                } else {
+                                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                                    Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                                }
+                                
+                                // Set crashlytics user information
+                                let user = CDUser.getOne()!
+                                Crashlytics.sharedInstance().setUserIdentifier(user.id)
+                                Crashlytics.sharedInstance().setUserEmail(user.email)
+                                Crashlytics.sharedInstance().setUserName(user.fullname!)
+                                
+                                // Send deviceRegId before finish
+                                LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
                             }
-                        } else { // User is setting up new account
-                            // Set user to logged in
-                            User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
-                            if let d = self.userRelatedDelegate
-                            {
-                                d.userLoggedIn!()
-                            }
-                            if let c = CDUser.getOne()
-                            {
-                                Mixpanel.sharedInstance().identify(c.id)
-                                Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-                            } else {
-                                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                            }
-                            
-                            // Send deviceRegId before finish
-                            LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
+                        } else { // Gagal
+                            Constant.showDialog("Warning", message: "Error verifying phone number")
                         }
                     }
                 }
@@ -182,7 +198,7 @@ class PhoneVerificationViewController : BaseViewController {
             
             println("Resend verification sms req = \(req)")
             if (err != nil) {
-                Constant.showDialog("Warning", message: "Resend sms error: \(err?.description)")
+                Constant.showDialog("Warning", message: "Resend sms error")//: \(err?.description)")
             } else {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool

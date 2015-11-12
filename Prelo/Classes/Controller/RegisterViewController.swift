@@ -146,7 +146,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             .responseJSON
             {_, _, json, err in
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: (err?.description)!)
+                    Constant.showDialog("Warning", message: "Error register")//:(err?.description)!)
                     self.btnRegister?.enabled = true
                 } else {
                     let res = JSON(json!)
@@ -273,7 +273,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
                         println("Fb login req = \(req)")
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: (err?.description)!)
+                            Constant.showDialog("Warning", message: "Error login facebook")//:(err?.description)!)
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
@@ -471,7 +471,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: (err?.description)!)
+                Constant.showDialog("Warning", message: "Error login path")//:(err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]

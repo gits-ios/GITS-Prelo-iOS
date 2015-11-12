@@ -77,7 +77,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {req, _, res, err in
             println("Checkout list req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting checkout list: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error getting checkout list")//: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 let json = JSON(res!)

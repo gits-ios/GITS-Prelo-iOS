@@ -73,7 +73,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         request(APINotif.OpenNotifs).responseJSON {req, _, res, err in
             println("Open notif req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Refreshing notifications error: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error refreshing notifications")//: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 let json = JSON(res!)
@@ -128,7 +128,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
             request(APINotif.GetNotifs).responseJSON {req, _, res, err in
                 println("Get notif req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting notifications: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Error getting notifications")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     let data = json["_data"]
@@ -295,7 +295,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         if (notif.weight.integerValue > 1) {
             request(APINotif.ReadMultiNotif(objectId: notif.objectId, type: notif.type.stringValue)).responseJSON {req, _, res, err in
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Send read multi notifications error: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Send read multi notifications error")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     let data : Bool? = json["_data"].bool
@@ -372,7 +372,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
             request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON {req, _, res, err in
                 println("Get inbox message req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting inbox message: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Error getting inbox message")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     let data = json["_data"]
@@ -394,7 +394,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
             request(Products.Detail(productId: notif.objectId)).responseJSON {req, _, res, err in
                 println("Get product detail req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting product detail: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Error getting product detail")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     if (json == nil || json == []) { // Data kembalian kosong

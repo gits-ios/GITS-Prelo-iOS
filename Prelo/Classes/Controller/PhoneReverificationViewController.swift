@@ -79,7 +79,7 @@ class PhoneReverificationViewController : BaseViewController {
                 
                 println("Resend verification sms req = \(req)")
                 if (err != nil) {
-                    Constant.showDialog("Warning", message: "Resend sms error: \(err?.description)")
+                    Constant.showDialog("Warning", message: "Resend sms error")//: \(err?.description)")
                 } else {
                     let json = JSON(res!)
                     let data : Bool? = json["_data"].bool

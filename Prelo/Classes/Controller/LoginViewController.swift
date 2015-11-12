@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import TwitterKit
+import Crashlytics
 //import UIViewController_KeyboardAnimation
 
 class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, UIAlertViewDelegate {
@@ -95,7 +96,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         request(APIUser.Me).responseJSON {req, _, res, err in
             println("Get profile req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: (err?.description)!)
+                //Constant.showDialog("Warning", message: (err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
@@ -186,6 +187,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
                         }
+                        
+                        // Set crashlytics user information
+                        Crashlytics.sharedInstance().setUserIdentifier(user.id)
+                        Crashlytics.sharedInstance().setUserEmail(user.email)
+                        Crashlytics.sharedInstance().setUserName(user.fullname!)
                     } else {
                         // Delete token because user is considered not logged in
                         User.SetToken(nil)
@@ -245,12 +251,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let twReq = Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: twShowUserEndpoint, parameters: twParams, error: &twErr)
                 
                 if (twErr != nil) { // Error
-                    Constant.showDialog("Warning", message: "Error getting twitter data: \(twErr)")
+                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
                     sender.dismiss()
                 } else {
                     twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
                         if (err != nil) { // Error
-                            Constant.showDialog("Warning", message: "Error getting twitter data: \(err)")
+                            Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
                             sender.dismiss()
                         } else { // Succes
                             var jsonErr : NSError?
@@ -264,7 +270,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 println("Twitter login req = \(req)")
                                 
                                 if (err != nil) {
-                                    Constant.showDialog("Warning", message: "Error login twitter: \(err!.description)")
+                                    Constant.showDialog("Warning", message: "Error login twitter")//: \(err!.description)")
                                 } else {
                                     let json = JSON(res!)
                                     let data = json["_data"]
@@ -441,7 +447,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {
-                    Constant.showDialog("Warning", message: (err?.description)!)
+                    // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
                     self.btnLogin?.enabled = true
                 } else {
                     let res = JSON(json!)
@@ -686,7 +692,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
                         println("Fb login req = \(req)")
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: (err?.description)!)
+                            // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
@@ -885,7 +891,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: (err?.description)!)
+                // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]

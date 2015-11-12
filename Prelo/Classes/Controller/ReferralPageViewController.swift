@@ -130,7 +130,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         request(APIUser.ReferralData).responseJSON {req, _, res, err in
             println("Referral data req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting referral data: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error getting referral data")//: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 let json = JSON(res!)
@@ -339,7 +339,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {req, _, res, err in
                 println("Set referral req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error setting referral: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Error setting referral")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     if (json["_data"] == nil) {

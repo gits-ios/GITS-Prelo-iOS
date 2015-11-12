@@ -377,7 +377,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 User.SetToken(nil)
                 
                 if let error = err {
-                    Constant.showDialog("Warning", message: error.description)
+                    Constant.showDialog("Warning", message: "Error setup account")//:error.description)
                     self.btnApply.enabled = true
                 } else {
                     let json = JSON(res!)

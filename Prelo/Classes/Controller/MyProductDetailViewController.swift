@@ -339,7 +339,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                     s.responseJSON {_, _, res, err in
                         println("res = \(res)")
                         if let error = err {
-                            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+                            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
                             self.sendMode(false)
                         } else if let result : AnyObject = res {
                             let json = JSON(result)
@@ -347,7 +347,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                             let data : Bool? = json["_data"].bool
                             if (data == nil || data == false) { // Gagal
                                 let msg = json["message"]
-                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal: \(msg)")
+                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
                                 self.sendMode(false)
                             } else { // Berhasil
                                 Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
@@ -356,7 +356,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                         }
                     }
                 case .Failure(let err) :
-                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal dengan error: \(err)")
+                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
                     self.sendMode(false)
                 }
         })
@@ -367,7 +367,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
             println("Get product detail req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting product detail: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error getting product detail")//: \(err!.description)")
             } else {
                 let json = JSON(res!)
                 if (json == nil || json == []) { // Data kembalian kosong

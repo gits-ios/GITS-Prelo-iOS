@@ -463,13 +463,13 @@ class ListItemCell : UICollectionViewCell
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         
-        if (product.specialStory == "")
+        if (product.specialStory == nil || product.specialStory == "")
         {
             sectionSpecialStory.hidden = true
         } else
         {
             sectionSpecialStory.hidden = false
-            captionSpecialStory.text = product.specialStory
+            captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar
             {
                 avatar.setImageWithUrl(url, placeHolderImage: UIImage(named : "raisa.jpg"))
