@@ -14,7 +14,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
     
-    var userPurchases : Array <UserTransaction>?
+    var userPurchases : Array <UserTransactionItem>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
-                        let u = UserTransaction.instance(item)
+                        let u = UserTransactionItem.instanceTransactionItem(item)
                         if (u != nil) {
                             self.userPurchases?.append(u!)
                         }
@@ -106,7 +106,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         UITableViewCell {
             var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
             let u = userPurchases?[indexPath.item]
-            cell.adapt(u!)
+            cell.adaptItem(u!)
             return cell
     }
     

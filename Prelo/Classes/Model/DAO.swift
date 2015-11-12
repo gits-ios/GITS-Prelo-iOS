@@ -1107,6 +1107,34 @@ class UserTransaction: NSObject {
     }
 }
 
+class UserTransactionItem: UserTransaction {
+    
+    static func instanceTransactionItem(json : JSON?) -> UserTransactionItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserTransactionItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    override var productName : String {
+        let p = (json["product"]["name"].string)!
+        return p
+    }
+    
+    // Only take first image from json
+    override var productImageURL : NSURL? {
+        if let err = json["product"]["display_picts"][0].error
+        {
+            return nil
+        }
+        let url = json["product"]["display_picts"][0].string!
+        return NSURL(string: url)
+    }
+}
+
 class TransactionDetail : NSObject {
     var json : JSON!
     

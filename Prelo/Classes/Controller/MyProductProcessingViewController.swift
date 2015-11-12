@@ -14,7 +14,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     @IBOutlet var lblEmpty : UILabel!
     @IBOutlet var loading : UIActivityIndicatorView!
     
-    var userProducts : Array <UserTransaction>?
+    var userProducts : Array <UserTransactionItem>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
-                        let u = UserTransaction.instance(item)
+                        let u = UserTransactionItem.instanceTransactionItem(item)
                         if (u != nil) {
                             self.userProducts?.append(u!)
                         }
@@ -108,7 +108,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         UITableViewCell {
             var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
             let u = userProducts?[indexPath.item]
-            cell.adapt(u!)
+            cell.adaptItem(u!)
             return cell
     }
     
