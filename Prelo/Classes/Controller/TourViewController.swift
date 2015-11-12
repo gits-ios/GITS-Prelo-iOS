@@ -57,6 +57,13 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         {
             btnNext.setTitle("Selanjutnya", forState: UIControlState.Normal)
         }
+        Mixpanel.sharedInstance().track("First Time Tutorial \(pager.currentPage + 1)")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("First Time Tutorial 1")
     }
     
     var fromButton = false

@@ -33,7 +33,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Purchase - Completed")
+        Mixpanel.sharedInstance().track("My Orders Completed")
         
         if (userPurchases?.count == 0 || userPurchases == nil) {
             if (userPurchases == nil) {

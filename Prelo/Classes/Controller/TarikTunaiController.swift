@@ -29,6 +29,8 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        Mixpanel.sharedInstance().track("Withdraw")
+        
         self.an_subscribeKeyboardWithAnimations({ f, i , o in
             
             if (o)

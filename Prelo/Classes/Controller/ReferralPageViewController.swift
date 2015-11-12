@@ -57,7 +57,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Referral Page")
+        Mixpanel.sharedInstance().track("Referral")
         
         self.getReferralData()
         
@@ -97,9 +97,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set title
+        self.title = "Prelo Bonus"
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Kode Referral", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
     }

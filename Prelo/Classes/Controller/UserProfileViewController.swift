@@ -78,7 +78,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Setup Account")
+        Mixpanel.sharedInstance().track("Edit Profile")
         
         // Update fieldTentangShop height
         self.textViewDidChange(fieldTentangShop)

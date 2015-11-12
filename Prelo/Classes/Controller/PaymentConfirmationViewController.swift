@@ -50,7 +50,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("Payment Confirmation")
+        Mixpanel.sharedInstance().track("Unpaid Transaction")
         
         if (userCheckouts == nil || userCheckouts?.count == 0) {
             if (userCheckouts == nil) {

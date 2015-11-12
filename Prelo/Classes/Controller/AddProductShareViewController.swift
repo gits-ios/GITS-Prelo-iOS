@@ -252,6 +252,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.title = "Kesempatan Terbatas"
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Share Added Product")
+    }
+    
     var first = true
     
     var shouldSkipBack = true

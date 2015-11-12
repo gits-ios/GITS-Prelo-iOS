@@ -86,7 +86,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("My Product Detail")
+        Mixpanel.sharedInstance().track("Transaction Detail")
         
         // Agar shadow transparan
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)

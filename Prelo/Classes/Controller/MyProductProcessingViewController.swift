@@ -33,7 +33,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Product - Processing")
+        Mixpanel.sharedInstance().track("My Product In Progress")
         
         if (userProducts?.count == 0 || userProducts == nil) {
             if (userProducts == nil) {

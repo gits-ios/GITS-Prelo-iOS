@@ -29,6 +29,12 @@ class AboutViewController: BaseViewController {
         self.title = "About"
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("About")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -14,6 +14,12 @@ class Dashboard2ViewController : BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Dashboard Logged Out")
+    }
+    
     @IBAction func loginButtonTapped(sender : AnyObject) {
 //        let loginVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
 //        loginVC.userRelatedDelegate = self.previousController as? UserRelatedDelegate

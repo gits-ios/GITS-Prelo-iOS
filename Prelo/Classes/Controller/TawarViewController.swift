@@ -100,6 +100,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Inbox Detail")
+    }
+    
     func adjustButtons()
     {
         if (tawarItem.opIsMe == false && tawarItem.threadState == 0)

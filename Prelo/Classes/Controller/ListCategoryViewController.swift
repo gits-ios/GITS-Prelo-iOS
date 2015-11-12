@@ -43,6 +43,12 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //        getCategory()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Home")
+    }
+    
     func grandRefresh()
     {
         listItemViews.removeAll(keepCapacity: false)

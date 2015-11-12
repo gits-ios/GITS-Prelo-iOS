@@ -62,7 +62,7 @@ class PhoneVerificationViewController : BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Phone Verification")
+        Mixpanel.sharedInstance().track("Setup Account Verify Phone")
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {

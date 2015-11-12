@@ -73,6 +73,12 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         // Do any additional setup after loading the view.
         conGridViewBottomMargin.constant = -gridView.height
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Product Detail Share")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

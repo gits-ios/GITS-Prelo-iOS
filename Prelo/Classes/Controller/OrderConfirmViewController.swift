@@ -81,6 +81,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         captionOrderTotal.text = total.asPrice
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Payment Confirmation")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         

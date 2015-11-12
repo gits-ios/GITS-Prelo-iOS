@@ -46,6 +46,12 @@ class CarConfirmViewController: BaseViewController {
         captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalizedString + "\nKami baru saja mengirimkan email konfirmasi pesanan Kamu :"
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Checkout Confirmation")
+    }
+    
     var first = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)

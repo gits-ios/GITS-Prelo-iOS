@@ -338,10 +338,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         loading?.stopAnimating()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Login")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        Mixpanel.sharedInstance().track("Login Page")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in

@@ -88,9 +88,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Dashboard Logged In")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Dashboard")
         
         imgCover?.image = nil
         let uProf = CDUserProfile.getOne()

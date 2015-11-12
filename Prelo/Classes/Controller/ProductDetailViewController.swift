@@ -59,6 +59,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(animated: Bool) {
+        Mixpanel.sharedInstance().track("Product Detail")
+        
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
             getDetail()
@@ -67,7 +69,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Product Detail")
+        
         self.title = product?.name
         
         if let d = self.detail

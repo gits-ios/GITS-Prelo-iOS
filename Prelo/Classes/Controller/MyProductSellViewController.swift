@@ -31,6 +31,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("My Products")
+    }
+    
     func getProducts()
     {
         request(APIProduct.MyProduct(current: products.count, limit: 10))

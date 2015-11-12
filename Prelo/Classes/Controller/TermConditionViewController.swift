@@ -30,6 +30,12 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
         loading.startAnimating()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Terms and Conditions")
+    }
+    
     @IBAction func backPressed(sender: AnyObject) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         // Back to prev scene

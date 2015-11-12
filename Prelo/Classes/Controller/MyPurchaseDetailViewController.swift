@@ -113,7 +113,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("My Purchase Detail")
+        Mixpanel.sharedInstance().track("Transaction Detail")
         
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
         vwShadow.hidden = true

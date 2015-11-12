@@ -394,10 +394,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Checkout")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        Mixpanel.sharedInstance().track("Checkout Page")
         
         self.an_subscribeKeyboardWithAnimations(
             { r, i, o in

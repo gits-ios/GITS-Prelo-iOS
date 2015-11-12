@@ -27,7 +27,7 @@ class PhoneReverificationViewController : BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Phone Reverification")
+        Mixpanel.sharedInstance().track("Change Phone")
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {
