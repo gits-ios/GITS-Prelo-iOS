@@ -4665,6 +4665,13 @@ Keuntungan</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk yang kamu jual akan tampil di sini" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-V7-54G">
+                                <rect key="frame" x="16" y="42" width="568" height="16"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JJS-ga-UMV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
@@ -4800,10 +4807,13 @@ Keuntungan</string>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="oyx-V7-54G" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" constant="16" id="4m6-Jn-O9y"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="top" secondItem="Ase-V8-rwA" secondAttribute="top" id="7wW-c6-07O"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="Hq9-9O-isw"/>
                             <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" id="V0K-VA-MAE"/>
                             <constraint firstAttribute="trailing" secondItem="JJS-ga-UMV" secondAttribute="trailing" id="nbk-nh-GeJ"/>
+                            <constraint firstItem="oyx-V7-54G" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="22" id="vm8-ay-vpg"/>
+                            <constraint firstAttribute="trailing" secondItem="oyx-V7-54G" secondAttribute="trailing" constant="16" id="xZt-dv-Kbz"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -4811,6 +4821,8 @@ Keuntungan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="d03-Tg-REX"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="lblEmpty" destination="oyx-V7-54G" id="Cg1-PC-5mO"/>
+                        <outlet property="loading" destination="FlE-lg-MYU" id="8FH-GM-1Ev"/>
                         <outlet property="tableView" destination="JJS-ga-UMV" id="3jT-c0-g0X"/>
                     </connections>
                 </viewController>

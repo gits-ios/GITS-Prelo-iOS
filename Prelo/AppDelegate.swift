@@ -187,13 +187,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     } else { // Berhasil
                         // Asynchronous update!!
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                            // Update brands
-                            if (updateBrands == "1") {
-                                println("Updating brands..")
-                                if (CDBrand.deleteAll()) {
-                                    CDBrand.saveBrands(metadata["brands"])
-                                }
-                            }
                             // Update categories
                             if (updateCategories == "1") {
                                 println("Updating categories..")
@@ -202,6 +195,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     // Set categorysaved to true so CategoryPreferencesVC can be executed
                                     NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
                                     NSUserDefaults.standardUserDefaults().synchronize()
+                                }
+                            }
+                            // Update brands
+                            if (updateBrands == "1") {
+                                println("Updating brands..")
+                                if (CDBrand.deleteAll()) {
+                                    CDBrand.saveBrands(metadata["brands"])
                                 }
                             }
                             // Update category sizes
