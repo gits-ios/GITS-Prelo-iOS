@@ -22,7 +22,11 @@ class ProductDetailCover: UIView {
         imageURLS = images
         for i in 0...images.count
         {
-            let iv = imageViews?.objectAtCircleIndex(i)
+            if (i >= imageViews!.count)
+            {
+                break
+            }
+            let iv = imageViews?[i]
             iv?.tag = i
             iv?.userInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
