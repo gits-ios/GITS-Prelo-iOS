@@ -272,7 +272,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             {
                                 self.bonusValue = bonus
                                 self.bonusAvailable = true
-                                let b2 = BaseCartData.instance("Bonus Prelo", placeHolder: nil, enable : false)
+                                let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
                                 if let price = json["_data"]["bonus_available"].int?.asPrice
                                 {
                                     b2.value = price

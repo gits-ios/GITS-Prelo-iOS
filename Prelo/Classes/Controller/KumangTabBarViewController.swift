@@ -142,7 +142,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         // Tour dipanggil setiap kali buka app dalam keadaan logout
         // Jika buka app dalam keadaan login lalu logout, tidak perlu panggil tour karna category preferences pasti sudah ada
-        // Get category selalu dipanggil jika tour tidak dipanggil
         if (!isAlreadyTour && !User.IsLoggedIn && !isAlreadyGetCategory) {
             self.performSegueWithIdentifier("segTour", sender: self)
             isAlreadyTour = true

@@ -46,11 +46,19 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     func grandRefresh()
     {
         listItemViews.removeAll(keepCapacity: false)
-        categoryNames = []
-        contentCategoryNames = nil
+        
         for v in self.contentView?.subviews as! [UIView]
         {
             v.removeFromSuperview()
+        }
+        
+        categoryNames.removeAll(keepCapacity: false)
+        for v in self.contentCategoryNames?.subviews as! [UIView]
+        {
+            if (v != categoryIndicator)
+            {
+                v.removeFromSuperview()
+            }
         }
         
         getCategory()

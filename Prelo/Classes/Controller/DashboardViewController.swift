@@ -38,13 +38,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
-        // DON'T USE ME IF CONFLICT
-        /*imgCover?.image = nil
-        let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
-        imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
-        imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-        */
-        
         //self.setupNormalOptions()
         self.setupTitle()
 
@@ -98,6 +91,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         Mixpanel.sharedInstance().track("Dashboard")
+        
+        imgCover?.image = nil
+        let uProf = CDUserProfile.getOne()
+        let url = NSURL(string: uProf!.pict)
+        if (url != nil) {
+            imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
+            imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+            imgCover?.layer.masksToBounds = true
+        }
     }
 
     override func didReceiveMemoryWarning() {

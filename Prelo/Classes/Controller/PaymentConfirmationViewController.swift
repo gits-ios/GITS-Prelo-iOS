@@ -150,6 +150,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             let c : UserCheckoutProduct = u.transactionProducts[i]
             imgs.append(c.productImageURL!)
         }
+        orderConfirmVC.transactionId = u.id
         orderConfirmVC.orderID = u.orderId
         orderConfirmVC.total = u.totalPrice
         orderConfirmVC.images = imgs

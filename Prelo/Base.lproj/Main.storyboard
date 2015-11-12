@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -2456,24 +2456,27 @@ in Bandung</string>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXw-ln-4O9">
                                                             <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="28" id="K31-Ai-lEP"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yN-QT-Nu6">
-                                                            <rect key="frame" x="34" y="2" width="164" height="28"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Special story" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yN-QT-Nu6">
+                                                            <rect key="frame" x="34" y="2" width="164" height="29"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <animations/>
                                                     <color key="backgroundColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="0.5" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="32" id="2eV-5j-W1p"/>
                                                         <constraint firstAttribute="trailing" secondItem="7yN-QT-Nu6" secondAttribute="trailing" constant="2" id="BdA-Le-U0e"/>
                                                         <constraint firstItem="7yN-QT-Nu6" firstAttribute="top" secondItem="WM2-Ez-8Ku" secondAttribute="top" constant="2" id="Jjn-ao-fhL"/>
                                                         <constraint firstItem="VXw-ln-4O9" firstAttribute="top" secondItem="WM2-Ez-8Ku" secondAttribute="top" constant="2" id="YRE-27-XZW"/>
-                                                        <constraint firstAttribute="bottom" secondItem="7yN-QT-Nu6" secondAttribute="bottom" constant="2" id="amP-JL-PS7"/>
+                                                        <constraint firstAttribute="bottom" secondItem="7yN-QT-Nu6" secondAttribute="bottom" constant="1" id="amP-JL-PS7"/>
                                                         <constraint firstAttribute="bottom" secondItem="VXw-ln-4O9" secondAttribute="bottom" constant="2" id="kII-u7-KWv"/>
                                                         <constraint firstItem="VXw-ln-4O9" firstAttribute="leading" secondItem="WM2-Ez-8Ku" secondAttribute="leading" constant="2" id="reC-U8-xM0"/>
                                                         <constraint firstItem="7yN-QT-Nu6" firstAttribute="leading" secondItem="VXw-ln-4O9" secondAttribute="trailing" constant="4" id="wJZ-eI-jkb"/>
