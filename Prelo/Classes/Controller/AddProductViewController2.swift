@@ -189,10 +189,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
             
-            self.txtAlasanJual.text = editProduct?.sellReason
-            self.txtDeskripsiCacat.text = editProduct?.defectDescription
-            self.txtSpesial.text = editProduct?.specialStory
+            self.txtSize.text = editProduct?.size
             
+            let def = editProduct?.defectDescription
+            if (def != "")
+            {
+                self.txtDeskripsiCacat.text = def
+                self.txtDeskripsiCacat.hidden = false
+                conHeightCacat.constant = 44
+            }
+            
+            self.txtAlasanJual.text = editProduct?.sellReason
+//            self.txtDeskripsiCacat.text = editProduct?.defectDescription
+            self.txtSpesial.text = editProduct?.specialStory
+            self.getSizes()
         } else
         {
             self.title = "Add Product"
@@ -623,18 +633,36 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         var sizeString = usaString + "\n" + smlString + "\n" + eurString
                         self.sizes.append(sizeString)
                     }
-//                    for i in 0...sml.count-1
-//                    {
-//                        self.sizes.append(usa[i] + "\n" + ((sml.count > 0) ? sml[i] : "") + "\n" + ((eur.count > 0) ? eur[i] : ""))
-//                    }
                     
                     if (self.sizes.count > 0)
                     {
-//                        self.sizePicker.selectItem(0, animated: false)
                         self.sizePicker.collectionView.reloadData()
                         self.sizePicker.selectItem(0, animated: false)
                         self.conHeightSize.constant = 146
                         self.sizePicker.superview?.hidden = false
+                        
+                        var s = ""
+                        if let x = self.editProduct?.size
+                        {
+                            s = x
+                        }
+                        if (s != "" && self.editMode == true)
+                        {
+                            s = s.stringByReplacingOccurrencesOfString("/", withString: "\n")
+                            s = s.stringByReplacingOccurrencesOfString(" ", withString: "")
+                            var index = 0
+                            for s1 in self.sizes
+                            {
+                                var s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
+                                if (s1s == s)
+                                {
+                                    self.sizePicker.selectItem(UInt(index), animated: false)
+                                    break
+                                }
+                                
+                                index += 1
+                            }
+                        }
                     } else
                     {
                         self.conHeightSize.constant = 0

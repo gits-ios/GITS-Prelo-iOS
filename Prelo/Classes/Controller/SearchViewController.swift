@@ -370,6 +370,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
                 u.keyword = txtSearch.text
+                request(APISearch.InsertTopSearch(search: txtSearch.text))
                 self.navigationController?.pushViewController(u, animated: true)
                 
             } else

@@ -514,7 +514,10 @@ public class ProductDetail : NSObject, TawarItem
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
-        
+    }
+    
+    var size : String {
+        return json["_data"]["size"].stringValue
     }
     
     var specialStory : String {
