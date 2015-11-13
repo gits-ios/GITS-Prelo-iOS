@@ -373,11 +373,41 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         println(res)
                         self.checkoutResult = JSON(res!)["_data"]
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
-                        c.orderID = (self.checkoutResult?["order_id"].string)!
-                        c.totalPayment = (self.checkoutResult?["total_price"].int)!
-                        c.paymentMethod = (self.checkoutResult?["payment_method"].string)!
-                        c.transactionId = (self.checkoutResult?["transaction_id"].string)!
-                        c.items = self.arrayItem
+                        
+                        let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                        
+                        o.orderID = (self.checkoutResult?["order_id"].string)!
+                        o.total = (self.checkoutResult?["total_price"].int)!
+                        o.transactionId = (self.checkoutResult?["transaction_id"].string)!
+                        o.overBack = true
+                        
+                        var imgs : [NSURL] = []
+                        
+                        for i in 0...self.arrayItem.count-1
+                        {
+                            let json = self.arrayItem[i]
+                            if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+                            {
+                                var ori : Array<String> = []
+                                for o in raw
+                                {
+                                    if let s = o as? String
+                                    {
+                                        ori.append(s)
+                                    }
+                                }
+                                
+                                if (ori.count > 0)
+                                {
+                                    if let u = NSURL(string: ori.first!)
+                                    {
+                                        imgs.append(u)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        o.images = imgs
                         
                         for p in self.products
                         {
@@ -385,7 +415,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         UIApplication.appDelegate.saveContext()
                         
-                        self.previousController?.navigationController?.pushViewController(c, animated: true)
+                        self.previousController?.navigationController?.pushViewController(o, animated: true)
                         
                     }
                 } else {

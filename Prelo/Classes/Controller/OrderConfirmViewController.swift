@@ -94,6 +94,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         {
             var x = self.navigationController?.viewControllers
             x?.removeAtIndex((x?.count)!-2)
+            x?.removeAtIndex((x?.count)!-2)
             self.navigationController?.setViewControllers(x, animated: false)
             first = false
         }

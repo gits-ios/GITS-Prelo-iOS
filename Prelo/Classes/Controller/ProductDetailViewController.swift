@@ -834,7 +834,19 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         } else {
             captionMerk?.text = "Unknown"
         }
-        captionSize?.text = "-"
+        
+        let regionid = product["seller"]["region_id"].stringValue
+        if let name = CDRegion.getRegionNameWithID(regionid)
+        {
+            captionFrom?.text = name
+        }
+        
+        var s = obj!.size
+        if (s == "")
+        {
+            s = "-"
+        }
+        captionSize?.text = s;
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
