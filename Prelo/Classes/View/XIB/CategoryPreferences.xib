@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="63g-eb-t0F" customClass="CategoryPreferencesViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="VD9-R5-tWw"/>
+                <viewControllerLayoutGuide type="bottom" id="KLU-L7-FJi"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="RXg-zn-Lrd">
+                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih 3 kategori favorit kamu dalam berbelanja" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZBi-As-yaQ">
+                        <rect key="frame" x="198" y="55" width="205" height="73"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="73" id="4CL-94-biQ"/>
+                            <constraint firstAttribute="width" constant="205" id="xJH-UR-2xT"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4k0-nJ-V8z">
+                        <rect key="frame" x="162" y="134" width="277" height="283"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="283" id="HrO-N9-xi8"/>
+                            <constraint firstAttribute="width" constant="277" id="mgk-hm-bUe"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="9bz-aV-eyR">
+                            <size key="itemSize" width="50" height="80"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0M-vW-qZk">
+                        <rect key="frame" x="16" y="504" width="568" height="40"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="2YN-Fc-7HH"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="YS1-WJ-dDf"/>
+                        </constraints>
+                        <state key="normal" title="YEAH!">
+                            <color key="titleColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="submitPressed:" destination="63g-eb-t0F" eventType="touchUpInside" id="yjb-fG-I2o"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pgn-dY-HOO">
+                        <rect key="frame" x="16" y="552" width="568" height="40"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="FnB-K0-Eij"/>
+                            <constraint firstAttribute="height" constant="40" id="pNk-Ij-oRS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="Sudah punya akun? Skip dan Login di sini">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="skipPressed:" destination="63g-eb-t0F" eventType="touchUpInside" id="eXL-5F-er8"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yh6-ZJ-L3D" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Mh7-cH-pML" userLabel="loading">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="Mh7-cH-pML" secondAttribute="centerY" id="9tx-z4-xOK"/>
+                            <constraint firstItem="Mh7-cH-pML" firstAttribute="top" secondItem="yh6-ZJ-L3D" secondAttribute="top" constant="25" id="Htx-To-oi8"/>
+                            <constraint firstAttribute="centerX" secondItem="Mh7-cH-pML" secondAttribute="centerX" id="Nuc-xi-H6y"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Htx-To-oi8"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" red="0.0" green="0.65490196078431373" blue="0.61568627450980395" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="ZBi-As-yaQ" firstAttribute="top" secondItem="VD9-R5-tWw" secondAttribute="bottom" constant="35" id="2yc-hA-6rv"/>
+                    <constraint firstItem="yh6-ZJ-L3D" firstAttribute="top" secondItem="RXg-zn-Lrd" secondAttribute="top" id="NEh-0K-4mc"/>
+                    <constraint firstAttribute="centerX" secondItem="4k0-nJ-V8z" secondAttribute="centerX" constant="-0.5" id="ODS-rx-3rh"/>
+                    <constraint firstAttribute="trailing" secondItem="pgn-dY-HOO" secondAttribute="trailing" constant="16" id="OYD-1G-4jY"/>
+                    <constraint firstAttribute="trailing" secondItem="L0M-vW-qZk" secondAttribute="trailing" constant="16" id="Rfm-di-DVN"/>
+                    <constraint firstAttribute="centerX" secondItem="ZBi-As-yaQ" secondAttribute="centerX" constant="-0.5" id="UVI-0S-afz"/>
+                    <constraint firstItem="L0M-vW-qZk" firstAttribute="leading" secondItem="RXg-zn-Lrd" secondAttribute="leading" constant="16" id="b4A-lW-eWO"/>
+                    <constraint firstItem="pgn-dY-HOO" firstAttribute="leading" secondItem="RXg-zn-Lrd" secondAttribute="leading" constant="16" id="i5u-d6-VKd"/>
+                    <constraint firstItem="yh6-ZJ-L3D" firstAttribute="leading" secondItem="RXg-zn-Lrd" secondAttribute="leading" id="lF9-4L-AeN"/>
+                    <constraint firstItem="pgn-dY-HOO" firstAttribute="top" secondItem="L0M-vW-qZk" secondAttribute="bottom" constant="8" id="pZ7-7P-pUk"/>
+                    <constraint firstAttribute="trailing" secondItem="yh6-ZJ-L3D" secondAttribute="trailing" id="qYF-7t-bX8"/>
+                    <constraint firstItem="KLU-L7-FJi" firstAttribute="top" secondItem="pgn-dY-HOO" secondAttribute="bottom" constant="8" id="qZr-Va-rTp"/>
+                    <constraint firstItem="KLU-L7-FJi" firstAttribute="top" secondItem="yh6-ZJ-L3D" secondAttribute="bottom" id="vJV-Lm-3Gn"/>
+                    <constraint firstItem="4k0-nJ-V8z" firstAttribute="top" secondItem="ZBi-As-yaQ" secondAttribute="bottom" constant="6" id="xq5-IQ-AQ7"/>
+                </constraints>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="600" height="600"/>
+            <connections>
+                <outlet property="collcCategory" destination="4k0-nJ-V8z" id="wpB-hR-qmi"/>
+                <outlet property="loading" destination="Mh7-cH-pML" id="8pF-MP-ZNp"/>
+                <outlet property="loadingPanel" destination="yh6-ZJ-L3D" id="tOF-DI-JAb"/>
+            </connections>
+            <point key="canvasLocation" x="141" y="447"/>
+        </viewController>
+    </objects>
+</document>

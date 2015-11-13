@@ -28,6 +28,12 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         getInboxes()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Inbox")
+    }
+    
     func getInboxes()
     {
         request(APIInbox.GetInboxes).responseJSON { req, resp, res, err in

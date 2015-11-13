@@ -31,9 +31,12 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         var myLovelistCellNib = UINib(nibName: "MyLovelistCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
         
+        // Set title
+        self.title = "Lovelist"
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Lovelist", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         
@@ -54,7 +57,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Lovelist")
+        Mixpanel.sharedInstance().track("Lovelist")
         
         if (userLovelist?.count == 0 || userLovelist == nil) {
             if (userLovelist == nil) {

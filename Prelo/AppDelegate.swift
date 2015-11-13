@@ -161,6 +161,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                         } else {
                             println("Same metadata version")
+                            
+                            // Set categorysaved to true so CategoryPreferencesVC can be executed
+                            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
+                            NSUserDefaults.standardUserDefaults().synchronize()
                         }
                         
                         CDVersion.saveVersions(data)
@@ -183,18 +187,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     } else { // Berhasil
                         // Asynchronous update!!
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                            // Update brands
-                            if (updateBrands == "1") {
-                                println("Updating brands..")
-                                if (CDBrand.deleteAll()) {
-                                    CDBrand.saveBrands(metadata["brands"])
-                                }
-                            }
                             // Update categories
                             if (updateCategories == "1") {
                                 println("Updating categories..")
                                 if (CDCategory.deleteAll()) {
                                     CDCategory.saveCategories(metadata["categories"])
+                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
+                                    NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
+                                    NSUserDefaults.standardUserDefaults().synchronize()
+                                }
+                            }
+                            // Update brands
+                            if (updateBrands == "1") {
+                                println("Updating brands..")
+                                if (CDBrand.deleteAll()) {
+                                    CDBrand.saveBrands(metadata["brands"])
                                 }
                             }
                             // Update category sizes

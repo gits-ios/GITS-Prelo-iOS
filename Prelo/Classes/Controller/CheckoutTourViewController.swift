@@ -15,6 +15,12 @@ class CheckoutTourViewController: BaseViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Checkout Tutorial")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

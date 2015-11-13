@@ -14,7 +14,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
     @IBOutlet var lblEmpty : UILabel!
     @IBOutlet var loading : UIActivityIndicatorView!
     
-    var userProducts : Array <UserTransaction>?
+    var userProducts : Array <UserTransactionItem>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Product - Completed")
+        Mixpanel.sharedInstance().track("My Products Completed")
         
         if (userProducts?.count == 0 || userProducts == nil) {
             if (userProducts == nil) {
@@ -68,7 +68,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
-                        let u = UserTransaction.instance(item)
+                        let u = UserTransactionItem.instanceTransactionItem(item)
                         if (u != nil) {
                             self.userProducts?.append(u!)
                         }
@@ -108,7 +108,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         UITableViewCell {
             var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
             let u = userProducts?[indexPath.item]
-            cell.adapt(u!)
+            cell.adaptItem(u!)
             return cell
     }
     

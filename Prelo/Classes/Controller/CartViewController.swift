@@ -272,7 +272,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             {
                                 self.bonusValue = bonus
                                 self.bonusAvailable = true
-                                let b2 = BaseCartData.instance("Bonus Prelo", placeHolder: nil, enable : false)
+                                let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
                                 if let price = json["_data"]["bonus_available"].int?.asPrice
                                 {
                                     b2.value = price
@@ -394,10 +394,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Checkout")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        Mixpanel.sharedInstance().track("Checkout Page")
         
         self.an_subscribeKeyboardWithAnimations(
             { r, i, o in

@@ -29,6 +29,12 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             }
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Contact")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

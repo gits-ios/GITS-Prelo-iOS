@@ -16,7 +16,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     @IBOutlet var arrayRow3 : [AddProductShareButton] = []
     @IBOutlet var arrayRow4 : [AddProductShareButton] = []
     
-    var percentages = [3, 3, 2.5, 1.5]
+    var percentages = [3.0, 0.0, 4.0, 3.0]
     
     var arrayRows : [[AddProductShareButton]] = []
     
@@ -85,7 +85,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 b.setTitle("", forState: UIControlState.Normal)
             }
         }
-        
+
         let p = percentages[tag]
         chargePercent = chargePercent + (p * (sender.active ? -1 : 1))
         adaptCharge()
@@ -123,7 +123,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     println("Post twitter data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -250,6 +250,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         adaptCharge()
         
         self.title = "Kesempatan Terbatas"
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Share Added Product")
     }
     
     var first = true

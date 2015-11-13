@@ -377,7 +377,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 User.SetToken(nil)
                 
                 if let error = err {
-                    Constant.showDialog("Warning", message: error.description)
+                    Constant.showDialog("Warning", message: "Error setup account")//:error.description)
                     self.btnApply.enabled = true
                 } else {
                     let json = JSON(res!)
@@ -391,9 +391,35 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         println("Setup account succeed")
                         println("Setup account data = \(data)")
                         
-                        let m = UIApplication.appDelegate.managedObjectContext
+                        // Set user's preferenced categories by current stored categories
+                        // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
+                        request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON { req, _, res, err in
+                            println("Set user preferenced categories req = \(req)")
+                            if (err != nil) {
+                                println("Error setting user preferenced categories")
+                            } else {
+                                let json = JSON(res!)
+                                if (json["_data"] == nil) {
+                                    let obj : [String : String] = res as! [String : String]
+                                    let message = obj["_message"]
+                                    if (message != nil) {
+                                        println("Error setting user preferenced categories, message: \(message!)")
+                                    }
+                                } else {
+                                    let isSuccess = json["_data"].bool!
+                                    if (isSuccess) { // Berhasil
+                                        println("Success setting user preferenced categories")
+                                    } else { // Gagal
+                                        println("Error setting user preferenced categories")
+                                    }
+                                }
+                            }
+                        }
+                        
                         
                         // Save in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        
                         CDUser.deleteAll()
                         let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                         user.id = data["_id"].string!

@@ -38,13 +38,6 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         ivLove?.tintColor = Theme.PrimaryColorDark
         ivLove?.image = i3
         
-        // DON'T USE ME IF CONFLICT
-        /*imgCover?.image = nil
-        let url = NSURL(string: DAO.UserPhotoStringURL((c?.profiles.pict)!, userID: (c?.id)!))
-        imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
-        imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-        */
-        
         //self.setupNormalOptions()
         self.setupTitle()
 
@@ -78,12 +71,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
-            ],
+            ]/*,
             [
                 "title":"Tutorial",
                 "icon":"",
                 "PreloAwesome":"1"
-            ]
+            ]*/
         ]
         
         tableView?.dataSource = self
@@ -95,9 +88,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Dashboard Logged In")
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Dashboard")
+        
+        imgCover?.image = nil
+        let uProf = CDUserProfile.getOne()
+        let url = NSURL(string: uProf!.pict)
+        if (url != nil) {
+            imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
+            imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+            imgCover?.layer.masksToBounds = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -178,7 +185,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if (indexPath.row == 6) // Tutorial
         {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: nil)
+            self.previousController?.performSegueWithIdentifier("segTour", sender: self)
         }
     }
     
@@ -221,13 +228,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        userProfileVC.previousControllerName = "Dashboard"
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
 

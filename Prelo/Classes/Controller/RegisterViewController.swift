@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate {
+class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate, UITextFieldDelegate {
     
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtUsername: UITextField!
@@ -34,12 +34,19 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         loading.stopAnimating()
         
         txtName?.autocapitalizationType = .Words
+        
+        // Set delegate
+        txtUsername.delegate = self
+        txtEmail!.delegate = self
+        txtPassword!.delegate = self
+        txtRepeatPassword!.delegate = self
+        txtName!.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.sharedInstance().track("Register Page")
+        Mixpanel.sharedInstance().track("Register")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -136,6 +143,26 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (textField == self.txtUsername) {
+            textField.resignFirstResponder()
+            self.txtEmail?.becomeFirstResponder()
+        } else if (textField == self.txtEmail) {
+            textField.resignFirstResponder()
+            self.txtPassword?.becomeFirstResponder()
+        }  else if (textField == self.txtPassword) {
+            textField.resignFirstResponder()
+            self.txtRepeatPassword?.becomeFirstResponder()
+        } else if (textField == self.txtRepeatPassword) {
+            textField.resignFirstResponder()
+            self.txtName?.becomeFirstResponder()
+        } else if (textField == self.txtName) {
+            textField.resignFirstResponder()
+            self.registerPressed(textField)
+        }
+        return true
+    }
+    
     func register() {
         disableTextFields(NSNull)
         let username = txtUsername?.text
@@ -146,7 +173,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             .responseJSON
             {_, _, json, err in
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: (err?.description)!)
+                    Constant.showDialog("Warning", message: "Error register")//:(err?.description)!)
                     self.btnRegister?.enabled = true
                 } else {
                     let res = JSON(json!)
@@ -273,7 +300,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
                         println("Fb login req = \(req)")
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: (err?.description)!)
+                            Constant.showDialog("Warning", message: "Error login facebook")//:(err?.description)!)
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
@@ -301,7 +328,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                                 
                                 // Check if user have set his account
                                 //self.checkProfileSetup(data["token"].string!)
-                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                             }
                         }
                     }
@@ -471,7 +498,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: (err?.description)!)
+                Constant.showDialog("Warning", message: "Error login path")//:(err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
@@ -503,7 +530,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
-                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!)
+                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true)
                 }
             }
         }

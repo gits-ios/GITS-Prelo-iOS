@@ -20,6 +20,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     @IBOutlet var scrollCategoryName: UIScrollView!
     @IBOutlet var scrollView : UIScrollView!
     
+    var categoriesFix : [JSON] = []
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -41,12 +43,28 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //        getCategory()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Home")
+    }
+    
     func grandRefresh()
     {
         listItemViews.removeAll(keepCapacity: false)
+        
         for v in self.contentView?.subviews as! [UIView]
         {
             v.removeFromSuperview()
+        }
+        
+        categoryNames.removeAll(keepCapacity: false)
+        for v in self.contentCategoryNames?.subviews as! [UIView]
+        {
+            if (v != categoryIndicator)
+            {
+                v.removeFromSuperview()
+            }
         }
         
         getCategory()
@@ -85,13 +103,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             let li:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             li.previousController = self.previousController
             
-            if (i == 0)
-            {
-                li.category = categories!["_data"][0]
-            } else {
-                let arr = categories!["_data"][0]["children"]
-                li.category = arr[i-1]
-            }
+            li.category = categoriesFix[i]
             
             let v = li.view
             v.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -177,17 +189,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             let button = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
             button.setTitleColor(Theme.GrayDark)
             button.titleLabel?.font = UIFont.systemFontOfSize(15)
-            if (i == 0)
-            {
-                if let name = categories!["_data"][0]["name"].string
-                {
-                    button.setTitle(name, forState: UIControlState.Normal)
-                }
-            } else {
-                if let name = categories!["_data"][0]["children"][i-1]["name"].string
-                {
-                    button.setTitle(name, forState: UIControlState.Normal)
-                }
+            if let name = categoriesFix[i]["name"].string {
+                button.setTitle(name, forState: UIControlState.Normal)
             }
             
             button.sizeToFit()
@@ -351,23 +354,64 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             return
         }
         
+        // Kumpulkan category sambil mengurutkan
         let level1 = categories!["_data"][0]["children"]
         
-        let tabs = NSMutableArray()
-        for (index : String, child : JSON) in level1
-        {
-            if let name = child["name"].string
-            {
-                tabs.addObject(name.uppercaseString)
+        categoriesFix = []
+        var categoriesDummy : [JSON] = []
+        var idxCateg1 : Int?
+        var idxCateg2 : Int?
+        var idxCateg3 : Int?
+        for (index : String, child : JSON) in level1 {
+            let categName = child["name"].string
+            let categId = child["_id"].string
+            if (categName != nil && categId != nil) {
+                categoriesDummy.append(child)
+                if (categId == NSUserDefaults.categoryPref1()) {
+                    idxCateg1 = index.toInt()
+                } else if (categId == NSUserDefaults.categoryPref2()) {
+                    idxCateg2 = index.toInt()
+                } else if (categId == NSUserDefaults.categoryPref3()) {
+                    idxCateg3 = index.toInt()
+                }
+            }
+        }
+        // Di sini categoriesDummy berisi array json of child categories
+        // Sudah didapatkan ketiga index yang akan ditaruh ke depan
+        if (idxCateg1 != nil) {
+            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg1!))
+        }
+        if (idxCateg2 != nil) {
+            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg2!))
+        }
+        if (idxCateg3 != nil) {
+            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg3!))
+        }
+        for (var i = 0; i < categoriesDummy.count; i++) {
+            if (i == idxCateg1 || i == idxCateg2 || i == idxCateg3) {
+                // Skip
+            } else {
+                categoriesFix.append(categoriesDummy[i])
+            }
+        }
+        // Di sini 3 kategori terpilih sudah ada di bagian depan categoriesFix
+        // Tinggal tambahkan category "All"
+        let categAllName = categories!["_data"][0]["name"].string
+        let categAllId = categories!["_data"][0]["_id"].string
+        if (categAllName != nil && categAllId != nil) {
+            categoriesFix.insert(categories!["_data"][0], atIndex: 0)
+        }
+        print("categoriesFix: [")
+        for (var j = 0; j < categoriesFix.count; j++) {
+            print(categoriesFix[j]["name"].string!)
+            if (j == categoriesFix.count - 1) {
+                println("]")
+            } else {
+                print(", ")
             }
         }
         
-        if let name = categories!["_data"][0]["name"].string
-        {
-            tabs.insertObject(name.uppercaseString, atIndex: 0)
-        }
-        
-        addChilds(tabs.count)
+        addChilds(categoriesFix.count)
     }
     
     func cikah()
@@ -404,14 +448,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         v.previousController = self.previousController
         var i = Int(index)
         
-        if (i == 0)
-        {
-            v.category = categories!["_data"][0]
-        } else {
-            i = i-1
-            let arr = categories!["_data"][0]["children"]
-            v.category = arr[i]
-        }
+        v.category = categoriesFix[i]
         
         return v
     }

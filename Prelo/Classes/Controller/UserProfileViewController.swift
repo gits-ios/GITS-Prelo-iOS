@@ -66,12 +66,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Edit Profil"
         setNavBarButtons()
         initiateFields()
-        
-        // Border untuk tombol user image
-        btnUserImage.layer.borderWidth = 1
-        btnUserImage.layer.borderColor = UIColor.lightGrayColor().CGColor
         
         // Tampilan loading
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
@@ -81,7 +78,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Setup Account")
+        Mixpanel.sharedInstance().track("Edit Profile")
         
         // Update fieldTentangShop height
         self.textViewDidChange(fieldTentangShop)
@@ -107,7 +104,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     func setNavBarButtons() {
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Edit Profil", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         
@@ -147,7 +144,14 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Set fields' default value
         if (userProfile.pict != "") {
-            imgUser.setImageWithUrl(NSURL(string: userProfile.pict)!, placeHolderImage: nil)
+            //println("userProfile.pict = \(userProfile.pict)")
+            let url = NSURL(string: userProfile.pict)
+            if (url != nil) {
+                self.imgUser.image = nil
+                self.imgUser.setImageWithUrl(url!, placeHolderImage: nil)
+                self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
+                self.imgUser.layer.masksToBounds = true
+            }
         }
         if (user.fullname != nil) {
             fieldNama.text = user.fullname
@@ -422,7 +426,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         println("Post fb data req = \(req)")
                         
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                            Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"].bool
@@ -467,7 +471,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         println("Post twitter data req = \(req)")
                         
                         if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                            Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"].bool
@@ -531,7 +535,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             println("Post path data req = \(req)")
             
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+                Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
             } else {
                 let json = JSON(res!)
                 let data = json["_data"].bool
@@ -625,7 +629,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post instagram data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post instagram data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post instagram data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -653,7 +657,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post FB data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post FB data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -684,7 +688,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post twitter data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post twitter data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -716,7 +720,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("Post path data req = \(req)")
                     
                     if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post path data error: \(err!.description)")
+                        Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
                     } else {
                         let json = JSON(res!)
                         let data = json["_data"].bool
@@ -844,9 +848,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
             
             if (!self.isUserPictUpdated) {
-                request(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping)).responseJSON {req, _, res, err in
+                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping)).responseJSON {req, _, res, err in
                     if let error = err {
-                        Constant.showDialog("Warning", message: "Edit profile error: \(error.description)")
+                        Constant.showDialog("Warning", message: "Edit profile error")//: \(error.description)")
                         self.btnSimpanData.enabled = true
                     } else {
                         let json = JSON(res!)
@@ -856,7 +860,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             } else {
                 var dataRep = UIImageJPEGRepresentation(imgUser.image, 1)
                 
-                upload(APIUser.SetProfile(fullname: fieldNama.text, phone: lblNoHP.text!, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping), multipartFormData: { form in
+                upload(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping), multipartFormData: { form in
                     
                     form.appendBodyPart(data : dataRep, name:"image", fileName: "image.jpeg", mimeType:"image/jpg")
                     
@@ -869,7 +873,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                                 if let error = err
                                 {
                                     // error, gagal
-                                    Constant.showDialog("Warning", message: error.description)
+                                    Constant.showDialog("Warning", message: "Error saving data")//:error.description)
                                     self.btnSimpanData.enabled = true
                                     self.loadingPanel.hidden = true
                                     self.loading.stopAnimating()
@@ -883,7 +887,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             
                         case .Failure(let err):
                             println(err) // failed
-                            Constant.showDialog("Warning", message: err.description)
+                            Constant.showDialog("Warning", message: "Error saving data")//:err.description)
                             self.btnSimpanData.enabled = true
                             self.loadingPanel.hidden = true
                             self.loading.stopAnimating()
@@ -908,7 +912,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         userProfile.desc = profile.desc
         userProfile.gender = profile.gender
         userProfile.phone = profile.phone
-        userProfile.pict = "\(profile.profPictURL)"
+        if (profile.profPictURL != nil) {
+            userProfile.pict = "\(profile.profPictURL!)"
+        }
         userProfile.postalCode = profile.postalCode
         userProfile.regionID = profile.regionId!
         userProfile.provinceID = profile.provinceId!

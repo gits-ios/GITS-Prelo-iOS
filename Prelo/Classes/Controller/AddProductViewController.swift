@@ -166,6 +166,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        Mixpanel.sharedInstance().track("Add Product")
+        
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
             if (o)
@@ -183,8 +185,6 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     var firstLaunch = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        Mixpanel.sharedInstance().track("Add Product")
         
         if (User.IsLoggedIn)
         {
@@ -336,11 +336,11 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.navigationItem.rightBarButtonItem = nil
         btnSend.enabled = false
         
-        Mixpanel.sharedInstance().timeEvent("Adding Product")
+        //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
             println(res)
-            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON(res!)
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
@@ -350,7 +350,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             s.productID = (json["data"]["_data"].string)!
             self.navigationController?.pushViewController(s, animated: true)
         }, failure: {op, err in
-            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
+            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
             self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
             self.btnSend.enabled = true
             UIAlertView.SimpleShow("Warning", message: "Gagal")
@@ -428,7 +428,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         ap.getImage({image in
             if let i = image
             {
-                Mixpanel.sharedInstance().track("Edit Image")
+                //Mixpanel.sharedInstance().track("Edit Image")
                 AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
                 AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
                 let u = AdobeUXImageEditorViewController(image: i)
@@ -449,7 +449,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             ap.getImage({image in
                 if let i = image
                 {
-                    Mixpanel.sharedInstance().track("Edit Image")
+                    //Mixpanel.sharedInstance().track("Edit Image")
                     AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
                     let u = AdobeUXImageEditorViewController(image: i)
                     u.delegate = self
@@ -469,7 +469,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         
-        Mixpanel.sharedInstance().track("Edit Image Success")
+        //Mixpanel.sharedInstance().track("Edit Image Success")
         var ap = images[portalling ? currentPortalIndex : replaceIndex]
         ap.image = image
         ap.assetLib = nil
@@ -500,7 +500,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
 //            self.portalling = false
         } else
         {
-            Mixpanel.sharedInstance().track("Edit Image Cancel")
+            //Mixpanel.sharedInstance().track("Edit Image Cancel")
             editor.dismissViewControllerAnimated(true, completion: nil)
         }
     }

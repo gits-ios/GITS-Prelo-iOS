@@ -14,7 +14,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     @IBOutlet var lblEmpty : UILabel!
     @IBOutlet var loading: UIActivityIndicatorView!
     
-    var userPurchases : Array <UserTransaction>?
+    var userPurchases : Array <UserTransactionItem>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Purchase - Processing")
+        Mixpanel.sharedInstance().track("My Orders In Progress")
         
         if (userPurchases?.count == 0 || userPurchases == nil) {
             if (userPurchases == nil) {
@@ -53,7 +53,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func getUserPurchases() {
-        request(APITransaction.CheckoutList(current: "0", limit: "200")).responseJSON {_, _, res, err in
+        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
             println(res)
             if (err != nil) { // Terdapat error
                 println("Error getting purchase data: \(err!.description)")
@@ -67,7 +67,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
                     
                     // Store data into variable
                     for (index : String, item : JSON) in data {
-                        let u = UserTransaction.instance(item)
+                        let u = UserTransactionItem.instanceTransactionItem(item)
                         if (u != nil) {
                             self.userPurchases?.append(u!)
                         }
@@ -107,7 +107,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         UITableViewCell {
         var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
         let u = userPurchases?[indexPath.item]
-        cell.adapt(u!)
+        cell.adaptItem(u!)
         return cell
     }
     

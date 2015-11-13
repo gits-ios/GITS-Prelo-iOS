@@ -246,6 +246,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Add Product")
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -909,13 +915,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if (self.editMode)
             {
-                Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
+                //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
                 self.navigationController?.popViewControllerAnimated(true)
                 return
             }
             
-            Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON(res!)
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
@@ -926,7 +932,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
             self.navigationController?.pushViewController(s, animated: true)
             }, failure: {op, err in
-                Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
+                //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
                 self.btnSubmit.enabled = true
                 UIAlertView.SimpleShow("Warning", message: "Gagal")

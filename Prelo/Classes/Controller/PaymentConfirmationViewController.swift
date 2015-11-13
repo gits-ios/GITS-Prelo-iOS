@@ -50,7 +50,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("Payment Confirmation")
+        Mixpanel.sharedInstance().track("Unpaid Transaction")
         
         if (userCheckouts == nil || userCheckouts?.count == 0) {
             if (userCheckouts == nil) {
@@ -77,7 +77,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {req, _, res, err in
             println("Checkout list req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting checkout list: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error getting checkout list")//: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 println(res)
@@ -151,6 +151,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             let c : UserCheckoutProduct = u.transactionProducts[i]
             imgs.append(c.productImageURL!)
         }
+        orderConfirmVC.transactionId = u.id
         orderConfirmVC.orderID = u.orderId
         orderConfirmVC.total = u.totalPrice
         orderConfirmVC.images = imgs

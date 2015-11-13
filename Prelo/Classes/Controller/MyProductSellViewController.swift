@@ -10,6 +10,8 @@ import UIKit
 
 class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet var tableView : UITableView!
     var products : Array<Product> = []
     
@@ -17,7 +19,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        self.lblEmpty.hidden = true
+        self.tableView.hidden = true
         getProducts()
         
         tableView.dataSource = self
@@ -26,6 +29,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Register custom cell
         var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("My Products")
     }
     
     func getProducts()
@@ -45,7 +54,14 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                             {
                                 self.products.append(Product.instance(JSON(json))!)
                                 self.tableView.tableFooterView = UIView()
+                            }
+                            if (self.products.count > 0) {
+                                self.lblEmpty.hidden = true
+                                self.tableView.hidden = false
                                 self.tableView.reloadData()
+                            } else {
+                                self.lblEmpty.hidden = false
+                                self.tableView.hidden = true
                             }
                         }
                     }

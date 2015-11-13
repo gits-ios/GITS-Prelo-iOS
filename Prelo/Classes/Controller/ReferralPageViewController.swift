@@ -57,7 +57,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Referral Page")
+        Mixpanel.sharedInstance().track("Referral")
         
         self.getReferralData()
         
@@ -97,9 +97,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set title
+        self.title = "Prelo Bonus"
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Kode Referral", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
     }
@@ -130,7 +133,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         request(APIUser.ReferralData).responseJSON {req, _, res, err in
             println("Referral data req = \(req)")
             if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting referral data: \(err!.description)")
+                Constant.showDialog("Warning", message: "Error getting referral data")//: \(err!.description)")
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
                 let json = JSON(res!)
@@ -339,7 +342,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {req, _, res, err in
                 println("Set referral req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error setting referral: \(err!.description)")
+                    Constant.showDialog("Warning", message: "Error setting referral")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     if (json["_data"] == nil) {

@@ -18,7 +18,7 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = NSURL(string: "https://prelo.co.id/syarat-ketentuan")
+        let url = NSURL(string: "https://prelo.co.id/syarat-ketentuan?ref=preloapp")
         let requestObj = NSURLRequest(URL: url!)
         self.webView.loadRequest(requestObj)
         
@@ -28,6 +28,12 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         loadingPanel.hidden = false
         loading.startAnimating()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Mixpanel.sharedInstance().track("Terms and Conditions")
     }
     
     @IBAction func backPressed(sender: AnyObject) {

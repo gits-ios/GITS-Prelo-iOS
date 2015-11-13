@@ -255,6 +255,19 @@ class UserProfile : NSObject {
         }
     }
     
+    var categoryPrefIds : [String]? {
+        let c : [String]?
+        if (json["others"]["category_preferences_ids"] != nil) {
+            c = []
+            for (var i = 0; i < json["others"]["category_preferences_ids"].count; i++) {
+                c!.append(json["others"]["category_preferences_ids"][i].string!)
+            }
+            return c
+        } else {
+            return nil
+        }
+    }
+    
     var isPhoneVerified : Bool? {
         if (json["others"]["is_phone_verified"] != nil) {
             return json["others"]["is_phone_verified"].bool
@@ -1091,6 +1104,34 @@ class UserTransaction: NSObject {
     var productCommentCount : Int {
         let p = (json["product"]["num_comment"].int)!
         return p
+    }
+}
+
+class UserTransactionItem: UserTransaction {
+    
+    static func instanceTransactionItem(json : JSON?) -> UserTransactionItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserTransactionItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    override var productName : String {
+        let p = (json["product"]["name"].string)!
+        return p
+    }
+    
+    // Only take first image from json
+    override var productImageURL : NSURL? {
+        if let err = json["product"]["display_picts"][0].error
+        {
+            return nil
+        }
+        let url = json["product"]["display_picts"][0].string!
+        return NSURL(string: url)
     }
 }
 

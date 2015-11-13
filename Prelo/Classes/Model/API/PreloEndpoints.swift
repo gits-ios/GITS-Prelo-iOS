@@ -657,12 +657,13 @@ enum APIUser : URLRequestConvertible
     case MyProductSell
     case MyLovelist
     case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
-    case SetProfile(fullname : String, phone : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
+    case SetProfile(fullname : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
     case ReferralData
     case SetReferral(referralCode : String, deviceId : String)
     case SetDeviceRegId(deviceRegId : String)
+    case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
     
     var method : Method
     {
@@ -676,12 +677,13 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _, _, _) : return .POST
-        case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
+        case .SetProfile(_, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
         case .ReferralData : return .GET
         case .SetReferral(_, _) : return .POST
         case .SetDeviceRegId(_) : return .POST
+        case .SetUserPreferencedCategories(_, _, _) : return .POST
         }
     }
     
@@ -697,12 +699,13 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _, _, _) : return "setup"
-        case .SetProfile(_, _, _, _, _, _, _, _) : return "profile"
+        case .SetProfile(_, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
         case .ReferralData : return "referral_bonus"
         case .SetReferral(_, _) : return "referral"
         case .SetDeviceRegId(_) : return "set_device_registration_id"
+        case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
         }
     }
     
@@ -742,10 +745,9 @@ enum APIUser : URLRequestConvertible
                 "device_registration_id":deviceRegId,
                 "device_type":"APNS"
             ]
-        case .SetProfile(let fullname, let phone, let address, let province, let region, let postalCode, let description, let shipping):
+        case .SetProfile(let fullname, let address, let province, let region, let postalCode, let description, let shipping):
             return [
                 "fullname":fullname,
-                "phone":phone,
                 "address":address,
                 "province":province,
                 "region":region,
@@ -774,6 +776,13 @@ enum APIUser : URLRequestConvertible
             let p = [
                 "registered_device_id" : deviceRegId,
                 "device_type" : "APNS"
+            ]
+            return p
+        case .SetUserPreferencedCategories(let categ1, let categ2, let categ3) :
+            let p = [
+                "category1" : categ1,
+                "category2" : categ2,
+                "category3" : categ3
             ]
             return p
         }
@@ -1161,7 +1170,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Gagal", message: error.description)
+                UIAlertView.SimpleShow("Gagal", message: "")//error.description)
             }
             return false
         } else
