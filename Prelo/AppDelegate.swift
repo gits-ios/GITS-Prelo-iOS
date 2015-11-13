@@ -31,7 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         messagePool.start()
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
-        Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
+        if (AppTools.PreloBaseUrlShort == "prelo.co.id") {
+            Mixpanel.sharedInstanceWithToken("1f07daa901e779dd504e21daca2a88df")
+        } else {
+            Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
+        }
         
         
         if let c = CDUser.getOne()

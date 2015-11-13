@@ -249,7 +249,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Add Product")
+        Mixpanel.trackPageVisit("Add Product")
     }
     
     override func viewWillDisappear(animated: Bool) {

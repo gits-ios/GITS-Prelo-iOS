@@ -33,7 +33,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Contact")
+        Mixpanel.trackPageVisit("Contact")
     }
 
     override func didReceiveMemoryWarning() {

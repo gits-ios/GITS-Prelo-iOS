@@ -33,7 +33,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Orders In Progress")
+        Mixpanel.trackPageVisit("My Orders In Progress")
         
         if (userPurchases?.count == 0 || userPurchases == nil) {
             if (userPurchases == nil) {

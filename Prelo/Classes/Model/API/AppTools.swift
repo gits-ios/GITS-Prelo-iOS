@@ -164,6 +164,17 @@ class UserDefaultsKey : NSObject
     static let Tour = "tour"
 }
 
+extension Mixpanel
+{
+    static func trackPageVisit(pageName : String)
+    {
+        let p = [
+            "Page": pageName
+        ]
+        Mixpanel.sharedInstance().track("Page Visited", properties: p)
+    }
+}
+
 extension NSUserDefaults
 {
     static func lastSavedAssetURL() -> NSURL?

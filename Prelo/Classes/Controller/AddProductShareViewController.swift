@@ -307,7 +307,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Share Added Product")
+        Mixpanel.trackPageVisit("Share Added Product")
     }
     
     var first = true

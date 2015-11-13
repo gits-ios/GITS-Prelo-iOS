@@ -146,7 +146,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        Mixpanel.sharedInstance().track("Search")
+        Mixpanel.trackPageVisit("Search")
         
         NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: UIColor.whiteColor())
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)

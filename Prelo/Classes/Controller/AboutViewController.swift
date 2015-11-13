@@ -33,7 +33,7 @@ class AboutViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("About")
+        Mixpanel.trackPageVisit("About")
     }
 
     override func didReceiveMemoryWarning() {

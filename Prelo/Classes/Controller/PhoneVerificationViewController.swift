@@ -17,6 +17,7 @@ class PhoneVerificationViewController : BaseViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var lblNoHp: UILabel!
+    @IBOutlet weak var fldNoHp: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
     @IBOutlet weak var btnVerifikasi: UIButton!
     @IBOutlet weak var btnKirimUlang: UIButton!
@@ -46,10 +47,10 @@ class PhoneVerificationViewController : BaseViewController {
         
         // Show phone number
         if (self.isReverification) {
-            lblNoHp.text = self.reverificationNoHP
+            fldNoHp.text = self.reverificationNoHP
         } else {
             let userProfile : CDUserProfile = CDUserProfile.getOne()!
-            lblNoHp.text = userProfile.phone
+            fldNoHp.text = userProfile.phone
         }
         
         // Field input is uppercase
@@ -62,7 +63,7 @@ class PhoneVerificationViewController : BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Setup Account Verify Phone")
+        Mixpanel.trackPageVisit("Setup Account Verify Phone")
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {
@@ -85,6 +86,7 @@ class PhoneVerificationViewController : BaseViewController {
     @IBAction func disableTextFields(sender : AnyObject)
     {
         fieldKodeVerifikasi?.resignFirstResponder()
+        fldNoHp.resignFirstResponder()
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
@@ -111,7 +113,7 @@ class PhoneVerificationViewController : BaseViewController {
                 User.SetToken(self.userToken)
             }
             
-            request(APIUser.VerifyPhone(phone: self.lblNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON {req, _, res, err in
+            request(APIUser.VerifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON {req, _, res, err in
                 if (!self.isReverification) {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)
@@ -135,7 +137,7 @@ class PhoneVerificationViewController : BaseViewController {
                                 self.phoneReverificationSucceed()
                                 
                                 if let d = self.delegate {
-                                    d.phoneVerified(self.lblNoHp.text!)
+                                    d.phoneVerified(self.fldNoHp.text!)
                                 }
                             } else { // User is setting up new account
                                 // Set user to logged in
@@ -190,7 +192,7 @@ class PhoneVerificationViewController : BaseViewController {
             User.SetToken(self.userToken)
         }
         
-        request(APIUser.ResendVerificationSms(phone: self.lblNoHp.text!)).responseJSON {req, _, res, err in
+        request(APIUser.ResendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {req, _, res, err in
             if (!self.isReverification) {
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)

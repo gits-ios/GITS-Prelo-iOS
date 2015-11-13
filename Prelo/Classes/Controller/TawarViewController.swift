@@ -103,7 +103,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Inbox Detail")
+        Mixpanel.trackPageVisit("Inbox Detail")
     }
     
     func adjustButtons()

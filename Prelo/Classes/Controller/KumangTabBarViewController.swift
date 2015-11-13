@@ -132,8 +132,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.sharedInstance().track("Home")
-        
         if (menuPopUp == nil) {
             menuPopUp = NSBundle.mainBundle().loadNibNamed("MenuPopUp", owner: nil, options: nil).first as? MenuPopUp
             menuPopUp?.menuDelegate = self

@@ -33,7 +33,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("My Products Completed")
+        Mixpanel.trackPageVisit("My Products Completed")
         
         if (userProducts?.count == 0 || userProducts == nil) {
             if (userProducts == nil) {

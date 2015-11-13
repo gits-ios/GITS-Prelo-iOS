@@ -89,7 +89,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.sharedInstance().track("Setup Account")
+        Mixpanel.trackPageVisit("Setup Account")
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {

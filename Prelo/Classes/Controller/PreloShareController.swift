@@ -77,7 +77,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Product Detail Share")
+        Mixpanel.trackPageVisit("Product Detail Share")
     }
 
     override func didReceiveMemoryWarning() {

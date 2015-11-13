@@ -91,7 +91,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Dashboard Logged In")
+        Mixpanel.trackPageVisit("Dashboard Logged In")
     }
     
     override func viewDidAppear(animated: Bool) {

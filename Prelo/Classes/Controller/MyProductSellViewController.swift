@@ -34,7 +34,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("My Products")
+        Mixpanel.trackPageVisit("My Products")
     }
     
     func getProducts()

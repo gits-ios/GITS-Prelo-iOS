@@ -19,7 +19,7 @@ class Dashboard2ViewController : BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Dashboard Logged Out")
+        Mixpanel.trackPageVisit("Dashboard Logged Out")
     }
     
     @IBAction func loginButtonTapped(sender : AnyObject) {

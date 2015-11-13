@@ -352,7 +352,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Login")
+        Mixpanel.trackPageVisit("Login")
     }
     
     override func viewDidAppear(animated: Bool) {

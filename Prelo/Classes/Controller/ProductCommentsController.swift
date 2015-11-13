@@ -50,7 +50,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Product Detail Comment")
+        Mixpanel.trackPageVisit("Product Detail Comment")
     }
     
     override func viewDidAppear(animated: Bool) {

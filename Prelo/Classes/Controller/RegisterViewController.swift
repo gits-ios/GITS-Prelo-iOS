@@ -46,7 +46,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.sharedInstance().track("Register")
+        Mixpanel.trackPageVisit("Register")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in

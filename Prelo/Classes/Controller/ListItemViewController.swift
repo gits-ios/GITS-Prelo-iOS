@@ -156,7 +156,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             return
         } else if (storeMode)
         {
-            Mixpanel.sharedInstance().track("Shop")
+            Mixpanel.trackPageVisit("Shop")
             self.getStoreProduct()
             return
         }

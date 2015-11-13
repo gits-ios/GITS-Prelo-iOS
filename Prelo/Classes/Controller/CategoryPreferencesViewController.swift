@@ -40,7 +40,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         self.loading.startAnimating()
         self.collcCategory.hidden = true
 
-        Mixpanel.sharedInstance().track("Set Category Preferences")
+        Mixpanel.trackPageVisit("Set Category Preferences")
         
         while (!NSUserDefaults.isCategorySaved()) {
             // Wait until category is saved

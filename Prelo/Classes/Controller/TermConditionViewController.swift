@@ -33,7 +33,7 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Terms and Conditions")
+        Mixpanel.trackPageVisit("Terms and Conditions")
     }
     
     @IBAction func backPressed(sender: AnyObject) {

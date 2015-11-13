@@ -46,7 +46,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Home")
+        Mixpanel.trackPageVisit("Home")
     }
     
     func grandRefresh()

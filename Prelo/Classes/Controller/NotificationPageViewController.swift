@@ -49,7 +49,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Notification")
+        Mixpanel.trackPageVisit("Notification")
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
     }
