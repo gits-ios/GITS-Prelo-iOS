@@ -8,8 +8,9 @@
 
 import UIKit
 import TwitterKit
+import Social
 
-class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate {
+class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
     
     @IBOutlet var arrayRow1 : [AddProductShareButton] = []
     @IBOutlet var arrayRow2 : [AddProductShareButton] = []
@@ -31,64 +32,115 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     var productID = ""
     var me = CDUser.getOne()
     
+    var productImg : String!
+    var productName : String!
+    var linkToShare = AppTools.PreloBaseUrl
+    var textToShare = ""
+    
+    var mgInstagram : MGInstagram?
+    
     var pathSender : AddProductShareButton?
-    @IBAction func setSelectShare(sender : AddProductShareButton)
-    {
-        btnSend.setTitle("Loading..", forState: UIControlState.Disabled)
+    
+    func updateButtons(sender : AddProductShareButton) {
         let tag = sender.tag
         let arr = arrayRows[tag]
         let c = sender.active ? sender.normalColor : sender.selectedColor
         sender.active = !sender.active
         pathSender = sender
-        for b in arr
-        {
+        
+        // Update buttons
+        for b in arr {
             b.setTitleColor(c, forState: UIControlState.Normal)
             b.active = sender.active
             
             if (b.titleLabel?.text == "") { // unchek, check it!
                 b.setTitle("", forState: UIControlState.Normal)
-                
-                if (tag == 1 && CDUser.pathTokenAvailable() == false) // Path
-                {
-                    let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
-                    pathLoginVC.delegate = self
-                    self.navigationController?.pushViewController(pathLoginVC, animated: true)
-                }
-                
-                let o = me?.others
-                
-                let fbt = o?.fbAccessToken!
-                var fbtoken = ""
-                if let t = fbt
-                {
-                    fbtoken = t
-                }
-                if (tag == 2 &&  fbtoken == "") // Facebook
-                {
-                    loginFacebook()
-                }
-                
-                if (tag == 0) // Instagram
-                {
-                    let ins = InstagramLoginViewController()
-                    self.navigationController?.pushViewController(ins, animated: true)
-                }
-                
-                if (tag == 3) // Twitter
-                {
-                    if (CDUser.twitterTokenAvailable() == false) {
-                        self.loginTwitter()
-                    }
-                }
-            } else if (b.titleLabel?.text == "") // checked, uncheck it
-            {
+            } else if (b.titleLabel?.text == "") { // checked, uncheck it
                 b.setTitle("", forState: UIControlState.Normal)
             }
         }
-
-        let p = percentages[tag]
-        chargePercent = chargePercent + (p * (sender.active ? -1 : 1))
-        adaptCharge()
+        
+        // Update percentage
+        let p = self.percentages[tag]
+        self.chargePercent = self.chargePercent + (p * (sender.active ? -1 : 1))
+        self.adaptCharge()
+    }
+    
+    @IBAction func setSelectShare(sender : AddProductShareButton)
+    {
+        btnSend.setTitle("Loading..", forState: UIControlState.Disabled)
+        let tag = sender.tag
+        
+        if (!sender.active) { // Akan mengaktifkan tombol share
+            if (tag == 0) { // Instagram
+                if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+                    mgInstagram = MGInstagram()
+                    let imgUrl = NSURL(string: self.productImg)
+                    var imgData = NSData(contentsOfURL: imgUrl!)
+                    var img = UIImage(data: imgData!)
+                    mgInstagram?.postImage(img, withCaption: self.textToShare, inView: self.view, delegate: self)
+                    self.updateButtons(sender)
+                } else {
+                    Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+                }
+            } else if (tag == 2) { // Facebook
+                if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
+                    let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                    let url = NSURL(string:self.linkToShare)
+                    composer.addURL(url!)
+                    let imgUrl = NSURL(string: self.productImg)
+                    var imgData = NSData(contentsOfURL: imgUrl!)
+                    var img = UIImage(data: imgData!)
+                    composer.addImage(img)
+                    composer.setInitialText(self.textToShare)
+                    composer.completionHandler = { result -> Void in
+                        var getResult = result as SLComposeViewControllerResult
+                        switch(getResult.rawValue) {
+                        case SLComposeViewControllerResult.Cancelled.rawValue:
+                            println("Cancelled")
+                        case SLComposeViewControllerResult.Done.rawValue:
+                            println("Done")
+                            self.updateButtons(sender)
+                        default:
+                            println("Error")
+                        }
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                    self.presentViewController(composer, animated: true, completion: nil)
+                } else {
+                    Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+                }
+            } else if (tag == 3) { // Twitter
+                if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
+                    let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                    let url = NSURL(string:self.linkToShare)
+                    composer.addURL(url!)
+                    let imgUrl = NSURL(string: self.productImg)
+                    var imgData = NSData(contentsOfURL: imgUrl!)
+                    var img = UIImage(data: imgData!)
+                    composer.addImage(img)
+                    composer.setInitialText(self.textToShare)
+                    composer.completionHandler = { result -> Void in
+                        var getResult = result as SLComposeViewControllerResult
+                        switch(getResult.rawValue) {
+                        case SLComposeViewControllerResult.Cancelled.rawValue:
+                            println("Cancelled")
+                        case SLComposeViewControllerResult.Done.rawValue:
+                            println("Done")
+                            self.updateButtons(sender)
+                        default:
+                            println("Error")
+                        }
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                    self.presentViewController(composer, animated: true, completion: nil)
+                } else {
+                    Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+                }
+            }
+        } else { // Akan menonaktifkan tombol share
+            self.updateButtons(sender)
+        }
     }
     
     func instagramLoginFailed() {
@@ -271,6 +323,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             m?.removeAtIndex((m?.count)!-2)
             self.navigationController?.viewControllers = m!
         }
+        
+        self.textToShare = "Download aplikasi Prelo untuk mendapatkan barang bekas berkualitas ini: \(self.productName)"
     }
     
     func adaptCharge()

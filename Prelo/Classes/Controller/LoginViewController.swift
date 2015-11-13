@@ -189,7 +189,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         }
                         
                         // Set crashlytics user information
-                        Crashlytics.sharedInstance().setUserIdentifier(user.id)
+                        Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
                         Crashlytics.sharedInstance().setUserEmail(user.email)
                         Crashlytics.sharedInstance().setUserName(user.fullname!)
                     } else {

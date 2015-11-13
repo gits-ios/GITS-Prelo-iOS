@@ -928,6 +928,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 s.basePrice = price
             }
+            if let img = json["_data"]["display_picts"][0].string {
+                s.productImg = img
+            }
+            if let name = json["_data"]["name"].string {
+                s.productName = name
+            }
             s.productID = (json["_data"]["_id"].string)!
             NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
             self.navigationController?.pushViewController(s, animated: true)
