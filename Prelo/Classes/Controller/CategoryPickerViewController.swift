@@ -15,6 +15,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
 
     @IBOutlet var gridView : UICollectionView!
     
+    var root : UIViewController?
     var categories : Array<JSON> = []
     var blockDone : BlockCategorySelected?
     var searchMode = false
@@ -101,6 +102,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.parent = selectedCategory!
         c.blockDone = blockDone
         c.backTreshold = 3
+        c.root = self.root
         c.searchMode = self.searchMode
     }
 
@@ -114,6 +116,7 @@ class CategoryPickerParentCell : UICollectionViewCell
 
 class CategoryChildrenPickerViewController : BaseViewController, UITableViewDataSource, UITableViewDelegate
 {
+    var root : UIViewController?
     var parent : JSON = JSON(["name":""])
     var blockDone : BlockCategorySelected?
     var searchMode = false
@@ -190,6 +193,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.blockDone = self.blockDone
             p.backTreshold = backTreshold+1
             p.searchMode = self.searchMode
+            p.root = root
             self.navigationController?.pushViewController(p, animated: true)
         } else
         {
@@ -203,9 +207,15 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             {
                 self.blockDone!(data)
                 
-                let c = self.navigationController?.viewControllers.count
-                let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
-                self.navigationController?.popToViewController(v, animated: true)
+                if let r = self.root
+                {
+                    self.navigationController?.popToViewController(r, animated: true)
+                } else
+                {
+                    let c = self.navigationController?.viewControllers.count
+                    let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
+                    self.navigationController?.popToViewController(v, animated: true)
+                }
             }
         }
     }

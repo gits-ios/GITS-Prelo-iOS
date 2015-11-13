@@ -80,6 +80,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         sizePicker.font = UIFont.systemFontOfSize(16)
         sizePicker.highlightedFont = UIFont(name: "HelveticaNeue-Light", size: 16)
+        sizePicker.highlightedTextColor = Theme.PrimaryColor
         sizePicker.interitemSpacing = 20
         sizePicker.fisheyeFactor = 0.001
         sizePicker.pickerViewStyle = AKPickerViewStyle.Style3D
@@ -489,6 +490,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 freeOngkir = 0
             }
+        } else
+        {
+            let o = ongkirViews[0]
+            self.highlightWeightView(true, weightView: o)
+            freeOngkir = 1
         }
     }
     
@@ -535,6 +541,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             self.getSizes()
         }
+        p.root = self
         self.navigationController?.pushViewController(p, animated: true)
     }
     
