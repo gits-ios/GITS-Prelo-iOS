@@ -82,6 +82,11 @@ class AboutViewController: BaseViewController {
             notifListener.setNewNotifCount(0)
         }
         
+        // Reset crashlytics
+        Mixpanel.sharedInstance().reset()
+        let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        Mixpanel.sharedInstance().identify(uuid)
+        
         // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)
     }

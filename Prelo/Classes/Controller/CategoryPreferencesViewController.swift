@@ -86,7 +86,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     @IBAction func skipPressed(sender: AnyObject) {
         // To login
         self.dismissViewControllerAnimated(true, completion: nil)
-        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent?.userRelatedDelegate, animated: true, isFromTourVC: true)
+        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent as! KumangTabBarViewController, animated: true, isFromTourVC: true)
     }
     
     // MARK: - UICollectionViewDataSource Functions

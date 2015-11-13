@@ -295,7 +295,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                         if (user == nil) {
                                             user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                                         }
-                                        user!.id = data["username"].string!
+                                        user!.id = data["_id"].string!
+                                        user!.username = data["username"].string!
                                         user!.email = data["email"].string!
                                         user!.fullname = data["fullname"].string!
                                         
@@ -461,7 +462,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {
-                    // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                    Constant.showDialog("Warning", message: "Login error")//(err?.description)!)
                     self.btnLogin?.enabled = true
                 } else {
                     let res = JSON(json!)
@@ -706,7 +707,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
                         println("Fb login req = \(req)")
                         if (err != nil) { // Terdapat error
-                            // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                            Constant.showDialog("Warning", message: "Facebook login error")//(err?.description)!)
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
@@ -721,7 +722,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 if (user == nil) {
                                     user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                                 }
-                                user!.id = data["username"].string!
+                                user!.id = data["_id"].string!
+                                user!.username = data["username"].string!
                                 user!.email = data["email"].string!
                                 user!.fullname = data["fullname"].string!
                                 
@@ -905,7 +907,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                Constant.showDialog("Warning", message: "Path login error")//(err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
@@ -920,7 +922,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (user == nil) {
                         user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                     }
-                    user!.id = data["username"].string!
+                    user!.id = data["_id"].string!
+                    user!.username = data["username"].string!
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     

@@ -423,6 +423,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         CDUser.deleteAll()
                         let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                         user.id = data["_id"].string!
+                        user.username = data["username"].string!
                         user.email = data["email"].string!
                         user.fullname = data["fullname"].string!
                         

@@ -143,19 +143,24 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //println("Row \(indexPath.row) selected")
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+        
         let u : UserCheckout = (userCheckouts?[indexPath.item])!
-        var imgs : [NSURL] = []
-        for (var i = 0; i < u.transactionProducts.count; i++) {
-            let c : UserCheckoutProduct = u.transactionProducts[i]
-            imgs.append(c.productImageURL!)
+        if (u.progress == 2) { // Pembayaran pending
+            Constant.showDialog("", message: "Pembayaran sedang diproses Prelo, mohon ditunggu")
+        } else {
+            var imgs : [NSURL] = []
+            for (var i = 0; i < u.transactionProducts.count; i++) {
+                let c : UserCheckoutProduct = u.transactionProducts[i]
+                imgs.append(c.productImageURL!)
+            }
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+            orderConfirmVC.transactionId = u.id
+            orderConfirmVC.orderID = u.orderId
+            orderConfirmVC.total = u.totalPrice
+            orderConfirmVC.images = imgs
+            self.navigationController?.pushViewController(orderConfirmVC, animated: true)
         }
-        orderConfirmVC.transactionId = u.id
-        orderConfirmVC.orderID = u.orderId
-        orderConfirmVC.total = u.totalPrice
-        orderConfirmVC.images = imgs
-        self.navigationController?.pushViewController(orderConfirmVC, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -181,7 +186,13 @@ class PaymentConfirmationCell : UITableViewCell {
     func adapt(userCheckout : UserCheckout) {
         lblOrderId.text = "Order ID #\(userCheckout.orderId)"
         lblOrderTime.text = userCheckout.time
-        lblPrice.text = "\(userCheckout.totalPrice.asPrice)"
+        if (userCheckout.progress == 2) { // Pembayaran pending
+            lblPrice.text = "Pembayaran diproses"
+            lblPrice.textColor = Theme.PrimaryColor
+        } else {
+            lblPrice.text = "\(userCheckout.totalPrice.asPrice)"
+            lblPrice.textColor = Theme.GrayDark
+        }
         let pCount : Int = userCheckout.transactionProducts.count
         lblProductCount.text = "\(pCount) Barang"
         

@@ -315,7 +315,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                                 if (user == nil) {
                                     user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                                 }
-                                user!.id = data["username"].string!
+                                user!.id = data["_id"].string!
+                                user!.username = data["username"].string!
                                 user!.email = data["email"].string!
                                 user!.fullname = data["fullname"].string!
                                 
@@ -513,7 +514,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     if (user == nil) {
                         user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                     }
-                    user!.id = data["username"].string!
+                    user!.id = data["_id"].string!
+                    user!.username = data["username"].string!
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     

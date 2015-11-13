@@ -75,6 +75,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fullname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="others" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUserOther" inverseName="user" inverseEntity="CDUserOther" syncable="YES"/>
         <relationship name="profiles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDUserProfile" inverseName="user" inverseEntity="CDUserProfile" syncable="YES"/>
     </entity>
@@ -135,7 +136,7 @@
         <element name="CDProvince" positionX="-180" positionY="72" width="128" height="90"/>
         <element name="CDRegion" positionX="-180" positionY="-54" width="128" height="90"/>
         <element name="CDShipping" positionX="-18" positionY="-18" width="128" height="103"/>
-        <element name="CDUser" positionX="126" positionY="-144" width="128" height="120"/>
+        <element name="CDUser" positionX="126" positionY="-144" width="128" height="135"/>
         <element name="CDUserOther" positionX="369" positionY="-138" width="128" height="420"/>
         <element name="CDUserProfile" positionX="135" positionY="-423" width="128" height="180"/>
         <element name="CDVersion" positionX="-9" positionY="345" width="128" height="150"/>
