@@ -76,6 +76,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     f.currencySymbol = ""
                     f.locale = NSLocale(localeIdentifier: "id_ID")
                     self.captionPreloBalance.text = f.stringFromNumber(NSNumber(integer: i))
+                } else if let m = json["_data"].string
+                {
+                    UIAlertView.SimpleShow("Perhatian", message: m)
                 }
             } else
             {

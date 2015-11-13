@@ -6860,8 +6860,8 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deskripski Cacat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Ob-WFb">
-                                                    <rect key="frame" x="8" y="137" width="112" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info Cacat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Ob-WFb">
+                                                    <rect key="frame" x="8" y="137" width="68" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="Sdh-PC-z7J"/>
                                                     </constraints>
@@ -6875,7 +6875,7 @@ Keuntungan</string>
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhF-J7-vAi">
-                                                    <rect key="frame" x="128" y="137" width="464" height="17"/>
+                                                    <rect key="frame" x="93" y="137" width="499" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -7000,6 +7000,7 @@ Keuntungan</string>
                                                 <constraint firstItem="UD6-8q-KMs" firstAttribute="centerY" secondItem="Wk0-I4-cjN" secondAttribute="centerY" id="NgL-PB-X3E"/>
                                                 <constraint firstItem="Pdo-pU-gpc" firstAttribute="top" secondItem="AQX-IN-uxF" secondAttribute="bottom" constant="8" id="O5Q-Xq-QyF"/>
                                                 <constraint firstItem="Ofg-1O-GKo" firstAttribute="top" secondItem="1td-y9-Zdz" secondAttribute="bottom" constant="4" id="Qr1-Rr-uMf"/>
+                                                <constraint firstItem="LhF-J7-vAi" firstAttribute="leading" secondItem="2ge-bC-M8v" secondAttribute="leading" id="SyD-ya-fPo"/>
                                                 <constraint firstItem="lQc-vW-jXb" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="U05-pw-anX"/>
                                                 <constraint firstItem="AQX-IN-uxF" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="U7g-Lv-q45"/>
                                                 <constraint firstItem="bac-Ob-WFb" firstAttribute="top" secondItem="LhF-J7-vAi" secondAttribute="top" id="UFP-fM-FGf"/>
@@ -7037,6 +7038,7 @@ Keuntungan</string>
                                                     <exclude reference="vGz-vK-4si"/>
                                                     <exclude reference="O5Q-Xq-QyF"/>
                                                     <exclude reference="3Ec-ux-shP"/>
+                                                    <exclude reference="MCp-A9-cYD"/>
                                                     <exclude reference="AdI-87-ZBV"/>
                                                     <exclude reference="Ivh-Ke-fXc"/>
                                                     <exclude reference="erf-Lx-3Ra"/>
@@ -7849,7 +7851,7 @@ dalam keranjang belanja</string>
                                                 <action selector="confirm" destination="0qH-Ls-LM7" eventType="touchUpInside" id="StO-YG-Pg0"/>
                                             </connections>
                                         </button>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kkN-x6-JO0">
+                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kkN-x6-JO0">
                                             <rect key="frame" x="8" y="306" width="566" height="1"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -8459,7 +8461,7 @@ dalam keranjang belanja</string>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4O-fr-dGP">
-                                            <rect key="frame" x="8" y="208" width="584" height="204"/>
+                                            <rect key="frame" x="8" y="200" width="584" height="204"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="204" id="JgT-2q-a0a"/>
@@ -8469,7 +8471,7 @@ dalam keranjang belanja</string>
                                             </connections>
                                         </containerView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFq-6H-ixY">
-                                            <rect key="frame" x="8" y="161" width="265" height="39"/>
+                                            <rect key="frame" x="8" y="153" width="265" height="39"/>
                                             <animations/>
                                             <string key="text">Lakukan Pembayaran dalam 24 Jam
 ke salah satu rekening</string>
@@ -8484,14 +8486,14 @@ ke salah satu rekening</string>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ringkasan Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="868-L5-fbo">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="RINGKASAN PRODUK" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="868-L5-fbo">
                                             <rect key="frame" x="8" y="8" width="161" height="24"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Form Konfirmasi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrS-vo-aZa">
-                                            <rect key="frame" x="8" y="420" width="146" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FORM KONFIRMASI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrS-vo-aZa">
+                                            <rect key="frame" x="8" y="420" width="183" height="24"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -8504,28 +8506,28 @@ ke salah satu rekening</string>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eiT-yQ-snT">
-                                            <rect key="frame" x="116" y="132" width="476" height="20"/>
+                                            <rect key="frame" x="116" y="124" width="476" height="20"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4Q-mF-4U2">
-                                            <rect key="frame" x="8" y="132" width="35" height="20"/>
+                                            <rect key="frame" x="8" y="124" width="35" height="20"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r48-PT-8Ts">
-                                            <rect key="frame" x="8" y="76" width="52" height="20"/>
+                                            <rect key="frame" x="8" y="72" width="52" height="20"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y8H-Ng-uG1">
-                                            <rect key="frame" x="116" y="76" width="44" height="44"/>
+                                            <rect key="frame" x="116" y="72" width="44" height="44"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="QVm-jc-0oD"/>
@@ -8533,31 +8535,40 @@ ke salah satu rekening</string>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d1n-bt-wrd">
-                                            <rect key="frame" x="161" y="76" width="44" height="44"/>
+                                            <rect key="frame" x="161" y="72" width="44" height="44"/>
                                             <animations/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qfv-4p-jj0">
-                                            <rect key="frame" x="206" y="76" width="44" height="44"/>
+                                            <rect key="frame" x="206" y="72" width="44" height="44"/>
                                             <animations/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVA-FB-IKL">
-                                            <rect key="frame" x="252" y="76" width="44" height="44"/>
+                                            <rect key="frame" x="252" y="72" width="44" height="44"/>
                                             <animations/>
                                             <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RGv-V2-K74">
+                                            <rect key="frame" x="8" y="412" width="584" height="1"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="0AV-09-v0o"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="D4O-fr-dGP" secondAttribute="bottom" constant="40" id="1rl-v3-T73"/>
+                                        <constraint firstAttribute="bottom" secondItem="D4O-fr-dGP" secondAttribute="bottom" constant="48" id="1rl-v3-T73"/>
                                         <constraint firstAttribute="trailing" secondItem="D4O-fr-dGP" secondAttribute="trailing" constant="8" id="33s-ZT-2Kp"/>
+                                        <constraint firstItem="RGv-V2-K74" firstAttribute="top" secondItem="D4O-fr-dGP" secondAttribute="bottom" constant="8" id="4Se-5u-h1H"/>
                                         <constraint firstItem="Y8H-Ng-uG1" firstAttribute="top" secondItem="d1n-bt-wrd" secondAttribute="top" id="8Ey-EA-yTa"/>
-                                        <constraint firstItem="U4Q-mF-4U2" firstAttribute="top" secondItem="Y8H-Ng-uG1" secondAttribute="bottom" constant="12" id="8bh-Xu-sg7"/>
-                                        <constraint firstItem="r48-PT-8Ts" firstAttribute="top" secondItem="Byr-4Z-F8i" secondAttribute="bottom" constant="12" id="ARx-MM-qaj"/>
+                                        <constraint firstItem="U4Q-mF-4U2" firstAttribute="top" secondItem="Y8H-Ng-uG1" secondAttribute="bottom" constant="8" id="8bh-Xu-sg7"/>
+                                        <constraint firstItem="r48-PT-8Ts" firstAttribute="top" secondItem="Byr-4Z-F8i" secondAttribute="bottom" constant="8" id="ARx-MM-qaj"/>
                                         <constraint firstItem="eiT-yQ-snT" firstAttribute="top" secondItem="t6W-jP-zBl" secondAttribute="bottom" constant="8" id="EQp-QD-Xf9"/>
+                                        <constraint firstItem="RGv-V2-K74" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="F0S-8T-nbZ"/>
                                         <constraint firstItem="d1n-bt-wrd" firstAttribute="height" secondItem="qfv-4p-jj0" secondAttribute="height" id="IMf-nE-rXl"/>
                                         <constraint firstItem="t6W-jP-zBl" firstAttribute="leading" secondItem="Byr-4Z-F8i" secondAttribute="trailing" constant="46" id="KPQ-ak-EB7"/>
                                         <constraint firstItem="d1n-bt-wrd" firstAttribute="top" secondItem="qfv-4p-jj0" secondAttribute="top" id="KnL-Oj-JND"/>
@@ -8578,6 +8589,7 @@ ke salah satu rekening</string>
                                         <constraint firstItem="QVA-FB-IKL" firstAttribute="height" secondItem="qfv-4p-jj0" secondAttribute="height" id="ZNA-xt-xPi"/>
                                         <constraint firstItem="Y8H-Ng-uG1" firstAttribute="height" secondItem="d1n-bt-wrd" secondAttribute="height" id="a0Y-mi-UJS"/>
                                         <constraint firstItem="QVA-FB-IKL" firstAttribute="width" secondItem="qfv-4p-jj0" secondAttribute="width" id="a8A-z4-Dp0"/>
+                                        <constraint firstAttribute="trailing" secondItem="RGv-V2-K74" secondAttribute="trailing" constant="8" id="buS-HV-LkL"/>
                                         <constraint firstItem="U4Q-mF-4U2" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="eze-Oo-5Pj"/>
                                         <constraint firstItem="D4O-fr-dGP" firstAttribute="top" secondItem="FFq-6H-ixY" secondAttribute="bottom" constant="8" id="feG-4T-TaI"/>
                                         <constraint firstItem="FFq-6H-ixY" firstAttribute="top" secondItem="gZy-qr-Cea" secondAttribute="top" constant="8" id="iCa-Q9-jKt"/>
@@ -8588,7 +8600,7 @@ ke salah satu rekening</string>
                                         <constraint firstItem="qfv-4p-jj0" firstAttribute="leading" secondItem="d1n-bt-wrd" secondAttribute="trailing" constant="1" id="njw-ug-DtU"/>
                                         <constraint firstItem="QVA-FB-IKL" firstAttribute="top" secondItem="qfv-4p-jj0" secondAttribute="top" id="nua-Yk-cKE"/>
                                         <constraint firstItem="r48-PT-8Ts" firstAttribute="top" secondItem="Y8H-Ng-uG1" secondAttribute="top" id="r5d-Lg-Ffn"/>
-                                        <constraint firstItem="VrS-vo-aZa" firstAttribute="top" secondItem="D4O-fr-dGP" secondAttribute="bottom" constant="8" id="rBq-WZ-hmt"/>
+                                        <constraint firstItem="VrS-vo-aZa" firstAttribute="top" secondItem="D4O-fr-dGP" secondAttribute="bottom" constant="16" id="rBq-WZ-hmt"/>
                                         <constraint firstItem="D4O-fr-dGP" firstAttribute="leading" secondItem="gZy-qr-Cea" secondAttribute="leading" constant="8" id="rHR-w3-kl7"/>
                                         <constraint firstAttribute="trailing" secondItem="t6W-jP-zBl" secondAttribute="trailing" constant="8" id="suV-Qe-TB7"/>
                                         <constraint firstItem="d1n-bt-wrd" firstAttribute="width" secondItem="qfv-4p-jj0" secondAttribute="width" id="tWd-R0-CYS"/>
@@ -10228,20 +10240,20 @@ ke salah satu rekening</string>
                                                         <rect key="frame" x="8" y="38" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Masukan Harga" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4BX-dw-HO3">
-                                                                <rect key="frame" x="84" y="7" width="500" height="30"/>
+                                                                <rect key="frame" x="134" y="7" width="450" height="30"/>
                                                                 <animations/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="qPr-Rc-cK6"/>
                                                                 </constraints>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                                                                 <connections>
                                                                     <outlet property="delegate" destination="Zly-Bf-dDp" id="eQM-hr-hUC"/>
                                                                 </connections>
                                                             </textField>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Beli" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAI-mX-Fa5">
-                                                                <rect key="frame" x="0.0" y="12" width="76" height="20"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Ketika Beli" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAI-mX-Fa5">
+                                                                <rect key="frame" x="0.0" y="12" width="126" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10329,7 +10341,7 @@ ke salah satu rekening</string>
                                                                 </constraints>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                                                                 <connections>
                                                                     <outlet property="delegate" destination="Zly-Bf-dDp" id="B28-9C-2Od"/>
                                                                 </connections>
@@ -10899,7 +10911,7 @@ Label / Merek</string>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_call.png" translatesAutoresizingMaskIntoConstraints="NO" id="IW7-Lm-vGM" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="1p4-Yz-gvq"/>
                                                     <constraint firstAttribute="height" constant="55" id="tSe-ew-fE8"/>
@@ -10969,7 +10981,7 @@ Label / Merek</string>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_sms.png" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-7h-MfR" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="4vy-eI-gK6"/>
                                                     <constraint firstAttribute="height" constant="55" id="dpn-P8-Ryv"/>
@@ -11032,7 +11044,7 @@ Label / Merek</string>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_email.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ogk-DO-qeW" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="NRR-bn-FxD"/>
                                                     <constraint firstAttribute="height" constant="55" id="y1I-0N-ucf"/>
@@ -11093,7 +11105,7 @@ Label / Merek</string>
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="55" id="39s-ON-0Y7"/>
                                                     <constraint firstAttribute="height" constant="55" id="mik-kt-E8v"/>
@@ -11156,7 +11168,7 @@ Label / Merek</string>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_wasap.png" translatesAutoresizingMaskIntoConstraints="NO" id="nMB-zI-eUN" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="6Hu-Lb-Rxg"/>
                                                     <constraint firstAttribute="width" constant="55" id="PMl-HH-WPh"/>
@@ -11216,7 +11228,7 @@ Label / Merek</string>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cu_bbm.png" translatesAutoresizingMaskIntoConstraints="NO" id="pI1-eM-AI1" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="30" y="17" width="55" height="55"/>
                                                 <animations/>
-                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="3DU-5H-1Hc"/>
                                                     <constraint firstAttribute="width" constant="55" id="UhI-2d-v9J"/>

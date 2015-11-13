@@ -57,7 +57,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         if (MFMessageComposeViewController.canSendText())
         {
             let composer = MFMessageComposeViewController()
-            composer.recipients = ["089629248881"]
+            composer.recipients = ["08112353131"]
             composer.messageComposeDelegate = self
             self.presentViewController(composer, animated: true, completion: nil)
         }
@@ -77,19 +77,22 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     
     @IBAction func line(sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : kleora_ops")
+        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
+        putToPasteBoard("prelo_id")
         self.batal(nil)
     }
 
     @IBAction func wasap(sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Whatsapp\nNumber : +6289629248881")
+        UIAlertView.SimpleShow("Whatsapp", message: "Find us on Whatsapp\nNumber : 08112353131\n\nInformasi kontak sudah disalin ke clipboard")
+        putToPasteBoard("08112353131")
         self.batal(nil)
     }
     
     @IBAction func bbm(sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Whatsapp\nPIN : 51ac2b2e")
+        UIAlertView.SimpleShow("BBM", message: "Find us on Whatsapp\nPIN : 51ac2b2e\n\nInformasi kontak sudah disalin ke clipboard")
+        putToPasteBoard("51ac2b2e")
         self.batal(nil)
     }
     
