@@ -37,10 +37,13 @@ class PhoneVerificationViewController : BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
+        // Set title
+        self.title = "Verifikasi Handphone"
+        
         // Tombol back
         self.navigationItem.hidesBackButton = true
         if (isShowBackBtn) {
-            let newBackButton = UIBarButtonItem(title: " Verifikasi Handphone", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
             self.navigationItem.leftBarButtonItem = newBackButton
         }
@@ -63,7 +66,7 @@ class PhoneVerificationViewController : BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Setup Account Verify Phone")
+        Mixpanel.trackPageVisit("Verify Phone")
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {
@@ -192,21 +195,16 @@ class PhoneVerificationViewController : BaseViewController {
             User.SetToken(self.userToken)
         }
         
-        request(APIUser.ResendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {req, _, res, err in
+        request(APIUser.ResendVerificationSms(phone: self.fldNoHp.text!)).responseJSON { req, resp, res, err in
             if (!self.isReverification) {
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)
             }
             
-            println("Resend verification sms req = \(req)")
-            if (err != nil) {
-                Constant.showDialog("Warning", message: "Resend sms error")//: \(err?.description)")
-            } else {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
-                if (data == nil || data == false) { // Gagal
-                    Constant.showDialog("Warning", message: "Resend sms error")
-                } else { // Berhasil
+                if (data != nil || data == true) {
                     println("data = \(data)")
                     Constant.showDialog("Success", message: "Sms telah dikirim ulang")
                 }

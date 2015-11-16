@@ -173,6 +173,13 @@ extension Mixpanel
         ]
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
     }
+    
+    static func trackPageVisit(pageName : String, otherParam : [String : String])
+    {
+        var p = otherParam
+        p["Page"] = pageName
+        Mixpanel.sharedInstance().track("Page Visited", properties: p)
+    }
 }
 
 extension NSUserDefaults

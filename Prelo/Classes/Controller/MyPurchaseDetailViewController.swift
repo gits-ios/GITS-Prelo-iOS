@@ -25,8 +25,29 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     // 7 : Group Review Seller
     // 8 : Group Content Review
     // 9 : Group Ada Masalah
-    @IBOutlet var groups: [UIView]!
-    @IBOutlet var consTopGroups: [NSLayoutConstraint]!
+    var groups: [UIView] = []
+    @IBOutlet weak var groupProductDetail: UIView!
+    @IBOutlet weak var groupDescription: UIView!
+    @IBOutlet weak var groupTitlePembayaran: UIView!
+    @IBOutlet weak var groupKonfPembayaran: UIView!
+    @IBOutlet weak var groupDetailPembayaran: UIView!
+    @IBOutlet weak var groupPengiriman: UIView!
+    @IBOutlet weak var groupTitleReview: UIView!
+    @IBOutlet weak var groupReviewSeller: UIView!
+    @IBOutlet weak var groupContentReview: UIView!
+    @IBOutlet weak var groupAdaMasalah: UIView!
+    
+    var consTopGroups: [NSLayoutConstraint] = []
+    @IBOutlet weak var consTopProductDetail: NSLayoutConstraint!
+    @IBOutlet weak var consTopDescription: NSLayoutConstraint!
+    @IBOutlet weak var consTopTitlePembayaran: NSLayoutConstraint!
+    @IBOutlet weak var consTopKonfPembayaran: NSLayoutConstraint!
+    @IBOutlet weak var consTopDetailPembayaran: NSLayoutConstraint!
+    @IBOutlet weak var consTopPengiriman: NSLayoutConstraint!
+    @IBOutlet weak var consTopTitleReview: NSLayoutConstraint!
+    @IBOutlet weak var consTopReviewSeller: NSLayoutConstraint!
+    @IBOutlet weak var consTopContentReview: NSLayoutConstraint!
+    @IBOutlet weak var consTopAdaMasalah: NSLayoutConstraint!
     
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
@@ -113,8 +134,6 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Transaction Detail")
-        
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
         vwShadow.hidden = true
         vwReviewSeller.hidden = true
@@ -169,6 +188,36 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     func setupContent() {
+        // Mixpanel
+        let param = [
+            "Product" : ((self.transactionDetail != nil) ? self.transactionDetail!.productName : ""),
+            "Product ID" : ((self.transactionDetail != nil) ? self.transactionDetail!.productId : ""),
+            "Seller" : ((self.transactionDetail != nil) ? self.transactionDetail!.sellerName : "")
+        ]
+        Mixpanel.trackPageVisit("Transaction Detail", otherParam: param)
+        
+        // Set groups and top constraints manually
+        groups.append(self.groupProductDetail)
+        groups.append(self.groupDescription)
+        groups.append(self.groupTitlePembayaran)
+        groups.append(self.groupKonfPembayaran)
+        groups.append(self.groupDetailPembayaran)
+        groups.append(self.groupPengiriman)
+        groups.append(self.groupTitleReview)
+        groups.append(self.groupReviewSeller)
+        groups.append(self.groupContentReview)
+        groups.append(self.groupAdaMasalah)
+        
+        consTopGroups.append(self.consTopProductDetail)
+        consTopGroups.append(self.consTopDescription)
+        consTopGroups.append(self.consTopTitlePembayaran)
+        consTopGroups.append(self.consTopKonfPembayaran)
+        consTopGroups.append(self.consTopDetailPembayaran)
+        consTopGroups.append(self.consTopPengiriman)
+        consTopGroups.append(self.consTopTitleReview)
+        consTopGroups.append(self.consTopReviewSeller)
+        consTopGroups.append(self.consTopContentReview)
+        consTopGroups.append(self.consTopAdaMasalah)
         
         // Arrange groups
         let orderStatusText = transactionDetail?.progressText
@@ -194,9 +243,12 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }
         arrangeGroups(p)
         
+        // Set title
+        self.title = (transactionDetail!.productName)
+        
         // Set back button
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " \(transactionDetail!.productName)", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         

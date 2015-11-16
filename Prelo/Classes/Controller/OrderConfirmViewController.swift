@@ -84,7 +84,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Payment Confirmation")
+        let p = [
+            "ID" : self.orderID,
+            "Items" : "\(self.images.count)",
+            "Price" : "\(self.total)"
+        ]
+        Mixpanel.trackPageVisit("Payment Confirmation", otherParam: p)
     }
     
     override func viewDidAppear(animated: Bool) {

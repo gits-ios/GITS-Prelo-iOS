@@ -33,7 +33,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("My Product In Progress")
+        Mixpanel.trackPageVisit("My Products", otherParam: ["Tab" : "In Progress"])
         
         if (userProducts?.count == 0 || userProducts == nil) {
             if (userProducts == nil) {

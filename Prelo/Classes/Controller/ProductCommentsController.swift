@@ -56,6 +56,16 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        let p = [
+            "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
+            "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
+            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 0) ? (pDetail!.categoryBreadcrumbs[0]["name"].string!) : ""),
+            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+        ]
+        Mixpanel.trackPageVisit("Product Detail Comment", otherParam: p)
+        
         self.an_subscribeKeyboardWithAnimations({i, f, o in
             
             if (o)

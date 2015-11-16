@@ -34,8 +34,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     var productImg : String!
     var productName : String!
+    var permalink : String!
     var linkToShare = AppTools.PreloBaseUrl
-    var textToShare = ""
+    var textToShare1 = ""
+    var textToShare2 = ""
     
     var mgInstagram : MGInstagram?
     
@@ -74,11 +76,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
                 if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+                    UIPasteboard.generalPasteboard().string = self.textToShare1
+                    Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                     mgInstagram = MGInstagram()
                     let imgUrl = NSURL(string: self.productImg)
                     var imgData = NSData(contentsOfURL: imgUrl!)
                     var img = UIImage(data: imgData!)
-                    mgInstagram?.postImage(img, withCaption: self.textToShare, inView: self.view, delegate: self)
+                    mgInstagram?.postImage(img, withCaption: self.textToShare1, inView: self.view, delegate: self)
                     self.updateButtons(sender)
                 } else {
                     Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
@@ -92,7 +96,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     var imgData = NSData(contentsOfURL: imgUrl!)
                     var img = UIImage(data: imgData!)
                     composer.addImage(img)
-                    composer.setInitialText(self.textToShare)
+                    composer.setInitialText("Temukan barang bekas berkualitas-ku, download aplikasinya sekarang juga di http://prelo.co.id #PreloID")
                     composer.completionHandler = { result -> Void in
                         var getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
@@ -119,7 +123,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     var imgData = NSData(contentsOfURL: imgUrl!)
                     var img = UIImage(data: imgData!)
                     composer.addImage(img)
-                    composer.setInitialText(self.textToShare)
+                    composer.setInitialText(self.textToShare2)
                     composer.completionHandler = { result -> Void in
                         var getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
@@ -324,7 +328,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             self.navigationController?.viewControllers = m!
         }
         
-        self.textToShare = "Download aplikasi Prelo untuk mendapatkan barang bekas berkualitas ini: \(self.productName)"
+        self.linkToShare = "\(AppTools.PreloBaseUrl)/p/\(self.permalink)"
+        self.textToShare1 = "Temukan barang bekas berkualitas-ku, \(self.productName) di Prelo hanya dengan harga \(self.basePrice.asPrice). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+        self.textToShare2 = "Dapatkan barang bekas berkualitas-ku, \(self.productName) seharga \(self.basePrice.asPrice) #PreloID"
     }
     
     func adaptCharge()

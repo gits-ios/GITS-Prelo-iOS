@@ -24,24 +24,40 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     // 6 : Group Shipping Options
     // 7 : Group Referal
     // 8 : Group Apply
-    @IBOutlet var groups: [UIView]!
-    @IBOutlet var consTopGroups: [NSLayoutConstraint]!
+    @IBOutlet weak var groupUploadFoto: UIView!
+    @IBOutlet weak var groupFullname: UIView!
+    @IBOutlet weak var groupJenisKelamin: UIView!
+    @IBOutlet weak var groupNoHp: UIView!
+    @IBOutlet weak var groupVerifikasiHp: UIView!
+    @IBOutlet weak var groupKota: UIView!
+    @IBOutlet weak var groupShippingOptions: UIView!
+    @IBOutlet weak var groupReferral: UIView!
+    @IBOutlet weak var groupApply: UIView!
+    var groups: [UIView] = []
+    
+    @IBOutlet weak var consTopUploadFoto: NSLayoutConstraint!
+    @IBOutlet weak var consTopFullname: NSLayoutConstraint!
+    @IBOutlet weak var consTopJenisKelamin: NSLayoutConstraint!
+    @IBOutlet weak var consTopNoHp: NSLayoutConstraint!
+    @IBOutlet weak var consTopVerifikasiHp: NSLayoutConstraint!
+    @IBOutlet weak var consTopKota: NSLayoutConstraint!
+    @IBOutlet weak var consTopShippingOptions: NSLayoutConstraint!
+    @IBOutlet weak var consTopReferral: NSLayoutConstraint!
+    @IBOutlet weak var consTopApply: NSLayoutConstraint!
+    var consTopGroups: [NSLayoutConstraint] = []
     
     @IBOutlet weak var btnUserImage: UIButton!
     
     @IBOutlet weak var lblFullname: UILabel!
     @IBOutlet weak var fieldFullname: UITextField!
     
-    @IBOutlet weak var consTopGroupJenKel: NSLayoutConstraint!
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
     @IBOutlet weak var fieldNoHP: UITextField!
     
-    @IBOutlet weak var consTopGroupVerifikasiHP: NSLayoutConstraint!
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
     
-    @IBOutlet weak var consTopGroupKota: NSLayoutConstraint!
     @IBOutlet weak var lblProvinsi: UILabel!
     @IBOutlet weak var lblKabKota: UILabel!
     
@@ -85,6 +101,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Setup Akun"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -113,9 +131,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.navigationItem.leftBarButtonItem = newBackButton*/
         
         // Tombol apply
-        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
+        /*let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
         applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = applyButton
+        self.navigationItem.rightBarButtonItem = applyButton*/
     }
     
     func backPressed(sender: UIBarButtonItem) {
@@ -128,6 +146,25 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func setupContent() {
+        // Set groups and top constraints manually
+        groups.append(self.groupUploadFoto)
+        groups.append(self.groupFullname)
+        groups.append(self.groupJenisKelamin)
+        groups.append(self.groupNoHp)
+        groups.append(self.groupVerifikasiHp)
+        groups.append(self.groupKota)
+        groups.append(self.groupShippingOptions)
+        groups.append(self.groupReferral)
+        groups.append(self.groupApply)
+        consTopGroups.append(self.consTopUploadFoto)
+        consTopGroups.append(self.consTopFullname)
+        consTopGroups.append(self.consTopJenisKelamin)
+        consTopGroups.append(self.consTopNoHp)
+        consTopGroups.append(self.consTopVerifikasiHp)
+        consTopGroups.append(self.consTopKota)
+        consTopGroups.append(self.consTopShippingOptions)
+        consTopGroups.append(self.consTopReferral)
+        consTopGroups.append(self.consTopApply)
         
         // Arrange groups
         var p : [Bool]!
@@ -193,12 +230,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     func pickerDidSelect(item: String) {
         if (isPickingJenKel) {
             lblJenisKelamin?.text = PickerViewController.HideHiddenString(item)
+            lblJenisKelamin.textColor = Theme.GrayDark
             isPickingJenKel = false
         } else if (isPickingProvinsi) {
             lblProvinsi?.text = PickerViewController.HideHiddenString(item)
+            lblProvinsi.textColor = Theme.GrayDark
             isPickingProvinsi = false
         } else if (isPickingKabKota) {
             lblKabKota?.text = PickerViewController.HideHiddenString(item)
+            lblKabKota.textColor = Theme.GrayDark
             isPickingKabKota = false
         }
     }

@@ -22,6 +22,8 @@ class PhoneReverificationViewController : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Nomor Handphone"
+        
         setNavBarButtons()
     }
     
@@ -49,7 +51,7 @@ class PhoneReverificationViewController : BaseViewController {
     func setNavBarButtons() {
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: " Nomor Handphone", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
     }

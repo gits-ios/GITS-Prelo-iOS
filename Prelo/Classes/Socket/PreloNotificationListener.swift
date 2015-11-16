@@ -47,8 +47,11 @@ class PreloNotificationListener : PreloSocketDelegate
                 println("Socket is connected")
                 
                 // Register
-                var userId = User.Id!
-                self.socket.emit("register", userId)
+                // Harusnya ini cuma dipanggil kalo user logged in, tapi sering crash gara2 kepanggil waktu logged out, jadi kasih if aja
+                if (User.IsLoggedIn) {
+                    var userId = User.Id!
+                    self.socket.emit("register", userId)
+                }
             }
             
             // Listening for notification

@@ -223,6 +223,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        if (self.editMode) {
+            Mixpanel.trackPageVisit("Edit Product")
+        } else {
+            Mixpanel.trackPageVisit("Add Product")
+        }
+        
         self.an_subscribeKeyboardWithAnimations({ f, t, o in
             
             if (o)
@@ -254,12 +260,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //            notPicked = false
 //            self.pickImage(0, forceBackOnCancel: true, directToCamera : true)
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        Mixpanel.trackPageVisit("Add Product")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -961,6 +961,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             if let name = json["_data"]["name"].string {
                 s.productName = name
+            }
+            if let permalink = json["_data"]["permalink"].string {
+                s.permalink = permalink
             }
             s.productID = (json["_data"]["_id"].string)!
             NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)

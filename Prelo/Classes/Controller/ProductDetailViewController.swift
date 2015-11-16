@@ -59,8 +59,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     override func viewWillAppear(animated: Bool) {
-        Mixpanel.trackPageVisit("Product Detail")
-        
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
             getDetail()
@@ -89,6 +87,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (UIApplication.sharedApplication().statusBarHidden)
         {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        }
+        
+        let p = [
+            "Product" : ((product != nil) ? (product!.name) : ""),
+            "Product ID" : ((product != nil) ? (product!.id) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 0) ? (detail!.categoryBreadcrumbs[0]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Seller" : ((detail != nil) ? (detail!.theirName) : "")
+        ]
+        if (detail != nil && detail!.isMyProduct == true) {
+            Mixpanel.trackPageVisit("Product Detail Mine", otherParam: p)
+        } else {
+            Mixpanel.trackPageVisit("Product Detail", otherParam: p)
         }
     }
     
@@ -433,6 +445,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     var parent : UIViewController?
     
+    var product : Product?
     var detail : ProductDetail?
     
     static func heightFor(obj : ProductDetail?)->CGFloat
@@ -681,8 +694,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         let s = detail?.displayPicturers.first
         item.url = NSURL(string: s!)
         item.text = (detail?.name)!
+        item.permalink  = (detail?.permalink)
+        item.price = (detail?.price)
         
-        PreloShareController.Share(item, inView: (parent?.navigationController?.view)!)
+        PreloShareController.Share(item, inView: (parent?.navigationController?.view)!, detail : self.detail)
     }
 }
 
