@@ -298,8 +298,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         centerCategoryView(currentTabIndex)
         adjustIndicator(currentTabIndex)
         
-        println("lastContentOffset = \(lastContentOffset)")
-        println("scrollView.contentOffset = \(scrollView.contentOffset)")
+        //println("lastContentOffset = \(lastContentOffset)")
+        //println("scrollView.contentOffset = \(scrollView.contentOffset)")
         if (lastContentOffset.x != scrollView.contentOffset.x) {
             isPageTracked = false
         }
