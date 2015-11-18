@@ -368,6 +368,23 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func fieldsVerified() -> Bool {
+        if (isSocmedAccount == true) { // fieldFullname menjadi fieldUsername
+            if (fieldFullname.text == "") {
+                Constant.showDialog("Warning", message: "Username harus diisi")
+                return false
+            } else {
+                let usernameRegex = "^[a-zA-Z0-9_]{4,15}$"
+                if (fieldFullname.text.match(usernameRegex) == false) {
+                    Constant.showDialog("Warning", message: "Username harus sepanjang 4-15 karakter (a-z, A-Z, 0-9, _)")
+                    return false
+                }
+            }
+        } else {
+            if (fieldFullname.text == "") {
+                Constant.showDialog("Warning", message: "Fullname harus diisi")
+                return false
+            }
+        }
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Nomor HP harus diisi")
             return false

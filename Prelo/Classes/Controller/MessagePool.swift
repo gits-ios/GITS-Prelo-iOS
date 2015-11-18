@@ -94,7 +94,9 @@ class MessagePool: NSObject
     
     func register()
     {
-        socket.emit("register", (CDUser.getOne()?.id)!)
+        if (User.IsLoggedIn) {
+            socket.emit("register", (CDUser.getOne()?.id)!)
+        }
     }
     
     func stop()

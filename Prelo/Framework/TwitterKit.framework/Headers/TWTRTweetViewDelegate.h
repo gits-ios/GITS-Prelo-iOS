@@ -82,18 +82,18 @@ typedef void (^TWTRAuthenticationCompletionHandler)(id<TWTRSessionStore> session
  *  the Twitter API.
  *
  *  @param tweetView The Tweet view showing this Tweet object.
- *  @param tweet     The Tweet model that was just favorited.
+ *  @param tweet     The Tweet model that was just liked.
  */
-- (void)tweetView:(TWTRTweetView *)tweetView didFavoriteTweet:(TWTRTweet *)tweet;
+- (void)tweetView:(TWTRTweetView *)tweetView didLikeTweet:(TWTRTweet *)tweet;
 
 /**
- *  The Tweet view unfavorite button was tapped and the action was completed with 
+ *  The Tweet view unfavorite button was tapped and the action was completed with
  *  the Twitter API.
  *
  *  @param tweetView The Tweet view showing this Tweet object.
- *  @param tweet     The Tweet model object that was just unfavorited.
+ *  @param tweet     The Tweet model object that was just unliked.
  */
-- (void)tweetView:(TWTRTweetView *)tweetView didUnfavoriteTweet:(TWTRTweet *)tweet;
+- (void)tweetView:(TWTRTweetView *)tweetView didUnlikeTweet:(TWTRTweet *)tweet;
 
 /**
  *  Requests authentication from the delegate to use for a network request that requires user context.
@@ -103,6 +103,26 @@ typedef void (^TWTRAuthenticationCompletionHandler)(id<TWTRSessionStore> session
  *                                          user context e.g. user session.
  */
 - (void)tweetView:(TWTRTweetView *)tweetView willRequireAuthenticationCompletionHandler:(TWTRAuthenticationCompletionHandler)authenticationCompletionHandler;
+
+#pragma mark - Deprecated
+
+/**
+ *  The Tweet view favorite button was tapped and the action was completed with
+ *  the Twitter API.
+ *
+ *  @param tweetView The Tweet view showing this Tweet object.
+ *  @param tweet     The Tweet model that was just favorited.
+ */
+- (void)tweetView:(TWTRTweetView *)tweetView didFavoriteTweet:(TWTRTweet *)tweet __attribute__((deprecated("Use `tweetView:didLikeTweet:`.")));
+
+/**
+ *  The Tweet view unfavorite button was tapped and the action was completed with
+ *  the Twitter API.
+ *
+ *  @param tweetView The Tweet view showing this Tweet object.
+ *  @param tweet     The Tweet model object that was just unfavorited.
+ */
+- (void)tweetView:(TWTRTweetView *)tweetView didUnfavoriteTweet:(TWTRTweet *)tweet __attribute__((deprecated("Use `tweetView:didUnlikeTweet:`.")));
 
 @end
 

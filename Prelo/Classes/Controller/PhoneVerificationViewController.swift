@@ -13,7 +13,7 @@ protocol PhoneVerificationDelegate {
     func phoneVerified(newPhone : String)
 }
 
-class PhoneVerificationViewController : BaseViewController {
+class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var lblNoHp: UILabel!
@@ -62,6 +62,8 @@ class PhoneVerificationViewController : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.fldNoHp.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -210,5 +212,10 @@ class PhoneVerificationViewController : BaseViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - UITextField Delegate
+    func textFieldDidEndEditing(textField: UITextField) {
+        Constant.showDialog("Warning", message: "Tekan 'Kirim Ulang' untuk mengirim sms ke nomor yang baru")
     }
 }

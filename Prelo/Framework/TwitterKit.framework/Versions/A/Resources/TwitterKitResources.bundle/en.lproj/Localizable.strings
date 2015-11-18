@@ -71,12 +71,12 @@
 "tw__card_compose_close_button" = "Close";
 /* Text spoken out as VoiceOver hint for the close button in the card composer top bar */
 "tw__card_compose_close_hint" = "Double-tap to dismiss the composer.";
-/* VoiceOver label for Favorite button */
-"tw__tweet_favorite_button" = "Favorite";
-/* VoiceOver value for Favorite button on Tweet that has been favorited */
-"tw__tweet_favorited_state" = "Favorited";
-/* VoiceOver value for Favorite button on Tweet that has not yet been favorited */
-"tw__tweet_not_favorited_state" = "Not Favorited";
+/* VoiceOver label for Like button */
+"tw__tweet_like_button" = "Like";
+/* VoiceOver value for Like button on Tweet that has been liked */
+"tw__tweet_liked_state" = "Liked";
+/* VoiceOver value for Like button on Tweet that has not yet been liked */
+"tw__tweet_not_liked_state" = "Not Liked";
 
 /* Test String (just for unit tests) */
 "tw__test_string" = "Test";
