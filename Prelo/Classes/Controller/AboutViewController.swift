@@ -13,7 +13,7 @@ class AboutViewController: BaseViewController {
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
     @IBOutlet var btnClear2 : BorderedButton!
-    
+    @IBOutlet weak var lblVersion: UILabel!
     
     var isShowLogout : Bool = true
     
@@ -27,7 +27,12 @@ class AboutViewController: BaseViewController {
         }
         
         self.title = "About"
-        // Do any additional setup after loading the view.
+        
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            self.lblVersion.text = "Version " + version
+        } else {
+            self.lblVersion.text = "-"
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -39,6 +44,10 @@ class AboutViewController: BaseViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func openPreloSite(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
     }
     
     @IBAction func clearCache()
