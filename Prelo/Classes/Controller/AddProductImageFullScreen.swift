@@ -26,6 +26,8 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
     var index = 0
     var apImage : APImage!
     
+    var imgEditor : AdobeUXImageEditorViewController?
+    
     var disableDelete = false
     
     var fullScreenDelegate : AddProductImageFullScreenDelegate?
@@ -92,9 +94,13 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
     {
         AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
         AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
-        let u = AdobeUXImageEditorViewController(image: apImage.image)
-        u.delegate = self
-        self.presentViewController(u, animated: true, completion: nil)
+//        let u = AdobeUXImageEditorViewController(image: apImage.image)
+//        u.delegate = self
+//        self.presentViewController(u, animated: true, completion: nil)
+        
+        imgEditor = AdobeUXImageEditorViewController(image: apImage.image)
+        imgEditor!.delegate = self
+        self.presentViewController(imgEditor!, animated: true, completion: nil)
     }
     
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
@@ -102,9 +108,21 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
     }
     
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
-        apImage.image = image
-        imageView.image = image
-        editor.dismissViewControllerAnimated(true, completion: nil)
+//        apImage.image = image
+//        imageView.image = image
+//        editor.dismissViewControllerAnimated(true, completion: nil)
+        
+        let render = imgEditor?.enqueueHighResolutionRenderWithImage(image, maximumSize: CGSizeMake(1600, 1600), completion: { result, error in
+            if (result != nil) {
+                self.apImage.image = result
+                self.imageView.image = result
+            } else {
+                println("Error highres render: \(error)")
+                self.apImage.image = image
+                self.imageView.image = image
+            }
+            editor.dismissViewControllerAnimated(true, completion: nil)
+        })
     }
     
 
