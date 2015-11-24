@@ -99,11 +99,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         imgCover?.image = nil
         let uProf = CDUserProfile.getOne()
-        let url = NSURL(string: uProf!.pict)
-        if (url != nil) {
-            imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
-            imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
-            imgCover?.layer.masksToBounds = true
+        if (uProf != nil) {
+            let url = NSURL(string: uProf!.pict)
+            if (url != nil) {
+                imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
+                imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
+                imgCover?.layer.masksToBounds = true
+            }
         }
     }
 

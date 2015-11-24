@@ -1297,6 +1297,61 @@ class TransactionDetail : NSObject {
     }
 }
 
+class UserReview : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> UserReview? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = UserReview()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if (json["_id"] != nil) {
+            return json["_id"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerFullname : String {
+        if (json["buyer_fullname"] != nil) {
+            return json["buyer_fullname"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var star : Int {
+        if (json["star"] != nil) {
+            return json["star"].int!
+        } else {
+            return 0
+        }
+    }
+    
+    var comment : String {
+        if (json["comment"] != nil) {
+            return json["comment"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerPictURL : NSURL? {
+        if (json["buyer_pict"] != nil) {
+            let url = json["buyer_pict"].string!
+            return NSURL(string: url)
+        }
+        return nil
+    }
+}
+
 class LovedProduct : NSObject {
     
     var json : JSON!

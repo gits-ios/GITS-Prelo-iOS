@@ -162,7 +162,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 
                                 // Set crashlytics user information
                                 let user = CDUser.getOne()!
-                                Crashlytics.sharedInstance().setUserIdentifier(user.id)
+                                Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
                                 Crashlytics.sharedInstance().setUserEmail(user.email)
                                 Crashlytics.sharedInstance().setUserName(user.fullname!)
                                 

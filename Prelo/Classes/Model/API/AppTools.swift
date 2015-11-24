@@ -129,6 +129,7 @@ class Tags : NSObject
     static let XibNameTermCondition = "TermCondition"
     static let XibNameReferralPage = "ReferralPage"
     static let XibNameCategoryPreferences = "CategoryPreferences"
+    static let XibNameShopReview = "ShopReview"
 }
 
 class OrderStatus : NSObject
