@@ -649,7 +649,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         if (s != "" && self.editMode == true)
                         {
                             s = s.stringByReplacingOccurrencesOfString("/", withString: "\n")
-                            s = s.stringByReplacingOccurrencesOfString(" ", withString: "")
+                            s = s.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                            s = s.stringByReplacingOccurrencesOfString("(", withString: "")
+                            s = s.stringByReplacingOccurrencesOfString(")", withString: "")
                             var index = 0
                             for s1 in self.sizes
                             {
@@ -694,6 +696,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         let json = JSON(res!)
                         let brands = json["product_conditions"].array
                         var items : Array<String> = []
+                        var subtitles : Array<String> = []
                         if let arrBrands = brands
                         {
                             for i in 0...(arrBrands.count)-1
@@ -701,6 +704,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 let j = arrBrands[i]
                                 let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
                                 items.append(m)
+                                let d = j["description"].stringValue
+                                subtitles.append(d)
                             }
                         }
                         
@@ -720,6 +725,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         }
                         
                         picker.items = items
+                        picker.subtitles = subtitles
                         picker.tableView.reloadData()
                         picker.doneLoading()
                     } else {

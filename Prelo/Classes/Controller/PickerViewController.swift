@@ -92,6 +92,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
+    
+    var subtitles : Array<String> = []
+    
     var usedItems : Array<String> = []
     var pickerDelegate : PickerViewDelegate?
     
@@ -135,13 +138,26 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
         if (cell == nil) {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            if (subtitles.count != 0 && subtitles.count == usedItems.count)
+            {
+                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+            } else
+            {
+                cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            }
         }
         
         let raw = usedItems.objectAtCircleIndex(indexPath.row)
         let s = PickerViewController.HideHiddenString(raw)
         
         cell?.textLabel?.text = s
+        
+        if (subtitles.count != 0 && subtitles.count == usedItems.count)
+        {
+            cell?.detailTextLabel?.minimumScaleFactor = 0.5
+            cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
+            cell?.detailTextLabel?.text = subtitles[indexPath.row]
+        }
         
         return cell!
     }
