@@ -127,7 +127,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     var isAlreadyGetCategory : Bool = false
-    var isAlreadyTour : Bool = false
+    //var isAlreadyTour : Bool = false
     var userDidLoggedIn : Bool?
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -138,6 +138,20 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
+        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory) { // Jika akan memanggil tour
+            self.performSegueWithIdentifier("segTour", sender: self)
+            NSUserDefaults.setTourDone(true)
+        } else {
+            if (userDidLoggedIn == false && User.IsLoggedIn) { // Jika user baru saja log in
+                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
+            } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
+                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
+                isAlreadyGetCategory = true
+            }
+        }
+        userDidLoggedIn = User.IsLoggedIn
+        
+        /* TO BE DELETED, PERGANTIAN BEHAVIOR KEMUNCULAN TOUR
         // Tour dipanggil setiap kali buka app dalam keadaan logout
         // Jika buka app dalam keadaan login lalu logout, tidak perlu panggil tour karna category preferences pasti sudah ada
         if (!isAlreadyTour && !User.IsLoggedIn && !isAlreadyGetCategory) {
@@ -151,7 +165,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 isAlreadyGetCategory = true
             }
         }
-        userDidLoggedIn = User.IsLoggedIn
+        userDidLoggedIn = User.IsLoggedIn*/
     }
     
     func pushNew(sender : AnyObject)

@@ -163,6 +163,7 @@ class UserDefaultsKey : NSObject
     static let CategoryPref2 = "categorypref2"
     static let CategoryPref3 = "categorypref3"
     static let Tour = "tour"
+    static let TourDone = "tourdone"
 }
 
 extension Mixpanel
@@ -224,5 +225,20 @@ extension NSUserDefaults
             return c!
         }
         return ""
+    }
+    
+    static func isTourDone() -> Bool
+    {
+        let done : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.TourDone) as! Bool?
+        if (done == true) {
+            return true
+        }
+        return false
+    }
+    
+    static func setTourDone(done : Bool)
+    {
+        NSUserDefaults.standardUserDefaults().setObject(done, forKey: UserDefaultsKey.TourDone)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
