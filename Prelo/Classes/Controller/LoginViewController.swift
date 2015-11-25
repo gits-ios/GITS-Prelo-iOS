@@ -428,7 +428,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
         {
-            let x = UIAlertController(title: "Lupa Password", message: "Masukan Username / Email", preferredStyle: .Alert)
+            let x = UIAlertController(title: "Lupa Password", message: "Masukkan Email", preferredStyle: .Alert)
             x.addTextFieldWithConfigurationHandler({ textfield in
                 textfield.placeholder = "Username / Email"
             })
@@ -447,7 +447,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             self.presentViewController(x, animated: true, completion: nil)
         } else
         {
-            let a = UIAlertView(title: "Lupa Password", message: "Masukan Username / Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
+            let a = UIAlertView(title: "Lupa Password", message: "Masukkan Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
             a.alertViewStyle = UIAlertViewStyle.PlainTextInput
             a.show()
         }
