@@ -113,6 +113,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         var pID = ""
         var rID = ""
+        
         if let u = CDUser.getOne()
         {
             pID = u.profiles.provinceID
@@ -120,6 +121,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             
             if let i = CDProvince.getProvinceNameWithID(pID)
             {
+                selectedProvinsiID = pID
                 pID = i
             } else
             {
@@ -128,6 +130,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             
             if let i = CDRegion.getRegionNameWithID(rID)
             {
+                selectedKotaID = rID
                 rID = i
             } else
             {
