@@ -57,7 +57,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Referral")
+        Mixpanel.trackPageVisit("Referral")
         
         self.getReferralData()
         

@@ -166,7 +166,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Add Product")
+        Mixpanel.trackPageVisit("Add Product")
         
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             

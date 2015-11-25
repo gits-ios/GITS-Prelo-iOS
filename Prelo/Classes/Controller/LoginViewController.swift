@@ -189,7 +189,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         }
                         
                         // Set crashlytics user information
-                        Crashlytics.sharedInstance().setUserIdentifier(user.id)
+                        Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
                         Crashlytics.sharedInstance().setUserEmail(user.email)
                         Crashlytics.sharedInstance().setUserName(user.fullname!)
                     } else {
@@ -232,6 +232,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     static func LoginWithTwitter(sender : BaseViewController) {
+        let vcLogin = sender as? LoginViewController
+        let vcRegister = sender as? RegisterViewController
+        
         Twitter.sharedInstance().logInWithCompletion { session, error in
             if (session != nil) {
                 let twId = session!.userID
@@ -239,88 +242,121 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let twToken = session!.authToken
                 let twSecret = session!.authTokenSecret
                 var twFullname = ""
+                var twEmail = ""
                 
-                let twClient = TWTRAPIClient()
-                let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
-                let twParams = [
-                    "user_id" : twId,
-                    "screen_name" : twUsername
-                ]
-                var twErr : NSError?
-                
-                let twReq = Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: twShowUserEndpoint, parameters: twParams, error: &twErr)
-                
-                if (twErr != nil) { // Error
-                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
-                    sender.dismiss()
-                } else {
-                    twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
-                        if (err != nil) { // Error
-                            Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
+                let twShareEmailVC = TWTRShareEmailViewController() { email, error in
+                    if (email != nil) {
+                        twEmail = email!
+                        //println("twEmail = \(twEmail)")
+                        
+                        let twClient = TWTRAPIClient()
+                        let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
+                        let twParams = [
+                            "user_id" : twId,
+                            "screen_name" : twUsername
+                        ]
+                        var twErr : NSError?
+                        
+                        let twReq = Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: twShowUserEndpoint, parameters: twParams, error: &twErr)
+                        
+                        if (twErr != nil) { // Error
+                            Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
                             sender.dismiss()
-                        } else { // Succes
-                            var jsonErr : NSError?
-                            let json : AnyObject? = NSJSONSerialization.JSONObjectWithData(res!, options: nil, error: &jsonErr)
-                            let data = JSON(json!)
-                            println("Twitter user show json: \(data)")
-                            
-                            twFullname = data["name"].string!
-                            
-                            request(APIAuth.LoginTwitter(email: "\(twUsername)@twitter.com", fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON { req, _, res, err in
-                                println("Twitter login req = \(req)")
-                                
-                                if (err != nil) {
-                                    Constant.showDialog("Warning", message: "Error login twitter")//: \(err!.description)")
-                                } else {
-                                    let json = JSON(res!)
-                                    let data = json["_data"]
-                                    if (data == nil || data == []) { // Data kembalian kosong
-                                        if (json["_message"] != nil) {
-                                            Constant.showDialog("Warning", message: json["_message"].string!)
-                                            var vcLogin = sender as? LoginViewController
+                        } else {
+                            twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
+                                if (err != nil) { // Error
+                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
+                                    if (vcLogin != nil) {
+                                        vcLogin!.hideLoading()
+                                    }
+                                    if (vcRegister != nil) {
+                                        vcRegister!.hideLoading()
+                                    }
+                                } else { // Succes
+                                    var jsonErr : NSError?
+                                    let json : AnyObject? = NSJSONSerialization.JSONObjectWithData(res!, options: nil, error: &jsonErr)
+                                    let data = JSON(json!)
+                                    println("Twitter user show json: \(data)")
+                                    
+                                    twFullname = data["name"].string!
+                                    
+                                    request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON { req, _, res, err in
+                                        println("Twitter login req = \(req)")
+                                        
+                                        if (err != nil) {
+                                            Constant.showDialog("Warning", message: "Error login twitter")//: \(err!.description)")
                                             if (vcLogin != nil) {
                                                 vcLogin!.hideLoading()
                                             }
-                                            var vcRegister = sender as? RegisterViewController
                                             if (vcRegister != nil) {
                                                 vcRegister!.hideLoading()
                                             }
+                                        } else {
+                                            let json = JSON(res!)
+                                            let data = json["_data"]
+                                            if (data == nil || data == []) { // Data kembalian kosong
+                                                if (json["_message"] != nil) {
+                                                    Constant.showDialog("Warning", message: json["_message"].string!)
+                                                    if (vcLogin != nil) {
+                                                        vcLogin!.hideLoading()
+                                                    }
+                                                    if (vcRegister != nil) {
+                                                        vcRegister!.hideLoading()
+                                                    }
+                                                }
+                                            } else { // Berhasil
+                                                println("Twitter login data: \(data)")
+                                                
+                                                // Save in core data
+                                                let m = UIApplication.appDelegate.managedObjectContext
+                                                var user : CDUser? = CDUser.getOne()
+                                                if (user == nil) {
+                                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                                }
+                                                user!.id = data["_id"].string!
+                                                user!.username = data["username"].string!
+                                                user!.email = data["email"].string!
+                                                user!.fullname = data["fullname"].string!
+                                                
+                                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                                                let pr = data["profile"]
+                                                p.pict = pr["pict"].string!
+                                                
+                                                user!.profiles = p
+                                                UIApplication.appDelegate.saveContext()
+                                                
+                                                // Save in NSUserDefaults
+                                                NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                                                NSUserDefaults.standardUserDefaults().synchronize()
+                                                
+                                                // Check if user have set his account
+                                                LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true)
+                                            }
                                         }
-                                    } else { // Berhasil
-                                        println("Twitter login data: \(data)")
-                                        
-                                        // Save in core data
-                                        let m = UIApplication.appDelegate.managedObjectContext
-                                        var user : CDUser? = CDUser.getOne()
-                                        if (user == nil) {
-                                            user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                                        }
-                                        user!.id = data["username"].string!
-                                        user!.email = data["email"].string!
-                                        user!.fullname = data["fullname"].string!
-                                        
-                                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                                        let pr = data["profile"]
-                                        p.pict = pr["pict"].string!
-                                        
-                                        user!.profiles = p
-                                        UIApplication.appDelegate.saveContext()
-                                        
-                                        // Save in NSUserDefaults
-                                        NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        
-                                        // Check if user have set his account
-                                        LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true)
                                     }
                                 }
                             }
                         }
+                    } else {
+                        Constant.showDialog("Warning", message: "Error getting Twitter email")
+                        if (vcLogin != nil) {
+                            vcLogin!.hideLoading()
+                        }
+                        if (vcRegister != nil) {
+                            vcRegister!.hideLoading()
+                        }
                     }
                 }
+                sender.presentViewController(twShareEmailVC, animated: true, completion: nil)
+                
             } else {
-                Constant.showDialog("Twitter login canceled", message: "")
-                sender.dismiss()
+                Constant.showDialog("Info", message: "Twitter login canceled")
+                if (vcLogin != nil) {
+                    vcLogin!.hideLoading()
+                }
+                if (vcRegister != nil) {
+                    vcRegister!.hideLoading()
+                }
             }
         }
     }
@@ -351,7 +387,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Login")
+        Mixpanel.trackPageVisit("Login")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -461,7 +497,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             .responseJSON
             {_, _, json, err in
                 if (err != nil) {
-                    // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                    Constant.showDialog("Warning", message: "Login error")//(err?.description)!)
                     self.btnLogin?.enabled = true
                 } else {
                     let res = JSON(json!)
@@ -706,7 +742,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
                         println("Fb login req = \(req)")
                         if (err != nil) { // Terdapat error
-                            // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                            Constant.showDialog("Warning", message: "Facebook login error")//(err?.description)!)
                         } else {
                             let json = JSON(res!)
                             let data = json["_data"]
@@ -721,7 +757,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 if (user == nil) {
                                     user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                                 }
-                                user!.id = data["username"].string!
+                                user!.id = data["_id"].string!
+                                user!.username = data["username"].string!
                                 user!.email = data["email"].string!
                                 user!.fullname = data["fullname"].string!
                                 
@@ -905,7 +942,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                // OFF FOR PRODUCTION Constant.showDialog("Warning", message: (err?.description)!)
+                Constant.showDialog("Warning", message: "Path login error")//(err?.description)!)
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
@@ -920,7 +957,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if (user == nil) {
                         user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                     }
-                    user!.id = data["username"].string!
+                    user!.id = data["_id"].string!
+                    user!.username = data["username"].string!
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     

@@ -57,13 +57,17 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         {
             btnNext.setTitle("Selanjutnya", forState: UIControlState.Normal)
         }
-        Mixpanel.sharedInstance().track("First Time Tutorial \(pager.currentPage + 1)")
+        
+        // Only track if scrollView did finish the scroll
+        if (Int(p.x) % Int(scrollView.width) == 0) {
+            Mixpanel.trackPageVisit("First Time Tutorial \(pager.currentPage + 1)")
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("First Time Tutorial 1")
+        Mixpanel.trackPageVisit("First Time Tutorial 1")
     }
     
     var fromButton = false

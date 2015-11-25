@@ -84,7 +84,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Payment Confirmation")
+        let p = [
+            "ID" : self.orderID,
+            "Items" : "\(self.images.count)",
+            "Price" : "\(self.total)"
+        ]
+        Mixpanel.trackPageVisit("Payment Confirmation", otherParam: p)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -98,8 +103,6 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             self.navigationController?.setViewControllers(x, animated: false)
             first = false
         }
-        
-        Mixpanel.sharedInstance().track("Checkout Confirmation")
         
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             

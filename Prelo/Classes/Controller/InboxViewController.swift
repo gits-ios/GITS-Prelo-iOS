@@ -31,7 +31,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Inbox")
+        Mixpanel.trackPageVisit("Inbox")
     }
     
     func getInboxes()

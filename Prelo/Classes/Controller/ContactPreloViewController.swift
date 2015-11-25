@@ -28,12 +28,8 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
                 view.backgroundColor = UIColor.whiteColor()
             }
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Contact")
+        Mixpanel.trackPageVisit("Contact")
     }
 
     override func didReceiveMemoryWarning() {

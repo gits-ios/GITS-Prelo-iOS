@@ -25,6 +25,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        Mixpanel.trackPageVisit("Home", otherParam: ["Category" : "All"])
+        
         scrollView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "grandRefresh", name: "refreshHome", object: nil)
 //        setupScroll()
@@ -41,12 +44,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //            
 //        }
 //        getCategory()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        Mixpanel.sharedInstance().track("Home")
     }
     
     func grandRefresh()
@@ -293,11 +290,29 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
     }
     
+    var lastContentOffset = CGPoint()
+    var isPageTracked = false
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let i = Int(scrollView.contentOffset.x / scrollView.width)
         currentTabIndex = i
         centerCategoryView(currentTabIndex)
         adjustIndicator(currentTabIndex)
+        
+        //println("lastContentOffset = \(lastContentOffset)")
+        //println("scrollView.contentOffset = \(scrollView.contentOffset)")
+        if (lastContentOffset.x != scrollView.contentOffset.x) {
+            isPageTracked = false
+        }
+        
+        // Only track if scrollView did finish the left/right scroll
+        if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
+            if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
+                Mixpanel.trackPageVisit("Home", otherParam: ["Category" : categoriesFix[i]["name"].string!])
+                isPageTracked = true
+            }
+        }
+        
+        lastContentOffset = scrollView.contentOffset
     }
     
     override func viewDidAppear(animated: Bool)

@@ -13,7 +13,7 @@ class AboutViewController: BaseViewController {
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
     @IBOutlet var btnClear2 : BorderedButton!
-    
+    @IBOutlet weak var lblVersion: UILabel!
     
     var isShowLogout : Bool = true
     
@@ -27,18 +27,27 @@ class AboutViewController: BaseViewController {
         }
         
         self.title = "About"
-        // Do any additional setup after loading the view.
+        
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            self.lblVersion.text = "Version " + version
+        } else {
+            self.lblVersion.text = "-"
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("About")
+        Mixpanel.trackPageVisit("About")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func openPreloSite(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
     }
     
     @IBAction func clearCache()
@@ -81,6 +90,11 @@ class AboutViewController: BaseViewController {
         if (notifListener.newNotifCount != 0) {
             notifListener.setNewNotifCount(0)
         }
+        
+        // Reset crashlytics
+        Mixpanel.sharedInstance().reset()
+        let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        Mixpanel.sharedInstance().identify(uuid)
         
         // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)

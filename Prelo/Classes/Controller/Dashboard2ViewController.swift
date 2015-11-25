@@ -10,6 +10,8 @@ import UIKit
 
 class Dashboard2ViewController : BaseViewController {
     
+    var contactUs : UIViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -17,7 +19,7 @@ class Dashboard2ViewController : BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.sharedInstance().track("Dashboard Logged Out")
+        Mixpanel.trackPageVisit("Dashboard Logged Out")
     }
     
     @IBAction func loginButtonTapped(sender : AnyObject) {
@@ -30,7 +32,20 @@ class Dashboard2ViewController : BaseViewController {
     }
     
     @IBAction func contactButtonTapped(sender : AnyObject) {
-        
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        contactUs = c
+        if let v = c.view, let p = self.previousController?.navigationController?.view
+        {
+            v.alpha = 0
+            v.frame = p.bounds
+            self.previousController?.navigationController?.view.addSubview(v)
+            
+            v.alpha = 0
+            UIView.animateWithDuration(0.2, animations: {
+                v.alpha = 1
+            })
+        }
     }
     
     @IBAction func aboutButtonTapped(sender: UIButton) {

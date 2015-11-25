@@ -1170,10 +1170,39 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Gagal", message: "")//error.description)
+                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")//error.description)
             }
             return false
         } else
+        {
+            return true
+        }
+    }
+    
+    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?) -> Bool
+    {
+        println("Req = \(req)")
+        
+        if let response = resp
+        {
+            if (response.statusCode != 200 && showErrorDialog)
+            {
+                if (res != nil) {
+                    UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
+                }
+                return false
+            }
+        }
+        
+        if let error = err
+        {
+            if (showErrorDialog)
+            {
+                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")//error.description)
+            }
+            return false
+        }
+        else
         {
             return true
         }

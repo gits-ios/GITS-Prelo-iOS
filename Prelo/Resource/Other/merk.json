@@ -5792,25 +5792,25 @@
     "product_conditions": [
                            {
                            "_id": "55dedcc23a1b3b8255703d6f",
-                           "name": "Masih Baru",
+                           "name": "Masih Baru (95-100%)",
                            "description": "Barang baru dengan label atau masih dalam kemasan",
                            "order": 1
                            },
                            {
                            "_id": "55dedcc23a1b3b8255703d70",
-                           "name": "Sangat Bagus",
+                           "name": "Sangat Bagus (85-95%)",
                            "description": "Barang seperti baru dan tanpa cacat",
                            "order": 2
                            },
                            {
                            "_id": "55dedcc23a1b3b8255703d71",
-                           "name": "Bagus",
+                           "name": "Bagus (70-85%)",
                            "description": "Barang bagus dan layak pakai",
                            "order": 3
                            },
                            {
                            "_id": "55dedcc23a1b3b8255703d72",
-                           "name": "Cukup Bagus",
+                           "name": "Cukup Bagus (< 70%) ",
                            "description": "Barang bagus layak pakai dengan sedikit cacat",
                            "order": 4
                            }

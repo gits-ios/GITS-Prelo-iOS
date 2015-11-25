@@ -44,12 +44,12 @@ extension Int
 
 class AppTools: NSObject {
     // Development
-    static var PreloBaseUrl = "http://dev.prelo.id"
-    static var PreloBaseUrlShort = "dev.prelo.id"
+//    static var PreloBaseUrl = "http://dev.prelo.id"
+//    static var PreloBaseUrlShort = "dev.prelo.id"
     
     // Production
-//    static var PreloBaseUrl = "https://prelo.co.id"
-//    static var PreloBaseUrlShort = "prelo.co.id"
+    static var PreloBaseUrl = "https://prelo.co.id"
+    static var PreloBaseUrlShort = "prelo.co.id"
 }
 
 class Theme : NSObject
@@ -162,6 +162,24 @@ class UserDefaultsKey : NSObject
     static let CategoryPref2 = "categorypref2"
     static let CategoryPref3 = "categorypref3"
     static let Tour = "tour"
+}
+
+extension Mixpanel
+{
+    static func trackPageVisit(pageName : String)
+    {
+        let p = [
+            "Page": pageName
+        ]
+        Mixpanel.sharedInstance().track("Page Visited", properties: p)
+    }
+    
+    static func trackPageVisit(pageName : String, otherParam : [String : String])
+    {
+        var p = otherParam
+        p["Page"] = pageName
+        Mixpanel.sharedInstance().track("Page Visited", properties: p)
+    }
 }
 
 extension NSUserDefaults

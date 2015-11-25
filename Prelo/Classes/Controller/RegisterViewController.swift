@@ -46,7 +46,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.sharedInstance().track("Register")
+        Mixpanel.trackPageVisit("Register")
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -315,7 +315,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                                 if (user == nil) {
                                     user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                                 }
-                                user!.id = data["username"].string!
+                                user!.id = data["_id"].string!
+                                user!.username = data["username"].string!
                                 user!.email = data["email"].string!
                                 user!.fullname = data["fullname"].string!
                                 
@@ -513,7 +514,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     if (user == nil) {
                         user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                     }
-                    user!.id = data["username"].string!
+                    user!.id = data["_id"].string!
+                    user!.username = data["username"].string!
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     

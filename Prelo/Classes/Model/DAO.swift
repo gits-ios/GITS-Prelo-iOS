@@ -109,9 +109,9 @@ public class User : NSObject
     
     static func Logout()
     {
-        Mixpanel.sharedInstance().track("Logged Out")
+        /*Mixpanel.sharedInstance().track("Logged Out")
         Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+        Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])*/
         
         if let u = CDUser.getOne()
         {
@@ -561,6 +561,11 @@ public class ProductDetail : NSObject, TawarItem
         return (json["_data"]["name"].string)!.escapedHTML
     }
     
+    var permalink : String
+    {
+        return (json["_data"]["permalink"].string)!
+    }
+    
     var displayPicturers : Array<String>
     {
         if let ori : Array<String> = json["_data"]["display_picts"].arrayObject as? Array<String>
@@ -755,6 +760,13 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
+    var categoryBreadcrumbs : [JSON] {
+        if let arr = json["_data"]["category_breadcrumbs"].array {
+            return arr
+        }
+        return []
+    }
+    
     var opIsMe : Bool {
         return true
     }
@@ -779,6 +791,11 @@ public class ProductDetail : NSObject, TawarItem
 public class Product : NSObject
 {
     var json : JSON!
+    
+    var id : String
+    {
+        return (json["_id"].string)!
+    }
     
     var name : String
     {
@@ -908,11 +925,6 @@ class MyProductItem : Product {
             p.json = obj!
             return p
         }
-    }
-    
-    var id : String {
-        let i = (json["_id"].string)!
-        return i
     }
     
     override var price : String {

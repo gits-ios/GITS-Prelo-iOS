@@ -57,7 +57,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.sharedInstance().track("Lovelist")
+        Mixpanel.trackPageVisit("Lovelist")
         
         if (userLovelist?.count == 0 || userLovelist == nil) {
             if (userLovelist == nil) {

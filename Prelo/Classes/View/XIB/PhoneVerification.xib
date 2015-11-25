@@ -39,7 +39,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08xxxxxxxxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3QG-Rr-xrY">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08xxxxxxxxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3QG-Rr-xrY">
                                         <rect key="frame" x="8" y="45" width="584" height="24"/>
                                         <animations/>
                                         <constraints>
@@ -49,6 +49,25 @@
                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Isi nomor HP kamu kemudian tekan Kirim Ulang" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PT3-Ai-JOb" userLabel="no hp">
+                                        <rect key="frame" x="8" y="45" width="584" height="24"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="TvW-V2-AKq"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zKb-lB-QRy" userLabel="line_1px">
+                                        <rect key="frame" x="8" y="77" width="584" height="1"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="JHW-Lm-ckM"/>
+                                            <constraint firstAttribute="height" constant="1" id="zUt-25-I02"/>
+                                        </constraints>
+                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KODE VERIFIKASI" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bNk-2G-2Hi">
                                         <rect key="frame" x="8" y="103" width="584" height="17"/>
                                         <animations/>
@@ -145,20 +164,27 @@
                                     <constraint firstItem="gf1-7H-qLj" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="1ew-bP-8yS"/>
                                     <constraint firstAttribute="bottom" secondItem="GWj-jm-XbZ" secondAttribute="bottom" constant="32" id="5Go-gQ-qhV"/>
                                     <constraint firstItem="GWj-jm-XbZ" firstAttribute="leading" secondItem="sCW-D8-PSE" secondAttribute="trailing" constant="8" id="7Yk-zB-JRu"/>
+                                    <constraint firstItem="PT3-Ai-JOb" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="7m0-JS-IHB"/>
                                     <constraint firstItem="bNk-2G-2Hi" firstAttribute="top" secondItem="3QG-Rr-xrY" secondAttribute="bottom" constant="34" id="7qu-Lw-gGw"/>
                                     <constraint firstItem="lrR-WY-k72" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="9sK-yU-aAr"/>
+                                    <constraint firstItem="bNk-2G-2Hi" firstAttribute="top" secondItem="PT3-Ai-JOb" secondAttribute="bottom" constant="34" id="A5d-Nf-0GQ"/>
                                     <constraint firstAttribute="trailing" secondItem="lrR-WY-k72" secondAttribute="trailing" constant="8" id="AdF-b9-Rcc"/>
                                     <constraint firstAttribute="trailing" secondItem="GWj-jm-XbZ" secondAttribute="trailing" constant="8" id="CO6-Uh-rdA"/>
                                     <constraint firstItem="3QG-Rr-xrY" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="FDI-Lx-25R"/>
                                     <constraint firstAttribute="height" constant="536" id="FUa-cT-bXa"/>
                                     <constraint firstItem="3QG-Rr-xrY" firstAttribute="top" secondItem="J3U-Ma-afB" secondAttribute="bottom" constant="8" id="JiH-OQ-e2e"/>
+                                    <constraint firstAttribute="trailing" secondItem="PT3-Ai-JOb" secondAttribute="trailing" constant="8" id="KEA-QZ-TPV"/>
                                     <constraint firstItem="lrR-WY-k72" firstAttribute="top" secondItem="gf1-7H-qLj" secondAttribute="bottom" constant="41" id="O45-LX-Tsy"/>
                                     <constraint firstItem="bNk-2G-2Hi" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="RKD-38-raJ"/>
+                                    <constraint firstItem="PT3-Ai-JOb" firstAttribute="top" secondItem="J3U-Ma-afB" secondAttribute="bottom" constant="8" id="Rzi-Tl-i2t"/>
                                     <constraint firstAttribute="trailing" secondItem="bNk-2G-2Hi" secondAttribute="trailing" constant="8" id="Sxf-XF-kMW"/>
+                                    <constraint firstItem="zKb-lB-QRy" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="Z22-c2-EIL"/>
                                     <constraint firstAttribute="trailing" secondItem="J3U-Ma-afB" secondAttribute="trailing" constant="8" id="Z4C-zX-y7m"/>
                                     <constraint firstItem="J3U-Ma-afB" firstAttribute="top" secondItem="H8O-Ph-ntQ" secondAttribute="top" constant="20" id="aCb-Gy-EO4"/>
                                     <constraint firstAttribute="trailing" secondItem="gf1-7H-qLj" secondAttribute="trailing" constant="8" id="asO-y0-2pu"/>
                                     <constraint firstItem="sCW-D8-PSE" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="cig-TL-yGg"/>
+                                    <constraint firstItem="zKb-lB-QRy" firstAttribute="top" secondItem="PT3-Ai-JOb" secondAttribute="bottom" constant="8" id="eRS-aL-o3N"/>
+                                    <constraint firstAttribute="trailing" secondItem="zKb-lB-QRy" secondAttribute="trailing" constant="8" id="hOM-dy-YGK"/>
                                     <constraint firstItem="gf1-7H-qLj" firstAttribute="top" secondItem="bNk-2G-2Hi" secondAttribute="bottom" constant="8" id="mBA-Qj-bWB"/>
                                     <constraint firstAttribute="trailing" secondItem="3QG-Rr-xrY" secondAttribute="trailing" constant="8" id="t8f-Ng-kLG"/>
                                     <constraint firstItem="J3U-Ma-afB" firstAttribute="leading" secondItem="H8O-Ph-ntQ" secondAttribute="leading" constant="8" id="vZO-EC-kbc"/>
@@ -211,6 +237,7 @@
                 <outlet property="btnKirimUlang" destination="GWj-jm-XbZ" id="iPF-n9-Gzq"/>
                 <outlet property="btnVerifikasi" destination="lrR-WY-k72" id="DCw-OV-tBX"/>
                 <outlet property="fieldKodeVerifikasi" destination="Try-Fo-PQF" id="fYf-pH-lmp"/>
+                <outlet property="fldNoHp" destination="PT3-Ai-JOb" id="UMp-il-33M"/>
                 <outlet property="lblNoHp" destination="3QG-Rr-xrY" id="viJ-fg-7I2"/>
                 <outlet property="scrollView" destination="ojk-Kv-aSo" id="6P4-K9-1de"/>
             </connections>

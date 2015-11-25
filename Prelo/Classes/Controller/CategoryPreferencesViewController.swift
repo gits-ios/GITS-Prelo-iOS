@@ -40,7 +40,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         self.loading.startAnimating()
         self.collcCategory.hidden = true
 
-        Mixpanel.sharedInstance().track("Set Category Preferences")
+        Mixpanel.trackPageVisit("Set Category Preferences")
         
         while (!NSUserDefaults.isCategorySaved()) {
             // Wait until category is saved
@@ -86,7 +86,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     @IBAction func skipPressed(sender: AnyObject) {
         // To login
         self.dismissViewControllerAnimated(true, completion: nil)
-        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent?.userRelatedDelegate, animated: true, isFromTourVC: true)
+        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent as! KumangTabBarViewController, animated: true, isFromTourVC: true)
     }
     
     // MARK: - UICollectionViewDataSource Functions
