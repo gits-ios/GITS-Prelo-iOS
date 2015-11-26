@@ -713,7 +713,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             self.kodindisiId = PickerViewController.RevealHiddenString(s)
                             let x = PickerViewController.HideHiddenString(s)
                             self.captionKondisi.text = x
-                            if (x.lowercaseString == "cukup bagus")
+                            if ((x.lowercaseString as NSString).rangeOfString("cukup").location != NSNotFound)
                             {
                                 self.conHeightCacat.constant = 44
                                 self.txtDeskripsiCacat.hidden = false
@@ -734,6 +734,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 }
             }
         }
+        
         self.navigationController?.pushViewController(p, animated: true)
     }
     
