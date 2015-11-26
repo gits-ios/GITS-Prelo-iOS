@@ -151,6 +151,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 {
                                     d.userLoggedIn!()
                                 }
+                                
+                                /* TO BE DELETED, dipindah ke ProfileSetupVC
                                 if let c = CDUser.getOne()
                                 {
                                     Mixpanel.sharedInstance().identify(c.id)
@@ -158,7 +160,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 } else {
                                     Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                                     Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                                }
+                                }*/
                                 
                                 // Set crashlytics user information
                                 let user = CDUser.getOne()!
