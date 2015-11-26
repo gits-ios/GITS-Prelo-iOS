@@ -195,10 +195,10 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     @IBAction func sendConfirm()
     {
         var orderId = transactionId
-        var bankTo = cellData[NSIndexPath(forRow: 0, inSection: 0)]
-        var bankFrom = cellData[NSIndexPath(forRow: 0, inSection: 0)]
-        var name = cellData[NSIndexPath(forRow: 0, inSection: 0)]
-        var nominal = cellData[NSIndexPath(forRow: 0, inSection: 0)]
+        var bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
+        var bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
+        var name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
+        var nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {
