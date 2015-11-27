@@ -50,8 +50,36 @@ extension String
     }
 }
 
+extension NSAttributedString {
+    func heightWithConstrainedWidth(width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.max)
+        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    
+    func widthWithConstrainedHeight(height: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.max, height: height)
+        
+        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+}
+
 extension NSDate
 {
+    struct Date {
+        static let formatter = NSDateFormatter()
+    }
+    var isoFormatted: String {
+        Date.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+        Date.formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        Date.formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+        Date.formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        return Date.formatter.stringFromDate(self)
+    }
+    
     var relativeDescription : String {
         let detik = Int(fabs(self.timeIntervalSinceNow))
         if (detik < 60)

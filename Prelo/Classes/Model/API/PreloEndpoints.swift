@@ -1119,12 +1119,14 @@ enum APIPeople : URLRequestConvertible
     static let basePath = "user/"
     
     case GetShopPage(id : String)
+    case GetSellerReviews(id : String)
     
     var method : Method
         {
             switch self
             {
-            case .GetShopPage(_):return .GET
+            case .GetShopPage(_): return .GET
+            case .GetSellerReviews(_): return .GET
             }
     }
     
@@ -1133,6 +1135,7 @@ enum APIPeople : URLRequestConvertible
             switch self
             {
             case .GetShopPage(let id):return id
+            case .GetSellerReviews(let id): return "\(id)/review"
             }
     }
     
@@ -1141,6 +1144,7 @@ enum APIPeople : URLRequestConvertible
             switch self
             {
             case .GetShopPage(_):return [:]
+            case .GetSellerReviews(_): return [:]
             }
     }
     
@@ -1192,6 +1196,15 @@ class APIPrelo
                 }
                 return false
             }
+        }
+        
+        if (res == nil)
+        {
+            if (showErrorDialog)
+            {
+                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
+            }
+            return false
         }
         
         if let error = err

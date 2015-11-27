@@ -338,7 +338,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         if (self.fieldKodeReferral.text.isEmpty) {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
-            let deviceId = ""
+            let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {req, _, res, err in
                 println("Set referral req = \(req)")
                 if (err != nil) { // Terdapat error

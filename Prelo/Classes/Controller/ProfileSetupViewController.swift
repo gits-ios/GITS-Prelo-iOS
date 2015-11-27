@@ -89,6 +89,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var userEmail : String = ""
     
     var isSocmedAccount : Bool!
+    var loginMethod : String = "" // [Basic | Facebook | Twitter]
+    var screenBeforeLogin : String = ""
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -107,7 +109,41 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // Mixpanel
         Mixpanel.trackPageVisit("Setup Account")
+        if let c = CDUser.getOne() {
+            let sp = [
+                "Email" : c.email,
+                "Username" : c.username,
+                "Fullname" : c.fullname!,
+                "Login Method" : self.loginMethod
+            ]
+            Mixpanel.sharedInstance().registerSuperProperties(sp)
+            let spo = [
+                "Register Time" : NSDate().isoFormatted,
+                "Register Method" : self.loginMethod
+            ]
+            Mixpanel.sharedInstance().registerSuperPropertiesOnce(spo)
+            Mixpanel.sharedInstance().identify(c.id)
+            let p = [
+                "$email" : c.email,
+                "$username" : c.username,
+                "$name" : c.fullname!
+            ]
+            Mixpanel.sharedInstance().people.set(p)
+            let po = [
+                "$created" : NSDate().isoFormatted,
+                "Register Method" : self.loginMethod
+            ]
+            Mixpanel.sharedInstance().people.setOnce(po)
+            let pr = [
+                "Previous Screen" : self.screenBeforeLogin
+            ]
+            Mixpanel.sharedInstance().track("Register", properties: pr)
+        }
+        
+        // Keyboard animation handling
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {

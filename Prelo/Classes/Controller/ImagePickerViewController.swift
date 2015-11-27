@@ -23,6 +23,8 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     var images : Array<APImage> = []
     
+    var imgEditor : AdobeUXImageEditorViewController?
+    
     @IBOutlet var gridView : UICollectionView!
     
     var doneBlock : ImagePickerBlock?
@@ -74,9 +76,12 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             }
             ap.getImage({ img in
                 AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
-                let u = AdobeUXImageEditorViewController(image: img)
-                u.delegate = self
-                self.presentViewController(u, animated: false, completion: nil)
+//                let u = AdobeUXImageEditorViewController(image: img)
+//                u.delegate = self
+//                self.presentViewController(u, animated: false, completion: nil)
+                self.imgEditor = AdobeUXImageEditorViewController(image: img)
+                self.imgEditor!.delegate = self
+                self.presentViewController(self.imgEditor!, animated: true, completion: nil)
             })
         } else
         {
@@ -99,12 +104,28 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     }
     
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
-        let ap = APImage()
-        ap.image = image
-        editor.dismissViewControllerAnimated(false, completion: {
-            self.dismissViewControllerAnimated(true, completion: {
-                self.doneBlock!([ap])
+//        let ap = APImage()
+//        ap.image = image
+//        editor.dismissViewControllerAnimated(false, completion: {
+//            self.dismissViewControllerAnimated(true, completion: {
+//                self.doneBlock!([ap])
+//            })
+//        })
+        
+        let render = imgEditor?.enqueueHighResolutionRenderWithImage(image, maximumSize: CGSizeMake(1600, 1600), completion: { result, error in
+            let ap = APImage()
+            if (result != nil) {
+                ap.image = result
+            } else {
+                println("Error highres render: \(error)")
+                ap.image = image
+            }
+            editor.dismissViewControllerAnimated(false, completion: {
+                self.dismissViewControllerAnimated(true, completion: {
+                    self.doneBlock!([ap])
+                })
             })
+
         })
     }
     

@@ -85,7 +85,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         //FIXME: Sepertinya fungsi ini ga kepanggil, jangan taruh logic di sini
         
-        self.linkToShare = "\(AppTools.PreloBaseUrl)/p/\(item!.permalink!)"
+        self.linkToShare = "\(item!.permalink!)"
         self.textToShare1 = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
         self.textToShare2 = "Dapatkan barang bekas berkualitas, \(item!.text!) seharga \(item!.price!) #PreloID"
     }
@@ -268,7 +268,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     {
         if (a.title.lowercaseString == "instagram")
         {
-            UIPasteboard.generalPasteboard().string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga Rp. \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.id #PreloID"
+            UIPasteboard.generalPasteboard().string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
             Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
             mgInstagram = MGInstagram()
             mgInstagram?.postImage(image, withCaption: self.textToShare1, inView: self.view, delegate: self)
@@ -295,7 +295,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga Rp. \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! http://prelo.id/p/\(item!.permalink!)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
 
             let url = NSURL(string : "whatsapp://send?text="+message)
             UIApplication.sharedApplication().openURL(url!)
@@ -308,7 +308,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga Rp. \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! http://prelo.co.id/p/\(item!.permalink!)"
+            name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             UIPasteboard.generalPasteboard().string = name
             UIAlertView.SimpleShow("", message: "Sukses di salin")
         }
@@ -321,7 +321,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga Rp. \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! http://prelo.id/p/\(item!.permalink!)"
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             let composer = MFMessageComposeViewController()
             composer.body = message
             composer.messageComposeDelegate = self
@@ -337,7 +337,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Hai!\n\nKamu bisa dapatkan barang bekas berkualitas, \(name) hanya dengan harga Rp. \(item!.price!).\nInfo selengkapnya mengenai kondisi barang bisa kamu cari tahu di http://prelo.id/p/\(item!.permalink!).\nNikmati mudahnya jual-beli barang bekas berkualitas dengan aman di Prelo. Dapatkan juga beragam keuntungan dengan aplikasi Prelo di ponsel kamu.\nDownload Prelo sekarang di http://prelo.co.id\nCheers!"
+            message = "Hai!\n\nKamu bisa dapatkan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!).\nInfo selengkapnya mengenai kondisi barang bisa kamu cari tahu di \(item!.permalink!).\nNikmati mudahnya jual-beli barang bekas berkualitas dengan aman di Prelo. Dapatkan juga beragam keuntungan dengan aplikasi Prelo di ponsel kamu.\nDownload Prelo sekarang di http://prelo.co.id\nCheers!"
             let composer = MFMailComposeViewController()
             composer.setMessageBody(message, isHTML: false)
             composer.mailComposeDelegate = self
@@ -353,7 +353,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga Rp. \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! http://prelo.id/p/\(item!.permalink!)"
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             Line.shareText(message)
         }
         
@@ -369,7 +369,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                     name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
                 }
                 name = "\(AppTools.PreloBaseUrl)/p/" + name*/
-                let url = NSURL(string:"\(AppTools.PreloBaseUrl)/p/\(item!.permalink!)")
+                let url = NSURL(string:"\(item!.permalink!)")
                 let composer = SLComposeViewController(forServiceType: type)
                 composer.addURL(url!)
                 composer.addImage(image)

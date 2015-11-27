@@ -238,6 +238,24 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.storeHeader?.captionDesc.text = json["profile"]["description"].string
                 self.storeHeader?.avatar.setImageWithUrl(NSURL(string: json["profile"]["pict"].string!)!, placeHolderImage: nil)
                 
+                // Love
+                let reviewScore = json["average_star"].floatValue
+                var loveText = ""
+                for (var i = 0; i < 5; i++) {
+                    if (Float(i) <= reviewScore - 0.5) {
+                        loveText += ""
+                    } else {
+                        loveText += ""
+                    }
+                }
+                let attrStringLove = NSMutableAttributedString(string: loveText)
+                attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+                self.storeHeader?.captionLove.attributedText = attrStringLove
+                
+                // Reviewer count
+                let numReview = json["num_reviewer"].intValue
+                self.storeHeader?.captionReview.text = "(\(numReview) Review)"
+                
                 var height = 0
                 
                 if let desc = self.storeHeader?.captionDesc.text
@@ -283,6 +301,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.storeHeader?.editBlock = {
                     let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
                     self.navigationController?.pushViewController(userProfileVC, animated: true)
+                }
+                
+                self.storeHeader?.reviewBlock = {
+                    let shopReviewVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil).first as! ShopReviewViewController
+                    shopReviewVC.sellerId = self.storeId
+                    shopReviewVC.sellerName = self.storeName
+                    self.navigationController?.pushViewController(shopReviewVC, animated: true)
                 }
                 
                 self.setupGrid()
@@ -518,15 +543,21 @@ class StoreHeader : UIView
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionLocation : UILabel!
     @IBOutlet var captionDesc : UILabel!
+    @IBOutlet var captionLove: UILabel!
     @IBOutlet var captionReview : UILabel!
     @IBOutlet var avatar : UIImageView!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var captionTotal : UILabel!
     
     var editBlock : ()->() = {}
+    var reviewBlock : ()->() = {}
     
     @IBAction func edit()
     {
         self.editBlock()
+    }
+    
+    @IBAction func gotoShopReview(sender: AnyObject) {
+        self.reviewBlock()
     }
 }
