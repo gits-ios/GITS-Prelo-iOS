@@ -68,6 +68,13 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         super.viewWillAppear(animated)
         
         Mixpanel.trackPageVisit("First Time Tutorial 1")
+        
+        // Track first time user
+        let pt = [
+            "Category" : "All",
+            "First Time" : false
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventCategoryBrowsed, properties: pt)
     }
     
     var fromButton = false

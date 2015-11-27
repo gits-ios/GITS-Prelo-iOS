@@ -573,6 +573,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                 "Shipping Options" : shippingArrName
                             ]
                             Mixpanel.sharedInstance().track("Setup Account", properties: pt as [NSObject : AnyObject])
+                            let pt2 = [
+                                "Activation Screen" : "Voucher"
+                            ]
+                            Mixpanel.sharedInstance().track(Mixpanel.EventReferralUsed, properties: pt2)
 
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate

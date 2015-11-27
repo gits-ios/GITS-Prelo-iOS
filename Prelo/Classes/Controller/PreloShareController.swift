@@ -56,9 +56,9 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         let p = [
             "Product" : ((detail != nil) ? (detail!.name) : ""),
             "Product ID" : ((detail != nil) ? (detail!.productID) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 0) ? (detail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         Mixpanel.trackPageVisit("Product Detail Share", otherParam: p)
@@ -384,6 +384,23 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 UIAlertView.SimpleShow(a.title, message: "Silakan login "+a.title+" dari Settings")
             }
         }
+        
+        // Mixpanel
+        var socmedName = a.title.capitalizedString
+        if (socmedName == "Sms") {
+            socmedName = "SMS"
+        } else if (socmedName == "Salin") {
+            socmedName = "Copy Info"
+        }
+        let pt = [
+            "Socmed" : socmedName,
+            "Socmed Username" : "", // FIXME: cuma fb ama twitter keknya yg dapet username
+            "Product Name" : ((product != nil) ? (product!.name) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : "")
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventSharedProduct, properties: pt)
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {

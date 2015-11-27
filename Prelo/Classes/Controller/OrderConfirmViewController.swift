@@ -202,6 +202,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {
+            // Mixpanel
+            let pt = [
+                "Order ID" : orderId,
+                "Destination Bank" : t,
+                "Origin Bank" : f,
+                "Amount" : nom
+            ]
+            Mixpanel.sharedInstance().track(Mixpanel.EventPaymentClaimed, properties: pt)
+            
             let x = (nom as NSString).integerValue
             request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))

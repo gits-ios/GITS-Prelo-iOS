@@ -59,9 +59,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         let p = [
             "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
             "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
-            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 0) ? (pDetail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
         Mixpanel.trackPageVisit("Product Detail Comment", otherParam: p)
@@ -124,6 +124,16 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         {
             return
         }
+        
+        // Mixpanel
+        let pt = [
+            "Product Name" : ((pDetail != nil) ? (pDetail!.name) : ""),
+            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+            "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventCommentedProduct, properties: pt)
         
         self.btnSend.hidden = true
         

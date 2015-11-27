@@ -410,6 +410,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     func findItem(keyword : String)
     {
+        // Mixpanel
+        let pt = [
+            "Search Type" : "Product",
+            "Search Query" : keyword
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventSearch, properties: pt)
+        
         if let req = itemRequest
         {
             req.cancel()
@@ -451,6 +458,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     var userRequest : Request?
     func findUser(keyword : String)
     {
+        // Mixpanel
+        let pt = [
+            "Search Type" : "User",
+            "Search Query" : keyword
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventSearch, properties: pt)
+        
         if let req = userRequest
         {
             req.cancel()

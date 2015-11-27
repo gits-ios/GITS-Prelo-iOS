@@ -182,6 +182,16 @@ extension Mixpanel
         p["Page"] = pageName
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
     }
+    
+    static let EventCategoryBrowsed = "Category Browsed"
+    static let EventSearch = "Search"
+    static let EventToggledLikeProduct = "Toggled Like Product"
+    static let EventSharedProduct = "Shared Product"
+    static let EventCommentedProduct = "Commented Product"
+    static let EventChatSent = "Chat Sent"
+    static let EventBargain = "Bargain"
+    static let EventPaymentClaimed = "Payment Claimed"
+    static let EventReferralUsed = "Referral Used"
 }
 
 extension NSUserDefaults

@@ -276,6 +276,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTawar2.hidden = true
             btnBatal.hidden = false
         }
+        
+        // Mixpanel
+        self.sendMixpanelEvent(Mixpanel.EventBargain)
     }
     
     func rejectTawar(sender : UIView?)
@@ -297,6 +300,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         sendChat(0, message: textView.text)
+        
+        // Mixpanel
+        self.sendMixpanelEvent(Mixpanel.EventChatSent)
     }
     
     func sendChat(type : Int, message : String)
@@ -317,6 +323,21 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         self.tableView.reloadData()
         self.scrollToBottom()
+    }
+    
+    func sendMixpanelEvent(eventName : String)
+    {
+        // FIXME: Category belum ada di balikan dari API
+        let pt = [
+            "Product Name" : tawarItem.itemName,
+            "Category 1" : "",
+            "Category 2" : "",
+            "Category 3" : "",
+            "Buyer Name" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Seller Name" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            "Is Seller" : !tawarItem.opIsMe
+        ]
+        Mixpanel.sharedInstance().track(eventName, properties: pt as [NSObject : AnyObject])
     }
     
     func startNew(type : Int, message : String)

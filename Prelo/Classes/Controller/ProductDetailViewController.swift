@@ -92,9 +92,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let p = [
             "Product" : ((product != nil) ? (product!.name) : ""),
             "Product ID" : ((product != nil) ? (product!.id) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 0) ? (detail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         if (detail != nil && detail!.isMyProduct == true) {
@@ -551,6 +551,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiLove()
     {
+        // Mixpanel
+        let pt = [
+            "Product Name" : ((product != nil) ? (product!.name) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+            "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
+        ]
+        Mixpanel.sharedInstance().track(Mixpanel.EventToggledLikeProduct, properties: pt)
+        
         if (isLoved)
         {
             callApiUnlove()

@@ -362,6 +362,18 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             
                             // Sembunyikan field
                             self.vwSubmit.hidden = true
+                            
+                            // Mixpanel
+                            let p = [
+                                "Referral Code Used" : self.fieldKodeReferral.text
+                            ]
+                            Mixpanel.sharedInstance().registerSuperProperties(p)
+                            Mixpanel.sharedInstance().people.setOnce(p)
+                            let pt = [
+                                "Activation Screen" : "Voucher"
+                            ]
+                            Mixpanel.sharedInstance().track(Mixpanel.EventReferralUsed, properties: pt)
+                            
                         } else { // Gagal
                             Constant.showDialog("Warning", message: "Error setting referral")
                         }

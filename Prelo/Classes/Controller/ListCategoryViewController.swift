@@ -27,6 +27,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         super.viewDidLoad()
         
         Mixpanel.trackPageVisit("Home", otherParam: ["Category" : "All"])
+        Mixpanel.sharedInstance().timeEvent(Mixpanel.EventCategoryBrowsed)
         
         scrollView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "grandRefresh", name: "refreshHome", object: nil)
@@ -307,7 +308,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         // Only track if scrollView did finish the left/right scroll
         if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
             if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
-                Mixpanel.trackPageVisit("Home", otherParam: ["Category" : categoriesFix[i]["name"].string!])
+                let pt = [
+                    "Category" : categoriesFix[i]["name"].string!
+                ]
+                Mixpanel.trackPageVisit("Home", otherParam: pt)
+                Mixpanel.sharedInstance().track(Mixpanel.EventCategoryBrowsed, properties: pt)
                 isPageTracked = true
             }
         }
