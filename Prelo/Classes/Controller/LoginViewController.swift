@@ -233,6 +233,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             phoneVerificationVC.userToken = token
                             phoneVerificationVC.userEmail = userProfileData!.email
                             phoneVerificationVC.isShowBackBtn = false
+                            phoneVerificationVC.loginMethod = loginMethod
                             sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                         }
                     } else {

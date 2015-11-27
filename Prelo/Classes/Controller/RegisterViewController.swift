@@ -231,16 +231,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
-    func toPhoneVerification(userId : String, userToken : String, userEmail : String) {
-        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
-        phoneVerificationVC.userId = userId
-        phoneVerificationVC.userToken = userToken
-        phoneVerificationVC.userEmail = userEmail
-        phoneVerificationVC.isShowBackBtn = false
-        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

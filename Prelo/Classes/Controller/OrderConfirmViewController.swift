@@ -52,7 +52,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         cellData[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance(titleBankKamu, placeHolder: "Nama Bank Kamu")
         cellData[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance(titleRekening, placeHolder: "Nama Rekening Kamu")
         let b = BaseCartData.instance(titleNominal, placeHolder: "Nominal Transfer")
-        b.keyboardType = UIKeyboardType.DecimalPad
+        b.keyboardType = UIKeyboardType.NumberPad
         cellData[NSIndexPath(forRow: 4, inSection: 0)] = b
         
         tableView?.dataSource = self

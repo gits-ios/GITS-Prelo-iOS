@@ -415,11 +415,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     return false
                 }
             }
-        } else {
-            if (fieldFullname.text == "") {
-                Constant.showDialog("Warning", message: "Fullname harus diisi")
-                return false
-            }
         }
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Nomor HP harus diisi")
@@ -533,9 +528,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         CDUserOther.deleteAll()
                         let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
                         var shippingArr : [String] = []
+                        var shippingArrName : [String] = []
                         for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
                             let s : String = data["shipping_preferences_ids"][i].string!
                             shippingArr.append(s)
+                            if let sName = CDShipping.getShippingCompleteNameWithId(s) {
+                                shippingArrName.append(sName)
+                            }
                         }
                         userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
                         // TODO: belum lengkap? simpan token socmed bila dari socmed
@@ -548,6 +547,32 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             println("Error while saving data")
                         } else {
                             println("Data saved")
+                            
+                            // Mixpanel
+                            let sp = [
+                                "User ID" : user.id,
+                                "Username" : user.username,
+                                "Gender" : userProfile.gender!,
+                                "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
+                                "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
+                                "Referral Code Used" : userReferral
+                            ]
+                            Mixpanel.sharedInstance().registerSuperProperties(sp)
+                            Mixpanel.sharedInstance().identify(user.id)
+                            let p = [
+                                "User ID" : user.id,
+                                "$username" : user.username,
+                                "Gender" : userProfile.gender!,
+                                "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
+                                "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
+                                "Referral Code Used" : userReferral
+                            ]
+                            Mixpanel.sharedInstance().people.set(p)
+                            let pt = [
+                                "Phone" : userProfile.phone!,
+                                "Shipping Options" : shippingArrName
+                            ]
+                            Mixpanel.sharedInstance().track("Setup Account", properties: pt as [NSObject : AnyObject])
 
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
@@ -555,6 +580,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             phoneVerificationVC.userToken = self.userToken
                             phoneVerificationVC.userEmail = self.userEmail
                             phoneVerificationVC.isShowBackBtn = true
+                            phoneVerificationVC.loginMethod = self.loginMethod
                             self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                             
                             // FOR TESTING (SKIP PHONE VERIFICATION)

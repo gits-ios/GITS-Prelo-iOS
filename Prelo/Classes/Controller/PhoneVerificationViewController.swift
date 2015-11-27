@@ -31,6 +31,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     var isShowBackBtn : Bool = false
     var isReverification : Bool = false
     var reverificationNoHP : String = ""
+    var loginMethod : String = "" // [Basic | Facebook | Twitter]
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -181,6 +182,29 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func phoneVerificationSucceed() {
+        // Mixpanel
+        let sp = [
+            "Phone" : self.fldNoHp.text,
+            "Login Method" : self.loginMethod,
+            "Orders Purchased Count" : 0,
+            "Initial Value Count" : 0,
+            "Items Purchased Count" : 0,
+            "Items Purchased Categories 1" : [],
+            "Items Purchased Categories 2" : [],
+            "Items Purchased Categories 3" : [],
+            "Items Sold Count" : 0,
+            "Lifetime Value Purchased" : 0,
+            "Lifetime Value Commission" : 0,
+            "Lifetime Value Sold" : 0,
+            "Items in Cart Count" : 0
+        ]
+        Mixpanel.sharedInstance().registerSuperProperties(sp as [NSObject : AnyObject])
+        let p = [
+            "$phone" : self.fldNoHp.text
+        ]
+        Mixpanel.sharedInstance().people.set(p)
+        Mixpanel.sharedInstance().track("Phone Verified")
+        
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")
         self.dismissViewControllerAnimated(true, completion: nil)
