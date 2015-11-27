@@ -94,8 +94,12 @@ class MessagePool: NSObject
     
     func register()
     {
-        if (User.IsLoggedIn) {
-            socket.emit("register", (CDUser.getOne()?.id)!)
+        if let id = CDUser.getOne()?.id
+        {
+            socket.emit("register", id)
+        } else
+        {
+            print("REGISTER SOCKET.IO FAILED BECAUSE USER IS NONE")
         }
     }
     

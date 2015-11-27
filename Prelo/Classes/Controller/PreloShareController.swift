@@ -374,7 +374,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 composer.addURL(url!)
                 composer.addImage(image)
                 if (type == SLServiceTypeFacebook) {
-                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga \(item!.price!) #PreloID")
+                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp. \(item!.price!) #PreloID")
                 } else if (type == SLServiceTypeTwitter) {
                     composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga \(item!.price!) #PreloID")
                 }

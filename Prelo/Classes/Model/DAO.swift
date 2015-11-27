@@ -1137,8 +1137,14 @@ class UserTransactionItem: UserTransaction {
     }
     
     override var productName : String {
-        let p = (json["product"]["name"].string)!
-        return p
+        var x = "-"
+        let p = json["product"]["name"].stringValue
+        if (p != "")
+        {
+            x = p
+        }
+        
+        return x
     }
     
     // Only take first image from json

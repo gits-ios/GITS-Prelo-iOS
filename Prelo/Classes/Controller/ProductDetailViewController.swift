@@ -302,7 +302,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 return ProductCellDescription.heightFor(detail)
             }
         } else {
-            return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex(indexPath.row))
+            return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex(indexPath.row-3))
         }
     }
     
@@ -941,7 +941,8 @@ class ProductCellDiscussion : UITableViewCell
         var json = (obj?.json)!
         
         let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(12), width: UIScreen.mainScreen().bounds.size.width-72)
-        return 47+(s?.height)!
+        let h = 47+(s?.height)!
+        return h
     }
     
     func adapt(obj : ProductDiscussion?)
