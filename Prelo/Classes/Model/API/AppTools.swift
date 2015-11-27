@@ -168,6 +168,11 @@ class UserDefaultsKey : NSObject
 
 extension Mixpanel
 {
+    static func trackEvent(eventName : String, properties : [NSObject : AnyObject])
+    {
+        Mixpanel.sharedInstance().track(eventName, properties: properties)
+    }
+    
     static func trackPageVisit(pageName : String)
     {
         let p = [

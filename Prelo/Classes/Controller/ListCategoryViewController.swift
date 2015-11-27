@@ -312,7 +312,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     "Category" : categoriesFix[i]["name"].string!
                 ]
                 Mixpanel.trackPageVisit("Home", otherParam: pt)
-                Mixpanel.sharedInstance().track(Mixpanel.EventCategoryBrowsed, properties: pt)
+                Mixpanel.trackEvent(Mixpanel.EventCategoryBrowsed, properties: pt)
                 isPageTracked = true
             }
         }

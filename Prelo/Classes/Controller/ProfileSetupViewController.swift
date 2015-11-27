@@ -140,7 +140,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             let pr = [
                 "Previous Screen" : self.screenBeforeLogin
             ]
-            Mixpanel.sharedInstance().track("Register", properties: pr)
+            Mixpanel.trackEvent("Register", properties: pr)
         }
         
         // Keyboard animation handling
@@ -572,11 +572,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                 "Phone" : userProfile.phone!,
                                 "Shipping Options" : shippingArrName
                             ]
-                            Mixpanel.sharedInstance().track("Setup Account", properties: pt as [NSObject : AnyObject])
+                            Mixpanel.trackEvent("Setup Account", properties: pt as [NSObject : AnyObject])
                             let pt2 = [
                                 "Activation Screen" : "Voucher"
                             ]
-                            Mixpanel.sharedInstance().track(Mixpanel.EventReferralUsed, properties: pt2)
+                            Mixpanel.trackEvent(Mixpanel.EventReferralUsed, properties: pt2)
 
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate

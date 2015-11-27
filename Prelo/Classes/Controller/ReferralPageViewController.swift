@@ -372,7 +372,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             let pt = [
                                 "Activation Screen" : "Voucher"
                             ]
-                            Mixpanel.sharedInstance().track(Mixpanel.EventReferralUsed, properties: pt)
+                            Mixpanel.trackEvent(Mixpanel.EventReferralUsed, properties: pt)
                             
                         } else { // Gagal
                             Constant.showDialog("Warning", message: "Error setting referral")

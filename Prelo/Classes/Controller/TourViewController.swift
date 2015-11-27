@@ -74,7 +74,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
             "Category" : "All",
             "First Time" : false
         ]
-        Mixpanel.sharedInstance().track(Mixpanel.EventCategoryBrowsed, properties: pt)
+        Mixpanel.trackEvent(Mixpanel.EventCategoryBrowsed, properties: pt as [NSObject : AnyObject])
     }
     
     var fromButton = false

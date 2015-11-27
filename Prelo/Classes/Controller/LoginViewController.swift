@@ -231,7 +231,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                 "Previous Screen" : screenBeforeLogin,
                                 "Login Method" : loginMethod
                             ]
-                            Mixpanel.sharedInstance().track("Login", properties: pt)
+                            Mixpanel.trackEvent("Login", properties: pt)
                             
                             Mixpanel.sharedInstance().identify(c.id)
                         }

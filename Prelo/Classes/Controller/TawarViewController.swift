@@ -337,7 +337,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             "Seller Name" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
             "Is Seller" : !tawarItem.opIsMe
         ]
-        Mixpanel.sharedInstance().track(eventName, properties: pt as [NSObject : AnyObject])
+        Mixpanel.trackEvent(eventName, properties: pt as [NSObject : AnyObject])
     }
     
     func startNew(type : Int, message : String)

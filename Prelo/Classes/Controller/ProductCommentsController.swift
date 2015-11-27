@@ -133,7 +133,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        Mixpanel.sharedInstance().track(Mixpanel.EventCommentedProduct, properties: pt)
+        Mixpanel.trackEvent(Mixpanel.EventCommentedProduct, properties: pt)
         
         self.btnSend.hidden = true
         

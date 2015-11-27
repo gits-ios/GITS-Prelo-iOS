@@ -400,7 +400,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
             "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : "")
         ]
-        Mixpanel.sharedInstance().track(Mixpanel.EventSharedProduct, properties: pt)
+        Mixpanel.trackEvent(Mixpanel.EventSharedProduct, properties: pt)
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {

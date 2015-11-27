@@ -209,7 +209,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 "Origin Bank" : f,
                 "Amount" : nom
             ]
-            Mixpanel.sharedInstance().track(Mixpanel.EventPaymentClaimed, properties: pt)
+            Mixpanel.trackEvent(Mixpanel.EventPaymentClaimed, properties: pt)
             
             let x = (nom as NSString).integerValue
             request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in

@@ -415,7 +415,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             "Search Type" : "Product",
             "Search Query" : keyword
         ]
-        Mixpanel.sharedInstance().track(Mixpanel.EventSearch, properties: pt)
+        Mixpanel.trackEvent(Mixpanel.EventSearch, properties: pt)
         
         if let req = itemRequest
         {
@@ -463,7 +463,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             "Search Type" : "User",
             "Search Query" : keyword
         ]
-        Mixpanel.sharedInstance().track(Mixpanel.EventSearch, properties: pt)
+        Mixpanel.trackEvent(Mixpanel.EventSearch, properties: pt)
         
         if let req = userRequest
         {
