@@ -20,6 +20,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet var imgs : [UIView] = []
     
     var cellData : [NSIndexPath : BaseCartData] = [:]
+    var cellViews : [NSIndexPath : UITableViewCell] = [:]
     
     var orderID : String = ""
     var transactionId : String = ""
@@ -129,6 +130,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cachedCell = cellViews[indexPath]
+        if (cachedCell != nil) {
+            return cachedCell!
+        }
+        
         var c : UITableViewCell?
         var b : BaseCartCell
         let r = indexPath.row
@@ -147,6 +154,9 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         b.parent = self
         
         c = b
+        
+        cellViews[indexPath] = c!
+        
         return c!
     }
     
@@ -194,6 +204,16 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBAction func sendConfirm()
     {
+        for k in cellViews.keys
+        {
+            let c = cellViews[k]!
+            let same = c.isKindOfClass(BaseCartCell.classForCoder())
+            if (same == true) {
+                let b = c as! BaseCartCell
+                cellData[b.lastIndex!] = b.obtainValue()
+            }
+        }
+        
         var orderId = transactionId
         var bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
         var bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
