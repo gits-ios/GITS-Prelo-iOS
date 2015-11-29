@@ -70,7 +70,7 @@ class MessagePool: NSObject
                         {
                             let i = InboxMessage()
                             i.senderId = d["sender_id"] as! String
-                            let o : NSString = d["message_type"] as! NSString
+                            let o : NSNumber = d["message_type"] as! NSNumber
                             i.messageType = o.integerValue
                             i.message = d["message"] as! String
                             i.isMe = i.senderId == CDUser.getOne()?.id

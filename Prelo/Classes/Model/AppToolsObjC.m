@@ -258,6 +258,31 @@ static UIDocumentInteractionController *staticDocController = NULL;
     return [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage scale:asset.defaultRepresentation.scale orientation:UIImageOrientationUp];
 }
 
+- (UIImage *)putPreloWatermarkWithUsername:(NSString *)username
+{
+    UIImage *backgroundImage = self;
+    UIImage *watermarkImage = [UIImage imageNamed:@"wm_logo"];
+    
+    CGRect wmr = CGRectMake(backgroundImage.size.width - watermarkImage.size.width - 18, backgroundImage.size.height - watermarkImage.size.height - 10, watermarkImage.size.width, watermarkImage.size.height);
+    
+    UIGraphicsBeginImageContext(backgroundImage.size);
+    [backgroundImage drawInRect:CGRectMake(0, 0, backgroundImage.size.width, backgroundImage.size.height)];
+    [watermarkImage drawInRect:wmr];
+    
+    UIFont *f = [UIFont systemFontOfSize:14];
+//    [[UIColor colorWithRed:144/255.f green:144/255.f blue:144/255.f alpha:0] set];
+    CGRect r = wmr;
+    r.origin.x += 8;
+    r.origin.y += 45;
+    CGFloat c = 80;
+    [username drawInRect:r withAttributes:@{NSFontAttributeName : f, NSForegroundColorAttributeName:[UIColor colorWithRed:c/255.f green:c/255.f blue:c/255.f alpha:1]}];
+    
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return  result;
+}
+
 @end
 
 @implementation NSObject(AppToolsObjC)

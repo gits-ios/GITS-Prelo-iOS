@@ -53,6 +53,7 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 @interface UIImage (AppToolsObjC)
 
 + (UIImage *)imageFromAsset:(ALAsset *)asset;
+- (UIImage *) putPreloWatermarkWithUsername:(NSString *)username;
 
 @end
 

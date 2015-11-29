@@ -109,7 +109,13 @@ extension UIImageView {
                     }
                     else {
                         if failure != nil {
-                            failure!(request: request, response:response, error: error!)
+                            if let e = error
+                            {
+                                failure!(request: request, response:response, error: e)
+                            } else
+                            {
+                                failure!(request: request, response:response, error: NSError(domain: "", code: 0, userInfo: nil))
+                            }
                         }
                     }
                     

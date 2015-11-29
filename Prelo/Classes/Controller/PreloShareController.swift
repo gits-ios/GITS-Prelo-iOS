@@ -37,6 +37,12 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     {
         let s = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPreloShare) as! PreloShareController
         s.item = item
+        
+//        if let i = item.image
+//        {
+//            s.item?.image = i.putPreloWatermarkWithUsername("")
+//        }
+        
         s.parentView = inView
         
         sharer = s
@@ -48,6 +54,12 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     {
         let s = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPreloShare) as! PreloShareController
         s.item = item
+        
+//        if let i = item.image
+//        {
+//            s.item?.image = i.putPreloWatermarkWithUsername("")
+//        }
+        
         s.parentView = inView
         s.detail = detail
         
@@ -264,8 +276,10 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     var mgInstagram : MGInstagram?
     var pathImage : UIImage?
-    func share(a : PreloShareAgent, image : UIImage)
+    func share(a : PreloShareAgent, var image : UIImage)
     {
+        image = image.putPreloWatermarkWithUsername("@" + (detail?.json["_data"]["seller"]["username"].stringValue)!)!
+        
         if (a.title.lowercaseString == "instagram")
         {
             UIPasteboard.generalPasteboard().string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
