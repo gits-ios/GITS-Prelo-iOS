@@ -54,6 +54,7 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
     
     @IBAction func sellPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = "My Orders"
         self.navigationController?.pushViewController(add, animated: true)
     }
     

@@ -212,6 +212,8 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
         
+        self.mixpanelSharedReferral("Path", username: pathName)
+        
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")
             
@@ -253,6 +255,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
             mgInstagram = MGInstagram()
             mgInstagram?.postImage(shareImage, withCaption: shareText, inView: self.view, delegate: self)
+            self.mixpanelSharedReferral("Instagram", username: "")
         } else {
             Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
         }
@@ -265,6 +268,19 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addURL(url!)
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
+            composer.completionHandler = { result -> Void in
+                var getResult = result as SLComposeViewControllerResult
+                switch(getResult.rawValue) {
+                case SLComposeViewControllerResult.Cancelled.rawValue:
+                    println("Cancelled")
+                case SLComposeViewControllerResult.Done.rawValue:
+                    println("Done")
+                    self.mixpanelSharedReferral("Facebook", username: "")
+                default:
+                    println("Error")
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
             self.presentViewController(composer, animated: true, completion: nil)
         } else {
             Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
@@ -278,6 +294,19 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addURL(url!)
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
+            composer.completionHandler = { result -> Void in
+                var getResult = result as SLComposeViewControllerResult
+                switch(getResult.rawValue) {
+                case SLComposeViewControllerResult.Cancelled.rawValue:
+                    println("Cancelled")
+                case SLComposeViewControllerResult.Done.rawValue:
+                    println("Done")
+                    self.mixpanelSharedReferral("Twitter", username: "")
+                default:
+                    println("Error")
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
             self.presentViewController(composer, animated: true, completion: nil)
         } else {
             Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
@@ -296,6 +325,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
             let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
             UIApplication.sharedApplication().openURL(url!)
+            self.mixpanelSharedReferral("Whatsapp", username: "")
         } else {
             Constant.showDialog("No Whatsapp", message: "Silakan install Whatsapp dari app store terlebih dahulu")
         }
@@ -304,6 +334,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     @IBAction func linePressed(sender: AnyObject) {
         if (Line.isLineInstalled()) {
             Line.shareText(shareText)
+            self.mixpanelSharedReferral("Line", username: "")
         } else {
             Constant.showDialog("No Line app", message: "Silakan install Line dari app store terlebih dahulu")
         }
@@ -315,6 +346,8 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         composer.messageComposeDelegate = self
         
         self.presentViewController(composer, animated: true, completion: nil)
+        
+        self.mixpanelSharedReferral("SMS", username: "")
     }
     
     @IBAction func emailPressed(sender: AnyObject) {
@@ -323,6 +356,8 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         composer.mailComposeDelegate = self
         
         self.presentViewController(composer, animated: true, completion: nil)
+        
+        self.mixpanelSharedReferral("Email", username: "")
     }
     
     @IBAction func morePressed(sender: AnyObject) {
@@ -372,7 +407,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                             let pt = [
                                 "Activation Screen" : "Voucher"
                             ]
-                            Mixpanel.trackEvent(Mixpanel.EventReferralUsed, properties: pt)
+                            Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
                             
                         } else { // Gagal
                             Constant.showDialog("Warning", message: "Error setting referral")
@@ -381,5 +416,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 }
             }
         }
+    }
+    
+    // MARK: - Mixpanel
+    
+    func mixpanelSharedReferral(socmed : String, username : String) {
+        let pt = [
+            "Socmed" : socmed,
+            "Socmed Username" : username
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.SharedReferral, properties: pt)
     }
 }

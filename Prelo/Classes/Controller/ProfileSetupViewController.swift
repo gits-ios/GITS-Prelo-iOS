@@ -576,7 +576,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             let pt2 = [
                                 "Activation Screen" : "Voucher"
                             ]
-                            Mixpanel.trackEvent(Mixpanel.EventReferralUsed, properties: pt2)
+                            Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
 
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate

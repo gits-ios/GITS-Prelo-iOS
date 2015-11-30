@@ -238,6 +238,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        PreloShareController.Share(i, inView: (self.navigationController?.view)!)
         
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = "Home"
         self.navigationController?.pushViewController(add, animated: true)
     }
     

@@ -30,6 +30,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var address = ""
     var addressHeight = 44
     
+    var totalOngkir = 0
+    
     var cells : [NSIndexPath : BaseCartData] = [:]
     var cellViews : [NSIndexPath : UITableViewCell] = [:]
     var voucher : String = ""
@@ -173,7 +175,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func adjustTotal()
     {
-        var totalOngkir = 0
+        totalOngkir = 0
         for i in 0...products.count-1
         {
             let cp = products[i]
@@ -417,6 +419,64 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
                         }
                         UIApplication.appDelegate.saveContext()
+                        
+                        // Mixpanel
+                        if (self.checkoutResult != nil) {
+                            var pName : String? = ""
+                            var rName : String? = ""
+                            if let u = CDUser.getOne()
+                            {
+                                pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                                if (pName == nil) {
+                                    pName = ""
+                                }
+                                rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                                if (rName == nil) {
+                                    rName = ""
+                                }
+                            }
+                            
+                            var items : [String] = []
+                            var itemsCategory : [String] = []
+                            var itemsSeller : [String] = []
+                            var itemsPrice : [Int] = []
+                            var itemsCommissionPercentage : [Int] = []
+                            var itemsCommissionPrice : [Int] = []
+                            var totalCommissionPrice = 0
+                            var totalPrice = 0
+                            for i in 0...self.arrayItem.count - 1 {
+                                let json = self.arrayItem[i]
+                                items.append(json["name"].stringValue)
+                                var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                                if (cName == nil) {
+                                    cName = json["category_id"].stringValue
+                                }
+                                itemsCategory.append(cName!)
+                                itemsSeller.append(json["seller_id"].stringValue)
+                                itemsPrice.append(json["price"].intValue)
+                                totalPrice += json["price"].intValue
+                                itemsCommissionPercentage.append(json["commission"].intValue)
+                                let cPrice = json["price"].intValue * json["commission"].intValue / 100
+                                itemsCommissionPrice.append(cPrice)
+                                totalCommissionPrice += cPrice
+                            }
+                            
+                            let pt = [
+                                "Order ID" : self.checkoutResult!["order_id"].stringValue,
+                                "Items" : items,
+                                "Items Category" : itemsCategory,
+                                "Items Seller" : itemsSeller,
+                                "Items Price" : itemsPrice,
+                                "Items Commission Percentage" : itemsCommissionPercentage,
+                                "Items Commission Price" : itemsCommissionPrice,
+                                "Total Commission Price" : totalCommissionPrice,
+                                "Shipping Price" : self.totalOngkir,
+                                "Total Price" : totalPrice,
+                                "Shipping Region" : rName!,
+                                "Shipping Province" : pName!
+                            ]
+                            Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
+                        }
                         
                         self.previousController?.navigationController?.pushViewController(o, animated: true)
                         

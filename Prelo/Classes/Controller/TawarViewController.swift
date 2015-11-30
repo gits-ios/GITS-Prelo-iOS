@@ -278,7 +278,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         // Mixpanel
-        self.sendMixpanelEvent(Mixpanel.EventBargain)
+        self.sendMixpanelEvent(MixpanelEvent.Bargain)
     }
     
     func rejectTawar(sender : UIView?)
@@ -302,7 +302,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         sendChat(0, message: textView.text)
         
         // Mixpanel
-        self.sendMixpanelEvent(Mixpanel.EventChatSent)
+        self.sendMixpanelEvent(MixpanelEvent.ChatSent)
     }
     
     func sendChat(type : Int, message : String)

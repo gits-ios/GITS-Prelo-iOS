@@ -100,6 +100,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     @IBAction func jualPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = "My Products"
         self.navigationController?.pushViewController(add, animated: true)
     }
 

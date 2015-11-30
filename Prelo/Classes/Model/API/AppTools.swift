@@ -166,8 +166,30 @@ class UserDefaultsKey : NSObject
     static let TourDone = "tourdone"
 }
 
+class MixpanelEvent
+{
+    static let CategoryBrowsed = "Category Browsed"
+    static let Search = "Search"
+    static let ToggledLikeProduct = "Toggled Like Product"
+    static let SharedProduct = "Shared Product"
+    static let CommentedProduct = "Commented Product"
+    static let ChatSent = "Chat Sent"
+    static let Bargain = "Bargain"
+    static let PaymentClaimed = "Payment Claimed"
+    static let ReferralUsed = "Referral Used"
+    static let SharedReferral = "Shared Referral"
+    static let RequestedWithdrawMoney = "Requested Withdraw Money"
+    static let Checkout = "Checkout"
+    static let AddedProduct = "Added Product"
+}
+
 extension Mixpanel
 {
+    static func trackEvent(eventName : String)
+    {
+        Mixpanel.sharedInstance().track(eventName)
+    }
+    
     static func trackEvent(eventName : String, properties : [NSObject : AnyObject])
     {
         Mixpanel.sharedInstance().track(eventName, properties: properties)
@@ -187,16 +209,6 @@ extension Mixpanel
         p["Page"] = pageName
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
     }
-    
-    static let EventCategoryBrowsed = "Category Browsed"
-    static let EventSearch = "Search"
-    static let EventToggledLikeProduct = "Toggled Like Product"
-    static let EventSharedProduct = "Shared Product"
-    static let EventCommentedProduct = "Commented Product"
-    static let EventChatSent = "Chat Sent"
-    static let EventBargain = "Bargain"
-    static let EventPaymentClaimed = "Payment Claimed"
-    static let EventReferralUsed = "Referral Used"
 }
 
 extension NSUserDefaults

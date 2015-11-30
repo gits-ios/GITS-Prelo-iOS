@@ -91,7 +91,7 @@ class AboutViewController: BaseViewController {
             notifListener.setNewNotifCount(0)
         }
         
-        // Reset crashlytics
+        // Reset mixpanel
         Mixpanel.sharedInstance().reset()
         let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
         Mixpanel.sharedInstance().identify(uuid)

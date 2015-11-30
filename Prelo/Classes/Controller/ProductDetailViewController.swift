@@ -559,7 +559,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
         ]
-        Mixpanel.trackEvent(Mixpanel.EventToggledLikeProduct, properties: pt)
+        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
         
         if (isLoved)
         {

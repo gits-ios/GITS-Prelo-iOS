@@ -126,6 +126,14 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 {
 //                    self.getBalance()
                     UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik tunai telah diterima")
+                    
+                    // Mixpanel
+                    let pt = [
+                        "Destination Bank" : namaBank,
+                        "Amount" : i
+                    ]
+                    Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             } else

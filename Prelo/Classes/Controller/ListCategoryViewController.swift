@@ -27,7 +27,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         super.viewDidLoad()
         
         Mixpanel.trackPageVisit("Home", otherParam: ["Category" : "All"])
-        Mixpanel.sharedInstance().timeEvent(Mixpanel.EventCategoryBrowsed)
+        Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
         
         scrollView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "grandRefresh", name: "refreshHome", object: nil)
@@ -312,7 +312,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     "Category" : categoriesFix[i]["name"].string!
                 ]
                 Mixpanel.trackPageVisit("Home", otherParam: pt)
-                Mixpanel.trackEvent(Mixpanel.EventCategoryBrowsed, properties: pt)
+                Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                 isPageTracked = true
             }
         }

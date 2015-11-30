@@ -117,4 +117,17 @@ class CDCategory: NSManagedObject {
             return (r as! [CDCategory])
         }
     }
+    
+    static func getCategoryNameWithID(id : String) -> String? {
+        let predicate = NSPredicate(format: "id == %@", id)
+        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        fetchReq.predicate = predicate
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDCategory).name
+        }
+    }
 }
