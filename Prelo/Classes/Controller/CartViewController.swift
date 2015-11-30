@@ -327,14 +327,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
+        var name = ""
         var phone = ""
         var postal = ""
+        var email = (CDUser.getOne()?.email)!
         for i in cells.keys
         {
             let b = cells[i]
             if (b?.value == nil || b?.value == "") {
                 Constant.showDialog("Warning", message: (b?.title)! + " still empty !")
                 return
+            }
+            
+            if (b?.title == titleNama)
+            {
+                name = (b?.value)!
             }
             
             if (b?.title == titleTelepon) {
@@ -360,7 +367,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         user?.profiles.postalCode = postal
         UIApplication.appDelegate.saveContext()
         
-        let d = ["address":address, "province_id":selectedProvinsiID, "region_id":selectedKotaID, "postal_code":postal]
+        let d = ["address":address, "province_id":selectedProvinsiID, "region_id":selectedKotaID, "postal_code":postal, "recipient_name":name, "recipient_phone":phone, "email":email]
         let a = AppToolsObjC.jsonStringFrom(d)
         
         self.btnSend.enabled = false

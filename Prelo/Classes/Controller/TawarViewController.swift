@@ -340,10 +340,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         Mixpanel.trackEvent(eventName, properties: pt as [NSObject : AnyObject])
     }
     
+    var starting = false
     func startNew(type : Int, message : String)
     {
+        if (starting)
+        {
+            return
+        }
+        self.starting = true
         request(APIInbox.StartNewOne(productId: prodId, type: type, message: message)).responseJSON {req, resp, res, err in
             println(res)
+            self.starting = false
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 let json = JSON(res!)
