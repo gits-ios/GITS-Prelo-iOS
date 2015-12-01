@@ -65,7 +65,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             captionNoItem.hidden = false
         } else
         {
-            self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+            //self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
             let c = CDUser.getOne()
             
             if (c == nil) {
