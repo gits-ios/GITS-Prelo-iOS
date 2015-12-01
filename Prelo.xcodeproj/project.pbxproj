@@ -423,6 +423,7 @@
 		FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
 		FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview.xib */; };
 		FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
+		FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */; };
 		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
 		FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
 		FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */; };
@@ -966,6 +967,7 @@
 		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
 		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
 		FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
+		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPreferencesViewController.swift; sourceTree = "<group>"; };
 		FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryPreferences.xib; sourceTree = "<group>"; };
@@ -1691,6 +1693,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
 				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
 				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
 				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
@@ -2087,6 +2090,7 @@
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,

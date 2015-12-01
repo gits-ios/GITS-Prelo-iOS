@@ -21,7 +21,7 @@ protocol PreloSocketDelegate
 class PreloNotificationListener : PreloSocketDelegate
 {
     
-    let socket = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
+    var socket : SocketIOClient! // = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
     
     var newNotifCount : Int = 0
     
@@ -33,8 +33,9 @@ class PreloNotificationListener : PreloSocketDelegate
         // Init notif count
         NotificationPageViewController.refreshNotifications()
         
-        // todo add delegate to Main Socket Class
-        // PreloSocket.sharedInstance().registerDelegate(self, event:"eventName")
+        // Add delegate to Main Socket Class
+        //let del = UIApplication.sharedApplication().delegate as! AppDelegate
+        //del.messagePool.registerDelegate(self, event:"eventName")
     }
     
     func socketReceiveSomething(data: NSArray?, ack: AckEmitter?) {
@@ -42,16 +43,21 @@ class PreloNotificationListener : PreloSocketDelegate
     }
     
     func setupSocket() {
+        let del = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.socket = del.messagePool.socket
+        
         if ((!self.socket.connected || willReconnect) && !self.socket.connecting) {
             self.socket.on("connect") {data, ack in
                 println("Socket is connected")
                 
+                /* Dimatiin abis gabunging ke messagepool
                 // Register
                 // Harusnya ini cuma dipanggil kalo user logged in, tapi sering crash gara2 kepanggil waktu logged out, jadi kasih if aja
                 if (User.IsLoggedIn) {
                     var userId = User.Id!
                     self.socket.emit("register", userId)
                 }
+                */
             }
             
             // Listening for notification

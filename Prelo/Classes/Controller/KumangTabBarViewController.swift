@@ -138,7 +138,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
-        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory) { // Jika akan memanggil tour
+        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
         } else {
