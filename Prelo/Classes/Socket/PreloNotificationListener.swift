@@ -18,7 +18,7 @@ protocol PreloSocketDelegate
     func socketReceiveSomething(data : NSArray?, ack : AckEmitter?)
 }
 
-class PreloNotificationListener : PreloSocketDelegate
+class PreloNotificationListener //: PreloSocketDelegate
 {
     
     var socket : SocketIOClient! // = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
@@ -33,14 +33,18 @@ class PreloNotificationListener : PreloSocketDelegate
         // Init notif count
         NotificationPageViewController.refreshNotifications()
         
+        /* Belum dipake, mungkin ga akan dipake
         // Add delegate to Main Socket Class
         //let del = UIApplication.sharedApplication().delegate as! AppDelegate
         //del.messagePool.registerDelegate(self, event:"eventName")
+        */
     }
     
+    /* Belum dipake, mungkin ga akan dipake
     func socketReceiveSomething(data: NSArray?, ack: AckEmitter?) {
         self.handleNotification(JSON(data!)[0])
     }
+    */
     
     func setupSocket() {
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -50,7 +54,7 @@ class PreloNotificationListener : PreloSocketDelegate
             self.socket.on("connect") {data, ack in
                 println("Socket is connected")
                 
-                /* Dimatiin abis gabunging ke messagepool
+                /* Dimatiin abis gabungin ke messagepool
                 // Register
                 // Harusnya ini cuma dipanggil kalo user logged in, tapi sering crash gara2 kepanggil waktu logged out, jadi kasih if aja
                 if (User.IsLoggedIn) {
@@ -62,10 +66,12 @@ class PreloNotificationListener : PreloSocketDelegate
             
             // Listening for notification
             self.socket.on("notification") {data, ack in
+                /* Dimatiin abis ganbungin ke messagepool
                 if (!self.willReconnect) {
                     println("You've got a notification: \(data)")
                     self.handleNotification(JSON(data!)[0])
                 }
+                */
             }
             
             // FOR TESTING

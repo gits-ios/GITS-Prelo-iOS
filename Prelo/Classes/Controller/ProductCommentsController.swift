@@ -33,6 +33,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.title = "Komentar"
+        
         tableView.dataSource = self
         tableView.delegate = self
         

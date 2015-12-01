@@ -444,19 +444,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (dragging)
         {
-            if (currScrollPoint.y < scrollView.contentOffset.y)
-            {
-                if ((self.navigationController?.navigationBarHidden)! == false)
+            if (!storeMode) {
+                if (currScrollPoint.y < scrollView.contentOffset.y)
                 {
-                    NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
-                    self.navigationController?.setNavigationBarHidden(true, animated: true)
-                    UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                    if ((self.navigationController?.navigationBarHidden)! == false)
+                    {
+                        NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
+                        self.navigationController?.setNavigationBarHidden(true, animated: true)
+                        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                    }
+                } else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                 }
-            } else
-            {
-                NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
             }
         }
     }
