@@ -30,9 +30,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBOutlet weak var groupProductDetail: UIView!
     @IBOutlet weak var groupDescription: UIView!
     @IBOutlet weak var groupPembayaran: UIView!
+    @IBOutlet weak var groupPengiriman: UIView!
     @IBOutlet weak var groupKonfPengiriman: UIView!
     @IBOutlet weak var groupTolakPenawaran: UIView!
-    @IBOutlet weak var groupPengiriman: UIView!
     @IBOutlet weak var groupTitleReview: UIView!
     @IBOutlet weak var groupBelumReview: UIView!
     @IBOutlet weak var groupHubungiBuyer: UIView!
@@ -43,9 +43,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBOutlet weak var consTopProductDetail: NSLayoutConstraint!
     @IBOutlet weak var consTopDescription: NSLayoutConstraint!
     @IBOutlet weak var consTopPembayaran: NSLayoutConstraint!
+    @IBOutlet weak var consTopPengiriman: NSLayoutConstraint!
     @IBOutlet weak var consTopKonfPengiriman: NSLayoutConstraint!
     @IBOutlet weak var consTopTolakPenawaran: NSLayoutConstraint!
-    @IBOutlet weak var consTopPengiriman: NSLayoutConstraint!
     @IBOutlet weak var consTopTitleReview: NSLayoutConstraint!
     @IBOutlet weak var consTopBelumReview: NSLayoutConstraint!
     @IBOutlet weak var consTopHubungiBuyer: NSLayoutConstraint!
@@ -68,9 +68,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     @IBOutlet weak var btnKonfirmasiPengiriman: UIButton!
     
-    @IBOutlet weak var lblKurirPengiriman: UILabel!
-    @IBOutlet weak var lblNoPengiriman: UILabel!
-    @IBOutlet weak var lblTglPengiriman: UILabel!
+    @IBOutlet weak var lblNamaPengiriman: UILabel!
+    @IBOutlet weak var lblNoTelpPengiriman: UILabel!
+    @IBOutlet weak var lblAlamatPengiriman: UILabel!
+    @IBOutlet weak var lblProvinsiPengiriman: UILabel!
+    @IBOutlet weak var lblRegionPengiriman: UILabel!
+    @IBOutlet weak var lblKodePosPengiriman: UILabel!
+    @IBOutlet weak var consHeightGroupPengiriman: NSLayoutConstraint!
+    @IBOutlet weak var consHeightAlamatPengiriman: NSLayoutConstraint!
     
     @IBOutlet weak var btnHubungiBuyer: UIButton!
     
@@ -95,6 +100,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     var transactionId : String?
     var transactionDetail : TransactionDetail?
+    
+    var contactUs : UIViewController?
     
     // MARK: - Init
     
@@ -155,6 +162,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             } else {
                 let json = JSON(res!)
                 let data = json["_data"]
+                println("data = \(data)")
                 if (data == nil) { // Data kembalian kosong
                     let obj : [String : String] = res as! [String : String]
                     let message = obj["_message"]
@@ -179,55 +187,15 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         ]
         Mixpanel.trackPageVisit("Transaction Detail", otherParam: param)
         
-        // Set groups and top constraints manually
-        groups.append(self.groupProductDetail)
-        groups.append(self.groupDescription)
-        groups.append(self.groupPembayaran)
-        groups.append(self.groupKonfPengiriman)
-        groups.append(self.groupTolakPenawaran)
-        groups.append(self.groupPengiriman)
-        groups.append(self.groupTitleReview)
-        groups.append(self.groupBelumReview)
-        groups.append(self.groupHubungiBuyer)
-        groups.append(self.groupContentReview)
-        groups.append(self.groupAdaMasalah)
-        
-        consTopGroups.append(self.consTopProductDetail)
-        consTopGroups.append(self.consTopDescription)
-        consTopGroups.append(self.consTopPembayaran)
-        consTopGroups.append(self.consTopKonfPengiriman)
-        consTopGroups.append(self.consTopTolakPenawaran)
-        consTopGroups.append(self.consTopPengiriman)
-        consTopGroups.append(self.consTopTitleReview)
-        consTopGroups.append(self.consTopBelumReview)
-        consTopGroups.append(self.consTopHubungiBuyer)
-        consTopGroups.append(self.consTopContentReview)
-        consTopGroups.append(self.consTopAdaMasalah)
-        
-        // Arrange groups
+        // Order status text
         let orderStatusText = transactionDetail?.progressText
-        var p : [Bool] = []
-        if (orderStatusText == OrderStatus.Dipesan) {
-            p = [true, true, false, false, false, false, false, false, true, false, true]
-        } else if (orderStatusText == OrderStatus.Dibayar) {
-            p = [true, false, true, true, true, false, false, false, false, false, true]
-        } else if (orderStatusText == OrderStatus.Dikirim) {
-            p = [true, false, true, false, false, true, false, false, false, false, true]
-        } else if (orderStatusText == OrderStatus.Direview) {
-            p = [true, false, true, false, false, true, true, false, false, true, true]
-        } else if (orderStatusText == OrderStatus.Diterima) {
-            p = [true, false, false, false, false, false, true, true, true, false, true]
-        } else {
-            p = [true, false, false, false, false, false, false, false, false, false, true]
-        }
-        arrangeGroups(p)
         
         // Set title
         self.title = (transactionDetail!.productName)
         
         // Set back button
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         
@@ -240,10 +208,22 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         lblOrderTime.text = transactionDetail?.time
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
-        lblKurirPengiriman.text = transactionDetail?.shippingName
-        lblNoPengiriman.text = transactionDetail?.resiNumber
-        lblTglPengiriman.text = transactionDetail?.shippingDate
+        lblNamaPengiriman.text = transactionDetail?.shippingRecipientName
+        lblNoTelpPengiriman.text = "0222503593"//transactionDetail?.shippingRecipientPhone
+        lblAlamatPengiriman.text = transactionDetail?.shippingAddress
+        let provName : String? = CDProvince.getProvinceNameWithID((transactionDetail?.shippingProvinceId)!)
+        lblProvinsiPengiriman.text = ((provName != nil) ? provName! : "-")
+        let regionName : String? = CDRegion.getRegionNameWithID((transactionDetail?.shippingRegionId)!)
+        lblRegionPengiriman.text = ((regionName != nil) ? regionName! : "-")
+        lblKodePosPengiriman.text = transactionDetail?.shippingPostalCode
         lblReviewContent.text = transactionDetail?.reviewComment
+        
+        // lblAlamatPengiriman height fix
+        let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
+        var sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
+        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
+        consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
         
         // lblDescription
         lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(transactionDetail?.paymentDate). Ingatkan Buyer untuk segera membayar"
@@ -270,7 +250,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         // Konfirmasi Pengiriman pop up
         lblKonfKurir.text = transactionDetail?.shippingName
-        lblKonfOngkir.text = "Rp 8000" // FIXME: Ongkir
+        lblKonfOngkir.text = transactionDetail?.shippingPrice
         
         // Fix order status text width
         let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
@@ -282,6 +262,48 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         } else {
             lblOrderStatus.textColor == Theme.ThemeOrange
         }
+        
+        // Set groups and top constraints manually
+        groups.append(self.groupProductDetail)
+        groups.append(self.groupDescription)
+        groups.append(self.groupPembayaran)
+        groups.append(self.groupPengiriman)
+        groups.append(self.groupKonfPengiriman)
+        groups.append(self.groupTolakPenawaran)
+        groups.append(self.groupTitleReview)
+        groups.append(self.groupBelumReview)
+        groups.append(self.groupHubungiBuyer)
+        groups.append(self.groupContentReview)
+        groups.append(self.groupAdaMasalah)
+        
+        consTopGroups.append(self.consTopProductDetail)
+        consTopGroups.append(self.consTopDescription)
+        consTopGroups.append(self.consTopPembayaran)
+        consTopGroups.append(self.consTopPengiriman)
+        consTopGroups.append(self.consTopKonfPengiriman)
+        consTopGroups.append(self.consTopTolakPenawaran)
+        consTopGroups.append(self.consTopTitleReview)
+        consTopGroups.append(self.consTopBelumReview)
+        consTopGroups.append(self.consTopHubungiBuyer)
+        consTopGroups.append(self.consTopContentReview)
+        consTopGroups.append(self.consTopAdaMasalah)
+        
+        // Arrange groups
+        var p : [Bool] = []
+        if (orderStatusText == OrderStatus.Dipesan) {
+            p = [true, true, false, false, false, false, false, false, true, false, true]
+        } else if (orderStatusText == OrderStatus.Dibayar) {
+            p = [true, false, true, true, true, true, false, false, false, false, true]
+        } else if (orderStatusText == OrderStatus.Dikirim) {
+            p = [true, false, true, true, false, false, false, false, false, false, true]
+        } else if (orderStatusText == OrderStatus.Direview) {
+            p = [true, false, true, true, false, false, true, false, false, true, true]
+        } else if (orderStatusText == OrderStatus.Diterima) {
+            p = [true, false, false, false, false, false, true, true, true, false, true]
+        } else {
+            p = [true, false, false, false, false, false, false, false, false, false, true]
+        }
+        arrangeGroups(p)
         
         // Show content
         loading.stopAnimating()
@@ -365,6 +387,40 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         vwKonfKirim.hidden = false
     }
     
+    @IBAction func tolakPenawaranPressed(sender: AnyObject) {
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        contactUs = c
+        if let v = c.view, let p = self.navigationController?.view
+        {
+            v.alpha = 0
+            v.frame = p.bounds
+            self.navigationController?.view.addSubview(v)
+            
+            v.alpha = 0
+            UIView.animateWithDuration(0.2, animations: {
+                v.alpha = 1
+            })
+        }
+    }
+    
+    @IBAction func hubungiPreloPressed(sender: AnyObject) {
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        contactUs = c
+        if let v = c.view, let p = self.navigationController?.view
+        {
+            v.alpha = 0
+            v.frame = p.bounds
+            self.navigationController?.view.addSubview(v)
+            
+            v.alpha = 0
+            UIView.animateWithDuration(0.2, animations: {
+                v.alpha = 1
+            })
+        }
+    }
+    
     @IBAction func fotoBuktiPressed(sender: AnyObject) {
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -445,7 +501,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     func validateKonfKirimFields() {
         if (fldKonfNoResi.text.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
             // Disable tombol kirim
-            btnKonfKirim.backgroundColor = Theme.GrayLight
+            btnKonfKirim.backgroundColor = Theme.PrimaryColor
             btnKonfKirim.userInteractionEnabled = false
         } else {
             // Enable tombol kirim

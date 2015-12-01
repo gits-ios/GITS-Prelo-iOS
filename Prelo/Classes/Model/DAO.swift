@@ -1271,6 +1271,70 @@ class TransactionDetail : NSObject {
         }
     }
     
+    var shippingAddress : String? {
+        if (json["shipping_address"]["address"] != nil) {
+            return json["shipping_address"]["address"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingPostalCode : String? {
+        if (json["shipping_address"]["postal_code"] != nil) {
+            return json["shipping_address"]["postal_code"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingRecipientName : String? {
+        if (json["shipping_address"]["recipient_name"] != nil) {
+            return json["shipping_address"]["recipient_name"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingProvinceId : String! {
+        if (json["shipping_address"]["province_id"] != nil) {
+            return json["shipping_address"]["province_id"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var shippingRegionId : String! {
+        if (json["shipping_address"]["region_id"] != nil) {
+            return json["shipping_address"]["region_id"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var shippingRecipientPhone : String? {
+        if (json["shipping_address"]["recipient_phone"] != nil) {
+            return json["shipping_address"]["recipient_phone"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingEmail : String? {
+        if (json["shipping_address"]["email"] != nil) {
+            return json["shipping_address"]["email"].string
+        } else {
+            return nil
+        }
+    }
+
+    var shippingPrice : String {
+        if (json["shipping_price"] != nil) {
+            return json["shipping_price"].stringValue
+        } else {
+            return "0"
+        }
+    }
+    
     var reviewerName : String? {
         if (json["review"]["buyer_fullname"] != nil) {
             return json["review"]["buyer_fullname"].string
