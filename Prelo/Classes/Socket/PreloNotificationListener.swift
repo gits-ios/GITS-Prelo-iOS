@@ -50,6 +50,7 @@ class PreloNotificationListener //: PreloSocketDelegate
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
         self.socket = del.messagePool.socket
         
+        /* Dimatiin abis gabungin ke messagepool
         if ((!self.socket.connected || willReconnect) && !self.socket.connecting) {
             self.socket.on("connect") {data, ack in
                 println("Socket is connected")
@@ -83,7 +84,7 @@ class PreloNotificationListener //: PreloSocketDelegate
             } else {
                 self.socket.connect()
             }
-        }
+        }*/
     }
         
     func handleNotification(json : JSON) {

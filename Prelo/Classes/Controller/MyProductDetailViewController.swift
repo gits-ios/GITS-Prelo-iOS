@@ -120,8 +120,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
         
         // Sembunyikan shadow dan pop up
-        vwShadow.hidden = true
-        vwKonfKirim.hidden = true
+        //vwShadow.hidden = true
+        //vwKonfKirim.hidden = true
         
         // Agar icon kamera menjadi bulat
         vwIconKamera.layer.cornerRadius = (vwIconKamera.frame.size.width) / 2
@@ -323,9 +323,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             if isShowGroup {
                 groups[i].hidden = false
                 // Manual narrow/wide space
-                if (i == 0 || i == 3 || i == 4 || i == 7 || i == 8 || i == 9) { // Narrow space before group
+                if (i == 0 || i == 5 || i == 4 || i == 7 || i == 8 || i == 9) { // Narrow space before group
                     deltaX += narrowSpace
-                } else if (i == 1 || i == 2 || i == 5 || i == 6 || i == 10) { // Wide space before group
+                } else if (i == 1 || i == 2 || i == 3 || i == 5 || i == 6 || i == 10) { // Wide space before group
                     deltaX += wideSpace
                 }
                 consTopGroups[i].constant = deltaX
