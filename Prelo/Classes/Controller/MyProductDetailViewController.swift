@@ -168,7 +168,6 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                     let message = obj["_message"]
                     println("Empty transaction detail, message: \(message)")
                 } else { // Berhasil
-                    println("Transaction detail: \(data)")
                     
                     // Set label text and image
                     self.transactionDetail = TransactionDetail.instance(data)
@@ -224,10 +223,17 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
+        var groupPengirimanFrame : CGRect = groupPengiriman.frame
+        groupPengirimanFrame.size.height = consHeightGroupPengiriman.constant
+        groupPengiriman.frame = groupPengirimanFrame
         
         // lblDescription
-        lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(transactionDetail?.paymentDate). Ingatkan Buyer untuk segera membayar"
-        // TODO: ganti jadi expiration date
+        if (orderStatusText == OrderStatus.PembayaranPending) {
+            lblDescription.text = "Pembayaran sedang diproses"
+        } else {
+            let expireText = ((transactionDetail?.expireTime != nil) ? (transactionDetail?.expireTime)! : "-")
+            lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Buyer untuk segera membayar"
+        }
         
         // Nama dan gambar reviewer
         lblReviewerName.text = transactionDetail?.reviewerName
@@ -296,6 +302,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             p = [true, false, true, true, true, true, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Dikirim) {
             p = [true, false, true, true, false, false, false, false, false, false, true]
+        } else if (orderStatusText == OrderStatus.PembayaranPending) {
+            p = [true, true, false, false, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Direview) {
             p = [true, false, true, true, false, false, true, false, false, true, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
@@ -427,7 +435,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         if TARGET_IPHONE_SIMULATOR == 1 {
             imagePicker.sourceType = .PhotoLibrary
         } else {
-            imagePicker.sourceType = .Camera
+            imagePicker.sourceType = .Camera // Lie, it'll be executed ->
         }
         
         presentViewController(imagePicker, animated: true, completion: nil)
