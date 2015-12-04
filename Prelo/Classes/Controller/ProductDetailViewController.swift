@@ -620,11 +620,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             loveCount = product["num_lovelist"].int!
         }
         
-        if let free_ongkir = product["free_ongkir"].bool
+        if let free_ongkir = product["free_ongkir"].int
         {
-            if (free_ongkir == false)
+            if (free_ongkir == 0)
             {
-                
+                conWidthOngkir.constant = 0
+                conMarginOngkir.constant = 0
             }
         } else
         {

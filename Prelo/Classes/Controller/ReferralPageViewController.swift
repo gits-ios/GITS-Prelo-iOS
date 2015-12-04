@@ -10,7 +10,7 @@ import Foundation
 import Social
 import MessageUI
 
-class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate {
+class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate, UIAlertViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -102,7 +102,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
     }
@@ -157,6 +157,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     // Jika sudah pernah memasukkan referral, sembunyikan field
                     if (data["referral"]["referral_code_used"] != nil) {
                         self.vwSubmit.hidden = true
+                    } else {
+                        /* TODO: Pending, menunggu API kirim email
+                        // Jika belum tampilkan pop up untuk verifikasi email
+                        let a = UIAlertView()
+                        a.title = "Warning"
+                        a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+                        a.addButtonWithTitle("Batal")
+                        a.addButtonWithTitle("Kirim Email Konfirmasi")
+                        a.delegate = self
+                        a.show()
+                        */
                     }
                     
                     // Set shareText
@@ -426,5 +437,25 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             "Socmed Username" : username
         ]
         Mixpanel.trackEvent(MixpanelEvent.SharedReferral, properties: pt)
+    }
+    
+    // MARK: - UIAlertView Delegate Functions
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Batal
+            self.navigationController?.popViewControllerAnimated(true)
+            break
+        case 1: // Kirim Email Konfirmasi
+            if let email = CDUser.getOne()?.email {
+                Constant.showDialog("Email terkirim", message: "Email konfirmasi telah terkirim ke \(email)")
+            } else {
+                Constant.showDialog("Warning", message: "Silahkan cek email Kamu")
+            }
+            self.navigationController?.popViewControllerAnimated(true)
+            break
+        default:
+            break
+        }
     }
 }
