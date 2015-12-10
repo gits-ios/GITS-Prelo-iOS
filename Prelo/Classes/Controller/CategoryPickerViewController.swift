@@ -89,7 +89,20 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     var selectedCategory : JSON?
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         selectedCategory = categories[indexPath.item]
-        self.performSegueWithIdentifier("segChild", sender: nil)
+        
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+        {
+            self.performSegueWithIdentifier("segChild", sender: nil)
+        } else
+        {
+            let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
+            c.parent = selectedCategory!
+            c.blockDone = blockDone
+            c.backTreshold = 3
+            c.root = self.root
+            c.searchMode = self.searchMode
+            self.navigationController?.pushViewController(c, animated: true)
+        }
     }
     
     // MARK: - Navigation
