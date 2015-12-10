@@ -313,7 +313,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let ap = APImage()
             ap.image = imageViews[index].image
             a.apImage = ap
-            if (index == 0)
+            if (index == 0 || index == 3)
             {
                 a.disableDelete = true
             }
@@ -837,6 +837,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 imgs.append(NSNull())
             }
+        }
+        
+        if (imageViews[3].image == nil)
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
+            return
         }
         
         //validasi
