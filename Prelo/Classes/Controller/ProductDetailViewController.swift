@@ -240,6 +240,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCellWithIdentifier("cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
+                cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 return cellTitle!
             } else if (indexPath.row == 1) {

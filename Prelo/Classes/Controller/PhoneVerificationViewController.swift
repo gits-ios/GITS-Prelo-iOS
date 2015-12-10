@@ -234,7 +234,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
                     println("data = \(data)")
-                    Constant.showDialog("Success", message: "Sms telah dikirim ulang")
+                    Constant.showDialog("Success", message: "SMS telah dikirim ulang, kode verifikasi yang berlaku ada di SMS yang dikirim terakhir")
                 }
             }
         }
@@ -242,6 +242,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     // MARK: - UITextField Delegate
     func textFieldDidEndEditing(textField: UITextField) {
-        Constant.showDialog("Warning", message: "Tekan 'Kirim Ulang' untuk mengirim sms ke nomor yang baru")
+        Constant.showDialog("Kirim Ulang", message: "Tekan 'Kirim Ulang' untuk mengirim sms kembali")
     }
 }

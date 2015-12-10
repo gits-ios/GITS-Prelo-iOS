@@ -92,6 +92,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var loginMethod : String = "" // [Basic | Facebook | Twitter]
     var screenBeforeLogin : String = ""
     
+    var isMixpanelPageVisitSent : Bool = false
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -111,36 +113,53 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         super.viewDidAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit("Setup Account")
-        if let c = CDUser.getOne() {
-            let sp = [
-                "Email" : c.email,
-                "Username" : c.username,
-                "Fullname" : c.fullname!,
-                "Login Method" : self.loginMethod
-            ]
-            Mixpanel.sharedInstance().registerSuperProperties(sp)
-            let spo = [
-                "Register Time" : NSDate().isoFormatted,
-                "Register Method" : self.loginMethod
-            ]
-            Mixpanel.sharedInstance().registerSuperPropertiesOnce(spo)
-            Mixpanel.sharedInstance().identify(c.id)
-            let p = [
-                "$email" : c.email,
-                "$username" : c.username,
-                "$name" : c.fullname!
-            ]
-            Mixpanel.sharedInstance().people.set(p)
-            let po = [
-                "$created" : NSDate().isoFormatted,
-                "Register Method" : self.loginMethod
-            ]
-            Mixpanel.sharedInstance().people.setOnce(po)
-            let pr = [
-                "Previous Screen" : self.screenBeforeLogin
-            ]
-            Mixpanel.trackEvent("Register", properties: pr)
+        if (!self.isMixpanelPageVisitSent) {
+            Mixpanel.trackPageVisit("Setup Account")
+            
+            // Di sini akan dikirim mixpanel event register, hanya jika user baru saja melakukan register 
+            // Pengecekan apakah baru register ada 2 lapis
+            // Pertama: dicek apakah CDUser tidak nil, karena kalau login dan masuk ke ProfileSetupVC, seharusnya CDUser masih kosong, sedangkan kalau setelah register seharusnya CDUser terisi
+            // Kedua: apakah registerTime terjadi kurang dari 1 menit yang lalu (karna profile setup pasti dipanggil setelah register berhasil)
+            // Pengecekan kedua dilakukan karena pengecekan pertama terkadang bocor
+            if let c = CDUser.getOne() {
+                var minutesSinceReg = 0
+                if let o = CDUserOther.getOne() {
+                    let regTime = o.registerTime
+                    minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                }
+                if (minutesSinceReg <= 1) {
+                    let sp = [
+                        "Email" : c.email,
+                        "Username" : c.username,
+                        "Fullname" : c.fullname!,
+                        "Login Method" : self.loginMethod
+                    ]
+                    Mixpanel.sharedInstance().registerSuperProperties(sp)
+                    let spo = [
+                        "Register Time" : NSDate().isoFormatted,
+                        "Register Method" : self.loginMethod
+                    ]
+                    Mixpanel.sharedInstance().registerSuperPropertiesOnce(spo)
+                    Mixpanel.sharedInstance().identify(c.id)
+                    let p = [
+                        "$email" : c.email,
+                        "$username" : c.username,
+                        "$name" : c.fullname!
+                    ]
+                    Mixpanel.sharedInstance().people.set(p)
+                    let po = [
+                        "$created" : NSDate().isoFormatted,
+                        "Register Method" : self.loginMethod
+                    ]
+                    Mixpanel.sharedInstance().people.setOnce(po)
+                    let pr = [
+                        "Previous Screen" : self.screenBeforeLogin
+                    ]
+                    Mixpanel.trackEvent("Register", properties: pr)
+                }
+            }
+            
+            self.isMixpanelPageVisitSent = true
         }
         
         // Keyboard animation handling
@@ -574,7 +593,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             ]
                             Mixpanel.trackEvent("Setup Account", properties: pt as [NSObject : AnyObject])
                             let pt2 = [
-                                "Activation Screen" : "Voucher"
+                                "Activation Screen" : "Setup Account"
                             ]
                             Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
 
