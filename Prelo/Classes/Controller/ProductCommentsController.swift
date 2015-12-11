@@ -51,13 +51,12 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        Mixpanel.trackPageVisit("Product Detail Comment")
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Mixpanel
         let p = [
             "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
             "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
@@ -66,7 +65,10 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        Mixpanel.trackPageVisit("Product Detail Comment", otherParam: p)
+        Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ProductDetailComment)
         
         self.an_subscribeKeyboardWithAnimations({i, f, o in
             

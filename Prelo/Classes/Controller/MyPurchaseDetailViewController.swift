@@ -188,7 +188,10 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             "Product ID" : ((self.transactionDetail != nil) ? self.transactionDetail!.productId : ""),
             "Seller" : ((self.transactionDetail != nil) ? self.transactionDetail!.sellerName : "")
         ]
-        Mixpanel.trackPageVisit("Transaction Detail", otherParam: param)
+        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.TransactionDetail)
         
         // Order status text
         let orderStatusText = transactionDetail?.progressText

@@ -29,5 +29,10 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "GIBadgeView.h"
 #import "AKPickerView.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
+#import "GAILogger.h"
+#import "GAITrackedViewController.h"
 
 #endif

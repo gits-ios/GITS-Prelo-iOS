@@ -98,9 +98,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         if (detail != nil && detail!.isMyProduct == true) {
-            Mixpanel.trackPageVisit("Product Detail Mine", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetailMine)
         } else {
-            Mixpanel.trackPageVisit("Product Detail", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetail)
         }
     }
     

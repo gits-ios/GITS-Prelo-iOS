@@ -34,7 +34,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Add Product"
+        self.title = PageName.AddProduct
         // Do any additional setup after loading the view.
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
@@ -166,7 +166,11 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Add Product")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.AddProduct)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.AddProduct)
         
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             

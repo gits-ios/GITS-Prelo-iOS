@@ -33,7 +33,11 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("My Orders", otherParam: ["Tab" : "In Progress"])
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.MyOrders, otherParam: ["Tab" : "In Progress"])
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.MyOrders)
         
         if (userPurchases?.count == 0 || userPurchases == nil) {
             if (userPurchases == nil) {

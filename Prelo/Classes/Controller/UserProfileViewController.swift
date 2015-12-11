@@ -78,7 +78,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Edit Profile")
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.EditProfile)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.EditProfile)
         
         // Update fieldTentangShop height
         self.textViewDidChange(fieldTentangShop)

@@ -119,7 +119,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (editMode)
         {
-            self.title = "Edit Product"
+            self.title = PageName.EditProduct
             self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
             
             txtName.text = editProduct?.name
@@ -207,7 +207,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.getSizes()
         } else
         {
-            self.title = "Add Product"
+            self.title = PageName.AddProduct
             self.btnSubmit.setTitle("Submit", forState: UIControlState.Normal)
         }
         
@@ -226,9 +226,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewDidAppear(animated)
         
         if (self.editMode) {
-            Mixpanel.trackPageVisit("Edit Product")
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.EditProduct)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.EditProduct)
         } else {
-            Mixpanel.trackPageVisit("Add Product")
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.AddProduct)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.AddProduct)
         }
         
         self.an_subscribeKeyboardWithAnimations({ f, t, o in

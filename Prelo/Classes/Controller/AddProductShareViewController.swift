@@ -311,7 +311,11 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Share Added Product")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.ShareAddedProduct)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ShareAddedProduct)
     }
     
     var first = true

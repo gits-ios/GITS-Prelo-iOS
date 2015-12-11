@@ -50,6 +50,10 @@ class AppTools: NSObject {
     // Production
     static var PreloBaseUrl = "https://prelo.co.id"
     static var PreloBaseUrlShort = "prelo.co.id"
+    
+    static var IsPreloProduction : Bool {
+        return (AppTools.PreloBaseUrlShort == "prelo.co.id")
+    }
 }
 
 class Theme : NSObject
@@ -166,6 +170,50 @@ class UserDefaultsKey : NSObject
     static let TourDone = "tourdone"
 }
 
+class PageName
+{
+    static let SplashScreen = "Splash Screen"
+    static let FirstTimeTutorial = "First Time Tutorial"
+    static let SetCategoryPreferences = "Set Category Preferences"
+    static let About = "About"
+    static let AddProduct = "Add Product"
+    static let ShareAddedProduct = "Share Added Product"
+    static let Checkout = "Checkout"
+    static let CheckoutConfirmation = "Checkout Confirmation"
+    static let UnpaidTransaction = "Unpaid Transaction"
+    static let PaymentConfirmation = "Payment Confirmation"
+    static let EditProfile = "Edit Profile"
+    static let ChangePhone = "Change Phone"
+    static let EditProduct = "Edit Product"
+    static let Home = "Home"
+    static let Referral = "Referral"
+    static let DashboardLoggedIn = "Dashboard Logged In"
+    static let DashboardLoggedOut = "Dashboard Logged Out"
+    static let Contact = "Contact"
+    static let Login = "Login"
+    static let Lovelist = "Lovelist"
+    static let Notification = "Notification"
+    static let Inbox = "Inbox"
+    static let InboxDetail = "Inbox Detail"
+    static let ProductDetail = "Product Detail"
+    static let ProductDetailMine = "Product Detail Mine"
+    static let ProductDetailShare = "Product Detail Share"
+    static let ProductDetailComment = "Product Detail Comment"
+    static let Register = "Register"
+    static let Search = "Search"
+    static let SetupAccount = "Setup Account"
+    static let VerifyPhone = "Verify Phone"
+    static let ShopMine = "Shop Mine"
+    static let Shop = "Shop"
+    static let ShopReviews = "Shop Reviews"
+    static let Withdraw = "Withdraw"
+    static let MyProducts = "My Products"
+    static let MyOrders = "My Orders"
+    static let TransactionDetail = "Transaction Detail"
+    static let TermsAndConditions = "Terms and Conditions"
+    static let CheckoutTutorial = "Checkout Tutorial"
+}
+
 class MixpanelEvent
 {
     static let CategoryBrowsed = "Category Browsed"
@@ -181,6 +229,20 @@ class MixpanelEvent
     static let RequestedWithdrawMoney = "Requested Withdraw Money"
     static let Checkout = "Checkout"
     static let AddedProduct = "Added Product"
+}
+
+extension GAI
+{
+    static func trackPageVisit(pageName : String)
+    {
+        // Send if Prelo production only (not development)
+        if (AppTools.IsPreloProduction) {
+            var tracker = GAI.sharedInstance().defaultTracker
+            tracker.set(kGAIScreenName, value: pageName)
+            var builder = GAIDictionaryBuilder.createScreenView()
+            tracker.send(builder.build() as [NSObject : AnyObject])
+        }
+    }
 }
 
 extension Mixpanel

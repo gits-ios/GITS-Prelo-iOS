@@ -54,7 +54,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Checkout"
+        self.title = PageName.Checkout
         
         products = CartProduct.getAll(User.EmailOrEmptyString)
         
@@ -497,7 +497,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Checkout")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Checkout)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Checkout)
     }
     
     override func viewDidAppear(animated: Bool) {

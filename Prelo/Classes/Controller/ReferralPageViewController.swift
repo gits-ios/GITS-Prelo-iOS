@@ -57,7 +57,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Referral")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Referral)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Referral)
         
         self.getReferralData()
         

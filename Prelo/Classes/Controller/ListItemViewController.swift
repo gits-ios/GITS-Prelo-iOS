@@ -157,13 +157,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (storeMode)
         {
             if (User.IsLoggedIn && self.storeId == User.Id!) {
-                Mixpanel.trackPageVisit("Shop Mine")
+                // Mixpanel
+                Mixpanel.trackPageVisit(PageName.ShopMine)
+                
+                // Google Analytics
+                GAI.trackPageVisit(PageName.ShopMine)
             } else {
+                // Mixpanel
                 let p = [
                     "Seller" : storeName,
                     "Seller ID" : self.storeId
                 ]
-                Mixpanel.trackPageVisit("Shop", otherParam: p)
+                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
+                
+                // Google Analytics
+                GAI.trackPageVisit(PageName.Shop)
             }
 
             self.getStoreProduct()

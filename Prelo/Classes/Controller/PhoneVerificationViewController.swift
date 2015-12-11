@@ -69,7 +69,13 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Verify Phone")
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.VerifyPhone)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.VerifyPhone)
+        
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {

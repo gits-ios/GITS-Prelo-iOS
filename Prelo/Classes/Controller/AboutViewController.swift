@@ -26,7 +26,7 @@ class AboutViewController: BaseViewController {
             self.btnClear2.hidden = false
         }
         
-        self.title = "About"
+        self.title = PageName.About
         
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
             self.lblVersion.text = "Version " + version
@@ -38,7 +38,11 @@ class AboutViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("About")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.About)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.About)
     }
 
     override func didReceiveMemoryWarning() {

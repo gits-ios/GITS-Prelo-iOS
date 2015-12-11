@@ -62,7 +62,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             "Seller" : self.sellerName,
             "Seller ID" : self.sellerId
         ]
-        Mixpanel.trackPageVisit("Shop Reviews", otherParam: p)
+        Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ShopReviews)
     }
     
     func backPressed(sender: UIBarButtonItem) {

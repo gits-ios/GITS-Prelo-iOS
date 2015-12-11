@@ -48,7 +48,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.trackPageVisit("Register")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Register)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Register)
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in

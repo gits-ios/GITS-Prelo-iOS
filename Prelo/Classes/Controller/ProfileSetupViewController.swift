@@ -114,7 +114,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         // Mixpanel
         if (!self.isMixpanelPageVisitSent) {
-            Mixpanel.trackPageVisit("Setup Account")
+            Mixpanel.trackPageVisit(PageName.SetupAccount)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.SetupAccount)
             
             // Di sini akan dikirim mixpanel event register, hanya jika user baru saja melakukan register 
             // Pengecekan apakah baru register ada 2 lapis
