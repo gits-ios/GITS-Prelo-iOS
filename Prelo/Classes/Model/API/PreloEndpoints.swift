@@ -1163,9 +1163,12 @@ class APIPrelo
     {
         if let response = resp
         {
-            if (response.statusCode == 500 && showErrorDialog)
+            if (response.statusCode == 500)
             {
-                UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
+                if (showErrorDialog)
+                {
+                    UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
+                }
                 return false
             }
         }
@@ -1189,9 +1192,9 @@ class APIPrelo
         
         if let response = resp
         {
-            if (response.statusCode != 200 && showErrorDialog)
+            if (response.statusCode != 200)
             {
-                if (res != nil) {
+                if (res != nil && showErrorDialog) {
                     UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
                 }
                 return false

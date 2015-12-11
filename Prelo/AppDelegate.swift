@@ -42,6 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             Mixpanel.sharedInstance().identify(c.id)
             //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+            
+            // Set crashlytics user information
+            Crashlytics.sharedInstance().setUserIdentifier(c.profiles.phone!)
+            Crashlytics.sharedInstance().setUserEmail(c.email)
+            Crashlytics.sharedInstance().setUserName(c.fullname!)
         }/* else {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])

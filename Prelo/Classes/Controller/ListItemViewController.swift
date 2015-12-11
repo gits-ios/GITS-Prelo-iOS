@@ -116,7 +116,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             .responseJSON{req, resp, res, err in
                 self.done = false
                 self.requesting = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(false, err: err, resp: resp))
                 {
                     self.products = []
                     var obj = JSON(res!)
@@ -196,7 +196,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
             .responseJSON{req, resp, res, err in
                 self.requesting = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(false, err: err, resp: resp))
                 {
                     self.setupData(res)
                 } else {
@@ -212,7 +212,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
             self.requesting = false
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(false, err: err, resp: resp))
             {
                 self.setupData(res)
             } else {
