@@ -381,7 +381,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         Constant.showDialog("Warning", message: error)
                     } else {
                         println(res)
-                        self.checkoutResult = JSON(res!)["_data"]
+                        let json = JSON(res!)
+                        self.checkoutResult = json["_data"]
+                        
+                        if (json["_data"]["_have_error"].intValue == 1)
+                        {
+                            let m = json["_data"]["_message"].stringValue
+                            UIAlertView.SimpleShow("Perhatian", message: m)
+                            return
+                        }
+                        
                         let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                         
                         let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController

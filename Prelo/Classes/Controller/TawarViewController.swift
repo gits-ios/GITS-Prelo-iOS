@@ -52,6 +52,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var btnTolak : UIButton!
     @IBOutlet var btnConfirm : UIButton!
     @IBOutlet var txtTawar : UITextField!
+    @IBOutlet var captionTawarHargaOri : UILabel!
     @IBOutlet var sectionTawar : UIView!
     @IBOutlet var conMarginBottomSectionTawar : NSLayoutConstraint!
     
@@ -69,11 +70,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
         } else
         {
             header.captionPrice.text = tawarItem.price
             header.captionOldPrice.text = ""
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         }
+        
         header.captionUsername.text = tawarItem.myName
         header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
         
@@ -106,16 +110,22 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         Mixpanel.trackPageVisit("Inbox Detail")
     }
     
+    var threadState = -10
     func adjustButtons()
     {
-        if (tawarItem.opIsMe == false && tawarItem.threadState == 0)
+        if (threadState == -10)
+        {
+            threadState = tawarItem.threadState
+        }
+        
+        if (tawarItem.opIsMe == false && threadState == 0)
         {
             btnTawar1.hidden = true
             btnBeli.hidden = true
             btnTawar2.hidden = false
         }
         
-        if (tawarItem.threadState == 1) // udah di tawar
+        if (threadState == 1) // udah di tawar
         {
             
             if (tawarItem.opIsMe == false)
@@ -135,6 +145,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 
                 btnBatal.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
             }
+        } else {
+            btnTawar1.hidden = false
+            
         }
     }
     
@@ -310,11 +323,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         inboxMessages.append(i)
         
         self.textView.text = ""
+        threadState = type
         
         i.sendTo(tawarItem.threadId, completion: { m in
+            self.adjustButtons()
             self.tableView.reloadData()
         })
         
+        self.adjustButtons()
         self.tableView.reloadData()
         self.scrollToBottom()
     }
@@ -345,6 +361,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
                 self.inboxMessages.append(i)
                 self.textView.text = ""
+                self.adjustButtons()
                 self.tableView.reloadData()
                 self.scrollToBottom()
             } else
@@ -436,6 +453,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         inboxMessages.append(message)
         self.tableView.reloadData()
+        self.adjustButtons()
         
         if (self.isAtBottom)
         {

@@ -525,6 +525,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func selectOngkirByIndex(index : Int)
     {
+        for o in ongkirViews
+        {
+            self.highlightWeightView(false, weightView: o)
+        }
+        
         let o = ongkirViews[index]
         self.highlightWeightView(true, weightView: o)
     }
