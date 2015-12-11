@@ -42,6 +42,8 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
             toolBar.setItems(buttonItemsWithoutDelete, animated: false)
         }
         
+        toolBar.barTintColor = Theme.PrimaryColor
+        
         imageView.image = apImage.image
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
