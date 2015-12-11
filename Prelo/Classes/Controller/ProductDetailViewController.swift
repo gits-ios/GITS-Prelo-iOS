@@ -98,9 +98,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         if (detail != nil && detail!.isMyProduct == true) {
-            Mixpanel.trackPageVisit("Product Detail Mine", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetailMine)
         } else {
-            Mixpanel.trackPageVisit("Product Detail", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetail)
         }
     }
     
@@ -240,6 +248,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCellWithIdentifier("cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
+                cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 return cellTitle!
             } else if (indexPath.row == 1) {
@@ -620,11 +629,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             loveCount = product["num_lovelist"].int!
         }
         
-        if let free_ongkir = product["free_ongkir"].bool
+        if let free_ongkir = product["free_ongkir"].int
         {
-            if (free_ongkir == false)
+            if (free_ongkir == 0)
             {
-                
+                conWidthOngkir.constant = 0
+                conMarginOngkir.constant = 0
             }
         } else
         {

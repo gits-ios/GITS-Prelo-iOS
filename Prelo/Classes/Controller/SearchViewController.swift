@@ -146,7 +146,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        Mixpanel.trackPageVisit("Search")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Search)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Search)
         
         NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: UIColor.whiteColor())
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
@@ -411,11 +415,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     func findItem(keyword : String)
     {
         // Mixpanel
-        let pt = [
-            "Search Type" : "Product",
-            "Search Query" : keyword
-        ]
-        Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        if (!keyword.isEmpty) {
+            let pt = [
+                "Search Type" : "Product",
+                "Search Query" : keyword
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        }
         
         if let req = itemRequest
         {
@@ -459,11 +465,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     func findUser(keyword : String)
     {
         // Mixpanel
-        let pt = [
-            "Search Type" : "User",
-            "Search Query" : keyword
-        ]
-        Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        if (!keyword.isEmpty) {
+            let pt = [
+                "Search Type" : "User",
+                "Search Query" : keyword
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        }
         
         if let req = userRequest
         {

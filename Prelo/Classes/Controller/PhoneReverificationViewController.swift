@@ -29,7 +29,13 @@ class PhoneReverificationViewController : BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Change Phone")
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.ChangePhone)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ChangePhone)
+        
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {

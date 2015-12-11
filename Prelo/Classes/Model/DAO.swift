@@ -1114,13 +1114,19 @@ class UserTransaction: NSObject {
     }
     
     var productLoveCount : Int {
-        let p = (json["product"]["num_lovelist"].int)!
-        return p
+        if let p = (json["product"]["num_lovelist"].int) {
+            return p
+        } else {
+            return 0
+        }
     }
     
     var productCommentCount : Int {
-        let p = (json["product"]["num_comment"].int)!
-        return p
+        if let p = (json["product"]["num_comment"].int) {
+            return p
+        } else {
+            return 0
+        }
     }
 }
 
@@ -1242,6 +1248,14 @@ class TransactionDetail : NSObject {
     var paymentDate : String? {
         if (json["payment_date"] != nil) {
             return json["payment_date"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var expireTime : String? {
+        if (json["expire_time"] != nil) {
+            return json["expire_time"].string
         } else {
             return nil
         }

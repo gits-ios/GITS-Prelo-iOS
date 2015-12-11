@@ -29,7 +29,11 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Withdraw")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Withdraw)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Withdraw)
         
         self.an_subscribeKeyboardWithAnimations({ f, i , o in
             

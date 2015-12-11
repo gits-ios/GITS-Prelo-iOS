@@ -48,7 +48,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.trackPageVisit("Register")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Register)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Register)
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -190,17 +194,26 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         println(data)
                         
                         let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
                         let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                        c.id = data["_id"].string!
-                        c.email = data["email"].string!
-                        c.username = data["username"].string!
-                        c.fullname = data["fullname"].string!
+                        c.id = data["_id"].stringValue
+                        c.email = data["email"].stringValue
+                        c.username = data["username"].stringValue
+                        c.fullname = data["fullname"].stringValue
                         
+                        CDUserProfile.deleteAll()
                         let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
                         let pr = data["profile"]
-                        p.pict = pr["pict"].string!
-                        
+                        p.pict = pr["pict"].stringValue
                         c.profiles = p
+                        
+                        CDUserOther.deleteAll()
+                        let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
+                        let oth = data["others"]
+                        o.lastLogin = oth["last_login"].stringValue
+                        o.registerTime = oth["register_time"].stringValue
+                        c.others = o
+                        
                         UIApplication.appDelegate.saveContext()
                         
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)

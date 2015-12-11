@@ -41,18 +41,18 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let parentType = "\(parent.dynamicType)"
         if (parentType == "Prelo.KumangTabBarViewController") {
             if (isFromTourVC) {
-                l.screenBeforeLogin = "Set Category Preferences"
+                l.screenBeforeLogin = PageName.SetCategoryPreferences
             } else {
-                l.screenBeforeLogin = "Dashboard Logged Out"
+                l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
         } else if (parentType == "Prelo.CartViewController") {
-            l.screenBeforeLogin = "Checkout"
+            l.screenBeforeLogin = PageName.Checkout
         } else if (parentType == "Prelo.AddProductViewController" || parentType == "Prelo.AddProductViewController2") {
-            l.screenBeforeLogin = "Add Product"
+            l.screenBeforeLogin = PageName.AddProduct
         } else if (parentType == "Prelo.NotificationPageViewController") {
-            l.screenBeforeLogin = "Notification"
+            l.screenBeforeLogin = PageName.Notification
         } else if (parentType == "Prelo.ProductDetailViewController") {
-            l.screenBeforeLogin = "Product Detail"
+            l.screenBeforeLogin = PageName.ProductDetail
         }
         //println("screenBeforeLogin = \(l.screenBeforeLogin)")
         l.userRelatedDelegate = userRelatedDelegate
@@ -446,7 +446,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Login")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Login)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Login)
     }
     
     override func viewDidAppear(animated: Bool) {

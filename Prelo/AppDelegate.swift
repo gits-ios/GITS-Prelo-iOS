@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         messagePool.start()
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
-        if (AppTools.PreloBaseUrlShort == "prelo.co.id") {
+        if (AppTools.IsPreloProduction) {
             Mixpanel.sharedInstanceWithToken("1f07daa901e779dd504e21daca2a88df")
         } else {
             Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
@@ -47,8 +47,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
         }*/
         
-        // Track loading screen
-        Mixpanel.trackPageVisit("Splash Screen")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.SplashScreen)
+        
+        // Configure GAI options.
+        var gai = GAI.sharedInstance()
+        gai.trackerWithTrackingId("UA-68727101-3")
+        gai.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.SplashScreen)
         AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
         
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {

@@ -32,7 +32,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
         
         // Set title
-        self.title = "Lovelist"
+        self.title = PageName.Lovelist
         
         // Tombol back
         self.navigationItem.hidesBackButton = true
@@ -57,7 +57,11 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("Lovelist")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Lovelist)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Lovelist)
         
         if (userLovelist?.count == 0 || userLovelist == nil) {
             if (userLovelist == nil) {
@@ -225,7 +229,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     @IBAction func sellPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
-        add.screenBeforeAddProduct = "Lovelist"
+        add.screenBeforeAddProduct = PageName.Lovelist
         self.navigationController?.pushViewController(add, animated: true)
     }
 }

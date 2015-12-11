@@ -24,14 +24,25 @@ class TransactionListCell : UITableViewCell {
     
     @IBOutlet var imgs : [UIView] = []
     
+    override func prepareForReuse() {
+        imgProduct.image = nil
+        lblProductName.text = "Nama Produk"
+        lblPrice.text = "Rp -"
+        lblCommentCount.text = "0"
+        lblLoveCount.text = "0"
+        lblOrderStatus.text = "-"
+        lblOrderStatus.textColor = Theme.ThemeOrage
+        lblOrderTime.text = "-"
+    }
+    
     func adaptItem(userPurchase : UserTransactionItem) {
         if (userPurchase.productImageURL != nil) {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
-        lblCommentCount.text = ""
-        lblLoveCount.text = ""
+        lblCommentCount.text = "\(userPurchase.productCommentCount)"
+        lblLoveCount.text = "\(userPurchase.productLoveCount)"
         lblOrderStatus.text = userPurchase.progressText.uppercaseString
         lblOrderTime.text = userPurchase.time
         
