@@ -400,11 +400,23 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     
-                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                    var p : CDUserProfile? = CDUserProfile.getOne()
+                    if (p == nil) {
+                        p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                    }
                     let pr = data["profile"]
-                    p.pict = pr["pict"].string!
+                    p!.pict = pr["pict"].string!
                     
-                    user!.profiles = p
+                    var o : CDUserOther? = CDUserOther.getOne()
+                    if (o == nil) {
+                        o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    }
+                    o!.pathID = pathId
+                    o!.pathUsername = pathName
+                    o!.pathAccessToken = token
+                    
+                    user!.profiles = p!
+                    user!.others = o!
                     UIApplication.appDelegate.saveContext()
                     
                     // Save in NSUserDefaults

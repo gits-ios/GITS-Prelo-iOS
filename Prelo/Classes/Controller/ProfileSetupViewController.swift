@@ -158,7 +158,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     let pr = [
                         "Previous Screen" : self.screenBeforeLogin
                     ]
-                    Mixpanel.trackEvent("Register", properties: pr)
+                    Mixpanel.trackEvent(MixpanelEvent.Register, properties: pr)
                 }
             }
             
@@ -594,7 +594,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                 "Phone" : userProfile.phone!,
                                 "Shipping Options" : shippingArrName
                             ]
-                            Mixpanel.trackEvent("Setup Account", properties: pt as [NSObject : AnyObject])
+                            Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
                             let pt2 = [
                                 "Activation Screen" : "Setup Account"
                             ]
