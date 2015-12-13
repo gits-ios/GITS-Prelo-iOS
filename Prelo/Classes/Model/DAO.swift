@@ -1808,12 +1808,21 @@ class InboxMessage : NSObject
         
         if (messageType == 2)
         {
-            return "Terima Tawaran\n" + message.int.asPrice
+//            return "Terima Tawaran\n" + message.int.asPrice
+            return message
         }
         
         if (messageType == 3)
         {
-            return "Tolak Tawar\n" + message.int.asPrice
+            if (message.int != 0)
+            {
+                return "Tolak tawaran " + message.int.asPrice
+            } else
+            {
+                return message
+            }
+//            return "Tolak Tawar\n" + message.int.asPrice
+//            return message
         }
         
         return message

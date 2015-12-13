@@ -140,13 +140,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 btnConfirm.addTarget(self, action: "confirmTawar:", forControlEvents: UIControlEvents.TouchUpInside)
             } else
             {
-                btnTawar1.hidden = true
-                btnBatal.hidden = false
-                
-                btnBatal.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+//                btnTawar1.hidden = true
+//                btnBatal.hidden = false
+//                
+//                btnBatal.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
             }
         } else {
-            btnTawar1.hidden = false
             
         }
     }
