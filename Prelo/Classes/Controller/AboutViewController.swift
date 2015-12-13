@@ -28,7 +28,7 @@ class AboutViewController: BaseViewController {
         
         self.title = PageName.About
         
-        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblVersion.text = "Version " + version
         } else {
             self.lblVersion.text = "-"

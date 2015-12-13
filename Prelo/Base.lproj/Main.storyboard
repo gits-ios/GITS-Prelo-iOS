@@ -12222,6 +12222,7 @@ Label / Merek</string>
                         <outlet property="btnTawar1" destination="io0-UJ-6Dp" id="fHY-D4-rgG"/>
                         <outlet property="btnTawar2" destination="VlH-gP-zx0" id="4sz-63-gFh"/>
                         <outlet property="btnTolak" destination="d2F-Hi-FU7" id="iwR-hR-DFa"/>
+                        <outlet property="captionTawarHargaOri" destination="24b-i5-jy7" id="I3w-a5-WEi"/>
                         <outlet property="conHeightTextView" destination="CEL-TM-pPO" id="5Zi-VL-Tsl"/>
                         <outlet property="conMarginBottom" destination="lpy-e8-EfT" id="clH-as-9f2"/>
                         <outlet property="conMarginBottomSectionTawar" destination="fWg-DV-P2Y" id="Dx6-Di-tZu"/>

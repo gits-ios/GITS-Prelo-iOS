@@ -154,7 +154,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         if (!isAlreadyCheckVersion) {
             // Check app version
-            if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
                 if let newVer = CDVersion.getOne()?.appVersion {
                     if (installedVer != newVer) {
                         let a = UIAlertView()
