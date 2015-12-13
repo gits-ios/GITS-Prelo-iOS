@@ -25,6 +25,7 @@ protocol  TawarItem
     var threadId : String {get}
     var threadState : Int {get}
     var bargainPrice : Int {get}
+    var bargainerIsMe : Bool {get}
 }
 
 class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate
@@ -50,6 +51,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var btnBeli : UIButton!
     @IBOutlet var btnBatal : UIButton!
     @IBOutlet var btnTolak : UIButton!
+    @IBOutlet var btnTolak2 : UIButton!
     @IBOutlet var btnConfirm : UIButton!
     @IBOutlet var txtTawar : UITextField!
     @IBOutlet var captionTawarHargaOri : UILabel!
@@ -90,8 +92,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnTawar1.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         btnTawar2.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        adjustButtons()
-        
         if (loadInboxFirst)
         {
             getInbox()
@@ -99,9 +99,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             if (tawarItem.threadId != "")
             {
+                tawarFromMe = tawarItem.bargainerIsMe
                 getMessages()
             }
         }
+        adjustButtons()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -111,6 +113,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     var threadState = -10
+    var firstButton = true
+    var tawarFromMe = false
     func adjustButtons()
     {
         if (threadState == -10)
@@ -118,36 +122,95 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             threadState = tawarItem.threadState
         }
         
-        if (tawarItem.opIsMe == false && threadState == 0)
+        if (firstButton)
         {
-            btnTawar1.hidden = true
-            btnBeli.hidden = true
-            btnTawar2.hidden = false
+            btnTolak.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+            btnTolak2.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+            btnConfirm.addTarget(self, action: "confirmTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+            firstButton = false
         }
         
-        if (threadState == 1) // udah di tawar
+        btnTawar1.hidden = true
+        btnTawar2.hidden = true
+        btnBeli.hidden = true
+        btnBatal.hidden = true
+        btnTolak.hidden = true
+        btnTolak2.hidden = true
+        btnConfirm.hidden = true
+        
+        if (threadState == 0 || threadState == 3)
         {
-            
-            if (tawarItem.opIsMe == false)
+            if (tawarItem.opIsMe)
             {
-                btnTawar1.hidden = true
-                btnBeli.hidden = true
-                
-                btnTolak.hidden = false
-                btnConfirm.hidden = false
-                
-                btnTolak.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-                btnConfirm.addTarget(self, action: "confirmTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+                btnTawar1.hidden = false
+                btnBeli.hidden = false
             } else
             {
-//                btnTawar1.hidden = true
-//                btnBatal.hidden = false
-//                
-//                btnBatal.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+                btnTawar2.hidden = false
             }
-        } else {
-            
+        } else if (threadState == 1)
+        {
+            if (tawarFromMe)
+            {
+                if (tawarItem.opIsMe)
+                {
+                    btnTawar1.hidden = false
+                    btnBeli.hidden = false
+                } else
+                {
+                    btnTolak2.hidden = false
+                }
+            } else
+            {
+                btnTolak.hidden = false
+                btnConfirm.hidden = false
+            }
+        } else if (threadState == 2)
+        {
+            if (tawarItem.opIsMe)
+            {
+                btnTawar1.hidden = false
+                btnBeli.hidden = false
+            } else
+            {
+                btnTawar2.hidden = false
+            }
         }
+        
+//        if (tawarItem.opIsMe == false && threadState != 1)
+//        {
+//            btnTawar1.hidden = true
+//            btnBeli.hidden = true
+//            btnTawar2.hidden = false
+//        } else if (tawarItem.opIsMe == false && threadState == 1)
+//        {
+//            btnTawar1.hidden = false
+//            btnBeli.hidden = false
+//            btnTawar2.hidden = true
+//        }
+//        
+//        if (threadState == 1) // udah di tawar
+//        {
+//            
+//            if (tawarItem.opIsMe == false)
+//            {
+//                btnTawar1.hidden = true
+//                btnBeli.hidden = true
+//                
+//                btnTolak.hidden = false
+//                btnConfirm.hidden = false
+//                
+//            } else
+//            {
+//                btnTawar1.hidden = false
+//                btnBeli.hidden = false
+//                
+//                btnTolak.hidden = true
+//                btnConfirm.hidden = true
+//            }
+//        } else {
+//            
+//        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -186,6 +249,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let i = Inbox(jsn: data)
             println(data)
             self.tawarItem = i
+            self.tawarFromMe = self.tawarItem.bargainerIsMe
             self.adjustButtons()
             self.getMessages()
             println(res)
@@ -313,6 +377,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func sendChat(type : Int, message : String)
     {
+        if (type == 1)
+        {
+            tawarFromMe = true
+        } else
+        {
+            tawarFromMe = false
+        }
         let localId = inboxMessages.count
         let date = NSDate()
         let f = NSDateFormatter()
@@ -449,8 +520,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func messageArrived(message: InboxMessage) {
-        
         inboxMessages.append(message)
+        threadState = message.messageType
+        if (threadState == 1 && message.isMe == true)
+        {
+            tawarFromMe = true
+        } else
+        {
+            tawarFromMe = false
+        }
         self.tableView.reloadData()
         self.adjustButtons()
         
