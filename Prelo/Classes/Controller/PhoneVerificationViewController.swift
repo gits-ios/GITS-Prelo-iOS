@@ -209,7 +209,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             "$phone" : self.fldNoHp.text
         ]
         Mixpanel.sharedInstance().people.set(p)
-        Mixpanel.trackEvent("Phone Verified")
+        Mixpanel.trackEvent(MixpanelEvent.PhoneVerified)
         
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")

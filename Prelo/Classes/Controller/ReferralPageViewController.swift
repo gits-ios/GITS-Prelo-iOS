@@ -229,16 +229,47 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         self.mixpanelSharedReferral("Path", username: pathName)
         
+        /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")
             
             if (err != nil) { // Terdapat error
-                
+                Constant.showDialog("Warning", message: "Error login path")//:(err?.description)!)
             } else {
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                let json = JSON(res!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    println("Empty path login data")
+                } else { // Berhasil
+                    println("Path login data: \(data)")
+                    
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    var user : CDUser = CDUser.getOne()!
+                    user.id = data["_id"].string!
+                    user.username = data["username"].string!
+                    user.email = data["email"].string!
+                    user.fullname = data["fullname"].string!
+                    
+                    var p : CDUserProfile = CDUserProfile.getOne()!
+                    let pr = data["profile"]
+                    p.pict = pr["pict"].string!
+                    
+                    var o : CDUserOther = CDUserOther.getOne()!
+                    o.pathID = pathId
+                    o.pathUsername = pathName
+                    o.pathAccessToken = token
+                    
+                    user.profiles = p
+                    user.others = o
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Save in NSUserDefaults
+                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                }
             }
-        }
+        }*/
     }
     
     func postToPath(image : UIImage, token : String) {
@@ -331,6 +362,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     @IBAction func pathPressed(sender: AnyObject) {
         if (CDUser.pathTokenAvailable()) {
             postToPath(shareImage, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+            if let o = CDUserOther.getOne() {
+                self.mixpanelSharedReferral("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
+            }
         } else {
             loginPath()
         }

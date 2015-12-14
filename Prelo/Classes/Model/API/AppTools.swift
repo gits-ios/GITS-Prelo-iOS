@@ -216,6 +216,11 @@ class PageName
 
 class MixpanelEvent
 {
+    static let Register = "Register"
+    static let SetupAccount = "Setup Account"
+    static let PhoneVerified = "Phone Verified"
+    static let Login = "Login"
+    static let Logout = "Logout"
     static let CategoryBrowsed = "Category Browsed"
     static let Search = "Search"
     static let ToggledLikeProduct = "Toggled Like Product"
