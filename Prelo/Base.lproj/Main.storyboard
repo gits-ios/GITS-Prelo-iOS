@@ -11714,6 +11714,28 @@ Label / Merek</string>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-Qr-U4K" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="80" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Batal">
+                                                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="4"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                            <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaP-Dy-kBc" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
                                                     <rect key="frame" x="304" y="80" width="288" height="30"/>
                                                     <animations/>
@@ -11800,6 +11822,7 @@ Label / Merek</string>
                                             <constraints>
                                                 <constraint firstItem="zWg-B6-4Lv" firstAttribute="trailing" secondItem="bbN-TU-GFN" secondAttribute="trailing" id="1Xg-ep-7VD"/>
                                                 <constraint firstItem="eXZ-Zv-a7c" firstAttribute="top" secondItem="Frb-Nu-JCV" secondAttribute="top" constant="8" id="2mw-gX-SE5"/>
+                                                <constraint firstAttribute="trailing" secondItem="1ES-Qr-U4K" secondAttribute="trailing" constant="8" id="6bD-Bz-CYS"/>
                                                 <constraint firstItem="VlH-gP-zx0" firstAttribute="leading" secondItem="Frb-Nu-JCV" secondAttribute="leading" constant="8" id="8HK-Mf-mEW"/>
                                                 <constraint firstItem="zbz-gn-gbP" firstAttribute="leading" secondItem="d2F-Hi-FU7" secondAttribute="trailing" constant="8" id="8WC-uA-Hba"/>
                                                 <constraint firstItem="OvU-UJ-1PS" firstAttribute="leading" secondItem="eXZ-Zv-a7c" secondAttribute="trailing" constant="8" id="92z-ZI-l2f"/>
@@ -11825,7 +11848,9 @@ Label / Merek</string>
                                                 <constraint firstItem="io0-UJ-6Dp" firstAttribute="leading" secondItem="Frb-Nu-JCV" secondAttribute="leading" constant="8" id="gEP-kv-jnv"/>
                                                 <constraint firstItem="io0-UJ-6Dp" firstAttribute="top" secondItem="HaP-Dy-kBc" secondAttribute="top" id="gc9-6p-HYi"/>
                                                 <constraint firstItem="io0-UJ-6Dp" firstAttribute="top" secondItem="eXZ-Zv-a7c" secondAttribute="bottom" constant="8" id="hND-hP-N2v"/>
+                                                <constraint firstItem="1ES-Qr-U4K" firstAttribute="leading" secondItem="Frb-Nu-JCV" secondAttribute="leading" constant="8" id="hjI-Ye-Fko"/>
                                                 <constraint firstItem="bbN-TU-GFN" firstAttribute="centerY" secondItem="pJ6-LO-Fz9" secondAttribute="centerY" id="k8E-vg-DvW"/>
+                                                <constraint firstItem="1ES-Qr-U4K" firstAttribute="top" secondItem="OvU-UJ-1PS" secondAttribute="bottom" constant="8" id="n8G-xV-xmV"/>
                                                 <constraint firstItem="zWg-B6-4Lv" firstAttribute="centerY" secondItem="bbN-TU-GFN" secondAttribute="centerY" id="nYg-ie-9jK"/>
                                                 <constraint firstItem="9ru-or-cxO" firstAttribute="leading" secondItem="d2F-Hi-FU7" secondAttribute="trailing" constant="8" id="nol-rp-8yM"/>
                                                 <constraint firstItem="eXZ-Zv-a7c" firstAttribute="bottom" secondItem="OvU-UJ-1PS" secondAttribute="bottom" id="ooo-jf-h3n"/>
@@ -12222,7 +12247,8 @@ Label / Merek</string>
                         <outlet property="btnTawar1" destination="io0-UJ-6Dp" id="fHY-D4-rgG"/>
                         <outlet property="btnTawar2" destination="VlH-gP-zx0" id="4sz-63-gFh"/>
                         <outlet property="btnTolak" destination="d2F-Hi-FU7" id="iwR-hR-DFa"/>
-                        <outlet property="captionTawarHargaOri" destination="24b-i5-jy7" id="I3w-a5-WEi"/>
+                        <outlet property="btnTolak2" destination="1ES-Qr-U4K" id="iXK-zT-uQe"/>
+                        <outlet property="captionTawarHargaOri" destination="24b-i5-jy7" id="8Zh-bX-Yfp"/>
                         <outlet property="conHeightTextView" destination="CEL-TM-pPO" id="5Zi-VL-Tsl"/>
                         <outlet property="conMarginBottom" destination="lpy-e8-EfT" id="clH-as-9f2"/>
                         <outlet property="conMarginBottomSectionTawar" destination="fWg-DV-P2Y" id="Dx6-Di-tZu"/>

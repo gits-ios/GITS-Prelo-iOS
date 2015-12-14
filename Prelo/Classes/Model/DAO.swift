@@ -788,6 +788,10 @@ public class ProductDetail : NSObject, TawarItem
     var bargainPrice : Int {
         return 0
     }
+    
+    var bargainerIsMe : Bool {
+        return false
+    }
 }
 
 public class Product : NSObject
@@ -1866,6 +1870,15 @@ class Inbox : NSObject, TawarItem
         }
         return 0
     }
+    
+    var bargainerIsMe : Bool {
+        if let x = json["bargainer_id"].string, let myId = CDUser.getOne()?.id
+        {
+            return x == myId
+        }
+        
+        return false
+    }
 }
 
 class InboxMessage : NSObject
@@ -1886,8 +1899,13 @@ class InboxMessage : NSObject
         
         if (messageType == 2)
         {
-//            return "Terima Tawaran\n" + message.int.asPrice
-            return message
+            if (message.int != 0)
+            {
+                return "Terima tawaran " + message.int.asPrice
+            } else
+            {
+                return message
+            }
         }
         
         if (messageType == 3)
