@@ -75,6 +75,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             } else if (i < 4)
             {
                 captionMore.text = String(images.count-3) + "+"
+                break
             }
         }
         

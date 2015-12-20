@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -51,8 +51,11 @@
             <string>Prelo2</string>
             <string>Prelo2</string>
             <string>Prelo2</string>
+            <string>Prelo2</string>
         </mutableArray>
         <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
@@ -7367,16 +7370,102 @@ Keuntungan</string>
                                     <constraint firstAttribute="width" secondItem="FhL-rB-wD0" secondAttribute="width" multiplier="2" id="vTE-zw-ERg"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrn-F1-tkW">
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" tag="12" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGt-93-f4i">
+                                        <rect key="frame" x="519" y="8" width="73" height="28"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" EDIT" backgroundImage="basic_orange.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addToCart:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="xEU-wa-E3k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndv-p8-Mab" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="131" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" DEACTIVATE">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                <color key="value" red="1" green="0.54901963470000004" blue="0.270588249" alpha="1" colorSpace="deviceRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="setProductActive" destination="Q2W-RH-rbB" eventType="touchUpInside" id="vLT-NO-Ord"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McL-gO-R6v" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="147" y="8" width="364" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="13"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" HAPUS">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                <color key="value" red="1" green="0.54901963470000004" blue="0.270588249" alpha="1" colorSpace="deviceRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="McL-gO-R6v" firstAttribute="leading" secondItem="ndv-p8-Mab" secondAttribute="trailing" constant="8" id="0qF-us-Xmj"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="McL-gO-R6v" secondAttribute="trailing" constant="8" id="GN3-wM-pTk"/>
+                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="LQf-J6-bFP"/>
+                                    <constraint firstAttribute="bottom" secondItem="McL-gO-R6v" secondAttribute="bottom" constant="8" id="M3Z-ji-jPH"/>
+                                    <constraint firstAttribute="bottom" secondItem="SGt-93-f4i" secondAttribute="bottom" constant="8" id="OoT-rz-SDz"/>
+                                    <constraint firstAttribute="bottom" secondItem="ndv-p8-Mab" secondAttribute="bottom" constant="8" id="RMh-Ld-r5m"/>
+                                    <constraint firstAttribute="height" constant="44" id="TL9-Yw-FNJ"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="V6Q-gB-af1"/>
+                                    <constraint firstItem="McL-gO-R6v" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="X2C-ge-mc2"/>
+                                    <constraint firstAttribute="trailing" secondItem="SGt-93-f4i" secondAttribute="trailing" constant="8" id="XeR-rJ-Gf0"/>
+                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="Yg9-qC-AOf"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="tnH-yb-8Ng"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V6Q-gB-af1"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Aaa-Fg-Hix" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="5RV-va-81x"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="Aaa-Fg-Hix" secondAttribute="bottom" id="9ez-Mp-ied"/>
+                            <constraint firstItem="yrn-F1-tkW" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="EVP-Q4-NSs"/>
                             <constraint firstItem="hx6-gT-uZY" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="GHZ-on-kCh"/>
                             <constraint firstItem="Aaa-Fg-Hix" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="Iqg-Tw-hz4"/>
                             <constraint firstAttribute="trailing" secondItem="hx6-gT-uZY" secondAttribute="trailing" id="Spx-O4-ROg"/>
+                            <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="bottom" id="d3U-fb-5BD"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="bottom" id="he3-sf-nYD"/>
+                            <constraint firstAttribute="trailing" secondItem="yrn-F1-tkW" secondAttribute="trailing" id="yLM-69-hGW"/>
                             <constraint firstAttribute="trailing" secondItem="Aaa-Fg-Hix" secondAttribute="trailing" id="zGg-dl-okv"/>
                         </constraints>
                     </view>
@@ -7385,8 +7474,11 @@ Keuntungan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="WeF-0j-HkD"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnActivate" destination="ndv-p8-Mab" id="M1X-GQ-S0I"/>
                         <outlet property="btnAddDiscussion" destination="mX0-pM-sZV" id="cES-GZ-I2Y"/>
                         <outlet property="btnBuy" destination="3WJ-ld-3G9" id="jiU-qw-rlg"/>
+                        <outlet property="btnDelete" destination="McL-gO-R6v" id="iU3-J4-F53"/>
+                        <outlet property="btnEdit" destination="SGt-93-f4i" id="XPH-UP-5Ad"/>
                         <outlet property="btnTawar" destination="z2y-Ag-gm1" id="JSa-as-zxP"/>
                         <outlet property="tableView" destination="Aaa-Fg-Hix" id="zNe-MN-dj3"/>
                         <segue destination="0qH-Ls-LM7" kind="show" identifier="segCart" id="dW2-MQ-HC6"/>
@@ -12317,8 +12409,8 @@ Label / Merek</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gU7-9Q-bxr"/>
+        <segue reference="dW2-MQ-HC6"/>
         <segue reference="pME-IT-gHt"/>
-        <segue reference="MUV-Ui-6Bn"/>
         <segue reference="2Zk-mt-sgU"/>
         <segue reference="gv4-pa-FxU"/>
     </inferredMetricsTieBreakers>

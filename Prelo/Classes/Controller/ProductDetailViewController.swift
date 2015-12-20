@@ -29,10 +29,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : UIButton!
+    @IBOutlet var btnActivate : UIButton!
+    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var btnEdit : UIButton!
     
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
+    
+    var activated = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +106,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Mixpanel.trackPageVisit("Product Detail Mine", otherParam: p)
         } else {
             Mixpanel.trackPageVisit("Product Detail", otherParam: p)
+        }
+    }
+    
+    @IBAction func setProductActive()
+    {
+        activated = !activated
+        
+        if (activated)
+        {
+            btnActivate.setTitle(" DEACTIVATE", forState: .Normal)
+        } else
+        {
+            btnActivate.setTitle(" ACTIVATE", forState: .Normal)
         }
     }
     
@@ -195,14 +213,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if ((detail?.isMyProduct)! == true)
         {
-            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
-            {
-                b.hidden = false
-                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
-                b.setTitle(" EDIT", forState: UIControlState.Normal)
-            }
+//            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
+//            {
+//                b.hidden = false
+//                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
+//                b.setTitle(" EDIT", forState: UIControlState.Normal)
+//            }
             self.btnBuy.hidden = true
             self.btnTawar.hidden = true
+            btnEdit.hidden = false
+            btnActivate.hidden = false
+            btnDelete.hidden = false
+            btnDelete.superview?.superview?.hidden = false
         } else
         {
             btnBuy.hidden = false
