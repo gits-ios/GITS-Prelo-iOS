@@ -134,6 +134,10 @@ class Tags : NSObject
     static let XibNameReferralPage = "ReferralPage"
     static let XibNameCategoryPreferences = "CategoryPreferences"
     static let XibNameShopReview = "ShopReview"
+    static let XibNameNotificationPageTabbed = "NotificationPageTabbed"
+    static let XibNameNotificationPageTransaction = "NotificationPageTransaction"
+    static let XibNameNotificationPageInbox = "NotificationPageInbox"
+    static let XibNameNotificationPageActivity = "NotificationPageActivity"
 }
 
 class OrderStatus : NSObject

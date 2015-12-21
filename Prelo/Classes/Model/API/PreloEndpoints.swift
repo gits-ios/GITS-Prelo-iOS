@@ -1196,6 +1196,8 @@ class APIPrelo
             {
                 if (res != nil && showErrorDialog) {
                     UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
+                } else if (res == nil && showErrorDialog) {
+                    UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
                 }
                 return false
             }

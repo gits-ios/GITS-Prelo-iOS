@@ -116,6 +116,7 @@ class PreloNotificationListener //: PreloSocketDelegate
                         sameNotif!.name = n["name"].string!
                     }
                     sameNotif!.opened = false
+                    sameNotif!.read = false
                     sameNotif!.time = n["time"].string!
                     sameNotif!.leftImage = n["left_image"].string!
                     sameNotif!.weight = NSNumber(integer: sameNotif!.weight.integerValue + 1)

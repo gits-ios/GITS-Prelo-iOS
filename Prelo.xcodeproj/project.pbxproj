@@ -419,12 +419,20 @@
 		44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
 		44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
+		FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */; };
+		FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */; };
+		FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */; };
+		FD12C1671C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */; };
+		FD12C1691C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */; };
+		FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
 		FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
 		FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview.xib */; };
 		FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
+		FDDD4FD91C1FFC9200C5EAB6 /* NotificationPageActivity.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */; };
+		FDDD4FDA1C1FFC9200C5EAB6 /* NotificationPageInbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */; };
 		FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */; };
 		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
 		FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
@@ -964,6 +972,12 @@
 		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
 		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategorySize.swift; sourceTree = "<group>"; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
+		FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTabbedViewController.swift; sourceTree = "<group>"; };
+		FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTabbed.xib; sourceTree = "<group>"; };
+		FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTransactionViewController.swift; sourceTree = "<group>"; };
+		FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageInboxViewController.swift; sourceTree = "<group>"; };
+		FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageActivityViewController.swift; sourceTree = "<group>"; };
+		FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTransaction.xib; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -980,6 +994,8 @@
 		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopReviewViewController.swift; sourceTree = "<group>"; };
 		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
 		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
+		FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageActivity.xib; sourceTree = "<group>"; };
+		FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageInbox.xib; sourceTree = "<group>"; };
 		FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
 		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
@@ -1580,6 +1596,10 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */,
+				FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */,
+				FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */,
+				FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
@@ -1960,6 +1980,10 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */,
+				FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */,
+				FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */,
+				FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */,
 				44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */,
 				44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */,
 				44B93C7A1BBEA51B00036173 /* PathLogin.xib */,
@@ -2134,6 +2158,7 @@
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
+				FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */,
 				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
@@ -2158,6 +2183,7 @@
 				217874631B98516900D355A8 /* merk.json in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
+				FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
@@ -2168,6 +2194,7 @@
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
+				FDDD4FDA1C1FFC9200C5EAB6 /* NotificationPageInbox.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -2218,6 +2245,7 @@
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
+				FDDD4FD91C1FFC9200C5EAB6 /* NotificationPageActivity.xib in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
@@ -2379,6 +2407,7 @@
 				2141BBE21B54BE4C00787F5D /* SocketEngineClient.swift in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */,
+				FD12C1691C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift in Sources */,
 				2141BBB01B54BE4C00787F5D /* README.md in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -2408,6 +2437,7 @@
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
+				FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
 				21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */,
@@ -2466,6 +2496,7 @@
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */,
+				FD12C1671C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift in Sources */,
 				21679A411B901C5300F18F90 /* MPSurveyNavigationController.m in Sources */,
 				21679A491B901C5300F18F90 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				21679A3A1B901C5300F18F90 /* MPObjectSerializerConfig.m in Sources */,
@@ -2496,6 +2527,7 @@
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				2141BBAC1B54BE4C00787F5D /* ResponseSerialization.swift in Sources */,
 				44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */,
+				FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */,
 				2141BBD31B54BE4C00787F5D /* UIWindow+BFKit.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,

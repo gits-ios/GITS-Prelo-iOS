@@ -428,9 +428,24 @@ class NotificationPageCell : UITableViewCell {
     @IBOutlet weak var lblMessage: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     
+    override func prepareForReuse() {
+        self.contentView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0)
+        self.imgUser.image = nil
+        self.imgProduct.image = nil
+        self.lblMessage.text = ""
+        self.lblTime.text = ""
+    }
+    
     func adapt(notif : CDNotification) {
+        // Set background color
+        if (!notif.read) {
+            self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        }
+        
         // Set images
         imgUser.setImageWithUrl(NSURL(string: notif.leftImage)!, placeHolderImage: nil)
+        imgUser.layer.cornerRadius = (imgUser.frame.size.width) / 2
+        imgUser.clipsToBounds = true
         if (notif.rightImage != nil) {
             imgProduct.setImageWithUrl(NSURL(string: notif.rightImage!)!, placeHolderImage: nil)
         } else {
@@ -439,7 +454,11 @@ class NotificationPageCell : UITableViewCell {
         
         // Set texts
         let nsMsg = notif.message as NSString
-        var msgAttrString = NSMutableAttributedString(string: notif.message, attributes: [NSFontAttributeName: AppFont.PreloAwesome.getFont(12)!])
+        var fontAttr = [NSFontAttributeName: AppFont.PreloAwesome.getFont(12)!]
+        if (!notif.read) {
+            fontAttr = [NSFontAttributeName: UIFont.boldSystemFontOfSize(12)]
+        }
+        var msgAttrString = NSMutableAttributedString(string: notif.message, attributes: fontAttr)
         msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.GrayDark, range: nsMsg.rangeOfString(notif.message))
         msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notif.name))
         msgAttrString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColor, range: nsMsg.rangeOfString(notif.objectName))

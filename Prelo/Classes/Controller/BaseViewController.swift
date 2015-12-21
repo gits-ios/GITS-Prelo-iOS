@@ -173,7 +173,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchNotifPage()
     {
-        let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPage, owner: nil, options: nil).first as! NotificationPageViewController
+        //let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPage, owner: nil, options: nil).first as! NotificationPageViewController
+        let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPageTabbed, owner: nil, options: nil).first as! NotificationPageTabbedViewController
         self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     
@@ -234,6 +235,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
             let badge = GIBadgeView.new()
             badge.badgeValue = num
             badge.backgroundColor = Theme.ThemeOrage
+            badge.topOffset = 7
+            badge.rightOffset = 3
             b.addSubview(badge)
         }
         return b
