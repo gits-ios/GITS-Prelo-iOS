@@ -88,14 +88,17 @@ class MessagePool: NSObject
                 //println(data)
             })
             
+            let del = UIApplication.sharedApplication().delegate as! AppDelegate
+            let notifListener = del.preloNotifListener
             socket.on("notification", callback: { data, ack in
-                let del = UIApplication.sharedApplication().delegate as! AppDelegate
-                let notifListener = del.preloNotifListener
                 if (!notifListener.willReconnect) {
                     println("Get notification from messagepool")
                     notifListener.handleNotification(JSON(data!)[0])
                 }
             })
+            if (notifListener.willReconnect) {
+                notifListener.willReconnect = false
+            }
             
             // FOR TESTING
             self.socket.onAny {println("Got socket event: \($0.event), with items: \($0.items)")}

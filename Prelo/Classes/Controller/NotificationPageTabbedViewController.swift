@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDelegate, NotificationPageActivityDelegate, NotificationPageInboxDelegate, NotificationPageTransactionDelegate {
+class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDelegate, NotificationPageActivityDelegate, NotificationPageInboxDelegate, NotificationPageTransactionDelegate, PreloNotifListenerDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notificationPageTransactionVC : NotificationPageTransactionViewController?
@@ -78,6 +78,11 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
             tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.inboxBadgeNumber!, self.activityBadgeNumber!], andRightOffsets: [10, 24, 15])
             
         }
+        
+        // Activate PreloNotifListenerDelegate
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener.delegate = self
     }
     
     func backPressed(sender: UIBarButtonItem) {
@@ -97,6 +102,18 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
         let v = UIViewController()
         v.view.backgroundColor = UIColor.whiteColor()
         return v
+    }
+    
+    // MARK: - PreloNotifListenerDelegate functions
+    
+    override func showNewNotifCount(count: Int) {
+        // Do nothing
+    }
+    
+    override func refreshNotifPage() {
+        self.notificationPageTransactionVC?.refreshPage(true)
+        self.notificationPageInboxVC?.refreshPage(true)
+        self.notificationPageActivityVC?.refreshPage(true)
     }
     
     // MARK: - NotificationPage per tab delegate functions

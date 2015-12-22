@@ -12,7 +12,7 @@ protocol NotificationPageActivityDelegate {
     func updateActivityBadgeNumber(count: Int)
 }
 
-class NotificationPageActivityViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, PreloNotifListenerDelegate, UserRelatedDelegate {
+class NotificationPageActivityViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UserRelatedDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lblEmpty: UILabel!
@@ -119,11 +119,6 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
             self.tableView.hidden = false
             self.setupTable()
         }
-        
-        // Activate PreloNotifListenerDelegate
-        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let notifListener = delegate.preloNotifListener
-        notifListener.delegate = self
     }
     
     func backPressed(sender: UIBarButtonItem) {
@@ -209,16 +204,6 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
         return 72
     }
     
-    // MARK: - PreloNotifListenerDelegate functions
-    
-    override func showNewNotifCount(count: Int) {
-        // Do nothing
-    }
-    
-    override func refreshNotifPage() {
-        self.refreshPage(true)
-    }
-    
     // MARK: - Other functions
     
     func setNotifReadAndSetBadgeNumber(notif : CDNotification, index : Int) {
@@ -227,8 +212,8 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
         if let badgeNumber = CDNotification.setReadNotifActivityAndGetUnreadCount(notif.ids) {
             self.delegate?.updateActivityBadgeNumber(badgeNumber)
             let badgeNumberAll = CDNotification.getNewNotifCount()
-            let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            let notifListener = delegate.preloNotifListener
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let notifListener = appDelegate.preloNotifListener
             notifListener.setNewNotifCount(badgeNumberAll)
             
             self.navigateReadNotif(notif)

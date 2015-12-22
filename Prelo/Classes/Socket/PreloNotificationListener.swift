@@ -139,12 +139,13 @@ class PreloNotificationListener //: PreloSocketDelegate
                 }
                 if (newN != nil) {
                     println("Successfully saved newN = \(newN)")
-                    newNotifCount++
+                    //newNotifCount++
                 } else {
                     println("Failed to save newN")
                 }
             }
         }
+        newNotifCount = CDNotification.getNewNotifCount()
         println("newNotifCount = \(newNotifCount)")
         delegate?.showNewNotifCount(newNotifCount)
         delegate?.refreshNotifPage()

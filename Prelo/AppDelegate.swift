@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        preloNotifListener = PreloNotificationListener()
+        
         messagePool = MessagePool()
         messagePool.start()
         
@@ -68,8 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
 //            
 //        })
-        
-        preloNotifListener = PreloNotificationListener()
         
         self.versionCheck()
         
