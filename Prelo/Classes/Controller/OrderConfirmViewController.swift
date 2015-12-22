@@ -18,6 +18,13 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     @IBOutlet var img2 : UIImageView!
     @IBOutlet var img3 : UIImageView!
     @IBOutlet var imgs : [UIView] = []
+    @IBOutlet var unneededViewsIfFree : [UIView] = []
+    @IBOutlet var conMarginTitle : NSLayoutConstraint!
+    @IBOutlet var captionTitle : UILabel!
+    @IBOutlet var captionDesc : UILabel!
+    @IBOutlet var btnBack2 : UIButton!
+    var fromCheckout = true
+    var free = false
     
     var cellData : [NSIndexPath : BaseCartData] = [:]
     var cellViews : [NSIndexPath : UITableViewCell] = [:]
@@ -39,8 +46,17 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        free = total == 0
+//        free = true
+        
         self.titleText = self.title
-
+        
+//        if var f = captionTitle.superview?.frame
+//        {
+//            f.size.height -= CGFloat(10)
+//            captionTitle.superview?.frame = f
+//        }
+        
         // Do any additional setup after loading the view.
         
         cellData[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instance(titleOrderID, placeHolder: "", value: orderID, enable : false)
@@ -55,6 +71,40 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         let b = BaseCartData.instance(titleNominal, placeHolder: "Nominal Transfer")
         b.keyboardType = UIKeyboardType.DecimalPad
         cellData[NSIndexPath(forRow: 4, inSection: 0)] = b
+        
+        if (fromCheckout == false)
+        {
+            conMarginTitle.constant = 0
+            captionTitle.text = ""
+            if var f = captionTitle.superview?.frame
+            {
+                f.size.height -= CGFloat(44)
+                captionTitle.superview?.frame = f
+            }
+        }
+        
+        btnBack2.hidden = true
+        if (free)
+        {
+            for v in unneededViewsIfFree
+            {
+                v.hidden = true
+            }
+            
+            if var f = captionTitle.superview?.frame
+            {
+//                f.size.height = CGFloat(260)
+                captionTitle.superview?.frame = f
+            }
+            
+//            captionTitle.superview?.backgroundColor = .redColor()
+            
+            captionDesc.text = "Kami segera memproses dan mengirim barang pesanan kamu. Silakan tunggu notifikasi Konfirmasi Pengiriman maximal 3 x 24 jam."
+            cellData = [:]
+            
+            btnBack2.hidden = false
+            self.tableView?.tableFooterView = UIView()
+        }
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -205,6 +255,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     @IBAction func sendConfirm()
     {
+        if (free)
+        {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            return
+        }
+        
         for k in cellViews.keys
         {
             let c = cellViews[k]!

@@ -224,6 +224,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 p = 0
             }
             d.value = p.asPrice
+            
             if let c = cellViews[NSIndexPath(forRow: products.count, inSection: 0)] as? CartCellInput
             {
                 c.txtField.text = d.value
@@ -268,6 +269,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let json = JSON(result)
                     self.currentCart = json
                     
+                    self.arrayItem = json["_data"]["cart_details"].array!
+                    
                     if let error = json["_data"].error
                     {
                         Constant.showDialog("Warning", message: json["_message"].string!)
@@ -283,10 +286,52 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
                                 if let price = json["_data"]["bonus_available"].int?.asPrice
                                 {
+                                    var totalOngkir = 0
+                                    for i in 0...self.products.count-1
+                                    {
+                                        let cp = self.products[i]
+                                        
+                                        let json = self.arrayItem[i]
+                                        if let free = json["free_ongkir"].bool
+                                        {
+                                            if (free)
+                                            {
+                                                continue
+                                            }
+                                        }
+                                        
+                                        if let arr = json["shipping_packages"].array
+                                        {
+                                            if (arr.count > 0)
+                                            {
+                                                var sh = arr[0]
+                                                if (cp.packageId != "")
+                                                {
+                                                    for x in 0...arr.count-1
+                                                    {
+                                                        let shipping = arr[x]
+                                                        if let id = shipping["_id"].string
+                                                        {
+                                                            if (id == cp.packageId)
+                                                            {
+                                                                sh = shipping
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if let price = sh["price"].int
+                                                {
+                                                    totalOngkir += price
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                    
                                     let preloBonus = json["_data"]["bonus_available"].intValue
                                     let totalPrice = json["_data"]["total_price"].intValue
                                     
-                                    b2.value = (preloBonus < totalPrice) ? preloBonus.asPrice : totalPrice.asPrice
+                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? preloBonus.asPrice : (totalPrice + totalOngkir).asPrice
                                 }
                                 b2.enable = false
                                 let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
@@ -302,8 +347,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             b.value = price
                         }
                         self.cells[i] = b
-                        
-                        self.arrayItem = json["_data"]["cart_details"].array!
                         
                         self.tableView.dataSource = self
                         self.tableView.delegate = self
@@ -406,7 +449,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         o.orderID = (self.checkoutResult?["order_id"].string)!
                         o.total = (self.checkoutResult?["total_price"].int)!
                         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-                        o.overBack = true
+//                        o.overBack = true
                         
                         var imgs : [NSURL] = []
                         

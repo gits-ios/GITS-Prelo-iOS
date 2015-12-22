@@ -159,6 +159,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             orderConfirmVC.orderID = u.orderId
             orderConfirmVC.total = u.totalPrice
             orderConfirmVC.images = imgs
+            orderConfirmVC.fromCheckout = false
             self.navigationController?.pushViewController(orderConfirmVC, animated: true)
         }
     }
