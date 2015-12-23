@@ -430,8 +430,8 @@ class NotificationPageCell : UITableViewCell {
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0)
-        self.imgUser.image = nil
-        self.imgProduct.image = nil
+        //self.imgUser.image = nil
+        //self.imgProduct.image = nil
         self.lblMessage.text = ""
         self.lblTime.text = ""
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDelegate, NotificationPageActivityDelegate, NotificationPageInboxDelegate, NotificationPageTransactionDelegate, PreloNotifListenerDelegate {
+class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDelegate, NotificationPageActivityDelegate, NotificationPageInboxDelegate, NotificationPageTransactionDelegate, PreloNotifListenerDelegate, UserRelatedDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notificationPageTransactionVC : NotificationPageTransactionViewController?
@@ -20,6 +20,8 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
     var transactionBadgeNumber : Int?
     var inboxBadgeNumber : Int?
     var activityBadgeNumber : Int?
+    
+    var allowLaunchLogin = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,26 +65,36 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        // isRefresh digunakan agar refresh tidak dilakukan waktu pertama kali appear, namun appear berikutnya selalu dilakukan
-        if (isRefresh) {
-            if let currentTabIndex = tabSwipe?.currentTabIndex {
-                //println("currentTabIndex = \(currentTabIndex)")
-                self.tabSwipeNavigation(self.tabSwipe, viewControllerAtIndex: currentTabIndex).viewDidAppear(true)
+        if (User.IsLoggedIn == false) {
+            if (allowLaunchLogin) {
+                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
             }
         } else {
-            isRefresh = true
+            // isRefresh digunakan agar refresh tidak dilakukan waktu pertama kali appear, namun appear berikutnya selalu dilakukan
+            if (isRefresh) {
+                if let currentTabIndex = tabSwipe?.currentTabIndex {
+                    //println("currentTabIndex = \(currentTabIndex)")
+                    self.tabSwipeNavigation(self.tabSwipe, viewControllerAtIndex: currentTabIndex).viewDidAppear(true)
+                }
+            } else {
+                isRefresh = true
+                
+                if let currentTabIndex = tabSwipe?.currentTabIndex {
+                    //println("currentTabIndex = \(currentTabIndex)")
+                    self.tabSwipeNavigation(self.tabSwipe, viewControllerAtIndex: currentTabIndex).viewDidAppear(true)
+                }
+                
+                self.transactionBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Transaksi)
+                self.inboxBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Inbox)
+                self.activityBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Aktivitas)
+                tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.inboxBadgeNumber!, self.activityBadgeNumber!], andRightOffsets: [10, 24, 15])
+            }
             
-            self.transactionBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Transaksi)
-            self.inboxBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Inbox)
-            self.activityBadgeNumber = CDNotification.getUnreadNotifCountInSection(NotificationType.Aktivitas)
-            tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.inboxBadgeNumber!, self.activityBadgeNumber!], andRightOffsets: [10, 24, 15])
-            
+            // Activate PreloNotifListenerDelegate
+            let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let notifListener = delegate.preloNotifListener
+            notifListener.delegate = self
         }
-        
-        // Activate PreloNotifListenerDelegate
-        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let notifListener = delegate.preloNotifListener
-        notifListener.delegate = self
     }
     
     func backPressed(sender: UIBarButtonItem) {
@@ -102,6 +114,17 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
         let v = UIViewController()
         v.view.backgroundColor = UIColor.whiteColor()
         return v
+    }
+    
+    // MARK: - UserRelatedDelegate Functions
+    
+    func userCancelLogin() {
+        allowLaunchLogin = false
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func userLoggedIn() {
+        allowLaunchLogin = false
     }
     
     // MARK: - PreloNotifListenerDelegate functions

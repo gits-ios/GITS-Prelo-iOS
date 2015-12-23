@@ -451,7 +451,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePool.swift; sourceTree = "<group>"; };
+		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagePool.swift; path = Controller/MessagePool.swift; sourceTree = "<group>"; };
 		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
 		210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_bbm@2x.png"; sourceTree = "<group>"; };
@@ -1656,7 +1656,6 @@
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
 				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
 				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
-				210000B91BCB89D500E16611 /* MessagePool.swift */,
 				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
 				2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */,
 				2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */,
@@ -2018,6 +2017,7 @@
 		44BB8EF31BC654850052B020 /* Socket */ = {
 			isa = PBXGroup;
 			children = (
+				210000B91BCB89D500E16611 /* MessagePool.swift */,
 				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
 			);
 			name = Socket;

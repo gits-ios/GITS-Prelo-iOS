@@ -36,22 +36,12 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
         // Register custom cell
         var notificationPageCellNib = UINib(nibName: "NotificationPageCell", bundle: nil)
         tableView.registerNib(notificationPageCellNib, forCellReuseIdentifier: "NotificationPageCell")
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if (User.IsLoggedIn == false) {
-            if (allowLaunchLogin) {
-                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
-            }
-        } else {
+        if (User.IsLoggedIn == true) {
             self.refreshPage(false)
         }
     }
