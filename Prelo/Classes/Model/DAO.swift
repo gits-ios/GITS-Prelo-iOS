@@ -518,6 +518,10 @@ public class ProductDetail : NSObject, TawarItem
         return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
     }
     
+    var isActive : Bool {
+        return json["_data"]["status"].boolValue
+    }
+    
     var size : String {
         return json["_data"]["size"].stringValue
     }

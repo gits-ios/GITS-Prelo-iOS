@@ -811,6 +811,9 @@ enum Products : URLRequestConvertible
     case PostComment(productID : String, message : String, mentions : String)
     case ShareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
     case PostReview(productID : String, comment : String, star : Int)
+    case Activate(productID : String)
+    case Deactivate(productID : String)
+    case Delete(productID : String)
     
     var method : Method
     {
@@ -826,6 +829,9 @@ enum Products : URLRequestConvertible
         case .GetComment(_) :return .GET
         case .ShareCommission(_, _, _, _, _) : return .POST
         case .PostReview(_, _, _) : return .POST
+        case .Activate(_) : return .POST
+        case .Deactivate(_) : return .POST
+        case .Delete(_) : return .POST
         }
     }
     
@@ -843,6 +849,9 @@ enum Products : URLRequestConvertible
         case .GetComment(let pId) :return pId + "/comments"
         case .ShareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
         case .PostReview(let pId, _, _) : return pId + "/review"
+        case .Activate(let pId) : return pId + "/activate"
+        case .Deactivate(let pId) : return pId + "/deactivate"
+        case .Delete(let pId) : return pId + "/delete"
         }
     }
     
@@ -886,6 +895,7 @@ enum Products : URLRequestConvertible
                 "comment" : comment,
                 "star" : star
             ]
+        default : return [:]
         }
     }
     
