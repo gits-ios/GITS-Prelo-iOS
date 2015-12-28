@@ -73,7 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.versionCheck()
         
+        // Enable Google AdWords automated usage reporting
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
+        ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
         //return true
         

@@ -427,6 +427,7 @@
 		FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
+		FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4E8BF21C31258100501F7A /* AdSupport.framework */; };
 		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
 		FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
 		FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview.xib */; };
@@ -990,6 +991,7 @@
 		FD3C6D461C1963190002C7B4 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		FD3C6D471C1963AC0002C7B4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		FD4E8BF21C31258100501F7A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
 		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopReviewViewController.swift; sourceTree = "<group>"; };
 		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
@@ -1009,6 +1011,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
@@ -1056,6 +1059,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FD4E8BF21C31258100501F7A /* AdSupport.framework */,
 				FD3C6D471C1963AC0002C7B4 /* libz.dylib */,
 				21E7A7581B9FE81600FC9B38 /* Social.framework */,
 				21679A5F1B901DD400F18F90 /* libicucore.dylib */,
