@@ -17,7 +17,7 @@ protocol ProductCellDelegate
     func cellTappedCategory(categoryName : String, categoryID : String)
 }
 
-class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
+class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
 {
     
     var product : Product?
@@ -29,10 +29,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : UIButton!
+    @IBOutlet var btnActivate : UIButton!
+    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var btnEdit : UIButton!
     
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
+    
+    var activated = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +45,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let i = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
         self.btnAddDiscussion?.addTarget(self, action: "segAddComment:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        btnDelete.addTarget(self, action: "deleteProduct", forControlEvents: .TouchUpInside)
         
         btnBuy.hidden = true
         btnTawar.hidden = true
@@ -112,6 +119,121 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    var processingActivation = false
+    @IBAction func setProductActive()
+    {
+        if (processingActivation)
+        {
+            return
+        }
+        processingActivation = true
+        btnActivate.setTitle("LOADING..", forState: .Disabled)
+        btnActivate.enabled = false
+        
+        if (activated)
+        {
+            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {req, resp, res, err in
+                self.processingActivation = false
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
+                    self.activated = false
+                    self.adjustButtonActivation()
+                } else {
+                    
+                }
+            }
+        } else
+        {
+            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {req, resp, res, err in
+                self.processingActivation = false
+                if (APIPrelo.validate(true, err: err, resp: resp))
+                {
+                    self.activated = true
+                    self.adjustButtonActivation()
+                } else {
+                    
+                }
+            }
+        }
+    }
+    
+    func adjustButtonActivation()
+    {
+        btnActivate.enabled = true
+        if (activated)
+        {
+            btnActivate.setTitle(" DEACTIVATE", forState: .Normal)
+        } else
+        {
+            btnActivate.setTitle(" ACTIVATE", forState: .Normal)
+        }
+    }
+    
+    var deleting = false
+    func deleteProduct()
+    {
+        if (deleting)
+        {
+            return
+        }
+        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
+        {
+            askDeleteOS8()
+        } else
+        {
+            askDeleteOS7()
+        }
+    }
+    
+    // see ? udalah ga usah support os 7 segala, bikin dialog aja harus 2 fungsi
+    func askDeleteOS8()
+    {
+        let a = UIAlertController(title: "Hapus", message: "Hapus Produk ?", preferredStyle: .Alert)
+        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
+            self.confirmDeleteProduct()
+        }))
+        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
+        self.presentViewController(a, animated: true, completion: nil)
+    }
+    
+    func askDeleteOS7()
+    {
+        let a = UIAlertView()
+        a.title = "Hapus"
+        a.message = "Hapus Produk ?"
+        a.addButtonWithTitle("Ya")
+        a.addButtonWithTitle("Tidak")
+        a.delegate = self
+        a.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if (buttonIndex == 0)
+        {
+            println("DELETE")
+            self.confirmDeleteProduct()
+        } else
+        {
+            println("NO DELETE")
+        }
+    }
+    
+    func confirmDeleteProduct()
+    {
+        deleting = true
+        self.btnDelete.setTitle("LOADING..", forState: .Disabled)
+        self.btnDelete.enabled = false
+        request(Products.Delete(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, err: err, resp: resp))
+            {
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                self.deleting = false
+                self.btnDelete.enabled = true
+            }
+        }
+    }
+    
     func option()
     {
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
@@ -139,9 +261,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     {
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!))
             .responseJSON{_, resp, res, err in
+                println(res)
                 if (APIPrelo.validate(true, err: err, resp: resp))
                 {
                     self.detail = ProductDetail.instance(JSON(res!))
+                    self.activated = (self.detail?.isActive)!
+                    self.adjustButtonActivation()
                     println(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
@@ -203,14 +328,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if ((detail?.isMyProduct)! == true)
         {
-            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
-            {
-                b.hidden = false
-                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
-                b.setTitle(" EDIT", forState: UIControlState.Normal)
-            }
+//            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
+//            {
+//                b.hidden = false
+//                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
+//                b.setTitle(" EDIT", forState: UIControlState.Normal)
+//            }
             self.btnBuy.hidden = true
             self.btnTawar.hidden = true
+            btnEdit.hidden = false
+            btnActivate.hidden = false
+            btnDelete.hidden = false
+            btnDelete.superview?.hidden = false
         } else
         {
             btnBuy.hidden = false

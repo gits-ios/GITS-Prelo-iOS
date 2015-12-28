@@ -197,7 +197,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let s = comments[indexPath.row].message.boundsWithFontSize(UIFont.systemFontOfSize(12), width: UIScreen.mainScreen().bounds.size.width-72)
+        
+        let s = comments[indexPath.row].message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
         return 47+(s.height)
     }
 
