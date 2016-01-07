@@ -285,7 +285,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        let p = ProductDetailCover.instance((detail?.displayPicturers)!)
+        let p = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
         p?.parent = self
         p?.largeImageURLS = (detail?.originalPicturers)!
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480

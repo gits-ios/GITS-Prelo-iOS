@@ -17,6 +17,8 @@ class ProductDetailCover: UIView {
     var imageURLS : Array<String> = []
     var largeImageURLS : Array<String> = []
     
+    var status : Int?
+    
     private func setup(images : Array<String>)
     {
         imageURLS = images
@@ -31,6 +33,14 @@ class ProductDetailCover: UIView {
             iv?.userInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
             iv?.setImageWithUrl(NSURL(string: images.objectAtCircleIndex(i))!, placeHolderImage: nil)
+        }
+        
+        if (status != nil) {
+            if (status == 4) { // sold
+                let soldImg = UIImageView(image: UIImage(named: "sold.png"))
+                soldImg.frame = CGRect(x: 170, y: 0, width: 150, height: 148)
+                self.addSubview(soldImg)
+            }
         }
     }
     
@@ -51,7 +61,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(images : Array<String>)->ProductDetailCover?
+    class func instance(images : Array<String>, status: Int)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -65,6 +75,8 @@ class ProductDetailCover: UIView {
         } else if (images.count >= 5) {
             p = NSBundle.mainBundle().loadNibNamed("ProductDetailCover", owner: nil, options: nil).objectAtCircleIndex(4) as? ProductDetailCover
         }
+        
+        p?.status = status
         
         p?.setup(images)
         

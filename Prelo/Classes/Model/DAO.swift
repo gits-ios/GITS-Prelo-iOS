@@ -522,6 +522,10 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].boolValue
     }
     
+    var status : Int {
+        return json["_data"]["status"].intValue
+    }
+    
     var size : String {
         return json["_data"]["size"].stringValue
     }

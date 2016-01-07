@@ -561,6 +561,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
                         // TODO: belum lengkap? simpan token socmed bila dari socmed
                         
+                        // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
+                        // Di dalamnya akan memanggil MessagePool.start()
                         NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                         
                         // Save data

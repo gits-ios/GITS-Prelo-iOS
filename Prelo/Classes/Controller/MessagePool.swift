@@ -39,7 +39,7 @@ class MessagePool: NSObject
     {
         if let id = CDUser.getOne()?.id
         {
-            socket = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
+            socket = SocketIOClient(socketURL: AppTools.PreloBaseUrl)
             
             socket.on("connect", callback:{ data, ack in
                 println("Socket connected, registering..")

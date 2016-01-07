@@ -197,6 +197,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             d.userLoggedIn!()
                         }
                         
+                        // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
+                        // Di dalamnya akan memanggil MessagePool.start()
+                        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                        
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                         
                         // Mixpanel

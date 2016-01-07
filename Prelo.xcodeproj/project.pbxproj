@@ -435,6 +435,7 @@
 		FDDD4FD91C1FFC9200C5EAB6 /* NotificationPageActivity.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */; };
 		FDDD4FDA1C1FFC9200C5EAB6 /* NotificationPageInbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */; };
 		FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */; };
+		FDF39A301C3CF43B002A5DF6 /* sold.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF39A2F1C3CF43B002A5DF6 /* sold.png */; };
 		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
 		FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
 		FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */; };
@@ -1000,6 +1001,7 @@
 		FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageInbox.xib; sourceTree = "<group>"; };
 		FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
 		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
+		FDF39A2F1C3CF43B002A5DF6 /* sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sold.png; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPreferencesViewController.swift; sourceTree = "<group>"; };
 		FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryPreferences.xib; sourceTree = "<group>"; };
@@ -1734,6 +1736,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				FDF39A2F1C3CF43B002A5DF6 /* sold.png */,
 				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
 				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
 				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
@@ -2192,6 +2195,7 @@
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
+				FDF39A301C3CF43B002A5DF6 /* sold.png in Resources */,
 				44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
@@ -2725,8 +2729,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2749,7 +2753,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2759,8 +2763,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2780,7 +2784,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
+				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

@@ -43,16 +43,12 @@ extension Int
 }
 
 class AppTools: NSObject {
-    // Development
-//    static var PreloBaseUrl = "http://dev.prelo.id"
-//    static var PreloBaseUrlShort = "dev.prelo.id"
+    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-    // Production
-    static var PreloBaseUrl = "https://prelo.co.id"
-    static var PreloBaseUrlShort = "prelo.co.id"
+//    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
-        return (AppTools.PreloBaseUrlShort == "prelo.co.id")
+        return (AppTools.PreloBaseUrl == "https://prelo.co.id")
     }
 }
 
