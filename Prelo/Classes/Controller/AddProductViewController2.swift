@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -374,11 +374,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
+            /* AVIARY IS DISABLED
             AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
             AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
             let u = AdobeUXImageEditorViewController(image: imageViews[actionSheet.tag].image)
             u.delegate = self
             self.presentViewController(u, animated: true, completion: nil)
+            */
         } else if (buttonIndex == 2)
         {
             self.pickImage(actionSheet.tag, forceBackOnCancel: false)
@@ -397,6 +399,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    /* AVIARY IS DISABLED
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         imageViews[editor.view.tag].image = image
         editor.dismissViewControllerAnimated(true, completion: nil)
@@ -405,6 +408,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
         editor.dismissViewControllerAnimated(true, completion: nil)
     }
+    */
     
     func pickImage(index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
     {

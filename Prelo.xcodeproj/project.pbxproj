@@ -336,8 +336,6 @@
 		21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */; };
 		21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */; };
 		21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
-		21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */; };
-		21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */; };
 		21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */; };
 		21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43D1B86FA3000CAD5C9 /* CoreData.framework */; };
 		21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43F1B86FABE00CAD5C9 /* Foundation.framework */; };
@@ -349,8 +347,6 @@
 		21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */; };
 		21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */; };
 		21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */; };
-		21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */; };
-		21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */; };
 		21EEB4591B87036000CAD5C9 /* Dashboard2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */; };
 		21EEB45A1B87036000CAD5C9 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */; };
 		21EEB45B1B87036000CAD5C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */; };
@@ -889,8 +885,6 @@
 		21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKLineActivity.m; sourceTree = "<group>"; };
 		21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductViewController.swift; sourceTree = "<group>"; };
 		21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductSellViewController.swift; sourceTree = "<group>"; };
-		21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKCore.framework; sourceTree = "<group>"; };
-		21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKImage.framework; sourceTree = "<group>"; };
 		21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		21EEB43D1B86FA3000CAD5C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		21EEB43F1B86FABE00CAD5C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -902,8 +896,6 @@
 		21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AdobeCreativeSDKImageResources.bundle; path = Prelo/Framework/AdobeCreativeSDKImage.framework/Versions/A/Resources/AdobeCreativeSDKImageResources.bundle; sourceTree = "<group>"; };
-		21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AdobeCreativeSDKCoreResources.bundle; path = Prelo/Framework/AdobeCreativeSDKCore.framework/Versions/A/Resources/AdobeCreativeSDKCoreResources.bundle; sourceTree = "<group>"; };
 		21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard2ViewController.swift; sourceTree = "<group>"; };
 		21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
 		21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -1041,9 +1033,7 @@
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
-				21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
-				21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */,
 				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1099,8 +1089,6 @@
 		2115E6BF1B4A27E500509D2A = {
 			isa = PBXGroup;
 			children = (
-				21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */,
-				21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */,
 				21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */,
 				2115E6CA1B4A27E500509D2A /* Prelo */,
 				2115E6E31B4A27E500509D2A /* PreloTests */,
@@ -1977,8 +1965,6 @@
 				216799981B901C5200F18F90 /* Mixpanel */,
 				216799941B9010E900F18F90 /* Fabric.framework */,
 				216799951B9010E900F18F90 /* Crashlytics.framework */,
-				21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */,
-				21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -2143,10 +2129,8 @@
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
 				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
-				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */,
-				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
