@@ -145,6 +145,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                         println("Notifs: \(data)")
                         
                         // Merge notif dengan objectId dan type yang sama sebelum disimpan di core data
+                        // Khusus untuk transaksi, merge notif dengan objectId a.k.a transaction id yg sama
                         var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif yang sudah di merge
                         for (i : String, jNotifs : JSON) in data {
                             var notifs : [JSON] = jNotifs.arrayValue
@@ -161,7 +162,20 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                                     let n2 : JSON = notifs[k]
                                     //println("n2 = \(n2)")
                                     
-                                    if ((n["object_id"].string! == n2["object_id"].string!) && (n["type"].numberValue == n2["type"].numberValue)) {
+                                    if ((i == "tp_notif") && (n["object_id"].string! == n2["object_id"].string!)) { // Notif transaksi yg sama
+                                        
+                                        //println("merge n2 to n")
+                                        // Tambahkan weight
+                                        nWeight++
+                                        
+                                        // Gabungkan id
+                                        let n2Id : String = n2["_id"].string!
+                                        nIds = "\(nIds);\(n2Id)"
+                                        
+                                        // Hapus n2
+                                        notifs.removeAtIndex(k)
+                                    } else if ((n["object_id"].string! == n2["object_id"].string!) && (n["type"].numberValue == n2["type"].numberValue)) { // Notif inbox/aktivitas yg sama
+                                        
                                         //println("merge n2 to n")
                                         // Tambahkan weight
                                         nWeight++

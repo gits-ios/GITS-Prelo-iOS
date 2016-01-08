@@ -96,8 +96,14 @@ class PreloNotificationListener //: PreloSocketDelegate
             //println("itemNotifs.count = \(itemNotifs.count)")
             for (j : String, n : JSON) in itemNotifs {
                 var newN : CDNotification?
-                // First, check if there's already a notif with same objectId and type
-                var sameNotif : CDNotification? =  CDNotification.getNotifWithObjectId(n["object_id"].string!, andType: n["type"].number!)
+                // First, check if there's already a same notif to be merged
+                // Same notif: transaksi with same objectId OR inbox/aktivitas with same objectId and type
+                var sameNotif : CDNotification?
+                if (i == "tp_notif") { // Notif transaksi
+                    sameNotif = CDNotification.getNotifWithObjectId(n["object_id"].string!)
+                } else { // Notif inbox/aktivitas
+                    sameNotif =  CDNotification.getNotifWithObjectId(n["object_id"].string!, andType: n["type"].number!)
+                }
                 if (sameNotif != nil) { // Udah ada yg sama, merge dengan notif yg sama
                     // Sesuaikan ids, opened, message, name, time, leftImage, weight, names
                     // Simpan ids baru di var baru karna sameNotif.ids akan digunakan untuk menghapus objek di core data

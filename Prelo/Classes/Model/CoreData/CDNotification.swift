@@ -461,4 +461,19 @@ class CDNotification : NSManagedObject {
             return (r!.first as! CDNotification)
         }
     }
+    
+    static func getNotifWithObjectId(objectId : String) -> CDNotification? {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let predicate = NSPredicate(format: "objectId like[c] %@", objectId)
+        let fetchReq = NSFetchRequest(entityName: "CDNotification")
+        fetchReq.predicate = predicate
+        
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDNotification)
+        }
+    }
 }
