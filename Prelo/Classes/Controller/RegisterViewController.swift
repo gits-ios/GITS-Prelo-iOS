@@ -122,6 +122,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             var placeholder = NSAttributedString(string: "Kata sandi harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtPassword?.attributedPlaceholder = placeholder
             return false
+        } else if (txtPassword?.text.length() < 6) {
+            var placeholder = NSAttributedString(string: "Kata sandi minimal 6 karakter", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            txtPassword?.attributedPlaceholder = placeholder
+            txtPassword?.text = ""
+            return false
         }
         if (txtRepeatPassword?.text == "") {
             var placeholder = NSAttributedString(string: "Kata sandi harus diulangi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])

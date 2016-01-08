@@ -339,10 +339,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func sendTawar(sender : UIView?)
     {
-        if (txtTawar.text == "")
+        let tawarRegex = "^[0-9]*$"
+        if (txtTawar.text == "" || txtTawar.text.match(tawarRegex) == false)
         {
-            
-        } else
+            Constant.showDialog("Masukkan angka penawaran", message: "Contoh: 150000")
+        }
+        else
         {
             self.hideTawar(nil)
             if (tawarItem.threadId == "")

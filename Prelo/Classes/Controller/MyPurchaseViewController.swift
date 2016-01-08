@@ -31,7 +31,7 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         
         // Set title
-        self.title = "Pembelian Saya"
+        self.title = "Belanjaan Saya"
         
         // Tombol back
         self.navigationItem.hidesBackButton = true

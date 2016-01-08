@@ -135,7 +135,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
             request(APINotif.GetNotifs).responseJSON {req, _, res, err in
                 println("Get notif req = \(req)")
                 if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting notifications")//: \(err!.description)")
+                    //Constant.showDialog("Warning", message: "Error getting notifications")//: \(err!.description)")
                 } else {
                     let json = JSON(res!)
                     let data = json["_data"]

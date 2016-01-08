@@ -310,7 +310,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         } else if (orderStatusText == OrderStatus.Direview) {
             p = [true, false, true, true, false, false, true, false, false, true, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
-            p = [true, false, false, false, false, false, true, true, true, false, true]
+            p = [true, false, true, true, false, false, true, true, true, false, true]
         } else {
             p = [true, false, false, false, false, false, false, false, false, false, true]
         }
