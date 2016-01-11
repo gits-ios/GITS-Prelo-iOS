@@ -84,7 +84,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtName?.resignFirstResponder()
     }
     
-    @IBAction func backPressed(sender: UIButton) {
+    @IBAction func xBackPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     

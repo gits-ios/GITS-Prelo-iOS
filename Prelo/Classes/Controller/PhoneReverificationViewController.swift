@@ -23,8 +23,6 @@ class PhoneReverificationViewController : BaseViewController {
         super.viewDidLoad()
         
         self.title = "Nomor Handphone"
-        
-        setNavBarButtons()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -52,18 +50,6 @@ class PhoneReverificationViewController : BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
-    }
-    
-    func setNavBarButtons() {
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func disableTextFields(sender : AnyObject)

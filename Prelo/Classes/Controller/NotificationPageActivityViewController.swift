@@ -111,10 +111,6 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
         }
     }
     
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
     func setupTable() {
         
         if (self.tableView.delegate == nil) {

@@ -199,12 +199,6 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // Set title
         self.title = (transactionDetail!.productName)
         
-        // Set back button
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
         // Set images and labels
         imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
         lblProductName.text = transactionDetail?.productName
@@ -339,10 +333,6 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // Show content
         loading.stopAnimating()
         contentView.hidden = false
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func arrangeGroups(isShowGroups : [Bool]) {

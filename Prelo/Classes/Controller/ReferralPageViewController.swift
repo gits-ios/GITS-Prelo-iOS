@@ -103,12 +103,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         // Set title
         self.title = "Prelo Bonus"
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -127,10 +121,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func getReferralData() {

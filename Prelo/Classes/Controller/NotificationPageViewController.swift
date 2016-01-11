@@ -38,12 +38,6 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         
         // Set title
         self.title = "Notifikasi"
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -123,10 +117,6 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                 }
             }
         }
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     static func refreshNotifications() {

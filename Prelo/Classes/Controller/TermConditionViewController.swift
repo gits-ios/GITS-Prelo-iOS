@@ -40,7 +40,7 @@ class TermConditionViewController : BaseViewController, UIWebViewDelegate {
         GAI.trackPageVisit(PageName.TermsAndConditions)
     }
     
-    @IBAction func backPressed(sender: AnyObject) {
+    @IBAction func xBackPressed(sender: AnyObject) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         // Back to prev scene
         self.navigationController?.popViewControllerAnimated(true)

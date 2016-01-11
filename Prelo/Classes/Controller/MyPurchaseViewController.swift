@@ -33,12 +33,6 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         // Set title
         self.title = "Belanjaan Saya"
         
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
         viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
@@ -46,11 +40,6 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubviewToFront(viewJualButton)
     }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
     
     @IBAction func sellPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2

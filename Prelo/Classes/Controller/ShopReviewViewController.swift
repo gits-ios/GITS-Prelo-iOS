@@ -30,12 +30,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Register custom cell
         var myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -66,10 +60,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopReviews)
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func getUserReviews() {

@@ -194,7 +194,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.navigationItem.rightBarButtonItem = applyButton*/
     }
     
-    func backPressed(sender: UIBarButtonItem) {
+    override func backPressed(sender: UIBarButtonItem) {
         NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
         if let d = self.userRelatedDelegate
         {

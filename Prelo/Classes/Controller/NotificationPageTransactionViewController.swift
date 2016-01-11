@@ -111,10 +111,6 @@ class NotificationPageTransactionViewController: BaseViewController, UITableView
         }
     }
     
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
     func setupTable() {
         
         if (self.tableView.delegate == nil) {

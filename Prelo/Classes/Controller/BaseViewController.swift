@@ -65,6 +65,16 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         if (BaseViewController.GlobalStoryboard == nil) {
             BaseViewController.GlobalStoryboard = self.storyboard
         }
+        
+        // Tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.leftBarButtonItem = newBackButton
+    }
+    
+    func backPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     static func instatiateViewControllerFromStoryboardWithID(id : String) -> UIViewController

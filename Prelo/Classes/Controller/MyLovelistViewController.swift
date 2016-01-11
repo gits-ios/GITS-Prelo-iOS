@@ -34,12 +34,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         // Set title
         self.title = PageName.Lovelist
         
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
         viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
@@ -78,10 +72,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 self.setupTable()
             }
         }
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func getUserLovelist() {
