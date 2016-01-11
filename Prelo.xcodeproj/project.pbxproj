@@ -200,7 +200,6 @@
 		216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 216799871B8F8AB900F18F90 /* AFURLResponseSerialization.m */; };
 		216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 216799891B8F8AB900F18F90 /* AFURLSessionManager.m */; };
 		216799961B9010E900F18F90 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799941B9010E900F18F90 /* Fabric.framework */; };
-		216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
 		21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 2167999A1B901C5200F18F90 /* _MPTweakBindObserver.m */; };
 		21679A151B901C5300F18F90 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2167999B1B901C5200F18F90 /* Media.xcassets */; };
 		21679A161B901C5300F18F90 /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2167999D1B901C5200F18F90 /* Mixpanel.m */; };
@@ -423,6 +422,7 @@
 		FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
+		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
 		FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4E8BF21C31258100501F7A /* AdSupport.framework */; };
 		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
 		FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
@@ -1005,6 +1005,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */,
 				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
@@ -1025,7 +1026,6 @@
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
-				216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -2275,7 +2275,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		216799931B900F7C00F18F90 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -2288,7 +2288,7 @@
 		};
 		FD7C197B1C1D772D002AD602 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -2713,8 +2713,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2737,7 +2737,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2747,8 +2747,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kumang Prelo (67GR64B96P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kumang Prelo (67GR64B96P)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -2768,7 +2768,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
+				PROVISIONING_PROFILE = "013bb46d-a64d-4e40-a9fb-c58224553595";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

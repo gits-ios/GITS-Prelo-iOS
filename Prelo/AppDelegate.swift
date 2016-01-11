@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         messagePool.start()
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
+        
         if (AppTools.IsPreloProduction) {
             Mixpanel.sharedInstanceWithToken("1f07daa901e779dd504e21daca2a88df")
         } else {
