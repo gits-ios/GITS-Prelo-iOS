@@ -366,6 +366,7 @@ enum APITransaction : URLRequestConvertible
     case TransactionDetail(id : String)
     case ConfirmShipping(tpId : String, resiNum : String)
     case CheckoutList(current : String, limit : String)
+    case RejectTransaction(tpId : String, reason : String)
     
     var method : Method
     {
@@ -376,6 +377,7 @@ enum APITransaction : URLRequestConvertible
         case .TransactionDetail(_) : return .GET
         case .ConfirmShipping(_, _) : return .POST
         case .CheckoutList(_, _) : return .GET
+        case .RejectTransaction(_, _) : return .POST
         }
     }
     
@@ -388,6 +390,7 @@ enum APITransaction : URLRequestConvertible
         case .TransactionDetail(let id) : return id
         case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
         case .CheckoutList(_, _) : return "checkouts"
+        case .RejectTransaction(let tpId, _) : return "\(tpId)/reject"
         }
     }
     
@@ -420,6 +423,11 @@ enum APITransaction : URLRequestConvertible
             let p = [
                 "current" : current,
                 "limit" : limit
+            ]
+            return p
+        case .RejectTransaction(_, let reason) :
+            let p = [
+                "reason" : reason
             ]
             return p
         }

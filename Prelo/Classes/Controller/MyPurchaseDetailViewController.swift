@@ -322,7 +322,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
-            p = [true, false, true, false, true, true, false, false, false, true]
+            p = [true, false, true, false, true, true, true, true, false, true]
         } else if (orderStatusText == OrderStatus.DibatalkanSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else { // Default

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MyProductDetailViewController : BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
+class MyProductDetailViewController : BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -84,6 +84,15 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBOutlet weak var lblHearts: UILabel!
     @IBOutlet weak var lblReviewContent: UILabel!
     
+    @IBOutlet weak var vwTolakPesanan: UIView!
+    @IBOutlet weak var txtvwAlasanTolak: UITextView!
+    @IBOutlet weak var btnTolakBatal: UIButton!
+    @IBOutlet weak var btnTolakKirim: UIButton!
+    var txtvwGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwAlasanTolak: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint!
+    let TxtvwAlasanTolakPlaceholder = "Tulis alasan penolakan pesanan"
+    
     @IBOutlet weak var vwShadow: UIView!
     @IBOutlet weak var vwKonfKirim: UIView!
     @IBOutlet weak var lblKonfKurir: UILabel!
@@ -122,13 +131,21 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         // Sembunyikan shadow dan pop up
         //vwShadow.hidden = true
         //vwKonfKirim.hidden = true
+        //vwTolakPesanan.hidden = true
         
         // Agar icon kamera menjadi bulat
         vwIconKamera.layer.cornerRadius = (vwIconKamera.frame.size.width) / 2
         
-        // Set delegate
+        // Set delegate textfield
         fldKonfNoResi.delegate = self
         fldKonfNoResi.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        
+        // Atur textview
+        txtvwAlasanTolak.delegate = self
+        txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+        txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
+        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
         
         self.validateKonfKirimFields()
     }
@@ -143,8 +160,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         self.an_subscribeKeyboardWithAnimations ({ r, t, o in
             if (o) {
                 self.consTopVwKonfKirim.constant = 10
+                self.consTopVwTolakPesanan.constant = 10
             } else {
                 self.consTopVwKonfKirim.constant = 100
+                self.consTopVwTolakPesanan.constant = 100
             }
         }, completion: nil)
     }
@@ -360,6 +379,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         vwKonfKirim.hidden = false
         
         self.validateKonfKirimFields()
+        self.validateTolakPesananFields()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -377,10 +397,32 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         self.validateKonfKirimFields()
     }
     
+    // MARK: - UITextViewDelegate Funcitons
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+            txtvwAlasanTolak.text = ""
+            txtvwAlasanTolak.textColor = Theme.GrayDark
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+        self.validateTolakPesananFields()
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if (txtvwAlasanTolak.text.isEmpty) {
+            txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+            txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        }
+    }
+    
     // MARK: - IBActions
     
     @IBAction func disableTextFields(sender : AnyObject) {
         fldKonfNoResi.resignFirstResponder()
+        txtvwAlasanTolak.resignFirstResponder()
     }
     
     @IBAction func konfirmasiPengirimanPressed(sender: AnyObject) {
@@ -389,20 +431,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     @IBAction func tolakPenawaranPressed(sender: AnyObject) {
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
-        contactUs = c
-        if let v = c.view, let p = self.navigationController?.view
-        {
-            v.alpha = 0
-            v.frame = p.bounds
-            self.navigationController?.view.addSubview(v)
-            
-            v.alpha = 0
-            UIView.animateWithDuration(0.2, animations: {
-                v.alpha = 1
-            })
-        }
+        vwShadow.hidden = false
+        vwTolakPesanan.hidden = false
     }
     
     @IBAction func hubungiPreloPressed(sender: AnyObject) {
@@ -432,6 +462,30 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         }
         
         presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    @IBAction func tolakBatalPressed(sender: AnyObject) {
+        vwShadow.hidden = true
+        vwTolakPesanan.hidden = true
+    }
+    
+    @IBAction func tolakKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data != nil || data == true) {
+                    println("data = \(data)")
+                    Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
+                    self.sendMode(false)
+                    self.vwShadow.hidden = true
+                    self.vwTolakPesanan.hidden = true
+                    
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+        }
     }
     
     @IBAction func konfBatalPressed(sender: AnyObject) {
@@ -499,6 +553,16 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     // MARK: - Other Functions
     
+    func validateTolakPesananFields() {
+        if (txtvwAlasanTolak.text.isEmpty || txtvwAlasanTolak.text == self.TxtvwAlasanTolakPlaceholder) {
+            // Disable tombol kirim
+            btnTolakKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnTolakKirim.userInteractionEnabled = true
+        }
+    }
+    
     func validateKonfKirimFields() {
         if (fldKonfNoResi.text.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
             // Disable tombol kirim
@@ -513,19 +577,35 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     func sendMode(mode: Bool) {
         if (mode) {
+            // Disable konfkirim content
             fldKonfNoResi.userInteractionEnabled = false
             btnFotoBukti.userInteractionEnabled = false
             btnKonfBatal.userInteractionEnabled = false
             btnKonfKirim.userInteractionEnabled = false
             btnKonfKirim.setTitle("MENGIRIM...", forState: .Normal)
             btnKonfKirim.backgroundColor = Theme.PrimaryColorDark
+            
+            // Disable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = false
+            btnTolakBatal.userInteractionEnabled = false
+            btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = false
+            btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
         } else {
+            // Enable konfkirim content
             fldKonfNoResi.userInteractionEnabled = true
             btnFotoBukti.userInteractionEnabled = true
             btnKonfBatal.userInteractionEnabled = true
             btnKonfKirim.userInteractionEnabled = true
             btnKonfKirim.setTitle("KIRIM", forState: .Normal)
             btnKonfKirim.backgroundColor = Theme.PrimaryColor
+            
+            // Enable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = true
+            btnTolakBatal.userInteractionEnabled = true
+            btnTolakKirim.setTitle("KIRIM", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = true
+            btnTolakKirim.backgroundColor = Theme.PrimaryColor
         }
     }
 }
