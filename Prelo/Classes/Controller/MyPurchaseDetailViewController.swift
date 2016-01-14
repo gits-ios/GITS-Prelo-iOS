@@ -102,7 +102,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet var lblLove3: UILabel!
     @IBOutlet var lblLove4: UILabel!
     @IBOutlet var lblLove5: UILabel!
-    var loveValue : Int = 0
+    var loveValue : Int = 5
     var txtvwGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
@@ -416,19 +416,23 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
                 let json = JSON(res!)
-                let data : Bool? = json["_data"].bool
-                if (data != nil || data == true) {
-                    println("data = \(data)")
+                let dataBool : Bool = json["_data"].boolValue
+                let dataInt : Int = json["_data"].intValue
+                println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "Review berhasil ditambahkan")
-                    self.sendMode(false)
-                    self.vwShadow.hidden = true
-                    self.vwReviewSeller.hidden = true
-                    
-                    // Reload content
-                    self.contentView.hidden = true
-                    self.loading.startAnimating()
-                    self.getPurchaseDetail()
+                } else {
+                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
                 }
+                // Hide pop up
+                self.sendMode(false)
+                self.vwShadow.hidden = true
+                self.vwReviewSeller.hidden = true
+                
+                // Reload content
+                self.contentView.hidden = true
+                self.loading.startAnimating()
+                self.getPurchaseDetail()
             }
         }
     }
