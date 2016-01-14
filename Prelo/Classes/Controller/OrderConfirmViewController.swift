@@ -86,6 +86,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         btnBack2.hidden = true
         if (free)
         {
+            captionTitle.text = "Selamat! Transaksi kamu berhasil"
+            
             for v in unneededViewsIfFree
             {
                 v.hidden = true

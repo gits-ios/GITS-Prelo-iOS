@@ -51,10 +51,12 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
+    @IBOutlet weak var lblOrderId: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblSellerName: UILabel!
     @IBOutlet weak var lblOrderStatus: UILabel!
     @IBOutlet weak var lblOrderTime: UILabel!
+    @IBOutlet weak var consWidthOrderId: NSLayoutConstraint!
     @IBOutlet weak var consWidthOrderStatus: NSLayoutConstraint!
     
     @IBOutlet weak var lblDescription: UILabel!
@@ -203,9 +205,10 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
-        lblSellerName.text = transactionDetail?.sellerName
+        lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
+        lblSellerName.text = " | \((transactionDetail?.sellerName)!)"
         lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
-        lblOrderTime.text = transactionDetail?.time
+        lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
         lblReviewContent.text = transactionDetail?.reviewComment
@@ -258,6 +261,10 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // Review Seller pop up
         lblRvwSellerName.text = transactionDetail?.sellerName
         lblRvwProductName.text = transactionDetail?.productName
+        
+        // Fix order id text width
+        let orderIdFitSize = lblOrderId.sizeThatFits(lblOrderId.frame.size)
+        consWidthOrderId.constant = orderIdFitSize.width
         
         // Fix order status text width
         let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)

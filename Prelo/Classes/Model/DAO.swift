@@ -800,6 +800,10 @@ public class ProductDetail : NSObject, TawarItem
     var bargainerIsMe : Bool {
         return false
     }
+    
+    var productStatus : Int {
+        return json["_data"]["status"].intValue
+    }
 }
 
 public class Product : NSObject
@@ -1192,6 +1196,11 @@ class TransactionDetail : NSObject {
     var id : String {
         let i = (json["_id"].string)!
         return i
+    }
+    
+    var orderId : String {
+        let o = (json["order_id"].string)!
+        return o
     }
     
     var productId : String {
@@ -1886,6 +1895,14 @@ class Inbox : NSObject, TawarItem
         }
         
         return false
+    }
+    
+    var productStatus : Int {
+        if let p = json["product_status"].int
+        {
+            return p
+        }
+        return 0
     }
 }
 

@@ -54,10 +54,12 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
+    @IBOutlet weak var lblOrderId: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblSellerName: UILabel!
     @IBOutlet weak var lblOrderStatus: UILabel!
     @IBOutlet weak var lblOrderTime: UILabel!
+    @IBOutlet weak var consWidthOrderId: NSLayoutConstraint!
     @IBOutlet weak var consWidthOrderStatus: NSLayoutConstraint!
     
     @IBOutlet weak var lblDescription: UILabel!
@@ -145,9 +147,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
         txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
         txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
-        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
         
         self.validateKonfKirimFields()
+        self.validateTolakPesananFields()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -218,9 +221,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
-        lblSellerName.text = transactionDetail?.sellerName
+        lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
+        lblSellerName.text = " | \((transactionDetail?.sellerName)!)"
         lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
-        lblOrderTime.text = transactionDetail?.time
+        lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
         lblNamaPengiriman.text = transactionDetail?.shippingRecipientName
@@ -273,6 +277,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         // Konfirmasi Pengiriman pop up
         lblKonfKurir.text = transactionDetail?.shippingName
         lblKonfOngkir.text = transactionDetail?.shippingPrice
+        
+        // Fix order id text width
+        let orderIdFitSize = lblOrderId.sizeThatFits(lblOrderId.frame.size)
+        consWidthOrderId.constant = orderIdFitSize.width
         
         // Fix order status text width
         let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
@@ -379,7 +387,6 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         vwKonfKirim.hidden = false
         
         self.validateKonfKirimFields()
-        self.validateTolakPesananFields()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -482,7 +489,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                     self.vwShadow.hidden = true
                     self.vwTolakPesanan.hidden = true
                     
-                    self.navigationController?.popViewControllerAnimated(true)
+                    // Reload content
+                    self.contentView.hidden = true
+                    self.loading.startAnimating()
+                    self.getProductDetail()
                 }
             }
         }

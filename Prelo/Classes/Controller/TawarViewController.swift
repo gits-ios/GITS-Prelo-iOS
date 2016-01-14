@@ -26,6 +26,7 @@ protocol  TawarItem
     var threadState : Int {get}
     var bargainPrice : Int {get}
     var bargainerIsMe : Bool {get}
+    var productStatus : Int {get}
 }
 
 class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate
@@ -121,6 +122,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
+        if (tawarItem.productStatus > 0) // Jika produk sudah dibeli
+        {
+            btnTawar1.hidden = true
+            btnTawar2.hidden = true
+            btnBeli.hidden = true
+            btnBatal.hidden = true
+            btnTolak.hidden = true
+            btnTolak2.hidden = true
+            btnConfirm.hidden = true
+            return
+        }
+        
         if (threadState == -10)
         {
             threadState = tawarItem.threadState
@@ -461,6 +474,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.adjustButtons()
                 self.tableView.reloadData()
                 self.scrollToBottom()
+                
+                let del = UIApplication.sharedApplication().delegate as! AppDelegate
+                del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
             } else
             {
                 

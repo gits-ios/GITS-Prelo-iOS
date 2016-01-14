@@ -333,7 +333,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                     let preloBonus = json["_data"]["bonus_available"].intValue
                                     let totalPrice = json["_data"]["total_price"].intValue
                                     
-                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : (totalPrice + totalOngkir).asPrice
+                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
                                 }
                                 b2.enable = false
                                 let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
