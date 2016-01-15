@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="87C-Oi-o7x">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -6457,7 +6457,7 @@ Keuntungan</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9R-tO-jK6">
-                                                    <rect key="frame" x="8" y="16" width="494" height="20"/>
+                                                    <rect key="frame" x="8" y="16" width="584" height="20"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -6669,8 +6669,10 @@ Keuntungan</string>
                                                 <constraint firstItem="2BA-Bc-9aL" firstAttribute="top" secondItem="zQx-xW-4yS" secondAttribute="top" id="BSb-Ok-y3u"/>
                                                 <constraint firstAttribute="trailing" secondItem="eGh-A1-Y1X" secondAttribute="trailing" constant="8" id="CE2-SL-had"/>
                                                 <constraint firstItem="usI-Kb-5mM" firstAttribute="top" secondItem="gIK-IM-Dyc" secondAttribute="top" constant="19" id="DuH-7o-5P3"/>
+                                                <constraint firstItem="DbL-V6-9xo" firstAttribute="centerY" secondItem="usI-Kb-5mM" secondAttribute="centerY" constant="1" id="I5d-fa-Gxb"/>
                                                 <constraint firstItem="D7T-35-vmf" firstAttribute="leading" secondItem="DbL-V6-9xo" secondAttribute="trailing" constant="8" id="J9H-Ua-l5z"/>
                                                 <constraint firstItem="2BA-Bc-9aL" firstAttribute="height" secondItem="zQx-xW-4yS" secondAttribute="height" id="Jd4-VM-m8N"/>
+                                                <constraint firstItem="X9R-tO-jK6" firstAttribute="trailing" secondItem="gIK-IM-Dyc" secondAttribute="trailingMargin" id="JdB-eZ-vFd"/>
                                                 <constraint firstItem="qOD-rj-IOp" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="KYo-1H-kRL"/>
                                                 <constraint firstItem="usI-Kb-5mM" firstAttribute="top" secondItem="gIK-IM-Dyc" secondAttribute="top" constant="45" id="Kjj-p9-wJk"/>
                                                 <constraint firstItem="cXE-2G-oIp" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="MTZ-bM-7mG"/>
@@ -6708,6 +6710,8 @@ Keuntungan</string>
                                                     <exclude reference="yjX-mi-J6u"/>
                                                     <exclude reference="7p4-KJ-CKx"/>
                                                     <exclude reference="DuH-7o-5P3"/>
+                                                    <exclude reference="Kjj-p9-wJk"/>
+                                                    <exclude reference="Xuy-Xe-2zE"/>
                                                     <exclude reference="hPR-ae-BUv"/>
                                                     <exclude reference="hRK-Dg-Xg4"/>
                                                     <exclude reference="qyE-gE-8WH"/>
@@ -7313,7 +7317,7 @@ Keuntungan</string>
                                                 <rect key="frame" x="8" y="8" width="284" height="28"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                                                <state key="normal" title=" TAWAR">
+                                                <state key="normal" title=" CHAT" image="chat-rp.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -12440,6 +12444,7 @@ Label / Merek</string>
         <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>
         <image name="category_placeholder" width="828" height="1472"/>
+        <image name="chat-rp.png" width="20" height="14"/>
         <image name="checkout_tour_1.jpg" width="720" height="1280"/>
         <image name="cu_bbm.png" width="128" height="128"/>
         <image name="cu_call.png" width="256" height="256"/>
@@ -12468,10 +12473,10 @@ Label / Merek</string>
         <image name="tour_3.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MUV-Ui-6Bn"/>
+        <segue reference="gU7-9Q-bxr"/>
+        <segue reference="dW2-MQ-HC6"/>
+        <segue reference="pME-IT-gHt"/>
         <segue reference="2Zk-mt-sgU"/>
         <segue reference="gv4-pa-FxU"/>
-        <segue reference="gU7-9Q-bxr"/>
-        <segue reference="pME-IT-gHt"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -416,6 +416,7 @@
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
 		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
+		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
 		FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */; };
 		FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */; };
 		FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */; };
@@ -970,6 +971,7 @@
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
+		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
 		FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTabbedViewController.swift; sourceTree = "<group>"; };
 		FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTabbed.xib; sourceTree = "<group>"; };
 		FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTransactionViewController.swift; sourceTree = "<group>"; };
@@ -1728,6 +1730,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5895E86B1C49315400752ACA /* chat-rp.png */,
 				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
 				FDF39A2F1C3CF43B002A5DF6 /* sold.png */,
 				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
@@ -2240,6 +2243,7 @@
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
+				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
