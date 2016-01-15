@@ -206,7 +206,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
-        lblSellerName.text = " | \((transactionDetail?.sellerName)!)"
+        lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
         lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
         lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
@@ -241,7 +241,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         
         // Nama dan gambar reviewer
         let user : CDUser = CDUser.getOne()!
-        lblReviewerName.text = user.fullname
+        lblReviewerName.text = user.username
         let urlReviewer = NSURL(string: DAO.UserPhotoStringURL(user.profiles.pict, userID: user.id))
         imgReviewer.setImageWithUrl(urlReviewer!, placeHolderImage: nil)
         

@@ -222,7 +222,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
-        lblSellerName.text = " | \((transactionDetail?.sellerName)!)"
+        lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
         lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
         lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""

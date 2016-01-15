@@ -343,7 +343,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             
             let c = tableView.dequeueReusableCellWithIdentifier("user") as! SearchUserCell
             let u = foundUsers[indexPath.row]
-            c.captionName.text = u.fullname
+            c.captionName.text = u.username
             c.ivImage.setImageWithUrl(NSURL(string : u.pict)!, placeHolderImage: nil)
             return c
         }
@@ -382,10 +382,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 let u = foundUsers[indexPath.row]
                 d.storeMode = true
-                d.storeName = u.fullname
+                d.storeName = u.username
                 
-                request(APISearch.InsertTopSearch(search: u.fullname))
-                AppToolsObjC.insertNewSearch(u.fullname)
+                request(APISearch.InsertTopSearch(search: u.username))
+                AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
                 d.storeId = u.id

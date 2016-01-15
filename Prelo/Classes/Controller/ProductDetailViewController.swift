@@ -449,7 +449,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             d.storeMode = true
-            if let name = detail?.json["_data"]["seller"]["fullname"].string
+            if let name = detail?.json["_data"]["seller"]["username"].string
             {
                 d.storeName = name
             }
@@ -868,7 +868,7 @@ class ProductCellSeller : UITableViewCell
         }
         var product = (obj?.json)!["_data"]
         
-        captionSellerName?.text = product["seller"]["fullname"].string!
+        captionSellerName?.text = product["seller"]["username"].string!
         let average_star = product["seller"]["average_star"].int!
         var stars = ""
         for x in 1...5

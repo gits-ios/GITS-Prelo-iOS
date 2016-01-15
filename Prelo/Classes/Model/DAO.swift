@@ -1218,6 +1218,11 @@ class TransactionDetail : NSObject {
         return s
     }
     
+    var sellerUsername : String {
+        let s = (json["seller_username"].string)!
+        return s
+    }
+    
     var progress : Int {
         let p = (json["progress"].int)!
         return p
@@ -1371,8 +1376,8 @@ class TransactionDetail : NSObject {
     }
     
     var reviewerName : String? {
-        if (json["review"]["buyer_fullname"] != nil) {
-            return json["review"]["buyer_fullname"].string
+        if (json["review"]["buyer_username"] != nil) {
+            return json["review"]["buyer_username"].string
         } else {
             return nil
         }
@@ -1429,6 +1434,14 @@ class UserReview : NSObject {
     var buyerFullname : String {
         if (json["buyer_fullname"] != nil) {
             return json["buyer_fullname"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerUsername : String {
+        if (json["buyer_username"] != nil) {
+            return json["buyer_username"].string!
         } else {
             return ""
         }

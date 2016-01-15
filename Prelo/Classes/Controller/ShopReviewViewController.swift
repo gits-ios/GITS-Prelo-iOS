@@ -130,7 +130,7 @@ class ShopReviewCell : UITableViewCell {
     
     func adapt(userReview : UserReview) {
         imgBuyer.setImageWithUrl(userReview.buyerPictURL!, placeHolderImage: nil)
-        lblBuyerName.text = userReview.buyerFullname
+        lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         
         // Love
