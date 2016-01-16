@@ -1014,7 +1014,7 @@ enum APISearch : URLRequestConvertible
             case .ProductByCategory(_, _, _, _, _, _): return .GET
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
-            case .InsertTopSearch(_): return .GET
+            case .InsertTopSearch(_): return .POST
             }
     }
     

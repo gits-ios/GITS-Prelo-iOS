@@ -106,6 +106,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             self.tableView?.tableFooterView = UIView()
         }
         
+        createCells()
+        
         tableView?.dataSource = self
         tableView?.delegate = self
         
@@ -180,6 +182,31 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         return cellData.keys.array.count
     }
     
+    var rawCells : [UITableViewCell] = []
+    func createCells()
+    {
+        for i in 0...cellData.keys.array.count-1
+        {
+            var c : UITableViewCell?
+            var b : BaseCartCell
+            let r = i
+            if (r == 1) {
+                b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
+            } else {
+                b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+            }
+            
+//            if (b.lastIndex != nil) {
+//                cellData[b.lastIndex!] = b.obtainValue()
+//            }
+            
+            b.parent = self
+            
+            c = b
+            rawCells.append(c!)
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cachedCell = cellViews[indexPath]
@@ -188,13 +215,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         var c : UITableViewCell?
-        var b : BaseCartCell
+//        var b : BaseCartCell
         let r = indexPath.row
-        if (r == 1) {
-            b = tableView.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
-        } else {
-            b = tableView.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
-        }
+//        if (r == 1) {
+//            b = tableView.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
+//        } else {
+//            b = tableView.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+//        }
+        
+        var b = rawCells[r] as! BaseCartCell
         
         if (b.lastIndex != nil) {
             cellData[b.lastIndex!] = b.obtainValue()
@@ -279,6 +308,11 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {
+            if (f == "" || t == "" || n == "" || nom == "")
+            {
+                UIAlertView.SimpleShow("Perhatian", message: "Silakan isi semua data")
+                return
+            }
             let x = (nom as NSString).integerValue
             request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, err: err, resp: resp))

@@ -1069,7 +1069,7 @@ class ProductCellDiscussion : UITableViewCell
         }
         var json = (obj?.json)!
         
-        let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(12), width: UIScreen.mainScreen().bounds.size.width-72)
+        let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
         let h = 47+(s?.height)!
         return h
     }

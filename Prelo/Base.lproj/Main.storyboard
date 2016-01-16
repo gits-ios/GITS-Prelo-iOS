@@ -51,9 +51,9 @@
             <string>Prelo2</string>
             <string>Prelo2</string>
             <string>Prelo2</string>
-            <string>Prelo2</string>
         </mutableArray>
         <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
@@ -2372,7 +2372,7 @@ in Bandung</string>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="tR1-Xa-K2b">
                                     <size key="itemSize" width="200" height="250"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="4" minY="20" maxX="4" maxY="20"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -2544,6 +2544,27 @@ in Bandung</string>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="7Gi-SV-y92" customClass="ListFooter" customModule="Prelo" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="290" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-sn-DOi">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                            <color key="color" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="8k0-sn-DOi" secondAttribute="centerY" id="PdR-EO-g94"/>
+                                        <constraint firstAttribute="centerX" secondItem="8k0-sn-DOi" secondAttribute="centerX" id="grA-Jm-zcc"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="loading" destination="8k0-sn-DOi" id="SjR-2l-pfF"/>
+                                    </connections>
+                                </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="lgf-3L-dpB" id="iVy-j4-v0A"/>
+                                    <outlet property="delegate" destination="lgf-3L-dpB" id="i9k-x2-WPJ"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <animations/>
@@ -5422,23 +5443,23 @@ Keuntungan</string>
                                     <constraint firstAttribute="height" constant="44" id="Y9x-gS-o8C"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="J4A-8A-g2O"/>
                                     <barButtonItem tag="1" title="Replace" id="vJZ-cE-o4c">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="replace:" destination="jEQ-t4-Xaq" id="ba9-qj-k5o"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem tag="2" title="Edit" id="K7b-xe-ni1">
+                                    <barButtonItem tag="3" title="Delete" id="26c-Lt-NfV">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="edit:" destination="jEQ-t4-Xaq" id="tN6-u5-Moa"/>
+                                            <action selector="deleteImage:" destination="jEQ-t4-Xaq" id="DNb-2N-bwh"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="J4A-8A-g2O"/>
-                                    <barButtonItem tag="3" title="Hapus" id="26c-Lt-NfV">
-                                        <color key="tintColor" red="1" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <barButtonItem tag="2" title="Simpan" id="K7b-xe-ni1">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="deleteImage:" destination="jEQ-t4-Xaq" id="DNb-2N-bwh"/>
+                                            <action selector="done" destination="jEQ-t4-Xaq" id="uHS-yI-ds1"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -5472,9 +5493,9 @@ Keuntungan</string>
                         <outlet property="btnReplace" destination="vJZ-cE-o4c" id="sYz-md-Dxh"/>
                         <outlet property="imageView" destination="ysk-At-R6k" id="1Hh-WF-GW2"/>
                         <outlet property="toolBar" destination="5lN-ID-e9I" id="57S-3k-JLP"/>
-                        <outletCollection property="buttonItemsWithoutDelete" destination="vJZ-cE-o4c" collectionClass="NSMutableArray" id="zyT-EN-Qnx"/>
-                        <outletCollection property="buttonItemsWithoutDelete" destination="K7b-xe-ni1" collectionClass="NSMutableArray" id="Bxa-Ro-52m"/>
-                        <outletCollection property="buttonItemsWithoutDelete" destination="J4A-8A-g2O" collectionClass="NSMutableArray" id="Vje-Xd-Pip"/>
+                        <outletCollection property="buttonItemsWithoutDelete" destination="J4A-8A-g2O" collectionClass="NSMutableArray" id="mn5-Pt-86X"/>
+                        <outletCollection property="buttonItemsWithoutDelete" destination="vJZ-cE-o4c" collectionClass="NSMutableArray" id="tSF-l6-sHp"/>
+                        <outletCollection property="buttonItemsWithoutDelete" destination="K7b-xe-ni1" collectionClass="NSMutableArray" id="9Z7-7n-H74"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DCy-0c-iDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7312,7 +7333,7 @@ Keuntungan</string>
                                                 <rect key="frame" x="8" y="8" width="284" height="28"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                                                <state key="normal" title=" TAWAR">
+                                                <state key="normal" title=" CHAT">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -7375,9 +7396,9 @@ Keuntungan</string>
                                 <subviews>
                                     <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGt-93-f4i">
                                         <rect key="frame" x="523" y="8" width="69" height="28"/>
-                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
                                         <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal" title=" EDIT" backgroundImage="basic_orange.png">
+                                        <state key="normal" title=" EDIT" backgroundImage="basic_orange.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -8195,8 +8216,15 @@ dalam keranjang belanja</string>
                                                     <rect key="frame" x="8" y="0.0" width="74" height="74"/>
                                                     <animations/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="74" id="TeQ-VI-aNy"/>
                                                         <constraint firstAttribute="width" secondItem="6qY-tk-8gW" secondAttribute="height" multiplier="1:1" id="lsM-MJ-HZz"/>
+                                                        <constraint firstAttribute="height" constant="74" id="zvn-Sq-aXK"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="lsM-MJ-HZz"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9W-uG-LQ8">
                                                     <rect key="frame" x="90" y="7" width="454" height="17"/>
@@ -8206,7 +8234,7 @@ dalam keranjang belanja</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AC7-cd-3ga">
-                                                    <rect key="frame" x="90" y="28" width="36" height="17"/>
+                                                    <rect key="frame" x="90" y="28" width="486" height="17"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -8219,8 +8247,8 @@ dalam keranjang belanja</string>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EaS-0C-358">
-                                                    <rect key="frame" x="552" y="0.0" width="30" height="26"/>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EaS-0C-358">
+                                                    <rect key="frame" x="552" y="0.0" width="30" height="24"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
                                                     <state key="normal" title="">
@@ -8231,8 +8259,8 @@ dalam keranjang belanja</string>
                                                         <action selector="deleteMe" destination="9mh-Sf-lhQ" eventType="touchUpInside" id="Yio-8Z-t7x"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-VN-LLS">
-                                                    <rect key="frame" x="481" y="48" width="70" height="18"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBW-VN-LLS">
+                                                    <rect key="frame" x="481" y="49" width="70" height="18"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="EnO-yh-THZ"/>
@@ -8250,6 +8278,10 @@ dalam keranjang belanja</string>
                                                     <rect key="frame" x="8" y="0.0" width="74" height="74"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="74" id="6Co-Rf-eeV"/>
+                                                        <constraint firstAttribute="width" constant="74" id="gqp-Jy-tSL"/>
+                                                    </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iZ8-EY-iX3">
                                                     <rect key="frame" x="8" y="0.0" width="568" height="1"/>
@@ -8267,8 +8299,8 @@ dalam keranjang belanja</string>
                                                         <constraint firstAttribute="height" constant="1" id="vrS-Rc-Ed3"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gI6-9Y-Yho">
-                                                    <rect key="frame" x="552" y="43" width="30" height="31"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gI6-9Y-Yho">
+                                                    <rect key="frame" x="552" y="46" width="30" height="28"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                     <state key="normal" title="">
@@ -8283,6 +8315,7 @@ dalam keranjang belanja</string>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="iZ8-EY-iX3" secondAttribute="trailing" id="2LF-1A-cgH"/>
+                                                <constraint firstAttribute="trailing" secondItem="AC7-cd-3ga" secondAttribute="trailing" constant="8" id="B9a-93-9ro"/>
                                                 <constraint firstItem="3am-rK-x2H" firstAttribute="top" secondItem="6qY-tk-8gW" secondAttribute="top" id="Dpr-tw-KEG"/>
                                                 <constraint firstItem="EaS-0C-358" firstAttribute="leading" secondItem="G9W-uG-LQ8" secondAttribute="trailing" constant="8" id="GpA-Qz-ygR"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="4FN-71-cuV" secondAttribute="bottom" constant="-8" id="Hf7-Hx-xci"/>
@@ -8309,6 +8342,13 @@ dalam keranjang belanja</string>
                                                 <constraint firstItem="4FN-71-cuV" firstAttribute="trailing" secondItem="5yb-Ea-OqG" secondAttribute="trailingMargin" id="wEn-3o-zcR"/>
                                                 <constraint firstItem="gI6-9Y-Yho" firstAttribute="leading" secondItem="MBW-VN-LLS" secondAttribute="trailing" constant="1" id="znn-fh-DhH"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="I4M-Fj-yl4"/>
+                                                    <exclude reference="KTO-S2-gzA"/>
+                                                    <exclude reference="u0E-u0-Lac"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
@@ -8806,11 +8846,11 @@ pembayaran melalui bank transfer.</string>
                                     </variation>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="BpD-3J-PWj">
-                                    <rect key="frame" x="0.0" y="110" width="600" height="80"/>
+                                    <rect key="frame" x="0.0" y="638" width="600" height="64"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8C-lv-MTz">
-                                            <rect key="frame" x="8" y="25" width="584" height="40"/>
+                                            <rect key="frame" x="8" y="8" width="584" height="40"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="wm6-eC-qcs"/>
@@ -8828,7 +8868,7 @@ pembayaran melalui bank transfer.</string>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="E8C-lv-MTz" secondAttribute="trailing" constant="8" id="HJr-Wa-DAD"/>
-                                        <constraint firstItem="E8C-lv-MTz" firstAttribute="top" secondItem="BpD-3J-PWj" secondAttribute="top" constant="25" id="St0-LB-hwJ"/>
+                                        <constraint firstItem="E8C-lv-MTz" firstAttribute="top" secondItem="BpD-3J-PWj" secondAttribute="top" constant="8" id="St0-LB-hwJ"/>
                                         <constraint firstItem="E8C-lv-MTz" firstAttribute="leading" secondItem="BpD-3J-PWj" secondAttribute="leading" constant="8" id="w7r-u5-4Hh"/>
                                     </constraints>
                                 </view>
