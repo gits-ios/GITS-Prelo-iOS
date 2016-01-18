@@ -26,9 +26,21 @@
 				<string>fb860723977338277</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>raisa</string>
+			<key>CFBundleURLName</key>
+			<string>prelo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>prelo</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>150</string>
+	<string>169</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

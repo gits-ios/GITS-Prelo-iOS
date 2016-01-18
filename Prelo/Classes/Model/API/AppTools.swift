@@ -169,6 +169,9 @@ class UserDefaultsKey : NSObject
     static let CategoryPref3 = "categorypref3"
     static let Tour = "tour"
     static let TourDone = "tourdone"
+    static let DeepLinkProduct = "deeplinkproduct"
+    static let DeepLinkConfirmPayment = "deeplinkconfirmpayment"
+    static let DeepLinkShopPage = "deeplinkshoppage"
 }
 
 class PageName
@@ -334,6 +337,12 @@ extension NSUserDefaults
     static func setTourDone(done : Bool)
     {
         NSUserDefaults.standardUserDefaults().setObject(done, forKey: UserDefaultsKey.TourDone)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    // TODO: standardisasi, gunakan fungsi ini untuk semua pengesetan object nsuserdefaults
+    static func setObjectAndSync(value : AnyObject?, forKey key : String) {
+        NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

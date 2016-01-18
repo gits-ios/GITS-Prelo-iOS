@@ -11,6 +11,8 @@ import CoreData
 import Fabric
 import Crashlytics
 import TwitterKit
+import Bolts
+import FBSDKCoreKit
 
 //import AdobeCreativeSDKCore
 
@@ -116,6 +118,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+        }
+        
+        // Handling facebook deferred deep linking
+        // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
+        if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
+            //Constant.showDialog("Deeplink", message: "launchURL = \(launchURL)")
+            if (launchURL.host == "product") {
+                let productId = launchURL.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
+            } else if (launchURL.host == "confirm") {
+                let confirmId = launchURL.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+            } else if (launchURL.host == "user") {
+                let userId = launchURL.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+            }
+
+            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
+                if (error != nil) { // Process error
+                    println("Received error while fetching deferred app link \(error)")
+                }
+                if (url != nil) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
+            })
         }
         
         // Override point for customization after application launch
@@ -292,6 +319,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -366,12 +394,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    // MARK: - Facebook Function
-    
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
         annotation: AnyObject?) -> Bool {
+            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
+            //Constant.showDialog("Deeplink", message: "url = \(url)")
+            if (url.host == "product") {
+                let productId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
+            } else if (url.host == "confirm") {
+                let confirmId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+            } else if (url.host == "user") {
+                let userId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+            }
             return FBSDKApplicationDelegate.sharedInstance().application(
                 application,
                 openURL: url,
