@@ -47,7 +47,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
         imageView.image = apImage.image
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: UIBarButtonItemStyle.Plain, target: self, action: "done")
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: UIBarButtonItemStyle.Plain, target: self, action: "done")
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,7 +64,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func done()
+    @IBAction func done()
     {
         fullScreenDelegate?.imageFullScreenDidReplace(self, image: apImage)
         self.batal()

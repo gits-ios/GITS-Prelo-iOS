@@ -11,6 +11,7 @@ import UIKit
 class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate
 {
     @IBOutlet var gridView: UICollectionView!
+    @IBOutlet var loading : UIActivityIndicatorView?
     
     var width: CGFloat? = 200
     var category : JSON?
@@ -337,6 +338,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if arr.count == 0
             {
                 self.done = true
+                self.loading?.hidden = true
             } else
             {
                 for (index : String, item : JSON) in obj["_data"]
@@ -366,13 +368,16 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
+    var first = true
     func setupGrid()
     {
-        if (gridView.delegate == nil)
+        if (first)
         {
+            first = false
             width = ((UIScreen.mainScreen().bounds.size.width-12)/2)
             gridView.dataSource = self
             gridView.delegate = self
+//            self.gridView.registerClass(ListFooter.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         }
         
         gridView.reloadData()
@@ -382,7 +387,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // category view
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (products?.count)!
+        if let c = products?.count
+        {
+            return c
+        }
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
@@ -408,6 +417,16 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         selectedProduct = products?[indexPath.item]
 //        performSegueWithIdentifier("segDetail", sender: nil)
         launchDetail()
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
+        self.loading = f.loading
+        if (self.done)
+        {
+            self.loading?.hidden = true
+        }
+        return f
     }
 
     
@@ -546,6 +565,11 @@ class ListItemCell : UICollectionViewCell
             captionOldPrice.attributedText = attString
         }
     }
+}
+
+class ListFooter : UICollectionReusableView
+{
+    @IBOutlet var loading : UIActivityIndicatorView!
 }
 
 class StoreHeader : UIView

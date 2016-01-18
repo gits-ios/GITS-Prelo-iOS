@@ -27,6 +27,8 @@ protocol  TawarItem
     var bargainPrice : Int {get}
     var bargainerIsMe : Bool {get}
     var productStatus : Int {get}
+    
+    func setBargainPrice(price : Int)
 }
 
 class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate
@@ -572,6 +574,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             tawarFromMe = false
         }
+        
+        if (threadState == 1)
+        {
+            tawarItem.setBargainPrice(message.message.int)
+        } else if (threadState == 2)
+        {
+            
+        }
+        
         self.tableView.reloadData()
         self.adjustButtons()
         

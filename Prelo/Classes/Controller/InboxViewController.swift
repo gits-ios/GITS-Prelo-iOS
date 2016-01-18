@@ -61,7 +61,35 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
             {
                 
             }
+            }.responseString { req, resp, string, err in
+                
+                println(string)
+                
         }
+//        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
+//        request(.GET, (url?.absoluteString)!).responseJSON { req, resp, res, err in
+//            if (APIPrelo.validate(true, err: err, resp: resp))
+//            {
+//                let json = JSON(res!)
+//                if let arr = json["_data"].array
+//                {
+//                    if (arr.count > 0)
+//                    {
+//                        for i in 0...arr.count-1
+//                        {
+//                            let inbox = arr[i]
+//                            println(inbox)
+//                            self.inboxes.append(Inbox(jsn: inbox))
+//                        }
+//                    }
+//                }
+//                self.tableView.reloadData()
+//            } else
+//            {
+//                
+//            }
+//
+//        }
     }
 
     override func didReceiveMemoryWarning() {

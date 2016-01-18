@@ -357,13 +357,21 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.searchMode = true
                 l.searchKey = currentKeyword
-                request(APISearch.InsertTopSearch(search: txtSearch.text))
+                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
+                    println("TOP")
+                    println(res)
+                    println("TOPEND")
+                }
                 AppToolsObjC.insertNewSearch(txtSearch.text)
                 setupHistory()
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
-                request(APISearch.InsertTopSearch(search: txtSearch.text))
+                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
+                    println("TOP")
+                    println(res)
+                    println("TOPEND")
+                }
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)

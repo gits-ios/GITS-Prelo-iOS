@@ -726,6 +726,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 return 44
             } else {
+                let json = arrayItem[indexPath.row]
+                if let error = json["_error"].string
+                {
+                    let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
+                    let h = (error as NSString).boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.width - 114, 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(14)], context: nil).height
+                    return 57 + h
+                }
                 return 74
             }
         } else if (s == 1) {
@@ -1104,6 +1111,8 @@ class CartCellInput : BaseCartCell
     override func adapt(item : BaseCartData?) {
         baseCartData = item
         if (item == nil) {
+            captionTitle?.text = "-"
+            txtField.text = "-"
             return
         }
         captionTitle?.text = item?.title
@@ -1250,10 +1259,12 @@ class CartCellItem : UITableViewCell
         
         if let error = json["_error"].string
         {
-            let string = "SOLD OUT"
+//            let string = "SOLD OUT"
+            let string = error
             let attString = NSMutableAttributedString(string: string)
             attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor(), NSFontAttributeName:UIFont.systemFontOfSize(14)], range: AppToolsObjC.rangeOf(string, inside: string))
             captionPrice?.attributedText = attString
+            captionPrice?.numberOfLines = 0
             shade?.hidden = false
         } else {
             let sh = json["shipping_packages"].array!
