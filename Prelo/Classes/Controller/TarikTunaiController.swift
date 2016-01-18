@@ -65,37 +65,42 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         
         scrollView.delegate = self
         
-        captionPreloBalance.text = "0"
+        captionPreloBalance.text = "..."
         
         txtNamaBank.textAlignment = NSTextAlignment.Right
         txtNomerRekening.textAlignment = NSTextAlignment.Right
         
         // Munculkan pop up jika user belum mempunyai password
-        if (false) {
-            let screenSize : CGRect = UIScreen.mainScreen().bounds
-            self.viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height), backgroundColor: UIColor.blackColor().colorWithAlphaComponent(0.5))
-            if (self.viewShadow != nil) {
-                self.view.addSubview(self.viewShadow!)
-            }
-            self.viewSetupPassword = NSBundle.mainBundle().loadNibNamed(Tags.XibNameSetupPasswordPopUp, owner: nil, options: nil).first as? SetupPasswordPopUp
-            if (self.viewSetupPassword != nil) {
-                self.viewSetupPassword!.center = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
-//                self.viewSetupPassword!.bounds.origin.y = 10
-                self.viewSetupPassword!.bounds = CGRect(x: self.viewSetupPassword!.bounds.origin.x, y: self.viewSetupPassword!.bounds.origin.y, width: 280, height: 472)
-                self.view.addSubview(self.viewSetupPassword!)
-                if let u = CDUser.getOne() {
-                    self.viewSetupPassword!.lblEmail.text = u.email
-                }
-                self.viewSetupPassword!.setPasswordDoneBlock = {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-                self.viewSetupPassword!.disableBackBlock = {
-                    self.backEnabled = false
+        request(APIUser.CheckPassword).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data != nil && data == true) {
+                    self.getBalance()
+                } else {
+                    let screenSize : CGRect = UIScreen.mainScreen().bounds
+                    self.viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height), backgroundColor: UIColor.blackColor().colorWithAlphaComponent(0.5))
+                    if (self.viewShadow != nil) {
+                        self.view.addSubview(self.viewShadow!)
+                    }
+                    self.viewSetupPassword = NSBundle.mainBundle().loadNibNamed(Tags.XibNameSetupPasswordPopUp, owner: nil, options: nil).first as? SetupPasswordPopUp
+                    if (self.viewSetupPassword != nil) {
+                        self.viewSetupPassword!.center = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
+                        self.viewSetupPassword!.bounds = CGRect(x: self.viewSetupPassword!.bounds.origin.x, y: self.viewSetupPassword!.bounds.origin.y, width: 280, height: 472)
+                        self.view.addSubview(self.viewSetupPassword!)
+                        if let u = CDUser.getOne() {
+                            self.viewSetupPassword!.lblEmail.text = u.email
+                        }
+                        self.viewSetupPassword!.setPasswordDoneBlock = {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                        self.viewSetupPassword!.disableBackBlock = {
+                            self.backEnabled = false
+                        }
+                    }
                 }
             }
         }
-        
-        getBalance()
     }
     
     func getBalance()
