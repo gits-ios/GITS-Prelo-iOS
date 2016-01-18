@@ -804,6 +804,8 @@ public class ProductDetail : NSObject, TawarItem
     var productStatus : Int {
         return json["_data"]["status"].intValue
     }
+    
+    func setBargainPrice(price : Int) {}
 }
 
 public class Product : NSObject
@@ -1917,6 +1919,8 @@ class Inbox : NSObject, TawarItem
         }
         return 0
     }
+    
+    func setBargainPrice(price : Int) {}
 }
 
 class InboxMessage : NSObject
