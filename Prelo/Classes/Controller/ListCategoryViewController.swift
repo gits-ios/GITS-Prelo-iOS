@@ -345,7 +345,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             let deeplinkConfirmPayment : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkConfirmPayment) as! String?
             let deeplinkShopPage : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkShopPage) as! String?
             if (deeplinkProduct != nil) {
-                Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
+                //Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
                 NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
                 request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
@@ -359,10 +359,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     }
                 }
             } else if (deeplinkConfirmPayment != nil) {
-//                Constant.showDialog("Deeplink", message: "Redirecting to confirm payment with id: \(deeplinkConfirmPayment!)")
+                //Constant.showDialog("Deeplink", message: "Redirecting to confirm payment with id: \(deeplinkConfirmPayment!)")
 //                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkConfirmPayment)
             } else if (deeplinkShopPage != nil) {
-//                Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
+                //Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
 //                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkShopPage)
             }
         }

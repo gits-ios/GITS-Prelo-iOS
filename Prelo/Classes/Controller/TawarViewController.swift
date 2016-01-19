@@ -49,6 +49,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var first = true
     var isAtBottom = false
     
+    var prodStatus : Int?
+    
     @IBOutlet var btnTawar1 : UIButton!
     @IBOutlet var btnTawar2 : UIButton!
     @IBOutlet var btnBeli : UIButton!
@@ -68,6 +70,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         textViewGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: conHeightTextView)
         textViewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        
+        self.prodStatus = tawarItem.productStatus
         
         self.title = tawarItem.title
         header.captionProductName.text = tawarItem.itemName
@@ -124,8 +128,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
-        //println("tawarItem.productStatus = \(tawarItem.productStatus)")
-        if (tawarItem.productStatus > 0) // Jika produk sudah dibeli
+        println("prodStatus = \(self.prodStatus)")
+        if (self.prodStatus != 1) // Jika produk sudah dibeli
         {
             btnTawar1.hidden = true
             btnTawar2.hidden = true

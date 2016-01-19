@@ -129,10 +129,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
             } else if (launchURL.host == "confirm") {
                 let confirmId = launchURL.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+                //NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
             } else if (launchURL.host == "user") {
                 let userId = launchURL.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+                //NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
             }
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
