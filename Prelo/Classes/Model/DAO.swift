@@ -13,14 +13,14 @@ import TwitterKit
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
     {
-        let base = "http://dev.kleora.com/images/users/" + userID + "/" + fileName
+        let base = "\(AppTools.PreloBaseUrl)/images/users/" + userID + "/" + fileName
         return base
     }
     
     static func UrlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "\(AppTools.PreloBaseUrl)/images/products/" + productID + "/" + modifiedImageName
         
     }
 }

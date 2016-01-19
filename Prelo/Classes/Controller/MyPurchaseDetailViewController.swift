@@ -242,7 +242,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // Nama dan gambar reviewer
         let user : CDUser = CDUser.getOne()!
         lblReviewerName.text = user.username
-        let urlReviewer = NSURL(string: DAO.UserPhotoStringURL(user.profiles.pict, userID: user.id))
+        let urlReviewer = NSURL(string: user.profiles.pict)
         imgReviewer.setImageWithUrl(urlReviewer!, placeHolderImage: nil)
         
         // Love
