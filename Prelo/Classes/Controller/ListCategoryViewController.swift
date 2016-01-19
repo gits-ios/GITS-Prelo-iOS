@@ -370,7 +370,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getCategory()
     {
-        request(References.CategoryList)
+        request(References.HomeCategories)
             .responseString { req, resp, string, err in
                 if (string != nil)
                 {
@@ -397,6 +397,16 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
         categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
+        // FIXME: kondisi kalo user ga login, harusnya categorypref ditaro depan
+//        if (User.IsLoggedIn) {
+            categoriesFix = categories!["_data"].arrayValue
+            addChilds(categoriesFix.count)
+//        } else {
+//            let categoriesData = categories!["_data"].arrayValue
+//            
+//        }
+        
+        /* TO BE DELETED, salah penggunaan endpoint
         if let arr = categories!["_data"][0]["children"].arrayObject // punya children
         {
             
@@ -461,7 +471,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-        addChilds(categoriesFix.count)
+        addChilds(categoriesFix.count)*/
     }
     
     func cikah()
