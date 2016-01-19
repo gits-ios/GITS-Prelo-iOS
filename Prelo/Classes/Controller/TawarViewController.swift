@@ -124,6 +124,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
+        //println("tawarItem.productStatus = \(tawarItem.productStatus)")
         if (tawarItem.productStatus > 0) // Jika produk sudah dibeli
         {
             btnTawar1.hidden = true

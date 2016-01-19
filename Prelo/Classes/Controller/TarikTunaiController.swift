@@ -187,6 +187,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
         
         p.items = ["Bank Mandiri", "Bank BCA", "Bank BNI"]
+        p.title = "Pilih Bank"
         p.selectBlock = { value in
             self.txtNamaBank.text = value
         }

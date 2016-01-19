@@ -90,8 +90,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         txtWeight.hidden = true
         
-        txtName.placeholder = "Nama Produk"
-        txtDescription.placeholder = "Spesifikasi (Optional)"
+        txtName.placeholder = "mis: iPod 5th Gen"
+        txtDescription.placeholder = "Spesifikasi produk (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
 //        txtName.fadeTime = 0.2
         txtDescription.fadeTime = 0.2
@@ -772,6 +772,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if let url = s
         {
             let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+            
+            p.title = "Pilih Merk"
             
             let req = NSFetchRequest(entityName: "CDBrand")
             let arr = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.executeFetchRequest(req, error: nil) as! [CDBrand]
