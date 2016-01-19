@@ -33,6 +33,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
     
+    @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
+    @IBOutlet weak var tpDetailBtnSet: UIView!
+    
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
@@ -267,6 +270,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.detail = ProductDetail.instance(JSON(res!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonActivation()
+                    self.adjustButtonIfBought()
                     println(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
@@ -276,6 +280,27 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     
                 }
+        }
+    }
+    
+    func adjustButtonIfBought()
+    {
+        if (self.detail?.status == 4) {
+            self.btnTawar.backgroundColor = Theme.GrayDark
+            self.btnBuy.backgroundColor = Theme.GrayDark
+            self.btnTawar.userInteractionEnabled = false
+            self.btnBuy.userInteractionEnabled = false
+            if (self.detail?.boughtByMe == true) {
+                self.btnTawar.hidden = true
+                self.btnBuy.hidden = true
+                if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
+                    // Tampilkan button konfirmasi bayar
+                    self.konfirmasiBayarBtnSet.hidden = false
+                } else if (self.detail?.transactionProgress > 2) {
+                    // Tampilkan button transaction product detail
+                    self.tpDetailBtnSet.hidden = false
+                }
+            }
         }
     }
     
@@ -543,6 +568,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     }
     
+    // MARK: - If product is bought
+    
+    @IBAction func toPaymentConfirm(sender: AnyObject) {
+        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+        self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+    }
+    
+    @IBAction func toTransactionProductDetail(sender: AnyObject) {
+        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
+    }
     
     // MARK: - Navigation
 

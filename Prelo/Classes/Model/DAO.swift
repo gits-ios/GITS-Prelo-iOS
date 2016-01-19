@@ -526,6 +526,14 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
+    var transactionProgress : Int {
+        return json["_data"]["transaction_progress"].intValue
+    }
+    
+    var boughtByMe : Bool {
+        return json["_data"]["bought_by_me"].boolValue
+    }
+    
     var size : String {
         return json["_data"]["size"].stringValue
     }
@@ -1177,8 +1185,11 @@ class UserTransactionItem: UserTransaction {
         {
             return nil
         }
-        let url = json["product"]["display_picts"][0].string!
-        return NSURL(string: url)
+        if let url = json["product"]["display_picts"][0].string {
+            return NSURL(string: url)
+        } else {
+            return nil
+        }
     }
 }
 
