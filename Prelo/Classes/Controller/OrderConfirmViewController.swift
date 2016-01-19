@@ -117,19 +117,21 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         {
             v.hidden = true
         }
-        for i in 0...images.count-1
-        {
-            let v = imgs[i]
-            v.hidden = false
-            
-            if (i < 3)
+        if (images.count > 0) {
+            for i in 0...images.count-1
             {
-                let im = v as! UIImageView
-                im.setImageWithUrl(images[i], placeHolderImage: nil)
-            } else if (i < 4)
-            {
-                captionMore.text = String(images.count-3) + "+"
-                break
+                let v = imgs[i]
+                v.hidden = false
+                
+                if (i < 3)
+                {
+                    let im = v as! UIImageView
+                    im.setImageWithUrl(images[i], placeHolderImage: nil)
+                } else if (i < 4)
+                {
+                    captionMore.text = String(images.count-3) + "+"
+                    break
+                }
             }
         }
         
@@ -191,25 +193,27 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     var rawCells : [UITableViewCell] = []
     func createCells()
     {
-        for i in 0...cellData.keys.array.count-1
-        {
-            var c : UITableViewCell?
-            var b : BaseCartCell
-            let r = i
-            if (r == 1) {
-                b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
-            } else {
-                b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+        if (!free) {
+            for i in 0...cellData.keys.array.count-1
+            {
+                var c : UITableViewCell?
+                var b : BaseCartCell
+                let r = i
+                if (r == 1) {
+                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
+                } else {
+                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+                }
+                
+    //            if (b.lastIndex != nil) {
+    //                cellData[b.lastIndex!] = b.obtainValue()
+    //            }
+                
+                b.parent = self
+                
+                c = b
+                rawCells.append(c!)
             }
-            
-//            if (b.lastIndex != nil) {
-//                cellData[b.lastIndex!] = b.obtainValue()
-//            }
-            
-            b.parent = self
-            
-            c = b
-            rawCells.append(c!)
         }
     }
     

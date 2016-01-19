@@ -51,6 +51,7 @@
             <string>Prelo2</string>
             <string>Prelo2</string>
             <string>Prelo2</string>
+            <string>Prelo2</string>
         </mutableArray>
         <mutableArray key="PreloAwesome.ttf">
             <string>PreloAwesome</string>
@@ -7662,6 +7663,54 @@ Keuntungan</string>
                                     <constraint firstAttribute="height" constant="1" id="KvA-7A-4GB"/>
                                 </constraints>
                             </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRR-ev-YRL" userLabel="Payment Reminder">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jR0-RG-zOQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
+                                        <animations/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="paymentReminderPressed:" destination="0qH-Ls-LM7" eventType="touchUpInside" id="wD9-Wg-wcm"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Reminder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFW-Nr-GNO">
+                                        <rect key="frame" x="0.0" y="0.0" width="566" height="0.0"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sx6-ED-1eO">
+                                        <rect key="frame" x="574" y="0.0" width="26" height="0.0"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="26" id="sd3-Py-48x"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="0.6588235294117647" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="yFW-Nr-GNO" firstAttribute="top" secondItem="MRR-ev-YRL" secondAttribute="top" id="2PR-qp-Ffw"/>
+                                    <constraint firstAttribute="trailing" secondItem="sx6-ED-1eO" secondAttribute="trailing" id="2cq-Zi-rxb"/>
+                                    <constraint firstAttribute="bottom" secondItem="yFW-Nr-GNO" secondAttribute="bottom" id="3KO-iH-mfI"/>
+                                    <constraint firstItem="sx6-ED-1eO" firstAttribute="top" secondItem="MRR-ev-YRL" secondAttribute="top" id="4QJ-oV-gFQ"/>
+                                    <constraint firstItem="yFW-Nr-GNO" firstAttribute="leading" secondItem="MRR-ev-YRL" secondAttribute="leading" id="8Ro-LZ-veQ"/>
+                                    <constraint firstAttribute="height" id="Aef-ku-oQo"/>
+                                    <constraint firstItem="jR0-RG-zOQ" firstAttribute="leading" secondItem="MRR-ev-YRL" secondAttribute="leading" id="LvP-Q2-k9y"/>
+                                    <constraint firstAttribute="trailing" secondItem="jR0-RG-zOQ" secondAttribute="trailing" id="PXw-Y4-mDu"/>
+                                    <constraint firstItem="sx6-ED-1eO" firstAttribute="leading" secondItem="yFW-Nr-GNO" secondAttribute="trailing" constant="8" id="QjG-1m-JdK"/>
+                                    <constraint firstAttribute="bottom" secondItem="sx6-ED-1eO" secondAttribute="bottom" id="U7l-dn-7ih"/>
+                                    <constraint firstItem="jR0-RG-zOQ" firstAttribute="top" secondItem="MRR-ev-YRL" secondAttribute="top" id="Ueg-qz-l5V"/>
+                                    <constraint firstAttribute="bottom" secondItem="jR0-RG-zOQ" secondAttribute="bottom" id="ok0-Ho-gaR"/>
+                                </constraints>
+                            </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="449-Mw-YhC">
                                 <rect key="frame" x="20" y="248" width="560" height="41"/>
                                 <animations/>
@@ -7677,7 +7726,7 @@ dalam keranjang belanja</string>
                                 <color key="color" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-98-DqM">
-                                <rect key="frame" x="8" y="0.0" width="584" height="536"/>
+                                <rect key="frame" x="8" y="0.0" width="584" height="576"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Mbg-tu-sJy">
@@ -8261,6 +8310,9 @@ dalam keranjang belanja</string>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EaS-0C-358">
                                                     <rect key="frame" x="552" y="0.0" width="30" height="24"/>
                                                     <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="l0I-jR-pAn"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
                                                     <state key="normal" title="">
                                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -8384,17 +8436,22 @@ dalam keranjang belanja</string>
                             <constraint firstItem="ddI-AH-dG5" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" id="6tf-1z-ejR"/>
                             <constraint firstItem="TgT-98-DqM" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" constant="8" id="7Qn-Aq-cdy"/>
                             <constraint firstAttribute="trailing" secondItem="ddI-AH-dG5" secondAttribute="trailing" id="HrI-me-5it"/>
-                            <constraint firstItem="lK0-hi-8sa" firstAttribute="top" secondItem="TgT-98-DqM" secondAttribute="bottom" id="IN9-AL-viG"/>
-                            <constraint firstItem="TgT-98-DqM" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" id="Se6-n6-xSV"/>
+                            <constraint firstItem="lK0-hi-8sa" firstAttribute="top" secondItem="TgT-98-DqM" secondAttribute="bottom" constant="-40" id="IN9-AL-viG"/>
+                            <constraint firstItem="TgT-98-DqM" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" constant="40" id="Se6-n6-xSV"/>
                             <constraint firstAttribute="trailing" secondItem="TgT-98-DqM" secondAttribute="trailing" constant="8" id="VUT-XL-WKU"/>
                             <constraint firstAttribute="centerX" secondItem="ykb-uJ-lqk" secondAttribute="centerX" id="YjU-ze-Rc2"/>
                             <constraint firstItem="449-Mw-YhC" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" constant="20" id="ZsL-Fh-T3a"/>
+                            <constraint firstItem="MRR-ev-YRL" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" id="dqN-K3-tyj"/>
                             <constraint firstAttribute="centerY" secondItem="ykb-uJ-lqk" secondAttribute="centerY" id="eqi-na-Ddw"/>
+                            <constraint firstAttribute="trailing" secondItem="MRR-ev-YRL" secondAttribute="trailing" id="i0J-am-a4U"/>
+                            <constraint firstItem="MRR-ev-YRL" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" id="mdz-zR-PYr"/>
+                            <constraint firstItem="TgT-98-DqM" firstAttribute="top" secondItem="MRR-ev-YRL" secondAttribute="bottom" id="pRL-k6-3tR"/>
                             <constraint firstAttribute="centerY" secondItem="449-Mw-YhC" secondAttribute="centerY" id="s28-bu-OJM"/>
                             <constraint firstAttribute="trailing" secondItem="449-Mw-YhC" secondAttribute="trailing" constant="20" id="sGn-Vt-hbg"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="Se6-n6-xSV"/>
                                 <exclude reference="2Rz-78-eqW"/>
                             </mask>
                         </variation>
@@ -8406,7 +8463,9 @@ dalam keranjang belanja</string>
                     <connections>
                         <outlet property="btnSend" destination="6Ph-wM-BZ2" id="RrN-4j-bMw"/>
                         <outlet property="captionNoItem" destination="449-Mw-YhC" id="fvc-5b-M0h"/>
+                        <outlet property="consHeightPaymentReminder" destination="Aef-ku-oQo" id="GHP-ci-BTs"/>
                         <outlet property="consOffsetPaymentDesc" destination="PZM-0H-omN" id="oZR-8K-pCU"/>
+                        <outlet property="lblPaymentReminder" destination="yFW-Nr-GNO" id="CcX-TL-rkj"/>
                         <outlet property="loadingCart" destination="ykb-uJ-lqk" id="5og-H5-hmc"/>
                         <outlet property="sectionPaymentDesc" destination="apv-Ex-Cfi" id="dO9-YE-awz"/>
                         <outlet property="tableView" destination="TgT-98-DqM" id="Ung-R2-5rt"/>
@@ -9449,7 +9508,7 @@ pembayaran melalui bank transfer.</string>
                                                 <rect key="frame" x="0.0" y="256" width="600" height="376"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
-                                                        <rect key="frame" x="32" y="7.5" width="108.5" height="21.5"/>
+                                                        <rect key="frame" x="32" y="8" width="109" height="21"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -9795,7 +9854,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deskripsi Cacat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2n-b3-Xad">
-                                                                <rect key="frame" x="0.0" y="-9.5" width="115" height="19.5"/>
+                                                                <rect key="frame" x="0.0" y="-10" width="115" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -9944,21 +10003,21 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
-                                                        <rect key="frame" x="33" y="8" width="43.5" height="21.5"/>
+                                                        <rect key="frame" x="33" y="8" width="44" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWT-Ny-5Sh">
-                                                        <rect key="frame" x="582.5" y="90.5" width="9.5" height="19.5"/>
+                                                        <rect key="frame" x="583" y="91" width="9" height="19"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="500" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aEx-bH-myZ">
-                                                        <rect key="frame" x="474.5" y="88" width="100" height="30"/>
+                                                        <rect key="frame" x="475" y="88" width="100" height="30"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="UGC-2k-pu1"/>
@@ -9969,20 +10028,20 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amd-qU-MCT">
-                                                        <rect key="frame" x="8" y="90.5" width="39.5" height="19.5"/>
+                                                        <rect key="frame" x="8" y="91" width="40" height="19"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IAE-zW-iXW">
-                                                        <rect key="frame" x="8" y="37.5" width="584" height="80"/>
+                                                        <rect key="frame" x="8" y="38" width="584" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ocb-FZ-r1o" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="193.5" height="80"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="194" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfl-bX-doC">
-                                                                        <rect key="frame" x="71" y="29" width="51" height="20.5"/>
+                                                                        <rect key="frame" x="71" y="29" width="51" height="21"/>
                                                                         <animations/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -10019,17 +10078,17 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0He-1I-uf8" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="390.5" y="0.0" width="193.5" height="80"/>
+                                                                <rect key="frame" x="391" y="0.0" width="193" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt; 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgs-Sy-imD">
-                                                                        <rect key="frame" x="71.5" y="29" width="51" height="20.5"/>
+                                                                        <rect key="frame" x="72" y="29" width="51" height="21"/>
                                                                         <animations/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JI0-fd-HuX">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="80"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="194" height="80"/>
                                                                         <animations/>
                                                                         <state key="normal">
                                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -10058,17 +10117,17 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEJ-B7-Rwz" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EEJ-B7-Rwz" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="201" y="0.0" width="182" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFE-ac-PtJ">
-                                                                        <rect key="frame" x="60" y="29" width="61.5" height="20.5"/>
+                                                                        <rect key="frame" x="60" y="29" width="62" height="21"/>
                                                                         <animations/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lCw-9p-5lS">
+                                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lCw-9p-5lS">
                                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="80"/>
                                                                         <animations/>
                                                                         <state key="normal">
@@ -10160,14 +10219,14 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
-                                                        <rect key="frame" x="24" y="0.0" width="58.5" height="21.5"/>
+                                                        <rect key="frame" x="24" y="0.0" width="59" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ESa-2z-iuw" customClass="AKPickerView">
-                                                        <rect key="frame" x="0.0" y="29.5" width="584" height="64"/>
+                                                        <rect key="frame" x="0.0" y="30" width="584" height="64"/>
                                                         <animations/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -10175,7 +10234,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GZh-gE-1El">
-                                                        <rect key="frame" x="0.0" y="101.5" width="584" height="44"/>
+                                                        <rect key="frame" x="0.0" y="102" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Masukan Ukuran Lain" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Ay-xM-vLN">
                                                                 <rect key="frame" x="61" y="7" width="523" height="30"/>
@@ -10222,21 +10281,21 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTP-jB-V16">
-                                                        <rect key="frame" x="1" y="29.5" width="21" height="12"/>
+                                                        <rect key="frame" x="1" y="30" width="21" height="12"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SML" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsZ-Jg-OSt">
-                                                        <rect key="frame" x="1" y="55.5" width="21.5" height="12"/>
+                                                        <rect key="frame" x="1" y="56" width="22" height="12"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UK" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wM7-pj-BrJ">
-                                                        <rect key="frame" x="1" y="81.5" width="14.5" height="12"/>
+                                                        <rect key="frame" x="1" y="82" width="15" height="12"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10299,7 +10358,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penjual" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0xu-zk-0SW">
-                                                                        <rect key="frame" x="8" y="51.5" width="274" height="20.5"/>
+                                                                        <rect key="frame" x="8" y="52" width="274" height="20"/>
                                                                         <animations/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -10353,7 +10412,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Pembeli" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="100-Pk-uWR">
-                                                                        <rect key="frame" x="8" y="51.5" width="274" height="20.5"/>
+                                                                        <rect key="frame" x="8" y="52" width="274" height="20"/>
                                                                         <animations/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -10481,17 +10540,17 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-eb-cgM">
-                                                        <rect key="frame" x="33" y="8" width="48.5" height="21.5"/>
+                                                        <rect key="frame" x="33" y="8" width="49" height="22"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWp-cb-p6B">
-                                                        <rect key="frame" x="8" y="37.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="38" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5600000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4BX-dw-HO3">
-                                                                <rect key="frame" x="133.5" y="7" width="450.5" height="30"/>
+                                                                <rect key="frame" x="134" y="7" width="450" height="30"/>
                                                                 <animations/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="qPr-Rc-cK6"/>
@@ -10504,7 +10563,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Ketika Beli" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAI-mX-Fa5">
-                                                                <rect key="frame" x="0.0" y="12" width="125.5" height="19.5"/>
+                                                                <rect key="frame" x="0.0" y="12" width="126" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10534,10 +10593,10 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxM-HA-L4c">
-                                                        <rect key="frame" x="8" y="125.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="126" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10 %" placeholder="Nama Saya" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JC3-gb-5po">
-                                                                <rect key="frame" x="99.5" y="7" width="484.5" height="30"/>
+                                                                <rect key="frame" x="100" y="7" width="484" height="30"/>
                                                                 <animations/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="Z8Z-uc-NO0"/>
@@ -10550,7 +10609,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Komisi Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etS-wv-U3M">
-                                                                <rect key="frame" x="0.0" y="12" width="91.5" height="19.5"/>
+                                                                <rect key="frame" x="0.0" y="12" width="92" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10582,7 +10641,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gj-Yr-tLl">
-                                                        <rect key="frame" x="8" y="81.5" width="584" height="44"/>
+                                                        <rect key="frame" x="8" y="82" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5000000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A5y-a4-6RO">
                                                                 <rect key="frame" x="128" y="7" width="456" height="30"/>
@@ -10598,7 +10657,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Jual Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm5-v5-0S4">
-                                                                <rect key="frame" x="0.0" y="12" width="120" height="19.5"/>
+                                                                <rect key="frame" x="0.0" y="12" width="120" height="20"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10668,7 +10727,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="248"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moR-ae-6ms">
-                                                        <rect key="frame" x="2" y="2" width="298.5" height="244"/>
+                                                        <rect key="frame" x="2" y="2" width="299" height="244"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_take_photo.png" translatesAutoresizingMaskIntoConstraints="NO" id="vAy-4m-1xm" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="126" y="98" width="48" height="48"/>
@@ -10693,7 +10752,7 @@ Gambar Utama</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Fx-Hx-amw">
-                                                                <rect key="frame" x="0.0" y="0.0" width="298.5" height="244"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="299" height="244"/>
                                                                 <animations/>
                                                             </imageView>
                                                         </subviews>
@@ -10719,10 +10778,10 @@ Gambar Utama</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COP-EF-EKR">
-                                                        <rect key="frame" x="302.5" y="2" width="295.5" height="244"/>
+                                                        <rect key="frame" x="303" y="2" width="295" height="244"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-Ve-2Cz">
-                                                                <rect key="frame" x="0.0" y="0.0" width="147.5" height="121.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="148" height="122"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_backarrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zgw-qN-lmF" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="58" y="25" width="32" height="32"/>
@@ -10773,7 +10832,7 @@ Belakang</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="byz-T2-L6n">
-                                                                <rect key="frame" x="149.5" y="0.0" width="146" height="121.5"/>
+                                                                <rect key="frame" x="150" y="0.0" width="146" height="122"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_hanger.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yfo-5i-icj" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="53" y="17" width="40" height="40"/>
@@ -10824,7 +10883,7 @@ Dipakai</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qAq-Kj-g4Z">
-                                                                <rect key="frame" x="0.0" y="123.5" width="147.5" height="120.5"/>
+                                                                <rect key="frame" x="0.0" y="124" width="148" height="120"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_tag.png" translatesAutoresizingMaskIntoConstraints="NO" id="iYR-k1-998" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="58" y="25" width="32" height="32"/>
@@ -10875,10 +10934,10 @@ Label / Merek</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Pl-uy-2oC">
-                                                                <rect key="frame" x="149.5" y="123.5" width="146" height="120.5"/>
+                                                                <rect key="frame" x="150" y="124" width="146" height="120"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="2ST-uy-rgO" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="57" y="24.5" width="32" height="32"/>
+                                                                        <rect key="frame" x="57" y="25" width="32" height="32"/>
                                                                         <animations/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <constraints>

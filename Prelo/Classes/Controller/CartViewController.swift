@@ -49,12 +49,28 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     var checkoutResult : JSON?
     
+    @IBOutlet weak var lblPaymentReminder: UILabel!
+    @IBOutlet weak var consHeightPaymentReminder: NSLayoutConstraint!
+    
     @IBOutlet var captionNoItem: UILabel!
     @IBOutlet var loadingCart: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = PageName.Checkout
+        
+        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                println("Unpaid transaction data: \(data)")
+                if (data["user_has_unpaid_transaction"].boolValue == true) {
+                    let nUnpaid = data["n_transaction_unpaid"].intValue
+                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
+                    self.consHeightPaymentReminder.constant = 40
+                }
+            }
+        }
         
         products = CartProduct.getAll(User.EmailOrEmptyString)
         
@@ -945,6 +961,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }, origin: self.view)
             }
         }
+    }
+    
+    // MARK: - Payment Reminder
+    
+    @IBAction func paymentReminderPressed(sender: AnyObject) {
+        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+        self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }
     
     // MARK: - User Related Delegate

@@ -357,6 +357,50 @@ enum APIInbox : URLRequestConvertible
     }
 }
 
+enum APITransactionCheck : URLRequestConvertible
+{
+    static let basePath = "transaction_check"
+    
+    case CheckUnpaidTransaction
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return ""
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionCheck.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            println("\(req.allHTTPHeaderFields)")
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            
+            return r
+    }
+}
+
 enum APITransaction : URLRequestConvertible
 {
     static let basePath = "transaction_product/"
