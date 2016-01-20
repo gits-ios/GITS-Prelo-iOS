@@ -73,6 +73,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
     @IBAction func deleteImage(sender : UIView?)
     {
         fullScreenDelegate?.imageFullScreenDidDelete(self)
+        self.batal()
     }
     
     @IBAction func replace(sender : UIView?)

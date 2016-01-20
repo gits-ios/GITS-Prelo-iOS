@@ -69,7 +69,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-        getCategory()
+//        getCategory()
+        getFullcategory()
     }
     
     var contentView : UIView?
@@ -375,6 +376,21 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 //Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
 //                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkShopPage)
             }
+        }
+    }
+    
+    func getFullcategory()
+    {
+        request(References.CategoryList)
+            .responseJSON { _, _, JSON, err in
+                if (err != nil) {
+                    println(err)
+                } else {
+                    println(JSON)
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    self.getCategory()
+                }
         }
     }
     

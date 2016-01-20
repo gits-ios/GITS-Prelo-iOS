@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InboxViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate
+class InboxViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, TawarDelegate
 {
 
     @IBOutlet var tableView : UITableView!
@@ -137,7 +137,13 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
         t.tawarItem = inboxes[indexPath.row]
+        t.tawarDelegate = self
         self.navigationController?.pushViewController(t, animated: true)
+    }
+    
+    func tawarNeedReloadList()
+    {
+        self.tableView.reloadData()
     }
 
     /*

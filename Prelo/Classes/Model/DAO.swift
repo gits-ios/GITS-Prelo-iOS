@@ -1798,6 +1798,7 @@ class Inbox : NSObject, TawarItem
 {
     var json : JSON!
     var date : NSDate = NSDate()
+    var forceThreadState = -1
     
     init (jsn : JSON)
     {
@@ -1963,6 +1964,10 @@ class Inbox : NSObject, TawarItem
     }
     
     var threadState : Int {
+        if (forceThreadState != -1)
+        {
+            return forceThreadState
+        }
         if let s = json["current_state"].int
         {
             return s
@@ -2016,6 +2021,7 @@ class InboxMessage : NSObject
     var senderId : String!
     var messageType : Int = 0
     var message : String!
+    var bargainPrice = ""
     var dynamicMessage : String {
         
         if (messageType == 1)
@@ -2134,7 +2140,8 @@ class InboxMessage : NSObject
         lastCompletion = completion
         sending = true
         self.failedToSend = false
-        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: message)).responseJSON { req, resp, res, err in
+        var m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
+        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON { req, resp, res, err in
             self.sending = false
             if (APIPrelo.validate(true, err: err, resp: resp))
             {

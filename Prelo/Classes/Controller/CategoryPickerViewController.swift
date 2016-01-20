@@ -27,6 +27,12 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         self.title = "Pilih Kategori"
 
         // Do any additional setup after loading the view.
+        self.setupData()
+        self.getCategory()
+    }
+    
+    func setupData()
+    {
         let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
         let cache = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         if let children = cache["_data"][0]["children"].arrayObject
@@ -40,6 +46,21 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             gridView.delegate = self
             
             gridView.reloadData()
+        }
+    }
+    
+    func getCategory()
+    {
+        request(References.CategoryList)
+            .responseJSON { _, _, JSON, err in
+                if (err != nil) {
+                    println(err)
+                } else {
+                    println(JSON)
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    self.setupData()
+                }
         }
     }
     
