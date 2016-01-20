@@ -292,10 +292,24 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         return true
     }
     
+    override func backPressed(sender: UIBarButtonItem) {
+        if (free) {
+            // Pop ke home, kemudian buka list belanjaan saya
+            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else {
+            // Pop ke home, kemudian buka list konfirmasi bayar
+            NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+    }
+    
     @IBAction func sendConfirm()
     {
         if (free)
         {
+            // Pop ke home, kemudian buka list belanjaan saya
+            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
             self.navigationController?.popToRootViewControllerAnimated(true)
             return
         }

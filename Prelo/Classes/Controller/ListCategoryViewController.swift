@@ -329,9 +329,19 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         super.viewDidAppear(animated)
 //        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
         
-        // APNS redirect if any
+        // Redirect if any
+        let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
         let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
-        if (apnsRedirect != nil) {
+        if (redirectFromHome != nil) {
+            if (redirectFromHome == PageName.MyOrders) {
+                let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+            } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+            }
+            NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
+        } else if (apnsRedirect != nil) {
             if (apnsRedirect == "notification") {
                 self.launchNotifPage()
             } else if (apnsRedirect == "inbox") {
