@@ -506,36 +506,28 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func konfKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         
-        var dataRep = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        var url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.transactionId!)/sent"
+        var param = [
+            "resi_number" : fldKonfNoResi.text
+        ]
+        var images : [UIImage] = []
+        images.append(imgFotoBukti.image!)
         
-        upload(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text), multipartFormData: { form in
-            form.appendBodyPart(data: dataRep, name: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
-            }, encodingCompletion: { result in
-                switch result {
-                case .Success(let s, _, _) :
-                    s.responseJSON {_, _, res, err in
-                        println("res = \(res)")
-                        if let error = err {
-                            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
-                            self.sendMode(false)
-                        } else if let result : AnyObject = res {
-                            let json = JSON(result)
-                            println("json = \(json)")
-                            let data : Bool? = json["_data"].bool
-                            if (data == nil || data == false) { // Gagal
-                                let msg = json["message"]
-                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
-                                self.sendMode(false)
-                            } else { // Berhasil
-                                Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                                self.navigationController?.popViewControllerAnimated(true)
-                            }
-                        }
-                    }
-                case .Failure(let err) :
-                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
-                    self.sendMode(false)
-                }
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to: url, success: { op, res in
+            println("KonfKirim res = \(res)")
+            let json = JSON(res)
+            let data : Bool? = json["_data"].bool
+            if (data == nil || data == false) { // Gagal
+                let msg = json["message"]
+                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
+                self.sendMode(false)
+            } else { // Berhasil
+                Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+        }, failure: { op, err in
+            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
+            self.sendMode(false)
         })
     }
     
