@@ -355,6 +355,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let u = foundUsers[indexPath.row]
             c.captionName.text = u.username
             c.ivImage.setImageWithUrl(NSURL(string : u.pict)!, placeHolderImage: nil)
+            c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
+            c.ivImage.clipsToBounds = true
             return c
         }
     }

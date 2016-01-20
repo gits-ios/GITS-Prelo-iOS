@@ -28,7 +28,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
-    @IBOutlet var btnTawar : UIButton!
+    @IBOutlet var btnTawar : BorderedButton!
     @IBOutlet var btnActivate : UIButton!
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
@@ -286,9 +286,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func adjustButtonIfBought()
     {
         if (self.detail?.status == 4) {
-            self.btnTawar.backgroundColor = Theme.GrayDark
-            self.btnBuy.backgroundColor = Theme.GrayDark
+            self.btnTawar.borderColor = Theme.GrayLight
+            self.btnTawar.titleLabel?.textColor = Theme.GrayLight
             self.btnTawar.userInteractionEnabled = false
+            self.btnBuy.setBackgroundImage(nil, forState: .Normal)
+            self.btnBuy.backgroundColor = nil
+            self.btnBuy.setTitleColor(Theme.GrayLight)
+            self.btnBuy.layer.borderColor = Theme.GrayLight.CGColor
+            self.btnBuy.layer.borderWidth = 1
+            self.btnBuy.layer.cornerRadius = 1
+            self.btnBuy.layer.masksToBounds = true
             self.btnBuy.userInteractionEnabled = false
             if (self.detail?.boughtByMe == true) {
                 self.btnTawar.hidden = true
