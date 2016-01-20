@@ -65,15 +65,19 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         sharer = s
         
+        // Mixpanel
         let p = [
             "Product" : ((detail != nil) ? (detail!.name) : ""),
             "Product ID" : ((detail != nil) ? (detail!.productID) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 0) ? (detail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
-        Mixpanel.trackPageVisit("Product Detail Share", otherParam: p)
+        Mixpanel.trackPageVisit(PageName.ProductDetailShare, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ProductDetailShare)
         
         sharer.show()
     }
@@ -262,6 +266,9 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         let email = userData["email"].string!
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
+        self.mixpanelSharedProduct("Path", username: pathName)
+        
+        /* FIXME: Sementara dijadiin komentar, soalnya kalo user lagi ga login terus share product via path, harusnya ga usah APIAuth.LoginPath ga sih
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
             println("Path login req = \(req)")
             
@@ -271,7 +278,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
-        }
+        }*/
     }
     
     var mgInstagram : MGInstagram?
@@ -286,6 +293,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
             mgInstagram = MGInstagram()
             mgInstagram?.postImage(image, withCaption: self.textToShare1, inView: self.view, delegate: self)
+            self.mixpanelSharedProduct("Instagram", username: "")
         }
         
         if (a.title.lowercaseString == "path")
@@ -294,6 +302,11 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             if (CDUser.pathTokenAvailable())
             {
                 postToPath(image, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+                if let o = CDUserOther.getOne() {
+                    self.mixpanelSharedProduct("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
+                } else {
+                    self.mixpanelSharedProduct("Path", username: "")
+                }
             } else
             {
                 loginPath()
@@ -313,6 +326,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
 
             let url = NSURL(string : "whatsapp://send?text="+message)
             UIApplication.sharedApplication().openURL(url!)
+            self.mixpanelSharedProduct("Whatsapp", username: "")
         }
         
         if (a.title.lowercaseString == "salin")
@@ -325,6 +339,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             UIPasteboard.generalPasteboard().string = name
             UIAlertView.SimpleShow("", message: "Sukses di salin")
+            
+            self.mixpanelSharedProduct("Copy Info", username: "")
         }
         
         if (a.title.lowercaseString == "sms")
@@ -341,6 +357,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             composer.messageComposeDelegate = self
             
             self.presentViewController(composer, animated: true, completion: nil)
+            
+            self.mixpanelSharedProduct("SMS", username: "")
         }
         
         if (a.title.lowercaseString == "email")
@@ -357,6 +375,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             composer.mailComposeDelegate = self
             
             self.presentViewController(composer, animated: true, completion: nil)
+            
+            self.mixpanelSharedProduct("Email", username: "")
         }
         
         if (a.title.lowercaseString == "line")
@@ -369,6 +389,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             }
             message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             Line.shareText(message)
+            self.mixpanelSharedProduct("Line", username: "")
         }
         
         if (a.title.lowercaseString == "facebook" || a.title.lowercaseString == "twitter")
@@ -377,20 +398,30 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             
             if (SLComposeViewController.isAvailableForServiceType(type))
             {
-                /*var name = ""
-                if let n = item?.text
-                {
-                    name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
-                }
-                name = "\(AppTools.PreloBaseUrl)/p/" + name*/
                 let url = NSURL(string:"\(item!.permalink!)")
                 let composer = SLComposeViewController(forServiceType: type)
                 composer.addURL(url!)
                 composer.addImage(image)
                 if (type == SLServiceTypeFacebook) {
-                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp. \(item!.price!) #PreloID")
+                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
                 } else if (type == SLServiceTypeTwitter) {
-                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga \(item!.price!) #PreloID")
+                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
+                }
+                composer.completionHandler = { result -> Void in
+                    var getResult = result as SLComposeViewControllerResult
+                    switch(getResult.rawValue) {
+                    case SLComposeViewControllerResult.Cancelled.rawValue:
+                        println("Cancelled")
+                    case SLComposeViewControllerResult.Done.rawValue:
+                        println("Done")
+                        if (type == SLServiceTypeFacebook) {
+                            self.mixpanelSharedProduct("Facebook", username: "")
+                        } else if (type == SLServiceTypeTwitter) {
+                            self.mixpanelSharedProduct("Twitter", username: "")
+                        }
+                    default:
+                        println("Error")
+                    }
                 }
                 self.presentViewController(composer, animated: true, completion: nil)
             } else
@@ -398,6 +429,36 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 UIAlertView.SimpleShow(a.title, message: "Silakan login "+a.title+" dari Settings")
             }
         }
+        
+        /* TO BE DELETED, dilakukan di masing2 if closure
+        // Mixpanel
+        var socmedName = a.title.capitalizedString
+        if (socmedName == "Sms") {
+            socmedName = "SMS"
+        } else if (socmedName == "Salin") {
+            socmedName = "Copy Info"
+        }
+        let pt = [
+            "Socmed" : socmedName,
+            "Socmed Username" : "", // FIXME: cuma fb ama twitter keknya yg dapet username
+            "Product Name" : ((detail != nil) ? (detail!.name) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : "")
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)*/
+    }
+    
+    func mixpanelSharedProduct(socmed : String, username : String) {
+        let pt = [
+            "Socmed" : socmed,
+            "Socmed Username" : username,
+            "Product Name" : ((detail != nil) ? (detail!.name) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : "")
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {

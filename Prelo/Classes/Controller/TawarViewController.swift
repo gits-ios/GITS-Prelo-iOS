@@ -26,6 +26,7 @@ protocol  TawarItem
     var threadState : Int {get}
     var bargainPrice : Int {get}
     var bargainerIsMe : Bool {get}
+    var productStatus : Int {get}
     
     func setBargainPrice(price : Int)
 }
@@ -47,6 +48,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var inboxMessages : [InboxMessage] = []
     var first = true
     var isAtBottom = false
+    
+    var prodStatus : Int?
     
     var fromSeller = false
     var toId = ""
@@ -70,6 +73,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         textViewGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: conHeightTextView)
         textViewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        
+        self.prodStatus = tawarItem.productStatus
         
         self.title = tawarItem.title
         header.captionProductName.text = tawarItem.itemName
@@ -114,7 +119,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Inbox Detail")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.InboxDetail)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.InboxDetail)
     }
     
     var threadState = -10
@@ -122,6 +131,27 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
+        println("prodStatus = \(self.prodStatus)")
+        if (self.prodStatus != 1) // Jika produk sudah dibeli
+        {
+            btnTawar1.hidden = true
+            btnTawar2.hidden = true
+            btnBeli.hidden = true
+            btnBatal.hidden = true
+            btnTolak.hidden = true
+            btnTolak2.hidden = true
+            btnConfirm.hidden = true
+            return
+        } else {
+            btnTawar1.hidden = false
+            btnTawar2.hidden = false
+            btnBeli.hidden = false
+            btnBatal.hidden = false
+            btnTolak.hidden = false
+            btnTolak2.hidden = false
+            btnConfirm.hidden = false
+        }
+        
         if (threadState == -10)
         {
             threadState = tawarItem.threadState
@@ -284,6 +314,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                         }
                     }
                 }
+                if (json["_data"]["product_status"].int != nil) {
+                    self.prodStatus = json["_data"]["product_status"].int!
+                    self.adjustButtons()
+                }
                 self.tableView.reloadData()
                 if (self.first)
                 {
@@ -345,10 +379,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func sendTawar(sender : UIView?)
     {
-        if (txtTawar.text == "")
+        let tawarRegex = "^[0-9]*$"
+        if (txtTawar.text == "" || txtTawar.text.match(tawarRegex) == false)
         {
-            
-        } else
+            Constant.showDialog("Masukkan angka penawaran", message: "Contoh: 150000")
+        }
+        else
         {
             self.hideTawar(nil)
             if (tawarItem.threadId == "")
@@ -362,6 +398,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTawar2.hidden = true
             btnBatal.hidden = false
         }
+        
+        // Mixpanel
+        self.sendMixpanelEvent(MixpanelEvent.Bargain)
     }
     
     func rejectTawar(sender : UIView?)
@@ -383,6 +422,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         sendChat(0, message: textView.text)
+        
+        // Mixpanel
+        self.sendMixpanelEvent(MixpanelEvent.ChatSent)
     }
     
     func sendChat(type : Int, message : String)
@@ -413,6 +455,21 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.adjustButtons()
         self.tableView.reloadData()
         self.scrollToBottom()
+    }
+    
+    func sendMixpanelEvent(eventName : String)
+    {
+        // FIXME: Category belum ada di balikan dari API
+        let pt = [
+            "Product Name" : tawarItem.itemName,
+            "Category 1" : "",
+            "Category 2" : "",
+            "Category 3" : "",
+            "Buyer Name" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
+            "Seller Name" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
+            "Is Seller" : !tawarItem.opIsMe
+        ]
+        Mixpanel.trackEvent(eventName, properties: pt as [NSObject : AnyObject])
     }
     
     var starting = false
@@ -449,6 +506,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.adjustButtons()
                 self.tableView.reloadData()
                 self.scrollToBottom()
+                
+                let del = UIApplication.sharedApplication().delegate as! AppDelegate
+                del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
             } else
             {
                 println(err)

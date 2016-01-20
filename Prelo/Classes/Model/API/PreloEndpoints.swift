@@ -366,6 +366,50 @@ enum APIInbox : URLRequestConvertible
     }
 }
 
+enum APITransactionCheck : URLRequestConvertible
+{
+    static let basePath = "transaction_check"
+    
+    case CheckUnpaidTransaction
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return ""
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .CheckUnpaidTransaction : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionCheck.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            
+            println("\(req.allHTTPHeaderFields)")
+            
+            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+            
+            return r
+    }
+}
+
 enum APITransaction : URLRequestConvertible
 {
     static let basePath = "transaction_product/"
@@ -375,6 +419,7 @@ enum APITransaction : URLRequestConvertible
     case TransactionDetail(id : String)
     case ConfirmShipping(tpId : String, resiNum : String)
     case CheckoutList(current : String, limit : String)
+    case RejectTransaction(tpId : String, reason : String)
     
     var method : Method
     {
@@ -385,6 +430,7 @@ enum APITransaction : URLRequestConvertible
         case .TransactionDetail(_) : return .GET
         case .ConfirmShipping(_, _) : return .POST
         case .CheckoutList(_, _) : return .GET
+        case .RejectTransaction(_, _) : return .POST
         }
     }
     
@@ -397,6 +443,7 @@ enum APITransaction : URLRequestConvertible
         case .TransactionDetail(let id) : return id
         case .ConfirmShipping(let tpId, _) : return "\(tpId)/sent"
         case .CheckoutList(_, _) : return "checkouts"
+        case .RejectTransaction(let tpId, _) : return "\(tpId)/reject"
         }
     }
     
@@ -429,6 +476,11 @@ enum APITransaction : URLRequestConvertible
             let p = [
                 "current" : current,
                 "limit" : limit
+            ]
+            return p
+        case .RejectTransaction(_, let reason) :
+            let p = [
+                "reason" : reason
             ]
             return p
         }
@@ -673,6 +725,7 @@ enum APIUser : URLRequestConvertible
     case SetReferral(referralCode : String, deviceId : String)
     case SetDeviceRegId(deviceRegId : String)
     case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
+    case CheckPassword
     
     var method : Method
     {
@@ -693,6 +746,7 @@ enum APIUser : URLRequestConvertible
         case .SetReferral(_, _) : return .POST
         case .SetDeviceRegId(_) : return .POST
         case .SetUserPreferencedCategories(_, _, _) : return .POST
+        case .CheckPassword : return .GET
         }
     }
     
@@ -715,6 +769,7 @@ enum APIUser : URLRequestConvertible
         case .SetReferral(_, _) : return "referral"
         case .SetDeviceRegId(_) : return "set_device_registration_id"
         case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
+        case .CheckPassword : return "checkpassword"
         }
     }
     
@@ -794,6 +849,8 @@ enum APIUser : URLRequestConvertible
                 "category3" : categ3
             ]
             return p
+        case .CheckPassword :
+            return [:]
         }
     }
     
@@ -1090,6 +1147,7 @@ enum References : URLRequestConvertible
     case ProvinceList
     case CityList(provinceId : String)
     case BrandAndSizeByCategory(category : String)
+    case HomeCategories
     
     var method : Method
     {
@@ -1099,6 +1157,7 @@ enum References : URLRequestConvertible
         case .ProvinceList:return .GET
         case .CityList(_):return .GET
         case .BrandAndSizeByCategory(_) : return .GET
+        case .HomeCategories : return .GET
         }
     }
     
@@ -1110,6 +1169,7 @@ enum References : URLRequestConvertible
         case .ProvinceList:return "provinces"
         case .CityList(_):return "cities"
         case .BrandAndSizeByCategory(_) : return "brands_sizes"
+        case .HomeCategories : return "categories/home"
         }
     }
     
@@ -1121,6 +1181,7 @@ enum References : URLRequestConvertible
         case .ProvinceList:return ["prelo":"true"]
         case .CityList(let pId):return ["province":pId, "prelo":"true"]
         case .BrandAndSizeByCategory(let catId) : return ["category_id":catId]
+        case .HomeCategories : return[:]
         }
     }
     
@@ -1182,9 +1243,12 @@ class APIPrelo
     {
         if let response = resp
         {
-            if (response.statusCode == 500 && showErrorDialog)
+            if (response.statusCode == 500)
             {
-                UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
+                if (showErrorDialog)
+                {
+                    UIAlertView.SimpleShow("Gagal", message: "Ada masalah dengan server")
+                }
                 return false
             }
         }
@@ -1208,10 +1272,12 @@ class APIPrelo
         
         if let response = resp
         {
-            if (response.statusCode != 200 && showErrorDialog)
+            if (response.statusCode != 200)
             {
-                if (res != nil) {
+                if (res != nil && showErrorDialog) {
                     UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
+                } else if (res == nil && showErrorDialog) {
+                    UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
                 }
                 return false
             }

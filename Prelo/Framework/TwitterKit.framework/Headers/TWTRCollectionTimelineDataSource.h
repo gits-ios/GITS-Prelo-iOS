@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSInteger maxTweetsPerRequest;
 
 /**
+ *  ID of the collection.
+ */
+@property (nonatomic, copy, readonly) NSString *collectionID;
+
+/**
  *  Convenience initializer.
  *
  *  @param collectionID (required) The ID of this collection. For example, the ID of this collection: https://twitter.com/TwitterMusic/timelines/393773266801659904 is @"393773266801659904"

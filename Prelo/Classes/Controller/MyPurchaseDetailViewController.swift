@@ -51,10 +51,12 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
+    @IBOutlet weak var lblOrderId: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblSellerName: UILabel!
     @IBOutlet weak var lblOrderStatus: UILabel!
     @IBOutlet weak var lblOrderTime: UILabel!
+    @IBOutlet weak var consWidthOrderId: NSLayoutConstraint!
     @IBOutlet weak var consWidthOrderStatus: NSLayoutConstraint!
     
     @IBOutlet weak var lblDescription: UILabel!
@@ -65,9 +67,14 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var lblMetodePembayaran: UILabel!
     @IBOutlet weak var lblTglPembayaran: UILabel!
     
-    @IBOutlet weak var lblKurirPengiriman: UILabel!
-    @IBOutlet weak var lblNoPengiriman: UILabel!
-    @IBOutlet weak var lblTglPengiriman: UILabel!
+    @IBOutlet weak var lblNamaPengiriman: UILabel!
+    @IBOutlet weak var lblNoTelpPengiriman: UILabel!
+    @IBOutlet weak var lblAlamatPengiriman: UILabel!
+    @IBOutlet weak var lblProvinsiPengiriman: UILabel!
+    @IBOutlet weak var lblRegionPengiriman: UILabel!
+    @IBOutlet weak var lblKodePosPengiriman: UILabel!
+    @IBOutlet weak var consHeightGroupPengiriman: NSLayoutConstraint!
+    @IBOutlet weak var consHeightAlamatPengiriman: NSLayoutConstraint!
     
     @IBOutlet weak var btnReviewSeller: UIButton!
     
@@ -83,8 +90,19 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var txtvwReview: UITextView!
     @IBOutlet weak var btnRvwBatal: UIButton!
     @IBOutlet weak var btnRvwKirim: UIButton!
-    @IBOutlet var btnsRvwLove: [UIButton]!
-    var loveValue : Int = 0
+    var btnsRvwLove: [UIButton] = []
+    @IBOutlet var btnLove1: UIButton!
+    @IBOutlet var btnLove2: UIButton!
+    @IBOutlet var btnLove3: UIButton!
+    @IBOutlet var btnLove4: UIButton!
+    @IBOutlet var btnLove5: UIButton!
+    var lblsRvwLove: [UILabel] = []
+    @IBOutlet var lblLove1: UILabel!
+    @IBOutlet var lblLove2: UILabel!
+    @IBOutlet var lblLove3: UILabel!
+    @IBOutlet var lblLove4: UILabel!
+    @IBOutlet var lblLove5: UILabel!
+    var loveValue : Int = 5
     var txtvwGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
@@ -93,36 +111,12 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     var transactionId : String?
     var transactionDetail : TransactionDetail?
     
+    var contactUs : UIViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TESTING
-        /*lblDescription.text = "Kuawali hariku dengan mendoakanmu"
-        let descriptionFitSize = lblDescription.sizeThatFits(lblDescription.frame.size)
-        println("descriptionFitSize = \(descriptionFitSize)")
-        println("\(heightForView(lblDescription.text!, font: AppFont.Prelo2.getFont(14.0)!, width: lblDescription.frame.size.width))")
-        println("tinggi label = \(lblDescription.frame.size.height)")
-        
-        lblDescription.text = ""
-        let descriptionFitSize2 = lblDescription.sizeThatFits(lblDescription.frame.size)
-        println("descriptionFitSize2 = \(descriptionFitSize2)")
-        println("\(heightForView(lblDescription.text!, font: AppFont.Prelo2.getFont(14.0)!, width: lblDescription.frame.size.width))")
-        println("tinggi label = \(lblDescription.frame.size.height)")
-        
-        lblDescription.text = "Kuawali hariku dengan mendoakanmu agar kau slalu sehat dan bahagia di sana sebelum kau melupakanku lebih jauh sebelum kau meninggalkanku lebih jauh kutak pernah berharap kau dapat merindukan kebradaanku yang menyedihkan ini"
-        let descriptionFitSize3 = lblDescription.sizeThatFits(lblDescription.frame.size)
-        println("descriptionFitSize3 = \(descriptionFitSize3)")
-        println("\(heightForView(lblDescription.text!, font: AppFont.Prelo2.getFont(14.0)!, width: lblDescription.frame.size.width))")
-        println("tinggi label = \(lblDescription.frame.size.height)")
-        
-        let font : UIFont = UIFont.systemFontOfSize(14)
-        let expectedLblDescriptionSize : CGRect = lblDescription.text!.boundsWithFontSize(AppFont.Prelo2.getFont(14)!, width: lblDescription.frame.size.width)
-        let rect = lblDescription.text?.boundingRectWithSize(CGSizeMake(lblDescription.frame.size.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName : font], context: nil)
-        println("exp = \(expectedLblDescriptionSize)")
-        println("widt = \(lblDescription.frame.size)")
-        println("rect =  \(rect)")
-        
-        consHeightGroupDescription.constant = descriptionFitSize3.height*/
+        // FIXME: masih dummy belum fleksibel
         lblDescription.numberOfLines = 1
         lblReviewContent.numberOfLines = 2
         
@@ -142,6 +136,8 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         txtvwReview.textColor = UIColor.lightGrayColor()
         txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
         txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        
+        self.validateRvwKirimFields()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -194,7 +190,94 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             "Product ID" : ((self.transactionDetail != nil) ? self.transactionDetail!.productId : ""),
             "Seller" : ((self.transactionDetail != nil) ? self.transactionDetail!.sellerName : "")
         ]
-        Mixpanel.trackPageVisit("Transaction Detail", otherParam: param)
+        Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.TransactionDetail)
+        
+        // Order status text
+        let orderStatusText = transactionDetail?.progressText
+        
+        // Set title
+        self.title = (transactionDetail!.productName)
+        
+        // Set images and labels
+        imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
+        lblProductName.text = transactionDetail?.productName
+        lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
+        lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
+        lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
+        lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
+        lblOrderTime.text = " | \((transactionDetail?.time)!)"
+        lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
+        lblTglPembayaran.text = transactionDetail?.paymentDate
+        lblReviewContent.text = transactionDetail?.reviewComment
+        lblNamaPengiriman.text = transactionDetail?.shippingRecipientName
+        lblNoTelpPengiriman.text = "0222503593"
+        lblAlamatPengiriman.text = transactionDetail?.shippingAddress
+        let provName : String? = CDProvince.getProvinceNameWithID((transactionDetail?.shippingProvinceId)!)
+        lblProvinsiPengiriman.text = ((provName != nil) ? provName! : "-")
+        let regionName : String? = CDRegion.getRegionNameWithID((transactionDetail?.shippingRegionId)!)
+        lblRegionPengiriman.text = ((regionName != nil) ? regionName! : "-")
+        lblKodePosPengiriman.text = transactionDetail?.shippingPostalCode
+        lblReviewContent.text = transactionDetail?.reviewComment
+        
+        // lblAlamatPengiriman height fix
+        let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
+        var sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
+        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
+        consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
+        var groupPengirimanFrame : CGRect = groupPengiriman.frame
+        groupPengirimanFrame.size.height = consHeightGroupPengiriman.constant
+        groupPengiriman.frame = groupPengirimanFrame
+        
+        // lblDescription
+        if (orderStatusText == OrderStatus.PembayaranPending) {
+            lblDescription.text = "Pembayaran Kamu sedang diproses"
+        } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) {
+            lblDescription.text = "Jangan khawatir, uang kamu tersimpan sebagai Prelo Balance. Kamu bisa menggunakannya untuk transaksi lain atau tarik tunai."
+        }
+        
+        // Nama dan gambar reviewer
+        let user : CDUser = CDUser.getOne()!
+        lblReviewerName.text = user.username
+        let urlReviewer = NSURL(string: user.profiles.pict)
+        imgReviewer.setImageWithUrl(urlReviewer!, placeHolderImage: nil)
+        
+        // Love
+        var loveText = ""
+        for (var i = 0; i < 5; i++) {
+            if (i < transactionDetail?.reviewStar) {
+                loveText += ""
+            } else {
+                loveText += ""
+            }
+        }
+        let attrStringLove = NSMutableAttributedString(string: loveText)
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        lblHearts.attributedText = attrStringLove
+        
+        // Review Seller pop up
+        lblRvwSellerName.text = transactionDetail?.sellerName
+        lblRvwProductName.text = transactionDetail?.productName
+        
+        // Fix order id text width
+        let orderIdFitSize = lblOrderId.sizeThatFits(lblOrderId.frame.size)
+        consWidthOrderId.constant = orderIdFitSize.width
+        
+        // Fix order status text width
+        let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
+        consWidthOrderStatus.constant = orderStatusFitSize.width
+        
+        // Fix order status text color
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+            lblOrderStatus.textColor = Theme.PrimaryColor
+        } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
+            lblOrderStatus.textColor == UIColor.redColor()
+        } else {
+            lblOrderStatus.textColor == Theme.ThemeOrange
+        }
         
         // Set groups and top constraints manually
         groups.append(self.groupProductDetail)
@@ -219,13 +302,24 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         consTopGroups.append(self.consTopContentReview)
         consTopGroups.append(self.consTopAdaMasalah)
         
+        // Set btnLoves and lblLoves manually
+        btnsRvwLove.append(self.btnLove1)
+        btnsRvwLove.append(self.btnLove2)
+        btnsRvwLove.append(self.btnLove3)
+        btnsRvwLove.append(self.btnLove4)
+        btnsRvwLove.append(self.btnLove5)
+        lblsRvwLove.append(self.lblLove1)
+        lblsRvwLove.append(self.lblLove2)
+        lblsRvwLove.append(self.lblLove3)
+        lblsRvwLove.append(self.lblLove4)
+        lblsRvwLove.append(self.lblLove5)
+        
         // Arrange groups
-        let orderStatusText = transactionDetail?.progressText
         var p : [Bool] = []
         if (orderStatusText == OrderStatus.Dipesan) {
             p = [true, false, true, true, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Dibayar) {
-            p = [true, false, true, false, true, false, false, false, false, true]
+            p = [true, false, true, false, true, true, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Dikirim) {
             p = [true, false, true, false, true, true, true, true, false, true]
         } else if (orderStatusText == OrderStatus.PembayaranPending) {
@@ -235,7 +329,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
-            p = [true, false, true, false, true, true, false, false, false, true]
+            p = [true, false, true, false, true, true, true, true, false, true]
         } else if (orderStatusText == OrderStatus.DibatalkanSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]
         } else { // Default
@@ -243,91 +337,9 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }
         arrangeGroups(p)
         
-        // Set title
-        self.title = (transactionDetail!.productName)
-        
-        // Set back button
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
-        // Set images and labels
-        imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
-        lblProductName.text = transactionDetail?.productName
-        lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
-        lblSellerName.text = transactionDetail?.sellerName
-        lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
-        lblOrderTime.text = transactionDetail?.time
-        lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
-        lblTglPembayaran.text = transactionDetail?.paymentDate
-        lblKurirPengiriman.text = transactionDetail?.shippingName
-        lblNoPengiriman.text = transactionDetail?.resiNumber
-        lblTglPengiriman.text = transactionDetail?.shippingDate
-        lblReviewContent.text = transactionDetail?.reviewComment
-        
-        // lblDescription
-        if (orderStatusText == OrderStatus.PembayaranPending) {
-            lblDescription.text = "Pembayaran Kamu sedang diproses"
-        } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) {
-            lblDescription.text = "Jangan khawatir, uang kamu tersimpan sebagai Prelo Balance. Kamu bisa menggunakannya untuk transaksi lain atau tarik tunai."
-        }
-        
-        // Nama dan gambar reviewer
-        let user : CDUser = CDUser.getOne()!
-        lblReviewerName.text = user.fullname
-        let urlReviewer = NSURL(string: DAO.UserPhotoStringURL(user.profiles.pict, userID: user.id))
-        imgReviewer.setImageWithUrl(urlReviewer!, placeHolderImage: nil)
-        
-        // Love
-        var loveText = ""
-        for (var i = 0; i < 5; i++) {
-            if (i < transactionDetail?.reviewStar) {
-                loveText += ""
-            } else {
-                loveText += ""
-            }
-        }
-        let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
-        lblHearts.attributedText = attrStringLove
-        
-        // Review Seller pop up
-        lblRvwSellerName.text = transactionDetail?.sellerName
-        lblRvwProductName.text = transactionDetail?.productName
-        
-        // Fix order status text width
-        let orderStatusFitSize = lblOrderStatus.sizeThatFits(lblOrderStatus.frame.size)
-        consWidthOrderStatus.constant = orderStatusFitSize.width
-        
-        // Fix order status text color
-        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
-            lblOrderStatus.textColor = Theme.PrimaryColor
-        } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor == UIColor.redColor()
-        } else {
-            lblOrderStatus.textColor == Theme.ThemeOrange
-        }
-        
         // Show content
         loading.stopAnimating()
         contentView.hidden = false
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    // TODO: DELETE IF UNNECESSARY
-    func heightForView(text : String, font : UIFont, width : CGFloat) -> CGRect{
-        let label : UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        label.font = font
-        label.text = text
-        
-        label.sizeToFit()
-        return label.frame
     }
     
     func arrangeGroups(isShowGroups : [Bool]) {
@@ -387,9 +399,9 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                     loveValue = i + 1
                     println("loveValue = \(loveValue)")
                 }
-                b.titleLabel!.text = ""
+                lblsRvwLove[i].text = ""
             } else {
-                b.titleLabel!.text = ""
+                lblsRvwLove[i].text = ""
             }
         }
     }
@@ -401,30 +413,44 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func rvwKirimPressed(sender: AnyObject) {
         self.sendMode(true)
-        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {req, _, res, err in
-            println("Post review req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error posting review")//: \(err!.description)")
-                self.sendMode(false)
-            } else {
+        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
                 let json = JSON(res!)
-                let data : Bool? = json["_data"].bool
-                if (data == nil || data == false) { // Gagal
-                    println("Error posting review")
-                    self.sendMode(false)
-                } else { // Berhasil
-                    println("data = \(data)")
+                let dataBool : Bool = json["_data"].boolValue
+                let dataInt : Int = json["_data"].intValue
+                println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "Review berhasil ditambahkan")
-                    self.sendMode(false)
-                    self.vwShadow.hidden = true
-                    self.vwReviewSeller.hidden = true
-                    
-                    // Reload content
-                    self.contentView.hidden = true
-                    self.loading.startAnimating()
-                    self.getPurchaseDetail()
+                } else {
+                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
                 }
+                // Hide pop up
+                self.sendMode(false)
+                self.vwShadow.hidden = true
+                self.vwReviewSeller.hidden = true
+                
+                // Reload content
+                self.contentView.hidden = true
+                self.loading.startAnimating()
+                self.getPurchaseDetail()
             }
+        }
+    }
+    
+    @IBAction func hubungiPreloPressed(sender: AnyObject) {
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        contactUs = c
+        if let v = c.view, let p = self.navigationController?.view
+        {
+            v.alpha = 0
+            v.frame = p.bounds
+            self.navigationController?.view.addSubview(v)
+            
+            v.alpha = 0
+            UIView.animateWithDuration(0.2, animations: {
+                v.alpha = 1
+            })
         }
     }
     
@@ -437,6 +463,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         txtvwGrowHandler.resizeTextViewWithAnimation(true)
+        self.validateRvwKirimFields()
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -447,6 +474,16 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     // MARK: - Other Functions
+    
+    func validateRvwKirimFields() {
+        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+            // Disable tombol kirim
+            btnRvwKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnRvwKirim.userInteractionEnabled = true
+        }
+    }
     
     func sendMode(mode: Bool) {
         if (mode) {

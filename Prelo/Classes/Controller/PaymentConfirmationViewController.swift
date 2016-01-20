@@ -30,12 +30,6 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         // Title
         self.title = "Pesanan Saya"
         
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
         // DEBUG: Tableview bounds and frame
         //println("tableView bounds = \(tableView.bounds)")
         //println("tableView frame = \(tableView.frame)")
@@ -50,7 +44,11 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("Unpaid Transaction")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.UnpaidTransaction)
         
         if (userCheckouts == nil || userCheckouts?.count == 0) {
             if (userCheckouts == nil) {
@@ -67,10 +65,6 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                 self.setupTable()
             }
         }
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func getUserCheckouts() {

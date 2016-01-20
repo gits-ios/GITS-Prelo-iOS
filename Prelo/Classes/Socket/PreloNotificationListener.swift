@@ -18,10 +18,10 @@ protocol PreloSocketDelegate
     func socketReceiveSomething(data : NSArray?, ack : AckEmitter?)
 }
 
-class PreloNotificationListener : PreloSocketDelegate
+class PreloNotificationListener //: PreloSocketDelegate
 {
     
-    let socket = SocketIOClient(socketURL: AppTools.PreloBaseUrlShort)
+    var socket : SocketIOClient! // = SocketIOClient(socketURL: AppTools.PreloBaseUrl)
     
     var newNotifCount : Int = 0
     
@@ -33,33 +33,46 @@ class PreloNotificationListener : PreloSocketDelegate
         // Init notif count
         NotificationPageViewController.refreshNotifications()
         
-        // todo add delegate to Main Socket Class
-        // PreloSocket.sharedInstance().registerDelegate(self, event:"eventName")
+        /* Belum dipake, mungkin ga akan dipake
+        // Add delegate to Main Socket Class
+        //let del = UIApplication.sharedApplication().delegate as! AppDelegate
+        //del.messagePool.registerDelegate(self, event:"eventName")
+        */
     }
     
+    /* Belum dipake, mungkin ga akan dipake
     func socketReceiveSomething(data: NSArray?, ack: AckEmitter?) {
         self.handleNotification(JSON(data!)[0])
     }
+    */
     
     func setupSocket() {
+        let del = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.socket = del.messagePool.socket
+        
+        /* Dimatiin abis gabungin ke messagepool
         if ((!self.socket.connected || willReconnect) && !self.socket.connecting) {
             self.socket.on("connect") {data, ack in
                 println("Socket is connected")
                 
+                /* Dimatiin abis gabungin ke messagepool
                 // Register
                 // Harusnya ini cuma dipanggil kalo user logged in, tapi sering crash gara2 kepanggil waktu logged out, jadi kasih if aja
                 if (User.IsLoggedIn) {
                     var userId = User.Id!
                     self.socket.emit("register", userId)
                 }
+                */
             }
             
             // Listening for notification
             self.socket.on("notification") {data, ack in
+                /* Dimatiin abis ganbungin ke messagepool
                 if (!self.willReconnect) {
                     println("You've got a notification: \(data)")
                     self.handleNotification(JSON(data!)[0])
                 }
+                */
             }
             
             // FOR TESTING
@@ -71,7 +84,7 @@ class PreloNotificationListener : PreloSocketDelegate
             } else {
                 self.socket.connect()
             }
-        }
+        }*/
     }
         
     func handleNotification(json : JSON) {
@@ -83,8 +96,30 @@ class PreloNotificationListener : PreloSocketDelegate
             //println("itemNotifs.count = \(itemNotifs.count)")
             for (j : String, n : JSON) in itemNotifs {
                 var newN : CDNotification?
-                // First, check if there's already a notif with same objectId and type
-                var sameNotif : CDNotification? =  CDNotification.getNotifWithObjectId(n["object_id"].string!, andType: n["type"].number!)
+                // First, check if there's already a same notif to be merged
+                // Same notif: transaksi with same objectId OR inbox/aktivitas with same objectId and type
+                var sameNotif : CDNotification?
+                if (i == "tp_notif") { // Notif transaksi
+                    sameNotif = CDNotification.getNotifWithObjectId(n["object_id"].string!)
+                } else { // Notif inbox/aktivitas
+                    sameNotif =  CDNotification.getNotifWithObjectId(n["object_id"].string!, andType: n["type"].number!)
+                }
+                if (sameNotif != nil) { // Udah ada yg sama
+                    // Hapus yang lama di core data
+                    CDNotification.deleteNotifWithIds(sameNotif!.ids)
+                }
+                // Simpan yang baru
+                var notifType : String = ""
+                if (i == "tp_notif") { // Transaksi
+                    notifType = NotificationType.Transaksi
+                } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                    notifType = NotificationType.Inbox
+                } else if (i == "activity") { // Aktivitas
+                    notifType = NotificationType.Aktivitas
+                }
+                newN = CDNotification.newOne(notifType, ids : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string, weight: NSNumber(integer: 1), names: n["name"].string!)
+                
+                /* TO BE DELETED, merged version, hiks T^T
                 if (sameNotif != nil) { // Udah ada yg sama, merge dengan notif yg sama
                     // Sesuaikan ids, opened, message, name, time, leftImage, weight, names
                     // Simpan ids baru di var baru karna sameNotif.ids akan digunakan untuk menghapus objek di core data
@@ -103,6 +138,7 @@ class PreloNotificationListener : PreloSocketDelegate
                         sameNotif!.name = n["name"].string!
                     }
                     sameNotif!.opened = false
+                    sameNotif!.read = false
                     sameNotif!.time = n["time"].string!
                     sameNotif!.leftImage = n["left_image"].string!
                     sameNotif!.weight = NSNumber(integer: sameNotif!.weight.integerValue + 1)
@@ -122,15 +158,16 @@ class PreloNotificationListener : PreloSocketDelegate
                         notifType = NotificationType.Aktivitas
                     }
                     newN = CDNotification.newOne(notifType, ids : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string, weight: NSNumber(integer: 1), names: n["name"].string!)
-                }
+                }*/
                 if (newN != nil) {
                     println("Successfully saved newN = \(newN)")
-                    newNotifCount++
+                    //newNotifCount++
                 } else {
                     println("Failed to save newN")
                 }
             }
         }
+        newNotifCount = CDNotification.getNewNotifCount()
         println("newNotifCount = \(newNotifCount)")
         delegate?.showNewNotifCount(newNotifCount)
         delegate?.refreshNotifPage()

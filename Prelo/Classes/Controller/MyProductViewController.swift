@@ -37,13 +37,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         
         // Set title
-        self.title = "Produk Saya"
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
+        self.title = "Jualan Saya"
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
@@ -66,10 +60,6 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
             m?.removeAtIndex((m?.count)!-2)
             self.navigationController?.viewControllers = m!
         }
-    }
-
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,6 +90,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     @IBAction func jualPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = PageName.MyProducts
         self.navigationController?.pushViewController(add, animated: true)
     }
 

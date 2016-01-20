@@ -24,7 +24,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         let c = CDUser.getOne()
-        captionName?.text = c?.fullname
+        captionName?.text = c?.username
         
         let i = UIImage(named: "ic_bag")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         ivBag?.tintColor = Theme.PrimaryColorDark
@@ -91,7 +91,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Dashboard Logged In")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.DashboardLoggedIn)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.DashboardLoggedIn)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -197,10 +201,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             l.storeMode = true
-            if let fullname = me.fullname
-            {
-                l.storeName = fullname
-            }
+            l.storeName = me.username
             l.storeId = me.id
             self.navigationController?.pushViewController(l, animated: true)
         }

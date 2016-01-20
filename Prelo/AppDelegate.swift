@@ -11,6 +11,8 @@ import CoreData
 import Fabric
 import Crashlytics
 import TwitterKit
+import Bolts
+import FBSDKCoreKit
 
 //import AdobeCreativeSDKCore
 
@@ -27,11 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        preloNotifListener = PreloNotificationListener()
+        
         messagePool = MessagePool()
         messagePool.start()
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
-        if (AppTools.PreloBaseUrlShort == "prelo.co.id") {
+        
+        if (AppTools.IsPreloProduction) {
             Mixpanel.sharedInstanceWithToken("1f07daa901e779dd504e21daca2a88df")
         } else {
             Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
@@ -41,25 +46,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let c = CDUser.getOne()
         {
             Mixpanel.sharedInstance().identify(c.id)
-            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+            //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+            
+            // Set crashlytics user information
+            Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
+            Crashlytics.sharedInstance().setUserEmail(c.email)
+            Crashlytics.sharedInstance().setUserName(c.fullname!)
         }/* else {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
         }*/
         
-        // Track loading screen
-        Mixpanel.trackPageVisit("Splash Screen")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.SplashScreen)
+        
+        // Configure GAI options.
+        var gai = GAI.sharedInstance()
+        gai.trackerWithTrackingId("UA-68727101-3")
+        gai.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.SplashScreen)
+        
+        /* AVIARY IS DISABLED
         AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
+        */
         
 //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
 //            
 //        })
         
-        preloNotifListener = PreloNotificationListener()
-        
         self.versionCheck()
         
+        // Enable Google AdWords automated usage reporting
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
+        ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
         //return true
         
@@ -96,6 +118,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+        }
+        
+        // Handling facebook deferred deep linking
+        // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
+        if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
+            //Constant.showDialog("Deeplink", message: "launchURL = \(launchURL)")
+            if (launchURL.host == "product") {
+                let productId = launchURL.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
+            } else if (launchURL.host == "confirm") {
+                let confirmId = launchURL.path?.substringFromIndex(1)
+                //NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+            } else if (launchURL.host == "user") {
+                let userId = launchURL.path?.substringFromIndex(1)
+                //NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+            }
+
+            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
+                if (error != nil) { // Process error
+                    println("Received error while fetching deferred app link \(error)")
+                }
+                if (url != nil) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
+            })
         }
         
         // Override point for customization after application launch
@@ -272,6 +319,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -346,12 +394,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    // MARK: - Facebook Function
-    
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
         annotation: AnyObject?) -> Bool {
+            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
+            //Constant.showDialog("Deeplink", message: "url = \(url)")
+            if (url.host == "product") {
+                let productId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
+            } else if (url.host == "confirm") {
+                let confirmId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+            } else if (url.host == "user") {
+                let userId = url.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+            }
             return FBSDKApplicationDelegate.sharedInstance().application(
                 application,
                 openURL: url,

@@ -22,6 +22,7 @@
 //
 
 #import "CarbonTabSwipeNavigation.h"
+#import "GIBadgeView.h"
 
 @interface CarbonTabSwipeNavigation() <UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIScrollViewDelegate, UIGestureRecognizerDelegate> {
 	
@@ -44,6 +45,8 @@
 	NSLayoutConstraint *indicatorLeftConst;
 	NSLayoutConstraint *indicatorWidthConst;
 	NSLayoutConstraint *indicatorHeightConst;
+    
+    NSMutableArray *badges;
 }
 
 @end
@@ -68,6 +71,224 @@
 //            }
 //        }
 //    }
+}
+
+- (instancetype)createWithRootViewController:(UIViewController *)viewController
+                                    tabNames:(NSArray *)names
+                                   tintColor:(UIColor *)tintColor
+                                    delegate:(id)delegate
+                                  badgeValues:(NSArray *)badgeValues
+                            badgeRightOffsets:(NSArray *)badgeRightOffsets {
+    
+    // init
+    self.delegate = delegate;
+    numberOfTabs = names.count;
+    rootViewController = viewController;
+    
+    // create page controller
+    pageController = [UIPageViewController alloc];
+    pageController = [pageController initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+                                       navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
+                                                     options:nil];
+    pageController.delegate = self;
+    pageController.dataSource = self;
+    
+    // delegate scrollview
+    for (UIView *v in pageController.view.subviews) {
+        if ([v isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView *)v).delegate = self;
+        }
+    }
+    
+    // add page controller as child
+    [self addChildViewController:pageController];
+    [self.view addSubview:pageController.view];
+    [pageController didMoveToParentViewController:self];
+    
+    // add self as child to parent
+    [rootViewController addChildViewController:self];
+    [rootViewController.view addSubview:self.view];
+    [self didMoveToParentViewController:rootViewController];
+    
+    // create segment control
+    segmentController = [[UISegmentedControl alloc] initWithItems:names];
+    CGRect segRect = segmentController.frame;
+    segRect.size.height = 44;
+    segmentController.frame = segRect;
+    
+    UIColor *normalTextColor = [self.view.tintColor colorWithAlphaComponent:0.8];
+    
+    [segmentController setTitleTextAttributes:@{NSForegroundColorAttributeName:normalTextColor,
+                                                NSFontAttributeName:[UIFont boldSystemFontOfSize:14]}
+                                     forState:UIControlStateNormal];
+    [segmentController setTitleTextAttributes:@{NSForegroundColorAttributeName:self.view.tintColor,
+                                                NSFontAttributeName:[UIFont boldSystemFontOfSize:14]}
+                                     forState:UIControlStateSelected];
+    
+    // segment controller action
+    [segmentController addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    
+    // max tabWidth
+    CGFloat maxTabWidth = 0;
+    
+    // get tabs width
+    NSUInteger i = 0;
+    CGFloat segmentedWidth = 0;
+    badges = [[NSMutableArray alloc] init];
+    for (UIView *tabView in [segmentController subviews]) {
+        for (UIView *label in tabView.subviews) {
+            if ([label isKindOfClass:[UILabel class]]) {
+                CGFloat tabWidth = roundf([label sizeThatFits:CGSizeMake(FLT_MAX, 16)].width + 30); // 30 extra space
+                [segmentController setWidth:tabWidth forSegmentAtIndex:i];
+                
+                segmentedWidth += tabWidth;
+                
+                // get max tab width
+                maxTabWidth = tabWidth > maxTabWidth ? tabWidth : maxTabWidth;
+            }
+        }
+        GIBadgeView *badge = [GIBadgeView new];
+        badge.backgroundColor = [UIColor colorWithRed:248/255. green:130/255. blue:24/255. alpha:1.];
+        NSNumber *badgeValue = [badgeValues objectAtIndex:i];
+        badge.badgeValue = [badgeValue integerValue];
+        badge.topOffset = 15;
+        NSNumber *rightOffset = [badgeRightOffsets objectAtIndex:i];
+        badge.rightOffset = [rightOffset floatValue];
+        [tabView addSubview:badge];
+        
+        [badges addObject:badge];
+        
+        [tabs addObject:tabView];
+        i++;
+    }
+    
+    if (segmentedWidth < self.view.frame.size.width) {
+        if (self.view.frame.size.width / (float)numberOfTabs < maxTabWidth) {
+            
+            for (int i = 0; i < numberOfTabs; i++) {
+                [segmentController setWidth:maxTabWidth forSegmentAtIndex:i];
+            }
+            
+            segmentedWidth = maxTabWidth * numberOfTabs;
+        } else {
+            maxTabWidth = roundf(self.view.frame.size.width/(float)numberOfTabs);
+            
+            for (int i = 0; i < numberOfTabs; i++) {
+                [segmentController setWidth:maxTabWidth forSegmentAtIndex:i];
+            }
+            
+            segmentedWidth = maxTabWidth * numberOfTabs;
+        }
+    }
+    
+    CGRect segmentRect = segmentController.frame;
+    segmentRect.size.width = segmentedWidth;
+    segmentController.frame = segmentRect;
+    
+    // create scrollview
+    tabScrollView = [[UIScrollView alloc] init];
+    [self.view addSubview:tabScrollView];
+    
+    // create indicator
+    indicator = [[UIImageView alloc] init];
+    indicator.backgroundColor = _colorIndicator;
+    [segmentController addSubview:indicator];
+    
+    [segmentController setTintColor:[UIColor clearColor]];
+    [segmentController setDividerImage:[UIImage new] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    [tabScrollView addSubview:segmentController];
+    [tabScrollView setContentSize:CGSizeMake(segmentedWidth, 44)];
+    [tabScrollView setShowsHorizontalScrollIndicator:NO];
+    [tabScrollView setShowsVerticalScrollIndicator:NO];
+    [tabScrollView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    tabScrollView.backgroundColor = [UIColor cyanColor];
+    
+    [pageController.view setTranslatesAutoresizingMaskIntoConstraints: NO];
+    [self.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    // create constraints
+    UIView *parentView = self.view;
+    UIView *pageControllerView = pageController.view;
+    id<UILayoutSupport> rootTopLayoutGuide = rootViewController.topLayoutGuide;
+    id<UILayoutSupport> rootBottomLayoutGuide = rootViewController.bottomLayoutGuide;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(rootTopLayoutGuide, rootBottomLayoutGuide, parentView, tabScrollView, pageControllerView);
+    NSDictionary *metricsDictionary = @{
+                                        @"tabScrollViewHeight" : @44
+                                        };
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[tabScrollView(==tabScrollViewHeight)][pageControllerView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[tabScrollView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[pageControllerView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    
+    [rootViewController.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rootTopLayoutGuide][parentView][rootBottomLayoutGuide]" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    [rootViewController.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[parentView]|" options:0 metrics:metricsDictionary views:viewsDictionary]];
+    
+    [indicator setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [segmentController addConstraint:[NSLayoutConstraint constraintWithItem:indicator
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:indicator.superview
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1.0
+                                                                   constant:1]];
+    
+    indicatorHeightConst = [NSLayoutConstraint constraintWithItem:indicator
+                                                        attribute:NSLayoutAttributeHeight
+                                                        relatedBy:NSLayoutRelationEqual
+                                                           toItem:indicator.superview
+                                                        attribute:NSLayoutAttributeHeight
+                                                       multiplier:0
+                                                         constant:3.f];
+    
+    indicatorLeftConst = [NSLayoutConstraint constraintWithItem:indicator
+                                                      attribute:NSLayoutAttributeLeading
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:indicator.superview
+                                                      attribute:NSLayoutAttributeLeading
+                                                     multiplier:1
+                                                       constant:0];
+    
+    indicatorWidthConst = [NSLayoutConstraint constraintWithItem:indicator
+                                                       attribute:NSLayoutAttributeWidth
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:indicator.superview
+                                                       attribute:NSLayoutAttributeWidth
+                                                      multiplier:0
+                                                        constant:0];
+    
+    [segmentController addConstraint:indicatorHeightConst];
+    [segmentController addConstraint:indicatorLeftConst];
+    [segmentController addConstraint:indicatorWidthConst];
+    
+    segmentController.selectedSegmentIndex = 0;
+    
+    UIView *tab = tabs[segmentController.selectedSegmentIndex];
+    indicatorWidthConst.constant = tab.frame.size.width;
+    indicatorLeftConst.constant = tab.frame.origin.x;
+    
+    tabScrollView.contentInset = UIEdgeInsetsZero;
+    
+    CGFloat offsetX = indicator.frame.origin.x;
+    tabScrollView.contentOffset = CGPointMake(offsetX, 0);
+    
+    // set tint color
+    [self setTintColor:tintColor];
+    
+    return self;
+}
+
+- (void)setBadgeValues:(NSArray *)badgeValues andRightOffsets: (NSArray *)badgeRightOffsets {
+
+    for (int i = 0; i < badges.count; i++) {
+        GIBadgeView *badge = [badges objectAtIndex:i];
+        badge.backgroundColor = [UIColor colorWithRed:248/255. green:130/255. blue:24/255. alpha:1.];
+        NSNumber *badgeValue = [badgeValues objectAtIndex:i];
+        badge.badgeValue = [badgeValue integerValue];
+        badge.topOffset = 15;
+        NSNumber *rightOffset = [badgeRightOffsets objectAtIndex:i];
+        badge.rightOffset = [rightOffset floatValue];
+    }
 }
 
 - (instancetype)createWithRootViewController:(UIViewController *)viewController
@@ -129,6 +350,7 @@
 	// get tabs width
 	NSUInteger i = 0;
 	CGFloat segmentedWidth = 0;
+    badges = [[NSMutableArray alloc] init];
 	for (UIView *tabView in [segmentController subviews]) {
 		for (UIView *label in tabView.subviews) {
 			if ([label isKindOfClass:[UILabel class]]) {
@@ -141,7 +363,12 @@
 				maxTabWidth = tabWidth > maxTabWidth ? tabWidth : maxTabWidth;
 			}
 		}
-		[tabs addObject:tabView];
+        GIBadgeView *badge = [GIBadgeView new];
+        [tabView addSubview:badge];
+        
+        [badges addObject:badge];
+        
+        [tabs addObject:tabView];
 		i++;
 	}
 	

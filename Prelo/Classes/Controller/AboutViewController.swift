@@ -26,9 +26,9 @@ class AboutViewController: BaseViewController {
             self.btnClear2.hidden = false
         }
         
-        self.title = "About"
+        self.title = PageName.About
         
-        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblVersion.text = "Version " + version
         } else {
             self.lblVersion.text = "-"
@@ -38,7 +38,11 @@ class AboutViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("About")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.About)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.About)
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,13 +89,15 @@ class AboutViewController: BaseViewController {
         // Disconnect socket
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
+        /* Dimatiin abis gabungin ke messagepool
         notifListener.willReconnect = true // Pengganti disconnect
+        */
         // Set top bar notif number to 0
         if (notifListener.newNotifCount != 0) {
             notifListener.setNewNotifCount(0)
         }
         
-        // Reset crashlytics
+        // Reset mixpanel
         Mixpanel.sharedInstance().reset()
         let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
         Mixpanel.sharedInstance().identify(uuid)

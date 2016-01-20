@@ -69,7 +69,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         cellData[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance(titleBankKamu, placeHolder: "Nama Bank Kamu")
         cellData[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance(titleRekening, placeHolder: "Nama Rekening Kamu")
         let b = BaseCartData.instance(titleNominal, placeHolder: "Nominal Transfer")
-        b.keyboardType = UIKeyboardType.DecimalPad
+        b.keyboardType = UIKeyboardType.NumberPad
         cellData[NSIndexPath(forRow: 4, inSection: 0)] = b
         
         if (fromCheckout == false)
@@ -86,6 +86,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         btnBack2.hidden = true
         if (free)
         {
+            captionTitle.text = "Selamat! Transaksi kamu berhasil"
+            
             for v in unneededViewsIfFree
             {
                 v.hidden = true
@@ -115,19 +117,21 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         {
             v.hidden = true
         }
-        for i in 0...images.count-1
-        {
-            let v = imgs[i]
-            v.hidden = false
-            
-            if (i < 3)
+        if (images.count > 0) {
+            for i in 0...images.count-1
             {
-                let im = v as! UIImageView
-                im.setImageWithUrl(images[i], placeHolderImage: nil)
-            } else if (i < 4)
-            {
-                captionMore.text = String(images.count-3) + "+"
-                break
+                let v = imgs[i]
+                v.hidden = false
+                
+                if (i < 3)
+                {
+                    let im = v as! UIImageView
+                    im.setImageWithUrl(images[i], placeHolderImage: nil)
+                } else if (i < 4)
+                {
+                    captionMore.text = String(images.count-3) + "+"
+                    break
+                }
             }
         }
         
@@ -138,12 +142,16 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Mixpanel
         let p = [
             "ID" : self.orderID,
             "Items" : "\(self.images.count)",
             "Price" : "\(self.total)"
         ]
-        Mixpanel.trackPageVisit("Payment Confirmation", otherParam: p)
+        Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.PaymentConfirmation)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -185,25 +193,27 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     var rawCells : [UITableViewCell] = []
     func createCells()
     {
-        for i in 0...cellData.keys.array.count-1
-        {
-            var c : UITableViewCell?
-            var b : BaseCartCell
-            let r = i
-            if (r == 1) {
-                b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
-            } else {
-                b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+        if (!free) {
+            for i in 0...cellData.keys.array.count-1
+            {
+                var c : UITableViewCell?
+                var b : BaseCartCell
+                let r = i
+                if (r == 1) {
+                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
+                } else {
+                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
+                }
+                
+    //            if (b.lastIndex != nil) {
+    //                cellData[b.lastIndex!] = b.obtainValue()
+    //            }
+                
+                b.parent = self
+                
+                c = b
+                rawCells.append(c!)
             }
-            
-//            if (b.lastIndex != nil) {
-//                cellData[b.lastIndex!] = b.obtainValue()
-//            }
-            
-            b.parent = self
-            
-            c = b
-            rawCells.append(c!)
         }
     }
     
@@ -282,10 +292,24 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         return true
     }
     
+    override func backPressed(sender: UIBarButtonItem) {
+        if (free) {
+            // Pop ke home, kemudian buka list belanjaan saya
+            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else {
+            // Pop ke home, kemudian buka list konfirmasi bayar
+            NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+    }
+    
     @IBAction func sendConfirm()
     {
         if (free)
         {
+            // Pop ke home, kemudian buka list belanjaan saya
+            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
             self.navigationController?.popToRootViewControllerAnimated(true)
             return
         }
@@ -308,6 +332,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {
+            // Mixpanel
+            let pt = [
+                "Order ID" : orderId,
+                "Destination Bank" : t,
+                "Origin Bank" : f,
+                "Amount" : nom
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
+            
             if (f == "" || t == "" || n == "" || nom == "")
             {
                 UIAlertView.SimpleShow("Perhatian", message: "Silakan isi semua data")

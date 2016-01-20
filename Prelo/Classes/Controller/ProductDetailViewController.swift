@@ -28,10 +28,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
-    @IBOutlet var btnTawar : UIButton!
+    @IBOutlet var btnTawar : BorderedButton!
     @IBOutlet var btnActivate : UIButton!
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
+    
+    @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
+    @IBOutlet weak var tpDetailBtnSet: UIView!
     
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
@@ -99,15 +102,23 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let p = [
             "Product" : ((product != nil) ? (product!.name) : ""),
             "Product ID" : ((product != nil) ? (product!.id) : ""),
-            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 0) ? (detail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
         if (detail != nil && detail!.isMyProduct == true) {
-            Mixpanel.trackPageVisit("Product Detail Mine", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetailMine, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetailMine)
         } else {
-            Mixpanel.trackPageVisit("Product Detail", otherParam: p)
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.ProductDetail, otherParam: p)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.ProductDetail)
         }
     }
     
@@ -259,6 +270,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.detail = ProductDetail.instance(JSON(res!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonActivation()
+                    self.adjustButtonIfBought()
                     println(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
@@ -271,13 +283,41 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    func adjustButtonIfBought()
+    {
+        if (self.detail?.status == 4) {
+            self.btnTawar.borderColor = Theme.GrayLight
+            self.btnTawar.titleLabel?.textColor = Theme.GrayLight
+            self.btnTawar.userInteractionEnabled = false
+            self.btnBuy.setBackgroundImage(nil, forState: .Normal)
+            self.btnBuy.backgroundColor = nil
+            self.btnBuy.setTitleColor(Theme.GrayLight)
+            self.btnBuy.layer.borderColor = Theme.GrayLight.CGColor
+            self.btnBuy.layer.borderWidth = 1
+            self.btnBuy.layer.cornerRadius = 1
+            self.btnBuy.layer.masksToBounds = true
+            self.btnBuy.userInteractionEnabled = false
+            if (self.detail?.boughtByMe == true) {
+                self.btnTawar.hidden = true
+                self.btnBuy.hidden = true
+                if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
+                    // Tampilkan button konfirmasi bayar
+                    self.konfirmasiBayarBtnSet.hidden = false
+                } else if (self.detail?.transactionProgress > 2) {
+                    // Tampilkan button transaction product detail
+                    self.tpDetailBtnSet.hidden = false
+                }
+            }
+        }
+    }
+    
     func setupView()
     {
         if (self.detail == nil)
         {
             return
         }
-        let p = ProductDetailCover.instance((detail?.displayPicturers)!)
+        let p = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
         p?.parent = self
         p?.largeImageURLS = (detail?.originalPicturers)!
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
@@ -369,6 +409,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     cellTitle = tableView.dequeueReusableCellWithIdentifier("cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
+                cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
                 return cellTitle!
             } else if (indexPath.row == 1) {
@@ -440,7 +481,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             d.storeMode = true
-            if let name = detail?.json["_data"]["seller"]["fullname"].string
+            if let name = detail?.json["_data"]["seller"]["username"].string
             {
                 d.storeName = name
             }
@@ -534,6 +575,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     }
     
+    // MARK: - If product is bought
+    
+    @IBAction func toPaymentConfirm(sender: AnyObject) {
+        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+        self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+    }
+    
+    @IBAction func toTransactionProductDetail(sender: AnyObject) {
+        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
+    }
     
     // MARK: - Navigation
 
@@ -584,18 +636,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
         var product = (obj?.json)!["_data"]
         
-        var w : CGFloat = 106.0
-        
-        if let free_ongkir = product["free_ongkir"].bool
-        {
-            
-        } else
-        {
-            w = 16.0
-        }
-        
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-w)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-16.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool
@@ -680,6 +722,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func callApiLove()
     {
+        // Mixpanel
+        let pt = [
+            "Product Name" : ((product != nil) ? (product!.name) : ""),
+            "Category 1" : ((detail != nil && detail?.categoryBreadcrumbs.count > 1) ? (detail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((detail != nil && detail?.categoryBreadcrumbs.count > 2) ? (detail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+            "Seller Name" : ((detail != nil) ? (detail!.theirName) : "")
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.ToggledLikeProduct, properties: pt)
+        
         if (isLoved)
         {
             callApiUnlove()
@@ -739,11 +791,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             loveCount = product["num_lovelist"].int!
         }
         
-        if let free_ongkir = product["free_ongkir"].bool
+        if let free_ongkir = product["free_ongkir"].int
         {
-            if (free_ongkir == false)
+            if (free_ongkir == 0)
             {
-                
+                conWidthOngkir.constant = 0
+                conMarginOngkir.constant = 0
             }
         } else
         {
@@ -848,7 +901,7 @@ class ProductCellSeller : UITableViewCell
         }
         var product = (obj?.json)!["_data"]
         
-        captionSellerName?.text = product["seller"]["fullname"].stringValue
+        captionSellerName?.text = product["seller"]["username"].stringValue
         let average_star = product["seller"]["average_star"].intValue
         var stars = ""
         for x in 1...5

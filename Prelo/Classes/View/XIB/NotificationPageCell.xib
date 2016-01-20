@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -19,8 +19,9 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A2D-5P-gCd" id="LTe-iK-qj5">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Het-BH-fxl" userLabel="imgUser">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Het-BH-fxl" userLabel="imgUser">
                         <rect key="frame" x="8" y="8" width="56" height="56"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="56" id="s4c-IG-Jbc"/>
                             <constraint firstAttribute="width" constant="56" id="tmU-2k-UXW"/>
@@ -28,6 +29,7 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 tahun lamanya" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p53-s8-B8p">
                         <rect key="frame" x="72" y="50" width="176" height="17"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="I0t-cU-yNx"/>
                         </constraints>
@@ -35,8 +37,9 @@
                         <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ZEG-8G-viR" userLabel="imgProduct">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ZEG-8G-viR" userLabel="imgProduct">
                         <rect key="frame" x="256" y="8" width="56" height="56"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="56" id="59Y-4u-ckp"/>
                             <constraint firstAttribute="height" constant="56" id="SDq-nH-Nvo"/>
@@ -44,6 +47,7 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUK-KD-byS">
                         <rect key="frame" x="72" y="2" width="176" height="52"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="52" id="PQl-Up-rG8"/>
                         </constraints>
@@ -66,6 +70,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <animations/>
                 <constraints>
                     <constraint firstItem="Het-BH-fxl" firstAttribute="top" secondItem="LTe-iK-qj5" secondAttribute="top" constant="8" id="3R0-Sk-eH6"/>
                     <constraint firstItem="Het-BH-fxl" firstAttribute="leading" secondItem="LTe-iK-qj5" secondAttribute="leading" constant="8" id="41d-XY-Get"/>
@@ -93,6 +98,7 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
+            <animations/>
             <connections>
                 <outlet property="imgProduct" destination="ZEG-8G-viR" id="q8a-Ug-ejs"/>
                 <outlet property="imgUser" destination="Het-BH-fxl" id="da1-lD-ktr"/>

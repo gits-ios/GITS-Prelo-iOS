@@ -11,7 +11,7 @@ import AVFoundation
 
 typealias ImagePickerBlock = ([APImage]) -> ()
 
-class ImagePickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AdobeUXImageEditorViewControllerDelegate
+class ImagePickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate /*, AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate*/
 {
     
     var useAviary = false
@@ -23,7 +23,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     
     var images : Array<APImage> = []
     
-    var imgEditor : AdobeUXImageEditorViewController?
+    /* AVIARY IS DISABLED var imgEditor : AdobeUXImageEditorViewController?*/
     
     @IBOutlet var gridView : UICollectionView!
     
@@ -69,6 +69,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         
         if (useAviary && maxSelectCount == 1)
         {
+            /* AVIARY IS DISABLED
             var ap : APImage = APImage()
             for i in selecteds
             {
@@ -83,6 +84,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
                 self.imgEditor!.delegate = self
                 self.presentViewController(self.imgEditor!, animated: true, completion: nil)
             })
+            */
         } else
         {
             var r : [APImage] = []
@@ -96,6 +98,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         }
     }
     
+    /* AVIARY IS DISABLED
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
         self.doneBlock!([])
         editor.dismissViewControllerAnimated(false, completion: {
@@ -128,6 +131,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
 
         })
     }
+    */
     
     var cameraAdd = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Rear) == true ? 1 : 0
     var cameraBase = UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.Rear) == true ? 0 : -1
@@ -228,7 +232,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         let i = n.viewControllers.first as! ImagePickerViewController
         i.maxSelectCount = maxSelect
         i.doneBlock = doneBlock
-        i.useAviary = useAviary
+        i.useAviary = false /* AVIARY IS DISABLED useAviary*/
         i.directToCamera = diretToCamera
         v.presentViewController(n, animated: true, completion: nil)
     }

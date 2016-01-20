@@ -117,7 +117,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             .responseJSON{req, resp, res, err in
                 self.done = false
                 self.requesting = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(false, err: err, resp: resp))
                 {
                     self.products = []
                     var obj = JSON(res!)
@@ -158,13 +158,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (storeMode)
         {
             if (User.IsLoggedIn && self.storeId == User.Id!) {
-                Mixpanel.trackPageVisit("Shop Mine")
+                // Mixpanel
+                Mixpanel.trackPageVisit(PageName.ShopMine)
+                
+                // Google Analytics
+                GAI.trackPageVisit(PageName.ShopMine)
             } else {
+                // Mixpanel
                 let p = [
                     "Seller" : storeName,
                     "Seller ID" : self.storeId
                 ]
-                Mixpanel.trackPageVisit("Shop", otherParam: p)
+                Mixpanel.trackPageVisit(PageName.Shop, otherParam: p)
+                
+                // Google Analytics
+                GAI.trackPageVisit(PageName.Shop)
             }
 
             self.getStoreProduct()
@@ -189,7 +197,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
             .responseJSON{req, resp, res, err in
                 self.requesting = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(false, err: err, resp: resp))
                 {
                     self.setupData(res)
                 } else {
@@ -205,7 +213,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
             self.requesting = false
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(false, err: err, resp: resp))
             {
                 self.setupData(res)
             } else {
@@ -235,7 +243,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 let json = JSON(res!)["_data"]
                 println(json)
                 
-                self.storeHeader?.captionName.text = json["fullname"].string
+                self.storeHeader?.captionName.text = json["username"].string
                 self.storeHeader?.captionDesc.text = json["profile"]["description"].string
                 self.storeHeader?.avatar.setImageWithUrl(NSURL(string: json["profile"]["pict"].string!)!, placeHolderImage: nil)
                 
@@ -463,19 +471,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (dragging)
         {
-            if (currScrollPoint.y < scrollView.contentOffset.y)
-            {
-                if ((self.navigationController?.navigationBarHidden)! == false)
+            if (!storeMode) {
+                if (currScrollPoint.y < scrollView.contentOffset.y)
                 {
-                    NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
-                    self.navigationController?.setNavigationBarHidden(true, animated: true)
-                    UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                    if ((self.navigationController?.navigationBarHidden)! == false)
+                    {
+                        NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
+                        self.navigationController?.setNavigationBarHidden(true, animated: true)
+                        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                    }
+                } else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                 }
-            } else
-            {
-                NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
             }
         }
     }

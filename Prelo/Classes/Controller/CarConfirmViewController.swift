@@ -49,7 +49,11 @@ class CarConfirmViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Checkout Confirmation")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.CheckoutConfirmation)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.CheckoutConfirmation)
     }
     
     var first = true

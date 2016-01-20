@@ -79,4 +79,17 @@ class CDBrand: NSManagedObject {
             return r!.count
         }
     }
+    
+    static func getBrandNameWithID(id : String) -> String? {
+        let predicate = NSPredicate(format: "id == %@", id)
+        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        fetchReq.predicate = predicate
+        var err : NSError?
+        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
+        if (err != nil || r?.count == 0) {
+            return nil
+        } else {
+            return (r!.first as! CDBrand).name
+        }
+    }
 }

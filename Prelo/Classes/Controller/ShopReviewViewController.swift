@@ -30,12 +30,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Register custom cell
         var myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,11 +56,10 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             "Seller" : self.sellerName,
             "Seller ID" : self.sellerId
         ]
-        Mixpanel.trackPageVisit("Shop Reviews", otherParam: p)
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
+        Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ShopReviews)
     }
     
     func getUserReviews() {
@@ -137,7 +130,7 @@ class ShopReviewCell : UITableViewCell {
     
     func adapt(userReview : UserReview) {
         imgBuyer.setImageWithUrl(userReview.buyerPictURL!, placeHolderImage: nil)
-        lblBuyerName.text = userReview.buyerFullname
+        lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         
         // Love

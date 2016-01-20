@@ -19,7 +19,11 @@ class CheckoutTourViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Checkout Tutorial")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.CheckoutTutorial)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.CheckoutTutorial)
     }
 
     override func didReceiveMemoryWarning() {

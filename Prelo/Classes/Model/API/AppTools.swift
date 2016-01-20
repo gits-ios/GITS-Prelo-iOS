@@ -43,13 +43,13 @@ extension Int
 }
 
 class AppTools: NSObject {
-    // Development
-//    static var PreloBaseUrl = "http://dev.prelo.id"
-//    static var PreloBaseUrlShort = "dev.prelo.id"
+    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-    // Production
-    static var PreloBaseUrl = "https://prelo.co.id"
-    static var PreloBaseUrlShort = "prelo.co.id"
+//    static var PreloBaseUrl = "https://prelo.co.id" // Production
+    
+    static var IsPreloProduction : Bool {
+        return (AppTools.PreloBaseUrl == "https://prelo.co.id")
+    }
 }
 
 class Theme : NSObject
@@ -130,6 +130,11 @@ class Tags : NSObject
     static let XibNameReferralPage = "ReferralPage"
     static let XibNameCategoryPreferences = "CategoryPreferences"
     static let XibNameShopReview = "ShopReview"
+    static let XibNameNotificationPageTabbed = "NotificationPageTabbed"
+    static let XibNameNotificationPageTransaction = "NotificationPageTransaction"
+    static let XibNameNotificationPageInbox = "NotificationPageInbox"
+    static let XibNameNotificationPageActivity = "NotificationPageActivity"
+    static let XibNameSetupPasswordPopUp = "SetupPasswordPopUp"
 }
 
 class OrderStatus : NSObject
@@ -164,10 +169,104 @@ class UserDefaultsKey : NSObject
     static let CategoryPref3 = "categorypref3"
     static let Tour = "tour"
     static let TourDone = "tourdone"
+    static let DeepLinkProduct = "deeplinkproduct"
+    static let DeepLinkConfirmPayment = "deeplinkconfirmpayment"
+    static let DeepLinkShopPage = "deeplinkshoppage"
+    static let RedirectFromHome = "redirectfromhome"
+}
+
+class PageName
+{
+    static let SplashScreen = "Splash Screen"
+    static let FirstTimeTutorial = "First Time Tutorial"
+    static let SetCategoryPreferences = "Set Category Preferences"
+    static let About = "About"
+    static let AddProduct = "Add Product"
+    static let ShareAddedProduct = "Share Added Product"
+    static let Checkout = "Checkout"
+    static let CheckoutConfirmation = "Checkout Confirmation"
+    static let UnpaidTransaction = "Unpaid Transaction"
+    static let PaymentConfirmation = "Payment Confirmation"
+    static let EditProfile = "Edit Profile"
+    static let ChangePhone = "Change Phone"
+    static let EditProduct = "Edit Product"
+    static let Home = "Home"
+    static let Referral = "Referral"
+    static let DashboardLoggedIn = "Dashboard Logged In"
+    static let DashboardLoggedOut = "Dashboard Logged Out"
+    static let Contact = "Contact"
+    static let Login = "Login"
+    static let Lovelist = "Lovelist"
+    static let Notification = "Notification"
+    static let Inbox = "Inbox"
+    static let InboxDetail = "Inbox Detail"
+    static let ProductDetail = "Product Detail"
+    static let ProductDetailMine = "Product Detail Mine"
+    static let ProductDetailShare = "Product Detail Share"
+    static let ProductDetailComment = "Product Detail Comment"
+    static let Register = "Register"
+    static let Search = "Search"
+    static let SetupAccount = "Setup Account"
+    static let VerifyPhone = "Verify Phone"
+    static let ShopMine = "Shop Mine"
+    static let Shop = "Shop"
+    static let ShopReviews = "Shop Reviews"
+    static let Withdraw = "Withdraw"
+    static let MyProducts = "My Products"
+    static let MyOrders = "My Orders"
+    static let TransactionDetail = "Transaction Detail"
+    static let TermsAndConditions = "Terms and Conditions"
+    static let CheckoutTutorial = "Checkout Tutorial"
+}
+
+class MixpanelEvent
+{
+    static let Register = "Register"
+    static let SetupAccount = "Setup Account"
+    static let PhoneVerified = "Phone Verified"
+    static let Login = "Login"
+    static let Logout = "Logout"
+    static let CategoryBrowsed = "Category Browsed"
+    static let Search = "Search"
+    static let ToggledLikeProduct = "Toggled Like Product"
+    static let SharedProduct = "Shared Product"
+    static let CommentedProduct = "Commented Product"
+    static let ChatSent = "Chat Sent"
+    static let Bargain = "Bargain"
+    static let PaymentClaimed = "Payment Claimed"
+    static let ReferralUsed = "Referral Used"
+    static let SharedReferral = "Shared Referral"
+    static let RequestedWithdrawMoney = "Requested Withdraw Money"
+    static let Checkout = "Checkout"
+    static let AddedProduct = "Added Product"
+}
+
+extension GAI
+{
+    static func trackPageVisit(pageName : String)
+    {
+        // Send if Prelo production only (not development)
+        if (AppTools.IsPreloProduction) {
+            var tracker = GAI.sharedInstance().defaultTracker
+            tracker.set(kGAIScreenName, value: pageName)
+            var builder = GAIDictionaryBuilder.createScreenView()
+            tracker.send(builder.build() as [NSObject : AnyObject])
+        }
+    }
 }
 
 extension Mixpanel
 {
+    static func trackEvent(eventName : String)
+    {
+        Mixpanel.sharedInstance().track(eventName)
+    }
+    
+    static func trackEvent(eventName : String, properties : [NSObject : AnyObject])
+    {
+        Mixpanel.sharedInstance().track(eventName, properties: properties)
+    }
+    
     static func trackPageVisit(pageName : String)
     {
         let p = [
@@ -239,6 +338,12 @@ extension NSUserDefaults
     static func setTourDone(done : Bool)
     {
         NSUserDefaults.standardUserDefaults().setObject(done, forKey: UserDefaultsKey.TourDone)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    // TODO: standardisasi, gunakan fungsi ini untuk semua pengesetan object nsuserdefaults
+    static func setObjectAndSync(value : AnyObject?, forKey key : String) {
+        NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

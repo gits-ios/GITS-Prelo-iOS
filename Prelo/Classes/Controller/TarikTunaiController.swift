@@ -22,6 +22,10 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     @IBOutlet var btnWithdraw : UIButton!
     
+    var viewSetupPassword : SetupPasswordPopUp?
+    var viewShadow : UIView?
+    var backEnabled : Bool = true
+    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
@@ -29,7 +33,11 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Withdraw")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Withdraw)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Withdraw)
         
         self.an_subscribeKeyboardWithAnimations({ f, i , o in
             
@@ -57,12 +65,42 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         
         scrollView.delegate = self
         
-        captionPreloBalance.text = "0"
+        captionPreloBalance.text = "..."
         
         txtNamaBank.textAlignment = NSTextAlignment.Right
         txtNomerRekening.textAlignment = NSTextAlignment.Right
         
-        getBalance()
+        // Munculkan pop up jika user belum mempunyai password
+        request(APIUser.CheckPassword).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let data : Bool? = json["_data"].bool
+                if (data != nil && data == true) {
+                    self.getBalance()
+                } else {
+                    let screenSize : CGRect = UIScreen.mainScreen().bounds
+                    self.viewShadow = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height), backgroundColor: UIColor.blackColor().colorWithAlphaComponent(0.5))
+                    if (self.viewShadow != nil) {
+                        self.view.addSubview(self.viewShadow!)
+                    }
+                    self.viewSetupPassword = NSBundle.mainBundle().loadNibNamed(Tags.XibNameSetupPasswordPopUp, owner: nil, options: nil).first as? SetupPasswordPopUp
+                    if (self.viewSetupPassword != nil) {
+                        self.viewSetupPassword!.center = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
+                        self.viewSetupPassword!.bounds = CGRect(x: self.viewSetupPassword!.bounds.origin.x, y: self.viewSetupPassword!.bounds.origin.y, width: 280, height: 472)
+                        self.view.addSubview(self.viewSetupPassword!)
+                        if let u = CDUser.getOne() {
+                            self.viewSetupPassword!.lblEmail.text = u.email
+                        }
+                        self.viewSetupPassword!.setPasswordDoneBlock = {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                        self.viewSetupPassword!.disableBackBlock = {
+                            self.backEnabled = false
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func getBalance()
@@ -126,6 +164,14 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 {
 //                    self.getBalance()
                     UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik tunai telah diterima")
+                    
+                    // Mixpanel
+                    let pt = [
+                        "Destination Bank" : namaBank,
+                        "Amount" : i
+                    ]
+                    Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             } else
@@ -141,10 +187,47 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
         
         p.items = ["Bank Mandiri", "Bank BCA", "Bank BNI"]
+        p.title = "Pilih Bank"
         p.selectBlock = { value in
             self.txtNamaBank.text = value
         }
         
         self.navigationController?.pushViewController(p, animated: true)
+    }
+    
+    override func backPressed(sender: UIBarButtonItem) {
+        if (self.backEnabled) {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+}
+
+typealias SetPasswordDoneBlock = () -> ()
+typealias DisableBackBlock = () -> ()
+
+class SetupPasswordPopUp : UIView {
+    @IBOutlet var lblEmail : UILabel!
+    @IBOutlet var btnKirimEmail: UIButton!
+    var setPasswordDoneBlock : SetPasswordDoneBlock = {}
+    var disableBackBlock : DisableBackBlock = {}
+    
+    @IBAction func sendEmailPressed() {
+        self.disableBackBlock()
+        self.btnKirimEmail.setTitle("MENGIRIM...", forState: .Normal)
+        self.btnKirimEmail.userInteractionEnabled = false
+        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let dataBool : Bool = json["_data"].boolValue
+                let dataInt : Int = json["_data"].intValue
+                println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                if (dataBool == true || dataInt == 1) {
+                    Constant.showDialog("Success", message: "Email sudah dikirim ke \(self.lblEmail.text!)")
+                } else {
+                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                }
+            }
+            self.setPasswordDoneBlock()
+        }
     }
 }

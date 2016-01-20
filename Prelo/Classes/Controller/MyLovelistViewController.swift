@@ -32,13 +32,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
         
         // Set title
-        self.title = "Lovelist"
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
+        self.title = PageName.Lovelist
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
@@ -57,7 +51,11 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("Lovelist")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Lovelist)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Lovelist)
         
         if (userLovelist?.count == 0 || userLovelist == nil) {
             if (userLovelist == nil) {
@@ -74,10 +72,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 self.setupTable()
             }
         }
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func getUserLovelist() {
@@ -225,6 +219,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     @IBAction func sellPressed(sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = PageName.Lovelist
         self.navigationController?.pushViewController(add, animated: true)
     }
 }

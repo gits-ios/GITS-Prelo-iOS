@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -129,6 +129,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     var isAlreadyGetCategory : Bool = false
     //var isAlreadyTour : Bool = false
     var userDidLoggedIn : Bool?
+    var isAlreadyCheckVersion : Bool = false
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -138,7 +139,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
-        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory) { // Jika akan memanggil tour
+        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
         } else {
@@ -150,6 +151,24 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
         }
         userDidLoggedIn = User.IsLoggedIn
+        
+        if (!isAlreadyCheckVersion) {
+            // Check app version
+            if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                if let newVer = CDVersion.getOne()?.appVersion {
+                    if (installedVer != newVer) {
+                        let a = UIAlertView()
+                        a.title = "New Version Available"
+                        a.message = "Prelo \(newVer) is available on App Store"
+                        a.addButtonWithTitle("Cancel")
+                        a.addButtonWithTitle("Update")
+                        a.delegate = self
+                        a.show()
+                    }
+                }
+            }
+            isAlreadyCheckVersion = true
+        }
         
         /* TO BE DELETED, PERGANTIAN BEHAVIOR KEMUNCULAN TOUR
         // Tour dipanggil setiap kali buka app dalam keadaan logout
@@ -166,6 +185,18 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
         }
         userDidLoggedIn = User.IsLoggedIn*/
+    }
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Cancel
+            break
+        case 1: // Update
+            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            break
+        default:
+            break
+        }
     }
     
     func pushNew(sender : AnyObject)
@@ -238,6 +269,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        PreloShareController.Share(i, inView: (self.navigationController?.view)!)
         
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        add.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(add, animated: true)
     }
     

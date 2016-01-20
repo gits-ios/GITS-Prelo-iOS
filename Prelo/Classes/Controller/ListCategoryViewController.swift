@@ -26,7 +26,12 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         super.viewDidLoad()
         
-        Mixpanel.trackPageVisit("Home", otherParam: ["Category" : "All"])
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
+        Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Home)
         
         scrollView.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "grandRefresh", name: "refreshHome", object: nil)
@@ -307,7 +312,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         // Only track if scrollView did finish the left/right scroll
         if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
             if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
-                Mixpanel.trackPageVisit("Home", otherParam: ["Category" : categoriesFix[i]["name"].string!])
+                let pt = [
+                    "Category" : categoriesFix[i]["name"].string!
+                ]
+                Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+                Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                 isPageTracked = true
             }
         }
@@ -320,9 +329,19 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         super.viewDidAppear(animated)
 //        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
         
-        // APNS redirect if any
+        // Redirect if any
+        let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
         let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
-        if (apnsRedirect != nil) {
+        if (redirectFromHome != nil) {
+            if (redirectFromHome == PageName.MyOrders) {
+                let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+            } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+            }
+            NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
+        } else if (apnsRedirect != nil) {
             if (apnsRedirect == "notification") {
                 self.launchNotifPage()
             } else if (apnsRedirect == "inbox") {
@@ -330,12 +349,38 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 self.navigationController?.pushViewController(i, animated: true)
             }
             NSUserDefaults.standardUserDefaults().removeObjectForKey("apnsredirect")
+        } else {
+            // Deeplink redirect if any
+            let deeplinkProduct : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkProduct) as! String?
+            let deeplinkConfirmPayment : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkConfirmPayment) as! String?
+            let deeplinkShopPage : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkShopPage) as! String?
+            if (deeplinkProduct != nil) {
+                //Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
+                request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                        let json = JSON(res!)
+                        let data = json["_data"]
+                        let p = Product.instance(data)
+                        
+                        var productDetailVC : ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                        productDetailVC.product = p!
+                        self.navigationController?.pushViewController(productDetailVC, animated: true)
+                    }
+                }
+            } else if (deeplinkConfirmPayment != nil) {
+                //Constant.showDialog("Deeplink", message: "Redirecting to confirm payment with id: \(deeplinkConfirmPayment!)")
+//                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkConfirmPayment)
+            } else if (deeplinkShopPage != nil) {
+                //Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
+//                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkShopPage)
+            }
         }
     }
     
     func getCategory()
     {
-        request(References.CategoryList)
+        request(References.HomeCategories)
             .responseString { req, resp, string, err in
                 if (string != nil)
                 {
@@ -362,6 +407,16 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
         categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
+        // FIXME: kondisi kalo user ga login, harusnya categorypref ditaro depan
+//        if (User.IsLoggedIn) {
+            categoriesFix = categories!["_data"].arrayValue
+            addChilds(categoriesFix.count)
+//        } else {
+//            let categoriesData = categories!["_data"].arrayValue
+//            
+//        }
+        
+        /* TO BE DELETED, salah penggunaan endpoint
         if let arr = categories!["_data"][0]["children"].arrayObject // punya children
         {
             
@@ -426,7 +481,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-        addChilds(categoriesFix.count)
+        addChilds(categoriesFix.count)*/
     }
     
     func cikah()

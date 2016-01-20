@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -67,6 +67,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var rm_image4 = 0
     var rm_image5 = 0
     
+    var screenBeforeAddProduct = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -88,8 +90,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         txtWeight.hidden = true
         
-        txtName.placeholder = "Nama Produk"
-        txtDescription.placeholder = "Spesifikasi (Optional)"
+        txtName.placeholder = "mis: iPod 5th Gen"
+        txtDescription.placeholder = "Spesifikasi produk (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
 //        txtName.fadeTime = 0.2
         txtDescription.fadeTime = 0.2
@@ -117,7 +119,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (editMode)
         {
-            self.title = "Edit Product"
+            self.title = PageName.EditProduct
             self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
             
             txtName.text = editProduct?.name
@@ -205,7 +207,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.getSizes()
         } else
         {
-            self.title = "Add Product"
+            self.title = PageName.AddProduct
             self.btnSubmit.setTitle("Submit", forState: UIControlState.Normal)
         }
         
@@ -224,9 +226,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         super.viewDidAppear(animated)
         
         if (self.editMode) {
-            Mixpanel.trackPageVisit("Edit Product")
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.EditProduct)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.EditProduct)
         } else {
-            Mixpanel.trackPageVisit("Add Product")
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.AddProduct)
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.AddProduct)
         }
         
         self.an_subscribeKeyboardWithAnimations({ f, t, o in
@@ -364,11 +374,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
+            /* AVIARY IS DISABLED
             AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
             AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
             let u = AdobeUXImageEditorViewController(image: imageViews[actionSheet.tag].image)
             u.delegate = self
             self.presentViewController(u, animated: true, completion: nil)
+            */
         } else if (buttonIndex == 2)
         {
             self.pickImage(actionSheet.tag, forceBackOnCancel: false)
@@ -387,6 +399,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
+    /* AVIARY IS DISABLED
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         imageViews[editor.view.tag].image = image
         editor.dismissViewControllerAnimated(true, completion: nil)
@@ -395,6 +408,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
         editor.dismissViewControllerAnimated(true, completion: nil)
     }
+    */
     
     func pickImage(index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
     {
@@ -759,6 +773,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
             
+            p.title = "Pilih Merk"
+            
             let req = NSFetchRequest(entityName: "CDBrand")
             let arr = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.executeFetchRequest(req, error: nil) as! [CDBrand]
             
@@ -976,8 +992,57 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 return
             }
             
-            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON(res!)
+            
+            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+            
+            // Mixpanel
+            let data = json["_data"]
+            
+            var mixpImageCount = 0
+            var mixpImgs : [UIImage?] = []
+            for i in 0...self.images.count - 1 {
+                mixpImgs.append(self.images[i] as? UIImage)
+                if (mixpImgs[i] != nil) {
+                    mixpImageCount++
+                }
+            }
+            let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
+            let isFacebook = ((data["share_status"]["shared"]["FACEBOOK"].intValue == 0) ? false : true)
+            let isTwitter = ((data["share_status"]["shared"]["TWITTER"].intValue == 0) ? false : true)
+            let isInstagram = ((data["share_status"]["shared"]["INSTAGRAM"].intValue == 0) ? false : true)
+            let pt = [
+                "Previous Screen" : self.screenBeforeAddProduct,
+                "Name" : data["name"].stringValue,
+                "Category 1" : "",
+                "Category 2" : "",
+                "Category 3" : "",
+                "Number of Picture Uploaded" : mixpImageCount,
+                "Is Main Picture Uploaded" : ((mixpImgs[0] != nil) ? true : false),
+                "Is Back Picture Uploaded" : ((mixpImgs[1] != nil) ? true : false),
+                "Is Label Picture Uploaded" : ((mixpImgs[2] != nil) ? true : false),
+                "Is Wear Picture Uploaded" : ((mixpImgs[3] != nil) ? true : false),
+                "Is Defect Picture Uploaded" : ((mixpImgs[4] != nil) ? true : false),
+                "Condition" : self.kodindisiId,
+                "Brand" : ((proposedBrand != nil) ? proposedBrand! : data["brand_id"].stringValue),
+                "Is New Brand" : ((proposedBrand != nil) ? true : false),
+                "Is Free Ongkir" : ((data["free_ongkir"].intValue == 0) ? false : true),
+                "Weight" : data["weight"].intValue,
+                "Price Original" : data["price_original"].intValue,
+                "Price" : data["price"].intValue,
+                "Commission Percentage" : data["commission"].intValue,
+                "Commission Price" : data["price"].intValue * data["commission"].intValue / 100,
+                "Is Facebook Shared" : isFacebook,
+                "Facebook Username" : "",
+                "Is Twitter Shared" : isTwitter,
+                "Twitter Username" : "",
+                "Is Instagram Shared" : isInstagram,
+                "Instagram Username" : "",
+                "Time" : NSDate().isoFormatted
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
+            
+            
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {

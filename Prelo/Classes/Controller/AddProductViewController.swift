@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, AdobeUXImageEditorViewControllerDelegate, UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate, UIAlertViewDelegate
+class AddProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, ACEExpandableTableViewDelegate, AddProductImageCellDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, ProductCategoryDelegate, AddProductWeightDelegate, UIAlertViewDelegate
 {
     
     @IBOutlet var tableView : UITableView!
@@ -34,7 +34,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Add Product"
+        self.title = PageName.AddProduct
         // Do any additional setup after loading the view.
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
@@ -62,7 +62,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             picker.doneLoading()
             
         })
-        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Produk", placeHolder: "Nama Produk")
+        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Produk", placeHolder: "mis: iPod 5th Gen")
         baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
@@ -166,7 +166,11 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Add Product")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.AddProduct)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.AddProduct)
         
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
@@ -384,7 +388,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             {
                 self.images[self.replaceIndex] = imgs[0]
                 self.currentPortalIndex = self.replaceIndex
+                /* AVIARY IS DISABLED
                 self.portalImage()
+                */
             } else
             {
                 self.currentPortalIndex = self.images.count
@@ -395,7 +401,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 
                 if (self.images.count > 0)
                 {
+                    /* AVIARY IS DISABLED
                     self.portalImage()
+                    */
                 }
             }
             self.gridView?.reloadData()
@@ -421,6 +429,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var portalling = false
     var currentPortalIndex = -1
+    /* AVIARY IS DISABLED
     func portalImage()
     {
         var ap = images[currentPortalIndex]
@@ -437,6 +446,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }
         })
     }
+    */
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         println("index \(buttonIndex)")
@@ -445,6 +455,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             replaceIndex = -1
         } else if (buttonIndex == 1) // edit
         {
+            /* AVIARY IS DISABLED
             let ap = images[replaceIndex]
             ap.getImage({image in
                 if let i = image
@@ -456,6 +467,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                     self.presentViewController(u, animated: true, completion: nil)
                 }
             })
+            */
         } else if (buttonIndex == 2) // replace
         {
             self.addImage()
@@ -467,6 +479,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
+    /* AVIARY IS DISABLED
     func photoEditor(editor: AdobeUXImageEditorViewController!, finishedWithImage image: UIImage!) {
         
         //Mixpanel.sharedInstance().track("Edit Image Success")
@@ -504,6 +517,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             editor.dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    */
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (section == 0) {
@@ -1270,6 +1284,7 @@ extension BorderedView
     }
 }
 
+/* AVIARY IS DISABLED
 class PreloImageEditor : AdobeUXImageEditorViewController
 {
     var enableCancel = true
@@ -1284,3 +1299,4 @@ class PreloImageEditor : AdobeUXImageEditorViewController
         }
     }
 }
+*/

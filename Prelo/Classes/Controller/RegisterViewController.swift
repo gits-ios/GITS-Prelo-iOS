@@ -48,7 +48,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Mixpanel.trackPageVisit("Register")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Register)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Register)
         
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
@@ -80,7 +84,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtName?.resignFirstResponder()
     }
     
-    @IBAction func backPressed(sender: UIButton) {
+    @IBAction func xBackPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
@@ -117,6 +121,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         if (txtPassword?.text == "") {
             var placeholder = NSAttributedString(string: "Kata sandi harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtPassword?.attributedPlaceholder = placeholder
+            return false
+        } else if (txtPassword?.text.length() < 6) {
+            var placeholder = NSAttributedString(string: "Kata sandi minimal 6 karakter", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            txtPassword?.attributedPlaceholder = placeholder
+            txtPassword?.text = ""
             return false
         }
         if (txtRepeatPassword?.text == "") {
@@ -190,17 +199,26 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                         println(data)
                         
                         let m = UIApplication.appDelegate.managedObjectContext
+                        CDUser.deleteAll()
                         let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                        c.id = data["_id"].string!
-                        c.email = data["email"].string!
-                        c.username = data["username"].string!
-                        c.fullname = data["fullname"].string!
+                        c.id = data["_id"].stringValue
+                        c.email = data["email"].stringValue
+                        c.username = data["username"].stringValue
+                        c.fullname = data["fullname"].stringValue
                         
+                        CDUserProfile.deleteAll()
                         let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
                         let pr = data["profile"]
-                        p.pict = pr["pict"].string!
-                        
+                        p.pict = pr["pict"].stringValue
                         c.profiles = p
+                        
+                        CDUserOther.deleteAll()
+                        let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
+                        let oth = data["others"]
+                        o.lastLogin = oth["last_login"].stringValue
+                        o.registerTime = oth["register_time"].stringValue
+                        c.others = o
+                        
                         UIApplication.appDelegate.saveContext()
                         
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
@@ -229,16 +247,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.loginMethod = loginMethod
         profileSetupVC.screenBeforeLogin = screenBeforeLogin
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
-    }
-    
-    func toPhoneVerification(userId : String, userToken : String, userEmail : String) {
-        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
-        phoneVerificationVC.userId = userId
-        phoneVerificationVC.userToken = userToken
-        phoneVerificationVC.userEmail = userEmail
-        phoneVerificationVC.isShowBackBtn = false
-        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -397,11 +405,23 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     user!.email = data["email"].string!
                     user!.fullname = data["fullname"].string!
                     
-                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                    var p : CDUserProfile? = CDUserProfile.getOne()
+                    if (p == nil) {
+                        p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                    }
                     let pr = data["profile"]
-                    p.pict = pr["pict"].string!
+                    p!.pict = pr["pict"].string!
                     
-                    user!.profiles = p
+                    var o : CDUserOther? = CDUserOther.getOne()
+                    if (o == nil) {
+                        o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    }
+                    o!.pathID = pathId
+                    o!.pathUsername = pathName
+                    o!.pathAccessToken = token
+                    
+                    user!.profiles = p!
+                    user!.others = o!
                     UIApplication.appDelegate.saveContext()
                     
                     // Save in NSUserDefaults

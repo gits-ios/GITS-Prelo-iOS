@@ -60,14 +60,29 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         
         // Only track if scrollView did finish the scroll
         if (Int(p.x) % Int(scrollView.width) == 0) {
-            Mixpanel.trackPageVisit("First Time Tutorial \(pager.currentPage + 1)")
+            // Mixpanel
+            Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " \(pager.currentPage + 1)")
+            
+            // Google Analytics
+            GAI.trackPageVisit(PageName.FirstTimeTutorial + " \(pager.currentPage + 1)")
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("First Time Tutorial 1")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " 1")
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.FirstTimeTutorial + " 1")
+        
+        // Track first time user
+        let pt = [
+            "Category" : "All",
+            "First Time" : false
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt as [NSObject : AnyObject])
     }
     
     var fromButton = false

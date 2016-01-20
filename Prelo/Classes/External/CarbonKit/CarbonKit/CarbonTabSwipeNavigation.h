@@ -76,6 +76,10 @@
  */
 - (instancetype)createWithRootViewController:(UIViewController *)viewController tabNames:(NSArray *)names tintColor:(UIColor *)tintColor delegate:(id)delegate;
 
+- (instancetype)createWithRootViewController:(UIViewController *)viewController tabNames:(NSArray *)names tintColor:(UIColor *)tintColor delegate:(id)delegate badgeValues:(NSArray *)badgeValues badgeRightOffsets:(NSArray *)badgeRightOffsets;
+
+- (void)setBadgeValues:(NSArray *)badgeValues andRightOffsets: (NSArray *)badgeRightOffsets;
+
 /**
  *  Navigation tranlucent
  *  @param translucent Navigation Bar translucent

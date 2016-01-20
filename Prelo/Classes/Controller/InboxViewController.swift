@@ -18,7 +18,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Inbox"
+        self.title = PageName.Inbox
         
         tableView.tableFooterView = UIView()
         
@@ -31,7 +31,11 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Inbox")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Inbox)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Inbox)
     }
     
     func getInboxes()

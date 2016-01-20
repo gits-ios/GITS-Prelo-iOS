@@ -41,18 +41,18 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let parentType = "\(parent.dynamicType)"
         if (parentType == "Prelo.KumangTabBarViewController") {
             if (isFromTourVC) {
-                l.screenBeforeLogin = "Set Category Preferences"
+                l.screenBeforeLogin = PageName.SetCategoryPreferences
             } else {
-                l.screenBeforeLogin = "Dashboard Logged Out"
+                l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
         } else if (parentType == "Prelo.CartViewController") {
-            l.screenBeforeLogin = "Checkout"
+            l.screenBeforeLogin = PageName.Checkout
         } else if (parentType == "Prelo.AddProductViewController" || parentType == "Prelo.AddProductViewController2") {
-            l.screenBeforeLogin = "Add Product"
+            l.screenBeforeLogin = PageName.AddProduct
         } else if (parentType == "Prelo.NotificationPageViewController") {
-            l.screenBeforeLogin = "Notification"
+            l.screenBeforeLogin = PageName.Notification
         } else if (parentType == "Prelo.ProductDetailViewController") {
-            l.screenBeforeLogin = "Product Detail"
+            l.screenBeforeLogin = PageName.ProductDetail
         }
         //println("screenBeforeLogin = \(l.screenBeforeLogin)")
         l.userRelatedDelegate = userRelatedDelegate
@@ -104,6 +104,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     // Return true if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
+        
         var isProfileSet : Bool = false
         
         // Set token first, because APIUser.Me need token
@@ -196,16 +197,56 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             d.userLoggedIn!()
                         }
                         
+                        // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
+                        // Di dalamnya akan memanggil MessagePool.start()
+                        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                        
                         CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                         
-                        if let c = CDUser.getOne()
+                        // Mixpanel
+                        if let c = CDUser.getOne() {
+                            let provinceName = CDProvince.getProvinceNameWithID(c.profiles.provinceID)
+                            let regionName = CDRegion.getRegionNameWithID(c.profiles.regionID)
+                            let sp = [
+                                "User ID" : c.id,
+                                "Email" : c.email,
+                                "Username" : c.username,
+                                "Phone" : ((c.profiles.phone != nil) ? c.profiles.phone! : ""),
+                                "Fullname" : ((c.fullname != nil) ? c.fullname! : ""),
+                                "Gender" : ((c.profiles.gender != nil) ? c.profiles.gender! : ""),
+                                "Province Input" : ((provinceName != nil) ? provinceName! : ""),
+                                "City Input" : ((regionName != nil) ? regionName! : ""),
+                                "Referral Code Used" : userProfileData!.json["others"]["referral_code_used"].stringValue,
+                                "Login Method" : loginMethod,
+                                "Orders Purchased Count" : 0,
+                                "Items Purchased Count" : 0,
+                                "Items Purchased Categories 1" : [],
+                                "Items Purchased Categories 2" : [],
+                                "Items Purchased Categories 3" : [],
+                                "Items Sold Count" : 0,
+                                "Lifetime Value Purchased" : 0,
+                                "Lifetime Value Commission" : 0,
+                                "Lifetime Value Sold" : 0,
+                                "Items in Cart Count" : 0
+                            ]
+                            Mixpanel.sharedInstance().registerSuperProperties(sp)
+                            
+                            let pt = [
+                                "Previous Screen" : screenBeforeLogin,
+                                "Login Method" : loginMethod
+                            ]
+                            Mixpanel.trackEvent(MixpanelEvent.Login, properties: pt)
+                            
+                            Mixpanel.sharedInstance().identify(c.id)
+                        }
+                        /*if let c = CDUser.getOne()
                         {
                             Mixpanel.sharedInstance().identify(c.id)
                             Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
                         } else {
                             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                        }
+                        }*/
                         
                         // Set crashlytics user information
                         Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
@@ -233,6 +274,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             phoneVerificationVC.userToken = token
                             phoneVerificationVC.userEmail = userProfileData!.email
                             phoneVerificationVC.isShowBackBtn = false
+                            phoneVerificationVC.loginMethod = loginMethod
                             sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                         }
                     } else {
@@ -408,7 +450,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Login")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Login)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Login)
     }
     
     override func viewDidAppear(animated: Bool) {

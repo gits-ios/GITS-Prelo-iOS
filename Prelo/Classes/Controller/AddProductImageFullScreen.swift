@@ -14,7 +14,7 @@ protocol AddProductImageFullScreenDelegate
     func imageFullScreenDidReplace(controller : AddProductImageFullScreen, image : APImage)
 }
 
-class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, AdobeUXImageEditorViewControllerDelegate
+class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
 {
 
     @IBOutlet var btnDelete : UIBarButtonItem!
@@ -26,7 +26,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
     var index = 0
     var apImage : APImage!
     
-    var imgEditor : AdobeUXImageEditorViewController?
+    /* AVIARY IS DISABLED var imgEditor : AdobeUXImageEditorViewController?*/
     
     var disableDelete = false
     
@@ -94,6 +94,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
     
     @IBAction func edit(sender : UIView?)
     {
+        /* AVIARY IS DISABLED
         AdobeImageEditorCustomization.setToolOrder([kAdobeImageEditorCrop, kAdobeImageEditorOrientation])
         AdobeImageEditorCustomization.setLeftNavigationBarButtonTitle("")
 //        let u = AdobeUXImageEditorViewController(image: apImage.image)
@@ -103,8 +104,10 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
         imgEditor = AdobeUXImageEditorViewController(image: apImage.image)
         imgEditor!.delegate = self
         self.presentViewController(imgEditor!, animated: true, completion: nil)
+        */
     }
     
+    /* AVIARY IS DISABLED
     func photoEditorCanceled(editor: AdobeUXImageEditorViewController!) {
         editor.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -126,6 +129,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, Adobe
             editor.dismissViewControllerAnimated(true, completion: nil)
         })
     }
+    */
     
 
     /*

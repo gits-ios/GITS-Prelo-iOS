@@ -31,6 +31,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     var isShowBackBtn : Bool = false
     var isReverification : Bool = false
     var reverificationNoHP : String = ""
+    var loginMethod : String = "" // [Basic | Facebook | Twitter]
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -39,14 +40,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         
         // Set title
         self.title = "Verifikasi Handphone"
-        
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        if (isShowBackBtn) {
-            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-            newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-            self.navigationItem.leftBarButtonItem = newBackButton
-        }
         
         // Show phone number
         if (self.isReverification) {
@@ -68,7 +61,13 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Verify Phone")
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.VerifyPhone)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.VerifyPhone)
+        
         self.an_subscribeKeyboardWithAnimations(
             {r, t, o in
                 if (o) {
@@ -82,10 +81,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func disableTextFields(sender : AnyObject)
@@ -181,6 +176,29 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func phoneVerificationSucceed() {
+        // Mixpanel
+        let sp = [
+            "Phone" : self.fldNoHp.text,
+            "Login Method" : self.loginMethod,
+            "Orders Purchased Count" : 0,
+            "Initial Value Count" : 0,
+            "Items Purchased Count" : 0,
+            "Items Purchased Categories 1" : [],
+            "Items Purchased Categories 2" : [],
+            "Items Purchased Categories 3" : [],
+            "Items Sold Count" : 0,
+            "Lifetime Value Purchased" : 0,
+            "Lifetime Value Commission" : 0,
+            "Lifetime Value Sold" : 0,
+            "Items in Cart Count" : 0
+        ]
+        Mixpanel.sharedInstance().registerSuperProperties(sp as [NSObject : AnyObject])
+        let p = [
+            "$phone" : self.fldNoHp.text
+        ]
+        Mixpanel.sharedInstance().people.set(p)
+        Mixpanel.trackEvent(MixpanelEvent.PhoneVerified)
+        
         // Dismiss view
         Constant.showDialog("Success", message: "Verifikasi berhasil")
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -210,7 +228,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
                     println("data = \(data)")
-                    Constant.showDialog("Success", message: "Sms telah dikirim ulang")
+                    Constant.showDialog("Success", message: "SMS telah dikirim ulang, kode verifikasi yang berlaku ada di SMS yang dikirim terakhir")
                 }
             }
         }
@@ -218,6 +236,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     // MARK: - UITextField Delegate
     func textFieldDidEndEditing(textField: UITextField) {
-        Constant.showDialog("Warning", message: "Tekan 'Kirim Ulang' untuk mengirim sms ke nomor yang baru")
+        Constant.showDialog("Kirim Ulang", message: "Tekan 'Kirim Ulang' untuk mengirim sms kembali")
     }
 }

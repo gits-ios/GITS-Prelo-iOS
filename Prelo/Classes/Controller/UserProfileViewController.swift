@@ -78,7 +78,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Mixpanel.trackPageVisit("Edit Profile")
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.EditProfile)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.EditProfile)
         
         // Update fieldTentangShop height
         self.textViewDidChange(fieldTentangShop)
@@ -102,20 +107,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     func setNavBarButtons() {
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
-        
         // Tombol apply
         let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "simpanDataPressed:")
         applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.rightBarButtonItem = applyButton
-    }
-    
-    func backPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func disableTextFields(sender : AnyObject)
@@ -845,10 +840,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             loadingPanel.hidden = false
             loading.startAnimating()
             
-            var shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            let shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            let tentangShop : String = (fieldTentangShop.text != FldTentangShopPlaceholder) ? fieldTentangShop.text : ""
             
             if (!self.isUserPictUpdated) {
-                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping)).responseJSON {req, _, res, err in
+                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping)).responseJSON {req, _, res, err in
                     if let error = err {
                         Constant.showDialog("Warning", message: "Edit profile error")//: \(error.description)")
                         self.btnSimpanData.enabled = true
@@ -860,7 +856,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             } else {
                 var dataRep = UIImageJPEGRepresentation(imgUser.image, 1)
                 
-                upload(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: fieldTentangShop.text, shipping: shipping), multipartFormData: { form in
+                upload(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping), multipartFormData: { form in
                     
                     form.appendBodyPart(data : dataRep, name:"image", fileName: "image.jpeg", mimeType:"image/jpg")
                     

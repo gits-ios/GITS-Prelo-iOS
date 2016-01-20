@@ -95,7 +95,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
             let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             let u = users[indexPath.row]
             d.storeMode = true
-            d.storeName = u.fullname
+            d.storeName = u.username
             
             d.storeId = u.id
             d.storePictPath = u.pict

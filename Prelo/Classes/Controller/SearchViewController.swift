@@ -156,7 +156,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        Mixpanel.trackPageVisit("Search")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Search)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Search)
         
         NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: UIColor.whiteColor())
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
@@ -349,8 +353,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             
             let c = tableView.dequeueReusableCellWithIdentifier("user") as! SearchUserCell
             let u = foundUsers[indexPath.row]
-            c.captionName.text = u.fullname
+            c.captionName.text = u.username
             c.ivImage.setImageWithUrl(NSURL(string : u.pict)!, placeHolderImage: nil)
+            c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
+            c.ivImage.clipsToBounds = true
             return c
         }
     }
@@ -396,10 +402,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 let u = foundUsers[indexPath.row]
                 d.storeMode = true
-                d.storeName = u.fullname
+                d.storeName = u.username
                 
-                request(APISearch.InsertTopSearch(search: u.fullname))
-                AppToolsObjC.insertNewSearch(u.fullname)
+                request(APISearch.InsertTopSearch(search: u.username))
+                AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
                 d.storeId = u.id
@@ -428,6 +434,15 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     func findItem(keyword : String)
     {
+        // Mixpanel
+        if (!keyword.isEmpty) {
+            let pt = [
+                "Search Type" : "Product",
+                "Search Query" : keyword
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        }
+        
         if let req = itemRequest
         {
             req.cancel()
@@ -469,6 +484,15 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     var userRequest : Request?
     func findUser(keyword : String)
     {
+        // Mixpanel
+        if (!keyword.isEmpty) {
+            let pt = [
+                "Search Type" : "User",
+                "Search Query" : keyword
+            ]
+            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
+        }
+        
         if let req = userRequest
         {
             req.cancel()

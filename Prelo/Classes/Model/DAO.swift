@@ -13,14 +13,14 @@ import TwitterKit
 class DAO: NSObject {
     static func UserPhotoStringURL(fileName : String, userID : String) -> String
     {
-        let base = "http://dev.kleora.com/images/users/" + userID + "/" + fileName
+        let base = "\(AppTools.PreloBaseUrl)/images/users/" + userID + "/" + fileName
         return base
     }
     
     static func UrlForDisplayPicture(imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
+        return "\(AppTools.PreloBaseUrl)/images/products/" + productID + "/" + modifiedImageName
         
     }
 }
@@ -522,6 +522,18 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].boolValue
     }
     
+    var status : Int {
+        return json["_data"]["status"].intValue
+    }
+    
+    var transactionProgress : Int {
+        return json["_data"]["transaction_progress"].intValue
+    }
+    
+    var boughtByMe : Bool {
+        return json["_data"]["bought_by_me"].boolValue
+    }
+    
     var size : String {
         return json["_data"]["size"].stringValue
     }
@@ -857,6 +869,10 @@ public class ProductDetail : NSObject, TawarItem
         return false
     }
     
+    var productStatus : Int {
+        return json["_data"]["status"].intValue
+    }
+    
     var reveresed = false
     func reverse()
     {
@@ -1188,13 +1204,19 @@ class UserTransaction: NSObject {
     }
     
     var productLoveCount : Int {
-        let p = (json["product"]["num_lovelist"].int)!
-        return p
+        if let p = (json["product"]["num_lovelist"].int) {
+            return p
+        } else {
+            return 0
+        }
     }
     
     var productCommentCount : Int {
-        let p = (json["product"]["num_comment"].int)!
-        return p
+        if let p = (json["product"]["num_comment"].int) {
+            return p
+        } else {
+            return 0
+        }
     }
 }
 
@@ -1227,8 +1249,11 @@ class UserTransactionItem: UserTransaction {
         {
             return nil
         }
-        let url = json["product"]["display_picts"][0].string!
-        return NSURL(string: url)
+        if let url = json["product"]["display_picts"][0].string {
+            return NSURL(string: url)
+        } else {
+            return nil
+        }
     }
 }
 
@@ -1250,6 +1275,11 @@ class TransactionDetail : NSObject {
         return i
     }
     
+    var orderId : String {
+        let o = (json["order_id"].string)!
+        return o
+    }
+    
     var productId : String {
         let p = (json["product_id"].string)!
         return p
@@ -1262,6 +1292,11 @@ class TransactionDetail : NSObject {
     
     var sellerName : String {
         let s = (json["seller_name"].string)!
+        return s
+    }
+    
+    var sellerUsername : String {
+        let s = (json["seller_username"].string)!
         return s
     }
     
@@ -1301,7 +1336,7 @@ class TransactionDetail : NSObject {
         {
             return nil
         }
-        let url = json["product"]["display_picts"][0].string!
+        let url = json["product"]["display_picts"][0].stringValue
         return NSURL(string: url)
     }
     
@@ -1316,6 +1351,14 @@ class TransactionDetail : NSObject {
     var paymentDate : String? {
         if (json["payment_date"] != nil) {
             return json["payment_date"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var expireTime : String? {
+        if (json["expire_time"] != nil) {
+            return json["expire_time"].string
         } else {
             return nil
         }
@@ -1345,9 +1388,73 @@ class TransactionDetail : NSObject {
         }
     }
     
+    var shippingAddress : String? {
+        if (json["shipping_address"]["address"] != nil) {
+            return json["shipping_address"]["address"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingPostalCode : String? {
+        if (json["shipping_address"]["postal_code"] != nil) {
+            return json["shipping_address"]["postal_code"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingRecipientName : String? {
+        if (json["shipping_address"]["recipient_name"] != nil) {
+            return json["shipping_address"]["recipient_name"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingProvinceId : String! {
+        if (json["shipping_address"]["province_id"] != nil) {
+            return json["shipping_address"]["province_id"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var shippingRegionId : String! {
+        if (json["shipping_address"]["region_id"] != nil) {
+            return json["shipping_address"]["region_id"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var shippingRecipientPhone : String? {
+        if (json["shipping_address"]["recipient_phone"] != nil) {
+            return json["shipping_address"]["recipient_phone"].string
+        } else {
+            return nil
+        }
+    }
+    
+    var shippingEmail : String? {
+        if (json["shipping_address"]["email"] != nil) {
+            return json["shipping_address"]["email"].string
+        } else {
+            return nil
+        }
+    }
+
+    var shippingPrice : String {
+        if (json["shipping_price"] != nil) {
+            return json["shipping_price"].stringValue
+        } else {
+            return "0"
+        }
+    }
+    
     var reviewerName : String? {
-        if (json["review"]["buyer_fullname"] != nil) {
-            return json["review"]["buyer_fullname"].string
+        if (json["review"]["buyer_username"] != nil) {
+            return json["review"]["buyer_username"].string
         } else {
             return nil
         }
@@ -1404,6 +1511,14 @@ class UserReview : NSObject {
     var buyerFullname : String {
         if (json["buyer_fullname"] != nil) {
             return json["buyer_fullname"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerUsername : String {
+        if (json["buyer_username"] != nil) {
+            return json["buyer_username"].string!
         } else {
             return ""
         }
@@ -1881,6 +1996,14 @@ class Inbox : NSObject, TawarItem
         }
         
         return false
+    }
+    
+    var productStatus : Int {
+        if let p = json["product_status"].int
+        {
+            return p
+        }
+        return 0
     }
 }
 

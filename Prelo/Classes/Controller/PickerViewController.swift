@@ -123,6 +123,12 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         
         searchBar.autocapitalizationType = .Words
         
+        // Tombol back
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "dismiss")
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
         // Do any additional setup after loading the view.
     }
     

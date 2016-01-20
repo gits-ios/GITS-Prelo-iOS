@@ -29,7 +29,11 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             }
         }
         
-        Mixpanel.trackPageVisit("Contact")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Contact)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Contact)
     }
 
     override func didReceiveMemoryWarning() {

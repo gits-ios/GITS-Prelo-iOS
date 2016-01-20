@@ -33,7 +33,11 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         tableView.hidden = true
         lblEmpty.hidden = true
         
-        Mixpanel.trackPageVisit("My Products", otherParam: ["Tab" : "Complete"])
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Complete"])
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.MyProducts)
         
         if (userProducts?.count == 0 || userProducts == nil) {
             if (userProducts == nil) {

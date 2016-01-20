@@ -30,6 +30,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var address = ""
     var addressHeight = 44
     
+    var totalOngkir = 0
+    
     var cells : [NSIndexPath : BaseCartData] = [:]
     var cellViews : [NSIndexPath : UITableViewCell] = [:]
     var voucher : String = ""
@@ -47,12 +49,28 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     var checkoutResult : JSON?
     
+    @IBOutlet weak var lblPaymentReminder: UILabel!
+    @IBOutlet weak var consHeightPaymentReminder: NSLayoutConstraint!
+    
     @IBOutlet var captionNoItem: UILabel!
     @IBOutlet var loadingCart: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Checkout"
+        self.title = PageName.Checkout
+        
+        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                println("Unpaid transaction data: \(data)")
+                if (data["user_has_unpaid_transaction"].boolValue == true) {
+                    let nUnpaid = data["n_transaction_unpaid"].intValue
+                    self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
+                    self.consHeightPaymentReminder.constant = 40
+                }
+            }
+        }
         
         products = CartProduct.getAll(User.EmailOrEmptyString)
         
@@ -63,7 +81,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             captionNoItem.hidden = false
         } else
         {
-            self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+            //self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
             let c = CDUser.getOne()
             
             if (c == nil) {
@@ -173,7 +191,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func adjustTotal()
     {
-        var totalOngkir = 0
+        totalOngkir = 0
         for i in 0...products.count-1
         {
             let cp = products[i]
@@ -331,7 +349,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                     let preloBonus = json["_data"]["bonus_available"].intValue
                                     let totalPrice = json["_data"]["total_price"].intValue
                                     
-                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? preloBonus.asPrice : (totalPrice + totalOngkir).asPrice
+                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
                                 }
                                 b2.enable = false
                                 let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
@@ -485,6 +503,64 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         UIApplication.appDelegate.saveContext()
                         
+                        // Mixpanel
+                        if (self.checkoutResult != nil) {
+                            var pName : String? = ""
+                            var rName : String? = ""
+                            if let u = CDUser.getOne()
+                            {
+                                pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                                if (pName == nil) {
+                                    pName = ""
+                                }
+                                rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                                if (rName == nil) {
+                                    rName = ""
+                                }
+                            }
+                            
+                            var items : [String] = []
+                            var itemsCategory : [String] = []
+                            var itemsSeller : [String] = []
+                            var itemsPrice : [Int] = []
+                            var itemsCommissionPercentage : [Int] = []
+                            var itemsCommissionPrice : [Int] = []
+                            var totalCommissionPrice = 0
+                            var totalPrice = 0
+                            for i in 0...self.arrayItem.count - 1 {
+                                let json = self.arrayItem[i]
+                                items.append(json["name"].stringValue)
+                                var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                                if (cName == nil) {
+                                    cName = json["category_id"].stringValue
+                                }
+                                itemsCategory.append(cName!)
+                                itemsSeller.append(json["seller_id"].stringValue)
+                                itemsPrice.append(json["price"].intValue)
+                                totalPrice += json["price"].intValue
+                                itemsCommissionPercentage.append(json["commission"].intValue)
+                                let cPrice = json["price"].intValue * json["commission"].intValue / 100
+                                itemsCommissionPrice.append(cPrice)
+                                totalCommissionPrice += cPrice
+                            }
+                            
+                            let pt = [
+                                "Order ID" : self.checkoutResult!["order_id"].stringValue,
+                                "Items" : items,
+                                "Items Category" : itemsCategory,
+                                "Items Seller" : itemsSeller,
+                                "Items Price" : itemsPrice,
+                                "Items Commission Percentage" : itemsCommissionPercentage,
+                                "Items Commission Price" : itemsCommissionPrice,
+                                "Total Commission Price" : totalCommissionPrice,
+                                "Shipping Price" : self.totalOngkir,
+                                "Total Price" : totalPrice,
+                                "Shipping Region" : rName!,
+                                "Shipping Province" : pName!
+                            ]
+                            Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
+                        }
+                        
                         self.previousController?.navigationController?.pushViewController(o, animated: true)
                         
                     }
@@ -497,7 +573,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("Checkout")
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.Checkout)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.Checkout)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -881,6 +961,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }, origin: self.view)
             }
         }
+    }
+    
+    // MARK: - Payment Reminder
+    
+    @IBAction func paymentReminderPressed(sender: AnyObject) {
+        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+        self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }
     
     // MARK: - User Related Delegate

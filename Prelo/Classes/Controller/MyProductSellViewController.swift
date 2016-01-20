@@ -34,7 +34,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Mixpanel.trackPageVisit("My Products", otherParam: ["Tab" : "Active"])
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.MyProducts)
     }
     
     func getProducts()

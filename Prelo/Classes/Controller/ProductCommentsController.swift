@@ -33,6 +33,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.title = "Komentar"
+        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -49,22 +51,24 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        Mixpanel.trackPageVisit("Product Detail Comment")
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Mixpanel
         let p = [
             "Product" : ((pDetail != nil) ? (pDetail!.name) : ""),
             "Product ID" : ((pDetail != nil) ? (pDetail!.productID) : ""),
-            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 0) ? (pDetail!.categoryBreadcrumbs[0]["name"].string!) : ""),
-            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
-            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((pDetail != nil) ? (pDetail!.theirName) : "")
         ]
-        Mixpanel.trackPageVisit("Product Detail Comment", otherParam: p)
+        Mixpanel.trackPageVisit(PageName.ProductDetailComment, otherParam: p)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.ProductDetailComment)
         
         self.an_subscribeKeyboardWithAnimations({i, f, o in
             
@@ -124,6 +128,16 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         {
             return
         }
+        
+        // Mixpanel
+        let pt = [
+            "Product Name" : ((pDetail != nil) ? (pDetail!.name) : ""),
+            "Category 1" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 1) ? (pDetail!.categoryBreadcrumbs[1]["name"].string!) : ""),
+            "Category 2" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 2) ? (pDetail!.categoryBreadcrumbs[2]["name"].string!) : ""),
+            "Category 3" : ((pDetail != nil && pDetail?.categoryBreadcrumbs.count > 3) ? (pDetail!.categoryBreadcrumbs[3]["name"].string!) : ""),
+            "Seller Name" : ((pDetail != nil) ? (pDetail!.theirName) : "")
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
         
         self.btnSend.hidden = true
         

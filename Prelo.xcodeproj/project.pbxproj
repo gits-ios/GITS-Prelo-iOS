@@ -200,7 +200,6 @@
 		216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 216799871B8F8AB900F18F90 /* AFURLResponseSerialization.m */; };
 		216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 216799891B8F8AB900F18F90 /* AFURLSessionManager.m */; };
 		216799961B9010E900F18F90 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799941B9010E900F18F90 /* Fabric.framework */; };
-		216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
 		21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 2167999A1B901C5200F18F90 /* _MPTweakBindObserver.m */; };
 		21679A151B901C5300F18F90 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2167999B1B901C5200F18F90 /* Media.xcassets */; };
 		21679A161B901C5300F18F90 /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2167999D1B901C5200F18F90 /* Mixpanel.m */; };
@@ -336,8 +335,6 @@
 		21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */; };
 		21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */; };
 		21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
-		21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */; };
-		21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */; };
 		21EEB43C1B86FA2800CAD5C9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */; };
 		21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43D1B86FA3000CAD5C9 /* CoreData.framework */; };
 		21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB43F1B86FABE00CAD5C9 /* Foundation.framework */; };
@@ -349,8 +346,6 @@
 		21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */; };
 		21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */; };
 		21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */; };
-		21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */; };
-		21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */; };
 		21EEB4591B87036000CAD5C9 /* Dashboard2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */; };
 		21EEB45A1B87036000CAD5C9 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */; };
 		21EEB45B1B87036000CAD5C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */; };
@@ -419,10 +414,27 @@
 		44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
 		44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
+		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
+		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
+		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
+		FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */; };
+		FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */; };
+		FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */; };
+		FD12C1671C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */; };
+		FD12C1691C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */; };
+		FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */; };
+		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
+		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
+		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
+		FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4E8BF21C31258100501F7A /* AdSupport.framework */; };
 		FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */; };
 		FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
 		FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview.xib */; };
 		FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
+		FDDD4FD91C1FFC9200C5EAB6 /* NotificationPageActivity.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */; };
+		FDDD4FDA1C1FFC9200C5EAB6 /* NotificationPageInbox.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */; };
+		FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */; };
+		FDF39A301C3CF43B002A5DF6 /* sold.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF39A2F1C3CF43B002A5DF6 /* sold.png */; };
 		FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF7281C1BF1CA9A00C0D843 /* Regex.swift */; };
 		FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
 		FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */; };
@@ -440,7 +452,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePool.swift; sourceTree = "<group>"; };
+		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagePool.swift; path = Controller/MessagePool.swift; sourceTree = "<group>"; };
 		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
 		210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_bbm@2x.png"; sourceTree = "<group>"; };
@@ -876,8 +888,6 @@
 		21E7A7631B9FF2BC00FC9B38 /* LKLineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKLineActivity.m; sourceTree = "<group>"; };
 		21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductViewController.swift; sourceTree = "<group>"; };
 		21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductSellViewController.swift; sourceTree = "<group>"; };
-		21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKCore.framework; sourceTree = "<group>"; };
-		21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdobeCreativeSDKImage.framework; sourceTree = "<group>"; };
 		21EEB43B1B86FA2800CAD5C9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		21EEB43D1B86FA3000CAD5C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		21EEB43F1B86FABE00CAD5C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -889,8 +899,6 @@
 		21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AdobeCreativeSDKImageResources.bundle; path = Prelo/Framework/AdobeCreativeSDKImage.framework/Versions/A/Resources/AdobeCreativeSDKImageResources.bundle; sourceTree = "<group>"; };
-		21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AdobeCreativeSDKCoreResources.bundle; path = Prelo/Framework/AdobeCreativeSDKCore.framework/Versions/A/Resources/AdobeCreativeSDKCoreResources.bundle; sourceTree = "<group>"; };
 		21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard2ViewController.swift; sourceTree = "<group>"; };
 		21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
 		21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -961,11 +969,37 @@
 		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
 		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategorySize.swift; sourceTree = "<group>"; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
+		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
+		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
+		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
+		FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTabbedViewController.swift; sourceTree = "<group>"; };
+		FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTabbed.xib; sourceTree = "<group>"; };
+		FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTransactionViewController.swift; sourceTree = "<group>"; };
+		FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageInboxViewController.swift; sourceTree = "<group>"; };
+		FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageActivityViewController.swift; sourceTree = "<group>"; };
+		FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTransaction.xib; sourceTree = "<group>"; };
+		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		FD3C6D401C1963190002C7B4 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		FD3C6D411C1963190002C7B4 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		FD3C6D421C1963190002C7B4 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		FD3C6D431C1963190002C7B4 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		FD3C6D441C1963190002C7B4 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		FD3C6D451C1963190002C7B4 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		FD3C6D461C1963190002C7B4 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		FD3C6D471C1963AC0002C7B4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		FD4E8BF21C31258100501F7A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
 		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopReviewViewController.swift; sourceTree = "<group>"; };
 		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
 		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
+		FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageActivity.xib; sourceTree = "<group>"; };
+		FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageInbox.xib; sourceTree = "<group>"; };
 		FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 4.xcdatamodel"; sourceTree = "<group>"; };
+		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
+		FDF39A2F1C3CF43B002A5DF6 /* sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sold.png; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPreferencesViewController.swift; sourceTree = "<group>"; };
 		FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryPreferences.xib; sourceTree = "<group>"; };
@@ -977,6 +1011,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */,
+				FD4E8BF31C31258100501F7A /* AdSupport.framework in Frameworks */,
+				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
@@ -995,16 +1032,14 @@
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
-				216799971B9010E900F18F90 /* Crashlytics.framework in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
+				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */,
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
-				21EEB43A1B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
-				21EEB4391B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework in Frameworks */,
 				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1022,6 +1057,8 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FD4E8BF21C31258100501F7A /* AdSupport.framework */,
+				FD3C6D471C1963AC0002C7B4 /* libz.dylib */,
 				21E7A7581B9FE81600FC9B38 /* Social.framework */,
 				21679A5F1B901DD400F18F90 /* libicucore.dylib */,
 				21679A5D1B901CE700F18F90 /* CoreGraphics.framework */,
@@ -1058,8 +1095,6 @@
 		2115E6BF1B4A27E500509D2A = {
 			isa = PBXGroup;
 			children = (
-				21EEB4531B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle */,
-				21EEB4511B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle */,
 				21D387641B6B969600D0FA90 /* Prelo-Bridging-Header.h */,
 				2115E6CA1B4A27E500509D2A /* Prelo */,
 				2115E6E31B4A27E500509D2A /* PreloTests */,
@@ -1158,6 +1193,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */,
 				FDF7281C1BF1CA9A00C0D843 /* Regex.swift */,
 				2109BCAD1BDF3529004F36C5 /* AKPickerView */,
 				210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */,
@@ -1560,6 +1596,10 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FD12C1681C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift */,
+				FD12C1661C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift */,
+				FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */,
+				FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */,
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
@@ -1616,7 +1656,6 @@
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
 				21629A291BC51A4A00ACD014 /* TawarViewController.swift */,
 				219F2D421BC75F5100C14C1F /* InboxViewController.swift */,
-				210000B91BCB89D500E16611 /* MessagePool.swift */,
 				217251361BD4A18000926CA3 /* ContactPreloViewController.swift */,
 				2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */,
 				2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */,
@@ -1691,6 +1730,10 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5895E86B1C49315400752ACA /* chat-rp.png */,
+				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
+				FDF39A2F1C3CF43B002A5DF6 /* sold.png */,
+				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
 				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
 				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
 				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
@@ -1930,8 +1973,6 @@
 				216799981B901C5200F18F90 /* Mixpanel */,
 				216799941B9010E900F18F90 /* Fabric.framework */,
 				216799951B9010E900F18F90 /* Crashlytics.framework */,
-				21EEB4371B86F9EF00CAD5C9 /* AdobeCreativeSDKCore.framework */,
-				21EEB4381B86F9EF00CAD5C9 /* AdobeCreativeSDKImage.framework */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -1939,6 +1980,10 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				FDDD4FD71C1FFC9200C5EAB6 /* NotificationPageActivity.xib */,
+				FDDD4FD81C1FFC9200C5EAB6 /* NotificationPageInbox.xib */,
+				FD12C16E1C1EBD5100B4ACBB /* NotificationPageTransaction.xib */,
+				FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */,
 				44C18DAE1BC3C2B200BC8303 /* NotificationPageCell.xib */,
 				44C18DAC1BC3C03500BC8303 /* NotificationPage.xib */,
 				44B93C7A1BBEA51B00036173 /* PathLogin.xib */,
@@ -1966,6 +2011,7 @@
 				FDF728241BF24F7900C0D843 /* CategoryPreferencesCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
+				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -1973,9 +2019,28 @@
 		44BB8EF31BC654850052B020 /* Socket */ = {
 			isa = PBXGroup;
 			children = (
+				210000B91BCB89D500E16611 /* MessagePool.swift */,
 				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
 			);
 			name = Socket;
+			sourceTree = "<group>";
+		};
+		FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */ = {
+			isa = PBXGroup;
+			children = (
+				FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */,
+				FD3C6D3D1C1963190002C7B4 /* GAI.h */,
+				FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */,
+				FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */,
+				FD3C6D401C1963190002C7B4 /* GAIEcommerceProduct.h */,
+				FD3C6D411C1963190002C7B4 /* GAIEcommerceProductAction.h */,
+				FD3C6D421C1963190002C7B4 /* GAIEcommercePromotion.h */,
+				FD3C6D431C1963190002C7B4 /* GAIFields.h */,
+				FD3C6D441C1963190002C7B4 /* GAILogger.h */,
+				FD3C6D451C1963190002C7B4 /* GAITrackedViewController.h */,
+				FD3C6D461C1963190002C7B4 /* GAITracker.h */,
+			);
+			path = GoogleAnalytics_3.13;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1987,6 +2052,7 @@
 			buildPhases = (
 				2115E6C41B4A27E500509D2A /* Sources */,
 				2115E6C51B4A27E500509D2A /* Frameworks */,
+				FD7C197B1C1D772D002AD602 /* ShellScript */,
 				2115E6C61B4A27E500509D2A /* Resources */,
 				216799931B900F7C00F18F90 /* ShellScript */,
 			);
@@ -2072,10 +2138,8 @@
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
 				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
-				21EEB4541B86FB5900CAD5C9 /* AdobeCreativeSDKCoreResources.bundle in Resources */,
 				21EEB4651B87038400CAD5C9 /* Register.xib in Resources */,
 				44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */,
-				21EEB4521B86FB4600CAD5C9 /* AdobeCreativeSDKImageResources.bundle in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
@@ -2087,12 +2151,14 @@
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				44B7088B1BBA6E19001EACBF /* MyProductProcessing.xib in Resources */,
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
+				FD12C16F1C1EBD5100B4ACBB /* NotificationPageTransaction.xib in Resources */,
 				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
@@ -2107,6 +2173,7 @@
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
+				5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
 				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
@@ -2117,16 +2184,19 @@
 				217874631B98516900D355A8 /* merk.json in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
+				FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
+				FDF39A301C3CF43B002A5DF6 /* sold.png in Resources */,
 				44C18DAF1BC3C2B200BC8303 /* NotificationPageCell.xib in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
+				FDDD4FDA1C1FFC9200C5EAB6 /* NotificationPageInbox.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -2135,6 +2205,7 @@
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
+				5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */,
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
@@ -2172,11 +2243,13 @@
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
+				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
+				FDDD4FD91C1FFC9200C5EAB6 /* NotificationPageActivity.xib in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
@@ -2214,7 +2287,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		216799931B900F7C00F18F90 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -2224,6 +2297,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run 842bfd571a25f7cb1b1ef7baea09e7a221085424 95a58dd7ef9ec1a67402c4c1ad5b322693d6b334ea55dc6fde6e8c9bf068bbd7";
+		};
+		FD7C197B1C1D772D002AD602 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2325,6 +2411,7 @@
 				2141BBE21B54BE4C00787F5D /* SocketEngineClient.swift in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				44B93C791BBEA4BC00036173 /* PathLoginViewController.swift in Sources */,
+				FD12C1691C1EA9EB00B4ACBB /* NotificationPageActivityViewController.swift in Sources */,
 				2141BBB01B54BE4C00787F5D /* README.md in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -2354,6 +2441,7 @@
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
+				FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,
 				21983BEE1BE1C22200F0C24E /* AddProductImageFullScreen.swift in Sources */,
@@ -2412,6 +2500,7 @@
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */,
+				FD12C1671C1EA9A500B4ACBB /* NotificationPageInboxViewController.swift in Sources */,
 				21679A411B901C5300F18F90 /* MPSurveyNavigationController.m in Sources */,
 				21679A491B901C5300F18F90 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				21679A3A1B901C5300F18F90 /* MPObjectSerializerConfig.m in Sources */,
@@ -2442,6 +2531,7 @@
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				2141BBAC1B54BE4C00787F5D /* ResponseSerialization.swift in Sources */,
 				44B7087B1BBA6D86001EACBF /* MyLovelistViewController.swift in Sources */,
+				FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */,
 				2141BBD31B54BE4C00787F5D /* UIWindow+BFKit.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,
@@ -2647,18 +2737,19 @@
 					"TARGET_OS_IOS=1",
 				);
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleConversionTrackingSDK-iOS-3.2.0",
+					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "59e06801-6e89-456c-9a14-e0411204b005";
+				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -2677,18 +2768,19 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_OS_IOS=1";
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleConversionTrackingSDK-iOS-3.2.0",
+					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "59e06801-6e89-456c-9a14-e0411204b005";
+				PROVISIONING_PROFILE = "79b0cddf-8a72-41af-8e25-b4417eb25637";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
