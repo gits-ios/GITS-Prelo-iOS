@@ -894,8 +894,8 @@ class ProductCellSeller : UITableViewCell
         }
         var product = (obj?.json)!["_data"]
         
-        captionSellerName?.text = product["seller"]["username"].string!
-        let average_star = product["seller"]["average_star"].int!
+        captionSellerName?.text = product["seller"]["username"].stringValue
+        let average_star = product["seller"]["average_star"].intValue
         var stars = ""
         for x in 1...5
         {

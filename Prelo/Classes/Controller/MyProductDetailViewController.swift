@@ -539,6 +539,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         })
     }
     
+    var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
         request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
@@ -550,12 +551,27 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 if (json == nil || json == []) { // Data kembalian kosong
                     println("Empty product detail")
                 } else { // Berhasil
-                    let pDetail = ProductDetail.instance(json)
+//                    let pDetail = ProductDetail.instance(json)
+//                    pDetail?.reverse()
+                    self.detail = ProductDetail.instance(json)
                     
                     // Goto chat
                     let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = pDetail
-                    self.navigationController?.pushViewController(t, animated: true)
+                    
+                    if let json = self.transactionDetail?.json["review"]
+                    {
+                        self.detail?.buyerId = json["buyer_id"].stringValue
+                        self.detail?.buyerName = json["buyer_fullname"].stringValue
+                        self.detail?.buyerImage = json["buyer_pict"].stringValue
+                        self.detail?.reverse()
+                        
+                        t.tawarItem = self.detail
+                        t.fromSeller =  true
+                        
+                        t.toId = json["buyer_id"].stringValue
+                        t.prodId = t.tawarItem.itemId
+                        self.navigationController?.pushViewController(t, animated: true)
+                    }
                 }
             }
         }
