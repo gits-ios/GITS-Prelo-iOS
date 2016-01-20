@@ -854,40 +854,29 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     }
                 }
             } else {
-                var dataRep = UIImageJPEGRepresentation(imgUser.image, 1)
+                var url = "\(AppTools.PreloBaseUrl)/api/me/profile"
+                var param = [
+                    "fullname":fieldNama.text,
+                    "address":fieldAlamat.text,
+                    "province":selectedProvinsiID,
+                    "region":selectedKabKotaID,
+                    "postal_code":fieldKodePos.text,
+                    "description":tentangShop,
+                    "shipping":shipping
+                ]
+                var images : [UIImage] = []
+                images.append(imgUser.image!)
                 
-                upload(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping), multipartFormData: { form in
-                    
-                    form.appendBodyPart(data : dataRep, name:"image", fileName: "image.jpeg", mimeType:"image/jpg")
-                    
-                    }, encodingCompletion: { result in
-                        switch result
-                        {
-                        case .Success(let x, _, _):
-                            x.responseJSON{_, _, res, err in
-                                
-                                if let error = err
-                                {
-                                    // error, gagal
-                                    Constant.showDialog("Warning", message: "Error saving data")//:error.description)
-                                    self.btnSimpanData.enabled = true
-                                    self.loadingPanel.hidden = true
-                                    self.loading.stopAnimating()
-                                } else if let result : AnyObject = res
-                                {
-                                    // sukses
-                                    let json = JSON(result)
-                                    self.simpanDataSucceed(json)
-                                }
-                            }
-                            
-                        case .Failure(let err):
-                            println(err) // failed
-                            Constant.showDialog("Warning", message: "Error saving data")//:err.description)
-                            self.btnSimpanData.enabled = true
-                            self.loadingPanel.hidden = true
-                            self.loading.stopAnimating()
-                        }
+                AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to: url, success: { op, res in
+                    println("Edit profile res = \(res)")
+                    let json = JSON(res)
+                    self.simpanDataSucceed(json)
+                }, failure: { op, err in
+                    println(err) // failed
+                    Constant.showDialog("Warning", message: "Error saving data")//:err.description)
+                    self.btnSimpanData.enabled = true
+                    self.loadingPanel.hidden = true
+                    self.loading.stopAnimating()
                 })
             }
         }
