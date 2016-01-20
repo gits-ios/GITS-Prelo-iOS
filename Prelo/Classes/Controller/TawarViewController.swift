@@ -139,6 +139,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTolak2.hidden = true
             btnConfirm.hidden = true
             return
+        } else {
+            btnTawar1.hidden = false
+            btnTawar2.hidden = false
+            btnBeli.hidden = false
+            btnBatal.hidden = false
+            btnTolak.hidden = false
+            btnTolak2.hidden = false
+            btnConfirm.hidden = false
         }
         
         if (threadState == -10)
@@ -298,6 +306,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                         }
                     }
                 }
+                self.prodStatus = json["_data"]["product_status"].intValue
+                self.adjustButtons()
                 self.tableView.reloadData()
                 if (self.first)
                 {
