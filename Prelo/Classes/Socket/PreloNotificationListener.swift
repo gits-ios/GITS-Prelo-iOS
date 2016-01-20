@@ -104,6 +104,22 @@ class PreloNotificationListener //: PreloSocketDelegate
                 } else { // Notif inbox/aktivitas
                     sameNotif =  CDNotification.getNotifWithObjectId(n["object_id"].string!, andType: n["type"].number!)
                 }
+                if (sameNotif != nil) { // Udah ada yg sama
+                    // Hapus yang lama di core data
+                    CDNotification.deleteNotifWithIds(sameNotif!.ids)
+                }
+                // Simpan yang baru
+                var notifType : String = ""
+                if (i == "tp_notif") { // Transaksi
+                    notifType = NotificationType.Transaksi
+                } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                    notifType = NotificationType.Inbox
+                } else if (i == "activity") { // Aktivitas
+                    notifType = NotificationType.Aktivitas
+                }
+                newN = CDNotification.newOne(notifType, ids : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string, weight: NSNumber(integer: 1), names: n["name"].string!)
+                
+                /* TO BE DELETED, merged version, hiks T^T
                 if (sameNotif != nil) { // Udah ada yg sama, merge dengan notif yg sama
                     // Sesuaikan ids, opened, message, name, time, leftImage, weight, names
                     // Simpan ids baru di var baru karna sameNotif.ids akan digunakan untuk menghapus objek di core data
@@ -142,7 +158,7 @@ class PreloNotificationListener //: PreloSocketDelegate
                         notifType = NotificationType.Aktivitas
                     }
                     newN = CDNotification.newOne(notifType, ids : n["_id"].string!, opened : n["opened"].bool!, read : n["read"].bool!, message: n["text"].string!, ownerId: n["owner_id"].string!, name: n["name"].string!, type: n["type"].int!, objectName: n["object_name"].string!, objectId: n["object_id"].string!, time: n["time"].string!, leftImage: n["left_image"].string!, rightImage: n["right_image"].string, weight: NSNumber(integer: 1), names: n["name"].string!)
-                }
+                }*/
                 if (newN != nil) {
                     println("Successfully saved newN = \(newN)")
                     //newNotifCount++

@@ -134,6 +134,55 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                     } else { // Berhasil
                         println("Notifs: \(data)")
                         
+                        // No merge, after hours making merge notification, LOOOOOOOOOL
+                        var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif
+                        for (i : String, jNotifs : JSON) in data {
+                            var notifs : [JSON] = jNotifs.arrayValue
+                            var j : Int = 0
+                            while (j < notifs.count) {
+                                let n : JSON = notifs[j]
+                                println("n = \(n)")
+                                var nWeight : Int = 1
+                                var nNames : String = n["name"].string!
+                                var nIds : String = n["_id"].string!
+                                
+                                // Bentuk resNotif
+                                var resNotif : [String : AnyObject] = [:]
+                                resNotif["ids"] = n["_id"].stringValue
+                                resNotif["opened"] = n["opened"].boolValue
+                                resNotif["read"] = n["read"].boolValue
+                                resNotif["owner_id"] = n["owner_id"].stringValue
+                                resNotif["type"] = n["type"].numberValue
+                                resNotif["object_name"] = n["object_name"].stringValue
+                                resNotif["object_id"] = n["object_id"].stringValue
+                                resNotif["time"] = n["time"].stringValue
+                                resNotif["left_image"] = n["left_image"].stringValue
+                                resNotif["right_image"] = n["right_image"].stringValue
+                                resNotif["weight"] = 1
+                                resNotif["names"] = n["name"].stringValue
+                                resNotif["name"] = n["name"].stringValue
+                                resNotif["text"] = n["text"].stringValue
+                                
+                                var notifType : String = ""
+                                if (i == "tp_notif") { // Transaksi
+                                    notifType = NotificationType.Transaksi
+                                } else if (i == "inbox_notif") { // Inbox
+                                    notifType = NotificationType.Inbox
+                                } else if (i == "activity") { // Aktivitas
+                                    notifType = NotificationType.Aktivitas
+                                }
+                                resNotif["notif_type"] = notifType
+                                //println("resNotif = \(resNotif)")
+                                
+                                // Add to resNotifs
+                                resNotifs.append(resNotif)
+                                
+                                // Next index
+                                j++
+                            }
+                        }
+                        
+                        /* TO BE DELETED, merged version, hiks T^T
                         // Merge notif dengan objectId dan type yang sama sebelum disimpan di core data
                         // Khusus untuk transaksi, merge notif dengan objectId a.k.a transaction id yg sama
                         var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif yang sudah di merge
@@ -230,7 +279,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                                 // Next index
                                 j++
                             }
-                        }
+                        }*/
                         
                         // Simpan isi resNotifs ke core data
                         // Kondisi resNotifs, notif terbaru ada di index awal
