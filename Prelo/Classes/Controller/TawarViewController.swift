@@ -48,6 +48,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var first = true
     var isAtBottom = false
     
+    var fromSeller = false
+    var toId = ""
+    
     @IBOutlet var btnTawar1 : UIButton!
     @IBOutlet var btnTawar2 : UIButton!
     @IBOutlet var btnBeli : UIButton!
@@ -261,7 +264,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getMessages()
     {
         inboxMessages.removeAll(keepCapacity: false)
-        request(APIInbox.GetInboxMessage(inboxId: tawarItem.threadId)).responseJSON {req, resp, res, err in
+        var api = APIInbox.GetInboxMessage(inboxId: tawarItem.threadId)
+        if (fromSeller)
+        {
+            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId)
+        }
+        request(api).responseJSON {req, resp, res, err in
             if (APIPrelo.validate(true, err: err, resp: resp))
             {
                 let json = JSON(res!)
@@ -415,7 +423,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         self.starting = true
-        request(APIInbox.StartNewOne(productId: prodId, type: type, message: message)).responseJSON {req, resp, res, err in
+        var api = APIInbox.StartNewOne(productId: prodId, type: type, message: message)
+        if (fromSeller)
+        {
+            api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
+        }
+        request(api).responseJSON {req, resp, res, err in
             println(res)
             self.starting = false
             if (APIPrelo.validate(true, err: err, resp: resp))
@@ -438,7 +451,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.scrollToBottom()
             } else
             {
-                
+                println(err)
             }
         }
     }

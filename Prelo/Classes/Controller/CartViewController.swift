@@ -449,7 +449,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         o.orderID = (self.checkoutResult?["order_id"].string)!
                         o.total = (self.checkoutResult?["total_price"].int)!
                         o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-//                        o.overBack = true
+                        o.overBack = true
                         
                         var imgs : [NSURL] = []
                         

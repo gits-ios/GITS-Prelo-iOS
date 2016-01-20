@@ -302,8 +302,10 @@ enum APIInbox : URLRequestConvertible
     
     case GetInboxes
     case GetInboxByProductID(productId : String)
+    case GetInboxByProductIDSeller(productId : String)
     case GetInboxMessage (inboxId : String)
     case StartNewOne (productId : String, type : Int, message : String)
+    case StartNewOneBySeller (productId : String, type : Int, message : String, toId : String)
     case SendTo (inboxId : String, type : Int, message : String)
     
     var method : Method
@@ -311,9 +313,11 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(_) : return .GET
+            case .GetInboxByProductIDSeller(_) : return .GET
             case .GetInboxes : return .GET
             case .GetInboxMessage(_) : return .GET
             case .StartNewOne (_, _, _) : return .POST
+            case .StartNewOneBySeller (_, _, _, _) : return .POST
             case .SendTo (_, _, _) : return .POST
             }
     }
@@ -323,10 +327,12 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(let prodId) : return "product/"+prodId
+            case .GetInboxByProductIDSeller(let prodId) : return "product/seller/"+prodId
             case .GetInboxes : return ""
             case .GetInboxMessage(let inboxId) : return inboxId
             case .SendTo (let inboxId, _, _) : return inboxId
             case .StartNewOne(_, _, _) : return ""
+            case .StartNewOneBySeller(_, _, _, _) : return ""
             }
     }
     
@@ -335,10 +341,13 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(_) : return [:]
+            case .GetInboxByProductIDSeller(_) : return [:]
             case .GetInboxes : return [:]
             case .GetInboxMessage(_) : return [:]
             case .StartNewOne(let prodId, let type, let m) :
                 return ["product_id":prodId, "message_type":String(type), "message":m]
+            case .StartNewOneBySeller(let prodId, let type, let m, let toId) :
+                return ["product_id":prodId, "message_type":String(type), "message":m, "to":toId]
             case .SendTo (_, let type, let message) : return ["message_type":type, "message":message]
             }
     }

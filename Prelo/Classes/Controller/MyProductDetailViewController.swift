@@ -179,6 +179,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         ]
         Mixpanel.trackPageVisit("Transaction Detail", otherParam: param)
         
+        println(transactionDetail?.json)
+        
         // Set groups and top constraints manually
         groups.append(self.groupProductDetail)
         groups.append(self.groupDescription)
@@ -245,8 +247,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         lblTglPengiriman.text = transactionDetail?.shippingDate
         lblReviewContent.text = transactionDetail?.reviewComment
         
+        var date = ""
+        if let expdate = transactionDetail?.json["expire_time"].stringValue
+        {
+            date = expdate
+        }
+        
         // lblDescription
-        lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(transactionDetail?.paymentDate). Ingatkan Buyer untuk segera membayar"
+        lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada " + date + ". Ingatkan Buyer untuk segera membayar"
         // TODO: ganti jadi expiration date
         
         // Nama dan gambar reviewer
@@ -418,6 +426,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         })
     }
     
+    var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
         request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
@@ -429,12 +438,27 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 if (json == nil || json == []) { // Data kembalian kosong
                     println("Empty product detail")
                 } else { // Berhasil
-                    let pDetail = ProductDetail.instance(json)
+//                    let pDetail = ProductDetail.instance(json)
+//                    pDetail?.reverse()
+                    self.detail = ProductDetail.instance(json)
                     
                     // Goto chat
                     let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                    t.tawarItem = pDetail
-                    self.navigationController?.pushViewController(t, animated: true)
+                    
+                    if let json = self.transactionDetail?.json["review"]
+                    {
+                        self.detail?.buyerId = json["buyer_id"].stringValue
+                        self.detail?.buyerName = json["buyer_fullname"].stringValue
+                        self.detail?.buyerImage = json["buyer_pict"].stringValue
+                        self.detail?.reverse()
+                        
+                        t.tawarItem = self.detail
+                        t.fromSeller =  true
+                        
+                        t.toId = json["buyer_id"].stringValue
+                        t.prodId = t.tawarItem.itemId
+                        self.navigationController?.pushViewController(t, animated: true)
+                    }
                 }
             }
         }

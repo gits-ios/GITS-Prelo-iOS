@@ -695,6 +695,8 @@ public class ProductDetail : NSObject, TawarItem
         return NSURL(string : "http://prelo.do")!
     }
     
+    // tawar item
+    
     var itemName : String
     {
         return name
@@ -712,7 +714,15 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
+    var buyerId = ""
+    var buyerName = ""
+    var buyerImage = ""
+    
     var theirId : String {
+        if (reveresed)
+        {
+            return buyerId
+        }
         if let fullname = json["_data"]["seller"]["_id"].string
         {
             return fullname
@@ -721,6 +731,16 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var theirImage : NSURL {
+        if (reveresed)
+        {
+            if let pict = CDUser.getOne()?.profiles.pict
+            {
+                if let url = NSURL(string : pict)
+                {
+                    return url
+                }
+            }
+        }
         if let fullname = json["_data"]["seller"]["pict"].string
         {
             if let url = NSURL(string : fullname)
@@ -732,6 +752,10 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var theirName : String {
+        if (reveresed)
+        {
+            return buyerName
+        }
         if let fullname = json["_data"]["seller"]["fullname"].string
         {
             return fullname
@@ -740,6 +764,13 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var myId : String {
+        if (reveresed)
+        {
+            if let fullname = json["_data"]["seller"]["_id"].string
+            {
+                return fullname
+            }
+        }
         if let id = CDUser.getOne()?.id
         {
             return id
@@ -748,6 +779,16 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var myImage : NSURL {
+        if (reveresed)
+        {
+            if let fullname = json["_data"]["seller"]["pict"].string
+            {
+                if let url = NSURL(string : fullname)
+                {
+                    return url
+                }
+            }
+        }
         if let pict = CDUser.getOne()?.profiles.pict
         {
             if let url = NSURL(string : pict)
@@ -759,6 +800,13 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var myName : String {
+        if (reveresed)
+        {
+            if let fullname = json["_data"]["seller"]["fullname"].string
+            {
+                return fullname
+            }
+        }
         if let fullname = CDUser.getOne()?.fullname
         {
             return fullname
@@ -774,6 +822,10 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var opIsMe : Bool {
+        if (reveresed)
+        {
+            return false
+        }
         return true
     }
     
@@ -793,8 +845,22 @@ public class ProductDetail : NSObject, TawarItem
         return 0
     }
     
+    func setBargainPrice(price: Int) {
+        
+    }
+    
     var bargainerIsMe : Bool {
+        if (reveresed)
+        {
+            return true
+        }
         return false
+    }
+    
+    var reveresed = false
+    func reverse()
+    {
+        reveresed = !reveresed
     }
 }
 
@@ -1789,12 +1855,23 @@ class Inbox : NSObject, TawarItem
         return 0
     }
     
+    var settedBargainPrice = -1
     var bargainPrice : Int {
+        if (settedBargainPrice != -1)
+        {
+            return settedBargainPrice
+        }
         if let s = json["current_bargain_amount"].int
         {
             return s
         }
         return 0
+    }
+    
+    func setBargainPrice(price: Int) {
+        settedBargainPrice = price
+//        json["current_bargain_amount"].int = price
+//        println("current_bargain_amount : " + String(bargainPrice))
     }
     
     var bargainerIsMe : Bool {

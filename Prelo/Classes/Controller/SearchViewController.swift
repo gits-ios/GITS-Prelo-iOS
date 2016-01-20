@@ -64,33 +64,36 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         for i in 0...data.count-1
                         {
                             let ts = data[i]
-                            if let name = ts["name"].string
+                            let name = ts["name"].stringValue
+                            if (name.stringByReplacingOccurrencesOfString(" ", withString: "") == "")
                             {
-                                let searchTag = SearchTag.instance(name)
-                                if let lv = lastView
-                                {
-                                    let x = lv.maxX + 8
-                                    searchTag.x = x
-                                    
-                                    if (searchTag.maxX + 8 > self.sectionTopSearch.width)
-                                    {
-                                        searchTag.y = lv.maxY + 4
-                                    }else
-                                    {
-                                        searchTag.y = lv.y
-                                    }
-                                } else
-                                {
-                                    searchTag.x = 0
-                                    searchTag.y = 0
-                                }
-                                let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
-                                searchTag.addGestureRecognizer(tap)
-                                searchTag.userInteractionEnabled = true
-                                searchTag.captionTitle.userInteractionEnabled = true
-                                self.sectionTopSearch.addSubview(searchTag)
-                                lastView = searchTag
+                                continue
                             }
+                            let searchTag = SearchTag.instance(name)
+                            if let lv = lastView
+                            {
+                                let x = lv.maxX + 8
+                                searchTag.x = x
+                                
+                                if (searchTag.maxX + 8 > self.sectionTopSearch.width)
+                                {
+                                    searchTag.y = lv.maxY + 4
+                                    searchTag.x = 0
+                                }else
+                                {
+                                    searchTag.y = lv.y
+                                }
+                            } else
+                            {
+                                searchTag.x = 0
+                                searchTag.y = 0
+                            }
+                            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+                            searchTag.addGestureRecognizer(tap)
+                            searchTag.userInteractionEnabled = true
+                            searchTag.captionTitle.userInteractionEnabled = true
+                            self.sectionTopSearch.addSubview(searchTag)
+                            lastView = searchTag
                         }
                         if let lv = lastView
                         {
@@ -125,10 +128,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         let arr : [String] = AppToolsObjC.searchHistories() as! [String]
         var y : CGFloat = 0.0
+        var x : CGFloat = 0.0
         for s in arr
         {
             let tag = SearchTag.instance(s)
-            tag.x = 0
+            tag.x = x
+            if (tag.maxX > sectionHistorySearch.width)
+            {
+                x = 0
+                tag.x = x
+                y = tag.maxY + 4
+            }
             tag.y = y
             let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
             tag.addGestureRecognizer(tap)
@@ -136,7 +146,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             tag.captionTitle.userInteractionEnabled = true
             sectionHistorySearch.addSubview(tag)
             conHeightSectionHistorySearch.constant = tag.maxY
-            y = tag.maxY
+            x = tag.maxX + 8
         }
     }
 
