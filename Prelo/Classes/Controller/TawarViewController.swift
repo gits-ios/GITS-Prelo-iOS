@@ -31,9 +31,16 @@ protocol  TawarItem
     func setBargainPrice(price : Int)
 }
 
+protocol TawarDelegate
+{
+    func tawarNeedReloadList()
+}
+
 class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate
 {
 
+    var tawarDelegate : TawarDelegate?
+    
     @IBOutlet var tableView : UITableView!
     @IBOutlet var header : TawarHeader!
     @IBOutlet var btnSend : UIButton!
@@ -65,6 +72,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var captionTawarHargaOri : UILabel!
     @IBOutlet var sectionTawar : UIView!
     @IBOutlet var conMarginBottomSectionTawar : NSLayoutConstraint!
+    @IBOutlet var conMarginHeightOptions : NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,6 +149,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTolak.hidden = true
             btnTolak2.hidden = true
             btnConfirm.hidden = true
+            
+            self.conMarginHeightOptions.constant = 80
             return
         } else {
             btnTawar1.hidden = false
@@ -150,6 +160,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTolak.hidden = false
             btnTolak2.hidden = false
             btnConfirm.hidden = false
+            
+            self.conMarginHeightOptions.constant = 130
         }
         
         if (threadState == -10)
@@ -442,10 +454,19 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         var time = f.stringFromDate(date)
         let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
+        if (type != 0)
+        {
+            i.bargainPrice = message
+        }
         inboxMessages.append(i)
         
         self.textView.text = ""
         threadState = type
+        if let t = tawarItem as? Inbox
+        {
+            t.forceThreadState = threadState
+            self.tawarDelegate?.tawarNeedReloadList()
+        }
         
         i.sendTo(tawarItem.threadId, completion: { m in
             self.adjustButtons()
@@ -597,6 +618,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func messageArrived(message: InboxMessage) {
         inboxMessages.append(message)
         threadState = message.messageType
+        if let t = tawarItem as? Inbox
+        {
+            t.forceThreadState = threadState
+            self.tawarDelegate?.tawarNeedReloadList()
+        }
         if (threadState == 1 && message.isMe == true)
         {
             tawarFromMe = true
