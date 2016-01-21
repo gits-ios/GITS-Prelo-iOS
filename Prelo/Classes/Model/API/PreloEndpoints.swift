@@ -1266,18 +1266,22 @@ class APIPrelo
         }
     }
     
-    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?) -> Bool
+    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
-        println("Req = \(req)")
+        println("\(reqAlias) req = \(req)")
         
         if let response = resp
         {
             if (response.statusCode != 200)
             {
                 if (res != nil && showErrorDialog) {
-                    UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
+                    UIAlertView.SimpleShow(reqAlias, message: JSON(res!)["_message"].string!)
                 } else if (res == nil && showErrorDialog) {
-                    UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
+                    if (response.statusCode > 500) {
+                        UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
+                    } else {
+                        UIAlertView.SimpleShow(reqAlias, message: "Oops, silahkan coba beberapa saat lagi")
+                    }
                 }
                 return false
             }
@@ -1287,7 +1291,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, coba cek koneksi internet kamu")
             }
             return false
         }
@@ -1296,12 +1300,15 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")//error.description)
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")//error.description)
             }
             return false
         }
         else
         {
+            let json = JSON(res!)
+            let data = json["_data"]
+            println("\(reqAlias) _data = \(data)")
             return true
         }
     }

@@ -60,10 +60,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.title = PageName.Checkout
         
         request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("Unpaid transaction data: \(data)")
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
                     let nUnpaid = data["n_transaction_unpaid"].intValue
                     self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"

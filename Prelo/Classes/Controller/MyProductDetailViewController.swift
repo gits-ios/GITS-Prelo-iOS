@@ -479,11 +479,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
-                    println("data = \(data)")
                     Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
                     self.sendMode(false)
                     self.vwShadow.hidden = true

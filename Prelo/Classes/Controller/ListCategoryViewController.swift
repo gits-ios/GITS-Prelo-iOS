@@ -359,7 +359,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 //Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
                 NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
                 request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
                         let json = JSON(res!)
                         let data = json["_data"]
                         let p = Product.instance(data)

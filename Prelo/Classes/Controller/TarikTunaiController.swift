@@ -72,7 +72,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         
         // Munculkan pop up jika user belum mempunyai password
         request(APIUser.CheckPassword).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil && data == true) {
@@ -216,11 +216,11 @@ class SetupPasswordPopUp : UIView {
         self.btnKirimEmail.setTitle("MENGIRIM...", forState: .Normal)
         self.btnKirimEmail.userInteractionEnabled = false
         request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang - Password Checking")) {
                 let json = JSON(res!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue
-                println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                //println("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "Email sudah dikirim ke \(self.lblEmail.text!)")
                 } else {

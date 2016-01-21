@@ -64,10 +64,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func getUserReviews() {
         request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Pengguna")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("User Reviews: \(data)")
                 // Store data into variable
                 for (index : String, item : JSON) in data {
                     let r = UserReview.instance(item)

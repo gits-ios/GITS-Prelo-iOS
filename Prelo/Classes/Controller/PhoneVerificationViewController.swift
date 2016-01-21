@@ -223,11 +223,10 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 User.SetToken(nil)
             }
             
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Verifikasi Nomor HP")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
-                    println("data = \(data)")
                     Constant.showDialog("Success", message: "SMS telah dikirim ulang, kode verifikasi yang berlaku ada di SMS yang dikirim terakhir")
                 }
             }
