@@ -124,49 +124,39 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func getReferralData() {
-        request(APIUser.ReferralData).responseJSON {req, _, res, err in
-            println("Referral data req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting referral data")//: \(err!.description)")
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
+        request(APIUser.ReferralData).responseJSON {req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Terdapat error
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]!
-                    Constant.showDialog("Warning", message: "Error getting referral data, message: \(message)")
-                    self.navigationController?.popViewControllerAnimated(true)
-                } else { // Berhasil
-                    println("Referral data : \(data)")
-                    
-                    self.saldo = data["bonus"].int!
-                    self.lblSaldo.text = "\(self.saldo.asPrice)"
-                    self.lblKodeReferral.text = data["referral"]["my_referral_code"].string!
-                    
-                    // Set progress bar
-                    let progress : Float = data["referral"]["total_referred"].float! / self.MAX_BONUS_TIMES
-                    self.progressBonus.setProgress(progress, animated: true)
-                    
-                    // Jika sudah pernah memasukkan referral, sembunyikan field
-                    if (data["referral"]["referral_code_used"] != nil) {
-                        self.vwSubmit.hidden = true
-                    } else {
-                        /* TODO: Pending, menunggu API kirim email
-                        // Jika belum tampilkan pop up untuk verifikasi email
-                        let a = UIAlertView()
-                        a.title = "Warning"
-                        a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
-                        a.addButtonWithTitle("Batal")
-                        a.addButtonWithTitle("Kirim Email Konfirmasi")
-                        a.delegate = self
-                        a.show()
-                        */
-                    }
-                    
-                    // Set shareText
-                    self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
+                
+                self.saldo = data["bonus"].int!
+                self.lblSaldo.text = "\(self.saldo.asPrice)"
+                self.lblKodeReferral.text = data["referral"]["my_referral_code"].string!
+                
+                // Set progress bar
+                let progress : Float = data["referral"]["total_referred"].float! / self.MAX_BONUS_TIMES
+                self.progressBonus.setProgress(progress, animated: true)
+                
+                // Jika sudah pernah memasukkan referral, sembunyikan field
+                if (data["referral"]["referral_code_used"] != nil) {
+                    self.vwSubmit.hidden = true
+                } else {
+                    /* TODO: Pending, menunggu API kirim email
+                    // Jika belum tampilkan pop up untuk verifikasi email
+                    let a = UIAlertView()
+                    a.title = "Warning"
+                    a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+                    a.addButtonWithTitle("Batal")
+                    a.addButtonWithTitle("Kirim Email Konfirmasi")
+                    a.delegate = self
+                    a.show()
+                    */
                 }
+                
+                // Set shareText
+                self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }
@@ -220,44 +210,35 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         self.mixpanelSharedReferral("Path", username: pathName)
         
         /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
-            println("Path login req = \(req)")
-            
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error login path")//:(err?.description)!)
-            } else {
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
-                    println("Empty path login data")
-                } else { // Berhasil
-                    println("Path login data: \(data)")
-                    
-                    // Save in core data
-                    let m = UIApplication.appDelegate.managedObjectContext
-                    var user : CDUser = CDUser.getOne()!
-                    user.id = data["_id"].string!
-                    user.username = data["username"].string!
-                    user.email = data["email"].string!
-                    user.fullname = data["fullname"].string!
-                    
-                    var p : CDUserProfile = CDUserProfile.getOne()!
-                    let pr = data["profile"]
-                    p.pict = pr["pict"].string!
-                    
-                    var o : CDUserOther = CDUserOther.getOne()!
-                    o.pathID = pathId
-                    o.pathUsername = pathName
-                    o.pathAccessToken = token
-                    
-                    user.profiles = p
-                    user.others = o
-                    UIApplication.appDelegate.saveContext()
-                    
-                    // Save in NSUserDefaults
-                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                }
+                
+                // Save in core data
+                let m = UIApplication.appDelegate.managedObjectContext
+                var user : CDUser = CDUser.getOne()!
+                user.id = data["_id"].string!
+                user.username = data["username"].string!
+                user.email = data["email"].string!
+                user.fullname = data["fullname"].string!
+                
+                var p : CDUserProfile = CDUserProfile.getOne()!
+                let pr = data["profile"]
+                p.pict = pr["pict"].string!
+                
+                var o : CDUserOther = CDUserOther.getOne()!
+                o.pathID = pathId
+                o.pathUsername = pathName
+                o.pathAccessToken = token
+                
+                user.profiles = p
+                user.others = o
+                UIApplication.appDelegate.saveContext()
+                
+                // Save in NSUserDefaults
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                NSUserDefaults.standardUserDefaults().synchronize()
             }
         }*/
     }
@@ -413,44 +394,30 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {req, _, res, err in
-                println("Set referral req = \(req)")
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error setting referral")//: \(err!.description)")
-                } else {
+            request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Prelo Bonus")) {
                     let json = JSON(res!)
-                    if (json["_data"] == nil) {
-                        let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]
-                        if (message != nil) {
-                            Constant.showDialog("Warning", message: "Error setting referral, message: \(message!)")
-                        }
-                    } else {
-                        let isSuccess = json["_data"].bool!
-                        if (isSuccess) { // Berhasil
-                            Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
-                            
-                            // Refresh saldo
-                            self.saldo += self.BONUS_AMOUNT
-                            self.lblSaldo.text = "\(self.saldo.asPrice)"
-                            
-                            // Sembunyikan field
-                            self.vwSubmit.hidden = true
-                            
-                            // Mixpanel
-                            let p = [
-                                "Referral Code Used" : self.fieldKodeReferral.text
-                            ]
-                            Mixpanel.sharedInstance().registerSuperProperties(p)
-                            Mixpanel.sharedInstance().people.setOnce(p)
-                            let pt = [
-                                "Activation Screen" : "Voucher"
-                            ]
-                            Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
-                            
-                        } else { // Gagal
-                            Constant.showDialog("Warning", message: "Error setting referral")
-                        }
+                    let isSuccess = json["_data"].bool!
+                    if (isSuccess) { // Berhasil
+                        Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
+                        
+                        // Refresh saldo
+                        self.saldo += self.BONUS_AMOUNT
+                        self.lblSaldo.text = "\(self.saldo.asPrice)"
+                        
+                        // Sembunyikan field
+                        self.vwSubmit.hidden = true
+                        
+                        // Mixpanel
+                        let p = [
+                            "Referral Code Used" : self.fieldKodeReferral.text
+                        ]
+                        Mixpanel.sharedInstance().registerSuperProperties(p)
+                        Mixpanel.sharedInstance().people.setOnce(p)
+                        let pt = [
+                            "Activation Screen" : "Voucher"
+                        ]
+                        Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
                     }
                 }
             }

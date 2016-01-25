@@ -75,26 +75,16 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func getUserLovelist() {
-        request(APIUser.MyLovelist).responseJSON {req, _, res, err in
-            println("My lovelist req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("Error getting lovelist: \(err!.description)")
-            } else {
+        request(APIUser.MyLovelist).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lovelist")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) {
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Error getting lovelist, message: \(message)")
-                } else { // Berhasil
-                    println("Lovelist: \(data)")
-                    
-                    // Store data into variable
-                    for (index : String, item : JSON) in data {
-                        let l = LovedProduct.instance(item)
-                        if (l != nil) {
-                            self.userLovelist?.append(l!)
-                        }
+                
+                // Store data into variable
+                for (index : String, item : JSON) in data {
+                    let l = LovedProduct.instance(item)
+                    if (l != nil) {
+                        self.userLovelist?.append(l!)
                     }
                 }
             }
@@ -187,26 +177,15 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Load detail product
         let selectedLoved : LovedProduct = (userLovelist?[indexPath.item])! as LovedProduct
-        request(Products.Detail(productId: selectedLoved.id)).responseJSON {req, _, res, err in
-            println("Loved product detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("Error getting product detail: \(err!.description)")
-            } else {
+        request(Products.Detail(productId: selectedLoved.id)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty product detail, message: \(message)")
-                } else { // Berhasil
-                    println("Loved product detail: \(data)")
-                    
-                    // Store data into variable
-                    self.selectedProduct = Product.instance(data)
-                    
-                    // Launch detail scene
-                    NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
-                }
+                // Store data into variable
+                self.selectedProduct = Product.instance(data)
+                
+                // Launch detail scene
+                NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
             }
         }
     }
@@ -275,18 +254,13 @@ class MyLovelistCell : UITableViewCell {
         self.delegate?.showLoading()
         
         // Send unlove API
-        request(Products.Unlove(productID: productId)).responseJSON {req, _, res, err in
-            println("Unlove req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("error unlove: \(err!.description)")
-            } else {
+        request(Products.Unlove(productID: productId)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Unlove")) {
                 let json = JSON(res!)
                 let isLove : Bool = json["_data"]["love"].bool!
                 if (!isLove) { // Berhasil unlove
                     // Delete cell
                     self.delegate?.deleteCell(self)
-                } else { // Gagal unlove
-                    Constant.showDialog("Warning", message: "Terdapat kesalahan pada server, silahkan coba beberapa saat lagi")
                 }
                 self.delegate?.hideLoading()
             }

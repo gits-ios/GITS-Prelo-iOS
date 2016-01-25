@@ -1274,8 +1274,13 @@ class APIPrelo
         {
             if (response.statusCode != 200)
             {
-                if (res != nil && showErrorDialog) {
-                    UIAlertView.SimpleShow(reqAlias, message: JSON(res!)["_message"].string!)
+                if (res != nil) {
+                    if let msg = JSON(res!)["_message"].string {
+                        if (showErrorDialog) {
+                            UIAlertView.SimpleShow(reqAlias, message: msg)
+                        }
+                        println("\(reqAlias) _message = \(msg)")
+                    }
                 } else if (res == nil && showErrorDialog) {
                     if (response.statusCode > 500) {
                         UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
@@ -1291,7 +1296,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow(reqAlias, message: "Oops, coba cek koneksi internet kamu")
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, tidak ada respon dari server")
             }
             return false
         }
@@ -1300,8 +1305,9 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")//error.description)
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
+            println("\(reqAlias) err = \(error.description)")
             return false
         }
         else

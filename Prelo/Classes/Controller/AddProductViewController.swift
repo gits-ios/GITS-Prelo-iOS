@@ -71,9 +71,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
-                    {
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Conditions")) {
                         let json = JSON(res!)
                         let brands = json["product_conditions"].array
                         var items : Array<String> = []
@@ -94,8 +93,6 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                         picker.items = items
                         picker.tableView.reloadData()
                         picker.doneLoading()
-                    } else {
-                        
                     }
                 }
             }
@@ -107,9 +104,8 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
-                    {
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands")) {
                         let json = JSON(res!)
                         let brands = json["brands"].array
                         var items : Array<String> = []
@@ -131,8 +127,6 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                         picker.tableView.reloadData()
                         picker.doneLoading()
                         picker.showSearch = true
-                    } else {
-                        
                     }
                 }
             }

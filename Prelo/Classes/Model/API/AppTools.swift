@@ -219,6 +219,8 @@ class PageName
     static let CheckoutTutorial = "Checkout Tutorial"
 }
 
+
+
 class MixpanelEvent
 {
     static let Register = "Register"

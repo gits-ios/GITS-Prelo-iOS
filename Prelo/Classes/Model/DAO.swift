@@ -2143,7 +2143,7 @@ class InboxMessage : NSObject
         var m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
         request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON { req, resp, res, err in
             self.sending = false
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim chat"))
             {
                 
             } else

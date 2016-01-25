@@ -38,8 +38,8 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
         if let url = s
         {
-            request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-                if (APIPrelo.validate(true, err: err, resp: resp))
+            request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Merk"))
                 {
                     let json = JSON(res!)
                     let brands = json["brands"]["_data"].array

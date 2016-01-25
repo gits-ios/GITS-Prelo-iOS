@@ -56,7 +56,7 @@ class NotificationPageTransactionViewController: BaseViewController, UITableView
         // Tell server that user opens notification page transaction
         // FIXME: OpenNotifs ganti dengan open transaksi notif doang
         request(APINotif.OpenNotifs).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Transaksi")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {

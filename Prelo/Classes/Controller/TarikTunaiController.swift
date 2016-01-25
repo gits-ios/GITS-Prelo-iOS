@@ -106,7 +106,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     func getBalance()
     {
         request(APIWallet.GetBalance).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang"))
             {
                 let json = JSON(res!)
                 if let i = json["_data"].int
@@ -154,7 +154,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         
         request(APIWallet.Withdraw(amount: amount, targetBank: namaBank, norek: norek, namarek: namarek, password: pass)).responseJSON { req, resp, res, err in
             self.btnWithdraw.enabled = true
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Tarik Uang"))
             {
                 let json = JSON(res!)
                 if let message = json["_message"].string
@@ -216,7 +216,7 @@ class SetupPasswordPopUp : UIView {
         self.btnKirimEmail.setTitle("MENGIRIM...", forState: .Normal)
         self.btnKirimEmail.userInteractionEnabled = false
         request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang - Password Checking")) {
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang - Password Checking")) {
                 let json = JSON(res!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue

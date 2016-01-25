@@ -41,7 +41,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInboxes()
     {
         request(APIInbox.GetInboxes).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Inbox"))
             {
                 let json = JSON(res!)
                 if let arr = json["_data"].array
@@ -61,14 +61,12 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
             {
                 
             }
-            }.responseString { req, resp, string, err in
-                
-                println(string)
-                
+        }.responseString { req, resp, string, err in
+            println(string)
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
 //        request(.GET, (url?.absoluteString)!).responseJSON { req, resp, res, err in
-//            if (APIPrelo.validate(true, err: err, resp: resp))
+//            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Inbox"))
 //            {
 //                let json = JSON(res!)
 //                if let arr = json["_data"].array

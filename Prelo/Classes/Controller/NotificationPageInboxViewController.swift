@@ -56,7 +56,7 @@ class NotificationPageInboxViewController: BaseViewController, UITableViewDataSo
         // Tell server that user opens notification page inbox
         // FIXME: OpenNotifs ganti dengan open inbox notif doang
         request(APINotif.OpenNotifs).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Inbox")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {

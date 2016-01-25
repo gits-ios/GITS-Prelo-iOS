@@ -177,24 +177,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     func getProductDetail() {
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {req, _, res, err in
-            println("Product detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("Error getting transaction detail: \(err!.description)")
-            } else {
+        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Jualan Saya")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("data = \(data)")
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty transaction detail, message: \(message)")
-                } else { // Berhasil
-                    
-                    // Set label text and image
-                    self.transactionDetail = TransactionDetail.instance(data)
-                    self.setupContent()
-                }
+                
+                // Set label text and image
+                self.transactionDetail = TransactionDetail.instance(data)
+                self.setupContent()
             }
         }
     }
@@ -533,36 +523,29 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
-        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
-            println("Get product detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting product detail")//: \(err!.description)")
-            } else {
+        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
                 let json = JSON(res!)
-                if (json == nil || json == []) { // Data kembalian kosong
-                    println("Empty product detail")
-                } else { // Berhasil
-//                    let pDetail = ProductDetail.instance(json)
-//                    pDetail?.reverse()
-                    self.detail = ProductDetail.instance(json)
+                //let pDetail = ProductDetail.instance(json)
+                //pDetail?.reverse()
+                self.detail = ProductDetail.instance(json)
+                
+                // Goto chat
+                let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                
+                if let json = self.transactionDetail?.json["review"]
+                {
+                    self.detail?.buyerId = json["buyer_id"].stringValue
+                    self.detail?.buyerName = json["buyer_fullname"].stringValue
+                    self.detail?.buyerImage = json["buyer_pict"].stringValue
+                    self.detail?.reverse()
                     
-                    // Goto chat
-                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    t.tawarItem = self.detail
+                    t.fromSeller =  true
                     
-                    if let json = self.transactionDetail?.json["review"]
-                    {
-                        self.detail?.buyerId = json["buyer_id"].stringValue
-                        self.detail?.buyerName = json["buyer_fullname"].stringValue
-                        self.detail?.buyerImage = json["buyer_pict"].stringValue
-                        self.detail?.reverse()
-                        
-                        t.tawarItem = self.detail
-                        t.fromSeller =  true
-                        
-                        t.toId = json["buyer_id"].stringValue
-                        t.prodId = t.tawarItem.itemId
-                        self.navigationController?.pushViewController(t, animated: true)
-                    }
+                    t.toId = json["buyer_id"].stringValue
+                    t.prodId = t.tawarItem.itemId
+                    self.navigationController?.pushViewController(t, animated: true)
                 }
             }
         }

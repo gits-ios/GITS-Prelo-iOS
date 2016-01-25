@@ -161,24 +161,16 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     func getPurchaseDetail() {
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {req, _, res, err in
-            println("Purchase detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("Error getting transaction detail: \(err!.description)")
-            } else {
+        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Belanjaan Saya")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty transaction detail, message: \(message)")
-                } else { // Berhasil
-                    println("Transaction detail: \(data)")
-                    
-                    // Set label text and image
-                    self.transactionDetail = TransactionDetail.instance(data)
-                    self.setupContent()
-                }
+                
+                println("Transaction detail: \(data)")
+                
+                // Set label text and image
+                self.transactionDetail = TransactionDetail.instance(data)
+                self.setupContent()
             }
         }
     }

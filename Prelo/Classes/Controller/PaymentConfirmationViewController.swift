@@ -68,41 +68,30 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     }
     
     func getUserCheckouts() {
-        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {req, _, res, err in
-            println("Checkout list req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting checkout list")//: \(err!.description)")
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
-                println(res)
+        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Pesanan Saya")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Terdapat error
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    Constant.showDialog("Warning", message: "Error getting checkout list, message: \(message)")
-                    self.navigationController?.popViewControllerAnimated(true)
-                } else { // Berhasil
-                    println("Checkout list : \(data)")
-                    
-                    // Store data into variable
-                    for (index : String, item : JSON) in data {
-                        let u = UserCheckout.instance(item)
-                        if (u != nil) {
-                            self.userCheckouts?.append(u!)
-                        }
-                    }
-                    
-                    // Show table or empty label
-                    self.loadingPanel.hidden = true
-                    self.loading.stopAnimating()
-                    if (self.userCheckouts?.count <= 0) {
-                        self.lblEmpty.hidden = false
-                    } else {
-                        self.tableView.hidden = false
-                        self.setupTable()
+                
+                // Store data into variable
+                for (index : String, item : JSON) in data {
+                    let u = UserCheckout.instance(item)
+                    if (u != nil) {
+                        self.userCheckouts?.append(u!)
                     }
                 }
+                
+                // Show table or empty label
+                self.loadingPanel.hidden = true
+                self.loading.stopAnimating()
+                if (self.userCheckouts?.count <= 0) {
+                    self.lblEmpty.hidden = false
+                } else {
+                    self.tableView.hidden = false
+                    self.setupTable()
+                }
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }

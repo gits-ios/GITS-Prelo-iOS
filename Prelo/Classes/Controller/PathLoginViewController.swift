@@ -89,12 +89,8 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             //println("code = \(code)")
             
             // Get token
-            request(APIPathAuth.GetToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {req, _, res, err in
-                println("Request token req = \(req)")
-                
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error get token path")//(err?.description)!)
-                } else {
+            request(APIPathAuth.GetToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
                     let json = JSON(res!)
                     println("json = \(json)")
                     if (json["code"].int == 200) { // OK
@@ -102,11 +98,8 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                         let pathToken : String = json["access_token"].string!
                         
                         // Get user Path data
-                        request(APIPathUser.GetSelfData(token: pathToken)).responseJSON {req, _, res, err in
-                            println("Request get self data = \(req)")
-                            if (err != nil) { // Terdapat error
-                                Constant.showDialog("Warning", message: "Error get token path")//: (err?.description)!)
-                            } else {
+                        request(APIPathUser.GetSelfData(token: pathToken)).responseJSON { req, resp, res, err in
+                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
                                 let json = JSON(res!)
                                 println("json = \(json)")
                                 if (json["code"].int == 200) { // OK

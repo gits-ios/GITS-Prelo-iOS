@@ -113,62 +113,51 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 User.SetToken(self.userToken)
             }
             
-            request(APIUser.VerifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON {req, _, res, err in
+            request(APIUser.VerifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON { req, resp, res, err in
                 if (!self.isReverification) {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)
                 }
                 
-                println("Verify phone req = \(req)")
-                if (err != nil) {
-                    Constant.showDialog("Warning", message: "Verify phone error")//: \(err?.description)")
-                } else {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Verifikasi Nomor HP")) {
                     let json = JSON(res!)
-                    if (json["_data"] == nil) {
-                        let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]
-                        if (message != nil) {
-                            Constant.showDialog("Warning", message: "\(message!)")
-                        }
-                    } else {
-                        let isSuccess = json["_data"].bool!
-                        if (isSuccess) { // Berhasil
-                            if (self.isReverification) { // User is changing phone number from edit profile
-                                self.phoneReverificationSucceed()
-                                
-                                if let d = self.delegate {
-                                    d.phoneVerified(self.fldNoHp.text!)
-                                }
-                            } else { // User is setting up new account
-                                // Set user to logged in
-                                User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
-                                if let d = self.userRelatedDelegate
-                                {
-                                    d.userLoggedIn!()
-                                }
-                                
-                                /* TO BE DELETED, dipindah ke ProfileSetupVC
-                                if let c = CDUser.getOne()
-                                {
-                                    Mixpanel.sharedInstance().identify(c.id)
-                                    Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-                                } else {
-                                    Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                                    Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                                }*/
-                                
-                                // Set crashlytics user information
-                                let user = CDUser.getOne()!
-                                Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
-                                Crashlytics.sharedInstance().setUserEmail(user.email)
-                                Crashlytics.sharedInstance().setUserName(user.fullname!)
-                                
-                                // Send deviceRegId before finish
-                                LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
+                    let isSuccess = json["_data"].bool!
+                    if (isSuccess) { // Berhasil
+                        if (self.isReverification) { // User is changing phone number from edit profile
+                            self.phoneReverificationSucceed()
+                            
+                            if let d = self.delegate {
+                                d.phoneVerified(self.fldNoHp.text!)
                             }
-                        } else { // Gagal
-                            Constant.showDialog("Warning", message: "Error verifying phone number")
+                        } else { // User is setting up new account
+                            // Set user to logged in
+                            User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+                            if let d = self.userRelatedDelegate
+                            {
+                                d.userLoggedIn!()
+                            }
+                            
+                            /* TO BE DELETED, dipindah ke ProfileSetupVC
+                            if let c = CDUser.getOne()
+                            {
+                            Mixpanel.sharedInstance().identify(c.id)
+                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                            } else {
+                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+                            }*/
+                            
+                            // Set crashlytics user information
+                            let user = CDUser.getOne()!
+                            Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
+                            Crashlytics.sharedInstance().setUserEmail(user.email)
+                            Crashlytics.sharedInstance().setUserName(user.fullname!)
+                            
+                            // Send deviceRegId before finish
+                            LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
                         }
+                    } else { // Gagal
+                        Constant.showDialog("Warning", message: "Error verifying phone number")
                     }
                 }
             }

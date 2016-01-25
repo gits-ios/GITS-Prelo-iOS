@@ -359,7 +359,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 //Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
                 NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
                 request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
+                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
                         let json = JSON(res!)
                         let data = json["_data"]
                         let p = Product.instance(data)
@@ -381,16 +381,12 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getFullcategory()
     {
-        request(References.CategoryList)
-            .responseJSON { _, _, JSON, err in
-                if (err != nil) {
-                    println(err)
-                } else {
-                    println(JSON)
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                    self.getCategory()
-                }
+        request(References.CategoryList).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Category List")) {
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                self.getCategory()
+            }
         }
     }
     
@@ -406,12 +402,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     println(err)
                 }
             }
-            .responseJSON { _, _, JSON, err in
-                if (err != nil) {
-                    println(err)
-                } else {
-                    println(JSON)
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
+            .responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Category Home")) {
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     self.setupCategory()
                 }

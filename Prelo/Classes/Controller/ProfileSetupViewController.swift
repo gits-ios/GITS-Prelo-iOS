@@ -481,140 +481,119 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             // Set token first, because APIUser.SetupAccount need token
             User.SetToken(self.userToken)
             
-            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { _, _, res, err in
+            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
                 
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)
                 
-                if let error = err {
-                    Constant.showDialog("Warning", message: "Error setup account")//:error.description)
-                    self.btnApply.enabled = true
-                } else {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setup Akun")) {
                     let json = JSON(res!)
                     let data = json["_data"]
-                    if (data == nil) { // Data kembalian kosong
-                        let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]
-                        Constant.showDialog("Warning", message: message!)
-                        self.btnApply.enabled = true
-                    } else { // Berhasil
-                        println("Setup account succeed")
-                        println("Setup account data = \(data)")
-                        
-                        // Set user's preferenced categories by current stored categories
-                        // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
-                        request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON { req, _, res, err in
-                            println("Set user preferenced categories req = \(req)")
-                            if (err != nil) {
+                    
+                    // Set user's preferenced categories by current stored categories
+                    // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
+                    request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Set User Preferenced Categories")) {
+                            let json = JSON(res!)
+                            let isSuccess = json["_data"].bool!
+                            if (isSuccess) { // Berhasil
+                                println("Success setting user preferenced categories")
+                            } else { // Gagal
                                 println("Error setting user preferenced categories")
-                            } else {
-                                let json = JSON(res!)
-                                if (json["_data"] == nil) {
-                                    let obj : [String : String] = res as! [String : String]
-                                    let message = obj["_message"]
-                                    if (message != nil) {
-                                        println("Error setting user preferenced categories, message: \(message!)")
-                                    }
-                                } else {
-                                    let isSuccess = json["_data"].bool!
-                                    if (isSuccess) { // Berhasil
-                                        println("Success setting user preferenced categories")
-                                    } else { // Gagal
-                                        println("Error setting user preferenced categories")
-                                    }
-                                }
                             }
-                        }
-                        
-                        
-                        // Save in core data
-                        let m = UIApplication.appDelegate.managedObjectContext
-                        
-                        CDUser.deleteAll()
-                        let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                        user.id = data["_id"].string!
-                        user.username = data["username"].string!
-                        user.email = data["email"].string!
-                        user.fullname = data["fullname"].string!
-                        
-                        CDUserProfile.deleteAll()
-                        let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
-                        userProfile.regionID = self.selectedKabKotaID
-                        userProfile.provinceID = self.selectedProvinsiID
-                        userProfile.phone = userPhone!
-                        userProfile.gender = self.lblJenisKelamin.text!
-                        userProfile.pict = data["profile"]["pict"].string!
-                        user.profiles = userProfile
-                        // TODO: Simpan referral, deviceid di coredata
-                        
-                        CDUserOther.deleteAll()
-                        let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                        var shippingArr : [String] = []
-                        var shippingArrName : [String] = []
-                        for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
-                            let s : String = data["shipping_preferences_ids"][i].string!
-                            shippingArr.append(s)
-                            if let sName = CDShipping.getShippingCompleteNameWithId(s) {
-                                shippingArrName.append(sName)
-                            }
-                        }
-                        userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
-                        // TODO: belum lengkap? simpan token socmed bila dari socmed
-                        
-                        // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
-                        // Di dalamnya akan memanggil MessagePool.start()
-                        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-                        
-                        // Save data
-                        var saveErr : NSError? = nil
-                        if (!m!.save(&saveErr)) {
-                            println("Error while saving data")
-                        } else {
-                            println("Data saved")
-                            
-                            // Mixpanel
-                            let sp = [
-                                "User ID" : user.id,
-                                "Username" : user.username,
-                                "Gender" : userProfile.gender!,
-                                "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                                "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                                "Referral Code Used" : userReferral
-                            ]
-                            Mixpanel.sharedInstance().registerSuperProperties(sp)
-                            Mixpanel.sharedInstance().identify(user.id)
-                            let p = [
-                                "User ID" : user.id,
-                                "$username" : user.username,
-                                "Gender" : userProfile.gender!,
-                                "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                                "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                                "Referral Code Used" : userReferral
-                            ]
-                            Mixpanel.sharedInstance().people.set(p)
-                            let pt = [
-                                "Phone" : userProfile.phone!,
-                                "Shipping Options" : shippingArrName
-                            ]
-                            Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
-                            let pt2 = [
-                                "Activation Screen" : "Setup Account"
-                            ]
-                            Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
-
-                            let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                            phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
-                            phoneVerificationVC.userId = self.userId
-                            phoneVerificationVC.userToken = self.userToken
-                            phoneVerificationVC.userEmail = self.userEmail
-                            phoneVerificationVC.isShowBackBtn = true
-                            phoneVerificationVC.loginMethod = self.loginMethod
-                            self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                            
-                            // FOR TESTING (SKIP PHONE VERIFICATION)
-                            //self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
+                    
+                    
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    
+                    CDUser.deleteAll()
+                    let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                    user.id = data["_id"].string!
+                    user.username = data["username"].string!
+                    user.email = data["email"].string!
+                    user.fullname = data["fullname"].string!
+                    
+                    CDUserProfile.deleteAll()
+                    let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                    userProfile.regionID = self.selectedKabKotaID
+                    userProfile.provinceID = self.selectedProvinsiID
+                    userProfile.phone = userPhone!
+                    userProfile.gender = self.lblJenisKelamin.text!
+                    userProfile.pict = data["profile"]["pict"].string!
+                    user.profiles = userProfile
+                    // TODO: Simpan referral, deviceid di coredata
+                    
+                    CDUserOther.deleteAll()
+                    let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    var shippingArr : [String] = []
+                    var shippingArrName : [String] = []
+                    for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
+                        let s : String = data["shipping_preferences_ids"][i].string!
+                        shippingArr.append(s)
+                        if let sName = CDShipping.getShippingCompleteNameWithId(s) {
+                            shippingArrName.append(sName)
+                        }
+                    }
+                    userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
+                    // TODO: belum lengkap? simpan token socmed bila dari socmed
+                    
+                    // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
+                    // Di dalamnya akan memanggil MessagePool.start()
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
+                    
+                    // Save data
+                    var saveErr : NSError? = nil
+                    if (!m!.save(&saveErr)) {
+                        println("Error while saving data")
+                    } else {
+                        println("Data saved")
+                        
+                        // Mixpanel
+                        let sp = [
+                            "User ID" : user.id,
+                            "Username" : user.username,
+                            "Gender" : userProfile.gender!,
+                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
+                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
+                            "Referral Code Used" : userReferral
+                        ]
+                        Mixpanel.sharedInstance().registerSuperProperties(sp)
+                        Mixpanel.sharedInstance().identify(user.id)
+                        let p = [
+                            "User ID" : user.id,
+                            "$username" : user.username,
+                            "Gender" : userProfile.gender!,
+                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
+                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
+                            "Referral Code Used" : userReferral
+                        ]
+                        Mixpanel.sharedInstance().people.set(p)
+                        let pt = [
+                            "Phone" : userProfile.phone!,
+                            "Shipping Options" : shippingArrName
+                        ]
+                        Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
+                        let pt2 = [
+                            "Activation Screen" : "Setup Account"
+                        ]
+                        Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
+                        
+                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+                        phoneVerificationVC.userId = self.userId
+                        phoneVerificationVC.userToken = self.userToken
+                        phoneVerificationVC.userEmail = self.userEmail
+                        phoneVerificationVC.isShowBackBtn = true
+                        phoneVerificationVC.loginMethod = self.loginMethod
+                        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                        
+                        // FOR TESTING (SKIP PHONE VERIFICATION)
+                        //self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                } else {
+                    self.btnApply.enabled = true
                 }
             }
         }

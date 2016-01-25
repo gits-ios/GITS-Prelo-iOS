@@ -592,119 +592,119 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func getSizes()
     {
         request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {req, resp, res, err in
-            println(res)
-            if let x: AnyObject = res
-            {
-                let json = JSON(x)
-                let jsizes = json["_data"]["sizes"]
-                if let arr = jsizes["size_types"].array
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands and Sizes")) {
+                if let x: AnyObject = res
                 {
-                    self.captionSize1.text = ""
-                    self.captionSize2.text = ""
-                    self.captionSize3.text = ""
-                    var sml : Array<String> = []
-                    var usa : Array<String> = []
-                    var eur : Array<String> = []
-                    for i in 0...arr.count-1
+                    let json = JSON(x)
+                    let jsizes = json["_data"]["sizes"]
+                    if let arr = jsizes["size_types"].array
                     {
-                        let d = arr[i]
-                        let name = d["name"].string!
-                        if let strings = d["sizes"].arrayObject
+                        self.captionSize1.text = ""
+                        self.captionSize2.text = ""
+                        self.captionSize3.text = ""
+                        var sml : Array<String> = []
+                        var usa : Array<String> = []
+                        var eur : Array<String> = []
+                        for i in 0...arr.count-1
                         {
-                            for c in 0...strings.count-1
+                            let d = arr[i]
+                            let name = d["name"].string!
+                            if let strings = d["sizes"].arrayObject
                             {
-                                if (i == 0)
+                                for c in 0...strings.count-1
                                 {
-                                    self.captionSize1.text = name
-                                    sml.append(strings[c] as! String)
-                                }
-                                
-                                if (i == 1)
-                                {
-                                    self.captionSize2.text = name
-                                    usa.append(strings[c] as! String)
-                                }
-                                
-                                if (i == 2)
-                                {
-                                    self.captionSize3.text = name
-                                    eur.append(strings[c] as! String)
+                                    if (i == 0)
+                                    {
+                                        self.captionSize1.text = name
+                                        sml.append(strings[c] as! String)
+                                    }
+                                    
+                                    if (i == 1)
+                                    {
+                                        self.captionSize2.text = name
+                                        usa.append(strings[c] as! String)
+                                    }
+                                    
+                                    if (i == 2)
+                                    {
+                                        self.captionSize3.text = name
+                                        eur.append(strings[c] as! String)
+                                    }
                                 }
                             }
+                            
                         }
                         
-                    }
-                    
-                    self.sizes = []
-                    let tempCount = sml.count >= usa.count ? sml.count : usa.count
-                    let sizeCount = tempCount >= eur.count ? tempCount : eur.count
-                    for i in 0...sizeCount-1
-                    {
-                        var usaString = " "
-                        if (i < usa.count-1) // usa is safe
+                        self.sizes = []
+                        let tempCount = sml.count >= usa.count ? sml.count : usa.count
+                        let sizeCount = tempCount >= eur.count ? tempCount : eur.count
+                        for i in 0...sizeCount-1
                         {
-                            usaString = usa[i]
-                        }
-                        
-                        var smlString = " "
-                        if (i < sml.count-1) // sml is safe
-                        {
-                            smlString = sml[i]
-                        }
-                        
-                        var eurString = " "
-                        if (i < eur.count-1) // eur is safe
-                        {
-                            eurString = eur[i]
-                        }
-                        
-                        var sizeString = usaString + "\n" + smlString + "\n" + eurString
-                        self.sizes.append(sizeString)
-                    }
-                    
-                    if (self.sizes.count > 0)
-                    {
-                        self.sizePicker.collectionView.reloadData()
-                        self.sizePicker.selectItem(0, animated: false)
-                        self.conHeightSize.constant = 146
-                        self.sizePicker.superview?.hidden = false
-                        
-                        var s = ""
-                        if let x = self.editProduct?.size
-                        {
-                            s = x
-                        }
-                        if (s != "" && self.editMode == true)
-                        {
-                            s = s.stringByReplacingOccurrencesOfString("/", withString: "\n")
-                            s = s.stringByReplacingOccurrencesOfString(" ", withString: "-")
-                            s = s.stringByReplacingOccurrencesOfString("(", withString: "")
-                            s = s.stringByReplacingOccurrencesOfString(")", withString: "")
-                            var index = 0
-                            for s1 in self.sizes
+                            var usaString = " "
+                            if (i < usa.count-1) // usa is safe
                             {
-                                var s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
-                                if (s1s == s)
-                                {
-                                    self.sizePicker.selectItem(UInt(index), animated: false)
-                                    break
-                                }
-                                
-                                index += 1
+                                usaString = usa[i]
                             }
+                            
+                            var smlString = " "
+                            if (i < sml.count-1) // sml is safe
+                            {
+                                smlString = sml[i]
+                            }
+                            
+                            var eurString = " "
+                            if (i < eur.count-1) // eur is safe
+                            {
+                                eurString = eur[i]
+                            }
+                            
+                            var sizeString = usaString + "\n" + smlString + "\n" + eurString
+                            self.sizes.append(sizeString)
                         }
-                    } else
-                    {
-                        self.conHeightSize.constant = 0
-                        self.sizePicker.superview?.hidden = true
+                        
+                        if (self.sizes.count > 0)
+                        {
+                            self.sizePicker.collectionView.reloadData()
+                            self.sizePicker.selectItem(0, animated: false)
+                            self.conHeightSize.constant = 146
+                            self.sizePicker.superview?.hidden = false
+                            
+                            var s = ""
+                            if let x = self.editProduct?.size
+                            {
+                                s = x
+                            }
+                            if (s != "" && self.editMode == true)
+                            {
+                                s = s.stringByReplacingOccurrencesOfString("/", withString: "\n")
+                                s = s.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                                s = s.stringByReplacingOccurrencesOfString("(", withString: "")
+                                s = s.stringByReplacingOccurrencesOfString(")", withString: "")
+                                var index = 0
+                                for s1 in self.sizes
+                                {
+                                    var s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
+                                    if (s1s == s)
+                                    {
+                                        self.sizePicker.selectItem(UInt(index), animated: false)
+                                        break
+                                    }
+                                    
+                                    index += 1
+                                }
+                            }
+                        } else
+                        {
+                            self.conHeightSize.constant = 0
+                            self.sizePicker.superview?.hidden = true
+                        }
                     }
+                } else
+                {
+                    self.conHeightSize.constant = 0
+                    self.sizePicker.superview?.hidden = true
                 }
-            } else
-            {
-                self.conHeightSize.constant = 0
-                self.sizePicker.superview?.hidden = true
             }
-            
         }
     }
     
@@ -718,8 +718,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-                    if (APIPrelo.validate(true, err: err, resp: resp))
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{ req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Conditions"))
                     {
                         let json = JSON(res!)
                         let brands = json["product_conditions"].array
@@ -800,8 +800,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
 //            p.prepDataBlock = { picker in
 //                picker.textTitle = "Pilih Merek"
-//                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{_, resp, res, err in
-//                    if (APIPrelo.validate(true, err: err, resp: resp))
+//                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
+//                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands"))
 //                    {
 //                        let json = JSON(res!)
 //                        let brands = json["brands"]["_data"].array
@@ -1060,11 +1060,22 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             s.productID = (json["_data"]["_id"].string)!
             NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
             self.navigationController?.pushViewController(s, animated: true)
-            }, failure: {op, err in
+            }, failure: { op, err in
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
                 self.btnSubmit.enabled = true
-                UIAlertView.SimpleShow("Warning", message: "Gagal")
+                var msgContent = "Terdapat kesalahan saat upload produk, silahkan coba beberapa saat lagi"
+                if let msg = op.responseString {
+                    if let range1 = msg.rangeOfString("{\"_message\":\"") {
+                        println(range1)
+                        let msg1 = msg.substringFromIndex(range1.endIndex)
+                        if let range2 = msg1.rangeOfString("\"}") {
+                            println(range2)
+                            msgContent = msg1.substringToIndex(range2.startIndex)
+                        }
+                    }
+                }
+                UIAlertView.SimpleShow("Upload Produk", message: msgContent)
         })
     }
     

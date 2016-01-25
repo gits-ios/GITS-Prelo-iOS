@@ -31,8 +31,8 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
     {
         self.title = "Loading.."
         request(APISearch.User(keyword: keyword)).responseJSON { req, resp, res, err in
-            println(res)
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            //println(res)
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Search User"))
             {
                 let json = JSON(res!)
                 if let arr = json["_data"].array

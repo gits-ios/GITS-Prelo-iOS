@@ -56,7 +56,7 @@ class NotificationPageActivityViewController: BaseViewController, UITableViewDat
         // Tell server that user opens notification page activity
         // FIXME: OpenNotifs ganti dengan open activity notif doang
         request(APINotif.OpenNotifs).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Aktivitas")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {

@@ -62,7 +62,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.title = storeName
         }
         
-        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ _, _, _, _ in }
+        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
+                
+            }
+        }
         
         refresher = UIRefreshControl()
         refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -113,26 +117,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999))
-            .responseJSON{req, resp, res, err in
-                self.done = false
-                self.requesting = false
-                if (APIPrelo.validate(false, err: err, resp: resp))
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+            self.done = false
+            self.requesting = false
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Daftar Produk")) {
+                self.products = []
+                var obj = JSON(res!)
+                for (index : String, item : JSON) in obj["_data"]
                 {
-                    self.products = []
-                    var obj = JSON(res!)
-                    for (index : String, item : JSON) in obj["_data"]
-                    {
-                        let p = Product.instance(item)
-                        if (p != nil) {
-                            self.products?.append(p!)
-                        }
+                    let p = Product.instance(item)
+                    if (p != nil) {
+                        self.products?.append(p!)
                     }
-                    self.refresher?.endRefreshing()
-                    self.setupGrid()
-                } else {
-                    
                 }
+                self.refresher?.endRefreshing()
+                self.setupGrid()
+            }
         }
     }
     
@@ -194,16 +194,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999))
-            .responseJSON{req, resp, res, err in
-                self.requesting = false
-                if (APIPrelo.validate(false, err: err, resp: resp))
-                {
-                    self.setupData(res)
-                } else {
-                    
-                }
-                self.setupGrid()
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+            self.requesting = false
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Product By Category")) {
+                self.setupData(res)
+            }
+            self.setupGrid()
         }
     }
     
@@ -213,7 +209,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
             self.requesting = false
-            if (APIPrelo.validate(false, err: err, resp: resp))
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Product"))
             {
                 self.setupData(res)
             } else {
@@ -229,7 +225,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.requesting = true
         request(APIPeople.GetShopPage(id: storeId)).responseJSON { req, resp, res, err in
             self.requesting = false
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Data Shop Pengguna"))
             {
                 println(res)
                 self.setupData(res)

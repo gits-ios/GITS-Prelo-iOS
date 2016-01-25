@@ -75,10 +75,8 @@ class AboutViewController: BaseViewController {
         }
         
         // Tell server
-        request(APIAuth.Logout).responseJSON {_, _, res, err in
-            if (err != nil) {
-                println("Logout API error: \(err!.description)")
-            } else {
+        request(APIAuth.Logout).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
                 println("Logout API success")
             }
         }

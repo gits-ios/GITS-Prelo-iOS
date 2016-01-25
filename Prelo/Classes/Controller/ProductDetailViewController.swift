@@ -135,9 +135,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (activated)
         {
-            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {req, resp, res, err in
+            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deaktivasi Produk"))
                 {
                     self.activated = false
                     self.adjustButtonActivation()
@@ -147,9 +147,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         } else
         {
-            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {req, resp, res, err in
+            request(Products.Activate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, err: err, resp: resp))
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Aktivasi Produk"))
                 {
                     self.activated = true
                     self.adjustButtonActivation()
@@ -227,7 +227,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.btnDelete.setTitle("LOADING..", forState: .Disabled)
         self.btnDelete.enabled = false
         request(Products.Delete(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hapus Produk"))
             {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
@@ -263,9 +263,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func getDetail()
     {
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!))
-            .responseJSON{_, resp, res, err in
-                println(res)
-                if (APIPrelo.validate(true, err: err, resp: resp))
+            .responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk"))
                 {
                     self.detail = ProductDetail.instance(JSON(res!))
                     self.activated = (self.detail?.isActive)!
@@ -740,8 +739,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = true
         loveCount+=1
         setupLoveView()
-        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Love Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -761,8 +760,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = false
         loveCount-=1
         setupLoveView()
-        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON{_, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Unlove Product"))
             {
                 if let s = self.captionCountLove?.text
                 {

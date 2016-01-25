@@ -327,7 +327,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     func instagramLoginSuccess(token: String, id: String, name: String) {
         request(APISocial.PostInstagramData(id: id, username: name, token: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Instagram")) {
                 let json = JSON(res!)
                 let data = json["_data"].bool
                 if (data != nil && data == true) { // Berhasil
@@ -417,31 +417,24 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     println("result = \(result)")
                     println("accessToken = \(accessToken)")
                     
-                    request(APISocial.PostFacebookData(id: userId, username: name, token: accessToken)).responseJSON {req, _, res, err in
-                        println("Post fb data req = \(req)")
-                        
-                        if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
-                        } else {
+                    request(APISocial.PostFacebookData(id: userId, username: name, token: accessToken)).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
                             let json = JSON(res!)
                             let data = json["_data"].bool
-                            if (data != nil && data == true) { // Berhasil
-                                // Save in core data
-                                let userOther : CDUserOther = CDUserOther.getOne()!
-                                userOther.fbID = userId
-                                userOther.fbUsername = name
-                                userOther.fbAccessToken = accessToken
-                                UIApplication.appDelegate.saveContext()
-                                
-                                // Adjust fb button
-                                self.lblLoginFacebook.text = name
-                                self.isLoggedInFacebook = true
-                                
-                                // Hide loading
-                                self.hideLoading()
-                            } else { // Terdapat error
-                                Constant.showDialog("Warning", message: "Post FB data error")
-                            }
+                            
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.fbID = userId
+                            userOther.fbUsername = name
+                            userOther.fbAccessToken = accessToken
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust fb button
+                            self.lblLoginFacebook.text = name
+                            self.isLoggedInFacebook = true
+                            
+                            // Hide loading
+                            self.hideLoading()
                         }
                     }
                 }
@@ -462,36 +455,29 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     let twToken = session!.authToken
                     let twSecret = session!.authTokenSecret
                     
-                    request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, _, res, err in
-                        println("Post twitter data req = \(req)")
-                        
-                        if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
-                        } else {
+                    request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Twitter")) {
                             let json = JSON(res!)
                             let data = json["_data"].bool
-                            if (data != nil && data == true) { // Berhasil
-                                // Save in core data
-                                let userOther : CDUserOther = CDUserOther.getOne()!
-                                userOther.twitterID = twId
-                                userOther.twitterUsername = twUsername
-                                userOther.twitterAccessToken = twToken
-                                userOther.twitterTokenSecret = twSecret
-                                UIApplication.appDelegate.saveContext()
-                                
-                                // Save in NSUserDefaults
-                                NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                                NSUserDefaults.standardUserDefaults().synchronize()
-                                
-                                // Adjust twitter button
-                                self.lblLoginTwitter.text = "@\(twUsername)"
-                                self.isLoggedInTwitter = true
-                                
-                                // Hide loading
-                                self.hideLoading()
-                            } else { // Terdapat error
-                                Constant.showDialog("Warning", message: "Post twitter data error")
-                            }
+                            
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.twitterID = twId
+                            userOther.twitterUsername = twUsername
+                            userOther.twitterAccessToken = twToken
+                            userOther.twitterTokenSecret = twSecret
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Save in NSUserDefaults
+                            NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            
+                            // Adjust twitter button
+                            self.lblLoginTwitter.text = "@\(twUsername)"
+                            self.isLoggedInTwitter = true
+                            
+                            // Hide loading
+                            self.hideLoading()
                         }
                     }
                 } else {
@@ -526,31 +512,24 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         let pathName = userData["name"].string!
         let email = userData["email"].string!
         
-        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON {req, _, res, err in
-            println("Post path data req = \(req)")
-            
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
-            } else {
+        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
                 let json = JSON(res!)
                 let data = json["_data"].bool
-                if (data != nil && data == true) { // Berhasil
-                    // Save in core data
-                    let userOther : CDUserOther = CDUserOther.getOne()!
-                    userOther.pathID = pathId
-                    userOther.pathUsername = pathName
-                    userOther.pathAccessToken = token
-                    UIApplication.appDelegate.saveContext()
-                    
-                    // Adjust path button
-                    self.lblLoginPath.text = pathName
-                    self.isLoggedInPath = true
-                    
-                    // Hide loading
-                    self.hideLoading()
-                } else { // Terdapat error
-                    Constant.showDialog("Warning", message: "Post path data error")
-                }
+                
+                // Save in core data
+                let userOther : CDUserOther = CDUserOther.getOne()!
+                userOther.pathID = pathId
+                userOther.pathUsername = pathName
+                userOther.pathAccessToken = token
+                UIApplication.appDelegate.saveContext()
+                
+                // Adjust path button
+                self.lblLoginPath.text = pathName
+                self.isLoggedInPath = true
+                
+                // Hide loading
+                self.hideLoading()
             }
         }
     }
@@ -620,123 +599,91 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.hideLoading()
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
-                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
-                    println("Post instagram data req = \(req)")
-                    
-                    if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post instagram data error")//: \(err!.description)")
-                    } else {
+                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Instagram")) {
                         let json = JSON(res!)
                         let data = json["_data"].bool
-                        if (data != nil && data == true) { // Berhasil
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.instagramID = nil
-                            userOther.instagramUsername = nil
-                            userOther.instagramAccessToken = nil
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Adjust instagram button
-                            self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
-                            self.isLoggedInInstagram = false
-                        } else { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post instagram data error")
-                        }
                         
-                        // Hide loading
-                        self.hideLoading()
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.instagramID = nil
+                        userOther.instagramUsername = nil
+                        userOther.instagramAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust instagram button
+                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
+                        self.isLoggedInInstagram = false
                     }
+                    // Hide loading
+                    self.hideLoading()
                 }
             } else if (alertView.title == "Facebook Logout") {
-                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
-                    println("Post FB data req = \(req)")
-                    
-                    if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post FB data error")//: \(err!.description)")
-                    } else {
+                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Facebook")) {
                         let json = JSON(res!)
                         let data = json["_data"].bool
-                        if (data != nil && data == true) { // Berhasil
-                            // End session
-                            User.LogoutFacebook()
-                            
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.fbID = nil
-                            userOther.fbUsername = nil
-                            userOther.fbAccessToken = nil
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Adjust fb button
-                            self.lblLoginFacebook.text = "LOGIN FACEBOOK"
-                            self.isLoggedInFacebook = false
-                        } else { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post FB data error")
-                        }
                         
-                        // Hide loading
-                        self.hideLoading()
+                        // End session
+                        User.LogoutFacebook()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.fbID = nil
+                        userOther.fbUsername = nil
+                        userOther.fbAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust fb button
+                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                        self.isLoggedInFacebook = false
                     }
+                    // Hide loading
+                    self.hideLoading()
                 }
             } else if (alertView.title == "Twitter Logout") {
-                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {req, _, res, err in
-                    println("Post twitter data req = \(req)")
-                    
-                    if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post twitter data error")//: \(err!.description)")
-                    } else {
+                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Twitter")) {
                         let json = JSON(res!)
                         let data = json["_data"].bool
-                        if (data != nil && data == true) { // Berhasil
-                            // End session
-                            User.LogoutTwitter()
-                            
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.twitterID = nil
-                            userOther.twitterUsername = nil
-                            userOther.twitterAccessToken = nil
-                            userOther.twitterTokenSecret = nil
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Adjust twitter button
-                            self.lblLoginTwitter.text = "LOGIN TWITTER"
-                            self.isLoggedInTwitter = false
-                        } else { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post twitter data error")
-                        }
                         
-                        // Hide loading
-                        self.hideLoading()
+                        // End session
+                        User.LogoutTwitter()
+                        
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.twitterID = nil
+                        userOther.twitterUsername = nil
+                        userOther.twitterAccessToken = nil
+                        userOther.twitterTokenSecret = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust twitter button
+                        self.lblLoginTwitter.text = "LOGIN TWITTER"
+                        self.isLoggedInTwitter = false
                     }
+                    // Hide loading
+                    self.hideLoading()
                 }
             } else if (alertView.title == "Path Logout") {
-                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {req, _, res, err in
-                    println("Post path data req = \(req)")
-                    
-                    if (err != nil) { // Terdapat error
-                        Constant.showDialog("Warning", message: "Post path data error")//: \(err!.description)")
-                    } else {
+                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Path")) {
                         let json = JSON(res!)
                         let data = json["_data"].bool
-                        if (data != nil && data == true) { // Berhasil
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.pathID = nil
-                            userOther.pathUsername = nil
-                            userOther.pathAccessToken = nil
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Adjust path button
-                            self.lblLoginPath.text = "LOGIN PATH"
-                            self.isLoggedInPath = false
-                        } else { // Terdapat error
-                            Constant.showDialog("Warning", message: "Post path data error")
-                        }
                         
-                        // Hide loading
-                        self.hideLoading()
+                        // Save in core data
+                        let userOther : CDUserOther = CDUserOther.getOne()!
+                        userOther.pathID = nil
+                        userOther.pathUsername = nil
+                        userOther.pathAccessToken = nil
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Adjust path button
+                        self.lblLoginPath.text = "LOGIN PATH"
+                        self.isLoggedInPath = false
                     }
+                    // Hide loading
+                    self.hideLoading()
                 }
             }
         }
@@ -844,13 +791,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             let tentangShop : String = (fieldTentangShop.text != FldTentangShopPlaceholder) ? fieldTentangShop.text : ""
             
             if (!self.isUserPictUpdated) {
-                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping)).responseJSON {req, _, res, err in
-                    if let error = err {
-                        Constant.showDialog("Warning", message: "Edit profile error")//: \(error.description)")
-                        self.btnSimpanData.enabled = true
-                    } else {
+                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Edit Profil")) {
                         let json = JSON(res!)
                         self.simpanDataSucceed(json)
+                    } else {
+                        self.btnSimpanData.enabled = true
                     }
                 }
             } else {
@@ -873,7 +819,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
                     println(err) // failed
-                    Constant.showDialog("Warning", message: "Error saving data")//:err.description)
+                    Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.enabled = true
                     self.loadingPanel.hidden = true
                     self.loading.stopAnimating()
@@ -908,7 +854,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         // Save data
         var saveErr : NSError? = nil
         if (!m!.save(&saveErr)) {
-            Constant.showDialog("Warning", message: "Error while saving data")
+            Constant.showDialog("Edit Profil", message: "Gagal menyimpan data")
             self.btnSimpanData.enabled = true
             self.loadingPanel.hidden = true
             self.loading.stopAnimating()
