@@ -813,7 +813,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 var images : [UIImage] = []
                 images.append(imgUser.image!)
                 
-                AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to: url, success: { op, res in
+                let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+                
+                AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                     println("Edit profile res = \(res)")
                     let json = JSON(res)
                     self.simpanDataSucceed(json)

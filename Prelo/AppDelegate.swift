@@ -145,6 +145,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
+        // Set User-Agent for every HTTP request
+        let webViewDummy = UIWebView()
+        let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
+        NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

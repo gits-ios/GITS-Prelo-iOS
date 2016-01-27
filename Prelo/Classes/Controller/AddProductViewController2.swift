@@ -981,7 +981,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
         }
         
-        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to:url, success: {op, res in
+        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
             println(res)
             
             if (self.editMode)

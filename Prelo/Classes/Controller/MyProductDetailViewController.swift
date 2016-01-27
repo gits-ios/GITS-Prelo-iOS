@@ -502,7 +502,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         var images : [UIImage] = []
         images.append(imgFotoBukti.image!)
         
-        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, to: url, success: { op, res in
+        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             println("KonfKirim res = \(res)")
             let json = JSON(res)
             let data : Bool? = json["_data"].bool

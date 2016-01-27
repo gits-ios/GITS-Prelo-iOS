@@ -137,11 +137,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 d.userLoggedIn!()
                             }
                             
-                            // Set User-Agent for every HTTP request
-                            let webViewDummy = UIWebView()
-                            let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
-                            NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
-                            
                             /* TO BE DELETED, dipindah ke ProfileSetupVC
                             if let c = CDUser.getOne()
                             {
