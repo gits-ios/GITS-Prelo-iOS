@@ -28,10 +28,14 @@ extension NSMutableURLRequest
         let r = NSMutableURLRequest(URL: url)
         
         if (User.IsLoggedIn) {
-//            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
             println("User token = \(t)")
+            let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+            if (userAgent != nil) {
+                //println("User-Agent = \(userAgent)")
+                r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+            }
         }
         
         return r

@@ -119,6 +119,9 @@ public class User : NSObject
             UIApplication.appDelegate.saveContext()
         }
         
+        // Remove User-Agent for every HTTP request
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.UserAgent)
+        
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
         NSUserDefaults.standardUserDefaults().synchronize()

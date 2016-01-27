@@ -1067,10 +1067,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 var msgContent = "Terdapat kesalahan saat upload produk, silahkan coba beberapa saat lagi"
                 if let msg = op.responseString {
                     if let range1 = msg.rangeOfString("{\"_message\":\"") {
-                        println(range1)
+                        //println(range1)
                         let msg1 = msg.substringFromIndex(range1.endIndex)
                         if let range2 = msg1.rangeOfString("\"}") {
-                            println(range2)
+                            //println(range2)
                             msgContent = msg1.substringToIndex(range2.startIndex)
                         }
                     }

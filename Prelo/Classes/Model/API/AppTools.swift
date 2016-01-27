@@ -173,6 +173,7 @@ class UserDefaultsKey : NSObject
     static let DeepLinkConfirmPayment = "deeplinkconfirmpayment"
     static let DeepLinkShopPage = "deeplinkshoppage"
     static let RedirectFromHome = "redirectfromhome"
+    static let UserAgent = "useragent"
 }
 
 class PageName

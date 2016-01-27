@@ -180,6 +180,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         d.userLoggedIn!()
                     }
                     
+                    // Set User-Agent for every HTTP request
+                    let webViewDummy = UIWebView()
+                    let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
+                    NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
+                    
                     // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
                     // Di dalamnya akan memanggil MessagePool.start()
                     NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
