@@ -204,7 +204,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 //        let v = UIView(frame: CGRectMake(0, 0, l.x+l.width, l.height+4))
 //        v.addSubview(iv)
 //        v.addSubview(l)
-        let i = TintedImageView(frame: CGRectMake(0, 0, 100, 100), backgroundColor: UIColor.clearColor())
+        let i = TintedImageView(frame: CGRectMake(0, 0, 92, 92), backgroundColor: UIColor.clearColor())
         i.image = UIImage(named : "ic_prelo_logo_text")
         i.tintColor = UIColor.whiteColor()
         i.contentMode = UIViewContentMode.ScaleAspectFit
@@ -222,10 +222,10 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         case .Prelo2:name = "Prelo2"
         case .PreloAwesome:name = "PreloAwesome"
         }
-        let f = UIFont(name: name, size: 18)
+        let f = UIFont(name: name, size: 21)
         b.titleLabel?.font = f
         b.setTitle(icon, forState: UIControlState.Normal)
-        b.frame = CGRectMake(0, 0, 24, 36)
+        b.frame = CGRectMake(0, 0, 33, 46)
         return b
     }
     
@@ -237,16 +237,16 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         case .Prelo2:name = "Prelo2"
         case .PreloAwesome:name = "PreloAwesome"
         }
-        let f = UIFont(name: name, size: 18)
+        let f = UIFont(name: name, size: 21)
         b.titleLabel?.font = f
         b.setTitle(icon, forState: UIControlState.Normal)
-        b.frame = CGRectMake(0, 0, 24, 36)
+        b.frame = CGRectMake(0, 0, 33, 46)
         if (num > 0) {
             let badge = GIBadgeView.new()
             badge.badgeValue = num
             badge.backgroundColor = Theme.ThemeOrage
-            badge.topOffset = 7
-            badge.rightOffset = 3
+            badge.topOffset = 9
+            badge.rightOffset = 5
             b.addSubview(badge)
         }
         return b
