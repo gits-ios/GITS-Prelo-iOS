@@ -287,11 +287,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     let json = JSON(result)
                     self.currentCart = json
                     
-                    self.arrayItem = json["_data"]["cart_details"].array!
+                    self.arrayItem = json["_data"]["cart_details"].arrayValue
+                    let m = json["_message"].stringValue
+                    
+                    if (self.arrayItem.count == 0 && m == "user belum login")
+                    {
+                        self.tableView.hidden = true
+                        LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+                        return
+                    }
                     
                     if let error = json["_data"].error
                     {
-                        Constant.showDialog("Warning", message: json["_message"].string!)
+                        Constant.showDialog("Warning", message: json["_message"].stringValue)
                     }
                     else
                     {
