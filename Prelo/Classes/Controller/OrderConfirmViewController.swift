@@ -355,6 +355,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             let x = (nom as NSString).integerValue
             request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Konfirmasi Bayar")) {
+                    Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             }
