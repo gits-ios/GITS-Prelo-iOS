@@ -275,6 +275,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     sender.navigationController?.pushViewController(profileSetupVC, animated: true)
                 }
             } else {
+                // Delete token because user is considered not logged in
+                User.SetToken(nil)
+                
                 if (vcLogin != nil) {
                     vcLogin!.hideLoading()
                 }

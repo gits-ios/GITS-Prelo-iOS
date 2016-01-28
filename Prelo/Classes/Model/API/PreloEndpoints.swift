@@ -30,12 +30,12 @@ extension NSMutableURLRequest
         if (User.IsLoggedIn) {
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
-            println("User token = \(t)")
-            let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
-            if (userAgent != nil) {
-                //println("User-Agent = \(userAgent)")
-                r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-            }
+            println("User token = \(t)")   
+        }
+        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        if (userAgent != nil) {
+            //println("User-Agent = \(userAgent)")
+            r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
         return r
@@ -1320,6 +1320,16 @@ class APIPrelo
             let data = json["_data"]
             println("\(reqAlias) _data = \(data)")
             return true
+        }
+    }
+    
+    static func validateSession(res: AnyObject?, sender: BaseViewController) {
+        if (res != nil) {
+            if let msg = JSON(res!)["_message"].string {
+                if (msg == "user belum login") {
+                    sender.dismiss()
+                }
+            }
         }
     }
 }
