@@ -93,6 +93,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     // Return true if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
+        let vcLogin = sender as? LoginViewController
+        let vcRegister = sender as? RegisterViewController
         
         var isProfileSet : Bool = false
         
@@ -271,6 +273,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     profileSetupVC.loginMethod = loginMethod
                     profileSetupVC.screenBeforeLogin = screenBeforeLogin
                     sender.navigationController?.pushViewController(profileSetupVC, animated: true)
+                }
+            } else {
+                if (vcLogin != nil) {
+                    vcLogin!.hideLoading()
+                }
+                if (vcRegister != nil) {
+                    vcRegister!.hideLoading()
                 }
             }
         }
@@ -522,7 +531,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func login(sender : AnyObject)
     {
-        btnLogin?.enabled = false
+        // Show loading
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
+        
         sendLogin()
     }
     
@@ -531,25 +543,30 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
         
-        btnLogin?.enabled = false
-        
         let email = txtEmail?.text
+        let pwd = txtPassword?.text
         
         if (email == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username / email")
-            btnLogin?.enabled = true
+            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username/email")
+            self.hideLoading()
+            return
+        }
+        if (pwd == "")
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi password")
+            self.hideLoading()
             return
         }
         
-        request(APIAuth.Login(email: email!, password: (txtPassword?.text)!)).responseJSON { req, resp, res, err in
+        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login")) {
                 let json = JSON(res!)
                 let data = json["_data"]
                 //self.getProfile(data["token"].string!)
                 LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
             } else {
-                self.btnLogin?.enabled = true
+                self.hideLoading()
             }
         }
     }
