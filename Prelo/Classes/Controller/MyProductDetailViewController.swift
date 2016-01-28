@@ -535,19 +535,29 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
-                if let json = self.transactionDetail?.json["review"]
-                {
-                    self.detail?.buyerId = json["buyer_id"].stringValue
-                    self.detail?.buyerName = json["buyer_fullname"].stringValue
-                    self.detail?.buyerImage = json["buyer_pict"].stringValue
-                    self.detail?.reverse()
-                    
-                    t.tawarItem = self.detail
-                    t.fromSeller =  true
-                    
-                    t.toId = json["buyer_id"].stringValue
-                    t.prodId = t.tawarItem.itemId
-                    self.navigationController?.pushViewController(t, animated: true)
+                request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                        let json = JSON(res!)
+                        if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                            t.tawarItem = Inbox(jsn: json["_data"])
+                            self.navigationController?.pushViewController(t, animated: true)
+                        } else { // Belum pernah chat
+                            if let json = self.transactionDetail?.json["review"]
+                            {
+                                self.detail?.buyerId = json["buyer_id"].stringValue
+                                self.detail?.buyerName = json["buyer_fullname"].stringValue
+                                self.detail?.buyerImage = json["buyer_pict"].stringValue
+                                self.detail?.reverse()
+                                
+                                t.tawarItem = self.detail
+                                t.fromSeller =  true
+            
+                                t.toId = json["buyer_id"].stringValue
+                                t.prodId = t.tawarItem.itemId
+                                self.navigationController?.pushViewController(t, animated: true)
+                            }
+                        }
+                    }
                 }
             }
         }
