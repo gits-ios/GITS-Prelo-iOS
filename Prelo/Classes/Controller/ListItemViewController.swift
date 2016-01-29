@@ -241,7 +241,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 self.storeHeader?.captionName.text = json["username"].string
                 self.storeHeader?.captionDesc.text = json["profile"]["description"].string
-                self.storeHeader?.avatar.setImageWithUrl(NSURL(string: json["profile"]["pict"].string!)!, placeHolderImage: nil)
+                let avatarThumbnail = json["profile"]["pict"].stringValue
+                self.storeHeader?.avatar.setImageWithUrl(NSURL(string: avatarThumbnail)!, placeHolderImage: nil)
+                let avatarFull = avatarThumbnail.stringByReplacingOccurrencesOfString("thumbnails/", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                self.storeHeader?.avatarUrls.append(avatarFull)
                 
                 // Love
                 let reviewScore = json["average_star"].floatValue
@@ -313,6 +316,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     shopReviewVC.sellerId = self.storeId
                     shopReviewVC.sellerName = self.storeName
                     self.navigationController?.pushViewController(shopReviewVC, animated: true)
+                }
+                
+                self.storeHeader?.zoomAvatarBlock = {
+                    let c = CoverZoomController()
+                    c.images = (self.storeHeader?.avatarUrls)!
+                    c.index = 0
+                    self.navigationController?.presentViewController(c, animated: true, completion: nil)
                 }
                 
                 self.setupGrid()
@@ -581,6 +591,9 @@ class StoreHeader : UIView
     
     var editBlock : ()->() = {}
     var reviewBlock : ()->() = {}
+    var zoomAvatarBlock : ()->() = {}
+    
+    var avatarUrls : [String] = []
     
     @IBAction func edit()
     {
@@ -589,5 +602,9 @@ class StoreHeader : UIView
     
     @IBAction func gotoShopReview(sender: AnyObject) {
         self.reviewBlock()
+    }
+    
+    @IBAction func avatarPressed(sender: AnyObject) {
+        self.zoomAvatarBlock()
     }
 }
