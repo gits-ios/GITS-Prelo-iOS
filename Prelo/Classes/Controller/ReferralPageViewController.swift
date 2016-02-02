@@ -464,10 +464,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
-                alertView.userInteractionEnabled = false
-                alertView.title = "Mengirim email..."
+                alertView.dismissWithClickedButtonIndex(-1, animated: true)
+                // Tampilkan pop up untuk loading
+                let a = UIAlertView()
+                a.title = "Prelo Bonus"
+                a.message = "Mengirim email..."
+                a.show()
                 request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
+                        a.dismissWithClickedButtonIndex(-1, animated: true)
                         Constant.showDialog("Prelo Bonus", message: "Email konfirmasi telah terkirim ke \(email)")
                     }
                     self.navigationController?.popViewControllerAnimated(true)
