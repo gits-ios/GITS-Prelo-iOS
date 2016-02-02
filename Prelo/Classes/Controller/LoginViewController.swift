@@ -169,7 +169,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userOther.pathAccessToken = userProfileData!.pathAccessToken
                     userOther.pathID = userProfileData!.pathId
                     userOther.pathUsername = userProfileData!.pathUsername
-                    // TODO: belum lengkap (emailVerified, isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
+                    userOther.emailVerified = ((userProfileData!.isEmailVerified != nil) && (userProfileData!.isEmailVerified! == true)) ? 1 : 0
+                    // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                     
                     // Refresh notifications
                     NotificationPageViewController.refreshNotifications()

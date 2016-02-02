@@ -278,6 +278,14 @@ class UserProfile : NSObject {
         }
     }
     
+    var isEmailVerified : Bool? {
+        if (json["others"]["is_email_verified"] != nil) {
+            return json["others"]["is_email_verified"].bool
+        } else {
+            return nil
+        }
+    }
+    
     var registerTime : String? {
         let j = json["others"]["register_time"]
         if (j != nil) {
@@ -376,8 +384,6 @@ class UserProfile : NSObject {
             return nil
         }
     }
-    
-    
     
     var fbId : String? {
         let j = json["others"]["fb_id"]

@@ -730,6 +730,7 @@ enum APIUser : URLRequestConvertible
     case SetDeviceRegId(deviceRegId : String)
     case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
     case CheckPassword
+    case ResendVerificationEmail
     
     var method : Method
     {
@@ -751,6 +752,7 @@ enum APIUser : URLRequestConvertible
         case .SetDeviceRegId(_) : return .POST
         case .SetUserPreferencedCategories(_, _, _) : return .POST
         case .CheckPassword : return .GET
+        case .ResendVerificationEmail : return .POST
         }
     }
     
@@ -774,6 +776,7 @@ enum APIUser : URLRequestConvertible
         case .SetDeviceRegId(_) : return "set_device_registration_id"
         case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
         case .CheckPassword : return "checkpassword"
+        case .ResendVerificationEmail : return "verify/resend_email"
         }
     }
     
@@ -854,6 +857,8 @@ enum APIUser : URLRequestConvertible
             ]
             return p
         case .CheckPassword :
+            return [:]
+        case .ResendVerificationEmail :
             return [:]
         }
     }

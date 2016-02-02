@@ -63,7 +63,24 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         // Google Analytics
         GAI.trackPageVisit(PageName.Referral)
         
-        self.getReferralData()
+        var isEmailVerified : Bool = false
+        if let o = CDUserOther.getOne() {
+            if (o.emailVerified.intValue == 1) {
+                isEmailVerified = true
+            }
+        }
+        if (!isEmailVerified) {
+            // Tampilkan pop up untuk verifikasi email
+            let a = UIAlertView()
+            a.title = "Prelo Bonus"
+            a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+            a.addButtonWithTitle("Batal")
+            a.addButtonWithTitle("Kirim Email Konfirmasi")
+            a.delegate = self
+            a.show()
+        } else {
+            self.getReferralData()
+        }
         
         // Atur opacity tombol
         // Instagram
@@ -140,17 +157,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 // Jika sudah pernah memasukkan referral, sembunyikan field
                 if (data["referral"]["referral_code_used"] != nil) {
                     self.vwSubmit.hidden = true
-                } else {
-                    /* TODO: Pending, menunggu API kirim email
-                    // Jika belum tampilkan pop up untuk verifikasi email
-                    let a = UIAlertView()
-                    a.title = "Warning"
-                    a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
-                    a.addButtonWithTitle("Batal")
-                    a.addButtonWithTitle("Kirim Email Konfirmasi")
-                    a.delegate = self
-                    a.show()
-                    */
                 }
                 
                 // Set shareText
@@ -443,9 +449,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
-                Constant.showDialog("Email terkirim", message: "Email konfirmasi telah terkirim ke \(email)")
+                alertView.userInteractionEnabled = false
+                alertView.title = "Mengirim email..."
+                request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
+                        Constant.showDialog("Prelo Bonus", message: "Email konfirmasi telah terkirim ke \(email)")
+                    }
+                }
             } else {
-                Constant.showDialog("Warning", message: "Silahkan cek email Kamu")
+                Constant.showDialog("Prelo Bonus", message: "Oops, terdapat masalah saat mencari email kamu")
             }
             self.navigationController?.popViewControllerAnimated(true)
             break
