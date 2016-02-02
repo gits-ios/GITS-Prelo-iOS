@@ -16,6 +16,7 @@ class ProductDetailCover: UIView {
     
     var imageURLS : Array<String> = []
     var largeImageURLS : Array<String> = []
+    var labels : [String] = []
     
     var status : Int?
     
@@ -28,7 +29,21 @@ class ProductDetailCover: UIView {
             {
                 break
             }
-            let iv = imageViews?[i]
+            var iv : UIImageView?
+            
+            for v in self.subviews
+            {
+                if v is UIImageView
+                {
+                    if (i == v.tag)
+                    {
+                        iv = v as? UIImageView
+                        break
+                    }
+                }
+            }
+            
+            print("Cover TAG : " + String(iv!.tag))
             iv?.tag = i
             iv?.userInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
@@ -48,6 +63,7 @@ class ProductDetailCover: UIView {
     {
         let index = (sender.view?.tag)!
         let c = CoverZoomController()
+        c.labels = self.labels
         c.images = largeImageURLS
         c.index = index
         self.parent?.presentViewController(c, animated: true, completion: nil)
@@ -88,18 +104,21 @@ class ProductDetailCover: UIView {
 class CoverZoomController : BaseViewController, UIScrollViewDelegate
 {
     var scrollView : UIScrollView?
+    var label : UILabel?
     
     var images : Array<String> = []
     var index = 0
     
+    var labels : [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.blackColor()
         
         scrollView = UIScrollView(frame: UIScreen.mainScreen().bounds)
         scrollView?.pagingEnabled = true
-        scrollView?.backgroundColor = UIColor.whiteColor()
+        scrollView?.backgroundColor = UIColor.blackColor()
         
         self.view.addSubview(scrollView!)
         
@@ -130,6 +149,24 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         
         scrollView?.contentSize = CGSizeMake(x, (scrollView?.height)!)
         scrollView?.hidden = true
+        
+        label = UILabel(frame: CGRectZero)
+        label?.backgroundColor = Theme.PrimaryColorDark
+        label?.textColor = .whiteColor()
+        label?.font = UIFont.systemFontOfSize(14)
+        label?.textAlignment = .Center
+        
+        self.view.addSubview(label!)
+        
+        label?.text = "Some Text"
+        if let t = labels.first
+        {
+            label?.text = t
+        }
+        rearrangeLabel()
+        label?.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin
+        
+        scrollView?.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -139,6 +176,40 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        if (scrollView == self.scrollView)
+        {
+            return nil
+        }
         return scrollView.viewWithTag(1)!
+    }
+    
+    func rearrangeLabel()
+    {
+        label?.sizeToFit()
+        var f = label!.frame
+        f.size.width += 16;
+        f.size.height += 8;
+        f.origin.x = UIScreen.mainScreen().bounds.width - (f.size.width + 16)
+        f.origin.y = UIScreen.mainScreen().bounds.height - (f.size.height + 16)
+        label?.frame = f
+    }
+    
+    var currentPage = 0
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (scrollView == self.scrollView)
+        {
+            let p = scrollView.contentOffset.x / scrollView.bounds.width
+            if (currentPage != Int(p))
+            {
+                currentPage = Int(p)
+                var text = ""
+                if (Int(p) < labels.count)
+                {
+                    text = labels[Int(p)]
+                }
+                label?.text = text
+                rearrangeLabel()
+            }
+        }
     }
 }
