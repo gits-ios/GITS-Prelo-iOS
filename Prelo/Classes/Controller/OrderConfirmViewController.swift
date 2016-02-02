@@ -294,12 +294,16 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     override func backPressed(sender: UIBarButtonItem) {
         if (free) {
-            // Pop ke home, kemudian buka list belanjaan saya
-            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
+            if (self.fromCheckout) {
+                NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            }
             self.navigationController?.popToRootViewControllerAnimated(true)
         } else {
-            // Pop ke home, kemudian buka list konfirmasi bayar
-            NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+            // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
+            if (self.fromCheckout) {
+                NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+            }
             self.navigationController?.popToRootViewControllerAnimated(true)
         }
     }
@@ -308,8 +312,10 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     {
         if (free)
         {
-            // Pop ke home, kemudian buka list belanjaan saya
-            NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
+            if (self.fromCheckout) {
+                NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+            }
             self.navigationController?.popToRootViewControllerAnimated(true)
             return
         }
@@ -348,8 +354,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
             let x = (nom as NSString).integerValue
             request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, err: err, resp: resp))
-                {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Konfirmasi Bayar")) {
+                    Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             }

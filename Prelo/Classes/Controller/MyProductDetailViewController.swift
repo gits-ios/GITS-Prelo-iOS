@@ -177,24 +177,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     func getProductDetail() {
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {req, _, res, err in
-            println("Product detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                println("Error getting transaction detail: \(err!.description)")
-            } else {
+        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Jualan Saya")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("data = \(data)")
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty transaction detail, message: \(message)")
-                } else { // Berhasil
-                    
-                    // Set label text and image
-                    self.transactionDetail = TransactionDetail.instance(data)
-                    self.setupContent()
-                }
+                
+                // Set label text and image
+                self.transactionDetail = TransactionDetail.instance(data)
+                self.setupContent()
             }
         }
     }
@@ -479,11 +469,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
-                    println("data = \(data)")
                     Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
                     self.sendMode(false)
                     self.vwShadow.hidden = true
@@ -506,71 +495,68 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func konfKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         
-        var dataRep = UIImageJPEGRepresentation(imgFotoBukti.image, 1)
+        var url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.transactionId!)/sent"
+        var param = [
+            "resi_number" : fldKonfNoResi.text
+        ]
+        var images : [UIImage] = []
+        images.append(imgFotoBukti.image!)
         
-        upload(APITransaction.ConfirmShipping(tpId: self.transactionId!, resiNum: fldKonfNoResi.text), multipartFormData: { form in
-            form.appendBodyPart(data: dataRep, name: "image", fileName: "image.jpeg", mimeType: "image/jpeg")
-            }, encodingCompletion: { result in
-                switch result {
-                case .Success(let s, _, _) :
-                    s.responseJSON {_, _, res, err in
-                        println("res = \(res)")
-                        if let error = err {
-                            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
-                            self.sendMode(false)
-                        } else if let result : AnyObject = res {
-                            let json = JSON(result)
-                            println("json = \(json)")
-                            let data : Bool? = json["_data"].bool
-                            if (data == nil || data == false) { // Gagal
-                                let msg = json["message"]
-                                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
-                                self.sendMode(false)
-                            } else { // Berhasil
-                                Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                                self.navigationController?.popViewControllerAnimated(true)
-                            }
-                        }
-                    }
-                case .Failure(let err) :
-                    Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
-                    self.sendMode(false)
-                }
+        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
+            println("KonfKirim res = \(res)")
+            let json = JSON(res)
+            let data : Bool? = json["_data"].bool
+            if (data == nil || data == false) { // Gagal
+                let msg = json["message"]
+                Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
+                self.sendMode(false)
+            } else { // Berhasil
+                Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+        }, failure: { op, err in
+            Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
+            self.sendMode(false)
         })
     }
     
     var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
-        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {req, _, res, err in
-            println("Get product detail req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error getting product detail")//: \(err!.description)")
-            } else {
+        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
                 let json = JSON(res!)
-                if (json == nil || json == []) { // Data kembalian kosong
-                    println("Empty product detail")
-                } else { // Berhasil
-//                    let pDetail = ProductDetail.instance(json)
-//                    pDetail?.reverse()
-                    self.detail = ProductDetail.instance(json)
-                    
-                    // Goto chat
-                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                    
-                    if let json = self.transactionDetail?.json["review"]
-                    {
-                        self.detail?.buyerId = json["buyer_id"].stringValue
-                        self.detail?.buyerName = json["buyer_fullname"].stringValue
-                        self.detail?.buyerImage = json["buyer_pict"].stringValue
-                        self.detail?.reverse()
-                        
-                        t.tawarItem = self.detail
-                        t.fromSeller =  true
-                        
-                        t.toId = json["buyer_id"].stringValue
-                        t.prodId = t.tawarItem.itemId
-                        self.navigationController?.pushViewController(t, animated: true)
+                //let pDetail = ProductDetail.instance(json)
+                //pDetail?.reverse()
+                self.detail = ProductDetail.instance(json)
+                
+                // Goto chat
+                let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                
+                request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                        let json = JSON(res!)
+                        if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                            t.tawarItem = Inbox(jsn: json["_data"])
+                            self.navigationController?.pushViewController(t, animated: true)
+                        } else { // Belum pernah chat
+                            if let json = self.transactionDetail?.json["review"]
+                            {
+                                self.detail?.buyerId = json["buyer_id"].stringValue
+                                self.detail?.buyerName = json["buyer_fullname"].stringValue
+                                self.detail?.buyerImage = json["buyer_pict"].stringValue
+                                self.detail?.reverse()
+                                
+                                t.tawarItem = self.detail
+                                t.fromSeller =  true
+            
+                                t.toId = json["buyer_id"].stringValue
+                                t.prodId = t.tawarItem.itemId
+                                self.navigationController?.pushViewController(t, animated: true)
+                            }
+                        }
                     }
                 }
             }

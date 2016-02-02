@@ -57,25 +57,16 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     }
     
     func getUserProducts() {
-        request(APITransaction.Sells(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
-            if (err != nil) { // Terdapat error
-                println("Error getting product data: \(err!.description)")
-            } else {
+        request(APITransaction.Sells(status: "process", current: "", limit: "")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya - Diproses")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil) { // Data kembalian kosong
-                    let obj : [String : String] = res as! [String : String]
-                    let message = obj["_message"]
-                    println("Empty product data, message: \(message)")
-                } else { // Berhasil
-                    println("Product data: \(data)")
-                    
-                    // Store data into variable
-                    for (index : String, item : JSON) in data {
-                        let u = UserTransactionItem.instanceTransactionItem(item)
-                        if (u != nil) {
-                            self.userProducts?.append(u!)
-                        }
+                
+                // Store data into variable
+                for (index : String, item : JSON) in data {
+                    let u = UserTransactionItem.instanceTransactionItem(item)
+                    if (u != nil) {
+                        self.userProducts?.append(u!)
                     }
                 }
             }

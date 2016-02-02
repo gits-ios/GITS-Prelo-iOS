@@ -71,50 +71,42 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         lblEmpty.hidden = true
         
         // Tell server that the user opens notification page
-        request(APINotif.OpenNotifs).responseJSON {req, _, res, err in
-            println("Open notif req = \(req)")
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error refreshing notifications")//: \(err!.description)")
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
+        request(APINotif.OpenNotifs).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
-                if (data == nil || data == false) { // Gagal
-                    Constant.showDialog("Warning", message: "Refreshing notifications error")
-                    self.navigationController?.popViewControllerAnimated(true)
-                } else { // Berhasil
-                    println("Data: \(data)")
-                    
-                    // Set the number of notifications in top right bar to 0
-                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    let notifListener = delegate.preloNotifListener
-                    if (notifListener.newNotifCount != 0) {
-                        notifListener.setNewNotifCount(0)
-                        // Set all notif data to opened
-                        CDNotification.setAllNotifToOpened()
-                    }
-                    
-                    // Retrieve notif data
-                    if (self.notifications == nil || isRefreshFromSocket) { // Belum mengambil dari core data (baru membuka notif page) atau ada notif dari socket saat membuka notif page
-                        // Ambil dari core data
-                        self.notifications = [:]
-                        for s in self.notifSections {
-                            self.notifications!.updateValue(CDNotification.getNotifInSection(s), forKey: s)
-                        }
-                    }
-                    
-                    self.loadingPanel.hidden = true
-                    self.loading.stopAnimating()
-                    if (CDNotification.getNotifCount() == 0) { // Notif kosong
-                        self.lblEmpty.hidden = false
-                    } else { // Notif tidak kosong
-                        self.tableView.hidden = false
-                        self.setupTable()
-                    }
-                    
-                    // Activate PreloNotifListenerDelegate
-                    notifListener.delegate = self
+                
+                // Set the number of notifications in top right bar to 0
+                let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let notifListener = delegate.preloNotifListener
+                if (notifListener.newNotifCount != 0) {
+                    notifListener.setNewNotifCount(0)
+                    // Set all notif data to opened
+                    CDNotification.setAllNotifToOpened()
                 }
+                
+                // Retrieve notif data
+                if (self.notifications == nil || isRefreshFromSocket) { // Belum mengambil dari core data (baru membuka notif page) atau ada notif dari socket saat membuka notif page
+                    // Ambil dari core data
+                    self.notifications = [:]
+                    for s in self.notifSections {
+                        self.notifications!.updateValue(CDNotification.getNotifInSection(s), forKey: s)
+                    }
+                }
+                
+                self.loadingPanel.hidden = true
+                self.loading.stopAnimating()
+                if (CDNotification.getNotifCount() == 0) { // Notif kosong
+                    self.lblEmpty.hidden = false
+                } else { // Notif tidak kosong
+                    self.tableView.hidden = false
+                    self.setupTable()
+                }
+                
+                // Activate PreloNotifListenerDelegate
+                notifListener.delegate = self
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }
@@ -122,178 +114,170 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
     static func refreshNotifications() {
         CDNotification.deleteAll()
         if (User.IsLoggedIn) {
-            request(APINotif.GetNotifs).responseJSON {req, _, res, err in
-                println("Get notif req = \(req)")
-                if (err != nil) { // Terdapat error
-                    //Constant.showDialog("Warning", message: "Error getting notifications")//: \(err!.description)")
-                } else {
+            request(APINotif.GetNotifs).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                     let json = JSON(res!)
                     let data = json["_data"]
-                    if (data == nil || data == []) { // Data kembalian kosong
-                        println("Empty notif")
-                    } else { // Berhasil
-                        println("Notifs: \(data)")
-                        
-                        // No merge, after hours making merge notification, LOOOOOOOOOL
-                        var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif
-                        for (i : String, jNotifs : JSON) in data {
-                            var notifs : [JSON] = jNotifs.arrayValue
-                            var j : Int = 0
-                            while (j < notifs.count) {
-                                let n : JSON = notifs[j]
-                                println("n = \(n)")
-                                var nWeight : Int = 1
-                                var nNames : String = n["name"].string!
-                                var nIds : String = n["_id"].string!
-                                
-                                // Bentuk resNotif
-                                var resNotif : [String : AnyObject] = [:]
-                                resNotif["ids"] = n["_id"].stringValue
-                                resNotif["opened"] = n["opened"].boolValue
-                                resNotif["read"] = n["read"].boolValue
-                                resNotif["owner_id"] = n["owner_id"].stringValue
-                                resNotif["type"] = n["type"].numberValue
-                                resNotif["object_name"] = n["object_name"].stringValue
-                                resNotif["object_id"] = n["object_id"].stringValue
-                                resNotif["time"] = n["time"].stringValue
-                                resNotif["left_image"] = n["left_image"].stringValue
-                                resNotif["right_image"] = n["right_image"].stringValue
-                                resNotif["weight"] = 1
-                                resNotif["names"] = n["name"].stringValue
-                                resNotif["name"] = n["name"].stringValue
-                                resNotif["text"] = n["text"].stringValue
-                                
-                                var notifType : String = ""
-                                if (i == "tp_notif") { // Transaksi
-                                    notifType = NotificationType.Transaksi
-                                } else if (i == "inbox_notif") { // Inbox
-                                    notifType = NotificationType.Inbox
-                                } else if (i == "activity") { // Aktivitas
-                                    notifType = NotificationType.Aktivitas
-                                }
-                                resNotif["notif_type"] = notifType
-                                //println("resNotif = \(resNotif)")
-                                
-                                // Add to resNotifs
-                                resNotifs.append(resNotif)
-                                
-                                // Next index
-                                j++
+                    
+                    // No merge, after hours making merge notification, LOOOOOOOOOL
+                    var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif
+                    for (i : String, jNotifs : JSON) in data {
+                        var notifs : [JSON] = jNotifs.arrayValue
+                        var j : Int = 0
+                        while (j < notifs.count) {
+                            let n : JSON = notifs[j]
+                            println("n = \(n)")
+                            var nWeight : Int = 1
+                            var nNames : String = n["name"].string!
+                            var nIds : String = n["_id"].string!
+                            
+                            // Bentuk resNotif
+                            var resNotif : [String : AnyObject] = [:]
+                            resNotif["ids"] = n["_id"].stringValue
+                            resNotif["opened"] = n["opened"].boolValue
+                            resNotif["read"] = n["read"].boolValue
+                            resNotif["owner_id"] = n["owner_id"].stringValue
+                            resNotif["type"] = n["type"].numberValue
+                            resNotif["object_name"] = n["object_name"].stringValue
+                            resNotif["object_id"] = n["object_id"].stringValue
+                            resNotif["time"] = n["time"].stringValue
+                            resNotif["left_image"] = n["left_image"].stringValue
+                            resNotif["right_image"] = n["right_image"].stringValue
+                            resNotif["weight"] = 1
+                            resNotif["names"] = n["name"].stringValue
+                            resNotif["name"] = n["name"].stringValue
+                            resNotif["text"] = n["text"].stringValue
+                            
+                            var notifType : String = ""
+                            if (i == "tp_notif") { // Transaksi
+                                notifType = NotificationType.Transaksi
+                            } else if (i == "inbox_notif") { // Inbox
+                                notifType = NotificationType.Inbox
+                            } else if (i == "activity") { // Aktivitas
+                                notifType = NotificationType.Aktivitas
                             }
+                            resNotif["notif_type"] = notifType
+                            //println("resNotif = \(resNotif)")
+                            
+                            // Add to resNotifs
+                            resNotifs.append(resNotif)
+                            
+                            // Next index
+                            j++
                         }
-                        
-                        /* TO BE DELETED, merged version, hiks T^T
-                        // Merge notif dengan objectId dan type yang sama sebelum disimpan di core data
-                        // Khusus untuk transaksi, merge notif dengan objectId a.k.a transaction id yg sama
-                        var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif yang sudah di merge
-                        for (i : String, jNotifs : JSON) in data {
-                            var notifs : [JSON] = jNotifs.arrayValue
-                            var j : Int = 0
-                            while (j < notifs.count) {
-                                let n : JSON = notifs[j]
-                                //println("n = \(n)")
-                                var nWeight : Int = 1
-                                var nNames : String = n["name"].string!
-                                var nIds : String = n["_id"].string!
-                                var k : Int = j + 1
-                                while (k < notifs.count) {
-                                    // Cari yang sama, kalo ketemu gabungin
-                                    let n2 : JSON = notifs[k]
-                                    //println("n2 = \(n2)")
-                                    
-                                    if ((i == "tp_notif") && (n["object_id"].string! == n2["object_id"].string!)) { // Notif transaksi yg sama
-                                        
-                                        //println("merge n2 to n")
-                                        // Tambahkan weight
-                                        nWeight++
-                                        
-                                        // Gabungkan id
-                                        let n2Id : String = n2["_id"].string!
-                                        nIds = "\(nIds);\(n2Id)"
-                                        
-                                        // Hapus n2
-                                        notifs.removeAtIndex(k)
-                                    } else if ((n["object_id"].string! == n2["object_id"].string!) && (n["type"].numberValue == n2["type"].numberValue)) { // Notif inbox/aktivitas yg sama
-                                        
-                                        //println("merge n2 to n")
-                                        // Tambahkan weight
-                                        nWeight++
-                                        
-                                        // Tambahkan jika nama belum ada di names
-                                        if (nNames.rangeOfString(n2["name"].string!) == nil) {
-                                            //println("merge n2 name to n")
-                                            let n2Name : String = n2["name"].string!
-                                            nNames = "\(nNames);\(n2Name)"
-                                        }
-                                        
-                                        // Gabungkan id
-                                        let n2Id : String = n2["_id"].string!
-                                        nIds = "\(nIds);\(n2Id)"
-                                        
-                                        // Hapus n2
-                                        notifs.removeAtIndex(k)
-                                    } else {
-                                        // Next index
-                                        k++
-                                    }
-                                }
-                                
-                                // Di sini semua objek di notifs yang sama dengan n sudah dimerge dan dihapus
-                                // Bentuk resNotif
-                                var resNotif : [String : AnyObject] = [:]
-                                resNotif["ids"] = nIds
-                                resNotif["opened"] = n["opened"].bool!
-                                resNotif["read"] = n["read"].bool!
-                                resNotif["owner_id"] = n["owner_id"].string!
-                                resNotif["type"] = n["type"].number!
-                                resNotif["object_name"] = n["object_name"].string!
-                                resNotif["object_id"] = n["object_id"].string!
-                                resNotif["time"] = n["time"].string!
-                                resNotif["left_image"] = n["left_image"].string!
-                                resNotif["right_image"] = n["right_image"].string
-                                resNotif["weight"] = nWeight
-                                resNotif["names"] = nNames
-                                // Sesuaikan text dan name
-                                let namesArr = split(nNames) {$0 == ";"}
-                                if (namesArr.count > 1) {
-                                    resNotif["name"] = n["name"].string! + " dan \(namesArr.count - 1) lainnya"
-                                    resNotif["text"] = n["text"].string!.stringByReplacingOccurrencesOfString(n["name"].string!, withString: n["name"].string! + " dan \(namesArr.count - 1) lainnya")
-                                } else {
-                                    resNotif["name"] = n["name"].string!
-                                    resNotif["text"] = n["text"].string!
-                                }
-                                var notifType : String = ""
-                                if (i == "tp_notif") { // Transaksi
-                                    notifType = NotificationType.Transaksi
-                                } else if (i == "inbox_notif") { // Inbox
-                                    notifType = NotificationType.Inbox
-                                } else if (i == "activity") { // Aktivitas
-                                    notifType = NotificationType.Aktivitas
-                                }
-                                resNotif["notif_type"] = notifType
-                                //println("resNotif = \(resNotif)")
-                                
-                                // Add to resNotifs
-                                resNotifs.append(resNotif)
-                                
-                                // Next index
-                                j++
-                            }
-                        }*/
-                        
-                        // Simpan isi resNotifs ke core data
-                        // Kondisi resNotifs, notif terbaru ada di index awal
-                        // Simpan di core data dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket tinggal dipasang di akhir sehingga urutannya tetap terjaga
-                        for (var l = resNotifs.count - 1; l >= 0; l--) {
-                            let rN = resNotifs[l]
-                            CDNotification.newOne(rN["notif_type"]! as! String, ids: rN["ids"]! as! String, opened: rN["opened"]! as! Bool, read: rN["read"]! as! Bool, message: rN["text"]! as! String, ownerId: rN["owner_id"]! as! String, name: rN["name"]! as! String, type: rN["type"]! as! NSNumber, objectName: rN["object_name"]! as! String, objectId: rN["object_id"]! as! String, time: rN["time"]! as! String, leftImage: rN["left_image"]! as! String, rightImage: rN["right_image"] as? String, weight: rN["weight"]! as! NSNumber, names: rN["names"] as! String)
-                        }
-                        
-                        // Set the number of notifications in top right bar
-                        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                        let notifListener = delegate.preloNotifListener
-                        notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
                     }
+                    
+                    /* TO BE DELETED, merged version, hiks T^T
+                    // Merge notif dengan objectId dan type yang sama sebelum disimpan di core data
+                    // Khusus untuk transaksi, merge notif dengan objectId a.k.a transaction id yg sama
+                    var resNotifs : [[String : AnyObject]] = [[String : AnyObject]]() // Untuk menyimpan daftar notif yang sudah di merge
+                    for (i : String, jNotifs : JSON) in data {
+                    var notifs : [JSON] = jNotifs.arrayValue
+                    var j : Int = 0
+                    while (j < notifs.count) {
+                    let n : JSON = notifs[j]
+                    //println("n = \(n)")
+                    var nWeight : Int = 1
+                    var nNames : String = n["name"].string!
+                    var nIds : String = n["_id"].string!
+                    var k : Int = j + 1
+                    while (k < notifs.count) {
+                    // Cari yang sama, kalo ketemu gabungin
+                    let n2 : JSON = notifs[k]
+                    //println("n2 = \(n2)")
+                    
+                    if ((i == "tp_notif") && (n["object_id"].string! == n2["object_id"].string!)) { // Notif transaksi yg sama
+                    
+                    //println("merge n2 to n")
+                    // Tambahkan weight
+                    nWeight++
+                    
+                    // Gabungkan id
+                    let n2Id : String = n2["_id"].string!
+                    nIds = "\(nIds);\(n2Id)"
+                    
+                    // Hapus n2
+                    notifs.removeAtIndex(k)
+                    } else if ((n["object_id"].string! == n2["object_id"].string!) && (n["type"].numberValue == n2["type"].numberValue)) { // Notif inbox/aktivitas yg sama
+                    
+                    //println("merge n2 to n")
+                    // Tambahkan weight
+                    nWeight++
+                    
+                    // Tambahkan jika nama belum ada di names
+                    if (nNames.rangeOfString(n2["name"].string!) == nil) {
+                    //println("merge n2 name to n")
+                    let n2Name : String = n2["name"].string!
+                    nNames = "\(nNames);\(n2Name)"
+                    }
+                    
+                    // Gabungkan id
+                    let n2Id : String = n2["_id"].string!
+                    nIds = "\(nIds);\(n2Id)"
+                    
+                    // Hapus n2
+                    notifs.removeAtIndex(k)
+                    } else {
+                    // Next index
+                    k++
+                    }
+                    }
+                    
+                    // Di sini semua objek di notifs yang sama dengan n sudah dimerge dan dihapus
+                    // Bentuk resNotif
+                    var resNotif : [String : AnyObject] = [:]
+                    resNotif["ids"] = nIds
+                    resNotif["opened"] = n["opened"].bool!
+                    resNotif["read"] = n["read"].bool!
+                    resNotif["owner_id"] = n["owner_id"].string!
+                    resNotif["type"] = n["type"].number!
+                    resNotif["object_name"] = n["object_name"].string!
+                    resNotif["object_id"] = n["object_id"].string!
+                    resNotif["time"] = n["time"].string!
+                    resNotif["left_image"] = n["left_image"].string!
+                    resNotif["right_image"] = n["right_image"].string
+                    resNotif["weight"] = nWeight
+                    resNotif["names"] = nNames
+                    // Sesuaikan text dan name
+                    let namesArr = split(nNames) {$0 == ";"}
+                    if (namesArr.count > 1) {
+                    resNotif["name"] = n["name"].string! + " dan \(namesArr.count - 1) lainnya"
+                    resNotif["text"] = n["text"].string!.stringByReplacingOccurrencesOfString(n["name"].string!, withString: n["name"].string! + " dan \(namesArr.count - 1) lainnya")
+                    } else {
+                    resNotif["name"] = n["name"].string!
+                    resNotif["text"] = n["text"].string!
+                    }
+                    var notifType : String = ""
+                    if (i == "tp_notif") { // Transaksi
+                    notifType = NotificationType.Transaksi
+                    } else if (i == "inbox_notif") { // Inbox
+                    notifType = NotificationType.Inbox
+                    } else if (i == "activity") { // Aktivitas
+                    notifType = NotificationType.Aktivitas
+                    }
+                    resNotif["notif_type"] = notifType
+                    //println("resNotif = \(resNotif)")
+                    
+                    // Add to resNotifs
+                    resNotifs.append(resNotif)
+                    
+                    // Next index
+                    j++
+                    }
+                    }*/
+                    
+                    // Simpan isi resNotifs ke core data
+                    // Kondisi resNotifs, notif terbaru ada di index awal
+                    // Simpan di core data dengan urutan notif terbaru ada di index akhir, agar bila ada notif baru dari socket tinggal dipasang di akhir sehingga urutannya tetap terjaga
+                    for (var l = resNotifs.count - 1; l >= 0; l--) {
+                        let rN = resNotifs[l]
+                        CDNotification.newOne(rN["notif_type"]! as! String, ids: rN["ids"]! as! String, opened: rN["opened"]! as! Bool, read: rN["read"]! as! Bool, message: rN["text"]! as! String, ownerId: rN["owner_id"]! as! String, name: rN["name"]! as! String, type: rN["type"]! as! NSNumber, objectName: rN["object_name"]! as! String, objectId: rN["object_id"]! as! String, time: rN["time"]! as! String, leftImage: rN["left_image"]! as! String, rightImage: rN["right_image"] as? String, weight: rN["weight"]! as! NSNumber, names: rN["names"] as! String)
+                    }
+                    
+                    // Set the number of notifications in top right bar
+                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let notifListener = delegate.preloNotifListener
+                    notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
                 }
             }
         }
@@ -353,44 +337,29 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
         
         // Cek apakah notif yang dibaca merupakan hasil merge
         if (notif.weight.integerValue > 1) {
-            request(APINotif.ReadMultiNotif(objectId: notif.objectId, type: notif.type.stringValue)).responseJSON {req, _, res, err in
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Send read multi notifications error")//: \(err!.description)")
-                } else {
+            request(APINotif.ReadMultiNotif(objectId: notif.objectId, type: notif.type.stringValue)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                     let json = JSON(res!)
                     let data : Bool? = json["_data"].bool
-                    if (data == nil || data == false) { // Gagal
-                        Constant.showDialog("Warning", message: "Send read multi notifications error")
-                    } else { // Berhasil
-                        println("Data: \(data)")
-                        
-                        self.navigateReadNotif(notif)
-                        
-                        // Delete read notif from variable and core data
-                        CDNotification.deleteNotifWithIds(notif.ids)
-                        self.notifications![sectionTitle]!.removeAtIndex(sectionNotifs.count - (indexPath.row + 1))
-                    }
+                    
+                    self.navigateReadNotif(notif)
+                    
+                    // Delete read notif from variable and core data
+                    CDNotification.deleteNotifWithIds(notif.ids)
+                    self.notifications![sectionTitle]!.removeAtIndex(sectionNotifs.count - (indexPath.row + 1))
                 }
             }
         } else { // weight = 1
-            request(APINotif.ReadNotif(notifId: notif.ids)).responseJSON {req, _, res, err in
-                println("Read notif req = \(req)")
-                if (err != nil) { // Terdapat error
-                    println("Send read notifications error: \(err!.description)")
-                } else {
+            request(APINotif.ReadNotif(notifId: notif.ids)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                     let json = JSON(res!)
                     let data : Bool? = json["_data"].bool
-                    if (data == nil || data == false) { // Gagal
-                        println("Send read notifications error")
-                    } else { // Berhasil
-                        println("Data: \(data)")
-                        
-                        self.navigateReadNotif(notif)
-                        
-                        // Delete read notif from variable and core data
-                        CDNotification.deleteNotifWithIds(notif.ids)
-                        self.notifications![sectionTitle]!.removeAtIndex(sectionNotifs.count - (indexPath.row + 1))
-                    }
+                    
+                    self.navigateReadNotif(notif)
+                    
+                    // Delete read notif from variable and core data
+                    CDNotification.deleteNotifWithIds(notif.ids)
+                    self.notifications![sectionTitle]!.removeAtIndex(sectionNotifs.count - (indexPath.row + 1))
                 }
             }
         }
@@ -429,45 +398,30 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
             }
         } else if (notifType == NotificationType.Inbox) {
             // Get inbox detail
-            request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON {req, _, res, err in
-                println("Get inbox message req = \(req)")
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting inbox message")//: \(err!.description)")
-                } else {
+            request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                     let json = JSON(res!)
                     let data = json["_data"]
-                    if (data == nil || data == []) { // Data kembalian kosong
-                        println("Empty inbox message data")
-                    } else { // Berhasil
-                        println("data = \(data)")
-                        let inboxData = Inbox(jsn: data)
-                        
-                        // Goto inbox
-                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
-                        t.tawarItem = inboxData
-                        self.navigationController?.pushViewController(t, animated: true)
-                    }
+                    
+                    let inboxData = Inbox(jsn: data)
+                    
+                    // Goto inbox
+                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    t.tawarItem = inboxData
+                    self.navigationController?.pushViewController(t, animated: true)
                 }
             }
         } else if (notifType == NotificationType.Aktivitas) {
             // Get product detail
-            request(Products.Detail(productId: notif.objectId)).responseJSON {req, _, res, err in
-                println("Get product detail req = \(req)")
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error getting product detail")//: \(err!.description)")
-                } else {
+            request(Products.Detail(productId: notif.objectId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi")) {
                     let json = JSON(res!)
-                    if (json == nil || json == []) { // Data kembalian kosong
-                        println("Empty product detail")
-                    } else { // Berhasil
-                        println("json = \(json)")
-                        let pDetail = ProductDetail.instance(json)
-                        
-                        // Goto product comments
-                        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
-                        p.pDetail = pDetail
-                        self.navigationController?.pushViewController(p, animated: true)
-                    }
+                    let pDetail = ProductDetail.instance(json)
+                    
+                    // Goto product comments
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                    p.pDetail = pDetail
+                    self.navigationController?.pushViewController(p, animated: true)
                 }
             }
         }

@@ -69,26 +69,17 @@ class PhoneReverificationViewController : BaseViewController {
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
-            request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON {req, _, res, err in
-                
-                println("Resend verification sms req = \(req)")
-                if (err != nil) {
-                    Constant.showDialog("Warning", message: "Resend sms error")//: \(err?.description)")
-                } else {
+            request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Ulang SMS")) {
                     let json = JSON(res!)
                     let data : Bool? = json["_data"].bool
-                    if (data == nil || data == false) { // Gagal
-                        Constant.showDialog("Warning", message: "Resend sms error")
-                    } else { // Berhasil
-                        println("data = \(data)")
-                        
-                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                        phoneVerificationVC.isReverification = true
-                        phoneVerificationVC.reverificationNoHP = self.fieldNoHP.text
-                        phoneVerificationVC.isShowBackBtn = true
-                        phoneVerificationVC.delegate = self.prevVC
-                        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                    }
+                    
+                    let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    phoneVerificationVC.isReverification = true
+                    phoneVerificationVC.reverificationNoHP = self.fieldNoHP.text
+                    phoneVerificationVC.isShowBackBtn = true
+                    phoneVerificationVC.delegate = self.prevVC
+                    self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 }
             }
         }

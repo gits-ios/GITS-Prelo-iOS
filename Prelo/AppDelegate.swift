@@ -145,6 +145,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
+        // Set User-Agent for every HTTP request
+        let webViewDummy = UIWebView()
+        let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
+        NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -155,140 +160,122 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func versionCheck() {
-        request(APIApp.Version(appType: "ios")).responseJSON
-            {_, _, res, err in
-                if (err != nil) { // Terdapat error
-                    println("Error getting version: \(err!.description)")
+        request(APIApp.Version(appType: "ios")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Version Check")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                // Jika versi metadata baru, load dan save kembali di coredata
+                let ver : CDVersion? = CDVersion.getOne()
+                var isUpdate : Bool = false
+                var isUpdateVers : [String] = []
+                if (ver?.brandsVersion == data["metadata_versions"]["brands"].number! && CDBrand.getBrandCount() > 0) {
+                    isUpdateVers.append("0")
                 } else {
-                    let json = JSON(res!)
-                    let data = json["_data"]
-                    if (data == nil) { // Data kembalian kosong
-                        let obj : [String : String] = res as! [String : String]
-                        let message = obj["_message"]
-                        println("Empty version data, error: \(message)")
-                    } else { // Berhasil
-                        println("Version data: \(data)")
-                        
-                        // Jika versi metadata baru, load dan save kembali di coredata
-                        let ver : CDVersion? = CDVersion.getOne()
-                        var isUpdate : Bool = false
-                        var isUpdateVers : [String] = []
-                        if (ver?.brandsVersion == data["metadata_versions"]["brands"].number! && CDBrand.getBrandCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        if (ver?.categoriesVersion == data["metadata_versions"]["categories"].number! && CDCategory.getCategoryCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        if (ver?.categorySizesVersion == data["metadata_versions"]["category_sizes"].number! && CDCategorySize.getCategorySizeCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        if (ver?.shippingsVersion == data["metadata_versions"]["shippings"].number! && CDShipping.getShippingCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        if (ver?.productConditionsVersion == data["metadata_versions"]["product_conditions"].number! && CDProductCondition.getProductConditionCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        if (ver?.provincesRegionsVersion == data["metadata_versions"]["provinces_regions"].number! && CDProvince.getProvinceCount() > 0) {
-                            isUpdateVers.append("0")
-                        } else {
-                            isUpdateVers.append("1")
-                            isUpdate = true
-                        }
-                        
-                        // Update jika ada version yg berbeda
-                        if (isUpdate) {
-                            self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
-                        } else {
-                            println("Same metadata version")
-                            
-                            // Set categorysaved to true so CategoryPreferencesVC can be executed
-                            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                        }
-                        
-                        CDVersion.saveVersions(data)
-                    }
+                    isUpdateVers.append("1")
+                    isUpdate = true
                 }
+                if (ver?.categoriesVersion == data["metadata_versions"]["categories"].number! && CDCategory.getCategoryCount() > 0) {
+                    isUpdateVers.append("0")
+                } else {
+                    isUpdateVers.append("1")
+                    isUpdate = true
+                }
+                if (ver?.categorySizesVersion == data["metadata_versions"]["category_sizes"].number! && CDCategorySize.getCategorySizeCount() > 0) {
+                    isUpdateVers.append("0")
+                } else {
+                    isUpdateVers.append("1")
+                    isUpdate = true
+                }
+                if (ver?.shippingsVersion == data["metadata_versions"]["shippings"].number! && CDShipping.getShippingCount() > 0) {
+                    isUpdateVers.append("0")
+                } else {
+                    isUpdateVers.append("1")
+                    isUpdate = true
+                }
+                if (ver?.productConditionsVersion == data["metadata_versions"]["product_conditions"].number! && CDProductCondition.getProductConditionCount() > 0) {
+                    isUpdateVers.append("0")
+                } else {
+                    isUpdateVers.append("1")
+                    isUpdate = true
+                }
+                if (ver?.provincesRegionsVersion == data["metadata_versions"]["provinces_regions"].number! && CDProvince.getProvinceCount() > 0) {
+                    isUpdateVers.append("0")
+                } else {
+                    isUpdateVers.append("1")
+                    isUpdate = true
+                }
+                
+                // Update jika ada version yg berbeda
+                if (isUpdate) {
+                    self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
+                } else {
+                    println("Same metadata version")
+                    
+                    // Set categorysaved to true so CategoryPreferencesVC can be executed
+                    NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                }
+                
+                CDVersion.saveVersions(data)
+            }
         }
     }
     
     func updateMetadata(updateBrands : String, updateCategories : String, updateCategorySizes : String, updateShippings : String, updateProductConditions : String, updateProvincesRegions : String)
     {
-        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON
-            {_, _, metaRes, metaErr in
-                if (metaErr != nil) { // Terdapat error
-                    println("Error getting metadata: \(metaErr!.description)")
-                } else {
-                    let metaJson = JSON(metaRes!)
-                    let metadata = metaJson["_data"]
-                    if (metadata == nil) { // Data kembalian kosong
-                        println("Error getting metadata")
-                    } else { // Berhasil
-                        // Asynchronous update!!
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                            // Update categories
-                            if (updateCategories == "1") {
-                                println("Updating categories..")
-                                if (CDCategory.deleteAll()) {
-                                    CDCategory.saveCategories(metadata["categories"])
-                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                    NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
-                                    NSUserDefaults.standardUserDefaults().synchronize()
-                                }
-                            }
-                            // Update brands
-                            if (updateBrands == "1") {
-                                println("Updating brands..")
-                                if (CDBrand.deleteAll()) {
-                                    CDBrand.saveBrands(metadata["brands"])
-                                }
-                            }
-                            // Update category sizes
-                            if (updateCategorySizes == "1") {
-                                println("Updating category sizes..")
-                                if (CDCategorySize.deleteAll()) {
-                                    CDCategorySize.saveCategorySizes(metadata["category_sizes"])
-                                }
-                            }
-                            // Update shippings
-                            if (updateShippings == "1") {
-                                println("Updating shippings..")
-                                if (CDShipping.deleteAll()) {
-                                    CDShipping.saveShippings(metadata["shippings"])
-                                }
-                            }
-                            // Update product conditions
-                            if (updateProductConditions == "1") {
-                                println("Updating product conditions..")
-                                if (CDProductCondition.deleteAll()) {
-                                    CDProductCondition.saveProductConditions(metadata["product_conditions"])
-                                }
-                            }
-                            // Update provinces regions
-                            if (updateProvincesRegions == "1") {
-                                println("Updating provinces regions..")
-                                if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
-                                    CDProvince.saveProvinceRegions(metadata["provinces_regions"])
-                                }
-                            }
-                        })
+        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Metadata Update")) {
+                let metaJson = JSON(res!)
+                let metadata = metaJson["_data"]
+                // Asynchronous update!!
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    // Update categories
+                    if (updateCategories == "1") {
+                        println("Updating categories..")
+                        if (CDCategory.deleteAll()) {
+                            CDCategory.saveCategories(metadata["categories"])
+                            // Set categorysaved to true so CategoryPreferencesVC can be executed
+                            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                        }
                     }
-                }
+                    // Update brands
+                    if (updateBrands == "1") {
+                        println("Updating brands..")
+                        if (CDBrand.deleteAll()) {
+                            CDBrand.saveBrands(metadata["brands"])
+                        }
+                    }
+                    // Update category sizes
+                    if (updateCategorySizes == "1") {
+                        println("Updating category sizes..")
+                        if (CDCategorySize.deleteAll()) {
+                            CDCategorySize.saveCategorySizes(metadata["category_sizes"])
+                        }
+                    }
+                    // Update shippings
+                    if (updateShippings == "1") {
+                        println("Updating shippings..")
+                        if (CDShipping.deleteAll()) {
+                            CDShipping.saveShippings(metadata["shippings"])
+                        }
+                    }
+                    // Update product conditions
+                    if (updateProductConditions == "1") {
+                        println("Updating product conditions..")
+                        if (CDProductCondition.deleteAll()) {
+                            CDProductCondition.saveProductConditions(metadata["product_conditions"])
+                        }
+                    }
+                    // Update provinces regions
+                    if (updateProvincesRegions == "1") {
+                        println("Updating provinces regions..")
+                        if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+                            CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+                        }
+                    }
+                })
+            }
         }
     }
     

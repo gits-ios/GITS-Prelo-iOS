@@ -269,14 +269,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         self.mixpanelSharedProduct("Path", username: pathName)
         
         /* FIXME: Sementara dijadiin komentar, soalnya kalo user lagi ga login terus share product via path, harusnya ga usah APIAuth.LoginPath ga sih
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
-            println("Path login req = \(req)")
-            
-            if (err != nil) { // Terdapat error
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
+                println("Path login req = \(req)")
                 
-            } else {
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                if (err != nil) { // Terdapat error
+                    
+                } else {
+                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                }
             }
         }*/
     }

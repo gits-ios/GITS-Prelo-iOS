@@ -111,6 +111,19 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 imgCover?.layer.masksToBounds = true
             }
         }
+        
+        // Redirect if any
+        let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
+        if (redirectFromHome != nil) {
+            if (redirectFromHome == PageName.MyOrders) {
+                let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+            } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+            }
+            NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
+        }
     }
 
     override func didReceiveMemoryWarning() {

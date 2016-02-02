@@ -50,8 +50,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         })
         
-        request(APISearch.GetTopSearch(limit: "10")).responseJSON{req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+        request(APISearch.GetTopSearch(limit: "10")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Top Search"))
             {
                 self.topSearchLoading.hidden = true
                 let json = JSON(res!)
@@ -370,9 +370,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 l.searchMode = true
                 l.searchKey = currentKeyword
                 request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    println("TOP")
-                    println(res)
-                    println("TOPEND")
+                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
+                        println("TOP")
+                        println(res)
+                        println("TOPEND")
+                    }
                 }
                 AppToolsObjC.insertNewSearch(txtSearch.text)
                 setupHistory()
@@ -380,9 +382,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             } else
             {
                 request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    println("TOP")
-                    println(res)
-                    println("TOPEND")
+                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
+                        println("TOP")
+                        println(res)
+                        println("TOPEND")
+                    }
                 }
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[indexPath.row]
@@ -451,7 +455,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
         
         itemRequest?.responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, err: err, resp: resp))
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Item"))
             {
                 self.foundItems = []
                 let json = JSON(res!)
@@ -500,7 +504,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         userRequest = request(APISearch.User(keyword: keyword))
         userRequest?.responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(false, err : err, resp : resp))
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search User"))
             {
                 self.foundUsers = []
                 let json = JSON(res!)

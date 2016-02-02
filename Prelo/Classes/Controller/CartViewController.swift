@@ -60,10 +60,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.title = PageName.Checkout
         
         request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("Unpaid transaction data: \(data)")
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
                     let nUnpaid = data["n_transaction_unpaid"].intValue
                     self.lblPaymentReminder.text = "Kamu memiliki \(nUnpaid) transaksi yg belum dibayar"
@@ -276,116 +275,90 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
         
-        request(APICart.Refresh(cart: p, address: a, voucher: voucher))
-            .responseJSON {req, resp, res, err in
+        request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Keranjang Belanja")) {
+                let json = JSON(res!)
+                self.currentCart = json
                 
-                println(res)
-                println()
+                self.arrayItem = json["_data"]["cart_details"].array!
                 
-                if let result: AnyObject = res
+                if let bonus = json["_data"]["bonus_available"].int
                 {
-                    let json = JSON(result)
-                    self.currentCart = json
-                    
-                    self.arrayItem = json["_data"]["cart_details"].arrayValue
-                    let m = json["_message"].stringValue
-                    
-                    if (self.arrayItem.count == 0 && m == "user belum login")
+                    if (bonus != 0)
                     {
-                        self.tableView.hidden = true
-                        LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
-                        return
-                    }
-                    
-                    if let error = json["_data"].error
-                    {
-                        Constant.showDialog("Warning", message: json["_message"].stringValue)
-                    }
-                    else
-                    {
-                        if let bonus = json["_data"]["bonus_available"].int
+                        self.bonusValue = bonus
+                        self.bonusAvailable = true
+                        let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
+                        if let price = json["_data"]["bonus_available"].int?.asPrice
                         {
-                            if (bonus != 0)
+                            var totalOngkir = 0
+                            for i in 0...self.products.count-1
                             {
-                                self.bonusValue = bonus
-                                self.bonusAvailable = true
-                                let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
-                                if let price = json["_data"]["bonus_available"].int?.asPrice
+                                let cp = self.products[i]
+                                
+                                let json = self.arrayItem[i]
+                                if let free = json["free_ongkir"].bool
                                 {
-                                    var totalOngkir = 0
-                                    for i in 0...self.products.count-1
+                                    if (free)
                                     {
-                                        let cp = self.products[i]
-                                        
-                                        let json = self.arrayItem[i]
-                                        if let free = json["free_ongkir"].bool
+                                        continue
+                                    }
+                                }
+                                
+                                if let arr = json["shipping_packages"].array
+                                {
+                                    if (arr.count > 0)
+                                    {
+                                        var sh = arr[0]
+                                        if (cp.packageId != "")
                                         {
-                                            if (free)
+                                            for x in 0...arr.count-1
                                             {
-                                                continue
-                                            }
-                                        }
-                                        
-                                        if let arr = json["shipping_packages"].array
-                                        {
-                                            if (arr.count > 0)
-                                            {
-                                                var sh = arr[0]
-                                                if (cp.packageId != "")
+                                                let shipping = arr[x]
+                                                if let id = shipping["_id"].string
                                                 {
-                                                    for x in 0...arr.count-1
+                                                    if (id == cp.packageId)
                                                     {
-                                                        let shipping = arr[x]
-                                                        if let id = shipping["_id"].string
-                                                        {
-                                                            if (id == cp.packageId)
-                                                            {
-                                                                sh = shipping
-                                                            }
-                                                        }
+                                                        sh = shipping
                                                     }
                                                 }
-                                                if let price = sh["price"].int
-                                                {
-                                                    totalOngkir += price
-                                                }
                                             }
                                         }
-                                        
+                                        if let price = sh["price"].int
+                                        {
+                                            totalOngkir += price
+                                        }
                                     }
-                                    
-                                    let preloBonus = json["_data"]["bonus_available"].intValue
-                                    let totalPrice = json["_data"]["total_price"].intValue
-                                    
-                                    b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
                                 }
-                                b2.enable = false
-                                let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
-                                self.cells[i2] = b2
                                 
                             }
+                            
+                            let preloBonus = json["_data"]["bonus_available"].intValue
+                            let totalPrice = json["_data"]["total_price"].intValue
+                            
+                            b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
                         }
+                        b2.enable = false
+                        let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
+                        self.cells[i2] = b2
                         
-                        let i = NSIndexPath(forRow: self.products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)
-                        let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
-                        if let price = json["_data"]["total_price"].int?.asPrice
-                        {
-                            b.value = price
-                        }
-                        self.cells[i] = b
-                        
-                        self.tableView.dataSource = self
-                        self.tableView.delegate = self
-                        self.tableView.reloadData()
-                        self.tableView.hidden = false
-                        self.adjustTotal()
                     }
-                } else
-                {
-                    println(err)
-                    println(resp)
-                    println(req)
                 }
+                
+                let i = NSIndexPath(forRow: self.products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)
+                let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
+                if let price = json["_data"]["total_price"].int?.asPrice
+                {
+                    b.value = price
+                }
+                self.cells[i] = b
+                
+                self.tableView.dataSource = self
+                self.tableView.delegate = self
+                self.tableView.reloadData()
+                self.tableView.hidden = false
+                self.adjustTotal()
+            }
         }
         
     }
@@ -446,135 +419,130 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let a = AppToolsObjC.jsonStringFrom(d)
         
         self.btnSend.enabled = false
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment))
-            .responseJSON{_, resp, res, err in
-                self.btnSend.enabled = true
-                if (APIPrelo.validate(true, err: err, resp: resp))
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON { req, resp, res, err in
+            self.btnSend.enabled = true
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout")) {
+                var json = JSON(res!)
+                if let error = json["_message"].string
                 {
-                    println(res)
-                    var json = JSON(res!)
-                    if let error = json["_message"].string
-                    {
-                        Constant.showDialog("Warning", message: error)
-                    } else {
-                        println(res)
-                        let json = JSON(res!)
-                        self.checkoutResult = json["_data"]
-                        
-                        if (json["_data"]["_have_error"].intValue == 1)
-                        {
-                            let m = json["_data"]["_message"].stringValue
-                            UIAlertView.SimpleShow("Perhatian", message: m)
-                            return
-                        }
-                        
-                        let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
-                        
-                        let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
-                        
-                        o.orderID = (self.checkoutResult?["order_id"].string)!
-                        o.total = (self.checkoutResult?["total_price"].int)!
-                        o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-                        o.overBack = true
-                        
-                        var imgs : [NSURL] = []
-                        
-                        for i in 0...self.arrayItem.count-1
-                        {
-                            let json = self.arrayItem[i]
-                            if let raw : Array<AnyObject> = json["display_picts"].arrayObject
-                            {
-                                var ori : Array<String> = []
-                                for o in raw
-                                {
-                                    if let s = o as? String
-                                    {
-                                        ori.append(s)
-                                    }
-                                }
-                                
-                                if (ori.count > 0)
-                                {
-                                    if let u = NSURL(string: ori.first!)
-                                    {
-                                        imgs.append(u)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        o.images = imgs
-                        
-                        for p in self.products
-                        {
-                            UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
-                        }
-                        UIApplication.appDelegate.saveContext()
-                        
-                        // Mixpanel
-                        if (self.checkoutResult != nil) {
-                            var pName : String? = ""
-                            var rName : String? = ""
-                            if let u = CDUser.getOne()
-                            {
-                                pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
-                                if (pName == nil) {
-                                    pName = ""
-                                }
-                                rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
-                                if (rName == nil) {
-                                    rName = ""
-                                }
-                            }
-                            
-                            var items : [String] = []
-                            var itemsCategory : [String] = []
-                            var itemsSeller : [String] = []
-                            var itemsPrice : [Int] = []
-                            var itemsCommissionPercentage : [Int] = []
-                            var itemsCommissionPrice : [Int] = []
-                            var totalCommissionPrice = 0
-                            var totalPrice = 0
-                            for i in 0...self.arrayItem.count - 1 {
-                                let json = self.arrayItem[i]
-                                items.append(json["name"].stringValue)
-                                var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
-                                if (cName == nil) {
-                                    cName = json["category_id"].stringValue
-                                }
-                                itemsCategory.append(cName!)
-                                itemsSeller.append(json["seller_id"].stringValue)
-                                itemsPrice.append(json["price"].intValue)
-                                totalPrice += json["price"].intValue
-                                itemsCommissionPercentage.append(json["commission"].intValue)
-                                let cPrice = json["price"].intValue * json["commission"].intValue / 100
-                                itemsCommissionPrice.append(cPrice)
-                                totalCommissionPrice += cPrice
-                            }
-                            
-                            let pt = [
-                                "Order ID" : self.checkoutResult!["order_id"].stringValue,
-                                "Items" : items,
-                                "Items Category" : itemsCategory,
-                                "Items Seller" : itemsSeller,
-                                "Items Price" : itemsPrice,
-                                "Items Commission Percentage" : itemsCommissionPercentage,
-                                "Items Commission Price" : itemsCommissionPrice,
-                                "Total Commission Price" : totalCommissionPrice,
-                                "Shipping Price" : self.totalOngkir,
-                                "Total Price" : totalPrice,
-                                "Shipping Region" : rName!,
-                                "Shipping Province" : pName!
-                            ]
-                            Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
-                        }
-                        
-                        self.previousController?.navigationController?.pushViewController(o, animated: true)
-                        
-                    }
+                    Constant.showDialog("Warning", message: error)
                 } else {
+                    println(res)
+                    let json = JSON(res!)
+                    self.checkoutResult = json["_data"]
+                    
+                    if (json["_data"]["_have_error"].intValue == 1)
+                    {
+                        let m = json["_data"]["_message"].stringValue
+                        UIAlertView.SimpleShow("Perhatian", message: m)
+                        return
+                    }
+                    
+                    let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
+                    
+                    let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                    
+                    o.orderID = (self.checkoutResult?["order_id"].string)!
+                    o.total = (self.checkoutResult?["total_price"].int)!
+                    o.transactionId = (self.checkoutResult?["transaction_id"].string)!
+                    o.overBack = true
+                    
+                    var imgs : [NSURL] = []
+                    
+                    for i in 0...self.arrayItem.count-1
+                    {
+                        let json = self.arrayItem[i]
+                        if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+                        {
+                            var ori : Array<String> = []
+                            for o in raw
+                            {
+                                if let s = o as? String
+                                {
+                                    ori.append(s)
+                                }
+                            }
+                            
+                            if (ori.count > 0)
+                            {
+                                if let u = NSURL(string: ori.first!)
+                                {
+                                    imgs.append(u)
+                                }
+                            }
+                        }
+                    }
+                    
+                    o.images = imgs
+                    
+                    for p in self.products
+                    {
+                        UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+                    }
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Mixpanel
+                    if (self.checkoutResult != nil) {
+                        var pName : String? = ""
+                        var rName : String? = ""
+                        if let u = CDUser.getOne()
+                        {
+                            pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                            if (pName == nil) {
+                                pName = ""
+                            }
+                            rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                            if (rName == nil) {
+                                rName = ""
+                            }
+                        }
+                        
+                        var items : [String] = []
+                        var itemsCategory : [String] = []
+                        var itemsSeller : [String] = []
+                        var itemsPrice : [Int] = []
+                        var itemsCommissionPercentage : [Int] = []
+                        var itemsCommissionPrice : [Int] = []
+                        var totalCommissionPrice = 0
+                        var totalPrice = 0
+                        for i in 0...self.arrayItem.count - 1 {
+                            let json = self.arrayItem[i]
+                            items.append(json["name"].stringValue)
+                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                            if (cName == nil) {
+                                cName = json["category_id"].stringValue
+                            }
+                            itemsCategory.append(cName!)
+                            itemsSeller.append(json["seller_id"].stringValue)
+                            itemsPrice.append(json["price"].intValue)
+                            totalPrice += json["price"].intValue
+                            itemsCommissionPercentage.append(json["commission"].intValue)
+                            let cPrice = json["price"].intValue * json["commission"].intValue / 100
+                            itemsCommissionPrice.append(cPrice)
+                            totalCommissionPrice += cPrice
+                        }
+                        
+                        let pt = [
+                            "Order ID" : self.checkoutResult!["order_id"].stringValue,
+                            "Items" : items,
+                            "Items Category" : itemsCategory,
+                            "Items Seller" : itemsSeller,
+                            "Items Price" : itemsPrice,
+                            "Items Commission Percentage" : itemsCommissionPercentage,
+                            "Items Commission Price" : itemsCommissionPrice,
+                            "Total Commission Price" : totalCommissionPrice,
+                            "Shipping Price" : self.totalOngkir,
+                            "Total Price" : totalPrice,
+                            "Shipping Region" : rName!,
+                            "Shipping Province" : pName!
+                        ]
+                        Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
+                    }
+                    
+                    self.previousController?.navigationController?.pushViewController(o, animated: true)
                     
                 }
+            }
         }
     }
     
@@ -1266,7 +1234,7 @@ class CartCellItem : UITableViewCell
     func adapt (json : JSON)
     {
         println(json)
-        captionName?.text = json["name"].string!
+        captionName?.text = json["name"].stringValue
         captionLocation?.text = ""
         
         if let raw : Array<AnyObject> = json["display_picts"].arrayObject

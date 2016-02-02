@@ -28,10 +28,14 @@ extension NSMutableURLRequest
         let r = NSMutableURLRequest(URL: url)
         
         if (User.IsLoggedIn) {
-//            r.setValue("Authorization", forHTTPHeaderField: "Token " + User.Token!)
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
-            println("User token = \(t)")
+            println("User token = \(t)")   
+        }
+        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        if (userAgent != nil) {
+            //println("User-Agent = \(userAgent)")
+            r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
         return r
@@ -726,6 +730,7 @@ enum APIUser : URLRequestConvertible
     case SetDeviceRegId(deviceRegId : String)
     case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
     case CheckPassword
+    case ResendVerificationEmail
     
     var method : Method
     {
@@ -747,6 +752,7 @@ enum APIUser : URLRequestConvertible
         case .SetDeviceRegId(_) : return .POST
         case .SetUserPreferencedCategories(_, _, _) : return .POST
         case .CheckPassword : return .GET
+        case .ResendVerificationEmail : return .POST
         }
     }
     
@@ -770,6 +776,7 @@ enum APIUser : URLRequestConvertible
         case .SetDeviceRegId(_) : return "set_device_registration_id"
         case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
         case .CheckPassword : return "checkpassword"
+        case .ResendVerificationEmail : return "verify/resend_email"
         }
     }
     
@@ -850,6 +857,8 @@ enum APIUser : URLRequestConvertible
             ]
             return p
         case .CheckPassword :
+            return [:]
+        case .ResendVerificationEmail :
             return [:]
         }
     }
@@ -1266,18 +1275,27 @@ class APIPrelo
         }
     }
     
-    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?) -> Bool
+    static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
-        println("Req = \(req)")
+        println("\(reqAlias) req = \(req)")
         
         if let response = resp
         {
             if (response.statusCode != 200)
             {
-                if (res != nil && showErrorDialog) {
-                    UIAlertView.SimpleShow("Warning", message: JSON(res!)["_message"].string!)
+                if (res != nil) {
+                    if let msg = JSON(res!)["_message"].string {
+                        if (showErrorDialog) {
+                            UIAlertView.SimpleShow(reqAlias, message: msg)
+                        }
+                        println("\(reqAlias) _message = \(msg)")
+                    }
                 } else if (res == nil && showErrorDialog) {
-                    UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
+                    if (response.statusCode > 500) {
+                        UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
+                    } else {
+                        UIAlertView.SimpleShow(reqAlias, message: "Oops, silahkan coba beberapa saat lagi")
+                    }
                 }
                 return false
             }
@@ -1287,7 +1305,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, tidak ada respon dari server")
             }
             return false
         }
@@ -1296,13 +1314,27 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow("Warning", message: "Terdapat error, silahkan coba beberapa saat lagi")//error.description)
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
+            println("\(reqAlias) err = \(error.description)")
             return false
         }
         else
         {
+            let json = JSON(res!)
+            let data = json["_data"]
+            println("\(reqAlias) _data = \(data)")
             return true
+        }
+    }
+    
+    static func validateSession(res: AnyObject?, sender: BaseViewController) {
+        if (res != nil) {
+            if let msg = JSON(res!)["_message"].string {
+                if (msg == "user belum login") {
+                    sender.dismiss()
+                }
+            }
         }
     }
 }

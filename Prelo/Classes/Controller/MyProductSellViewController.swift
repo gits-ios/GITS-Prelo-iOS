@@ -43,35 +43,30 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getProducts()
     {
-        request(APIProduct.MyProduct(current: products.count, limit: 10))
-            .responseJSON{req, resp, res, err in
-                if (APIPrelo.validate(true, err: err, resp: resp))
+        request(APIProduct.MyProduct(current: products.count, limit: 10)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya")) {
+                if let result: AnyObject = res
                 {
-                    if let result: AnyObject = res
+                    let j = JSON(result)
+                    let d = j["_data"].arrayObject
+                    if let data = d
                     {
-                        let j = JSON(result)
-                        let d = j["_data"].arrayObject
-                        if let data = d
+                        for json in data
                         {
-                            println("Product list data = \(data)")
-                            for json in data
-                            {
-                                self.products.append(Product.instance(JSON(json))!)
-                                self.tableView.tableFooterView = UIView()
-                            }
-                            if (self.products.count > 0) {
-                                self.lblEmpty.hidden = true
-                                self.tableView.hidden = false
-                                self.tableView.reloadData()
-                            } else {
-                                self.lblEmpty.hidden = false
-                                self.tableView.hidden = true
-                            }
+                            self.products.append(Product.instance(JSON(json))!)
+                            self.tableView.tableFooterView = UIView()
+                        }
+                        if (self.products.count > 0) {
+                            self.lblEmpty.hidden = true
+                            self.tableView.hidden = false
+                            self.tableView.reloadData()
+                        } else {
+                            self.lblEmpty.hidden = false
+                            self.tableView.hidden = true
                         }
                     }
-                } else {
-                    
                 }
+            }
         }
     }
 

@@ -56,7 +56,7 @@ class NotificationPageInboxViewController: BaseViewController, UITableViewDataSo
         // Tell server that user opens notification page inbox
         // FIXME: OpenNotifs ganti dengan open inbox notif doang
         request(APINotif.OpenNotifs).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Inbox")) {
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
@@ -160,24 +160,20 @@ class NotificationPageInboxViewController: BaseViewController, UITableViewDataSo
             // Cek apakah notif yang dibaca merupakan hasil merge
             if (notif.weight.integerValue > 1) {
                 request(APINotif.ReadMultiNotif(objectId: notif.objectId, type: notif.type.stringValue)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Inbox")) {
                         let json = JSON(res!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil || data == true) {
-                            println("data = \(data)")
-                            
                             self.setNotifReadAndSetBadgeNumber(notif, index: indexPath.row)
                         }
                     }
                 }
             } else { // weight = 1
                 request(APINotif.ReadNotif(notifId: notif.ids)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Inbox")) {
                         let json = JSON(res!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil || data == true) {
-                            println("data = \(data)")
-                            
                             self.setNotifReadAndSetBadgeNumber(notif, index: indexPath.row)
                         }
                     }
@@ -209,10 +205,9 @@ class NotificationPageInboxViewController: BaseViewController, UITableViewDataSo
     func navigateReadNotif(notif : CDNotification) {
         // Get inbox detail
         request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err)) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Inbox")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                println("data = \(data)")
                 let inboxData = Inbox(jsn: data)
                 
                 // Goto inbox

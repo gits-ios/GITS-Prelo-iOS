@@ -57,24 +57,16 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func getUserPurchases() {
-        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON {_, _, res, err in
-            println(res)
-            if (err != nil) { // Terdapat error
-                println("Error getting purchase data: \(err!.description)")
-            } else {
+        request(APITransaction.Purchases(status: "process", current: "", limit: "")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Belanjaan Saya - Diproses")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
-                    println("Empty purchase data")
-                } else { // Berhasil
-                    println("Purchase data: \(data)")
-                    
-                    // Store data into variable
-                    for (index : String, item : JSON) in data {
-                        let u = UserTransactionItem.instanceTransactionItem(item)
-                        if (u != nil) {
-                            self.userPurchases?.append(u!)
-                        }
+                
+                // Store data into variable
+                for (index : String, item : JSON) in data {
+                    let u = UserTransactionItem.instanceTransactionItem(item)
+                    if (u != nil) {
+                        self.userPurchases?.append(u!)
                     }
                 }
             }

@@ -180,52 +180,40 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
-        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!))
-            .responseJSON
-            {_, _, json, err in
-                if (err != nil) { // Terdapat error
-                    Constant.showDialog("Warning", message: "Error register")//:(err?.description)!)
-                    self.btnRegister?.enabled = true
-                } else {
-                    let res = JSON(json!)
-                    let data = res["_data"]
-                    if (data == nil) { // Data kembalian kosong
-                        let obj : [String : String] = json as! [String : String]
-                        let message = obj["_message"]
-                        Constant.showDialog("Warning", message: message!)
-                        self.btnRegister?.enabled = true
-                    } else { // Berhasil
-                        println("Register succeed")
-                        println(data)
-                        
-                        let m = UIApplication.appDelegate.managedObjectContext
-                        CDUser.deleteAll()
-                        let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                        c.id = data["_id"].stringValue
-                        c.email = data["email"].stringValue
-                        c.username = data["username"].stringValue
-                        c.fullname = data["fullname"].stringValue
-                        
-                        CDUserProfile.deleteAll()
-                        let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                        let pr = data["profile"]
-                        p.pict = pr["pict"].stringValue
-                        c.profiles = p
-                        
-                        CDUserOther.deleteAll()
-                        let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
-                        let oth = data["others"]
-                        o.lastLogin = oth["last_login"].stringValue
-                        o.registerTime = oth["register_time"].stringValue
-                        c.others = o
-                        
-                        UIApplication.appDelegate.saveContext()
-                        
-                        CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
-                        
-                        self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
-                    }
-                }
+        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Register")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                
+                let m = UIApplication.appDelegate.managedObjectContext
+                CDUser.deleteAll()
+                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+                c.id = data["_id"].stringValue
+                c.email = data["email"].stringValue
+                c.username = data["username"].stringValue
+                c.fullname = data["fullname"].stringValue
+                
+                CDUserProfile.deleteAll()
+                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                let pr = data["profile"]
+                p.pict = pr["pict"].stringValue
+                c.profiles = p
+                
+                CDUserOther.deleteAll()
+                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
+                let oth = data["others"]
+                o.lastLogin = oth["last_login"].stringValue
+                o.registerTime = oth["register_time"].stringValue
+                c.others = o
+                
+                UIApplication.appDelegate.saveContext()
+                
+                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                
+                self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
+            } else {
+                self.btnRegister?.enabled = true
+            }
         }
         
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
@@ -310,40 +298,32 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                     println("profilePictureUrl = \(profilePictureUrl)")
                     println("accessToken = \(accessToken)")
                     
-                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON {req, _, res, err in
-                        println("Fb login req = \(req)")
-                        if (err != nil) { // Terdapat error
-                            Constant.showDialog("Warning", message: "Error login facebook")//:(err?.description)!)
-                        } else {
+                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
                             let json = JSON(res!)
                             let data = json["_data"]
-                            if (data == nil || data == []) { // Data kembalian kosong
-                                println("Empty facebook login data")
-                            } else { // Berhasil
-                                println("Facebook login data = \(data)")
-                                
-                                // Save in core data
-                                let m = UIApplication.appDelegate.managedObjectContext
-                                var user : CDUser? = CDUser.getOne()
-                                if (user == nil) {
-                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                                }
-                                user!.id = data["_id"].string!
-                                user!.username = data["username"].string!
-                                user!.email = data["email"].string!
-                                user!.fullname = data["fullname"].string!
-                                
-                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                                let pr = data["profile"]
-                                p.pict = pr["pict"].string!
-                                
-                                user!.profiles = p
-                                UIApplication.appDelegate.saveContext()
-                                
-                                // Check if user have set his account
-                                //self.checkProfileSetup(data["token"].string!)
-                                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: self.screenBeforeLogin)
+                            
+                            // Save in core data
+                            let m = UIApplication.appDelegate.managedObjectContext
+                            var user : CDUser? = CDUser.getOne()
+                            if (user == nil) {
+                                user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                             }
+                            user!.id = data["_id"].string!
+                            user!.username = data["username"].string!
+                            user!.email = data["email"].string!
+                            user!.fullname = data["fullname"].string!
+                            
+                            let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                            let pr = data["profile"]
+                            p.pict = pr["pict"].string!
+                            
+                            user!.profiles = p
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Check if user have set his account
+                            //self.checkProfileSetup(data["token"].string!)
+                            LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: self.screenBeforeLogin)
                         }
                     }
                 }
@@ -381,57 +361,48 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
 
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, _, res, err in
-            println("Path login req = \(req)")
-            
-            if (err != nil) { // Terdapat error
-                Constant.showDialog("Warning", message: "Error login path")//:(err?.description)!)
-            } else {
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                if (data == nil || data == []) { // Data kembalian kosong
-                    println("Empty path login data")
-                } else { // Berhasil
-                    println("Path login data: \(data)")
-                    
-                    // Save in core data
-                    let m = UIApplication.appDelegate.managedObjectContext
-                    var user : CDUser? = CDUser.getOne()
-                    if (user == nil) {
-                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                    }
-                    user!.id = data["_id"].string!
-                    user!.username = data["username"].string!
-                    user!.email = data["email"].string!
-                    user!.fullname = data["fullname"].string!
-                    
-                    var p : CDUserProfile? = CDUserProfile.getOne()
-                    if (p == nil) {
-                        p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
-                    }
-                    let pr = data["profile"]
-                    p!.pict = pr["pict"].string!
-                    
-                    var o : CDUserOther? = CDUserOther.getOne()
-                    if (o == nil) {
-                        o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                    }
-                    o!.pathID = pathId
-                    o!.pathUsername = pathName
-                    o!.pathAccessToken = token
-                    
-                    user!.profiles = p!
-                    user!.others = o!
-                    UIApplication.appDelegate.saveContext()
-                    
-                    // Save in NSUserDefaults
-                    NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                    
-                    // Check if user have set his account
-                    //self.checkProfileSetup(data["token"].string!)
-                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+                
+                // Save in core data
+                let m = UIApplication.appDelegate.managedObjectContext
+                var user : CDUser? = CDUser.getOne()
+                if (user == nil) {
+                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
                 }
+                user!.id = data["_id"].string!
+                user!.username = data["username"].string!
+                user!.email = data["email"].string!
+                user!.fullname = data["fullname"].string!
+                
+                var p : CDUserProfile? = CDUserProfile.getOne()
+                if (p == nil) {
+                    p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                }
+                let pr = data["profile"]
+                p!.pict = pr["pict"].string!
+                
+                var o : CDUserOther? = CDUserOther.getOne()
+                if (o == nil) {
+                    o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                }
+                o!.pathID = pathId
+                o!.pathUsername = pathName
+                o!.pathAccessToken = token
+                
+                user!.profiles = p!
+                user!.others = o!
+                UIApplication.appDelegate.saveContext()
+                
+                // Save in NSUserDefaults
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+                // Check if user have set his account
+                //self.checkProfileSetup(data["token"].string!)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
             }
         }
     }

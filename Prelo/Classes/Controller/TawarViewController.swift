@@ -290,16 +290,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     {
         self.tableView.hidden = true
         request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Get Inbox By Product ID")) {}
             self.tableView.hidden = false
             let json = JSON(res!)
             let data = json["_data"]
             let i = Inbox(jsn: data)
-            println(data)
+            //println(data)
             self.tawarItem = i
             self.tawarFromMe = self.tawarItem.bargainerIsMe
             self.adjustButtons()
             self.getMessages()
-            println(res)
+            //println(res)
         }
     }
     
@@ -311,8 +312,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId)
         }
-        request(api).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, err: err, resp: resp))
+        request(api).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
             {
                 let json = JSON(res!)
                 println(res)
@@ -506,10 +507,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
-        request(api).responseJSON {req, resp, res, err in
+        request(api).responseJSON { req, resp, res, err in
             println(res)
             self.starting = false
-            if (APIPrelo.validate(true, err: err, resp: resp))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
             {
                 let json = JSON(res!)
                 let data = json["_data"]

@@ -86,21 +86,22 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     func getToken(code : String)
     {
         request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON { req, resp, res, err in
-            
-            let json = JSON(res!)
-            if let token = json["access_token"].string
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Login Instagram"))
             {
-                self.instagramLoginDelegate?.instagramLoginSuccess(token)
-                
-                let id = json["user"]["id"]
-                let name = json["user"]["full_name"]
-                if (id != nil && name != nil) {
-                    self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
+                let json = JSON(res!)
+                if let token = json["access_token"].string
+                {
+                    self.instagramLoginDelegate?.instagramLoginSuccess(token)
+                    
+                    let id = json["user"]["id"]
+                    let name = json["user"]["full_name"]
+                    if (id != nil && name != nil) {
+                        self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
+                    }
+                    
+                    self.dismiss()
                 }
-                
-                self.dismiss()
             }
-            
         }
     }
     

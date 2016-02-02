@@ -127,20 +127,28 @@ static UIDocumentInteractionController *staticDocController = NULL;
 
 + (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
-    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"http://dev.prelo.id/api/product" success:success failure:failure];
+//    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"http://dev.prelo.id/api/product" success:success failure:failure];
 //    [AppToolsObjC sendMultipart:param images:images withToken:token to:@"https://prelo.co.id/api/product" success:success failure:failure];
 }
 
-+ (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
++ (void)sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     
     manager.requestSerializer.timeoutInterval = 600;
     
     [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        if (images.count > 0) {
+        if (images.count == 1) {
+            NSString *name = [NSString stringWithFormat:@"image"];
+            if ([images[0] isKindOfClass:[UIImage class]])
+            {
+                NSData *data = UIImageJPEGRepresentation(images[0], 0.1);
+                [formData appendPartWithFileData:data name:name fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            }
+        } else if (images.count > 0) {
             for (int i = 0; i < images.count; i++)
             {
                 NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];

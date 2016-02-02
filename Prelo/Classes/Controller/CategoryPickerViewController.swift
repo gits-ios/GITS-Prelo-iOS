@@ -51,16 +51,12 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     func getCategory()
     {
-        request(References.CategoryList)
-            .responseJSON { _, _, JSON, err in
-                if (err != nil) {
-                    println(err)
-                } else {
-                    println(JSON)
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(JSON!), forKey: "pre_categories")
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                    self.setupData()
-                }
+        request(References.CategoryList).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Kategori")) {
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                self.setupData()
+            }
         }
     }
     

@@ -173,6 +173,7 @@ class UserDefaultsKey : NSObject
     static let DeepLinkConfirmPayment = "deeplinkconfirmpayment"
     static let DeepLinkShopPage = "deeplinkshoppage"
     static let RedirectFromHome = "redirectfromhome"
+    static let UserAgent = "useragent"
 }
 
 class PageName
@@ -218,6 +219,8 @@ class PageName
     static let TermsAndConditions = "Terms and Conditions"
     static let CheckoutTutorial = "Checkout Tutorial"
 }
+
+
 
 class MixpanelEvent
 {
