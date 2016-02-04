@@ -210,7 +210,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         // Set images and labels
         imgProduct.setImageWithUrl((transactionDetail?.productImageURL)!, placeHolderImage: nil)
         lblProductName.text = transactionDetail?.productName
-        lblPrice.text = "Rp \((transactionDetail?.productPrice)!.string)"
+        lblPrice.text = "Rp \((transactionDetail?.totalPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
         lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
         lblOrderStatus.text = transactionDetail?.progressText.uppercaseString

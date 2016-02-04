@@ -17,12 +17,22 @@ class CDProductCondition: NSManagedObject {
     @NSManaged var detail : String
     @NSManaged var order : NSNumber
     
-    static func saveProductConditions(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func saveProductConditions(json : JSON, m : NSManagedObjectContext) -> Bool {
         for (var i = 0; i < json.count; i++) {
             let condJson = json[i]
-            self.newOne(condJson["_id"].string!, name: condJson["name"].string!, detail: condJson["description"].string!, order: condJson["order"].number!)
+            let r = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
+            r.id = condJson["_id"].string!
+            r.name = condJson["name"].string!
+            r.detail = condJson["description"].string!
+            r.order = condJson["order"].number!
         }
+        var err : NSError?
+        if (m.save(&err) == false) {
+            println("saveProductConditions failed")
+            return false
+        }
+        println("saveProductConditions success")
+        return true
     }
     
     static func newOne(id : String, name : String, detail : String, order : NSNumber) -> CDProductCondition? {
@@ -40,19 +50,18 @@ class CDProductCondition: NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDProductCondition")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDProductCondition success")
             } else if let error = error {
                 println("deleteAll CDProductCondition failed with error : \(error.userInfo)")

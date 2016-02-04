@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class AboutViewController: BaseViewController {
+class AboutViewController: BaseViewController, UIAlertViewDelegate {
 
     @IBOutlet var btnLogout : BorderedButton!
     @IBOutlet var btnClear : BorderedButton!
@@ -52,6 +53,16 @@ class AboutViewController: BaseViewController {
     
     @IBAction func openPreloSite(sender: AnyObject) {
         UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
+    }
+    
+    @IBAction func reloadAppData(sender: AnyObject) {
+        // Tampilkan pop up untuk prompt
+        let a = UIAlertView()
+        a.message = "Reload App Data membutuhkan waktu beberapa menit. Lanjutkan?"
+        a.addButtonWithTitle("Batal")
+        a.addButtonWithTitle("Reload App Data")
+        a.delegate = self
+        a.show()
     }
     
     @IBAction func clearCache()
@@ -102,6 +113,341 @@ class AboutViewController: BaseViewController {
         
         // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // MARK: - UIAlertView delegate function
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Batal
+            alertView.dismissWithClickedButtonIndex(-1, animated: true)
+            break
+        case 1: // Reload App Data
+            alertView.dismissWithClickedButtonIndex(-1, animated: true)
+            // Tampilkan pop up untuk loading
+            reloadingAppData()
+            break
+        default:
+            break
+        }
+    }
+    
+    // MARK: - Other functions
+    
+    func printCoreDataCount() {
+        println("Category = \(CDCategory.getCategoryCount())")
+        println("Brand = \(CDBrand.getBrandCount())")
+        println("CategorySize = \(CDCategorySize.getCategorySizeCount())")
+        println("Shipping = \(CDShipping.getShippingCount())")
+        println("ProductCondition = \(CDProductCondition.getProductConditionCount())")
+        println("Province = \(CDProvince.getProvinceCount())")
+    }
+    
+    func reloadingAppData() {
+        // Tampilkan pop up untuk loading
+        let a = UIAlertView()
+        let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+        pView.progress = 0
+        pView.backgroundColor = Theme.GrayLight
+        pView.progressTintColor = Theme.ThemeOrage
+        a.setValue(pView, forKey: "accessoryView")
+        a.title = "Reloading App Data..."
+        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+        a.show()
+
+        request(APIApp.Metadata(brands: "1", categories: "1", categorySizes: "1", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Reload App Data")) {
+                let metaJson = JSON(res!)
+                let metadata = metaJson["_data"]
+                
+                var isSuccess : Bool = true
+                var queue : NSOperationQueue = NSOperationQueue.new()
+                
+                let opCategories : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update categories
+                        println("Updating categories..")
+                        if (CDCategory.deleteAll(moc)) {
+                            if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    pView.setProgress(pView.progress + 0.05, animated: true)
+                                })
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opCategories)
+                
+                let opBrands : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update brands
+                        println("Updating brands..")
+                        if (CDBrand.deleteAll(moc)) {
+                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opBrands)
+                
+                let opCategorySizes : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update category sizes
+                        println("Updating category sizes..")
+                        if (CDCategorySize.deleteAll(moc)) {
+                            if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    pView.setProgress(pView.progress + 0.05, animated: true)
+                                })
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opCategorySizes)
+                
+                let opShippings : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                    
+                        // Update shippings
+                        println("Updating shippings..")
+                        if (CDShipping.deleteAll(moc)) {
+                            if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    pView.setProgress(pView.progress + 0.05, animated: true)
+                                })
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opShippings)
+                
+                let opProductConditions : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update product conditions
+                        println("Updating product conditions..")
+                        if (CDProductCondition.deleteAll(moc)) {
+                            if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    pView.setProgress(pView.progress + 0.05, animated: true)
+                                })
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opProductConditions)
+                
+                let opProvincesRegions : NSOperation = NSBlockOperation(block: {
+                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update provinces regions
+                        println("Updating provinces regions..")
+                        if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
+                            if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    pView.setProgress(pView.progress + 0.05, animated: true)
+                                })
+                            } else {
+                                isSuccess = false
+                            }
+                        }
+                    }
+                })
+                queue.addOperation(opProvincesRegions)
+                
+                let opFinish : NSOperation = NSBlockOperation(block: {
+                    a.dismissWithClickedButtonIndex(-1, animated: true)
+                    if (isSuccess) {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
+                        })
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")
+                        })
+                    }
+                })
+                opFinish.addDependency(opCategories)
+                opFinish.addDependency(opBrands)
+                opFinish.addDependency(opCategorySizes)
+                opFinish.addDependency(opShippings)
+                opFinish.addDependency(opProductConditions)
+                opFinish.addDependency(opProvincesRegions)
+                queue.addOperation(opFinish)
+                
+                
+//                let queue : dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+//                let group : dispatch_group_t = dispatch_group_create()
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update categories
+//                    println("Updating categories..")
+//                    if (CDCategory.deleteAll()) {
+//                        CDCategory.saveCategories(metadata["categories"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.16)
+//                    })
+//                })
+//                
+//                dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update brands
+//                    println("Updating brands..")
+//                    if (CDBrand.deleteAll()) {
+//                        CDBrand.saveBrands(metadata["brands"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.32)
+//                    })
+//                })
+//                
+//                dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update category sizes
+//                    println("Updating category sizes..")
+//                    if (CDCategorySize.deleteAll()) {
+//                        CDCategorySize.saveCategorySizes(metadata["category_sizes"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.48)
+//                    })
+//                })
+//                
+//                dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update shippings
+//                    println("Updating shippings..")
+//                    if (CDShipping.deleteAll()) {
+//                        CDShipping.saveShippings(metadata["shippings"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.64)
+//                    })
+//                })
+//                
+//                dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update product conditions
+//                    println("Updating product conditions..")
+//                    if (CDProductCondition.deleteAll()) {
+//                        CDProductCondition.saveProductConditions(metadata["product_conditions"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.80)
+//                    })
+//                })
+//                
+//                dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+//                
+//                dispatch_group_async(group, queue, {
+//                    // Update provinces regions
+//                    println("Updating provinces regions..")
+//                    if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+//                        CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(1)
+//                    })
+//                    self.vwReloadingAppData.hidden = true
+//                    Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
+//                })
+                
+                
+                
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+//                    // Update categories
+//                    println("Updating categories..")
+//                    if (CDCategory.deleteAll()) {
+//                        CDCategory.saveCategories(metadata["categories"])
+//                        // Set categorysaved to true so CategoryPreferencesVC can be executed
+//                        NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
+//                        NSUserDefaults.standardUserDefaults().synchronize()
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.16)
+//                    })
+//                    
+//                    // Update brands
+//                    println("Updating brands..")
+//                    if (CDBrand.deleteAll()) {
+//                        CDBrand.saveBrands(metadata["brands"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.32)
+//                    })
+//                    
+//                    // Update category sizes
+//                    println("Updating category sizes..")
+//                    if (CDCategorySize.deleteAll()) {
+//                        CDCategorySize.saveCategorySizes(metadata["category_sizes"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.48)
+//                    })
+//                    
+//                    // Update shippings
+//                    println("Updating shippings..")
+//                    if (CDShipping.deleteAll()) {
+//                        CDShipping.saveShippings(metadata["shippings"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.64)
+//                    })
+//                    
+//                    // Update product conditions
+//                    println("Updating product conditions..")
+//                    if (CDProductCondition.deleteAll()) {
+//                        CDProductCondition.saveProductConditions(metadata["product_conditions"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(0.80)
+//                    })
+//                    
+//                    // Update provinces regions
+//                    println("Updating provinces regions..")
+//                    if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
+//                        CDProvince.saveProvinceRegions(metadata["provinces_regions"])
+//                    }
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        self.setProgressReloadAppData(1)
+//                    })
+//                    self.vwReloadingAppData.hidden = true
+//                    Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
+//                })
+            } else {
+                a.dismissWithClickedButtonIndex(-1, animated: true)
+            }
+        }
     }
 
     /*

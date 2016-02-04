@@ -17,15 +17,25 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageId : String
     @NSManaged var packageName : String
     
-    static func saveShippings(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool{
         for (var i = 0; i < json.count; i++) {
             let shipJson = json[i]
             for (var j = 0; j < shipJson["shipping_packages"].count; j++) {
                 let packJson = shipJson["shipping_packages"][j]
-                self.newOne(shipJson["_id"].string!, name: shipJson["name"].string!, packageId: packJson["_id"].string!, packageName: packJson["name"].string!)
+                let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+                r.id = shipJson["_id"].string!
+                r.name = shipJson["name"].string!
+                r.packageId = packJson["_id"].string!
+                r.packageName = packJson["name"].string!
             }
         }
+        var err : NSError?
+        if (m.save(&err) == false) {
+            println("saveShippings failed")
+            return false
+        }
+        println("saveShippings success")
+        return true
     }
     
     static func newOne(id : String, name : String, packageId : String, packageName : String) -> CDShipping? {
@@ -43,19 +53,18 @@ class CDShipping: NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDShipping")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDShipping success")
             } else if let error = error {
                 println("deleteAll CDShipping failed with error : \(error.userInfo)")
