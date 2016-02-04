@@ -188,7 +188,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    // see ? udalah ga usah support os 7 segala, bikin dialog aja harus 2 fungsi
     func askDeleteOS8()
     {
         let a = UIAlertController(title: "Hapus", message: "Hapus Produk ?", preferredStyle: .Alert)
@@ -319,6 +318,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let p = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
         p?.parent = self
         p?.largeImageURLS = (detail?.originalPicturers)!
+        if let labels = detail?.imageLabels
+        {
+            p?.labels = labels
+        }
         p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = p
         
@@ -795,12 +798,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             if (free_ongkir == 0)
             {
                 conWidthOngkir.constant = 0
-                conMarginOngkir.constant = 0
+//                conMarginOngkir.constant = 0
             }
         } else
         {
             conWidthOngkir.constant = 0
-            conMarginOngkir.constant = 0
+//            conMarginOngkir.constant = 0
         }
         
         captionTitle?.text = obj?.name

@@ -637,6 +637,33 @@ public class ProductDetail : NSObject, TawarItem
             return []
     }
     
+    var imageLabels : [String]
+    {
+        var labels : [String] = []
+        println(json["_data"]["original_picts"])
+        if let ori = json["_data"]["original_picts"].arrayObject
+        {
+            var i = 0
+            for x in ori
+            {
+                if x is String
+                {
+                    switch (i)
+                    {
+                    case 0 : labels.append("Gambar Utama")
+                    case 1 : labels.append("Tampak Belakang")
+                    case 2 : labels.append("Ketika Dipakai")
+                    case 3 : labels.append("Tampilan Label / Merek")
+                    case 4 : labels.append("Cacat")
+                    default : labels.append("unknown")
+                    }
+                }
+                i++
+            }
+        }
+        return labels
+    }
+    
     var shopAvatarURL : NSURL?
     {
         if let p = json["_data"]["seller"]["pict"].string
