@@ -161,8 +161,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
             NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
-                picker.startLoading()
                 picker.items = CDProvince.getProvincePickerItems()
+                picker.textTitle = "Pilih Provinsi"
+                picker.doneLoading()
                 
                 // on select block
                 picker.selectBlock = { string in
@@ -173,8 +174,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }),
             NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
                 
-                picker.startLoading()
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
+                picker.textTitle = "Pilih Kota/Kabupaten"
+                picker.doneLoading()
                 
                 picker.selectBlock = { string in
                     self.selectedKotaID = PickerViewController.RevealHiddenString(string)

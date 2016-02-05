@@ -84,4 +84,40 @@ class CDProductCondition: NSManagedObject {
             return r!.count
         }
     }
+    
+    static func getProductConditionPickerItems() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var productConditions = [CDProductCondition]()
+        
+        var err : NSError?
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        productConditions = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDProductCondition])!
+        
+        var arr : [String] = []
+        for productCondition in productConditions {
+            arr.append(productCondition.name + PickerViewController.TAG_START_HIDDEN + productCondition.id + PickerViewController.TAG_END_HIDDEN)
+        }
+        return arr
+    }
+    
+    static func getProductConditionPickerDetailItems() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var productConditions = [CDProductCondition]()
+        
+        var err : NSError?
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        productConditions = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDProductCondition])!
+        
+        var arr : [String] = []
+        for productCondition in productConditions {
+            arr.append(productCondition.detail)
+        }
+        return arr
+    }
 }

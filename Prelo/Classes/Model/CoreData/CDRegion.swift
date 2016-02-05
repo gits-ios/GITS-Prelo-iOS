@@ -60,6 +60,9 @@ class CDRegion : NSManagedObject {
         
         var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDRegion")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
         regions = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDRegion])!
         
         var arr : [String] = []

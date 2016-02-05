@@ -121,4 +121,22 @@ class CDBrand: NSManagedObject {
             return (r!.first as! CDBrand).name
         }
     }
+    
+    static func getBrandPickerItems() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var brands = [CDBrand]()
+        
+        var err : NSError?
+        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        brands = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDBrand])!
+        
+        var arr : [String] = []
+        for brand in brands {
+            arr.append(brand.name + PickerViewController.TAG_START_HIDDEN + brand.id + PickerViewController.TAG_END_HIDDEN)
+        }
+        return arr
+    }
 }

@@ -22,6 +22,7 @@ class CDProvince : NSManagedObject {
             let p = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
             p.id = provJson["_id"].string!
             p.name = provJson["name"].string!
+            //println("Province \(p.name) added")
             for (var j = 0; j < provJson["regions"].count; j++) {
                 let regJson = provJson["regions"][j]
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
@@ -72,6 +73,9 @@ class CDProvince : NSManagedObject {
         
         var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
         provinces = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDProvince])!
         
         var arr : [String] = []
