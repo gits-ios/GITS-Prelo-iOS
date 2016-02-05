@@ -26,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var messagePool : MessagePool!
     
     var preloNotifListener : PreloNotificationListener!
+    
+    var loadAppDataProgress : Float = 0
+    var isLoadAppDataSuccess : Bool = true
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -207,6 +210,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Update jika ada version yg berbeda
                 if (isUpdate) {
+                    // Set appdatasaved to false so the app is blocked at KumangTabBarVC
+                    NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
+                    
                     self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                 } else {
                     println("Same metadata version")
@@ -214,6 +220,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Set categorysaved to true so CategoryPreferencesVC can be executed
                     NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
                     NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                    // Set appdatasaved to true so the app is not blocked
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
                 }
                 
                 CDVersion.saveVersions(data)
@@ -223,23 +232,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func updateMetadata(updateBrands : String, updateCategories : String, updateCategorySizes : String, updateShippings : String, updateProductConditions : String, updateProvincesRegions : String)
     {
-        // Tampilkan pop up untuk loading
-        let a = UIAlertView()
-        let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
-        pView.progress = 0
-        pView.backgroundColor = Theme.GrayLight
-        pView.progressTintColor = Theme.ThemeOrage
-        a.setValue(pView, forKey: "accessoryView")
-        a.title = "Loading App Data..."
-        a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-        a.show()
-        
         request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Metadata Update")) {
                 let metaJson = JSON(res!)
                 let metadata = metaJson["_data"]
                 
-                var isSuccess : Bool = true
                 var queue : NSOperationQueue = NSOperationQueue.new()
                 
                 let opCategories : NSOperation = NSBlockOperation(block: {
@@ -252,14 +249,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         if (CDCategory.deleteAll(moc)) {
                             if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
                                 // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
-                                NSUserDefaults.standardUserDefaults().synchronize()
+                                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
 
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
+                                self.increaseLoadAppDataProgressBy(0.05)
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -274,9 +268,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         // Update brands
                         println("Updating brands..")
                         if (CDBrand.deleteAll(moc)) {
-                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
+                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : 0.72)) {
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -292,11 +286,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         println("Updating category sizes..")
                         if (CDCategorySize.deleteAll(moc)) {
                             if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
+                                self.increaseLoadAppDataProgressBy(0.05)
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -312,11 +304,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         println("Updating shippings..")
                         if (CDShipping.deleteAll(moc)) {
                             if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
+                                self.increaseLoadAppDataProgressBy(0.05)
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -332,11 +322,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         println("Updating product conditions..")
                         if (CDProductCondition.deleteAll(moc)) {
                             if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
+                                self.increaseLoadAppDataProgressBy(0.05)
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -352,11 +340,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         println("Updating provinces regions..")
                         if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                             if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
+                                self.increaseLoadAppDataProgressBy(0.05)
                             } else {
-                                isSuccess = false
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     }
@@ -364,16 +350,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 queue.addOperation(opProvincesRegions)
                 
                 let opFinish : NSOperation = NSBlockOperation(block: {
-                    a.dismissWithClickedButtonIndex(-1, animated: true)
-                    if (isSuccess) {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            Constant.showDialog("Load App Data", message: "Load App Data berhasil")
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
-                        })
-                    }
+                    // Set appdatasaved to true so the app is no longer blocked
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
                 })
                 opFinish.addDependency(opCategories)
                 opFinish.addDependency(opBrands)
@@ -382,60 +360,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 opFinish.addDependency(opProductConditions)
                 opFinish.addDependency(opProvincesRegions)
                 queue.addOperation(opFinish)
-                
-                
-                // Asynchronous update!!
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-//                    // Update categories
-//                    if (updateCategories == "1") {
-//                        println("Updating categories..")
-//                        if (CDCategory.deleteAll()) {
-//                            CDCategory.saveCategories(metadata["categories"])
-//                            // Set categorysaved to true so CategoryPreferencesVC can be executed
-//                            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
-//                            NSUserDefaults.standardUserDefaults().synchronize()
-//                        }
-//                    }
-//                    // Update brands
-//                    if (updateBrands == "1") {
-//                        println("Updating brands..")
-//                        if (CDBrand.deleteAll()) {
-//                            CDBrand.saveBrands(metadata["brands"])
-//                        }
-//                    }
-//                    // Update category sizes
-//                    if (updateCategorySizes == "1") {
-//                        println("Updating category sizes..")
-//                        if (CDCategorySize.deleteAll()) {
-//                            CDCategorySize.saveCategorySizes(metadata["category_sizes"])
-//                        }
-//                    }
-//                    // Update shippings
-//                    if (updateShippings == "1") {
-//                        println("Updating shippings..")
-//                        if (CDShipping.deleteAll()) {
-//                            CDShipping.saveShippings(metadata["shippings"])
-//                        }
-//                    }
-//                    // Update product conditions
-//                    if (updateProductConditions == "1") {
-//                        println("Updating product conditions..")
-//                        if (CDProductCondition.deleteAll()) {
-//                            CDProductCondition.saveProductConditions(metadata["product_conditions"])
-//                        }
-//                    }
-//                    // Update provinces regions
-//                    if (updateProvincesRegions == "1") {
-//                        println("Updating provinces regions..")
-//                        if (CDProvince.deleteAll() && CDRegion.deleteAll()) {
-//                            CDProvince.saveProvinceRegions(metadata["provinces_regions"])
-//                        }
-//                    }
-//                })
             } else {
-                a.dismissWithClickedButtonIndex(-1, animated: true)
+                // Set appdatasaved to true so the app is no longer blocked
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
             }
         }
+    }
+    
+    func increaseLoadAppDataProgressBy(progress: Float) {
+        self.loadAppDataProgress += progress
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {

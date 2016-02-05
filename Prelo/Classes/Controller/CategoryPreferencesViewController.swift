@@ -46,11 +46,6 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         // Google Analytics
         GAI.trackPageVisit(PageName.SetCategoryPreferences)
         
-        while (!NSUserDefaults.isCategorySaved()) {
-            // Wait until category is saved
-            println("Still saving category...")
-        }
-        
         // Get categories
         categories = CDCategory.getCategoriesInLevel(1)
         

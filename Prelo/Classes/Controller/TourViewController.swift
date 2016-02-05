@@ -90,11 +90,15 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     {
         if (pager.currentPage == 2)
         {
-            let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
-            catPrefVC.parent = parent
-            self.navigationController?.pushViewController(catPrefVC, animated: true)
-        } else
-        {
+            if (!NSUserDefaults.isCategorySaved()) {
+                // Wait until category is saved
+                Constant.showDialog("Loading Category...", message: "Harap tunggu sebentar")
+            } else {
+                let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
+                catPrefVC.parent = parent
+                self.navigationController?.pushViewController(catPrefVC, animated: true)
+            }
+        } else {
             scrollView.setContentOffset(CGPointMake(CGFloat(CGFloat(pager.currentPage+1) * UIScreen.mainScreen().bounds.width), CGFloat(0)), animated: true)
         }
     }

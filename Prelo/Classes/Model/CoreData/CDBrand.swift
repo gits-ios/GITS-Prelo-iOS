@@ -18,10 +18,14 @@ class CDBrand: NSManagedObject {
     @NSManaged var categoryIds : NSData
     
     static func saveBrands(json : JSON, m : NSManagedObjectContext, pView : UIProgressView?, p : Float?) -> Bool {
+        // Kalo (p != nil) artinya ada progress view yang dihandle
+        // Kalo (p == nil) artinya tidak ada progress view yang dihandle
+        // Kalo (pView != nil) artinya progress view dihandle fungsi ini
+        // Kalo (pView == nil) artinya progress view tidak dihandle fungsi ini
         let brandCount : Int = json.count
         var isUpdateProgressView : Bool = false
         var progressPerBrand : Float?
-        if (p != nil && pView != nil) {
+        if (p != nil) {
             isUpdateProgressView = true
             progressPerBrand = p! / Float(brandCount)
         }
@@ -37,9 +41,13 @@ class CDBrand: NSManagedObject {
             r.v = brandJson["__v"].number!
             r.categoryIds = NSKeyedArchiver.archivedDataWithRootObject(catIds)
             if (isUpdateProgressView) {
-                dispatch_async(dispatch_get_main_queue(), {
-                    pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
-                })
+                if (pView != nil) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
+                    })
+                } else {
+                    UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
+                }
             }
         }
         var err : NSError?
