@@ -21,7 +21,7 @@ class CDBrand: NSManagedObject {
         // Kalo (p != nil) artinya ada progress view yang dihandle
         // Kalo (p == nil) artinya tidak ada progress view yang dihandle
         // Kalo (pView != nil) artinya progress view dihandle fungsi ini
-        // Kalo (pView == nil) artinya progress view tidak dihandle fungsi ini
+        // Kalo (pView == nil) artinya progress view dihandle appdelegate
         let brandCount : Int = json.count
         var isUpdateProgressView : Bool = false
         var progressPerBrand : Float?

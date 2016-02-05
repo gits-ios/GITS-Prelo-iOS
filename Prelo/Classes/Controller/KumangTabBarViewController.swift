@@ -177,12 +177,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                             }
                         }
                     }
-                } else { // App data sudah selesai diload
-                    if (UIApplication.appDelegate.isLoadAppDataSuccess) {
-                        Constant.showDialog("Load App Data", message: "Load App Data berhasil")
-                    } else {
-                        Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
-                    }
                 }
             }
         }
