@@ -33,6 +33,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var storeName = ""
     var storePictPath = ""
     
+    var listStage = 2 // 1 = gallery / very small, 2 = normal, 3 = instagram like
+    
     var refresher : UIRefreshControl?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -380,10 +382,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (first)
         {
             first = false
-            width = ((UIScreen.mainScreen().bounds.size.width-12)/2)
             gridView.dataSource = self
             gridView.delegate = self
 //            self.gridView.registerClass(ListFooter.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+        }
+        
+        width = ((UIScreen.mainScreen().bounds.size.width-12)/2)
+        
+        if (listStage == 1)
+        {
+            width = ((UIScreen.mainScreen().bounds.size.width-12)/3)
+        }
+        
+        if (listStage == 3)
+        {
+            width = ((UIScreen.mainScreen().bounds.size.width-16)/1)
         }
         
         gridView.reloadData()
@@ -415,7 +428,20 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        if (listStage == 1)
+        {
+            
+        }
         return CGSize(width: width!, height: width!+46)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        let s : CGFloat = (listStage == 1 ? 1 : 4)
+        return UIEdgeInsetsMake(20, s, 20, s)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -494,6 +520,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
             }
         }
+    }
+    
+    func pinch(pinchedIn : Bool)
+    {
+        listStage += (pinchedIn ? 1 : -1)
+        if (listStage > 3)
+        {
+            listStage = 3
+        }
+        if (listStage < 0)
+        {
+            listStage = 0
+        }
+        
+        setupGrid()
+        gridView.reloadData()
     }
 
 }

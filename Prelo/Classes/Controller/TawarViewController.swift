@@ -86,7 +86,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         self.title = tawarItem.title
         header.captionProductName.text = tawarItem.itemName
-        if (tawarItem.bargainPrice != 0)
+        if (tawarItem.bargainPrice != 0 && tawarItem.threadState == 2)
         {
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
@@ -221,6 +221,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             } else
             {
                 btnTawar2.hidden = false
+//                btnTolak2.hidden = false
             }
         }
         
@@ -462,7 +463,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         inboxMessages.append(i)
         
         self.textView.text = ""
-        threadState = type
+        
+        if (type != 0) // type = 0 gak ada arti apapun, gak perlu rubah state.
+        {
+            threadState = type
+        }
+        
         if let t = tawarItem as? Inbox
         {
             t.forceThreadState = threadState
