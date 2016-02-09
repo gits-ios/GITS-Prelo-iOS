@@ -26,17 +26,20 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let c = CDUser.getOne()
         captionName?.text = c?.username
         
-        let i = UIImage(named: "ic_bag")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivBag?.tintColor = Theme.PrimaryColorDark
-        ivBag?.image = i
+        if let i = UIImage(named: "ic_bag") {
+            ivBag?.tintColor = Theme.PrimaryColorDark
+            ivBag?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
         
-        let i2 = UIImage(named: "ic_shirt")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivShirt?.tintColor = Theme.PrimaryColorDark
-        ivShirt?.image = i2
+        if let i2 = UIImage(named: "ic_shirt") {
+            ivShirt?.tintColor = Theme.PrimaryColorDark
+            ivShirt?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
         
-        let i3 = UIImage(named: "ic_love")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        ivLove?.tintColor = Theme.PrimaryColorDark
-        ivLove?.image = i3
+        if let i3 = UIImage(named: "ic_love") {
+            ivLove?.tintColor = Theme.PrimaryColorDark
+            ivLove?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
         
         //self.setupNormalOptions()
         self.setupTitle()

@@ -17,16 +17,46 @@ class CDBrand: NSManagedObject {
     @NSManaged var v : NSNumber
     @NSManaged var categoryIds : NSData
     
-    static func saveBrands(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
-        for (var i = 0; i < json.count; i++) {
+    static func saveBrands(json : JSON, m : NSManagedObjectContext, pView : UIProgressView?, p : Float?) -> Bool {
+        // Kalo (p != nil) artinya ada progress view yang dihandle
+        // Kalo (p == nil) artinya tidak ada progress view yang dihandle
+        // Kalo (pView != nil) artinya progress view dihandle fungsi ini
+        // Kalo (pView == nil) artinya progress view dihandle appdelegate
+        let brandCount : Int = json.count
+        var isUpdateProgressView : Bool = false
+        var progressPerBrand : Float?
+        if (p != nil) {
+            isUpdateProgressView = true
+            progressPerBrand = p! / Float(brandCount)
+        }
+        for (var i = 0; i < brandCount; i++) {
             let brandJson = json[i]
             var catIds : [String] = []
             for (var j = 0; j < brandJson["category_ids"].count; j++) {
                 catIds.append(brandJson["category_ids"][j].string!)
             }
-            self.newOne(brandJson["_id"].string!, name: brandJson["name"].string!, v: brandJson["__v"].number!, categoryIds: NSKeyedArchiver.archivedDataWithRootObject(catIds))
+            let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
+            r.id = brandJson["_id"].string!
+            r.name = brandJson["name"].string!
+            r.v = brandJson["__v"].number!
+            r.categoryIds = NSKeyedArchiver.archivedDataWithRootObject(catIds)
+            if (isUpdateProgressView) {
+                if (pView != nil) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
+                    })
+                } else {
+                    UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
+                }
+            }
         }
+        var err : NSError?
+        if (m.save(&err) == false) {
+            println("saveBrands failed")
+            return false
+        }
+        println("saveBrands success")
+        return true
     }
     
     static func newOne(id : String, name : String, v : NSNumber, categoryIds: NSData) -> CDBrand? {
@@ -44,19 +74,18 @@ class CDBrand: NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDBrand")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDBrand success")
             } else if let error = error {
                 println("deleteAll CDBrand failed with error : \(error.userInfo)")
@@ -91,5 +120,23 @@ class CDBrand: NSManagedObject {
         } else {
             return (r!.first as! CDBrand).name
         }
+    }
+    
+    static func getBrandPickerItems() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var brands = [CDBrand]()
+        
+        var err : NSError?
+        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        brands = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDBrand])!
+        
+        var arr : [String] = []
+        for brand in brands {
+            arr.append(brand.name + PickerViewController.TAG_START_HIDDEN + brand.id + PickerViewController.TAG_END_HIDDEN)
+        }
+        return arr
     }
 }

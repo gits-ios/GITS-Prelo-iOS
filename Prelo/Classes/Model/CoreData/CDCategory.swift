@@ -23,12 +23,10 @@ class CDCategory: NSManagedObject {
     @NSManaged var parent : CDCategory?
     @NSManaged var children : NSMutableSet
     
-    static func saveCategories(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
-        
+    static func saveCategories(json : JSON, m : NSManagedObjectContext) -> Bool {
         // Mulai dari category all, tidak perlu loop
         let allJson = json[0]
-        let a = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m!) as! CDCategory
+        let a = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m) as! CDCategory
         a.id = allJson["_id"].string!
         a.name = allJson["name"].string!
         a.permalink = allJson["permalink"].string!
@@ -41,11 +39,12 @@ class CDCategory: NSManagedObject {
         self.saveCategoryChildren(a, json: allJson["children"])
         
         var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m.save(&err) == false) {
             println("saveCategories failed")
-        } else {
-            println("saveCategories success")
+            return false
         }
+        println("saveCategories success")
+        return true
     }
     
     static func saveCategoryChildren(parent : CDCategory, json : JSON) {
@@ -67,19 +66,18 @@ class CDCategory: NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDCategory")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDCategory success")
             } else if let error = error {
                 println("deleteAll CDCategory failed with error : \(error.userInfo)")

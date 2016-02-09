@@ -16,42 +16,45 @@ class CDProvince : NSManagedObject {
     @NSManaged var name : String
     @NSManaged var regions : NSMutableSet
     
-    static func saveProvinceRegions(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func saveProvinceRegions(json : JSON, m : NSManagedObjectContext) -> Bool {
         for (var i = 0; i < json.count; i++) {
             let provJson = json[i]
-            let p = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m!) as! CDProvince
+            let p = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
             p.id = provJson["_id"].string!
             p.name = provJson["name"].string!
+            //println("Province \(p.name) added")
             for (var j = 0; j < provJson["regions"].count; j++) {
                 let regJson = provJson["regions"][j]
-                let r : CDRegion = CDRegion.newOne(regJson["_id"].string!, name: regJson["name"].string!, province: p)!
+                let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
+                r.id = regJson["_id"].string!
+                r.name = regJson["name"].string!
+                r.province = p
                 p.regions.addObject(r)
                 //println("Region: \(r.name) added to province: \(p.name)")
             }
         }
         
         var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m.save(&err) == false) {
             println("saveProvinceRegions failed")
-        } else {
-            println("saveProvinceRegions success")
+            return false
         }
+        println("saveProvinceRegions success")
+        return true
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDProvince")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDProvince success")
             } else if let error = error {
                 println("deleteAll CDProvince failed with error : \(error.userInfo)")
@@ -70,6 +73,9 @@ class CDProvince : NSManagedObject {
         
         var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
         provinces = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDProvince])!
         
         var arr : [String] = []

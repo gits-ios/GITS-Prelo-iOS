@@ -535,10 +535,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func login(sender : AnyObject)
     {
-        // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
-        
         sendLogin()
     }
     
@@ -546,6 +542,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
+        
+        // Show loading
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
         
         let email = txtEmail?.text
         let pwd = txtPassword?.text

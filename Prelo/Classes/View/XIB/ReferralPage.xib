@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -497,14 +497,33 @@
                             <constraint firstItem="PIn-gE-SzG" firstAttribute="leading" secondItem="yyE-ds-oIN" secondAttribute="leading" id="OfP-ML-JDu"/>
                         </constraints>
                     </scrollView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XU5-WJ-Ths" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="732"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fI7-Iz-Xy3" userLabel="loading">
+                                <rect key="frame" x="290" y="95" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstItem="fI7-Iz-Xy3" firstAttribute="top" secondItem="XU5-WJ-Ths" secondAttribute="top" constant="25" id="bys-DY-CPp"/>
+                            <constraint firstAttribute="centerX" secondItem="fI7-Iz-Xy3" secondAttribute="centerX" id="wBP-Ua-G48"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <gestureRecognizers/>
                 <constraints>
+                    <constraint firstItem="XU5-WJ-Ths" firstAttribute="leading" secondItem="ZU9-59-loq" secondAttribute="leading" id="5LG-ad-YNz"/>
+                    <constraint firstAttribute="trailing" secondItem="XU5-WJ-Ths" secondAttribute="trailing" id="JMQ-Ue-LSL"/>
                     <constraint firstItem="yyE-ds-oIN" firstAttribute="top" secondItem="Ii5-fO-2zp" secondAttribute="bottom" id="UhW-Zh-6nC"/>
+                    <constraint firstItem="XU5-WJ-Ths" firstAttribute="top" secondItem="Ii5-fO-2zp" secondAttribute="bottom" id="aZP-bh-Dgc"/>
                     <constraint firstItem="hZS-Kh-SOb" firstAttribute="top" secondItem="yyE-ds-oIN" secondAttribute="bottom" id="h3v-ob-Ac4"/>
                     <constraint firstItem="yyE-ds-oIN" firstAttribute="leading" secondItem="ZU9-59-loq" secondAttribute="leading" id="mo5-3J-f20"/>
+                    <constraint firstItem="hZS-Kh-SOb" firstAttribute="top" secondItem="XU5-WJ-Ths" secondAttribute="bottom" id="pOj-G7-Ej3"/>
                     <constraint firstAttribute="trailing" secondItem="yyE-ds-oIN" secondAttribute="trailing" id="vrJ-0h-rOF"/>
                     <constraint firstItem="PIn-gE-SzG" firstAttribute="width" secondItem="ZU9-59-loq" secondAttribute="width" id="wmr-sU-zUc"/>
                 </constraints>
@@ -539,6 +558,8 @@
                 <outlet property="imgWhatsApp" destination="EdM-Un-VpD" id="5xO-F6-YX2"/>
                 <outlet property="lblKodeReferral" destination="DAb-m0-Agf" id="din-Dn-fGr"/>
                 <outlet property="lblSaldo" destination="E8x-77-P9p" id="9dG-Pd-pr4"/>
+                <outlet property="loading" destination="fI7-Iz-Xy3" id="xkH-lg-kmA"/>
+                <outlet property="loadingPanel" destination="XU5-WJ-Ths" id="ngf-Xe-v7l"/>
                 <outlet property="progressBonus" destination="DDw-t9-9AC" id="Tjc-uP-I7O"/>
                 <outlet property="scrollView" destination="yyE-ds-oIN" id="ela-7F-FE5"/>
                 <outlet property="vwSubmit" destination="1tf-cl-wjm" id="vf4-Ic-SXR"/>

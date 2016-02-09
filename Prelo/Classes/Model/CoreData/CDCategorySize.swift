@@ -19,8 +19,7 @@ class CDCategorySize: NSManagedObject {
     @NSManaged var typeName : String
     @NSManaged var typeSizes : NSData
     
-    static func saveCategorySizes(json : JSON) {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func saveCategorySizes(json : JSON, m : NSManagedObjectContext) -> Bool {
         for (var i = 0; i < json.count; i++) {
             let catJson = json[i]
             for (var j = 0; j < catJson["size_types"].count; j++) {
@@ -29,9 +28,22 @@ class CDCategorySize: NSManagedObject {
                 for (var k = 0; k < typeJson["sizes"].count; k++) {
                     sizes.append(typeJson["sizes"][k].string!)
                 }
-                self.newOne(catJson["_id"].string!, name: catJson["name"].string!, v: catJson["__v"].number!, typeOrder: typeJson["order"].number!, typeName: typeJson["name"].string!, typeSizes: NSKeyedArchiver.archivedDataWithRootObject(sizes))
+                let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m) as! CDCategorySize
+                r.id = catJson["_id"].string!
+                r.name = catJson["name"].string!
+                r.v = catJson["__v"].number!
+                r.typeOrder = typeJson["order"].number!
+                r.typeName = typeJson["name"].string!
+                r.typeSizes = NSKeyedArchiver.archivedDataWithRootObject(sizes)
             }
         }
+        var err : NSError?
+        if (m.save(&err) == false) {
+            println("saveCategorySizes failed")
+            return false
+        }
+        println("saveCategorySizes success")
+        return true
     }
     
     static func newOne(id : String, name : String, v : NSNumber, typeOrder : NSNumber, typeName : String, typeSizes : NSData) -> CDCategorySize? {
@@ -51,19 +63,18 @@ class CDCategorySize: NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDCategorySize")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDCategorySize success")
             } else if let error = error {
                 println("deleteAll CDCategorySize failed with error : \(error.userInfo)")

@@ -30,19 +30,18 @@ class CDRegion : NSManagedObject {
         }
     }
     
-    static func deleteAll() -> Bool {
-        let m = UIApplication.appDelegate.managedObjectContext
+    static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDRegion")
         fetchRequest.includesPropertyValues = false
         
         var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
             for result in results {
-                m?.deleteObject(result)
+                m.deleteObject(result)
             }
             
             var error : NSError?
-            if (m?.save(&error) != nil) {
+            if (m.save(&error) == true) {
                 println("deleteAll CDRegion success")
             } else if let error = error {
                 println("deleteAll CDRegion failed with error : \(error.userInfo)")
@@ -61,6 +60,9 @@ class CDRegion : NSManagedObject {
         
         var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDRegion")
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
         regions = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDRegion])!
         
         var arr : [String] = []

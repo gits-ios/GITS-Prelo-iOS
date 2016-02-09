@@ -136,7 +136,7 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                             resNotif["ids"] = n["_id"].stringValue
                             resNotif["opened"] = n["opened"].boolValue
                             resNotif["read"] = n["read"].boolValue
-                            resNotif["owner_id"] = n["owner_id"].stringValue
+                            resNotif["owner_id"] = n["user_id_from"].stringValue
                             resNotif["type"] = n["type"].numberValue
                             resNotif["object_name"] = n["object_name"].stringValue
                             resNotif["object_id"] = n["object_id"].stringValue

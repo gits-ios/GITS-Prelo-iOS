@@ -711,55 +711,28 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBAction func pickKondisi(sender : UIButton)
     {
         let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
-        p.prepDataBlock = { picker in
-            
-            picker.textTitle = "Pilih Kondisi"
-            
-            let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
-            if let url = s
+        
+        p.title = "Pilih Kondisi"
+        
+        var names : [String] = CDProductCondition.getProductConditionPickerItems()
+        var details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
+        
+        p.items = names
+        p.subtitles = details
+        
+        p.selectBlock = { s in
+            self.kodindisiId = PickerViewController.RevealHiddenString(s)
+            let x = PickerViewController.HideHiddenString(s)
+            self.captionKondisi.text = x
+            if ((x.lowercaseString as NSString).rangeOfString("cukup").location != NSNotFound)
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON{ req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Conditions"))
-                    {
-                        let json = JSON(res!)
-                        let brands = json["product_conditions"].array
-                        var items : Array<String> = []
-                        var subtitles : Array<String> = []
-                        if let arrBrands = brands
-                        {
-                            for i in 0...(arrBrands.count)-1
-                            {
-                                let j = arrBrands[i]
-                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-                                items.append(m)
-                                let d = j["description"].stringValue
-                                subtitles.append(d)
-                            }
-                        }
-                        
-                        picker.selectBlock = { s in
-                            self.kodindisiId = PickerViewController.RevealHiddenString(s)
-                            let x = PickerViewController.HideHiddenString(s)
-                            self.captionKondisi.text = x
-                            if ((x.lowercaseString as NSString).rangeOfString("cukup").location != NSNotFound)
-                            {
-                                self.conHeightCacat.constant = 44
-                                self.txtDeskripsiCacat.hidden = false
-                            } else
-                            {
-                                self.conHeightCacat.constant = 0
-                                self.txtDeskripsiCacat.hidden = true
-                            }
-                        }
-                        
-                        picker.items = items
-                        picker.subtitles = subtitles
-                        picker.tableView.reloadData()
-                        picker.doneLoading()
-                    } else {
-                        
-                    }
-                }
+                self.conHeightCacat.constant = 44
+                self.txtDeskripsiCacat.hidden = false
+            }
+            else
+            {
+                self.conHeightCacat.constant = 0
+                self.txtDeskripsiCacat.hidden = true
             }
         }
         
@@ -768,73 +741,24 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     @IBAction func pickMerek(sender : UIButton)
     {
-        let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
-        if let url = s
-        {
-            let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
-            
-            p.title = "Pilih Merk"
-            
-            let req = NSFetchRequest(entityName: "CDBrand")
-            let arr = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext?.executeFetchRequest(req, error: nil) as! [CDBrand]
-            
-            var names : [String] = []
-            
-            for b in arr
-            {
-                let s = b.name + PickerViewController.TAG_START_HIDDEN + b.id + PickerViewController.TAG_END_HIDDEN
-                names.append(s)
-            }
-            
-            p.merkMode = true
-            p.items = names
-            p.selectBlock = { s in
-                self.merekId = PickerViewController.RevealHiddenString(s)
-                var x : String = PickerViewController.HideHiddenString(s)
-                x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-                x = x.stringByReplacingOccurrencesOfString("'", withString: "")
-                self.captionMerek.text = x
-            }
-            p.showSearch = true
-            
-            
-//            p.prepDataBlock = { picker in
-//                picker.textTitle = "Pilih Merek"
-//                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-//                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands"))
-//                    {
-//                        let json = JSON(res!)
-//                        let brands = json["brands"]["_data"].array
-//                        var items : Array<String> = []
-//                        if let arrBrands = brands
-//                        {
-//                            for i in 0...(arrBrands.count)-1
-//                            {
-//                                let j = arrBrands[i]
-//                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-//                                items.append(m)
-//                            }
-//                        }
-//                        
-//                        picker.selectBlock = { s in
-//                            self.merekId = PickerViewController.RevealHiddenString(s)
-//                            var x : String = PickerViewController.HideHiddenString(s)
-//                            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-//                            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
-//                            self.captionMerek.text = x
-//                        }
-//                        
-//                        picker.items = items
-//                        picker.tableView.reloadData()
-//                        picker.doneLoading()
-//                        picker.showSearch = true
-//                    } else {
-//                        
-//                    }
-//                }
-//            }
-            self.navigationController?.pushViewController(p, animated: true)
+        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+        
+        p.title = "Pilih Merk"
+        
+        var names : [String] = CDBrand.getBrandPickerItems()
+        
+        p.merkMode = true
+        p.items = names
+        p.selectBlock = { s in
+            self.merekId = PickerViewController.RevealHiddenString(s)
+            var x : String = PickerViewController.HideHiddenString(s)
+            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+            self.captionMerek.text = x
         }
+        p.showSearch = true
+        
+        self.navigationController?.pushViewController(p, animated: true)
     }
     
     func sendProduct()

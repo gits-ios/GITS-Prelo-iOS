@@ -161,8 +161,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
             NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
-                picker.startLoading()
                 picker.items = CDProvince.getProvincePickerItems()
+                picker.textTitle = "Pilih Provinsi"
+                picker.doneLoading()
                 
                 // on select block
                 picker.selectBlock = { string in
@@ -173,8 +174,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }),
             NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
                 
-                picker.startLoading()
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
+                picker.textTitle = "Pilih Kota/Kabupaten"
+                picker.doneLoading()
                 
                 picker.selectBlock = { string in
                     self.selectedKotaID = PickerViewController.RevealHiddenString(string)
@@ -802,28 +804,31 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         textField.resignFirstResponder()
         
-        let i = tableView.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
-        var s = (i?.section)!
-        var r = (i?.row)!
-        
-        var cell : UITableViewCell?
-        
-        var con = true
-        while (con) {
-            let newIndex = NSIndexPath(forRow: r+1, inSection: s)
-            cell = tableView.cellForRowAtIndexPath(newIndex)
-            if (cell == nil) {
-                s += 1
-                r = -1
-                if (s == tableView.numberOfSections()) { // finish, last cell
-                    con = false
-                }
-            } else {
-                if ((cell?.canBecomeFirstResponder())!) {
-                    cell?.becomeFirstResponder()
-                    con = false
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+            // This will be crash on iOS 7.1
+            let i = tableView.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
+            var s = (i?.section)!
+            var r = (i?.row)!
+            
+            var cell : UITableViewCell?
+            
+            var con = true
+            while (con) {
+                let newIndex = NSIndexPath(forRow: r+1, inSection: s)
+                cell = tableView.cellForRowAtIndexPath(newIndex)
+                if (cell == nil) {
+                    s += 1
+                    r = -1
+                    if (s == tableView.numberOfSections()) { // finish, last cell
+                        con = false
+                    }
                 } else {
-                    r+=1
+                    if ((cell?.canBecomeFirstResponder())!) {
+                        cell?.becomeFirstResponder()
+                        con = false
+                    } else {
+                        r+=1
+                    }
                 }
             }
         }

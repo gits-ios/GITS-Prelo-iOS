@@ -264,28 +264,31 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        let i = tableView!.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
-        var s = (i?.section)!
-        var r = (i?.row)!
-        
-        var cell : UITableViewCell?
-        
-        var con = true
-        while (con) {
-            let newIndex = NSIndexPath(forRow: r+1, inSection: s)
-            cell = tableView!.cellForRowAtIndexPath(newIndex)
-            if (cell == nil) {
-                s += 1
-                r = -1
-                if (s == tableView!.numberOfSections()) { // finish, last cell
-                    con = false
-                }
-            } else {
-                if ((cell?.canBecomeFirstResponder())!) {
-                    cell?.becomeFirstResponder()
-                    con = false
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+            // This will be crash on iOS 7.1
+            let i = tableView!.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
+            var s = (i?.section)!
+            var r = (i?.row)!
+            
+            var cell : UITableViewCell?
+            
+            var con = true
+            while (con) {
+                let newIndex = NSIndexPath(forRow: r+1, inSection: s)
+                cell = tableView!.cellForRowAtIndexPath(newIndex)
+                if (cell == nil) {
+                    s += 1
+                    r = -1
+                    if (s == tableView!.numberOfSections()) { // finish, last cell
+                        con = false
+                    }
                 } else {
-                    r+=1
+                    if ((cell?.canBecomeFirstResponder())!) {
+                        cell?.becomeFirstResponder()
+                        con = false
+                    } else {
+                        r+=1
+                    }
                 }
             }
         }

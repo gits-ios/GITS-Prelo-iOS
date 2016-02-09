@@ -148,6 +148,36 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
                 isAlreadyGetCategory = true
+                
+                // Check if app is currently loading app data
+                var appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                if (appDataSaved != true) { // App data belum selesai diload
+                    // Tampilkan pop up untuk loading
+                    let a = UIAlertView()
+                    let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+                    pView.progress = UIApplication.appDelegate.loadAppDataProgress
+                    pView.backgroundColor = Theme.GrayLight
+                    pView.progressTintColor = Theme.ThemeOrage
+                    a.setValue(pView, forKey: "accessoryView")
+                    a.title = "Loading App Data..."
+                    a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    dispatch_async(dispatch_get_main_queue(), {
+                        a.show()
+                    })
+                    while (appDataSaved != true) {
+                        appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                        dispatch_async(dispatch_get_main_queue(), {
+                            pView.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
+                        })
+                        if (appDataSaved == true) {
+                            if (UIApplication.appDelegate.isLoadAppDataSuccess) {
+                                Constant.showDialog("Load App Data", message: "Load App Data berhasil")
+                            } else {
+                                Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
+                            }
+                        }
+                    }
+                }
             }
         }
         userDidLoggedIn = User.IsLoggedIn

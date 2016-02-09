@@ -42,6 +42,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     @IBOutlet weak var vwSubmit: UIView!
     @IBOutlet weak var btnSubmit: UIButton!
     
+    @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     var mgInstagram : MGInstagram?
     
     var saldo : Int = 0
@@ -56,6 +59,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Loading
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.hidden = false
+        loading.startAnimating()
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Referral)
@@ -161,6 +169,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 
                 // Set shareText
                 self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
+                
+                self.loadingPanel.hidden = true
+                self.loading.stopAnimating()
             } else {
                 self.navigationController?.popViewControllerAnimated(true)
             }
@@ -197,7 +208,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func hideLoading() {
-        // Do nothing
+        // Hilangkan loading
+        loadingPanel.hidden = true
+        loading.stopAnimating()
     }
     
     func pathLoginSuccess(userData: JSON, token: String) {
@@ -399,6 +412,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         if (self.fieldKodeReferral.text.isEmpty) {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
+            self.showLoading()
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Prelo Bonus")) {
@@ -426,6 +440,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt)
                     }
                 }
+                self.hideLoading()
             }
         }
     }
@@ -449,20 +464,34 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
-                alertView.userInteractionEnabled = false
-                alertView.title = "Mengirim email..."
+                alertView.dismissWithClickedButtonIndex(-1, animated: true)
+                // Tampilkan pop up untuk loading
+                let a = UIAlertView()
+                a.title = "Prelo Bonus"
+                a.message = "Mengirim email..."
+                a.show()
                 request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
+                        a.dismissWithClickedButtonIndex(-1, animated: true)
                         Constant.showDialog("Prelo Bonus", message: "Email konfirmasi telah terkirim ke \(email)")
                     }
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
             } else {
                 Constant.showDialog("Prelo Bonus", message: "Oops, terdapat masalah saat mencari email kamu")
+                self.navigationController?.popViewControllerAnimated(true)
             }
-            self.navigationController?.popViewControllerAnimated(true)
             break
         default:
             break
         }
+    }
+    
+    // MARK: - Other functions
+    
+    func showLoading() {
+        // Tampilkan loading
+        loadingPanel.hidden = false
+        loading.startAnimating()
     }
 }
