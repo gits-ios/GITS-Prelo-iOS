@@ -42,6 +42,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }

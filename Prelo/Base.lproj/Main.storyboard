@@ -87,6 +87,7 @@
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -4768,6 +4769,11 @@ Keuntungan</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FlE-lg-MYU">
+                                <rect key="frame" x="290" y="40" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Produk yang kamu jual akan tampil di sini" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-V7-54G">
                                 <rect key="frame" x="16" y="42" width="568" height="16"/>
                                 <animations/>
@@ -4775,27 +4781,24 @@ Keuntungan</string>
                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0AJ-CS-oWR">
+                                <rect key="frame" x="277" y="66" width="46" height="30"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="6Ks-u8-Ynf"/>
+                                    <constraint firstAttribute="height" constant="30" id="f3m-5n-hUf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                                <state key="normal" title="">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JJS-ga-UMV">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="564"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="KKD-Pe-4iD">
-                                    <rect key="frame" x="0.0" y="102" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FlE-lg-MYU">
-                                            <rect key="frame" x="290" y="12" width="20" height="20"/>
-                                            <animations/>
-                                            <color key="color" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </activityIndicatorView>
-                                    </subviews>
-                                    <animations/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="FlE-lg-MYU" secondAttribute="centerX" id="NFm-PL-3Bd"/>
-                                        <constraint firstAttribute="centerY" secondItem="FlE-lg-MYU" secondAttribute="centerY" id="efU-On-9xo"/>
-                                    </constraints>
-                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="PgG-YS-5KH" customClass="MyProductCell" customModule="Prelo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="600" height="80"/>
@@ -4906,15 +4909,26 @@ Keuntungan</string>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3jp-yd-fze">
+                                <rect key="frame" x="564" y="572" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="3jp-yd-fze" secondAttribute="bottom" constant="8" id="1tS-Xh-FN5"/>
                             <constraint firstItem="oyx-V7-54G" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" constant="16" id="4m6-Jn-O9y"/>
+                            <constraint firstAttribute="centerX" secondItem="0AJ-CS-oWR" secondAttribute="centerX" id="6WQ-Ku-JNr"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="top" secondItem="Ase-V8-rwA" secondAttribute="top" id="7wW-c6-07O"/>
                             <constraint firstItem="JJS-ga-UMV" firstAttribute="leading" secondItem="Ase-V8-rwA" secondAttribute="leading" id="Hq9-9O-isw"/>
-                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" id="V0K-VA-MAE"/>
+                            <constraint firstItem="hOB-JD-BMb" firstAttribute="top" secondItem="JJS-ga-UMV" secondAttribute="bottom" constant="36" id="V0K-VA-MAE"/>
+                            <constraint firstAttribute="trailing" secondItem="3jp-yd-fze" secondAttribute="trailing" constant="16" id="hhb-vl-y8Y"/>
+                            <constraint firstItem="FlE-lg-MYU" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="20" id="ksE-w0-psf"/>
                             <constraint firstAttribute="trailing" secondItem="JJS-ga-UMV" secondAttribute="trailing" id="nbk-nh-GeJ"/>
+                            <constraint firstItem="0AJ-CS-oWR" firstAttribute="top" secondItem="oyx-V7-54G" secondAttribute="bottom" constant="8" id="q7Q-DG-IyX"/>
+                            <constraint firstAttribute="centerX" secondItem="FlE-lg-MYU" secondAttribute="centerX" id="vlP-aY-l07"/>
                             <constraint firstItem="oyx-V7-54G" firstAttribute="top" secondItem="Y7O-Lv-T7q" secondAttribute="bottom" constant="22" id="vm8-ay-vpg"/>
                             <constraint firstAttribute="trailing" secondItem="oyx-V7-54G" secondAttribute="trailing" constant="16" id="xZt-dv-Kbz"/>
                         </constraints>
@@ -4924,6 +4938,9 @@ Keuntungan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="d03-Tg-REX"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomLoading" destination="3jp-yd-fze" id="m0B-Sn-MlM"/>
+                        <outlet property="btnRefresh" destination="0AJ-CS-oWR" id="N38-vA-lx8"/>
+                        <outlet property="consBottomTableView" destination="V0K-VA-MAE" id="sWE-wA-ulX"/>
                         <outlet property="lblEmpty" destination="oyx-V7-54G" id="Cg1-PC-5mO"/>
                         <outlet property="loading" destination="FlE-lg-MYU" id="8FH-GM-1Ev"/>
                         <outlet property="tableView" destination="JJS-ga-UMV" id="3jT-c0-g0X"/>

@@ -42,6 +42,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
@@ -157,8 +158,10 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
             var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-            let u = userPurchases?[indexPath.item]
-            cell.adaptItem(u!)
+            if (!refreshControl.refreshing) {
+                let u = userPurchases?[indexPath.item]
+                cell.adaptItem(u!)
+            }
             return cell
     }
     
