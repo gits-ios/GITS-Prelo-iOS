@@ -259,6 +259,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        } else {
 //            
 //        }
+        
+        if (tawarItem.bargainPrice != 0 && threadState == 2)
+        {
+            header.captionPrice.text = tawarItem.bargainPrice.asPrice
+            header.captionOldPrice.text = tawarItem.price
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
+        } else
+        {
+            header.captionPrice.text = tawarItem.price
+            header.captionOldPrice.text = ""
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -459,6 +471,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (type != 0)
         {
             i.bargainPrice = message
+            tawarItem.setBargainPrice(message.int)
         }
         inboxMessages.append(i)
         
@@ -624,7 +637,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func messageArrived(message: InboxMessage) {
         inboxMessages.append(message)
-        threadState = message.messageType
+        if (message.messageType != 0)
+        {
+            threadState = message.messageType
+        }
         if let t = tawarItem as? Inbox
         {
             t.forceThreadState = threadState
