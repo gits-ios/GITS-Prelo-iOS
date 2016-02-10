@@ -34,6 +34,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.tableView.hidden = true
         self.btnRefresh.hidden = true
         self.loading.startAnimating()
+        self.loading.hidden = false
         getProducts()
         
         tableView.dataSource = self
@@ -96,6 +97,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             // Hide loading (for first time request)
             self.loading.stopAnimating()
+            self.loading.hidden = true
             
             // Hide bottomLoading (for next request)
             self.bottomLoading.stopAnimating()
@@ -111,6 +113,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 self.tableView.reloadData()
             } else {
                 self.lblEmpty.hidden = false
+                self.btnRefresh.hidden = false
                 self.tableView.hidden = true
             }
         }
