@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <UIKit/UIKit.h>
-#import <AdobeCreativeSDKCore/AdobeCreativeSDKCore.h>
-#import <AdobeCreativeSDKImage/AdobeCreativeSDKImage.h>
+//#import <AdobeCreativeSDKCore/AdobeCreativeSDKCore.h>
+//#import <AdobeCreativeSDKImage/AdobeCreativeSDKImage.h>
 #import "AFHTTPRequestOperationManager.h"
 
 typedef void(^AssetFromAlbumComplete)(NSArray *array);

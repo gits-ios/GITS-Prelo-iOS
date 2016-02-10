@@ -16,6 +16,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var first = NO
     var categories : JSON?
     var dummyGrid : DummyGridViewController!
+    var pinchIn : UIPinchGestureRecognizer!
     
     @IBOutlet var scrollCategoryName: UIScrollView!
     @IBOutlet var scrollView : UIScrollView!
@@ -25,6 +26,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        pinchIn = UIPinchGestureRecognizer(target: self, action: "pinchedIn:")
+//        self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
@@ -49,6 +53,31 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
 //            
 //        }
 //        getCategory()
+    }
+    
+    var firstPinch : CGFloat = 0
+    func pinchedIn(p : UIPinchGestureRecognizer)
+    {
+        if (p.state == UIGestureRecognizerState.Began)
+        {
+            firstPinch = p.scale
+            println("Start Scale : " + String(stringInterpolationSegment: p.scale))
+        } else if (p.state == UIGestureRecognizerState.Ended)
+        {
+            println("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
+            
+            if (abs(firstPinch - p.scale) > 0.3)
+            {
+                // firstPinch < p.scale == pinched out / zoom in
+                for v in self.childViewControllers
+                {
+                    if let i = v as? ListItemViewController
+                    {
+                        i.pinch(firstPinch < p.scale)
+                    }
+                }
+            }
+        }
     }
     
     func grandRefresh()

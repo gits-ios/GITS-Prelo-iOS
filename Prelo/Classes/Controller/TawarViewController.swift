@@ -86,7 +86,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         self.title = tawarItem.title
         header.captionProductName.text = tawarItem.itemName
-        if (tawarItem.bargainPrice != 0)
+        if (tawarItem.bargainPrice != 0 && tawarItem.threadState == 2)
         {
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
@@ -221,6 +221,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             } else
             {
                 btnTawar2.hidden = false
+//                btnTolak2.hidden = false
             }
         }
         
@@ -258,6 +259,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 //        } else {
 //            
 //        }
+        
+        if (tawarItem.bargainPrice != 0 && threadState == 2)
+        {
+            header.captionPrice.text = tawarItem.bargainPrice.asPrice
+            header.captionOldPrice.text = tawarItem.price
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
+        } else
+        {
+            header.captionPrice.text = tawarItem.price
+            header.captionOldPrice.text = ""
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -458,11 +471,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (type != 0)
         {
             i.bargainPrice = message
+            tawarItem.setBargainPrice(message.int)
         }
         inboxMessages.append(i)
         
         self.textView.text = ""
-        threadState = type
+        
+        if (type != 0) // type = 0 gak ada arti apapun, gak perlu rubah state.
+        {
+            threadState = type
+        }
+        
         if let t = tawarItem as? Inbox
         {
             t.forceThreadState = threadState
@@ -618,7 +637,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func messageArrived(message: InboxMessage) {
         inboxMessages.append(message)
-        threadState = message.messageType
+        if (message.messageType != 0)
+        {
+            threadState = message.messageType
+        }
         if let t = tawarItem as? Inbox
         {
             t.forceThreadState = threadState
