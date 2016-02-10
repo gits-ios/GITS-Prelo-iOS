@@ -36,7 +36,7 @@ protocol TawarDelegate
     func tawarNeedReloadList()
 }
 
-class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate
+class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate
 {
 
     var tawarDelegate : TawarDelegate?
@@ -110,6 +110,24 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnTawar1.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         btnTawar2.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
         
+        if (User.IsLoggedIn == true)
+        {
+            firstSetup()
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Mixpanel
+        Mixpanel.trackPageVisit(PageName.InboxDetail)
+        
+        // Google Analytics
+        GAI.trackPageVisit(PageName.InboxDetail)
+    }
+    
+    func firstSetup()
+    {
         if (loadInboxFirst)
         {
             getInbox()
@@ -122,16 +140,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
         }
         adjustButtons()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Mixpanel
-        Mixpanel.trackPageVisit(PageName.InboxDetail)
-        
-        // Google Analytics
-        GAI.trackPageVisit(PageName.InboxDetail)
     }
     
     var threadState = -10
@@ -267,12 +275,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
         } else
         {
-            header.captionPrice.text = tawarItem.price
+            let p = tawarItem.price
+            header.captionPrice.text = p
             header.captionOldPrice.text = ""
             captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         }
     }
     
+    var firstLogin = true
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.an_subscribeKeyboardWithAnimations({ frame, interval, opening in
@@ -290,6 +300,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }, completion: {finish in
                 
         })
+        
+        if (User.IsLoggedIn == false && firstLogin == true)
+        {
+            firstLogin = false
+            // login
+            LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -309,7 +326,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let data = json["_data"]
             let i = Inbox(jsn: data)
             //println(data)
-            self.tawarItem = i
+            if (i.itemId != "")
+            {
+                self.tawarItem = i
+            }
             self.tawarFromMe = self.tawarItem.bargainerIsMe
             self.adjustButtons()
             self.getMessages()
@@ -669,6 +689,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             self.scrollToBottom()
         }
+    }
+    
+    func userLoggedIn() {
+        firstSetup()
+    }
+    
+    func userLoggedOut() {
+        
+    }
+    
+    func userCancelLogin() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
 
