@@ -68,7 +68,6 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var lblTglPembayaran: UILabel!
     
     @IBOutlet weak var lblNamaPengiriman: UILabel!
-    @IBOutlet weak var lblNoTelpPengiriman: UILabel!
     @IBOutlet weak var lblAlamatPengiriman: UILabel!
     @IBOutlet weak var lblProvinsiPengiriman: UILabel!
     @IBOutlet weak var lblRegionPengiriman: UILabel!
@@ -205,7 +204,6 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         lblTglPembayaran.text = transactionDetail?.paymentDate
         lblReviewContent.text = transactionDetail?.reviewComment
         lblNamaPengiriman.text = transactionDetail?.shippingRecipientName
-        lblNoTelpPengiriman.text = "0222503593"
         lblAlamatPengiriman.text = transactionDetail?.shippingAddress
         let provName : String? = CDProvince.getProvinceNameWithID((transactionDetail?.shippingProvinceId)!)
         lblProvinsiPengiriman.text = ((provName != nil) ? provName! : "-")

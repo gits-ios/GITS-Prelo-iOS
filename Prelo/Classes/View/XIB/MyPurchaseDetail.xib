@@ -308,7 +308,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rzP-hE-GSW" userLabel="Group Pengiriman">
-                                        <rect key="frame" x="8" y="359" width="584" height="147"/>
+                                        <rect key="frame" x="8" y="359" width="584" height="132"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PENGIRIMAN" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JcE-FU-KPJ">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="21"/>
@@ -341,29 +341,8 @@
                                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Telepon" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xg9-ev-FAu">
-                                                <rect key="frame" x="0.0" y="48" width="75" height="21"/>
-                                                <animations/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="myh-O3-iJc"/>
-                                                    <constraint firstAttribute="width" constant="75" id="tRG-Ga-hAS"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08xxxxxxxx" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g81-WP-KyL">
-                                                <rect key="frame" x="83" y="48" width="501" height="21"/>
-                                                <animations/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="rbT-Hw-g6o"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alamat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5m-RE-9wI">
-                                                <rect key="frame" x="0.0" y="67" width="75" height="21"/>
+                                                <rect key="frame" x="0.0" y="51" width="75" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="3yb-1B-1Xq"/>
@@ -374,7 +353,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo User's Address" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E5-49-Pzw">
-                                                <rect key="frame" x="83" y="67" width="501" height="21"/>
+                                                <rect key="frame" x="83" y="51" width="501" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="ohr-gU-x5j"/>
@@ -384,7 +363,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provinsi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29k-Fo-bGT">
-                                                <rect key="frame" x="0.0" y="88" width="75" height="21"/>
+                                                <rect key="frame" x="0.0" y="72" width="75" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="Ef6-HE-Qdz"/>
@@ -395,7 +374,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo User's Province" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGe-aN-j5e">
-                                                <rect key="frame" x="83" y="88" width="501" height="21"/>
+                                                <rect key="frame" x="83" y="72" width="501" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="P0P-Ni-fYw"/>
@@ -405,7 +384,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kota" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3d-LR-2by">
-                                                <rect key="frame" x="0.0" y="107" width="75" height="21"/>
+                                                <rect key="frame" x="0.0" y="91" width="75" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="p4p-VK-JAE"/>
@@ -416,7 +395,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo User's Region" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiv-PU-Kfu">
-                                                <rect key="frame" x="83" y="107" width="501" height="21"/>
+                                                <rect key="frame" x="83" y="91" width="501" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="WlP-oh-oJg"/>
@@ -426,7 +405,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kode Pos" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Chy-cq-UBD">
-                                                <rect key="frame" x="0.0" y="126" width="75" height="21"/>
+                                                <rect key="frame" x="0.0" y="110" width="75" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="75" id="1aA-Aw-A5o"/>
@@ -437,7 +416,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo User's Postal Code" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur3-6f-5RO">
-                                                <rect key="frame" x="83" y="126" width="501" height="21"/>
+                                                <rect key="frame" x="83" y="110" width="501" height="21"/>
                                                 <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="mSZ-NW-d3t"/>
@@ -457,32 +436,27 @@
                                             <constraint firstItem="JcE-FU-KPJ" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="4jL-t6-mEx"/>
                                             <constraint firstItem="1E5-49-Pzw" firstAttribute="leading" secondItem="p5m-RE-9wI" secondAttribute="trailing" constant="8" id="5P7-Vz-sZq"/>
                                             <constraint firstItem="w29-rI-b43" firstAttribute="leading" secondItem="t7c-h1-pEb" secondAttribute="trailing" constant="8" id="62d-hc-zkA"/>
-                                            <constraint firstAttribute="height" constant="147" id="6Vj-KH-MzX"/>
+                                            <constraint firstAttribute="height" constant="132" id="6Vj-KH-MzX"/>
                                             <constraint firstAttribute="trailing" secondItem="1E5-49-Pzw" secondAttribute="trailing" id="92u-9A-Y2W"/>
                                             <constraint firstItem="Chy-cq-UBD" firstAttribute="top" secondItem="D3d-LR-2by" secondAttribute="bottom" constant="-2" id="9zr-rQ-ZAI"/>
+                                            <constraint firstItem="1E5-49-Pzw" firstAttribute="top" secondItem="w29-rI-b43" secondAttribute="bottom" constant="1" id="BLT-1c-iqb"/>
                                             <constraint firstItem="t7c-h1-pEb" firstAttribute="top" secondItem="JcE-FU-KPJ" secondAttribute="bottom" constant="8" id="C99-6u-toH"/>
                                             <constraint firstAttribute="trailing" secondItem="xGe-aN-j5e" secondAttribute="trailing" id="I4A-S6-DcK"/>
                                             <constraint firstItem="t7c-h1-pEb" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="IF3-Ms-gdh"/>
                                             <constraint firstItem="fiv-PU-Kfu" firstAttribute="top" secondItem="xGe-aN-j5e" secondAttribute="bottom" constant="-2" id="JA6-ir-yOl"/>
                                             <constraint firstItem="Ur3-6f-5RO" firstAttribute="top" secondItem="fiv-PU-Kfu" secondAttribute="bottom" constant="-2" id="JKL-zS-4cb"/>
-                                            <constraint firstItem="g81-WP-KyL" firstAttribute="top" secondItem="w29-rI-b43" secondAttribute="bottom" constant="-2" id="JNS-2H-emd"/>
-                                            <constraint firstItem="xg9-ev-FAu" firstAttribute="top" secondItem="t7c-h1-pEb" secondAttribute="bottom" constant="-2" id="KpM-TX-9Dc"/>
-                                            <constraint firstItem="p5m-RE-9wI" firstAttribute="top" secondItem="xg9-ev-FAu" secondAttribute="bottom" constant="-2" id="Lzr-HT-CWa"/>
                                             <constraint firstItem="w29-rI-b43" firstAttribute="top" secondItem="JcE-FU-KPJ" secondAttribute="bottom" constant="8" id="N0P-1m-J1Y"/>
                                             <constraint firstItem="JcE-FU-KPJ" firstAttribute="top" secondItem="rzP-hE-GSW" secondAttribute="top" id="Prv-7D-3AC"/>
                                             <constraint firstItem="29k-Fo-bGT" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="R3l-lK-ora"/>
-                                            <constraint firstItem="xg9-ev-FAu" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="Se5-tS-cYl"/>
-                                            <constraint firstItem="g81-WP-KyL" firstAttribute="leading" secondItem="xg9-ev-FAu" secondAttribute="trailing" constant="8" id="UHQ-wj-cgm"/>
                                             <constraint firstAttribute="trailing" secondItem="fiv-PU-Kfu" secondAttribute="trailing" id="UbP-64-mey"/>
                                             <constraint firstAttribute="trailing" secondItem="Ur3-6f-5RO" secondAttribute="trailing" id="XFb-Km-wsf"/>
-                                            <constraint firstAttribute="trailing" secondItem="g81-WP-KyL" secondAttribute="trailing" id="bQ7-g1-SwI"/>
                                             <constraint firstItem="D3d-LR-2by" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="ctq-Jf-Jaf"/>
-                                            <constraint firstItem="1E5-49-Pzw" firstAttribute="top" secondItem="g81-WP-KyL" secondAttribute="bottom" constant="-2" id="dVu-A1-3CX"/>
                                             <constraint firstItem="xGe-aN-j5e" firstAttribute="leading" secondItem="29k-Fo-bGT" secondAttribute="trailing" constant="8" id="fk9-bz-jw4"/>
                                             <constraint firstItem="Chy-cq-UBD" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="kY6-Zz-WJp"/>
                                             <constraint firstAttribute="trailing" secondItem="JcE-FU-KPJ" secondAttribute="trailing" id="r7v-KE-SZZ"/>
                                             <constraint firstItem="p5m-RE-9wI" firstAttribute="leading" secondItem="rzP-hE-GSW" secondAttribute="leading" id="ro9-8w-jX8"/>
                                             <constraint firstItem="29k-Fo-bGT" firstAttribute="top" secondItem="1E5-49-Pzw" secondAttribute="bottom" id="wdp-RP-ORx"/>
+                                            <constraint firstItem="p5m-RE-9wI" firstAttribute="top" secondItem="t7c-h1-pEb" secondAttribute="bottom" constant="1" id="yc6-AO-YY1"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2c2-CZ-ddk" userLabel="Group Title Review">
@@ -1073,7 +1047,6 @@
                 <outlet property="lblLove5" destination="V61-fX-MP5" id="muf-w1-Uf0"/>
                 <outlet property="lblMetodePembayaran" destination="e0E-p7-QrU" id="oLa-kF-0JJ"/>
                 <outlet property="lblNamaPengiriman" destination="w29-rI-b43" id="zo3-cA-YqO"/>
-                <outlet property="lblNoTelpPengiriman" destination="g81-WP-KyL" id="x8U-B8-Sxx"/>
                 <outlet property="lblOrderId" destination="Onc-cT-qmH" id="6tV-Jd-Ojb"/>
                 <outlet property="lblOrderStatus" destination="fpL-NA-Nqy" id="rdy-dT-GQU"/>
                 <outlet property="lblOrderTime" destination="GMt-8i-BGR" id="xyx-cA-VEE"/>
