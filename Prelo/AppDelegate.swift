@@ -16,6 +16,10 @@ import FBSDKCoreKit
 
 //import AdobeCreativeSDKCore
 
+protocol LoadAppDataDelegate {
+    func updateProgress(progress : Float)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -29,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var loadAppDataProgress : Float = 0
     var isLoadAppDataSuccess : Bool = true
+    
+    var loadAppDataDelegate : LoadAppDataDelegate?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -212,6 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (isUpdate) {
                     // Set appdatasaved to false so the app is blocked at KumangTabBarVC
                     NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     
                     self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                 } else {
@@ -223,6 +230,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Set appdatasaved to true so the app is not blocked
                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
                 
                 CDVersion.saveVersions(data)
@@ -245,6 +253,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let opFinish : NSOperation = NSBlockOperation(block: {
                     // Set appdatasaved to true so the app is no longer blocked
                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 })
                 
                 if (updateCategories == "1") {
@@ -261,6 +270,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
                                     
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -272,6 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opCategories)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -286,6 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDCategorySize.deleteAll(moc)) {
                                 if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -297,6 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opCategorySizes)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -311,6 +324,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDShipping.deleteAll(moc)) {
                                 if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -322,6 +336,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opShippings)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -336,6 +351,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDProductCondition.deleteAll(moc)) {
                                 if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -347,6 +363,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opProductConditions)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -361,6 +378,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                                 if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -372,6 +390,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opProvincesRegions)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -395,6 +414,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opBrands)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortionLeft)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
 
                 queue.addOperation(opFinish)
@@ -402,6 +422,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 // Set appdatasaved to true so the app is no longer blocked
                 NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
             }
         }
     }

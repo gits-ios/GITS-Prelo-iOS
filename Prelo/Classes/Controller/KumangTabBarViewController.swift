@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate, LoadAppDataDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -20,6 +20,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var btnDashboard : UIButton!
     
     @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
+    
+    var loadAppDataAlert : UIAlertView?
+    var loadAppDataProgressView : UIProgressView?
     
     var menuPopUp : MenuPopUp?
     
@@ -149,34 +152,32 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
                 isAlreadyGetCategory = true
                 
+                // Set self as LoadAppDataDelegate
+                UIApplication.appDelegate.loadAppDataDelegate = self
+                
                 // Check if app is currently loading app data
                 var appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                if (appDataSaved != true) { // App data belum selesai diload
+                if (appDataSaved == nil) { // Proses pengecekan di AppDelegate bahkan belum berjalan, tunggu pengecekan selesai
                     // Tampilkan pop up untuk loading
-                    let a = UIAlertView()
-                    let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
-                    pView.progress = UIApplication.appDelegate.loadAppDataProgress
-                    pView.backgroundColor = Theme.GrayLight
-                    pView.progressTintColor = Theme.ThemeOrage
-                    a.setValue(pView, forKey: "accessoryView")
-                    a.title = "Loading App Data..."
-                    a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataAlert!.title = "Checking App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
                     dispatch_async(dispatch_get_main_queue(), {
-                        a.show()
+                        self.loadAppDataAlert!.show()
                     })
-                    while (appDataSaved != true) {
-                        appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                        dispatch_async(dispatch_get_main_queue(), {
-                            pView.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
-                        })
-                        if (appDataSaved == true) {
-                            if (UIApplication.appDelegate.isLoadAppDataSuccess) {
-                                Constant.showDialog("Load App Data", message: "Load App Data berhasil")
-                            } else {
-                                Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
-                            }
-                        }
-                    }
+                } else if (appDataSaved == false) { // App data belum selesai diload
+                    // Tampilkan pop up untuk loading
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
+                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrage
+                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
+                    self.loadAppDataAlert!.title = "Loading App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataAlert!.show()
+                    })
                 }
             }
         }
@@ -215,6 +216,45 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
         }
         userDidLoggedIn = User.IsLoggedIn*/
+    }
+    
+    func updateProgress(progress: Float) {
+        if (loadAppDataAlert != nil) {
+            if (loadAppDataAlert!.title == "Checking App Data...") {
+                // Hilangkan pop up ini dan jika (NSUserDefaultl AppDataSaved = false) kemudian munculkan pop up dengan progressView
+                loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
+                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                if (appDataSaved == false) {
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
+                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrage
+                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
+                    self.loadAppDataAlert!.title = "Loading App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataAlert!.show()
+                    })
+                }
+            } else if (loadAppDataAlert!.title == "Loading App Data...") {
+                // Update progressView, jika sudah full (cek NSUSerDefault AppDataSaved) maka hilangkan pop up ini dan munculkan pop up berhasil/gagal
+                if (loadAppDataProgressView != nil) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataProgressView!.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
+                    })
+                }
+                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                if (appDataSaved == true) {
+                    loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
+                    if (UIApplication.appDelegate.isLoadAppDataSuccess) {
+                        Constant.showDialog("Load App Data", message: "Load App Data berhasil")
+                    } else {
+                        Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
+                    }
+                }
+            }
+        }
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {

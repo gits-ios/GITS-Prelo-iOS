@@ -47,6 +47,7 @@ class CDBrand: NSManagedObject {
                     })
                 } else {
                     UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
+                    UIApplication.appDelegate.loadAppDataDelegate?.updateProgress(UIApplication.appDelegate.loadAppDataProgress)
                 }
             }
         }
