@@ -132,10 +132,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
             } else if (launchURL.host == "confirm") {
                 let confirmId = launchURL.path?.substringFromIndex(1)
-                //NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
             } else if (launchURL.host == "user") {
                 let userId = launchURL.path?.substringFromIndex(1)
-                //NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+            } else if (launchURL.host == "inbox") {
+                let inboxId = launchURL.path?.substringFromIndex(1)
+                NSUserDefaults.setObjectAndSync(inboxId, forKey: UserDefaultsKey.DeepLinkInbox)
             }
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
@@ -147,6 +150,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
         }
+        
+        // Deeplink handling using Branch
+        let branch : Branch = Branch.getInstance()
+        branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
+            // Route the user based on what's in params
+            let sessionParams = Branch.getInstance().getLatestReferringParams()
+            let firstParams = Branch.getInstance().getFirstReferringParams()
+            println("sessionParams = \(sessionParams)")
+            println("firstParams = \(firstParams)")
+            
+            let params = JSON(sessionParams)
+            let tipe : String? = params["tipe"].string
+            let targetId : String? = params["target_id"].string
+            if (tipe != nil && targetId != nil) {
+                if (tipe! == "product") { // deeplinkProduct
+                    //NSUserDefaults.setObjectAndSync(targetId!, forKey: UserDefaultsKey.DeepLinkProduct)
+//                    request(Products.Detail(productId: targetId!)).responseJSON { req, resp, res, err in
+//                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
+//                            let json = JSON(res!)
+//                            let data = json["_data"]
+//                            let p = Product.instance(data)
+//                            
+//                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                            let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+//                            productDetailVC.product = p!
+//                            let rootViewController = self.window!.rootViewController
+//                            rootViewController?.navigationController?.pushViewController(productDetailVC, animated: true)
+//                        }
+//                    }
+                } else if (tipe! == "user") { // deeplinkShopPage
+                    NSUserDefaults.setObjectAndSync(targetId!, forKey: UserDefaultsKey.DeepLinkShopPage)
+                } else if (tipe! == "inbox") { // deeplinkInbox
+                    NSUserDefaults.setObjectAndSync(targetId!, forKey: UserDefaultsKey.DeepLinkInbox)
+                } else if (tipe! == "confirm") { // deeplinkConfirmPayment
+                    NSUserDefaults.setObjectAndSync(targetId!, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+                }
+            }
+        })
         
         // Set User-Agent for every HTTP request
         let webViewDummy = UIWebView()
@@ -421,6 +462,84 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func application(application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject?) -> Bool {
+            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
+            //Constant.showDialog("Deeplink", message: "url = \(url)")
+            
+            if (!Branch.getInstance().handleDeepLink(url)) {
+                // Handle deeplink from Facebook
+                if (url.host == "product") {
+                    let productId = url.path?.substringFromIndex(1)
+                    NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
+                } else if (url.host == "confirm") {
+                    let confirmId = url.path?.substringFromIndex(1)
+                    NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+                } else if (url.host == "user") {
+                    let userId = url.path?.substringFromIndex(1)
+                    NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+                }
+                return FBSDKApplicationDelegate.sharedInstance().application(
+                    application,
+                    openURL: url,
+                    sourceApplication: sourceApplication,
+                    annotation: annotation)
+            }
+            
+            return true
+    }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
+        // Pass the url to the handle deep link call
+        Branch.getInstance().continueUserActivity(userActivity)
+        
+        return true
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        println("Action : \(identifier)")
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        println("deviceToken = \(deviceToken)")
+        
+        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        var deviceRegId: String = (deviceToken.description as NSString)
+            .stringByTrimmingCharactersInSet(characterSet)
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        
+        println("deviceRegId = \(deviceRegId)")
+        
+        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        // Set deviceRegId for push notif if user is logged in
+        if (User.IsLoggedIn) {
+            LoginViewController.SendDeviceRegId(onFinish: nil)
+        }
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("ERROR : \(error)")
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("userInfo = \(userInfo)")
+        
+        if (application.applicationState == UIApplicationState.Active) {
+            println("App were active when receiving remote notification")
+        } else {
+            println("App weren't active when receiving remote notification")
+        }
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -511,70 +630,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    func application(application: UIApplication,
-        openURL url: NSURL,
-        sourceApplication: String?,
-        annotation: AnyObject?) -> Bool {
-            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
-            //Constant.showDialog("Deeplink", message: "url = \(url)")
-            if (url.host == "product") {
-                let productId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
-            } else if (url.host == "confirm") {
-                let confirmId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
-            } else if (url.host == "user") {
-                let userId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
-            }
-            return FBSDKApplicationDelegate.sharedInstance().application(
-                application,
-                openURL: url,
-                sourceApplication: sourceApplication,
-                annotation: annotation)
-    }
-    
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        application.registerForRemoteNotifications()
-    }
-    
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("Action : \(identifier)")
-    }
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("deviceToken = \(deviceToken)")
-        
-        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
-        
-        var deviceRegId: String = (deviceToken.description as NSString)
-            .stringByTrimmingCharactersInSet(characterSet)
-            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
-        
-        println("deviceRegId = \(deviceRegId)")
-        
-        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
-        // Set deviceRegId for push notif if user is logged in
-        if (User.IsLoggedIn) {
-            LoginViewController.SendDeviceRegId(onFinish: nil)
-        }
-    }
-    
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("ERROR : \(error)")
-    }
-    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("userInfo = \(userInfo)")
-        
-        if (application.applicationState == UIApplicationState.Active) {
-            println("App were active when receiving remote notification")
-        } else {
-            println("App weren't active when receiving remote notification")
-        }
-    }
 }
-

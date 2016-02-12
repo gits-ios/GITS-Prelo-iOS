@@ -72,9 +72,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         GAI.trackPageVisit(PageName.Referral)
         
         var isEmailVerified : Bool = false
-        if let o = CDUserOther.getOne() {
-            if (o.emailVerified.intValue == 1) {
-                isEmailVerified = true
+        request(APIUser.Me).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Referral Page - Get Profile")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                isEmailVerified = data["others"]["is_email_verified"].boolValue
+                // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
             }
         }
         if (!isEmailVerified) {

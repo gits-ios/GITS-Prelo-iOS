@@ -200,7 +200,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             if let u = CDUser.getOne() {
                 username = u.username
             }
-            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)"
+            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
             
             let m = MFMailComposeViewController()
             m.setToRecipients(["contact@prelo.id"])
