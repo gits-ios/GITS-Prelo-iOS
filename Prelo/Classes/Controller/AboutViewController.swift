@@ -144,6 +144,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     func reloadingAppData() {
+        // Set appdatasaved to false in case the reload is not finished (the app is closed before finish) and need to be repeated on next app launch
+        NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
+        
         // Tampilkan pop up untuk loading
         let a = UIAlertView()
         let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
@@ -286,6 +289,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
                         })
+                        // Set appdatasaved to true
+                        NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
                     } else {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")
