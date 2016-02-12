@@ -414,6 +414,7 @@
 		44D32A141BDF1B9300EFC1E3 /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
 		44D32A161BDF2C0C00EFC1E3 /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
 		44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
+		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
 		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
@@ -969,6 +970,7 @@
 		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
 		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategorySize.swift; sourceTree = "<group>"; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDNotification.swift; sourceTree = "<group>"; };
+		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
 		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
@@ -1730,6 +1732,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5856875A1C6C97F4002A19CE /* ic_request.png */,
 				5895E86B1C49315400752ACA /* chat-rp.png */,
 				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
 				FDF39A2F1C3CF43B002A5DF6 /* sold.png */,
@@ -2234,6 +2237,7 @@
 				21156EBC1B8F5B5D001D7842 /* UserProfile.xib in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
+				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
 				21104AD41BAA8F1200947E7F /* PhoneReverification.xib in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */,
