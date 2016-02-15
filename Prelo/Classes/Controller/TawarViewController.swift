@@ -90,7 +90,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
-            captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         } else
         {
             header.captionPrice.text = tawarItem.price
