@@ -376,6 +376,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
             }
         }
+        
+        if let x = self.products?.count where x < 10
+        {
+            self.done = true
+            self.loading?.hidden = true
+        }
     }
     
     var first = true
@@ -537,7 +543,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         setupGrid()
-        gridView.reloadData()
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseOut, animations: {
+            
+            self.gridView.reloadData()
+            
+            }, completion: nil)
     }
 
 }
