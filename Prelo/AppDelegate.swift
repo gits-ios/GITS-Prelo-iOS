@@ -122,7 +122,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let targetId : String? = remoteNotifAps["target_id"] as! String?
                     //Constant.showDialog("tipe", message: "\(tipe)")
                     if (tipe?.lowercaseString == "notification") {
-                        self.redirectNotification()
+                        //self.redirectNotification() // Sementara pake NSUserDefaults dulu, karna dipanggil setelah selesai load notif, kalo notif udah pake paging baru pake ini
+                        NSUserDefaults.standardUserDefaults().setObject("notification", forKey: "apnsredirect")
+                        NSUserDefaults.standardUserDefaults().synchronize()
                     } else if (tipe?.lowercaseString == "inbox") {
                         self.redirectInbox(targetId)
                     }
