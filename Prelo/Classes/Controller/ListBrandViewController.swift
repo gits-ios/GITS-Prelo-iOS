@@ -35,21 +35,23 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func getBrands()
     {
-        let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
-        if let url = s
-        {
-            request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Merk"))
-                {
-                    let json = JSON(res!)
-                    let brands = json["brands"]["_data"].array
-                    self.rawBrands = brands!
-                    self.filter()
-                    self.tableView.reloadData()
-                } else
-                {
-                    
-                }
+//        let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
+//        if let url = s
+//        {
+//                    }
+        self.title = "Loading.."
+        request(APIApp.Metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON { req, resp, res, err in
+            self.title = "Merek"
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Merk"))
+            {
+                let json = JSON(res!)
+                let brands = json["_data"]["brands"].array
+                self.rawBrands = brands!
+                self.filter()
+                self.tableView.reloadData()
+            } else
+            {
+                
             }
         }
     }
