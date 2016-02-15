@@ -361,7 +361,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Redirect if any
         let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
-        let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
                 let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
@@ -371,44 +370,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
             NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
-        } else if (apnsRedirect != nil) {
-            if (apnsRedirect == "notification") {
-                self.launchNotifPage()
-            } else if (apnsRedirect == "inbox") {
-                let i = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
-                self.navigationController?.pushViewController(i, animated: true)
-            }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("apnsredirect")
-        } else {
-            // Deeplink redirect if any
-            let deeplinkProduct : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkProduct) as! String?
-            let deeplinkConfirmPayment : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkConfirmPayment) as! String?
-            let deeplinkShopPage : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkShopPage) as! String?
-            let deeplinkInbox : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkInbox) as! String?
-            if (deeplinkProduct != nil) {
-//                Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
-//                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
-//                request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
-//                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
-//                        let json = JSON(res!)
-//                        let data = json["_data"]
-//                        let p = Product.instance(data)
-//                        
-//                        var productDetailVC : ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-//                        productDetailVC.product = p!
-//                        self.navigationController?.pushViewController(productDetailVC, animated: true)
-//                    }
-//                }
-            } else if (deeplinkConfirmPayment != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to confirm payment with id: \(deeplinkConfirmPayment!)")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkConfirmPayment)
-            } else if (deeplinkShopPage != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkShopPage)
-            } else if (deeplinkInbox != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to inbox with id: \(deeplinkInbox!)")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkInbox)
-            }
         }
     }
     

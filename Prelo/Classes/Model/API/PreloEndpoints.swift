@@ -506,19 +506,23 @@ enum APITransaction : URLRequestConvertible
 
 enum APITransaction2 : URLRequestConvertible
 {
-    static let basePath = "transaction"
+    static let basePath = "transaction/"
+    
+    case TransactionDetail(tId : String)
     case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String)
 
     var method : Method {
         switch self
         {
-        default : return .POST
+        case .TransactionDetail(_) : return .GET
+        case .ConfirmPayment(_, _, _, _, _) : return .POST
         }
     }
     
     var path : String {
         switch self
         {
+        case .TransactionDetail(let tId) : return "\(tId)"
         case  .ConfirmPayment(_, _, _, _, let orderId) : return orderId + "/payment"
         }
     }
@@ -526,6 +530,8 @@ enum APITransaction2 : URLRequestConvertible
     var param : [String : AnyObject] {
         switch self
         {
+        case .TransactionDetail(_) :
+            return [:]
         case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _) :
             return [
                 "target_bank":bankTo,
