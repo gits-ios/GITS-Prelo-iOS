@@ -279,6 +279,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Keranjang Belanja")) {
+                println(res)
                 let json = JSON(res!)
                 self.currentCart = json
                 

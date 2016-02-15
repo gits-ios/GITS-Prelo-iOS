@@ -122,6 +122,8 @@ class CDBrand: NSManagedObject {
         }
     }
     
+//    static func getAll
+    
     static func getBrandPickerItems() -> [String] {
         let m = UIApplication.appDelegate.managedObjectContext
         var brands = [CDBrand]()

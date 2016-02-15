@@ -28,7 +28,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         super.viewDidLoad()
         
         pinchIn = UIPinchGestureRecognizer(target: self, action: "pinchedIn:")
-//        self.view.addGestureRecognizer(pinchIn)
+        self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])

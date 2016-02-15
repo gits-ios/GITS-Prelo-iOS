@@ -752,7 +752,8 @@ public class ProductDetail : NSObject, TawarItem
     }
     
     var price : String {
-        if let fullname = json["_data"]["price"].int
+        let p = json["_data"]["price"].int
+        if let fullname = p
         {
             return fullname.asPrice
         }

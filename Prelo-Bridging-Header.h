@@ -34,5 +34,6 @@
 #import "GAIFields.h"
 #import "GAILogger.h"
 #import "GAITrackedViewController.h"
+#import "Branch.h"
 
 #endif
