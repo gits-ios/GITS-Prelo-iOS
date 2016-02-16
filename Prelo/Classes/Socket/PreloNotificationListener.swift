@@ -114,7 +114,7 @@ class PreloNotificationListener //: PreloSocketDelegate
                 if (i == "tp_notif") { // Transaksi
                     notifType = NotificationType.Transaksi
                     ownerId = n["user_id_from"].string!
-                } else if (i == "inbox") { // Inbox FIXME: keyword "inbox" belum fix
+                } else if (i == "inbox_notif") { // Inbox
                     notifType = NotificationType.Inbox
                     ownerId = n["owner_id"].string!
                 } else if (i == "activity") { // Aktivitas

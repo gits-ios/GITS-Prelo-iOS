@@ -122,11 +122,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let targetId : String? = remoteNotifAps["target_id"] as! String?
                     //Constant.showDialog("tipe", message: "\(tipe)")
                     if (tipe?.lowercaseString == "notification") {
-                        //self.redirectNotification() // Sementara pake NSUserDefaults dulu, karna dipanggil setelah selesai load notif, kalo notif udah pake paging baru pake ini
+                        //self.redirectNotification() // FIXME: Sementara pake NSUserDefaults dulu, karna apadipanggil setelah selesai load notif, kalo notif udah pake paging baru pake ini
                         NSUserDefaults.standardUserDefaults().setObject("notification", forKey: "apnsredirect")
                         NSUserDefaults.standardUserDefaults().synchronize()
                     } else if (tipe?.lowercaseString == "inbox") {
-                        self.redirectInbox(targetId)
+                        //self.redirectInbox(targetId) // FIXME: Sementara matiin dulu karna ngecrash
                     }
                 }
             }
@@ -370,6 +370,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectInbox(inboxId : String?) {
+        // FIXME: Masih ngecrash
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let rootViewController = self.window!.rootViewController?.childViewControllers[0] as! UINavigationController
         if (inboxId != nil) {

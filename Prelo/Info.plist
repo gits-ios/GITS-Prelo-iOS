@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>275</string>
+	<string>287</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -101,6 +101,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_key</key>
-	<string>key_test_lmeK50K9IBGaGWBQ5D0ldhmozFkkFGAe</string>
+	<string>key_live_pbbQ76J8PDVeNXyR7wR22fncBBoiBLk5</string>
 </dict>
 </plist>
