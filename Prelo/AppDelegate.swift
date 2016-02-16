@@ -486,8 +486,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 })
                 
+                var opCategories : NSOperation?
+                
                 if (updateCategories == "1") {
-                    let opCategories : NSOperation = NSBlockOperation(block: {
+                    opCategories = NSBlockOperation(block: {
                         if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
                             var moc = NSManagedObjectContext()
                             moc.persistentStoreCoordinator = psc
@@ -496,9 +498,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             println("Updating categories..")
                             if (CDCategory.deleteAll(moc)) {
                                 if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
-                                    
                                     self.increaseLoadAppDataProgressBy(progressPortion)
                                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
@@ -508,8 +507,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                         }
                     })
-                    queue.addOperation(opCategories)
-                    opFinish.addDependency(opCategories)
+                    queue.addOperation(opCategories!)
+                    opFinish.addDependency(opCategories!)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
@@ -526,6 +525,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             println("Updating category sizes..")
                             if (CDCategorySize.deleteAll(moc)) {
                                 if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
+                                    // opCategorySizes dibuat menunggu opCategories beres, terus ngeset CategorySaved dilakukan di bloknya opCategorySizes.. kenapa? karena entah kenapa kalo CategorySaved  ditaro di bloknya opCategories, ada kejadian dimana CategorySaved udah true tapi belum kesave beneran di core data waktu diakses oleh CategoryPreferencesVC.. nah kalo ditaro di bloknya opCategorySizes yang nunggu opCategories, diharapkan udah kesave beneran
+                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
+                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
+                                    
                                     self.increaseLoadAppDataProgressBy(progressPortion)
                                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
@@ -537,6 +540,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     })
                     queue.addOperation(opCategorySizes)
                     opFinish.addDependency(opCategorySizes)
+                    if (opCategories != nil) {
+                        opCategorySizes.addDependency(opCategories!)
+                    }
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
