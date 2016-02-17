@@ -784,6 +784,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
         
+        if (imageViews[0].image == nil)
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Gambar utama tidak boleh kosong")
+            return
+        }
+        
         if (imageViews[3].image == nil)
         {
             UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")

@@ -98,7 +98,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         }
         
-        header.captionUsername.text = tawarItem.myName
+        if (tawarItem.opIsMe)
+        {
+            header.captionUsername.text = tawarItem.theirName
+        } else
+        {
+            header.captionUsername.text = tawarItem.myName
+        }
+        
         header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
         
         tableView.dataSource = self
@@ -628,7 +635,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             m = "[GAGAL MENGIRIM]\n\n" + m
         }
-        let s = m.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-204)
+        
+        var w : CGFloat = 204
+        
+        if (chat.isMe)
+        {
+            w = (UIScreen.mainScreen().bounds.width - 28) * 0.75
+        } else
+        {
+            w = (UIScreen.mainScreen().bounds.width - 72) * 0.75
+        }
+        
+        let s = m.boundsWithFontSize(UIFont.systemFontOfSize(14), width: w)
         return 57 + s.height
     }
     
@@ -801,7 +819,7 @@ class TawarCell : UITableViewCell
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
             
-            self.selectionStyle = UITableViewCellSelectionStyle.None
+//            self.selectionStyle = UITableViewCellSelectionStyle.None
         }
     }
     
