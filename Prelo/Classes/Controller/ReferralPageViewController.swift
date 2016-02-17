@@ -78,19 +78,20 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
                 // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
+                
+                if (!isEmailVerified) {
+                    // Tampilkan pop up untuk verifikasi email
+                    let a = UIAlertView()
+                    a.title = "Prelo Bonus"
+                    a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+                    a.addButtonWithTitle("Batal")
+                    a.addButtonWithTitle("Kirim Email Konfirmasi")
+                    a.delegate = self
+                    a.show()
+                } else {
+                    self.getReferralData()
+                }
             }
-        }
-        if (!isEmailVerified) {
-            // Tampilkan pop up untuk verifikasi email
-            let a = UIAlertView()
-            a.title = "Prelo Bonus"
-            a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
-            a.addButtonWithTitle("Batal")
-            a.addButtonWithTitle("Kirim Email Konfirmasi")
-            a.delegate = self
-            a.show()
-        } else {
-            self.getReferralData()
         }
         
         // Atur opacity tombol
