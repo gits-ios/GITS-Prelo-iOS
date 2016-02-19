@@ -361,7 +361,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Redirect if any
         let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
-        let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
                 let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
@@ -371,11 +370,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
             NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
-        } else if (apnsRedirect != nil) {
-            if (apnsRedirect == "notification") {
-                self.launchNotifPage()
-            }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("apnsredirect")
         }
     }
     

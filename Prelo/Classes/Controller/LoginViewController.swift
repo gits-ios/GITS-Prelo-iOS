@@ -173,6 +173,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                     
                     // Refresh notifications
+                    NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.NotificationSaved)
                     NotificationPageViewController.refreshNotifications()
                     
                     // Tell app that the user has logged in

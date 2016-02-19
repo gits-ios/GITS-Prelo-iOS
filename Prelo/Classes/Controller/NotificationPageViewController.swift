@@ -279,7 +279,10 @@ class NotificationPageViewController: BaseViewController, UITableViewDataSource,
                     let notifListener = delegate.preloNotifListener
                     notifListener.setNewNotifCount(CDNotification.getNewNotifCount())
                 }
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.NotificationSaved)
             }
+        } else {
+            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.NotificationSaved)
         }
     }
     
