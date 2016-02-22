@@ -622,7 +622,7 @@ enum APIAuth : URLRequestConvertible
     
     case Register(username : String, fullname : String, email : String, password : String)
     case Login(email : String, password : String)
-    case LoginFacebook(email : String, fullname : String, fbId : String, fbAccessToken : String)
+    case LoginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
     case Logout
@@ -633,7 +633,7 @@ enum APIAuth : URLRequestConvertible
             {
             case .Register(_, _, _, _) : return .POST
             case .Login(_, _) : return .POST
-            case .LoginFacebook(_, _, _, _) : return .POST
+            case .LoginFacebook(_, _, _, _, _) : return .POST
             case .LoginPath(_, _, _, _) : return .POST
             case .LoginTwitter(_, _, _, _, _, _) : return .POST
             case .Logout : return .POST
@@ -646,7 +646,7 @@ enum APIAuth : URLRequestConvertible
             {
             case .Register(_, _, _, _) : return "register"
             case .Login(_, _) : return "login"
-            case .LoginFacebook(_, _, _, _) : return "login/facebook"
+            case .LoginFacebook(_, _, _, _, _) : return "login/facebook"
             case .LoginPath(_, _, _, _) : return "login/path"
             case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
             case .Logout : return "logout"
@@ -671,11 +671,12 @@ enum APIAuth : URLRequestConvertible
                     "password" : password
                 ]
                 return p
-            case .LoginFacebook(let email, let fullname, let fbId, let fbAccessToken) :
+            case .LoginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
                 let p = [
                     "email" : email,
                     "fullname" : fullname,
                     "fb_id" : fbId,
+                    "fb_username" : fbUsername,
                     "fb_access_token" : fbAccessToken
                 ]
                 return p

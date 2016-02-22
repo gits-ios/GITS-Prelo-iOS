@@ -140,6 +140,7 @@ class Tags : NSObject
 class OrderStatus : NSObject
 {
     static let Dipesan = "Dipesan"
+    static let BelumDibayar = "Belum Dibayar"
     static let Dibayar = "Dibayar"
     static let Dikirim = "Dikirim"
     static let PembayaranPending = "Pembayaran Pending"

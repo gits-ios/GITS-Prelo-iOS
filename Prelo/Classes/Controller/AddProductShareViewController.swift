@@ -238,7 +238,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     
-                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
+                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbUsername: name, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
                         if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
                             self.me?.others.fbAccessToken = accessToken
                             UIApplication.appDelegate.saveContext()

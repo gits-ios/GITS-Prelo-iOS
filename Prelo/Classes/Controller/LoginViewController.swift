@@ -90,7 +90,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
-    // Return true if user have set his account in profile setup page
+    // Check if user have set his account in profile setup page
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
         let vcLogin = sender as? LoginViewController
@@ -674,7 +674,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     println("profilePictureUrl = \(profilePictureUrl)")
                     println("accessToken = \(accessToken)")
                     
-                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
+                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbUsername: name, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
                         if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
                             let json = JSON(res!)
                             let data = json["_data"]

@@ -249,7 +249,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         lblHearts.attributedText = attrStringLove
         
         // Review Seller pop up
-        lblRvwSellerName.text = transactionDetail?.sellerName
+        lblRvwSellerName.text = transactionDetail?.sellerUsername
         lblRvwProductName.text = transactionDetail?.productName
         
         // Fix order id text width

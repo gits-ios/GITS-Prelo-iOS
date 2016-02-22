@@ -312,6 +312,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         var p : [Bool] = []
         if (orderStatusText == OrderStatus.Dipesan) {
             p = [true, true, false, false, false, false, false, false, true, false, true]
+        } else if (orderStatusText == OrderStatus.BelumDibayar) {
+            p = [true, true, false, false, false, false, false, false, true, false, true]
         } else if (orderStatusText == OrderStatus.Dibayar) {
             p = [true, false, true, true, true, true, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Dikirim) {
