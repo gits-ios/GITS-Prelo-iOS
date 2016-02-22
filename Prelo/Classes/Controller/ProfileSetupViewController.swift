@@ -227,9 +227,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         // Arrange groups
         var p : [Bool]!
         if (self.isSocmedAccount == true) {
-            p = [false, true, true, true, false, true, true, true, true]
+            p = [false, true, true, true, false, true, true, false, true]
         } else {
-            p = [false, false, true, true, false, true, true, true, true]
+            p = [false, false, true, true, false, true, true, false, true]
         }
         arrangeGroups(p)
         

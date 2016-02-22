@@ -164,4 +164,8 @@ class InboxCell : UITableViewCell
     @IBOutlet var captionType : UILabel!
     @IBOutlet var captionTime : UILabel!
     @IBOutlet var iv : UIImageView!
+    
+    override func prepareForReuse() {
+        iv.image = nil
+    }
 }
