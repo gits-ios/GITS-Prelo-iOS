@@ -76,6 +76,13 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId(onFinish: nil)
         
+        // Tell server
+        request(APIAuth.Logout).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
+                println("Logout API success")
+            }
+        }
+        
         // Clear local data
         User.Logout()
         
@@ -83,13 +90,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         if let d = self.userRelatedDelegate
         {
             d.userLoggedOut!()
-        }
-        
-        // Tell server
-        request(APIAuth.Logout).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
-                println("Logout API success")
-            }
         }
         
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
