@@ -370,7 +370,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userCancelLogin() {
-        
+        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        changeToController(controllerBrowse!)
     }
     
     func menuSelected(option: MenuOption) {

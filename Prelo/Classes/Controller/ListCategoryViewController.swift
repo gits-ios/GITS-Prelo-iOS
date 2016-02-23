@@ -84,9 +84,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         listItemViews.removeAll(keepCapacity: false)
         
-        for v in self.contentView?.subviews as! [UIView]
-        {
-            v.removeFromSuperview()
+        if (contentView != nil) {
+            for v in self.contentView!.subviews as! [UIView]
+            {
+                v.removeFromSuperview()
+            }
         }
         
         categoryNames.removeAll(keepCapacity: false)

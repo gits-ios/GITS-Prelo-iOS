@@ -1255,7 +1255,7 @@ enum APIPeople : URLRequestConvertible
 
 class APIPrelo
 {
-    static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
+    /*static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
     {
         if let response = resp
         {
@@ -1280,7 +1280,7 @@ class APIPrelo
         {
             return true
         }
-    }
+    }*/
     
     static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
@@ -1296,6 +1296,21 @@ class APIPrelo
                             UIAlertView.SimpleShow(reqAlias, message: msg)
                         }
                         println("\(reqAlias) _message = \(msg)")
+                        
+                        if (msg == "user belum login") {
+                            User.Logout()
+                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            if let childVCs = appDelegate.window!.rootViewController?.childViewControllers {
+                                if let rootVC = childVCs[0] as? UIViewController {
+                                    let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
+                                    let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+                                    if (uiNavigationController != nil && kumangTabBarVC != nil) {
+                                        uiNavigationController!.popToRootViewControllerAnimated(true)
+                                        LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else if (res == nil && showErrorDialog) {
                     if (response.statusCode > 500) {
@@ -1332,16 +1347,6 @@ class APIPrelo
             let data = json["_data"]
             println("\(reqAlias) _data = \(data)")
             return true
-        }
-    }
-    
-    static func validateSession(res: AnyObject?, sender: BaseViewController) {
-        if (res != nil) {
-            if let msg = JSON(res!)["_message"].string {
-                if (msg == "user belum login") {
-                    sender.dismiss()
-                }
-            }
         }
     }
 }
