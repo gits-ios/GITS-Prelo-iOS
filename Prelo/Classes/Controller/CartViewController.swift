@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate {
 
@@ -489,7 +490,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     UIApplication.appDelegate.saveContext()
                     
-                    // Mixpanel
+                    // Mixpanel and Answers
                     if (self.checkoutResult != nil) {
                         var pName : String? = ""
                         var rName : String? = ""
@@ -545,6 +546,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Shipping Province" : pName!
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
+                        
+                        if (AppTools.IsPreloProduction) {
+                            Answers.logStartCheckoutWithPrice(NSDecimalNumber(integer: totalPrice), currency: "IDR", itemCount: NSNumber(integer: items.count), customAttributes: nil)
+                        }
                     }
                     
                     self.previousController?.navigationController?.pushViewController(o, animated: true)
