@@ -359,7 +359,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.tableView.delegate = self
                 self.tableView.reloadData()
                 self.tableView.hidden = false
-                self.adjustTotal()
+                if (self.shouldBack == true)
+                {
+                    self.navigationController?.popViewControllerAnimated(true)
+                } else if (self.products.count > 0)
+                {
+                    self.adjustTotal()
+                }
             }
         }
         
@@ -869,6 +875,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         selectedPayment = availablePayments[b.tag]
     }
 
+    var shouldBack = false
     func itemNeedDelete(indexPath: NSIndexPath) {
         let j = arrayItem[indexPath.row]
         println(j)
@@ -887,8 +894,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         if (arrayItem.count == 0) {
-            self.navigationController?.popViewControllerAnimated(true)
-        } else {
+            self.shouldBack = true
+//            self.navigationController?.popViewControllerAnimated(true)
+        } //else {
             cells = [:]
             for (i, c) in cellViews
             {
@@ -903,7 +911,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             cellViews = [:]
             createCells()
             synch()
-        }
+        //}
     }
     
     func itemNeedUpdateShipping(indexPath: NSIndexPath) {
