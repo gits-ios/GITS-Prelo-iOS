@@ -507,6 +507,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         
                         var items : [String] = []
+                        var itemsId : [String] = []
                         var itemsCategory : [String] = []
                         var itemsSeller : [String] = []
                         var itemsPrice : [Int] = []
@@ -517,6 +518,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         for i in 0...self.arrayItem.count - 1 {
                             let json = self.arrayItem[i]
                             items.append(json["name"].stringValue)
+                            itemsId.append(json["product_id"].stringValue)
                             var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
                             if (cName == nil) {
                                 cName = json["category_id"].stringValue
@@ -549,6 +551,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         
                         if (AppTools.IsPreloProduction) {
                             Answers.logStartCheckoutWithPrice(NSDecimalNumber(integer: totalPrice), currency: "IDR", itemCount: NSNumber(integer: items.count), customAttributes: nil)
+                            for j in 0...items.count-1 {
+                                Answers.logPurchaseWithPrice(NSDecimalNumber(integer: itemsPrice[j]), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            }
                         }
                     }
                     
