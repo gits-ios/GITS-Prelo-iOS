@@ -174,6 +174,8 @@ class UserDefaultsKey : NSObject
     static let TourDone = "tourdone"
     static let RedirectFromHome = "redirectfromhome"
     static let UserAgent = "useragent"
+    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
+    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
 }
 
 class PageName

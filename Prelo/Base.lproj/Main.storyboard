@@ -7565,11 +7565,60 @@ Keuntungan</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUa-EJ-ozm" userLabel="Coachmark background">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cchmrk_imgzoom.png" translatesAutoresizingMaskIntoConstraints="NO" id="9jU-XH-rN7">
+                                        <rect key="frame" x="20" y="50" width="178" height="140"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="178" id="6k6-xs-iYs"/>
+                                            <constraint firstAttribute="height" constant="140" id="tY4-xA-qYu"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cchmrk_chat.png" translatesAutoresizingMaskIntoConstraints="NO" id="9CG-qo-hYd">
+                                        <rect key="frame" x="97" y="385" width="138" height="143"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="138" id="ANQ-0X-qCf"/>
+                                            <constraint firstAttribute="height" constant="143" id="h8o-66-zDO"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cchmrk_buy.png" translatesAutoresizingMaskIntoConstraints="NO" id="JD8-tm-3hN">
+                                        <rect key="frame" x="291" y="347" width="229" height="181"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="229" id="5SN-3E-DbL"/>
+                                            <constraint firstAttribute="height" constant="181" id="S6W-Bg-SKf"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVf-OR-2t8">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                        <animations/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="coachmarkTapped:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="liv-IF-vCr"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="9jU-XH-rN7" firstAttribute="top" secondItem="PUa-EJ-ozm" secondAttribute="top" constant="50" id="QlX-AH-79D"/>
+                                    <constraint firstItem="9jU-XH-rN7" firstAttribute="leading" secondItem="PUa-EJ-ozm" secondAttribute="leading" constant="20" id="Xhk-CX-cxu"/>
+                                    <constraint firstAttribute="bottom" secondItem="JD8-tm-3hN" secondAttribute="bottom" constant="8" id="ZNa-GJ-pSW"/>
+                                    <constraint firstAttribute="bottom" secondItem="9CG-qo-hYd" secondAttribute="bottom" constant="8" id="axg-1e-Fwz"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yQI-8a-Ibj" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="0sb-SK-R8A"/>
+                            <constraint firstAttribute="trailing" secondItem="PUa-EJ-ozm" secondAttribute="trailing" id="2LN-6c-2wV"/>
+                            <constraint firstItem="z2y-Ag-gm1" firstAttribute="centerX" secondItem="9CG-qo-hYd" secondAttribute="centerX" constant="-16" id="4eE-u0-03b"/>
                             <constraint firstItem="Aaa-Fg-Hix" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="5RV-va-81x"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="OAi-W6-KbN" secondAttribute="bottom" id="8vD-9i-SSG"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="Aaa-Fg-Hix" secondAttribute="bottom" id="9ez-Mp-ied"/>
@@ -7577,12 +7626,16 @@ Keuntungan</string>
                             <constraint firstItem="hx6-gT-uZY" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="GHZ-on-kCh"/>
                             <constraint firstItem="Aaa-Fg-Hix" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="Iqg-Tw-hz4"/>
                             <constraint firstAttribute="trailing" secondItem="hx6-gT-uZY" secondAttribute="trailing" id="Spx-O4-ROg"/>
+                            <constraint firstItem="PUa-EJ-ozm" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="WcT-QQ-5j4"/>
                             <constraint firstItem="OAi-W6-KbN" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="XIM-Zb-866"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="bottom" id="d3U-fb-5BD"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="bottom" id="he3-sf-nYD"/>
                             <constraint firstAttribute="trailing" secondItem="yQI-8a-Ibj" secondAttribute="trailing" id="jEo-Hx-SS4"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="yQI-8a-Ibj" secondAttribute="bottom" id="kCW-hi-HNm"/>
+                            <constraint firstItem="PUa-EJ-ozm" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="kRs-nz-hV8"/>
                             <constraint firstAttribute="trailing" secondItem="OAi-W6-KbN" secondAttribute="trailing" id="pU1-y9-n6y"/>
+                            <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="PUa-EJ-ozm" secondAttribute="bottom" id="qzk-5g-LUw"/>
+                            <constraint firstItem="3WJ-ld-3G9" firstAttribute="centerX" secondItem="JD8-tm-3hN" secondAttribute="centerX" constant="45" id="xT5-89-nMe"/>
                             <constraint firstAttribute="trailing" secondItem="yrn-F1-tkW" secondAttribute="trailing" id="yLM-69-hGW"/>
                             <constraint firstAttribute="trailing" secondItem="Aaa-Fg-Hix" secondAttribute="trailing" id="zGg-dl-okv"/>
                         </constraints>
@@ -7601,6 +7654,7 @@ Keuntungan</string>
                         <outlet property="konfirmasiBayarBtnSet" destination="yQI-8a-Ibj" id="KWh-aD-z7z"/>
                         <outlet property="tableView" destination="Aaa-Fg-Hix" id="zNe-MN-dj3"/>
                         <outlet property="tpDetailBtnSet" destination="OAi-W6-KbN" id="GSQ-vD-8tw"/>
+                        <outlet property="vwCoachmark" destination="PUa-EJ-ozm" id="Fs2-kc-TmG"/>
                         <segue destination="0qH-Ls-LM7" kind="show" identifier="segCart" id="dW2-MQ-HC6"/>
                         <segue destination="89O-n7-3Ld" kind="show" identifier="segAddComment" id="Pzt-Up-DOu"/>
                     </connections>
@@ -12652,6 +12706,9 @@ Label / Merek</string>
         <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>
         <image name="category_placeholder" width="828" height="1472"/>
+        <image name="cchmrk_buy.png" width="747" height="539"/>
+        <image name="cchmrk_chat.png" width="409" height="391"/>
+        <image name="cchmrk_imgzoom.png" width="596" height="422"/>
         <image name="checkout_tour_1.jpg" width="720" height="1280"/>
         <image name="cu_bbm.png" width="128" height="128"/>
         <image name="cu_call.png" width="256" height="256"/>

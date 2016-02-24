@@ -23,6 +23,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var categoriesFix : [JSON] = []
     
+    // Coachmark
+    var vwCoachmark : UIView?
+    var imgCoachmarkPinch : UIImageView?
+    var imgCoachmarkSpread : UIImageView?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -92,11 +97,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
         
         categoryNames.removeAll(keepCapacity: false)
-        for v in self.contentCategoryNames?.subviews as! [UIView]
-        {
-            if (v != categoryIndicator)
+        if (contentCategoryNames != nil) {
+            for v in self.contentCategoryNames?.subviews as! [UIView]
             {
-                v.removeFromSuperview()
+                if (v != categoryIndicator)
+                {
+                    v.removeFromSuperview()
+                }
             }
         }
         
@@ -261,6 +268,34 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         scrollCategoryName.layoutIfNeeded()
         contentCategoryNames?.layoutIfNeeded()
+        
+        // Coachmark
+        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
+        if (coachmarkDone != true && vwCoachmark == nil) {
+            let screenSize : CGRect = UIScreen.mainScreen().bounds
+            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+            imgCoachmarkPinch = UIImageView(image: UIImage(named: "cchmrk_pinch"))
+            let imgCoachmarkPinchSize : CGSize = CGSizeMake(180, 134)
+            imgCoachmarkPinch?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), imgCoachmarkPinchSize.width, imgCoachmarkPinchSize.height)
+            imgCoachmarkSpread = UIImageView(image: UIImage(named: "cchmrk_spread"))
+            let imgCoachmarkSpreadSize : CGSize = CGSizeMake(180, 136)
+            imgCoachmarkSpread?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), imgCoachmarkSpreadSize.width, imgCoachmarkSpreadSize.height)
+            
+            let btnCoachmark : UIButton = UIButton(frame: screenSize)
+            btnCoachmark.addTarget(self, action: "btnCoachmarkPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            if (vwCoachmark != nil && imgCoachmarkPinch != nil && imgCoachmarkSpread != nil) {
+                vwCoachmark!.addSubview(imgCoachmarkPinch!)
+                vwCoachmark!.addSubview(imgCoachmarkSpread!)
+                imgCoachmarkSpread!.hidden = true
+                vwCoachmark!.addSubview(btnCoachmark)
+                //UIApplication.sharedApplication().keyWindow?.addSubview(vwCoachmark!)
+                if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                    kumangTabBarVC.view.addSubview(vwCoachmark!)
+                }
+                //self.view.addSubview(vwCoachmark!)
+            }
+        }
         
         setCurrentTab((categoryNames.count > 1) ? 0 : 0)
     }
@@ -526,6 +561,18 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         v.category = categoriesFix[i]
         
         return v
+    }
+    
+    // MARK: - Coachmark
+    
+    func btnCoachmarkPressed(sender: UIButton!) {
+        if (imgCoachmarkSpread!.hidden) {
+            imgCoachmarkPinch!.hidden = true
+            imgCoachmarkSpread!.hidden = false
+        } else if (imgCoachmarkPinch!.hidden) {
+            vwCoachmark!.hidden = true
+            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkBrowseDone)
+        }
     }
 
 }

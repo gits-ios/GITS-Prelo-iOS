@@ -455,6 +455,11 @@
 		58A99A4C1C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A99A291C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m */; };
 		58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */; };
 		58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */; };
+		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
+		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
+		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
+		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
+		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
 		FD12C1611C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */; };
 		FD12C1631C1EA79300B4ACBB /* NotificationPageTabbed.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */; };
 		FD12C1651C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */; };
@@ -1086,6 +1091,11 @@
 		58A99A291C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchValidatePromoCodeRequest.m; sourceTree = "<group>"; };
 		58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Prelo.entitlements; sourceTree = "<group>"; };
 		58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
+		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
+		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
+		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
+		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
 		FD12C1601C1EA69600B4ACBB /* NotificationPageTabbedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTabbedViewController.swift; sourceTree = "<group>"; };
 		FD12C1621C1EA79300B4ACBB /* NotificationPageTabbed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationPageTabbed.xib; sourceTree = "<group>"; };
 		FD12C1641C1EA97F00B4ACBB /* NotificationPageTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPageTransactionViewController.swift; sourceTree = "<group>"; };
@@ -1848,6 +1858,11 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58F0A4151C7C634A002A488F /* cchmrk_buy.png */,
+				58F0A4161C7C634A002A488F /* cchmrk_chat.png */,
+				58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */,
+				58F0A4181C7C634A002A488F /* cchmrk_pinch.png */,
+				58F0A4191C7C634A002A488F /* cchmrk_spread.png */,
 				5856875A1C6C97F4002A19CE /* ic_request.png */,
 				5895E86B1C49315400752ACA /* chat-rp.png */,
 				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
@@ -2390,9 +2405,11 @@
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
 				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
 				440AF6661BE1090800074CBC /* ic_round_facebook.png in Resources */,
+				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
+				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				217874631B98516900D355A8 /* merk.json in Resources */,
 				21D386AB1B6B93CD00D0FA90 /* Default@2x.png in Resources */,
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
@@ -2413,6 +2430,8 @@
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
 				212007C01B6A0CD100D9C84B /* basic_orange@2x.png in Resources */,
+				58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */,
+				58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */,
 				2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */,
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
@@ -2485,6 +2504,7 @@
 				2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
+				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

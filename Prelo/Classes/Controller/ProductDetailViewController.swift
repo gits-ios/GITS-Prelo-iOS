@@ -32,6 +32,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnActivate : UIButton!
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
+    @IBOutlet var vwCoachmark: UIView!
     
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
@@ -382,6 +383,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
         self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+        if (coachmarkDone != true) {
+            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+            vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+            vwCoachmark.hidden = false
+        }
     }
 
     @IBAction func dismiss(sender: AnyObject)
@@ -575,6 +583,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func userLoggedOut() {
         
+    }
+    
+    // MARK: - Coachmark
+    
+    @IBAction func coachmarkTapped(sender: AnyObject) {
+        self.vwCoachmark.hidden = true
     }
     
     // MARK: - If product is bought

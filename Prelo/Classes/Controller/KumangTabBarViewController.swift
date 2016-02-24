@@ -130,7 +130,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     var isAlreadyGetCategory : Bool = false
-    //var isAlreadyTour : Bool = false
     var userDidLoggedIn : Bool?
     var isAlreadyCheckVersion : Bool = false
     override func viewDidAppear(animated: Bool) {
@@ -142,6 +141,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
+        // Show tour and/or loadAppData pop up
         if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
@@ -183,6 +183,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
         userDidLoggedIn = User.IsLoggedIn
         
+        // Check new version in AppStore
         if (!isAlreadyCheckVersion) {
             // Check app version
             if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -200,22 +201,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             isAlreadyCheckVersion = true
         }
-        
-        /* TO BE DELETED, PERGANTIAN BEHAVIOR KEMUNCULAN TOUR
-        // Tour dipanggil setiap kali buka app dalam keadaan logout
-        // Jika buka app dalam keadaan login lalu logout, tidak perlu panggil tour karna category preferences pasti sudah ada
-        if (!isAlreadyTour && !User.IsLoggedIn && !isAlreadyGetCategory) {
-            self.performSegueWithIdentifier("segTour", sender: self)
-            isAlreadyTour = true
-        } else {
-            if (userDidLoggedIn == false && User.IsLoggedIn) { // Jika user baru saja log in
-                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
-            } else if (!isAlreadyGetCategory) { // Jika baru saja membuka app
-                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
-                isAlreadyGetCategory = true
-            }
-        }
-        userDidLoggedIn = User.IsLoggedIn*/
     }
     
     func updateProgress(progress: Float) {
@@ -383,7 +368,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
 //        self.navigationController?.pushViewController(add, animated: true)
     }
-    
     
     // MARK: - Navigation
     
