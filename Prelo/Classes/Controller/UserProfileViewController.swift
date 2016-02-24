@@ -775,7 +775,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             return false
         }
         if (!jneSelected && !tikiSelected) {
-            Constant.showDialog("Warning", message: "Shipping Options harus diisi")
+            Constant.showDialog("Warning", message: "Pilihan Kurir harus diisi")
             return false
         }
         return true

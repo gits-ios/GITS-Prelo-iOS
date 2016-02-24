@@ -234,6 +234,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.isSocmedAccount = isSocmedAccount
         profileSetupVC.loginMethod = loginMethod
         profileSetupVC.screenBeforeLogin = screenBeforeLogin
+        profileSetupVC.isFromRegister = true
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     

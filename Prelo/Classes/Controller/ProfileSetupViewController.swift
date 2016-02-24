@@ -14,6 +14,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     
+    @IBOutlet weak var lblHeaderAlert: UILabel!
+    
     // Groups index:
     // 0 : Group Upload Foto
     // 1 : Group Fullname
@@ -94,6 +96,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var isMixpanelPageVisitSent : Bool = false
     
+    var isFromRegister : Bool!
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -106,7 +110,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Setup Akun"
+        self.title = "Setelan Akun"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -184,7 +188,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     func setNavBarButtons() {
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        /*let newBackButton = UIBarButtonItem(title: " Setup Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+        /*let newBackButton = UIBarButtonItem(title: " Setelan Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton*/
         
@@ -204,6 +208,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func setupContent() {
+        // Set header alert
+        if (!isFromRegister) {
+            self.lblHeaderAlert.text = "Kamu perlu menyelesaikan Setelan Akun"
+        }
+        
         // Set groups and top constraints manually
         groups.append(self.groupUploadFoto)
         groups.append(self.groupFullname)
@@ -451,7 +460,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             return false
         }
         if (!jneSelected && !tikiSelected) {
-            Constant.showDialog("Warning", message: "Shipping Options harus diisi")
+            Constant.showDialog("Warning", message: "Pilihan Kurir harus diisi")
             return false
         }
         return true
@@ -486,7 +495,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)
                 
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setup Akun")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setelan Akun")) {
                     let json = JSON(res!)
                     let data = json["_data"]
                     

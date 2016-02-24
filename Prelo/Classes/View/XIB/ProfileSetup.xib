@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -24,14 +25,28 @@
                 <viewControllerLayoutGuide type="bottom" id="TdE-Zh-c6p"/>
             </layoutGuides>
             <view key="view" contentMode="scaleToFill" id="Hdj-1f-k8Y">
-                <rect key="frame" x="0.0" y="64" width="600" height="968"/>
+                <rect key="frame" x="0.0" y="64" width="600" height="1008"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KSH-cy-Q7e">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="968"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1008"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0SD-h0-xIZ" userLabel="Header Alert">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Selamat! Registrasi berhasil!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqd-tU-27c">
+                                        <rect key="frame" x="8" y="10" width="584" height="21"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCU-2p-hNQ" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="968"/>
+                                <rect key="frame" x="0.0" y="40" width="600" height="968"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJ7-Je-553" userLabel="Group Upload Foto">
                                         <rect key="frame" x="8" y="27" width="584" height="64"/>
@@ -302,7 +317,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dTm-sv-AJ8" userLabel="Group Nomor HP">
-                                                <rect key="frame" x="0.0" y="57" width="584" height="40"/>
+                                                <rect key="frame" x="0.0" y="56" width="584" height="40"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nomor HP" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nhz-su-dk9">
                                                         <rect key="frame" x="0.0" y="0.0" width="457" height="40"/>
@@ -360,7 +375,7 @@
                                                 </variation>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zhx-O3-PGa" userLabel="Group Kode Verifikasi">
-                                                <rect key="frame" x="0.0" y="105" width="584" height="40"/>
+                                                <rect key="frame" x="0.0" y="104" width="584" height="40"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vlM-JB-Rzq" userLabel="line_1px">
                                                         <rect key="frame" x="0.0" y="39" width="584" height="1"/>
@@ -640,7 +655,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gxb-X2-XNj" userLabel="Group Shipping Options">
                                         <rect key="frame" x="8" y="633" width="584" height="132"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHIPPING OPTIONS" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2Y-X3-ABa">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PILIHAN KURIR" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2Y-X3-ABa">
                                                 <rect key="frame" x="0.0" y="0.0" width="584" height="17"/>
                                                 <animations/>
                                                 <constraints>
@@ -906,7 +921,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="iMl-P7-6wK"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="APPLY">
+                                                <state key="normal" title="LANJUTKAN">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -978,7 +993,11 @@
                             <constraint firstAttribute="bottom" secondItem="mCU-2p-hNQ" secondAttribute="bottom" id="AVj-RQ-KHX"/>
                             <constraint firstItem="mCU-2p-hNQ" firstAttribute="leading" secondItem="KSH-cy-Q7e" secondAttribute="leading" id="N4l-Vg-Qny"/>
                             <constraint firstAttribute="trailing" secondItem="mCU-2p-hNQ" secondAttribute="trailing" id="SDn-HN-JRV"/>
-                            <constraint firstItem="mCU-2p-hNQ" firstAttribute="top" secondItem="KSH-cy-Q7e" secondAttribute="top" id="qjv-Fg-32c"/>
+                            <constraint firstAttribute="trailing" secondItem="0SD-h0-xIZ" secondAttribute="trailing" id="gqd-Gy-Xcf"/>
+                            <constraint firstItem="mCU-2p-hNQ" firstAttribute="top" secondItem="0SD-h0-xIZ" secondAttribute="bottom" id="iOV-dN-aEM"/>
+                            <constraint firstItem="mCU-2p-hNQ" firstAttribute="top" secondItem="KSH-cy-Q7e" secondAttribute="top" constant="40" id="qjv-Fg-32c"/>
+                            <constraint firstItem="0SD-h0-xIZ" firstAttribute="top" secondItem="KSH-cy-Q7e" secondAttribute="top" id="w8u-fF-JBO"/>
+                            <constraint firstItem="0SD-h0-xIZ" firstAttribute="leading" secondItem="KSH-cy-Q7e" secondAttribute="leading" id="zf0-6N-5ZC"/>
                         </constraints>
                     </scrollView>
                 </subviews>
@@ -999,7 +1018,7 @@
             <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <size key="freeformSize" width="600" height="1032"/>
+            <size key="freeformSize" width="600" height="1072"/>
             <connections>
                 <outlet property="btnApply" destination="ONd-KC-eB9" id="Q5s-eP-Y8H"/>
                 <outlet property="btnUserImage" destination="eFa-9K-KzQ" id="ali-l0-c0m"/>
@@ -1028,6 +1047,7 @@
                 <outlet property="groupUploadFoto" destination="MJ7-Je-553" id="FQE-BU-JTH"/>
                 <outlet property="groupVerifikasiHp" destination="kPa-bT-jOM" id="RMY-nc-sK7"/>
                 <outlet property="lblFullname" destination="B0O-Na-xOR" id="rOC-we-X22"/>
+                <outlet property="lblHeaderAlert" destination="aqd-tU-27c" id="cz9-JF-R2T"/>
                 <outlet property="lblJenisKelamin" destination="QgY-cl-mOd" id="5An-Ml-FFB"/>
                 <outlet property="lblJneCheckbox" destination="jld-8W-9ny" id="Fir-VU-70v"/>
                 <outlet property="lblKabKota" destination="3xT-ua-ceI" id="s2u-yc-Ia9"/>

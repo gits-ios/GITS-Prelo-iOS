@@ -274,6 +274,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     profileSetupVC.isSocmedAccount = isSocmedAccount
                     profileSetupVC.loginMethod = loginMethod
                     profileSetupVC.screenBeforeLogin = screenBeforeLogin
+                    profileSetupVC.isFromRegister = false
                     sender.navigationController?.pushViewController(profileSetupVC, animated: true)
                 }
             } else {
