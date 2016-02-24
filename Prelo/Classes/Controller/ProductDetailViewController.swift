@@ -15,6 +15,7 @@ import MessageUI
 protocol ProductCellDelegate
 {
     func cellTappedCategory(categoryName : String, categoryID : String)
+    func cellTappedBrand(brandId : String, brandName : String)
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -518,6 +519,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.navigationController?.pushViewController(l, animated: true)
     }
     
+    func cellTappedBrand(brandId: String, brandName: String) {
+        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        l.searchMode = true
+        l.searchBrand = true
+        l.searchBrandId = brandId
+        l.searchKey = brandName
+        self.navigationController?.pushViewController(l, animated: true)
+    }
+    
     @IBAction func addToCart(sender: UIButton) {
         if ((detail?.isMyProduct)! == true)
         {
@@ -945,19 +955,20 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
     @IBOutlet var captionDesc : UILabel?
     @IBOutlet var captionDate : UILabel?
-    @IBOutlet var captionMerk : UILabel?
     @IBOutlet var captionSize : UILabel?
     @IBOutlet var captionCondition : UILabel?
     @IBOutlet var captionFrom : UILabel?
     @IBOutlet var captionConditionDesc : UILabel?
     @IBOutlet var captionAlasanJual : UILabel?
     
+    @IBOutlet var captionMerk : ZSWTappableLabel?
     @IBOutlet var captionCategory : ZSWTappableLabel?
     
     var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
         captionCategory?.tapDelegate = self
+        captionMerk?.tapDelegate = self
     }
     
     static func heightFor(obj : ProductDetail?)->CGFloat
@@ -1043,7 +1054,16 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         if let merk = product["brand"].string
         {
-            captionMerk?.text = merk
+            let p = [
+                "brand_id":product["brand_id"].stringValue,
+                "brand":product["brand"].stringValue,
+                "range":NSStringFromRange(NSMakeRange(0, merk.length())),
+                ZSWTappableLabelTappableRegionAttributeName: Int(true),
+                ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
+                ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
+                NSForegroundColorAttributeName : Theme.PrimaryColorDark
+            ]
+            captionMerk?.attributedText = NSAttributedString(string: merk, attributes: p)
         } else {
             captionMerk?.text = "Unknown"
         }
@@ -1113,12 +1133,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {
-//        println(attributes)
+        //println(attributes)
         
         if (cellDelegate != nil) {
-            let name = attributes["category_name"] as! String
-            let id = attributes["category_id"] as! String
-            cellDelegate?.cellTappedCategory(name, categoryID: id)
+            if let brandName = attributes["brand"] as? String { // Brand clicked
+                let brandId = attributes["brand_id"] as! String
+                cellDelegate!.cellTappedBrand(brandId, brandName: brandName)
+            } else {
+                let name = attributes["category_name"] as! String
+                let id = attributes["category_id"] as! String
+                cellDelegate!.cellTappedCategory(name, categoryID: id)
+            }
         }
         
     }
