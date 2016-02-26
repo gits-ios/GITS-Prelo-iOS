@@ -728,7 +728,7 @@ enum APIUser : URLRequestConvertible
     case OrderList(status : String)
     case MyProductSell
     case MyLovelist
-    case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
+    case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
     case SetProfile(fullname : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
@@ -750,7 +750,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
@@ -774,7 +774,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
@@ -810,9 +810,10 @@ enum APIUser : URLRequestConvertible
             ]
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
-        case .SetupAccount(let username, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
+        case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
             return [
                 "username":username,
+                "email":email,
                 "gender":gender,
                 "phone":phone,
                 "province":province,
@@ -1300,7 +1301,7 @@ class APIPrelo
                         if (msg == "user belum login") {
                             User.Logout()
                             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                            if let childVCs = appDelegate.window!.rootViewController?.childViewControllers {
+                            if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
                                 if let rootVC = childVCs[0] as? UIViewController {
                                     let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
                                     let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController

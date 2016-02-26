@@ -19,15 +19,17 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     // Groups index:
     // 0 : Group Upload Foto
     // 1 : Group Fullname
-    // 2 : Group Jenis Kelamin
-    // 3 : Group No HP
-    // 4 : Group Verifikasi HP
-    // 5 : Group Kota
-    // 6 : Group Shipping Options
-    // 7 : Group Referal
-    // 8 : Group Apply
+    // 2 : Group Email
+    // 3 : Group Jenis Kelamin
+    // 4 : Group No HP
+    // 5 : Group Verifikasi HP
+    // 6 : Group Kota
+    // 7 : Group Shipping Options
+    // 8 : Group Referal
+    // 9 : Group Apply
     @IBOutlet weak var groupUploadFoto: UIView!
     @IBOutlet weak var groupFullname: UIView!
+    @IBOutlet weak var groupEmail: UIView!
     @IBOutlet weak var groupJenisKelamin: UIView!
     @IBOutlet weak var groupNoHp: UIView!
     @IBOutlet weak var groupVerifikasiHp: UIView!
@@ -39,6 +41,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var consTopUploadFoto: NSLayoutConstraint!
     @IBOutlet weak var consTopFullname: NSLayoutConstraint!
+    @IBOutlet weak var consTopEmail: NSLayoutConstraint!
     @IBOutlet weak var consTopJenisKelamin: NSLayoutConstraint!
     @IBOutlet weak var consTopNoHp: NSLayoutConstraint!
     @IBOutlet weak var consTopVerifikasiHp: NSLayoutConstraint!
@@ -52,6 +55,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var lblFullname: UILabel!
     @IBOutlet weak var fieldFullname: UITextField!
+    
+    @IBOutlet weak var fieldEmail: UITextField!
     
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
@@ -103,7 +108,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
-        setNavBarButtons()
         setupContent()
     }
     
@@ -131,8 +135,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             if let c = CDUser.getOne() {
                 var minutesSinceReg = 0
                 if let o = CDUserOther.getOne() {
-                    let regTime = o.registerTime
-                    minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                    if let regTime = o.registerTime {
+                        minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                    }
                 }
                 if (minutesSinceReg <= 1) {
                     let sp = [
@@ -185,25 +190,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.an_unsubscribeKeyboard()
     }
     
-    func setNavBarButtons() {
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        /*let newBackButton = UIBarButtonItem(title: " Setelan Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton*/
-        
-        // Tombol apply
-        /*let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
-        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = applyButton*/
-    }
-    
     override func backPressed(sender: UIBarButtonItem) {
-        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-        if let d = self.userRelatedDelegate
-        {
-            d.userLoggedIn!()
-        }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -216,6 +203,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         // Set groups and top constraints manually
         groups.append(self.groupUploadFoto)
         groups.append(self.groupFullname)
+        groups.append(self.groupEmail)
         groups.append(self.groupJenisKelamin)
         groups.append(self.groupNoHp)
         groups.append(self.groupVerifikasiHp)
@@ -225,6 +213,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         groups.append(self.groupApply)
         consTopGroups.append(self.consTopUploadFoto)
         consTopGroups.append(self.consTopFullname)
+        consTopGroups.append(self.consTopEmail)
         consTopGroups.append(self.consTopJenisKelamin)
         consTopGroups.append(self.consTopNoHp)
         consTopGroups.append(self.consTopVerifikasiHp)
@@ -236,9 +225,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         // Arrange groups
         var p : [Bool]!
         if (self.isSocmedAccount == true) {
-            p = [false, true, true, true, false, true, true, false, true]
+            p = [false, true, (self.userEmail == ""), true, true, false, true, true, false, true]
         } else {
-            p = [false, false, true, true, false, true, true, false, true]
+            p = [false, false, (self.userEmail == ""), true, true, false, true, true, false, true]
         }
         arrangeGroups(p)
         
@@ -257,12 +246,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
-        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-8
+        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
                 groups[i].hidden = false
                 // Manual narrow/wide space
-                if (i == 0 || (i == 2 && !groups[1].hidden) || i == 3) { // Narrow space before group
+                if (i == 0 || i == 2 || (i == 3 && !groups[1].hidden) || i == 4) { // Narrow space before group
                     deltaX += narrowSpace
                 } else { // Wide space before group
                     deltaX += wideSpace
@@ -447,6 +436,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         }
+        if (self.userEmail == "" && fieldEmail.text == "") {
+            Constant.showDialog("Warning", message: "Email harus diisi")
+        }
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Nomor HP harus diisi")
             return false
@@ -475,6 +467,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             if (self.isSocmedAccount == true) {
                 username = (fieldFullname?.text)!
             }
+            var email = ""
+            if (self.userEmail == "") {
+                email = fieldEmail.text
+            }
             let userFullname = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
@@ -487,13 +483,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             //println("deviceToken = \(deviceToken)")
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-            // Set token first, because APIUser.SetupAccount need token
+            // Set token first, because APIUser.SetupAccount & APIUser.SetUserPreferencedCategories need token
             User.SetToken(self.userToken)
             
-            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
-                
-                // Delete token because user is considered not logged in
-                User.SetToken(nil)
+            request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
                 
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setelan Akun")) {
                     let json = JSON(res!)
@@ -511,6 +504,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                 println("Error setting user preferenced categories")
                             }
                         }
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
                     }
                     
                     
@@ -593,7 +588,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
                         phoneVerificationVC.userId = self.userId
                         phoneVerificationVC.userToken = self.userToken
-                        phoneVerificationVC.userEmail = self.userEmail
+                        phoneVerificationVC.userEmail = user.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
                         phoneVerificationVC.isShowBackBtn = true
                         phoneVerificationVC.loginMethod = self.loginMethod
                         self.navigationController?.pushViewController(phoneVerificationVC, animated: true)

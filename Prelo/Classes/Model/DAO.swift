@@ -171,8 +171,10 @@ class UserProfile : NSObject {
     }
     
     var email : String {
-        let e = (json["email"].string)!
-        return e
+        if let e = json["email"].string {
+            return e
+        }
+        return ""
     }
     
     var fullname : String {
