@@ -516,6 +516,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -732,106 +734,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         loadingPanel?.hidden = false
         loading?.startAnimating()
         
-        // Log in and get permission from facebook
-        let fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            if (error != nil) { // Process error
-                self.loginFacebookCancelled("Terdapat kesalahan saat login Facebook")
-            } else if result.isCancelled { // User cancellation
-                self.loginFacebookCancelled("Login Facebook dibatalkan")
-            } else { // Success
-                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
-                    // Do work
-                    self.fbLogin()
-                } else {
-                    // Handle not getting permission
-                    self.loginFacebookCancelled("Login Facebook dibatalkan karena tidak dapat mengakses email")
-                }
-            }
-        })
+        LoginViewController.LoginWithFacebook(self, screenBeforeLogin: self.screenBeforeLogin)
     }
     
-    func fbLogin()
-    {
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
-            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                if ((error) != nil) {
-                    self.loginFacebookCancelled("Terdapat kesalahan saat mengakses data Facebook")
-                } else {
-                    if let resultDict = result as? NSDictionary {
-                        let userId =  resultDict["id"] as? String
-                        let name = resultDict["name"] as? String
-                        let email = resultDict["email"] as? String
-                        
-                        // userId & name is required
-                        if (userId != nil && name != nil) {
-                            let emailToSend : String = (email != nil) ? email! : ""
-                            let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
-                            let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                            
-                            println("result = \(result)")
-                            println("profilePictureUrl = \(profilePictureUrl)")
-                            println("accessToken = \(accessToken)")
-                            
-                            request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
-                                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
-                                    let json = JSON(res!)
-                                    let data = json["_data"]
-                                    // Save in core data
-                                    let m = UIApplication.appDelegate.managedObjectContext
-                                    var user : CDUser? = CDUser.getOne()
-                                    if (user == nil) {
-                                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                                    }
-                                    user!.id = data["_id"].stringValue
-                                    user!.username = data["username"].stringValue
-                                    user!.email = data["email"].stringValue
-                                    user!.fullname = data["fullname"].stringValue
-                                    
-                                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                                    let pr = data["profile"]
-                                    p.pict = pr["pict"].string!
-                                    
-                                    user!.profiles = p
-                                    UIApplication.appDelegate.saveContext()
-                                    
-                                    // Check if user have set his account
-                                    //self.checkProfileSetup(data["token"].string!)
-                                    LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: self.screenBeforeLogin)
-                                } else {
-                                    self.loginFacebookCancelled(nil)
-                                }
-                            }
-                        } else { // If there's no userId or name
-                            self.loginFacebookCancelled("Terdapat kesalahan data saat login Facebook")
-                        }
-                    } else {
-                        self.loginFacebookCancelled("Format data Facebook salah")
-                    }
-                }
-            })
-        } else {
-            self.loginFacebookCancelled("Terdapat kesalahan saat login Facebook, token tidak ditemukan")
-        }
-    }
-    
-    func loginFacebookCancelled(reason: String?) {
-        User.Logout()
-        
-        // Hide loading
-        self.loadingPanel?.hidden = true
-        self.loading?.stopAnimating()
-        self.loading?.hidden = true
-        
-        // Show alert if there's reason
-        if (reason != nil) {
-            Constant.showDialog("Login Facebook", message: reason!)
-        }
-    }
-    
-    // MARK: Twitter Login
+    // MARK: - Twitter Login
     
     @IBAction func loginTwitterPressed(sender: AnyObject) {
         // Show loading

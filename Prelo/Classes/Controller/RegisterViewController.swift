@@ -251,7 +251,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
-    // MARK: Facebook Login
+    // MARK: - Facebook Login
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
         // Show loading
@@ -261,7 +261,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         LoginViewController.LoginWithFacebook(self, screenBeforeLogin: self.screenBeforeLogin)
     }
     
-    // MARK: Twitter Login
+    // MARK: - Twitter Login
     
     @IBAction func loginTwitterPressed(sender: AnyObject) {
         // Show loading
@@ -271,7 +271,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         LoginViewController.LoginWithTwitter(self, screenBeforeLogin: self.screenBeforeLogin)
     }
     
-    // MARK: Path Login
+    // MARK: - Path Login
     
     @IBAction func loginPathPressed(sender: AnyObject) {
         // Show loading
