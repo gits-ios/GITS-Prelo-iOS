@@ -119,6 +119,10 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     @IBAction func verifikasiPressed(sender: UIButton) {
         if (fieldsVerified()) {
+            disableTextFields(NSNull)
+            btnVerifikasi.enabled = false
+            btnKirimUlang.enabled = false
+            
             if (!self.isReverification) {
                 // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
                 // But we need to set token temporarily, because APIUser.ResendVerificationSms need token
@@ -215,6 +219,9 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                     } else { // Gagal
                         Constant.showDialog("Warning", message: "Error verifying phone number")
                     }
+                } else {
+                    self.btnVerifikasi.enabled = true
+                    self.btnKirimUlang.enabled = true
                 }
             }
         }
@@ -256,6 +263,10 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     @IBAction func kirimUlangPressed(sender: UIButton) {
+        disableTextFields(NSNull)
+        btnVerifikasi.enabled = false
+        btnKirimUlang.enabled = false
+        
         if (!self.isReverification) {
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
             // Set token first, because APIUser.ResendVerificationSms need token
@@ -275,6 +286,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                     Constant.showDialog("Success", message: "SMS telah dikirim ulang")
                 }
             }
+            self.btnVerifikasi.enabled = true
+            self.btnKirimUlang.enabled = true
         }
     }
     
