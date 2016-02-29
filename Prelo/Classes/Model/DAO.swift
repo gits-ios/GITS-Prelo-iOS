@@ -161,13 +161,17 @@ class UserProfile : NSObject {
     }
     
     var id : String {
-        let i = (json["_id"].string)!
-        return i
+        if let i = json["_id"].string {
+            return i
+        }
+        return ""
     }
     
     var username : String {
-        let u = (json["username"].string)!
-        return u
+        if let u = json["username"].string {
+            return u
+        }
+        return ""
     }
     
     var email : String {
@@ -178,16 +182,17 @@ class UserProfile : NSObject {
     }
     
     var fullname : String {
-        let f = (json["fullname"].string)!
-        return f
+        if let f = json["fullname"].string {
+            return f
+        }
+        return ""
     }
     
     var profPictURL : NSURL? {
-        if let err = json["profile"]["pict"].error {
-            return nil
+        if let url = json["profile"]["pict"].string {
+            return NSURL(string: url)
         }
-        let url = json["profile"]["pict"].string!
-        return NSURL(string: url)
+        return nil
     }
     
     var phone : String? {
@@ -198,20 +203,18 @@ class UserProfile : NSObject {
         }
     }
     
-    var regionId : String? {
-        if (json["profile"]["region_id"] != nil) {
-            return json["profile"]["region_id"].string
-        } else {
-            return nil
+    var regionId : String {
+        if let r = json["profile"]["region_id"].string {
+            return r
         }
+        return ""
     }
     
-    var provinceId : String? {
-        if (json["profile"]["province_id"] != nil) {
-            return json["profile"]["province_id"].string
-        } else {
-            return nil
+    var provinceId : String {
+        if let p = json["profile"]["province_id"].string {
+            return p
         }
+        return ""
     }
     
     var gender : String? {

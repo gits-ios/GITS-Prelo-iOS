@@ -94,13 +94,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var userId : String = ""
     var userToken : String = ""
     var userEmail : String = ""
-    
     var isSocmedAccount : Bool!
     var loginMethod : String = "" // [Basic | Facebook | Twitter]
     var screenBeforeLogin : String = ""
-    
     var isMixpanelPageVisitSent : Bool = false
-    
     var isFromRegister : Bool!
     
     override func viewWillAppear(animated: Bool) {
@@ -508,29 +505,28 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         User.SetToken(nil)
                     }
                     
+                    let userProfileData = UserProfile.instance(data)
                     
-                    // Save in core data
-                    let m = UIApplication.appDelegate.managedObjectContext
-                    
-                    CDUser.deleteAll()
-                    let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                    user.id = data["_id"].string!
-                    user.username = data["username"].string!
-                    user.email = data["email"].string!
-                    user.fullname = data["fullname"].string!
-                    
-                    CDUserProfile.deleteAll()
-                    let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
-                    userProfile.regionID = self.selectedKabKotaID
-                    userProfile.provinceID = self.selectedProvinsiID
-                    userProfile.phone = userPhone!
-                    userProfile.gender = self.lblJenisKelamin.text!
-                    userProfile.pict = data["profile"]["pict"].string!
-                    user.profiles = userProfile
-                    // TODO: Simpan referral, deviceid di coredata
-                    
-                    CDUserOther.deleteAll()
-                    let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    // Mixpanel
+                    let sp = [
+                        "User ID" : userProfileData?.id,
+                        "Username" : userProfileData?.username,
+                        "Gender" : userProfileData?.gender,
+                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
+                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "Referral Code Used" : userReferral
+                    ]
+                    Mixpanel.sharedInstance().registerSuperProperties(sp)
+                    Mixpanel.sharedInstance().identify(userProfileData?.id)
+                    let p = [
+                        "User ID" : userProfileData?.id,
+                        "$username" : userProfileData?.username,
+                        "Gender" : userProfileData?.gender,
+                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
+                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "Referral Code Used" : userReferral
+                    ]
+                    Mixpanel.sharedInstance().people.set(p)
                     var shippingArr : [String] = []
                     var shippingArrName : [String] = []
                     for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
@@ -540,62 +536,25 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             shippingArrName.append(sName)
                         }
                     }
-                    userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
-                    // TODO: belum lengkap? simpan token socmed bila dari socmed
+                    var pt = [String : AnyObject]()
+                    pt["Shipping Options"] = shippingArrName
+                    pt["Phone"] = userProfileData?.phone
+                    Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
+                    let pt2 = [
+                        "Activation Screen" : "Setup Account"
+                    ]
+                    Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
                     
-                    // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
-                    // Di dalamnya akan memanggil MessagePool.start()
-                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-                    
-                    // Save data
-                    var saveErr : NSError? = nil
-                    if (!m!.save(&saveErr)) {
-                        println("Error while saving data")
-                    } else {
-                        println("Data saved")
-                        
-                        // Mixpanel
-                        let sp = [
-                            "User ID" : user.id,
-                            "Username" : user.username,
-                            "Gender" : userProfile.gender!,
-                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                            "Referral Code Used" : userReferral
-                        ]
-                        Mixpanel.sharedInstance().registerSuperProperties(sp)
-                        Mixpanel.sharedInstance().identify(user.id)
-                        let p = [
-                            "User ID" : user.id,
-                            "$username" : user.username,
-                            "Gender" : userProfile.gender!,
-                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                            "Referral Code Used" : userReferral
-                        ]
-                        Mixpanel.sharedInstance().people.set(p)
-                        let pt = [
-                            "Phone" : userProfile.phone!,
-                            "Shipping Options" : shippingArrName
-                        ]
-                        Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
-                        let pt2 = [
-                            "Activation Screen" : "Setup Account"
-                        ]
-                        Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
-                        
-                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
-                        phoneVerificationVC.userId = self.userId
-                        phoneVerificationVC.userToken = self.userToken
-                        phoneVerificationVC.userEmail = user.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
-                        phoneVerificationVC.isShowBackBtn = true
-                        phoneVerificationVC.loginMethod = self.loginMethod
-                        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                        
-                        // FOR TESTING (SKIP PHONE VERIFICATION)
-                        //self.dismissViewControllerAnimated(true, completion: nil)
-                    }
+                    let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+                    phoneVerificationVC.userId = self.userId
+                    phoneVerificationVC.userToken = self.userToken
+                    phoneVerificationVC.userEmail = (userProfileData != nil) ? userProfileData!.email : "" // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
+                    phoneVerificationVC.isShowBackBtn = false
+                    phoneVerificationVC.loginMethod = self.loginMethod
+                    phoneVerificationVC.noHpToVerify = userPhone!
+                    phoneVerificationVC.userProfileData = userProfileData
+                    self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 } else {
                     self.btnApply.enabled = true
                 }

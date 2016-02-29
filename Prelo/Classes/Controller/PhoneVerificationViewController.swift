@@ -8,6 +8,7 @@
 
 import Foundation
 import Crashlytics
+import CoreData
 
 protocol PhoneVerificationDelegate {
     func phoneVerified(newPhone : String)
@@ -30,8 +31,11 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     var userEmail : String = ""
     var isShowBackBtn : Bool = false
     var isReverification : Bool = false
-    var reverificationNoHP : String = ""
+    var noHpToVerify : String = ""
     var loginMethod : String = "" // [Basic | Facebook | Twitter]
+    var userProfileData : UserProfile?
+    
+    // MARK: - Init
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,19 +46,21 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         self.title = "Verifikasi Handphone"
         
         // Show phone number
-        if (self.isReverification) {
-            fldNoHp.text = self.reverificationNoHP
-        } else {
-            let userProfile : CDUserProfile = CDUserProfile.getOne()!
-            fldNoHp.text = userProfile.phone
-        }
+        fldNoHp.text = self.noHpToVerify
         
         // Field input is uppercase
         self.fieldKodeVerifikasi.autocapitalizationType = UITextAutocapitalizationType.AllCharacters
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        if (isShowBackBtn) {
+            super.viewDidLoad()
+        } else {
+            self.navigationItem.hidesBackButton = true
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed2:")
+            newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+            self.navigationItem.leftBarButtonItem = newBackButton
+        }
         
         self.fldNoHp.delegate = self
     }
@@ -83,6 +89,10 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         self.an_unsubscribeKeyboard()
     }
     
+    func backPressed2(sender: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func disableTextFields(sender : AnyObject)
     {
         fieldKodeVerifikasi?.resignFirstResponder()
@@ -97,6 +107,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         }
     }
     
+    // MARK: - Submit
+    
     func fieldsVerified() -> Bool {
         if (fieldKodeVerifikasi.text == "") {
             Constant.showDialog("Warning", message: "Kode verifikasi harus diisi, cek sms kamu")
@@ -109,7 +121,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         if (fieldsVerified()) {
             if (!self.isReverification) {
                 // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-                // Set token first, because APIUser.ResendVerificationSms need token
+                // But we need to set token temporarily, because APIUser.ResendVerificationSms need token
                 User.SetToken(self.userToken)
             }
             
@@ -130,22 +142,66 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 d.phoneVerified(self.fldNoHp.text!)
                             }
                         } else { // User is setting up new account
-                            // Set user to logged in
+                            if (self.userProfileData != nil) {
+                                // Save in core data
+                                let m = UIApplication.appDelegate.managedObjectContext
+                                CDUser.deleteAll()
+                                let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                user.id = self.userProfileData!.id
+                                user.email = self.userProfileData!.email
+                                user.fullname = self.userProfileData!.fullname
+                                user.username = self.userProfileData!.username
+                                
+                                CDUserProfile.deleteAll()
+                                let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                                user.profiles = userProfile
+                                userProfile.regionID = self.userProfileData!.regionId
+                                userProfile.provinceID = self.userProfileData!.provinceId
+                                userProfile.gender = self.userProfileData!.gender!
+                                userProfile.phone = self.fldNoHp.text!
+                                userProfile.pict = self.userProfileData!.profPictURL!.absoluteString!
+                                userProfile.postalCode = self.userProfileData!.postalCode
+                                userProfile.address = self.userProfileData!.address
+                                userProfile.desc = self.userProfileData!.desc
+                                
+                                CDUserOther.deleteAll()
+                                let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                                userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(self.userProfileData!.shippingIds!)
+                                userOther.lastLogin = (self.userProfileData!.lastLogin != nil) ? (self.userProfileData!.lastLogin!) : ""
+                                userOther.phoneCode = (self.userProfileData!.phoneCode != nil) ? (self.userProfileData!.phoneCode!) : ""
+                                userOther.phoneVerified = (self.userProfileData!.isPhoneVerified != nil) ? (self.userProfileData!.isPhoneVerified!) : false
+                                userOther.registerTime = (self.userProfileData!.registerTime != nil) ? (self.userProfileData!.registerTime!) : ""
+                                userOther.fbAccessToken = self.userProfileData!.fbAccessToken
+                                userOther.fbID = self.userProfileData!.fbId
+                                userOther.fbUsername = self.userProfileData!.fbUsername
+                                userOther.instagramAccessToken = self.userProfileData!.instagramAccessToken
+                                userOther.instagramID = self.userProfileData!.instagramId
+                                userOther.instagramUsername = self.userProfileData!.instagramUsername
+                                userOther.twitterAccessToken = self.userProfileData!.twitterAccessToken
+                                userOther.twitterID = self.userProfileData!.twitterId
+                                userOther.twitterUsername = self.userProfileData!.twitterUsername
+                                userOther.twitterTokenSecret = self.userProfileData!.twitterTokenSecret
+                                userOther.pathAccessToken = self.userProfileData!.pathAccessToken
+                                userOther.pathID = self.userProfileData!.pathId
+                                userOther.pathUsername = self.userProfileData!.pathUsername
+                                userOther.emailVerified = ((self.userProfileData!.isEmailVerified != nil) && (self.userProfileData!.isEmailVerified! == true)) ? 1 : 0
+                                // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
+                                
+                                UIApplication.appDelegate.saveContext()
+                            }
+                            
+                            // Save in NSUserDefaults
                             User.StoreUser(self.userId, token: self.userToken, email: self.userEmail)
+                            
+                            // Tell app that the user has logged in
                             if let d = self.userRelatedDelegate
                             {
                                 d.userLoggedIn!()
                             }
                             
-                            /* TO BE DELETED, dipindah ke ProfileSetupVC
-                            if let c = CDUser.getOne()
-                            {
-                            Mixpanel.sharedInstance().identify(c.id)
-                            Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-                            } else {
-                            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-                            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-                            }*/
+                            // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate & KumangTabBarVC)
+                            // Di dalamnya akan memanggil MessagePool.start()
+                            NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                             
                             // Set crashlytics user information
                             let user = CDUser.getOne()!
@@ -216,13 +272,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 let json = JSON(res!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
-                    Constant.showDialog("Success", message: "SMS telah dikirim ulang, kode verifikasi yang berlaku ada di SMS yang dikirim terakhir")
+                    Constant.showDialog("Success", message: "SMS telah dikirim ulang")
                 }
             }
         }
     }
     
     // MARK: - UITextField Delegate
+    
     func textFieldDidEndEditing(textField: UITextField) {
         Constant.showDialog("Kirim Ulang", message: "Tekan 'Kirim Ulang' untuk mengirim sms kembali")
     }

@@ -849,8 +849,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             userProfile.pict = "\(profile.profPictURL!)"
         }
         userProfile.postalCode = profile.postalCode
-        userProfile.regionID = profile.regionId!
-        userProfile.provinceID = profile.provinceId!
+        userProfile.regionID = profile.regionId
+        userProfile.provinceID = profile.provinceId
         user.profiles = userProfile
         
         // Save data

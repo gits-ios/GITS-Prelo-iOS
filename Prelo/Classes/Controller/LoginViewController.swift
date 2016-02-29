@@ -91,7 +91,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
-    // Check if user have set his account in profile setup page
+    // Check if user have set his account in ProfileSetupVC and PhoneVerificationVC
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
         let vcLogin = sender as? LoginViewController
@@ -120,17 +120,20 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     NSUserDefaults.standardUserDefaults().synchronize()
                 }
                 
-                if (userProfileData!.email != "" &&
+                if (userProfileData != nil &&
+                    userProfileData!.email != "" &&
                     userProfileData!.gender != nil &&
                     userProfileData!.phone != nil &&
-                    userProfileData!.provinceId != nil &&
-                    userProfileData!.regionId != nil &&
-                    userProfileData!.shippingIds != nil) {
+                    userProfileData!.provinceId != "" &&
+                    userProfileData!.regionId != "" &&
+                    userProfileData!.shippingIds != nil &&
+                    userProfileData!.isPhoneVerified != nil &&
+                    userProfileData!.isPhoneVerified! == true) {
                         isProfileSet = true
                 }
                 
                 if (isProfileSet) {
-                    // Set in core data
+                    // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
                     CDUser.deleteAll()
                     let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
@@ -142,8 +145,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     CDUserProfile.deleteAll()
                     let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
                     user.profiles = userProfile
-                    userProfile.regionID = userProfileData!.regionId!
-                    userProfile.provinceID = userProfileData!.provinceId!
+                    userProfile.regionID = userProfileData!.regionId
+                    userProfile.provinceID = userProfileData!.provinceId
                     userProfile.gender = userProfileData!.gender!
                     userProfile.phone = userProfileData!.phone!
                     userProfile.pict = userProfileData!.profPictURL!.absoluteString!
@@ -174,19 +177,22 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userOther.emailVerified = ((userProfileData!.isEmailVerified != nil) && (userProfileData!.isEmailVerified! == true)) ? 1 : 0
                     // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                     
+                    UIApplication.appDelegate.saveContext()
+                    
                     // Refresh notifications
                     NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.NotificationSaved)
                     NotificationPageViewController.refreshNotifications()
                     
-                    // Tell app that the user has logged in
                     // Save in NSUserDefaults
                     User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)
+                    
+                    // Tell app that the user has logged in
                     if let d = sender.userRelatedDelegate
                     {
                         d.userLoggedIn!()
                     }
                     
-                    // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
+                    // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate & KumangTabBarVC)
                     // Di dalamnya akan memanggil MessagePool.start()
                     NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                     
@@ -240,36 +246,39 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 
                 // Next screen based on isProfileSet
                 if (isProfileSet) {
-                    // If user haven't verified phone number, goto PhoneVerificationVC
-                    if (userProfileData?.isPhoneVerified != nil && userProfileData?.isPhoneVerified! == true) {
-                        // Send deviceRegId before dismiss
-                        LoginViewController.SendDeviceRegId(onFinish: sender.dismiss())
-                    } else {
-                        // Delete token because user is considered not logged in
-                        User.SetToken(nil)
-                        
-                        // Goto PhoneVerificationVC
-                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                        phoneVerificationVC.userRelatedDelegate = sender.userRelatedDelegate
-                        phoneVerificationVC.userId = userProfileData!.id
-                        phoneVerificationVC.userToken = token
-                        phoneVerificationVC.userEmail = userProfileData!.email
-                        phoneVerificationVC.isShowBackBtn = false
-                        phoneVerificationVC.loginMethod = loginMethod
-                        sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                    }
+                    // Send deviceRegId, then dismiss
+                    LoginViewController.SendDeviceRegId(onFinish: sender.dismiss())
                 } else {
-                    // Go to profile setup
-                    let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
-                    profileSetupVC.userRelatedDelegate = sender.userRelatedDelegate
-                    profileSetupVC.userId = userProfileData!.id
-                    profileSetupVC.userToken = token
-                    profileSetupVC.userEmail = userProfileData!.email
-                    profileSetupVC.isSocmedAccount = isSocmedAccount
-                    profileSetupVC.loginMethod = loginMethod
-                    profileSetupVC.screenBeforeLogin = screenBeforeLogin
-                    profileSetupVC.isFromRegister = false
-                    sender.navigationController?.pushViewController(profileSetupVC, animated: true)
+                    // Go to profile setup or phone verification
+                    if (userProfileData!.email != "" &&
+                        userProfileData!.gender != nil &&
+                        userProfileData!.phone != nil &&
+                        userProfileData!.provinceId != "" &&
+                        userProfileData!.regionId != "" &&
+                        userProfileData!.shippingIds != nil) { // User has finished profile setup
+                            // Goto PhoneVerificationVC
+                            let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            phoneVerificationVC.userRelatedDelegate = sender.userRelatedDelegate
+                            phoneVerificationVC.userId = userProfileData!.id
+                            phoneVerificationVC.userToken = token
+                            phoneVerificationVC.userEmail = userProfileData!.email
+                            phoneVerificationVC.isShowBackBtn = false
+                            phoneVerificationVC.loginMethod = loginMethod
+                            phoneVerificationVC.userProfileData = userProfileData
+                            phoneVerificationVC.noHpToVerify = userProfileData!.phone!
+                            sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
+                    } else { // User hasn't finished profile setup
+                        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+                        profileSetupVC.userRelatedDelegate = sender.userRelatedDelegate
+                        profileSetupVC.userId = userProfileData!.id
+                        profileSetupVC.userToken = token
+                        profileSetupVC.userEmail = userProfileData!.email
+                        profileSetupVC.isSocmedAccount = isSocmedAccount
+                        profileSetupVC.loginMethod = loginMethod
+                        profileSetupVC.screenBeforeLogin = screenBeforeLogin
+                        profileSetupVC.isFromRegister = false
+                        sender.navigationController?.pushViewController(profileSetupVC, animated: true)
+                    }
                 }
             } else {
                 // Delete token because user is considered not logged in
