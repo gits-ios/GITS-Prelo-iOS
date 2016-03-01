@@ -395,12 +395,16 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func emailPressed(sender: AnyObject) {
         let composer = MFMailComposeViewController()
-        composer.setMessageBody(shareText, isHTML: false)
-        composer.mailComposeDelegate = self
-        
-        self.presentViewController(composer, animated: true, completion: nil)
-        
-        self.mixpanelSharedReferral("Email", username: "")
+        if (MFMailComposeViewController.canSendMail()) {
+            composer.setMessageBody(shareText, isHTML: false)
+            composer.mailComposeDelegate = self
+            
+            self.presentViewController(composer, animated: true, completion: nil)
+            
+            self.mixpanelSharedReferral("Email", username: "")
+        } else {
+            Constant.showDialog("No Active Email", message: "Untuk dapat membagi kode referral melalui email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+        }
     }
     
     @IBAction func morePressed(sender: AnyObject) {

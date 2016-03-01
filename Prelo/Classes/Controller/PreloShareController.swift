@@ -373,12 +373,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             }
             message = "Hai!\n\nKamu bisa dapatkan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!).\nInfo selengkapnya mengenai kondisi barang bisa kamu cari tahu di \(item!.permalink!).\nNikmati mudahnya jual-beli barang bekas berkualitas dengan aman di Prelo. Dapatkan juga beragam keuntungan dengan aplikasi Prelo di ponsel kamu.\nDownload Prelo sekarang di http://prelo.co.id\nCheers!"
             let composer = MFMailComposeViewController()
-            composer.setMessageBody(message, isHTML: false)
-            composer.mailComposeDelegate = self
-            
-            self.presentViewController(composer, animated: true, completion: nil)
-            
-            self.mixpanelSharedProduct("Email", username: "")
+            if (MFMailComposeViewController.canSendMail()) {
+                composer.setMessageBody(message, isHTML: false)
+                composer.mailComposeDelegate = self
+                
+                self.presentViewController(composer, animated: true, completion: nil)
+                
+                self.mixpanelSharedProduct("Email", username: "")
+            } else {
+                Constant.showDialog("No Active Email", message: "Untuk dapat membagi produk melalui email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            }
         }
         
         if (a.title.lowercaseString == "line")

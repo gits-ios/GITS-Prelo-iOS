@@ -90,12 +90,16 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             } else if (tag == 2) { // Facebook
                 if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
                     let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-                    let url = NSURL(string:self.linkToShare)
-                    composer.addURL(url!)
-                    let imgUrl = NSURL(string: self.productImg)
-                    var imgData = NSData(contentsOfURL: imgUrl!)
-                    var img = UIImage(data: imgData!)
-                    composer.addImage(img)
+                    if let url = NSURL(string:self.linkToShare) {
+                        composer.addURL(url)
+                    }
+                    if let imgUrl = NSURL(string: self.productImg) {
+                        if let imgData = NSData(contentsOfURL: imgUrl) {
+                            if let img = UIImage(data: imgData) {
+                                composer.addImage(img)
+                            }
+                        }
+                    }
                     composer.setInitialText("Temukan barang bekas berkualitas-ku, download aplikasinya sekarang juga di http://prelo.co.id #PreloID")
                     composer.completionHandler = { result -> Void in
                         var getResult = result as SLComposeViewControllerResult
@@ -117,12 +121,16 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             } else if (tag == 3) { // Twitter
                 if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
                     let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-                    let url = NSURL(string:self.linkToShare)
-                    composer.addURL(url!)
-                    let imgUrl = NSURL(string: self.productImg)
-                    var imgData = NSData(contentsOfURL: imgUrl!)
-                    var img = UIImage(data: imgData!)
-                    composer.addImage(img)
+                    if let url = NSURL(string:self.linkToShare) {
+                        composer.addURL(url)
+                    }
+                    if let imgUrl = NSURL(string: self.productImg) {
+                        if let imgData = NSData(contentsOfURL: imgUrl) {
+                            if let img = UIImage(data: imgData) {
+                                composer.addImage(img)
+                            }
+                        }
+                    }
                     composer.setInitialText(self.textToShare2)
                     composer.completionHandler = { result -> Void in
                         var getResult = result as SLComposeViewControllerResult

@@ -91,9 +91,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
         
-        if ((self.navigationController?.navigationBarHidden)! == true)
-        {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        if (self.navigationController != nil) {
+            if ((self.navigationController?.navigationBarHidden)! == true)
+            {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            }
         }
         
         if (UIApplication.sharedApplication().statusBarHidden)
@@ -250,10 +252,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             // report
             let m = MFMailComposeViewController()
-            m.setToRecipients(["contact@prelo.id"])
-            m.setSubject("Product Report [" + (detail?.productID)! + "]")
-            m.mailComposeDelegate = self
-            self.presentViewController(m, animated: true, completion: nil)
+            if (MFMailComposeViewController.canSendMail()) {
+                m.setToRecipients(["contact@prelo.id"])
+                m.setSubject("Product Report [" + (detail?.productID)! + "]")
+                m.mailComposeDelegate = self
+                self.presentViewController(m, animated: true, completion: nil)
+            } else {
+                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Report, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            }
         }
     }
     

@@ -27,7 +27,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         self.title = "Pilih Kategori"
 
         // Do any additional setup after loading the view.
-        self.setupData()
+        //self.setupData()
         self.getCategory()
     }
     

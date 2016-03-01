@@ -233,9 +233,21 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 if (appDataSaved == true) {
                     loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
                     if (UIApplication.appDelegate.isLoadAppDataSuccess) {
-                        Constant.showDialog("Load App Data", message: "Load App Data berhasil")
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let a = UIAlertView()
+                            a.title = "Load App Data"
+                            a.message = "Load App Data berhasil"
+                            a.addButtonWithTitle("OK")
+                            a.show()
+                        })
                     } else {
-                        Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let a = UIAlertView()
+                            a.title = "Load App Data"
+                            a.message = "Oops, terjadi kesalahan saat Load App Data"
+                            a.addButtonWithTitle("OK")
+                            a.show()
+                        })
                     }
                 }
             }

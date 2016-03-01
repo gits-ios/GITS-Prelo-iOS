@@ -372,7 +372,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     }
                 } else {
                     // Handle not getting permission
-                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena tidak dapat mengakses email")
+                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena tidak dapat mengakses profil")
                 }
             }
         })

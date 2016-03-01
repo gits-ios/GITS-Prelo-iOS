@@ -203,11 +203,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
             
             let m = MFMailComposeViewController()
-            m.setToRecipients(["contact@prelo.id"])
-            m.setSubject("Request Barang")
-            m.setMessageBody(msgBody, isHTML: true)
-            m.mailComposeDelegate = self
-            self.presentViewController(m, animated: true, completion: nil)
+            if (MFMailComposeViewController.canSendMail()) {
+                m.setToRecipients(["contact@prelo.id"])
+                m.setSubject("Request Barang")
+                m.setMessageBody(msgBody, isHTML: true)
+                m.mailComposeDelegate = self
+                self.presentViewController(m, animated: true, completion: nil)
+            } else {
+                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Request Barang, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            }
         }
         
         if (indexPath.row == 5) // Hubungi Prelo

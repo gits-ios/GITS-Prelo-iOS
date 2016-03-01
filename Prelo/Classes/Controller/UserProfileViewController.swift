@@ -371,19 +371,17 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         if (!isLoggedInFacebook) { // Then login
             // Log in and get permission from facebook
             let fbLoginManager = FBSDKLoginManager()
-            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            fbLoginManager.logInWithReadPermissions(["public_profile"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
                 if (error != nil) { // Process error
-                    println("Process error")
-                    User.LogoutFacebook()
+                    self.LoginFacebookCancelled("Terdapat kesalahan saat login Facebook")
                 } else if result.isCancelled { // User cancellation
-                    println("User cancel")
-                    User.LogoutFacebook()
+                    self.LoginFacebookCancelled("Login Facebook dibatalkan")
                 } else { // Success
-                    if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
+                    if result.grantedPermissions.contains("public_profile") {
                         // Do work
                         self.fbLogin()
                     } else {
-                        // Handle not getting permission
+                        self.LoginFacebookCancelled("Login Facebook dibatalkan karena tidak dapat mengakses profil")
                     }
                 }
             })
@@ -405,40 +403,62 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 if ((error) != nil) {
-                    // Handle error
-                    println("Error fetching facebook profile")
+                    self.LoginFacebookCancelled("Terdapat kesalahan saat mengakses data Facebook")
                 } else {
-                    // Handle Profile Photo URL String
-                    let userId =  result["id"] as! String
-                    let name = result["name"] as! String
-                    let email = result["email"] as! String
-                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                    
-                    println("result = \(result)")
-                    println("accessToken = \(accessToken)")
-                    
-                    request(APISocial.PostFacebookData(id: userId, username: name, token: accessToken)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
-                            let json = JSON(res!)
-                            let data = json["_data"].bool
-                            
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.fbID = userId
-                            userOther.fbUsername = name
-                            userOther.fbAccessToken = accessToken
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Adjust fb button
-                            self.lblLoginFacebook.text = name
-                            self.isLoggedInFacebook = true
-                            
-                            // Hide loading
-                            self.hideLoading()
+                    if let resultDict = result as? NSDictionary {
+                        // Handle Profile Photo URL String
+                        let userId =  result["id"] as? String
+                        let name = result["name"] as? String
+                        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                        
+                        println("result = \(result)")
+                        println("accessToken = \(accessToken)")
+                        
+                        // userId & name is required
+                        if (userId != nil && name != nil) {
+                            request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { req, resp, res, err in
+                                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
+                                    let json = JSON(res!)
+                                    let data = json["_data"].bool
+                                    
+                                    // Save in core data
+                                    let userOther : CDUserOther = CDUserOther.getOne()!
+                                    userOther.fbID = userId
+                                    userOther.fbUsername = name
+                                    userOther.fbAccessToken = accessToken
+                                    UIApplication.appDelegate.saveContext()
+                                    
+                                    // Adjust fb button
+                                    self.lblLoginFacebook.text = name
+                                    self.isLoggedInFacebook = true
+                                    
+                                    // Hide loading
+                                    self.hideLoading()
+                                } else {
+                                    self.LoginFacebookCancelled(nil)
+                                }
+                            }
+                        } else {
+                            self.LoginFacebookCancelled("Terdapat kesalahan data saat login Facebook")
                         }
+                    } else {
+                        self.LoginFacebookCancelled("Format data Facebook salah")
                     }
                 }
             })
+        } else {
+            self.LoginFacebookCancelled("Terdapat kesalahan saat login Facebook, token tidak ditemukan")
+        }
+    }
+    
+    func LoginFacebookCancelled(reason : String?) {
+        User.LogoutFacebook()
+        
+        self.hideLoading()
+        
+        // Show alert if there's reason
+        if (reason != nil) {
+            Constant.showDialog("Login Facebook", message: reason!)
         }
     }
     
@@ -477,6 +497,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             self.isLoggedInTwitter = true
                             
                             // Hide loading
+                            self.hideLoading()
+                        } else {
                             self.hideLoading()
                         }
                     }
