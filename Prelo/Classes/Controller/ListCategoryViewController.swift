@@ -338,6 +338,12 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func centerCategoryView(index : Int)
     {
+        // crashfix for : http://crashes.to/s/04a5d882ec0 (maybe)
+        if (index < 0 || index >= categoryNames.count)
+        {
+            return
+        }
+        
         let v = categoryNames[index]
         
         let p = v.frame.origin

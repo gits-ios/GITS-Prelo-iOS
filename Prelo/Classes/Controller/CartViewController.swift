@@ -134,8 +134,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if let u = CDUser.getOne()
         {
-            pID = u.profiles.provinceID
-            rID = u.profiles.regionID
+            // crashfix http://crashes.to/s/e4ac616802e maybe
+            if (u.profiles != nil)
+            {
+                pID = u.profiles.provinceID
+                rID = u.profiles.regionID
+            } else
+            {
+                
+            }
             
             if let i = CDProvince.getProvinceNameWithID(pID)
             {
