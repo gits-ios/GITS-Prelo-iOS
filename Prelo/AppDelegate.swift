@@ -652,6 +652,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             println("Updating categories..")
                             if (CDCategory.deleteAll(moc)) {
                                 if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                                    var categoryLv1Count = metadata["categories"][0]["children"].count
+                                    // Wait until core data saving is actually finished
+                                    var wait = true
+                                    var waitCount = Int.max
+                                    while (wait) {
+                                        if (CDCategory.getCategoriesInLevel(1).count >= categoryLv1Count) {
+                                            wait = false
+                                        }
+                                        waitCount--
+                                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                            wait = false
+                                        }
+                                    }
+                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
+                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
+                                    
                                     self.increaseLoadAppDataProgressBy(progressPortion)
                                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
@@ -679,10 +695,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             println("Updating category sizes..")
                             if (CDCategorySize.deleteAll(moc)) {
                                 if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                                    // opCategorySizes dibuat menunggu opCategories beres, terus ngeset CategorySaved dilakukan di bloknya opCategorySizes.. kenapa? karena entah kenapa kalo CategorySaved  ditaro di bloknya opCategories, ada kejadian dimana CategorySaved udah true tapi belum kesave beneran di core data waktu diakses oleh CategoryPreferencesVC.. nah kalo ditaro di bloknya opCategorySizes yang nunggu opCategories, diharapkan udah kesave beneran
-                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
-                                    
                                     self.increaseLoadAppDataProgressBy(progressPortion)
                                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
@@ -694,9 +706,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     })
                     queue.addOperation(opCategorySizes)
                     opFinish.addDependency(opCategorySizes)
-                    if (opCategories != nil) {
-                        opCategorySizes.addDependency(opCategories!)
-                    }
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
