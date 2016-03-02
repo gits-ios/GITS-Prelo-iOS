@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var isLoadAppDataSuccess : Bool = true
     
     var loadAppDataDelegate : LoadAppDataDelegate?
+    
+    var redirAlert : UIAlertView?
 
     // MARK: - Application delegate functions
     
@@ -136,6 +138,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 self.redirectConfirmPayment(targetId!)
                             }
                         } else if (tipeLowercase == "notification") {
+                            redirAlert = UIAlertView()
+                            redirAlert!.title = "Redirecting..."
+                            redirAlert!.message = "Harap tunggu beberapa saat"
+                            redirAlert!.show()
                             self.redirectNotification()
                         }
                     }
@@ -519,10 +525,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectNotification() {
-        var rootViewController : UINavigationController?
-        
-        // Tunggu sampai UINavigationController terbentuk, dalam background process
+        // Tunggu sampai notif tersimpan dan UINavigationController terbentuk, dalam background process
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var rootViewController : UINavigationController?
+            
             var wait = true
             var waitCount = Int.max
             var notifSaved : Bool?
