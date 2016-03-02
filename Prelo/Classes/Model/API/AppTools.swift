@@ -148,6 +148,7 @@ class OrderStatus : NSObject
     static let TidakDikirimSeller = "Tidak Dikirim Seller"
     static let Diterima = "Diterima"
     static let DibatalkanSeller = "Dibatalkan Seller"
+    static let Selesai = "Selesai"
 }
 
 class NotificationType : NSObject

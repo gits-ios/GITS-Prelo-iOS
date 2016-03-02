@@ -152,7 +152,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
         pView.progress = 0
         pView.backgroundColor = Theme.GrayLight
-        pView.progressTintColor = Theme.ThemeOrage
+        pView.progressTintColor = Theme.ThemeOrange
         a.setValue(pView, forKey: "accessoryView")
         a.title = "Reloading App Data..."
         a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"

@@ -31,7 +31,7 @@ class TransactionListCell : UITableViewCell {
         lblCommentCount.text = "0"
         lblLoveCount.text = "0"
         lblOrderStatus.text = "-"
-        lblOrderStatus.textColor = Theme.ThemeOrage
+        lblOrderStatus.textColor = Theme.ThemeOrange
         lblOrderTime.text = "-"
     }
     
@@ -53,7 +53,7 @@ class TransactionListCell : UITableViewCell {
         
         // Fix order status text color
         let orderStatusText = userPurchase.progressText
-        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
             lblOrderStatus.textColor == UIColor.redColor()
@@ -80,7 +80,7 @@ class TransactionListCell : UITableViewCell {
         
         // Fix order status text color
         let orderStatusText = userPurchase.progressText
-        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
             lblOrderStatus.textColor == UIColor.redColor()

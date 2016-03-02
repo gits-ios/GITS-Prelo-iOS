@@ -171,7 +171,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                     self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
                     self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
                     self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
-                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrage
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
                     self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
                     self.loadAppDataAlert!.title = "Loading App Data..."
                     self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
@@ -214,7 +214,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                     self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
                     self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
                     self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
-                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrage
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
                     self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
                     self.loadAppDataAlert!.title = "Loading App Data..."
                     self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"

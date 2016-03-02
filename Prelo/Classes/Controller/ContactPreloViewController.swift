@@ -87,8 +87,8 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     
     @IBAction func line(sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
-        putToPasteBoard("prelo_id")
+        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : @prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
+        putToPasteBoard("@prelo_id")
         self.batal(nil)
     }
 

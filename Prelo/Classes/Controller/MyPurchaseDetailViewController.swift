@@ -261,7 +261,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         consWidthOrderStatus.constant = orderStatusFitSize.width
         
         // Fix order status text color
-        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
             lblOrderStatus.textColor == UIColor.redColor()
@@ -314,7 +314,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             p = [true, false, true, false, true, true, true, true, false, true]
         } else if (orderStatusText == OrderStatus.PembayaranPending) {
             p = [true, true, false, false, false, false, false, false, false, true]
-        } else if (orderStatusText == OrderStatus.Direview) {
+        } else if (orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) {
             p = [true, false, true, false, true, true, true, false, true, true]
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller) {
             p = [true, true, false, false, false, false, false, false, false, true]

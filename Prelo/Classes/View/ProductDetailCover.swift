@@ -51,13 +51,15 @@ class ProductDetailCover: UIView {
         }
         
         if (status != nil) {
+            let screenSize: CGRect = UIScreen.mainScreen().bounds
+            let screenWidth = screenSize.width
             if (status == 2) { // under review
                 let underReviewImg = UIImageView(image: UIImage(named: "banner_review.png"))
-                underReviewImg.frame = CGRect(x: 170, y: 0, width: 150, height: 149)
+                underReviewImg.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)
                 self.addSubview(underReviewImg)
             } else if (status == 4) { // sold
                 let soldImg = UIImageView(image: UIImage(named: "banner_sold.png"))
-                soldImg.frame = CGRect(x: 170, y: 0, width: 150, height: 148)
+                soldImg.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
                 self.addSubview(soldImg)
             }
         }
