@@ -295,45 +295,46 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         if let price = json["_data"]["bonus_available"].int?.asPrice
                         {
                             var totalOngkir = 0
-                            for i in 0...self.products.count-1
-                            {
-                                let cp = self.products[i]
-                                
-                                let json = self.arrayItem[i]
-                                if let free = json["free_ongkir"].bool
+                            if (self.products.count > 0) {
+                                for i in 0...self.products.count-1
                                 {
-                                    if (free)
+                                    let cp = self.products[i]
+                                    
+                                    let json = self.arrayItem[i]
+                                    if let free = json["free_ongkir"].bool
                                     {
-                                        continue
-                                    }
-                                }
-                                
-                                if let arr = json["shipping_packages"].array
-                                {
-                                    if (arr.count > 0)
-                                    {
-                                        var sh = arr[0]
-                                        if (cp.packageId != "")
+                                        if (free)
                                         {
-                                            for x in 0...arr.count-1
+                                            continue
+                                        }
+                                    }
+                                    
+                                    if let arr = json["shipping_packages"].array
+                                    {
+                                        if (arr.count > 0)
+                                        {
+                                            var sh = arr[0]
+                                            if (cp.packageId != "")
                                             {
-                                                let shipping = arr[x]
-                                                if let id = shipping["_id"].string
+                                                for x in 0...arr.count-1
                                                 {
-                                                    if (id == cp.packageId)
+                                                    let shipping = arr[x]
+                                                    if let id = shipping["_id"].string
                                                     {
-                                                        sh = shipping
+                                                        if (id == cp.packageId)
+                                                        {
+                                                            sh = shipping
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                        if let price = sh["price"].int
-                                        {
-                                            totalOngkir += price
+                                            if let price = sh["price"].int
+                                            {
+                                                totalOngkir += price
+                                            }
                                         }
                                     }
                                 }
-                                
                             }
                             
                             let preloBonus = json["_data"]["bonus_available"].intValue
