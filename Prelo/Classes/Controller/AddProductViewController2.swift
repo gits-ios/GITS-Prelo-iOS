@@ -143,6 +143,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if let ongkir = editProduct?.json["_data"]["free_ongkir"].int
             {
+                freeOngkir = (ongkir == 1) ? 1 : 0
                 let index = (ongkir == 1) ? 0 : 1
                 selectOngkirByIndex(index)
             }
