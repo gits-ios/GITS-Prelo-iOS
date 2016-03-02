@@ -212,6 +212,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
         NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
         
+        // Remove app badge if any
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -320,6 +323,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
+        
+        // Remove app badge if any
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
     
     func applicationWillTerminate(application: UIApplication) {
