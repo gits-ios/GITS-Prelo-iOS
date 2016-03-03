@@ -669,7 +669,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         var product = (obj?.json)!["_data"]
         
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-16.0)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-16.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool
