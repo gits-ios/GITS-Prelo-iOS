@@ -74,17 +74,21 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
     @IBAction func email(sender : UIView)
     {
         let composer = MFMailComposeViewController()
-        composer.mailComposeDelegate = self
-        composer.setToRecipients(["contact@prelo.co.id"])
-        self.presentViewController(composer, animated: true, completion: nil)
+        if (MFMailComposeViewController.canSendMail()) {
+            composer.mailComposeDelegate = self
+            composer.setToRecipients(["contact@prelo.co.id"])
+            self.presentViewController(composer, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("No Active Email", message: "Untuk dapat menghubungi Prelo via email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+        }
         
 //        self.batal(nil)
     }
     
     @IBAction func line(sender : UIView)
     {
-        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
-        putToPasteBoard("prelo_id")
+        UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : @prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
+        putToPasteBoard("@prelo_id")
         self.batal(nil)
     }
 

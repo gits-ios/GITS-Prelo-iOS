@@ -15,6 +15,7 @@ import MessageUI
 protocol ProductCellDelegate
 {
     func cellTappedCategory(categoryName : String, categoryID : String)
+    func cellTappedBrand(brandId : String, brandName : String)
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -32,6 +33,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnActivate : UIButton!
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
+    @IBOutlet var vwCoachmark: UIView!
     
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
@@ -89,9 +91,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
         
-        if ((self.navigationController?.navigationBarHidden)! == true)
-        {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        if (self.navigationController != nil) {
+            if ((self.navigationController?.navigationBarHidden)! == true)
+            {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            }
         }
         
         if (UIApplication.sharedApplication().statusBarHidden)
@@ -248,10 +252,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             // report
             let m = MFMailComposeViewController()
-            m.setToRecipients(["contact@prelo.id"])
-            m.setSubject("Product Report [" + (detail?.productID)! + "]")
-            m.mailComposeDelegate = self
-            self.presentViewController(m, animated: true, completion: nil)
+            if (MFMailComposeViewController.canSendMail()) {
+                m.setToRecipients(["contact@prelo.id"])
+                m.setSubject("Product Report [" + (detail?.productID)! + "]")
+                m.mailComposeDelegate = self
+                self.presentViewController(m, animated: true, completion: nil)
+            } else {
+                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Report, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            }
         }
     }
     
@@ -382,6 +390,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
         self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+        if (coachmarkDone != true) {
+            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+            vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+            vwCoachmark.hidden = false
+        }
     }
 
     @IBAction func dismiss(sender: AnyObject)
@@ -510,6 +525,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.navigationController?.pushViewController(l, animated: true)
     }
     
+    func cellTappedBrand(brandId: String, brandName: String) {
+        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        l.searchMode = true
+        l.searchBrand = true
+        l.searchBrandId = brandId
+        l.searchKey = brandName
+        self.navigationController?.pushViewController(l, animated: true)
+    }
+    
     @IBAction func addToCart(sender: UIButton) {
         if ((detail?.isMyProduct)! == true)
         {
@@ -575,6 +599,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func userLoggedOut() {
         
+    }
+    
+    // MARK: - Coachmark
+    
+    @IBAction func coachmarkTapped(sender: AnyObject) {
+        self.vwCoachmark.hidden = true
     }
     
     // MARK: - If product is bought
@@ -931,19 +961,20 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
 {
     @IBOutlet var captionDesc : UILabel?
     @IBOutlet var captionDate : UILabel?
-    @IBOutlet var captionMerk : UILabel?
     @IBOutlet var captionSize : UILabel?
     @IBOutlet var captionCondition : UILabel?
     @IBOutlet var captionFrom : UILabel?
     @IBOutlet var captionConditionDesc : UILabel?
     @IBOutlet var captionAlasanJual : UILabel?
     
+    @IBOutlet var captionMerk : ZSWTappableLabel?
     @IBOutlet var captionCategory : ZSWTappableLabel?
     
     var cellDelegate : ProductCellDelegate?
     
     override func awakeFromNib() {
         captionCategory?.tapDelegate = self
+        captionMerk?.tapDelegate = self
     }
     
     static func heightFor(obj : ProductDetail?)->CGFloat
@@ -1029,7 +1060,16 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         if let merk = product["brand"].string
         {
-            captionMerk?.text = merk
+            let p = [
+                "brand_id":product["brand_id"].stringValue,
+                "brand":product["brand"].stringValue,
+                "range":NSStringFromRange(NSMakeRange(0, merk.length())),
+                ZSWTappableLabelTappableRegionAttributeName: Int(true),
+                ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
+                ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
+                NSForegroundColorAttributeName : Theme.PrimaryColorDark
+            ]
+            captionMerk?.attributedText = NSAttributedString(string: merk, attributes: p)
         } else {
             captionMerk?.text = "Unknown"
         }
@@ -1099,12 +1139,17 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {
-//        println(attributes)
+        //println(attributes)
         
         if (cellDelegate != nil) {
-            let name = attributes["category_name"] as! String
-            let id = attributes["category_id"] as! String
-            cellDelegate?.cellTappedCategory(name, categoryID: id)
+            if let brandName = attributes["brand"] as? String { // Brand clicked
+                let brandId = attributes["brand_id"] as! String
+                cellDelegate!.cellTappedBrand(brandId, brandName: brandName)
+            } else {
+                let name = attributes["category_name"] as! String
+                let id = attributes["category_id"] as! String
+                cellDelegate!.cellTappedCategory(name, categoryID: id)
+            }
         }
         
     }

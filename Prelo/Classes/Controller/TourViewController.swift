@@ -92,7 +92,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         {
             if (!NSUserDefaults.isCategorySaved()) {
                 // Wait until category is saved
-                Constant.showDialog("Loading Category...", message: "Harap tunggu sebentar")
+                Constant.showDialog("Loading Category...", message: "tekan 'OK' kemudian tunggu beberapa saat")
             } else {
                 let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
                 catPrefVC.parent = parent

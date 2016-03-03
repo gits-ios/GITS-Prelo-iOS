@@ -23,12 +23,17 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var categoriesFix : [JSON] = []
     
+    // Coachmark
+    var vwCoachmark : UIView?
+    var imgCoachmarkPinch : UIImageView?
+    var imgCoachmarkSpread : UIImageView?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         pinchIn = UIPinchGestureRecognizer(target: self, action: "pinchedIn:")
-//        self.view.addGestureRecognizer(pinchIn)
+        self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
@@ -84,17 +89,21 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         listItemViews.removeAll(keepCapacity: false)
         
-        for v in self.contentView?.subviews as! [UIView]
-        {
-            v.removeFromSuperview()
+        if (contentView != nil) {
+            for v in self.contentView!.subviews as! [UIView]
+            {
+                v.removeFromSuperview()
+            }
         }
         
         categoryNames.removeAll(keepCapacity: false)
-        for v in self.contentCategoryNames?.subviews as! [UIView]
-        {
-            if (v != categoryIndicator)
+        if (contentCategoryNames != nil) {
+            for v in self.contentCategoryNames?.subviews as! [UIView]
             {
-                v.removeFromSuperview()
+                if (v != categoryIndicator)
+                {
+                    v.removeFromSuperview()
+                }
             }
         }
         
@@ -260,6 +269,34 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         scrollCategoryName.layoutIfNeeded()
         contentCategoryNames?.layoutIfNeeded()
         
+        // Coachmark
+        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
+        if (coachmarkDone != true && vwCoachmark == nil) {
+            let screenSize : CGRect = UIScreen.mainScreen().bounds
+            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+            imgCoachmarkPinch = UIImageView(image: UIImage(named: "cchmrk_pinch"))
+            let imgCoachmarkPinchSize : CGSize = CGSizeMake(180, 134)
+            imgCoachmarkPinch?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), imgCoachmarkPinchSize.width, imgCoachmarkPinchSize.height)
+            imgCoachmarkSpread = UIImageView(image: UIImage(named: "cchmrk_spread"))
+            let imgCoachmarkSpreadSize : CGSize = CGSizeMake(180, 136)
+            imgCoachmarkSpread?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), imgCoachmarkSpreadSize.width, imgCoachmarkSpreadSize.height)
+            
+            let btnCoachmark : UIButton = UIButton(frame: screenSize)
+            btnCoachmark.addTarget(self, action: "btnCoachmarkPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            if (vwCoachmark != nil && imgCoachmarkPinch != nil && imgCoachmarkSpread != nil) {
+                vwCoachmark!.addSubview(imgCoachmarkPinch!)
+                vwCoachmark!.addSubview(imgCoachmarkSpread!)
+                imgCoachmarkSpread!.hidden = true
+                vwCoachmark!.addSubview(btnCoachmark)
+                //UIApplication.sharedApplication().keyWindow?.addSubview(vwCoachmark!)
+                if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                    kumangTabBarVC.view.addSubview(vwCoachmark!)
+                }
+                //self.view.addSubview(vwCoachmark!)
+            }
+        }
+        
         setCurrentTab((categoryNames.count > 1) ? 0 : 0)
     }
     
@@ -367,7 +404,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Redirect if any
         let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
-        let apnsRedirect : String? = NSUserDefaults.standardUserDefaults().objectForKey("apnsredirect") as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
                 let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
@@ -377,40 +413,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
             NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
-        } else if (apnsRedirect != nil) {
-            if (apnsRedirect == "notification") {
-                self.launchNotifPage()
-            } else if (apnsRedirect == "inbox") {
-                let i = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
-                self.navigationController?.pushViewController(i, animated: true)
-            }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("apnsredirect")
-        } else {
-            // Deeplink redirect if any
-            let deeplinkProduct : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkProduct) as! String?
-            let deeplinkConfirmPayment : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkConfirmPayment) as! String?
-            let deeplinkShopPage : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.DeepLinkShopPage) as! String?
-            if (deeplinkProduct != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to product with id: \(deeplinkProduct!)")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkProduct)
-                request(Products.Detail(productId: deeplinkProduct!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink")) {
-                        let json = JSON(res!)
-                        let data = json["_data"]
-                        let p = Product.instance(data)
-                        
-                        var productDetailVC : ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                        productDetailVC.product = p!
-                        self.navigationController?.pushViewController(productDetailVC, animated: true)
-                    }
-                }
-            } else if (deeplinkConfirmPayment != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to confirm payment with id: \(deeplinkConfirmPayment!)")
-//                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkConfirmPayment)
-            } else if (deeplinkShopPage != nil) {
-                //Constant.showDialog("Deeplink", message: "Redirecting to shop page with id: \(deeplinkShopPage!)")
-//                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.DeepLinkShopPage)
-            }
         }
     }
     
@@ -565,6 +567,18 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         v.category = categoriesFix[i]
         
         return v
+    }
+    
+    // MARK: - Coachmark
+    
+    func btnCoachmarkPressed(sender: UIButton!) {
+        if (imgCoachmarkSpread!.hidden) {
+            imgCoachmarkPinch!.hidden = true
+            imgCoachmarkSpread!.hidden = false
+        } else if (imgCoachmarkPinch!.hidden) {
+            vwCoachmark!.hidden = true
+            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkBrowseDone)
+        }
     }
 
 }

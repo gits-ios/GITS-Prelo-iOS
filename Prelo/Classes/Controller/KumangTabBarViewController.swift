@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate, LoadAppDataDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -20,6 +20,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var btnDashboard : UIButton!
     
     @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
+    
+    var loadAppDataAlert : UIAlertView?
+    var loadAppDataProgressView : UIProgressView?
     
     var menuPopUp : MenuPopUp?
     
@@ -127,7 +130,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     var isAlreadyGetCategory : Bool = false
-    //var isAlreadyTour : Bool = false
     var userDidLoggedIn : Bool?
     var isAlreadyCheckVersion : Bool = false
     override func viewDidAppear(animated: Bool) {
@@ -139,6 +141,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
+        // Show tour and/or loadAppData pop up
         if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
@@ -149,39 +152,38 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
                 isAlreadyGetCategory = true
                 
+                // Set self as LoadAppDataDelegate
+                UIApplication.appDelegate.loadAppDataDelegate = self
+                
                 // Check if app is currently loading app data
                 var appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                if (appDataSaved != true) { // App data belum selesai diload
+                if (appDataSaved == nil) { // Proses pengecekan di AppDelegate bahkan belum berjalan, tunggu pengecekan selesai
                     // Tampilkan pop up untuk loading
-                    let a = UIAlertView()
-                    let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
-                    pView.progress = UIApplication.appDelegate.loadAppDataProgress
-                    pView.backgroundColor = Theme.GrayLight
-                    pView.progressTintColor = Theme.ThemeOrage
-                    a.setValue(pView, forKey: "accessoryView")
-                    a.title = "Loading App Data..."
-                    a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataAlert!.title = "Checking App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
                     dispatch_async(dispatch_get_main_queue(), {
-                        a.show()
+                        self.loadAppDataAlert!.show()
                     })
-                    while (appDataSaved != true) {
-                        appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                        dispatch_async(dispatch_get_main_queue(), {
-                            pView.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
-                        })
-                        if (appDataSaved == true) {
-                            if (UIApplication.appDelegate.isLoadAppDataSuccess) {
-                                Constant.showDialog("Load App Data", message: "Load App Data berhasil")
-                            } else {
-                                Constant.showDialog("Load App Data", message: "Oops, terjadi kesalahan saat Load App Data")
-                            }
-                        }
-                    }
+                } else if (appDataSaved == false) { // App data belum selesai diload
+                    // Tampilkan pop up untuk loading
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
+                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
+                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
+                    self.loadAppDataAlert!.title = "Loading App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataAlert!.show()
+                    })
                 }
             }
         }
         userDidLoggedIn = User.IsLoggedIn
         
+        // Check new version in AppStore
         if (!isAlreadyCheckVersion) {
             // Check app version
             if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -199,22 +201,57 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             isAlreadyCheckVersion = true
         }
-        
-        /* TO BE DELETED, PERGANTIAN BEHAVIOR KEMUNCULAN TOUR
-        // Tour dipanggil setiap kali buka app dalam keadaan logout
-        // Jika buka app dalam keadaan login lalu logout, tidak perlu panggil tour karna category preferences pasti sudah ada
-        if (!isAlreadyTour && !User.IsLoggedIn && !isAlreadyGetCategory) {
-            self.performSegueWithIdentifier("segTour", sender: self)
-            isAlreadyTour = true
-        } else {
-            if (userDidLoggedIn == false && User.IsLoggedIn) { // Jika user baru saja log in
-                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
-            } else if (!isAlreadyGetCategory) { // Jika baru saja membuka app
-                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
-                isAlreadyGetCategory = true
+    }
+    
+    func updateProgress(progress: Float) {
+        if (loadAppDataAlert != nil) {
+            if (loadAppDataAlert!.title == "Checking App Data...") {
+                // Hilangkan pop up ini dan jika (NSUserDefaultl AppDataSaved = false) kemudian munculkan pop up dengan progressView
+                loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
+                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                if (appDataSaved == false) {
+                    self.loadAppDataAlert = UIAlertView()
+                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
+                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
+                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
+                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
+                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
+                    self.loadAppDataAlert!.title = "Loading App Data..."
+                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataAlert!.show()
+                    })
+                }
+            } else if (loadAppDataAlert!.title == "Loading App Data...") {
+                // Update progressView, jika sudah full (cek NSUSerDefault AppDataSaved) maka hilangkan pop up ini dan munculkan pop up berhasil/gagal
+                if (loadAppDataProgressView != nil) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.loadAppDataProgressView!.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
+                    })
+                }
+                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                if (appDataSaved == true) {
+                    loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
+                    if (UIApplication.appDelegate.isLoadAppDataSuccess) {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let a = UIAlertView()
+                            a.title = "Load App Data"
+                            a.message = "Load App Data berhasil"
+                            a.addButtonWithTitle("OK")
+                            a.show()
+                        })
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let a = UIAlertView()
+                            a.title = "Load App Data"
+                            a.message = "Oops, terjadi kesalahan saat Load App Data"
+                            a.addButtonWithTitle("OK")
+                            a.show()
+                        })
+                    }
+                }
             }
         }
-        userDidLoggedIn = User.IsLoggedIn*/
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
@@ -330,7 +367,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userCancelLogin() {
-        
+        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        changeToController(controllerBrowse!)
     }
     
     func menuSelected(option: MenuOption) {
@@ -342,7 +380,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
 //        self.navigationController?.pushViewController(add, animated: true)
     }
-    
     
     // MARK: - Navigation
     

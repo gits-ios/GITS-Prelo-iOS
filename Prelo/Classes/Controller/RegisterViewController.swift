@@ -234,6 +234,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.isSocmedAccount = isSocmedAccount
         profileSetupVC.loginMethod = loginMethod
         profileSetupVC.screenBeforeLogin = screenBeforeLogin
+        profileSetupVC.isFromRegister = true
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     
@@ -250,88 +251,17 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
-    // MARK: Facebook Login
+    // MARK: - Facebook Login
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
-        // Log in and get permission from facebook
-        let fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            if (error != nil) { // Process error
-                println("Process error")
-                User.LogoutFacebook()
-            } else if result.isCancelled { // User cancellation
-                println("User cancel")
-                User.LogoutFacebook()
-            } else { // Success
-                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
-                    // Do work
-                    self.fbLogin()
-                } else {
-                    // Handle not getting permission
-                }
-            }
-        })
-    }
-    
-    func fbLogin()
-    {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
         
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
-            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                if ((error) != nil) {
-                    // Handle error
-                    println("Error fetching facebook profile")
-                } else {
-                    // Handle Profile Photo URL String
-                    let userId =  result["id"] as! String
-                    let name = result["name"] as! String
-                    let email = result["email"] as! String
-                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
-                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                    
-                    println("result = \(result)")
-                    println("profilePictureUrl = \(profilePictureUrl)")
-                    println("accessToken = \(accessToken)")
-                    
-                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
-                            let json = JSON(res!)
-                            let data = json["_data"]
-                            
-                            // Save in core data
-                            let m = UIApplication.appDelegate.managedObjectContext
-                            var user : CDUser? = CDUser.getOne()
-                            if (user == nil) {
-                                user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                            }
-                            user!.id = data["_id"].string!
-                            user!.username = data["username"].string!
-                            user!.email = data["email"].string!
-                            user!.fullname = data["fullname"].string!
-                            
-                            let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                            let pr = data["profile"]
-                            p.pict = pr["pict"].string!
-                            
-                            user!.profiles = p
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Check if user have set his account
-                            //self.checkProfileSetup(data["token"].string!)
-                            LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: self.screenBeforeLogin)
-                        }
-                    }
-                }
-            })
-        }
+        LoginViewController.LoginWithFacebook(self, screenBeforeLogin: self.screenBeforeLogin)
     }
     
-    // MARK: Twitter Login
+    // MARK: - Twitter Login
     
     @IBAction func loginTwitterPressed(sender: AnyObject) {
         // Show loading
@@ -341,7 +271,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         LoginViewController.LoginWithTwitter(self, screenBeforeLogin: self.screenBeforeLogin)
     }
     
-    // MARK: Path Login
+    // MARK: - Path Login
     
     @IBAction func loginPathPressed(sender: AnyObject) {
         // Show loading
@@ -410,5 +340,6 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     func hideLoading() {
         loadingPanel.hidden = true
         loading.stopAnimating()
+        loading.hidden = true
     }
 }

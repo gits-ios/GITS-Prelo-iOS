@@ -16,6 +16,10 @@ import FBSDKCoreKit
 
 //import AdobeCreativeSDKCore
 
+protocol LoadAppDataDelegate {
+    func updateProgress(progress : Float)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -29,7 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var loadAppDataProgress : Float = 0
     var isLoadAppDataSuccess : Bool = true
+    
+    var loadAppDataDelegate : LoadAppDataDelegate?
+    
+    var redirAlert : UIAlertView?
 
+    // MARK: - Application delegate functions
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         preloNotifListener = PreloNotificationListener()
@@ -76,10 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AdobeUXAuthManager.sharedManager().setAuthenticationParametersWithClientID("79e1f842bbe948b49f7cce12d30d547e", clientSecret: "63bcf116-40d9-4a09-944b-af0401b1a350", enableSignUp: false)
         */
         
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-//            
-//        })
-        
         self.versionCheck()
         
         // Enable Google AdWords automated usage reporting
@@ -110,14 +116,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
                 if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
                     //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    let notifType : String? = remoteNotifAps["tipe"] as! String?
-                    //Constant.showDialog("notifType", message: "\(notifType)")
-                    if (notifType?.lowercaseString == "notification") {
-                        NSUserDefaults.standardUserDefaults().setObject("notification", forKey: "apnsredirect")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                    } else if (notifType?.lowercaseString == "inbox") {
-                        NSUserDefaults.standardUserDefaults().setObject("inbox", forKey: "apnsredirect")
-                        NSUserDefaults.standardUserDefaults().synchronize()
+                    var targetId : String?
+                    if let tipe = remoteNotifAps.objectForKey("tipe") as? String {
+                        if let tId = remoteNotifAps.objectForKey("target_id") as? String {
+                            targetId = tId
+                        }
+                        //Constant.showDialog("tipe", message: "\(tipe)")
+                        let tipeLowercase = tipe.lowercaseString
+                        if (tipeLowercase == "product") {
+                            if (targetId != nil) {
+                                self.redirectProduct(targetId!)
+                            }
+                        } else if (tipeLowercase == "user") {
+                            if (targetId != nil) {
+                                self.redirectShopPage(targetId!)
+                            }
+                        } else if (tipeLowercase == "inbox") {
+                            self.redirectInbox(targetId)
+                        } else if (tipeLowercase == "confirm") {
+                            if (targetId != nil) {
+                                self.redirectConfirmPayment(targetId!)
+                            }
+                        } else if (tipeLowercase == "notification") {
+                            redirAlert = UIAlertView()
+                            redirAlert!.title = "Redirecting..."
+                            redirAlert!.message = "Harap tunggu beberapa saat"
+                            redirAlert!.show()
+                            self.redirectNotification()
+                        }
                     }
                 }
             }
@@ -128,14 +154,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
             //Constant.showDialog("Deeplink", message: "launchURL = \(launchURL)")
             if (launchURL.host == "product") {
-                let productId = launchURL.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
-            } else if (launchURL.host == "confirm") {
-                let confirmId = launchURL.path?.substringFromIndex(1)
-                //NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
+                if let productId = launchURL.path?.substringFromIndex(1) {
+                    self.redirectProduct(productId)
+                }
             } else if (launchURL.host == "user") {
-                let userId = launchURL.path?.substringFromIndex(1)
-                //NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
+                if let userId = launchURL.path?.substringFromIndex(1) {
+                    self.redirectShopPage(userId)
+                }
+            } else if (launchURL.host == "inbox") {
+                if let inboxId = launchURL.path?.substringFromIndex(1) {
+                    self.redirectInbox(inboxId)
+                }
+            } else if (launchURL.host == "confirm") {
+                if let confirmId = launchURL.path?.substringFromIndex(1) {
+                    self.redirectConfirmPayment(confirmId)
+                }
+            } else if (launchURL.host == "notification") {
+                self.redirectNotification()
             }
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
@@ -148,19 +183,380 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
+        // Deeplink handling using Branch
+        let branch : Branch = Branch.getInstance()
+        branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
+            // Route the user based on what's in params
+            let sessionParams = Branch.getInstance().getLatestReferringParams()
+            let firstParams = Branch.getInstance().getFirstReferringParams()
+            println("launch sessionParams = \(sessionParams)")
+            println("launch firstParams = \(firstParams)")
+            
+            let params = JSON(sessionParams)
+            let tipe : String? = params["tipe"].string
+            let targetId : String? = params["target_id"].string
+            if (tipe != nil) {
+                if (targetId != nil) {
+                    if (tipe! == "product") { // deeplinkProduct
+                        self.redirectProduct(targetId!)
+                    } else if (tipe! == "user") { // deeplinkShopPage
+                        self.redirectShopPage(targetId!)
+                    } else if (tipe! == "inbox") { // deeplinkInbox
+                        self.redirectInbox(targetId!)
+                    } else if (tipe! == "confirm") { // deeplinkConfirmPayment
+                        self.redirectConfirmPayment(targetId!)
+                    }
+                }
+                if (tipe! == "notification") { // deeplinkNotification
+                    self.redirectNotification()
+                }
+            }
+        })
+        
         // Set User-Agent for every HTTP request
         let webViewDummy = UIWebView()
         let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
         NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
         
+        // Remove app badge if any
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func userLoggedIn()
-    {
-        messagePool.start()
+    func application(application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject?) -> Bool {
+            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
+            //Constant.showDialog("Deeplink", message: "url = \(url)")
+            
+            if (!Branch.getInstance().handleDeepLink(url)) {
+                // Handle deeplink from Facebook
+                if (url.host == "product") {
+                    if let productId = url.path?.substringFromIndex(1) {
+                        self.redirectProduct(productId)
+                    }
+                } else if (url.host == "user") {
+                    if let userId = url.path?.substringFromIndex(1) {
+                        self.redirectShopPage(userId)
+                    }
+                } else if (url.host == "inbox") {
+                    if let inboxId = url.path?.substringFromIndex(1) {
+                        self.redirectInbox(inboxId)
+                    }
+                } else if (url.host == "confirm") {
+                    if let confirmId = url.path?.substringFromIndex(1) {
+                        self.redirectConfirmPayment(confirmId)
+                    }
+                } else if (url.host == "notification") {
+                    self.redirectNotification()
+                }
+                return FBSDKApplicationDelegate.sharedInstance().application(
+                    application,
+                    openURL: url,
+                    sourceApplication: sourceApplication,
+                    annotation: annotation)
+            }
+            
+            return true
     }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
+        // Pass the url to the handle deep link call
+        Branch.getInstance().continueUserActivity(userActivity)
+        
+        return true
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        println("Action : \(identifier)")
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        println("deviceToken = \(deviceToken)")
+        
+        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        var deviceRegId: String = (deviceToken.description as NSString)
+            .stringByTrimmingCharactersInSet(characterSet)
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        
+        println("deviceRegId = \(deviceRegId)")
+        
+        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        // Set deviceRegId for push notif if user is logged in
+        if (User.IsLoggedIn) {
+            LoginViewController.SendDeviceRegId(onFinish: nil)
+        }
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("ERROR : \(error)")
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("userInfo = \(userInfo)")
+        
+        if (application.applicationState == UIApplicationState.Active) {
+            println("App were active when receiving remote notification")
+        } else {
+            println("App weren't active when receiving remote notification")
+        }
+    }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    }
+    
+    func applicationDidEnterBackground(application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
+        
+        // Remove app badge if any
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+    
+    func applicationWillTerminate(application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Saves changes in the application's managed object context before the application terminates.
+        self.saveContext()
+    }
+    
+    // MARK: - Redirect functions
+    
+    func redirectProduct(productId : String) {
+        if (productId != "") {
+            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Product")) {
+                    let json = JSON(res!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    var rootViewController : UINavigationController?
+                    
+                    // Tunggu sampai UINavigationController terbentuk, dalam background process
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                        var wait = true
+                        var waitCount = Int.max
+                        while (wait) {
+                            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                                if (childVCs.count > 0) {
+                                    if let rootVC = childVCs[0] as? UINavigationController {
+                                        rootViewController = rootVC
+                                    }
+                                    wait = false
+                                }
+                            }
+                            waitCount--
+                            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                wait = false
+                            }
+                        }
+                        
+                        // Redirect setelah selesai menunggu
+                        if (rootViewController != nil) {
+                            let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                            productDetailVC.product = p!
+                            rootViewController!.pushViewController(productDetailVC, animated: true)
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func redirectShopPage(userId : String) {
+        if (userId != "") {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            var rootViewController : UINavigationController?
+            
+            // Tunggu sampai UINavigationController terbentuk, dalam background process
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                var wait = true
+                var waitCount = Int.max
+                while (wait) {
+                    if let childVCs = self.window!.rootViewController?.childViewControllers {
+                        if (childVCs.count > 0) {
+                            if let rootVC = childVCs[0] as? UINavigationController {
+                                rootViewController = rootVC
+                            }
+                            wait = false
+                        }
+                    }
+                    waitCount--
+                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                        wait = false
+                    }
+                }
+                
+                // Redirect setelah selesai menunggu
+                if (rootViewController != nil) {
+                    let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                    shopPage.storeMode = true
+                    shopPage.storeId = userId
+                    rootViewController!.pushViewController(shopPage, animated: true)
+                }
+            })
+        }
+    }
+    
+    func redirectInbox(inboxId : String?) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk, dalam background process
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var wait = true
+            var waitCount = Int.max
+            while (wait) {
+                if let childVCs = self.window!.rootViewController?.childViewControllers {
+                    if (childVCs.count > 0) {
+                        if let rootVC = childVCs[0] as? UINavigationController {
+                            rootViewController = rootVC
+                        }
+                        wait = false
+                    }
+                }
+                waitCount--
+                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                    wait = false
+                }
+            }
+            
+            // Redirect setelah selesai menunggu
+            if (rootViewController != nil) {
+                if (inboxId != nil && inboxId != "") {
+                    request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Inbox")) {
+                            let json = JSON(res!)
+                            let data = json["_data"]
+                            let inbox = Inbox(jsn: data)
+                            
+                            let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+                            tawarVC.tawarItem = inbox
+                            rootViewController!.pushViewController(tawarVC, animated: true)
+                        }
+                    }
+                } else {
+                    let inboxVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
+                    rootViewController!.pushViewController(inboxVC, animated: true)
+                }
+            }
+        })
+    }
+    
+    func redirectConfirmPayment(transactionId : String) {
+        if (transactionId != "") {
+            request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Confirm Payment")) {
+                    let json = JSON(res!)
+                    let data = json["_data"]
+                    let progress = data["progress"].intValue
+                    
+                    var rootViewController : UINavigationController?
+                    
+                    // Tunggu sampai UINavigationController terbentuk, dalam background process
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                        var wait = true
+                        var waitCount = Int.max
+                        while (wait) {
+                            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                                if (childVCs.count > 0) {
+                                    if let rootVC = childVCs[0] as? UINavigationController {
+                                        rootViewController = rootVC
+                                    }
+                                    wait = false
+                                }
+                            }
+                            waitCount--
+                            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                wait = false
+                            }
+                        }
+                        
+                        // Redirect setelah selesai menunggu
+                        if (rootViewController != nil) {
+                            if (progress == 2) { // Pembayaran pending
+                                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                                rootViewController!.pushViewController(paymentConfirmationVC, animated: true)
+                                Constant.showDialog("", message: "Pembayaran sedang diproses Prelo, mohon ditunggu")
+                            } else {
+                                let products = data["products"]
+                                var imgs : [NSURL] = []
+                                for (var i = 0; i < products.count; i++) {
+                                    if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
+                                        imgs.append(c.productImageURL!)
+                                    }
+                                }
+                                
+                                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+                                orderConfirmVC.transactionId = transactionId
+                                orderConfirmVC.orderID = data["order_id"].stringValue
+                                orderConfirmVC.total = data["total_price"].intValue
+                                orderConfirmVC.images = imgs
+                                orderConfirmVC.fromCheckout = false
+                                rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func redirectNotification() {
+        // Tunggu sampai notif tersimpan dan UINavigationController terbentuk, dalam background process
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var rootViewController : UINavigationController?
+            
+            var wait = true
+            var waitCount = Int.max
+            var notifSaved : Bool?
+            while (wait) {
+                notifSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.NotificationSaved) as! Bool?
+                if let childVCs = self.window!.rootViewController?.childViewControllers {
+                    if (childVCs.count > 0 && notifSaved == true) {
+                        if let rootVC = childVCs[0] as? UINavigationController {
+                            rootViewController = rootVC
+                        }
+                        wait = false
+                    }
+                }
+                waitCount--
+                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                    wait = false
+                }
+            }
+            
+            // Redirect setelah selesai menunggu
+            if (rootViewController != nil && notifSaved == true) {
+                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPageTabbed, owner: nil, options: nil).first as! NotificationPageTabbedViewController
+                rootViewController!.pushViewController(notifPageVC, animated: true)
+            }
+        })
+    }
+    
+    // MARK: - Version check
     
     func versionCheck() {
         request(APIApp.Version(appType: "ios")).responseJSON { req, resp, res, err in
@@ -212,6 +608,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (isUpdate) {
                     // Set appdatasaved to false so the app is blocked at KumangTabBarVC
                     NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     
                     self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                 } else {
@@ -223,6 +620,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     // Set appdatasaved to true so the app is not blocked
                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
                 
                 CDVersion.saveVersions(data)
@@ -245,10 +643,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let opFinish : NSOperation = NSBlockOperation(block: {
                     // Set appdatasaved to true so the app is no longer blocked
                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 })
                 
+                var opCategories : NSOperation?
+                
                 if (updateCategories == "1") {
-                    let opCategories : NSOperation = NSBlockOperation(block: {
+                    opCategories = NSBlockOperation(block: {
                         if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
                             var moc = NSManagedObjectContext()
                             moc.persistentStoreCoordinator = psc
@@ -257,10 +658,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             println("Updating categories..")
                             if (CDCategory.deleteAll(moc)) {
                                 if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                                    var categoryLv1Count = metadata["categories"][0]["children"].count
+                                    // Wait until core data saving is actually finished
+                                    var wait = true
+                                    var waitCount = Int.max
+                                    while (wait) {
+                                        if (CDCategory.getCategoriesInLevel(1).count >= categoryLv1Count) {
+                                            wait = false
+                                        }
+                                        waitCount--
+                                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                            wait = false
+                                        }
+                                    }
                                     // Set categorysaved to true so CategoryPreferencesVC can be executed
                                     NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
                                     
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -268,10 +683,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                         }
                     })
-                    queue.addOperation(opCategories)
-                    opFinish.addDependency(opCategories)
+                    queue.addOperation(opCategories!)
+                    opFinish.addDependency(opCategories!)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -286,6 +702,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDCategorySize.deleteAll(moc)) {
                                 if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -297,6 +714,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opCategorySizes)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -311,6 +729,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDShipping.deleteAll(moc)) {
                                 if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -322,6 +741,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opShippings)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -336,6 +756,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDProductCondition.deleteAll(moc)) {
                                 if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -347,6 +768,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opProductConditions)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -361,6 +783,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                                 if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
+                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                                     progressPortionLeft -= progressPortion
                                 } else {
                                     self.isLoadAppDataSuccess = false
@@ -372,6 +795,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opProvincesRegions)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortion)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                     progressPortionLeft -= progressPortion
                 }
                 
@@ -395,6 +819,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     opFinish.addDependency(opBrands)
                 } else {
                     self.increaseLoadAppDataProgressBy(progressPortionLeft)
+                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
 
                 queue.addOperation(opFinish)
@@ -402,48 +827,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 // Set appdatasaved to true so the app is no longer blocked
                 NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
+                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
             }
         }
     }
     
     func increaseLoadAppDataProgressBy(progress: Float) {
         self.loadAppDataProgress += progress
-    }
-    
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
-        let t : UITouch = event.allTouches()?.first as! UITouch
-        let loc = t.locationInView(self.window)
-        let f = UIApplication.sharedApplication().statusBarFrame
-        let b = CGRectContainsPoint(f, loc)
-        if (b) {
-            NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
-        }
-    }
-
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        FBSDKAppEvents.activateApp()
-    }
-
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
     }
 
     // MARK: - Core Data stack
@@ -511,70 +901,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    func application(application: UIApplication,
-        openURL url: NSURL,
-        sourceApplication: String?,
-        annotation: AnyObject?) -> Bool {
-            // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
-            //Constant.showDialog("Deeplink", message: "url = \(url)")
-            if (url.host == "product") {
-                let productId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(productId, forKey: UserDefaultsKey.DeepLinkProduct)
-            } else if (url.host == "confirm") {
-                let confirmId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(confirmId, forKey: UserDefaultsKey.DeepLinkConfirmPayment)
-            } else if (url.host == "user") {
-                let userId = url.path?.substringFromIndex(1)
-                NSUserDefaults.setObjectAndSync(userId, forKey: UserDefaultsKey.DeepLinkShopPage)
-            }
-            return FBSDKApplicationDelegate.sharedInstance().application(
-                application,
-                openURL: url,
-                sourceApplication: sourceApplication,
-                annotation: annotation)
+    
+    // MARK: - User related delegate functions
+    
+    func userLoggedIn()
+    {
+        messagePool.start()
     }
     
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        application.registerForRemoteNotifications()
-    }
+    // MARK: - Other functions
     
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("Action : \(identifier)")
-    }
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("deviceToken = \(deviceToken)")
-        
-        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
-        
-        var deviceRegId: String = (deviceToken.description as NSString)
-            .stringByTrimmingCharactersInSet(characterSet)
-            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
-        
-        println("deviceRegId = \(deviceRegId)")
-        
-        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
-        // Set deviceRegId for push notif if user is logged in
-        if (User.IsLoggedIn) {
-            LoginViewController.SendDeviceRegId(onFinish: nil)
-        }
-    }
-    
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("ERROR : \(error)")
-    }
-    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("userInfo = \(userInfo)")
-        
-        if (application.applicationState == UIApplicationState.Active) {
-            println("App were active when receiving remote notification")
-        } else {
-            println("App weren't active when receiving remote notification")
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event)
+        let t : UITouch = event.allTouches()?.first as! UITouch
+        let loc = t.locationInView(self.window)
+        let f = UIApplication.sharedApplication().statusBarFrame
+        let b = CGRectContainsPoint(f, loc)
+        if (b) {
+            NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
         }
     }
 }
-

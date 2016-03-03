@@ -506,19 +506,23 @@ enum APITransaction : URLRequestConvertible
 
 enum APITransaction2 : URLRequestConvertible
 {
-    static let basePath = "transaction"
+    static let basePath = "transaction/"
+    
+    case TransactionDetail(tId : String)
     case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String)
 
     var method : Method {
         switch self
         {
-        default : return .POST
+        case .TransactionDetail(_) : return .GET
+        case .ConfirmPayment(_, _, _, _, _) : return .POST
         }
     }
     
     var path : String {
         switch self
         {
+        case .TransactionDetail(let tId) : return "\(tId)"
         case  .ConfirmPayment(_, _, _, _, let orderId) : return orderId + "/payment"
         }
     }
@@ -526,6 +530,8 @@ enum APITransaction2 : URLRequestConvertible
     var param : [String : AnyObject] {
         switch self
         {
+        case .TransactionDetail(_) :
+            return [:]
         case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _) :
             return [
                 "target_bank":bankTo,
@@ -616,7 +622,7 @@ enum APIAuth : URLRequestConvertible
     
     case Register(username : String, fullname : String, email : String, password : String)
     case Login(email : String, password : String)
-    case LoginFacebook(email : String, fullname : String, fbId : String, fbAccessToken : String)
+    case LoginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
     case Logout
@@ -627,7 +633,7 @@ enum APIAuth : URLRequestConvertible
             {
             case .Register(_, _, _, _) : return .POST
             case .Login(_, _) : return .POST
-            case .LoginFacebook(_, _, _, _) : return .POST
+            case .LoginFacebook(_, _, _, _, _) : return .POST
             case .LoginPath(_, _, _, _) : return .POST
             case .LoginTwitter(_, _, _, _, _, _) : return .POST
             case .Logout : return .POST
@@ -640,7 +646,7 @@ enum APIAuth : URLRequestConvertible
             {
             case .Register(_, _, _, _) : return "register"
             case .Login(_, _) : return "login"
-            case .LoginFacebook(_, _, _, _) : return "login/facebook"
+            case .LoginFacebook(_, _, _, _, _) : return "login/facebook"
             case .LoginPath(_, _, _, _) : return "login/path"
             case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
             case .Logout : return "logout"
@@ -665,11 +671,12 @@ enum APIAuth : URLRequestConvertible
                     "password" : password
                 ]
                 return p
-            case .LoginFacebook(let email, let fullname, let fbId, let fbAccessToken) :
+            case .LoginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
                 let p = [
                     "email" : email,
                     "fullname" : fullname,
                     "fb_id" : fbId,
+                    "fb_username" : fbUsername,
                     "fb_access_token" : fbAccessToken
                 ]
                 return p
@@ -721,7 +728,7 @@ enum APIUser : URLRequestConvertible
     case OrderList(status : String)
     case MyProductSell
     case MyLovelist
-    case SetupAccount(username : String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
+    case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
     case SetProfile(fullname : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
@@ -743,7 +750,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
@@ -767,7 +774,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
@@ -803,9 +810,10 @@ enum APIUser : URLRequestConvertible
             ]
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
-        case .SetupAccount(let username, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
+        case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
             return [
                 "username":username,
+                "email":email,
                 "gender":gender,
                 "phone":phone,
                 "province":province,
@@ -1248,7 +1256,7 @@ enum APIPeople : URLRequestConvertible
 
 class APIPrelo
 {
-    static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
+    /*static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool
     {
         if let response = resp
         {
@@ -1273,7 +1281,7 @@ class APIPrelo
         {
             return true
         }
-    }
+    }*/
     
     static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
@@ -1289,6 +1297,21 @@ class APIPrelo
                             UIAlertView.SimpleShow(reqAlias, message: msg)
                         }
                         println("\(reqAlias) _message = \(msg)")
+                        
+                        if (msg == "user belum login") {
+                            User.Logout()
+                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
+                                if let rootVC = childVCs[0] as? UIViewController {
+                                    let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
+                                    let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+                                    if (uiNavigationController != nil && kumangTabBarVC != nil) {
+                                        uiNavigationController!.popToRootViewControllerAnimated(true)
+                                        LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else if (res == nil && showErrorDialog) {
                     if (response.statusCode > 500) {
@@ -1325,16 +1348,6 @@ class APIPrelo
             let data = json["_data"]
             println("\(reqAlias) _data = \(data)")
             return true
-        }
-    }
-    
-    static func validateSession(res: AnyObject?, sender: BaseViewController) {
-        if (res != nil) {
-            if let msg = JSON(res!)["_message"].string {
-                if (msg == "user belum login") {
-                    sender.dismiss()
-                }
-            }
         }
     }
 }

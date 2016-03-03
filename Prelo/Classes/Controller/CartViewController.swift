@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate {
 
@@ -133,15 +134,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if let u = CDUser.getOne()
         {
-            // crashfix http://crashes.to/s/e4ac616802e maybe
-            if (u.profiles != nil)
-            {
-                pID = u.profiles.provinceID
-                rID = u.profiles.regionID
-            } else
-            {
-                
-            }
+            pID = u.profiles.provinceID
+            rID = u.profiles.regionID
             
             if let i = CDProvince.getProvinceNameWithID(pID)
             {
@@ -301,45 +295,46 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         if let price = json["_data"]["bonus_available"].int?.asPrice
                         {
                             var totalOngkir = 0
-                            for i in 0...self.products.count-1
-                            {
-                                let cp = self.products[i]
-                                
-                                let json = self.arrayItem[i]
-                                if let free = json["free_ongkir"].bool
+                            if (self.products.count > 0) {
+                                for i in 0...self.products.count-1
                                 {
-                                    if (free)
+                                    let cp = self.products[i]
+                                    
+                                    let json = self.arrayItem[i]
+                                    if let free = json["free_ongkir"].bool
                                     {
-                                        continue
-                                    }
-                                }
-                                
-                                if let arr = json["shipping_packages"].array
-                                {
-                                    if (arr.count > 0)
-                                    {
-                                        var sh = arr[0]
-                                        if (cp.packageId != "")
+                                        if (free)
                                         {
-                                            for x in 0...arr.count-1
+                                            continue
+                                        }
+                                    }
+                                    
+                                    if let arr = json["shipping_packages"].array
+                                    {
+                                        if (arr.count > 0)
+                                        {
+                                            var sh = arr[0]
+                                            if (cp.packageId != "")
                                             {
-                                                let shipping = arr[x]
-                                                if let id = shipping["_id"].string
+                                                for x in 0...arr.count-1
                                                 {
-                                                    if (id == cp.packageId)
+                                                    let shipping = arr[x]
+                                                    if let id = shipping["_id"].string
                                                     {
-                                                        sh = shipping
+                                                        if (id == cp.packageId)
+                                                        {
+                                                            sh = shipping
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                        if let price = sh["price"].int
-                                        {
-                                            totalOngkir += price
+                                            if let price = sh["price"].int
+                                            {
+                                                totalOngkir += price
+                                            }
                                         }
                                     }
                                 }
-                                
                             }
                             
                             let preloBonus = json["_data"]["bonus_available"].intValue
@@ -496,7 +491,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     UIApplication.appDelegate.saveContext()
                     
-                    // Mixpanel
+                    // Mixpanel and Answers
                     if (self.checkoutResult != nil) {
                         var pName : String? = ""
                         var rName : String? = ""
@@ -513,6 +508,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         
                         var items : [String] = []
+                        var itemsId : [String] = []
                         var itemsCategory : [String] = []
                         var itemsSeller : [String] = []
                         var itemsPrice : [Int] = []
@@ -523,6 +519,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         for i in 0...self.arrayItem.count - 1 {
                             let json = self.arrayItem[i]
                             items.append(json["name"].stringValue)
+                            itemsId.append(json["product_id"].stringValue)
                             var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
                             if (cName == nil) {
                                 cName = json["category_id"].stringValue
@@ -552,6 +549,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Shipping Province" : pName!
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
+                        
+                        if (AppTools.IsPreloProduction) {
+                            Answers.logStartCheckoutWithPrice(NSDecimalNumber(integer: totalPrice), currency: "IDR", itemCount: NSNumber(integer: items.count), customAttributes: nil)
+                            for j in 0...items.count-1 {
+                                Answers.logPurchaseWithPrice(NSDecimalNumber(integer: itemsPrice[j]), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            }
+                        }
                     }
                     
                     self.previousController?.navigationController?.pushViewController(o, animated: true)
@@ -584,16 +588,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
             },
-        completion: nil)
+            completion: nil)
         
         let checkTour = NSUserDefaults.standardUserDefaults().boolForKey("cartTour")
         if (checkTour == false)
         {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "cartTour")
             NSUserDefaults.standardUserDefaults().synchronize()
-            self.performSegueWithIdentifier("segTour", sender: nil)
-            
+            var segTourTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("performSegTour"), userInfo: nil, repeats: false)
         }
+    }
+    
+    func performSegTour() {
+        self.performSegueWithIdentifier("segTour", sender: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {

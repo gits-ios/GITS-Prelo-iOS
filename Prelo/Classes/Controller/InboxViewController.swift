@@ -51,7 +51,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                         for i in 0...arr.count-1
                         {
                             let inbox = arr[i]
-                            println(inbox)
+                            //println(inbox)
                             self.inboxes.append(Inbox(jsn: inbox))
                         }
                     }
@@ -62,7 +62,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                 
             }
         }.responseString { req, resp, string, err in
-            println(string)
+            //println(string)
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
 //        request(.GET, (url?.absoluteString)!).responseJSON { req, resp, res, err in
@@ -164,4 +164,8 @@ class InboxCell : UITableViewCell
     @IBOutlet var captionType : UILabel!
     @IBOutlet var captionTime : UILabel!
     @IBOutlet var iv : UIImageView!
+    
+    override func prepareForReuse() {
+        iv.image = nil
+    }
 }

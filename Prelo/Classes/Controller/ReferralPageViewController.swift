@@ -72,22 +72,26 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         GAI.trackPageVisit(PageName.Referral)
         
         var isEmailVerified : Bool = false
-        if let o = CDUserOther.getOne() {
-            if (o.emailVerified.intValue == 1) {
-                isEmailVerified = true
+        request(APIUser.Me).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Referral Page - Get Profile")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                isEmailVerified = data["others"]["is_email_verified"].boolValue
+                // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
+                
+                if (!isEmailVerified) {
+                    // Tampilkan pop up untuk verifikasi email
+                    let a = UIAlertView()
+                    a.title = "Prelo Bonus"
+                    a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+                    a.addButtonWithTitle("Batal")
+                    a.addButtonWithTitle("Kirim Email Konfirmasi")
+                    a.delegate = self
+                    a.show()
+                } else {
+                    self.getReferralData()
+                }
             }
-        }
-        if (!isEmailVerified) {
-            // Tampilkan pop up untuk verifikasi email
-            let a = UIAlertView()
-            a.title = "Prelo Bonus"
-            a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
-            a.addButtonWithTitle("Batal")
-            a.addButtonWithTitle("Kirim Email Konfirmasi")
-            a.delegate = self
-            a.show()
-        } else {
-            self.getReferralData()
         }
         
         // Atur opacity tombol
@@ -391,12 +395,16 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func emailPressed(sender: AnyObject) {
         let composer = MFMailComposeViewController()
-        composer.setMessageBody(shareText, isHTML: false)
-        composer.mailComposeDelegate = self
-        
-        self.presentViewController(composer, animated: true, completion: nil)
-        
-        self.mixpanelSharedReferral("Email", username: "")
+        if (MFMailComposeViewController.canSendMail()) {
+            composer.setMessageBody(shareText, isHTML: false)
+            composer.mailComposeDelegate = self
+            
+            self.presentViewController(composer, animated: true, completion: nil)
+            
+            self.mixpanelSharedReferral("Email", username: "")
+        } else {
+            Constant.showDialog("No Active Email", message: "Untuk dapat membagi kode referral melalui email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+        }
     }
     
     @IBAction func morePressed(sender: AnyObject) {

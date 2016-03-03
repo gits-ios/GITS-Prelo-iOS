@@ -203,17 +203,28 @@ class NotificationPageTransactionViewController: BaseViewController, UITableView
     }
     
     func navigateReadNotif(notif : CDNotification) {
-        // Goto transaction detail
-        if (notif.ownerId == User.Id) { // User is seller
-            // Goto MyProductDetail
-            let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
-            myProductDetailVC.transactionId = notif.objectId
-            self.navigationController?.pushViewController(myProductDetailVC, animated: true)
-        } else { // User is buyer
-            // Goto MyPurchaseDetail
-            let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
-            myPurchaseDetailVC.transactionId = notif.objectId
-            self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+        // Check if user is seller or buyer
+        request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi Transaksi")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                let tpDetail = TransactionDetail.instance(data)
+                if let sellerId = tpDetail?.sellerId {
+                    if (sellerId == User.Id) { // User is seller
+                        // Goto MyProductDetail
+                        let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
+                        myProductDetailVC.transactionId = notif.objectId
+                        self.navigationController?.pushViewController(myProductDetailVC, animated: true)
+                    } else { // User is buyer
+                        // Goto MyPurchaseDetail
+                        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+                        myPurchaseDetailVC.transactionId = notif.objectId
+                        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+                    }
+                } else {
+                    Constant.showDialog("Notifikasi Transaksi", message: "Oops, ada masalah saat mengecek data produk")
+                }
+            }
         }
     }
 }

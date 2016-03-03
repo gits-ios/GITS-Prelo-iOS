@@ -89,6 +89,12 @@ class NotificationPageTabbedViewController: BaseViewController, CarbonTabSwipeDe
             let notifListener = delegate.preloNotifListener
             notifListener.delegate = self
         }
+        
+        // Remove alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {

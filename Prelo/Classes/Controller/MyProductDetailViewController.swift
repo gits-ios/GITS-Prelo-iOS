@@ -277,7 +277,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         consWidthOrderStatus.constant = orderStatusFitSize.width
         
         // Fix order status text color
-        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview) { // teks hijau
+        if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else {
             lblOrderStatus.textColor == Theme.ThemeOrange
@@ -312,13 +312,15 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         var p : [Bool] = []
         if (orderStatusText == OrderStatus.Dipesan) {
             p = [true, true, false, false, false, false, false, false, true, false, true]
+        } else if (orderStatusText == OrderStatus.BelumDibayar) {
+            p = [true, true, false, false, false, false, false, false, true, false, true]
         } else if (orderStatusText == OrderStatus.Dibayar) {
             p = [true, false, true, true, true, true, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.Dikirim) {
             p = [true, false, true, true, false, false, false, false, false, false, true]
         } else if (orderStatusText == OrderStatus.PembayaranPending) {
             p = [true, true, false, false, false, false, false, false, false, false, true]
-        } else if (orderStatusText == OrderStatus.Direview) {
+        } else if (orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) {
             p = [true, false, true, true, false, false, true, false, false, true, true]
         } else if (orderStatusText == OrderStatus.Diterima) {
             p = [true, false, true, true, false, false, true, true, true, false, true]

@@ -12,7 +12,17 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     
     @IBOutlet var tableView : UITableView!
     @IBOutlet var lblEmpty : UILabel!
+    @IBOutlet var btnRefresh: UIButton!
     @IBOutlet var loading : UIActivityIndicatorView!
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
+    let ConsBottomTableViewWhileUpdating : CGFloat = 36
+    
+    var refreshControl : UIRefreshControl!
+    
+    let ItemPerLoad : Int = 10
+    var nextIdx : Int = 0
+    var isAllItemLoaded : Bool = false
     
     var userProducts : Array <UserTransactionItem>?
     
@@ -25,6 +35,16 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         // Register custom cell
         var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        
+        // Hide bottom refresh first
+        bottomLoading.stopAnimating()
+        consBottomTableView.constant = 0
+        
+        // Refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = Theme.PrimaryColor
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -32,6 +52,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
         loading.startAnimating()
         tableView.hidden = true
         lblEmpty.hidden = true
+        btnRefresh.hidden = true
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "In Progress"])
@@ -49,6 +70,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
             self.loading.hidden = true
             if (self.userProducts?.count <= 0) {
                 self.lblEmpty.hidden = false
+                self.btnRefresh.hidden = false
             } else {
                 self.tableView.hidden = false
                 self.setupTable()
@@ -57,10 +79,11 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     }
     
     func getUserProducts() {
-        request(APITransaction.Sells(status: "process", current: "", limit: "")).responseJSON { req, resp, res, err in
+        request(APITransaction.Sells(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya - Diproses")) {
                 let json = JSON(res!)
                 let data = json["_data"]
+                let dataCount = data.count
                 
                 // Store data into variable
                 for (index : String, item : JSON) in data {
@@ -69,17 +92,50 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
                         self.userProducts?.append(u!)
                     }
                 }
+                
+                // Check if all data already loaded
+                if (dataCount < self.ItemPerLoad) {
+                    self.isAllItemLoaded = true
+                }
+                
+                // Set next index
+                self.nextIdx += dataCount
             }
             
+            // Hide loading (for first time request)
             self.loading.stopAnimating()
-            self.loading.hidden = true
+            
+            // Hide bottomLoading (for next request)
+            self.bottomLoading.stopAnimating()
+            self.consBottomTableView.constant = 0
+            
+            // Hide refreshControl (for refreshing)
+            self.refreshControl.endRefreshing()
+            
             if (self.userProducts?.count <= 0) {
                 self.lblEmpty.hidden = false
+                self.btnRefresh.hidden = false
             } else {
                 self.tableView.hidden = false
                 self.setupTable()
             }
         }
+    }
+    
+    func refresh(sender: AnyObject) {
+        // Reset data
+        self.userProducts = []
+        self.nextIdx = 0
+        self.isAllItemLoaded = false
+        self.tableView.hidden = true
+        self.lblEmpty.hidden = true
+        self.btnRefresh.hidden = true
+        self.loading.hidden = false
+        getUserProducts()
+    }
+    
+    @IBAction func refreshPressed(sender: AnyObject) {
+        self.refresh(sender)
     }
     
     func setupTable() {
@@ -102,8 +158,10 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
             var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-            let u = userProducts?[indexPath.item]
-            cell.adaptItem(u!)
+            if (!refreshControl.refreshing) {
+                let u = userProducts?[indexPath.item]
+                cell.adaptItem(u!)
+            }
             return cell
     }
     
@@ -115,5 +173,27 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 64
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offset : CGPoint = scrollView.contentOffset
+        let bounds : CGRect = scrollView.bounds
+        let size : CGSize = scrollView.contentSize
+        let inset : UIEdgeInsets = scrollView.contentInset
+        let y : CGFloat = offset.y + bounds.size.height - inset.bottom
+        let h : CGFloat = size.height
+        
+        let reloadDistance : CGFloat = 0
+        if (y > h + reloadDistance) {
+            // Load next items only if all items not loaded yet and if its not currently loading items
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+                // Tampilkan loading di bawah
+                consBottomTableView.constant = ConsBottomTableViewWhileUpdating
+                bottomLoading.startAnimating()
+                
+                // Get user products
+                self.getUserProducts()
+            }
+        }
     }
 }

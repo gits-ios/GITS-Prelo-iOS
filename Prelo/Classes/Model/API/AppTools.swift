@@ -43,9 +43,9 @@ extension Int
 }
 
 class AppTools: NSObject {
-    static var PreloBaseUrl = "http://dev.prelo.id" // Development
+//    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-//    static var PreloBaseUrl = "https://prelo.co.id" // Production
+    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
         return (AppTools.PreloBaseUrl == "https://prelo.co.id")
@@ -140,6 +140,7 @@ class Tags : NSObject
 class OrderStatus : NSObject
 {
     static let Dipesan = "Dipesan"
+    static let BelumDibayar = "Belum Dibayar"
     static let Dibayar = "Dibayar"
     static let Dikirim = "Dikirim"
     static let PembayaranPending = "Pembayaran Pending"
@@ -147,6 +148,7 @@ class OrderStatus : NSObject
     static let TidakDikirimSeller = "Tidak Dikirim Seller"
     static let Diterima = "Diterima"
     static let DibatalkanSeller = "Dibatalkan Seller"
+    static let Selesai = "Selesai"
 }
 
 class NotificationType : NSObject
@@ -164,17 +166,17 @@ class NotificationName : NSObject
 class UserDefaultsKey : NSObject
 {
     static let AppDataSaved = "appdatasaved"
+    static let NotificationSaved = "notificationsaved"
     static let CategorySaved = "categorysaved"
     static let CategoryPref1 = "categorypref1"
     static let CategoryPref2 = "categorypref2"
     static let CategoryPref3 = "categorypref3"
     static let Tour = "tour"
     static let TourDone = "tourdone"
-    static let DeepLinkProduct = "deeplinkproduct"
-    static let DeepLinkConfirmPayment = "deeplinkconfirmpayment"
-    static let DeepLinkShopPage = "deeplinkshoppage"
     static let RedirectFromHome = "redirectfromhome"
     static let UserAgent = "useragent"
+    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
+    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
 }
 
 class PageName

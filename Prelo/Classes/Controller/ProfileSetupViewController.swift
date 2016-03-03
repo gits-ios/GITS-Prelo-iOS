@@ -14,18 +14,22 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     
+    @IBOutlet weak var lblHeaderAlert: UILabel!
+    
     // Groups index:
     // 0 : Group Upload Foto
     // 1 : Group Fullname
-    // 2 : Group Jenis Kelamin
-    // 3 : Group No HP
-    // 4 : Group Verifikasi HP
-    // 5 : Group Kota
-    // 6 : Group Shipping Options
-    // 7 : Group Referal
-    // 8 : Group Apply
+    // 2 : Group Email
+    // 3 : Group Jenis Kelamin
+    // 4 : Group No HP
+    // 5 : Group Verifikasi HP
+    // 6 : Group Kota
+    // 7 : Group Shipping Options
+    // 8 : Group Referal
+    // 9 : Group Apply
     @IBOutlet weak var groupUploadFoto: UIView!
     @IBOutlet weak var groupFullname: UIView!
+    @IBOutlet weak var groupEmail: UIView!
     @IBOutlet weak var groupJenisKelamin: UIView!
     @IBOutlet weak var groupNoHp: UIView!
     @IBOutlet weak var groupVerifikasiHp: UIView!
@@ -37,6 +41,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var consTopUploadFoto: NSLayoutConstraint!
     @IBOutlet weak var consTopFullname: NSLayoutConstraint!
+    @IBOutlet weak var consTopEmail: NSLayoutConstraint!
     @IBOutlet weak var consTopJenisKelamin: NSLayoutConstraint!
     @IBOutlet weak var consTopNoHp: NSLayoutConstraint!
     @IBOutlet weak var consTopVerifikasiHp: NSLayoutConstraint!
@@ -50,6 +55,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     @IBOutlet weak var lblFullname: UILabel!
     @IBOutlet weak var fieldFullname: UITextField!
+    
+    @IBOutlet weak var fieldEmail: UITextField!
     
     @IBOutlet weak var lblJenisKelamin: UILabel!
     
@@ -87,26 +94,24 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     var userId : String = ""
     var userToken : String = ""
     var userEmail : String = ""
-    
     var isSocmedAccount : Bool!
     var loginMethod : String = "" // [Basic | Facebook | Twitter]
     var screenBeforeLogin : String = ""
-    
     var isMixpanelPageVisitSent : Bool = false
+    var isFromRegister : Bool!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
-        setNavBarButtons()
         setupContent()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Setup Akun"
+        self.title = "Setelan Akun"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -127,8 +132,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             if let c = CDUser.getOne() {
                 var minutesSinceReg = 0
                 if let o = CDUserOther.getOne() {
-                    let regTime = o.registerTime
-                    minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                    if let regTime = o.registerTime {
+                        minutesSinceReg = NSDate().minutesFromIsoFormatted(regTime)
+                    }
                 }
                 if (minutesSinceReg <= 1) {
                     let sp = [
@@ -181,32 +187,20 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         self.an_unsubscribeKeyboard()
     }
     
-    func setNavBarButtons() {
-        // Tombol back
-        self.navigationItem.hidesBackButton = true
-        /*let newBackButton = UIBarButtonItem(title: " Setup Akun", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton*/
-        
-        // Tombol apply
-        /*let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: "applyPressed:")
-        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.rightBarButtonItem = applyButton*/
-    }
-    
     override func backPressed(sender: UIBarButtonItem) {
-        NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-        if let d = self.userRelatedDelegate
-        {
-            d.userLoggedIn!()
-        }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func setupContent() {
+        // Set header alert
+        if (!isFromRegister) {
+            self.lblHeaderAlert.text = "Kamu perlu menyelesaikan Setelan Akun"
+        }
+        
         // Set groups and top constraints manually
         groups.append(self.groupUploadFoto)
         groups.append(self.groupFullname)
+        groups.append(self.groupEmail)
         groups.append(self.groupJenisKelamin)
         groups.append(self.groupNoHp)
         groups.append(self.groupVerifikasiHp)
@@ -216,6 +210,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         groups.append(self.groupApply)
         consTopGroups.append(self.consTopUploadFoto)
         consTopGroups.append(self.consTopFullname)
+        consTopGroups.append(self.consTopEmail)
         consTopGroups.append(self.consTopJenisKelamin)
         consTopGroups.append(self.consTopNoHp)
         consTopGroups.append(self.consTopVerifikasiHp)
@@ -227,9 +222,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         // Arrange groups
         var p : [Bool]!
         if (self.isSocmedAccount == true) {
-            p = [false, true, true, true, false, true, true, true, true]
+            p = [false, true, (self.userEmail == ""), true, true, false, true, true, false, true]
         } else {
-            p = [false, false, true, true, false, true, true, true, true]
+            p = [false, false, (self.userEmail == ""), true, true, false, true, true, false, true]
         }
         arrangeGroups(p)
         
@@ -248,12 +243,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
-        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-8
+        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
                 groups[i].hidden = false
                 // Manual narrow/wide space
-                if (i == 0 || (i == 2 && !groups[1].hidden) || i == 3) { // Narrow space before group
+                if (i == 0 || i == 2 || (i == 3 && !groups[1].hidden) || i == 4) { // Narrow space before group
                     deltaX += narrowSpace
                 } else { // Wide space before group
                     deltaX += wideSpace
@@ -438,6 +433,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         }
+        if (self.userEmail == "" && fieldEmail.text == "") {
+            Constant.showDialog("Warning", message: "Email harus diisi")
+        }
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Nomor HP harus diisi")
             return false
@@ -451,7 +449,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             return false
         }
         if (!jneSelected && !tikiSelected) {
-            Constant.showDialog("Warning", message: "Shipping Options harus diisi")
+            Constant.showDialog("Warning", message: "Pilihan Kurir harus diisi")
             return false
         }
         return true
@@ -466,6 +464,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             if (self.isSocmedAccount == true) {
                 username = (fieldFullname?.text)!
             }
+            var email = ""
+            if (self.userEmail == "") {
+                email = fieldEmail.text
+            }
             let userFullname = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
@@ -478,15 +480,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             //println("deviceToken = \(deviceToken)")
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-            // Set token first, because APIUser.SetupAccount need token
+            // Set token first, because APIUser.SetupAccount & APIUser.SetUserPreferencedCategories need token
             User.SetToken(self.userToken)
             
-            request(APIUser.SetupAccount(username: username, gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
+            request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
                 
-                // Delete token because user is considered not logged in
-                User.SetToken(nil)
-                
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setup Akun")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setelan Akun")) {
                     let json = JSON(res!)
                     let data = json["_data"]
                     
@@ -502,31 +501,32 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                                 println("Error setting user preferenced categories")
                             }
                         }
+                        // Delete token because user is considered not logged in
+                        User.SetToken(nil)
                     }
                     
+                    let userProfileData = UserProfile.instance(data)
                     
-                    // Save in core data
-                    let m = UIApplication.appDelegate.managedObjectContext
-                    
-                    CDUser.deleteAll()
-                    let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                    user.id = data["_id"].string!
-                    user.username = data["username"].string!
-                    user.email = data["email"].string!
-                    user.fullname = data["fullname"].string!
-                    
-                    CDUserProfile.deleteAll()
-                    let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
-                    userProfile.regionID = self.selectedKabKotaID
-                    userProfile.provinceID = self.selectedProvinsiID
-                    userProfile.phone = userPhone!
-                    userProfile.gender = self.lblJenisKelamin.text!
-                    userProfile.pict = data["profile"]["pict"].string!
-                    user.profiles = userProfile
-                    // TODO: Simpan referral, deviceid di coredata
-                    
-                    CDUserOther.deleteAll()
-                    let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    // Mixpanel
+                    let sp = [
+                        "User ID" : userProfileData?.id,
+                        "Username" : userProfileData?.username,
+                        "Gender" : userProfileData?.gender,
+                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
+                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "Referral Code Used" : userReferral
+                    ]
+                    Mixpanel.sharedInstance().registerSuperProperties(sp)
+                    Mixpanel.sharedInstance().identify(userProfileData?.id)
+                    let p = [
+                        "User ID" : userProfileData?.id,
+                        "$username" : userProfileData?.username,
+                        "Gender" : userProfileData?.gender,
+                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
+                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "Referral Code Used" : userReferral
+                    ]
+                    Mixpanel.sharedInstance().people.set(p)
                     var shippingArr : [String] = []
                     var shippingArrName : [String] = []
                     for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
@@ -536,62 +536,25 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             shippingArrName.append(sName)
                         }
                     }
-                    userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(shippingArr)
-                    // TODO: belum lengkap? simpan token socmed bila dari socmed
+                    var pt = [String : AnyObject]()
+                    pt["Shipping Options"] = shippingArrName
+                    pt["Phone"] = userProfileData?.phone
+                    Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
+                    let pt2 = [
+                        "Activation Screen" : "Setup Account"
+                    ]
+                    Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
                     
-                    // Memanggil notif observer yg mengimplement userLoggedIn (AppDelegate)
-                    // Di dalamnya akan memanggil MessagePool.start()
-                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
-                    
-                    // Save data
-                    var saveErr : NSError? = nil
-                    if (!m!.save(&saveErr)) {
-                        println("Error while saving data")
-                    } else {
-                        println("Data saved")
-                        
-                        // Mixpanel
-                        let sp = [
-                            "User ID" : user.id,
-                            "Username" : user.username,
-                            "Gender" : userProfile.gender!,
-                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                            "Referral Code Used" : userReferral
-                        ]
-                        Mixpanel.sharedInstance().registerSuperProperties(sp)
-                        Mixpanel.sharedInstance().identify(user.id)
-                        let p = [
-                            "User ID" : user.id,
-                            "$username" : user.username,
-                            "Gender" : userProfile.gender!,
-                            "Province Input" : CDProvince.getProvinceNameWithID(userProfile.provinceID)!,
-                            "City Input" : CDRegion.getRegionNameWithID(userProfile.regionID)!,
-                            "Referral Code Used" : userReferral
-                        ]
-                        Mixpanel.sharedInstance().people.set(p)
-                        let pt = [
-                            "Phone" : userProfile.phone!,
-                            "Shipping Options" : shippingArrName
-                        ]
-                        Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
-                        let pt2 = [
-                            "Activation Screen" : "Setup Account"
-                        ]
-                        Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
-                        
-                        let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
-                        phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
-                        phoneVerificationVC.userId = self.userId
-                        phoneVerificationVC.userToken = self.userToken
-                        phoneVerificationVC.userEmail = self.userEmail
-                        phoneVerificationVC.isShowBackBtn = true
-                        phoneVerificationVC.loginMethod = self.loginMethod
-                        self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
-                        
-                        // FOR TESTING (SKIP PHONE VERIFICATION)
-                        //self.dismissViewControllerAnimated(true, completion: nil)
-                    }
+                    let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
+                    phoneVerificationVC.userId = self.userId
+                    phoneVerificationVC.userToken = self.userToken
+                    phoneVerificationVC.userEmail = (userProfileData != nil) ? userProfileData!.email : "" // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
+                    phoneVerificationVC.isShowBackBtn = false
+                    phoneVerificationVC.loginMethod = self.loginMethod
+                    phoneVerificationVC.noHpToVerify = userPhone!
+                    phoneVerificationVC.userProfileData = userProfileData
+                    self.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                 } else {
                     self.btnApply.enabled = true
                 }

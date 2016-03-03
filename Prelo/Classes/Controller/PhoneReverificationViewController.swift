@@ -76,7 +76,7 @@ class PhoneReverificationViewController : BaseViewController {
                     
                     let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                     phoneVerificationVC.isReverification = true
-                    phoneVerificationVC.reverificationNoHP = self.fieldNoHP.text
+                    phoneVerificationVC.noHpToVerify = self.fieldNoHP.text
                     phoneVerificationVC.isShowBackBtn = true
                     phoneVerificationVC.delegate = self.prevVC
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)

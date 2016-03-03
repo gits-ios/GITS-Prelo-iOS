@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class DashboardViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class DashboardViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
 
     @IBOutlet var tableView : UITableView?
     @IBOutlet var captionName : UILabel?
@@ -64,6 +65,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"Voucher Gratis",
                 "icon":"",
                 "PreloAwesome":"0"
+            ],
+            [
+                "title":"Request Barang",
+                "icon":"",
+                "PreloAwesome":"0",
+                "iconimg":"ic_request"
             ],
             [
                 "title":"Hubungi Prelo",
@@ -151,6 +158,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         cell.captionIcon?.text = m["icon"]
         cell.captionTitle?.text = m["title"]
         
+        if (m["icon"] == "") {
+            let img = UIImage(named: m["iconimg"]!)
+            let iconImg = UIImageView(image: img)
+            iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
+            cell.addSubview(iconImg)
+        }
+        
         return cell
     }
     
@@ -180,7 +194,27 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
         }
         
-        if (indexPath.row == 4) // Hubungi Prelo
+        if (indexPath.row == 4) // Request Barang
+        {
+            var username = "Your beloved user"
+            if let u = CDUser.getOne() {
+                username = u.username
+            }
+            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+            
+            let m = MFMailComposeViewController()
+            if (MFMailComposeViewController.canSendMail()) {
+                m.setToRecipients(["contact@prelo.id"])
+                m.setSubject("Request Barang")
+                m.setMessageBody(msgBody, isHTML: true)
+                m.mailComposeDelegate = self
+                self.presentViewController(m, animated: true, completion: nil)
+            } else {
+                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Request Barang, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            }
+        }
+        
+        if (indexPath.row == 5) // Hubungi Prelo
         {
             let c = self.storyboard?.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
             contactUs = c
@@ -197,7 +231,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             }
         }
         
-        if (indexPath.row == 5) // About
+        if (indexPath.row == 6) // About
         {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
@@ -205,7 +239,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.previousController?.navigationController?.pushViewController(a, animated: true)
         }
         
-        if (indexPath.row == 6) // Tutorial
+        if (indexPath.row == 7) // Tutorial
         {
             self.previousController?.performSegueWithIdentifier("segTour", sender: self)
         }
@@ -246,6 +280,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
 //        userProfileVC.previousControllerName = "Dashboard"
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        if (result.value == MFMailComposeResultSent.value) {
+            Constant.showDialog("Request Barang", message: "Email terkirim")
+        } else if (result.value == MFMailComposeResultFailed.value) {
+            Constant.showDialog("Request Barang", message: "Email gagal dikirim")
+        }
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     /*

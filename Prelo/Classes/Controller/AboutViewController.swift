@@ -76,6 +76,13 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // Remove deviceRegId so the device won't receive push notification
         LoginViewController.SendDeviceRegId(onFinish: nil)
         
+        // Tell server
+        request(APIAuth.Logout).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
+                println("Logout API success")
+            }
+        }
+        
         // Clear local data
         User.Logout()
         
@@ -83,13 +90,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         if let d = self.userRelatedDelegate
         {
             d.userLoggedOut!()
-        }
-        
-        // Tell server
-        request(APIAuth.Logout).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
-                println("Logout API success")
-            }
         }
         
         let del = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -144,12 +144,15 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     func reloadingAppData() {
+        // Set appdatasaved to false in case the reload is not finished (the app is closed before finish) and need to be repeated on next app launch
+        NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
+        
         // Tampilkan pop up untuk loading
         let a = UIAlertView()
         let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
         pView.progress = 0
         pView.backgroundColor = Theme.GrayLight
-        pView.progressTintColor = Theme.ThemeOrage
+        pView.progressTintColor = Theme.ThemeOrange
         a.setValue(pView, forKey: "accessoryView")
         a.title = "Reloading App Data..."
         a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
@@ -286,6 +289,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
                         })
+                        // Set appdatasaved to true
+                        NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
                     } else {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")

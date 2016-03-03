@@ -241,7 +241,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 let json = JSON(res!)["_data"]
                 println(json)
                 
-                self.storeHeader?.captionName.text = json["username"].string
+                self.storeName = json["username"].stringValue
+                self.storeHeader?.captionName.text = self.storeName
+                self.title = self.storeName
                 self.storeHeader?.captionDesc.text = json["profile"]["description"].string
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.storeHeader?.avatar.setImageWithUrl(NSURL(string: avatarThumbnail)!, placeHolderImage: nil)

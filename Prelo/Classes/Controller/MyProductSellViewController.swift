@@ -12,7 +12,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
+    @IBOutlet var btnRefresh: UIButton!
     @IBOutlet var tableView : UITableView!
+    @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
+    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
+    let ConsBottomTableViewWhileUpdating : CGFloat = 36
+    
+    var refreshControl : UIRefreshControl!
+    
+    let ItemPerLoad : Int = 10
+    var nextIdx : Int = 0
+    var isAllItemLoaded : Bool = false
+    
     var products : Array<Product> = []
     
     override func viewDidLoad() {
@@ -21,6 +32,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Do any additional setup after loading the view.
         self.lblEmpty.hidden = true
         self.tableView.hidden = true
+        self.btnRefresh.hidden = true
+        self.loading.startAnimating()
+        self.loading.hidden = false
         getProducts()
         
         tableView.dataSource = self
@@ -29,6 +43,17 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Register custom cell
         var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        
+        // Hide bottom refresh first
+        bottomLoading.stopAnimating()
+        bottomLoading.hidden = true
+        consBottomTableView.constant = 0
+        
+        // Refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.tintColor = Theme.PrimaryColor
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -43,7 +68,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getProducts()
     {
-        request(APIProduct.MyProduct(current: products.count, limit: 10)).responseJSON { req, resp, res, err in
+        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya")) {
                 if let result: AnyObject = res
                 {
@@ -51,23 +76,63 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     let d = j["_data"].arrayObject
                     if let data = d
                     {
+                        let dataCount = data.count
+                        
                         for json in data
                         {
                             self.products.append(Product.instance(JSON(json))!)
                             self.tableView.tableFooterView = UIView()
                         }
-                        if (self.products.count > 0) {
-                            self.lblEmpty.hidden = true
-                            self.tableView.hidden = false
-                            self.tableView.reloadData()
-                        } else {
-                            self.lblEmpty.hidden = false
-                            self.tableView.hidden = true
+                        
+                        // Check if all data already loaded
+                        if (dataCount < self.ItemPerLoad) {
+                            self.isAllItemLoaded = true
                         }
+                        
+                        // Set next index
+                        self.nextIdx += dataCount
                     }
                 }
             }
+            
+            // Hide loading (for first time request)
+            self.loading.stopAnimating()
+            self.loading.hidden = true
+            
+            // Hide bottomLoading (for next request)
+            self.bottomLoading.stopAnimating()
+            self.bottomLoading.hidden = true
+            self.consBottomTableView.constant = 0
+            
+            // Hide refreshControl (for refreshing)
+            self.refreshControl.endRefreshing()
+            
+            if (self.products.count > 0) {
+                self.lblEmpty.hidden = true
+                self.tableView.hidden = false
+                self.tableView.reloadData()
+            } else {
+                self.lblEmpty.hidden = false
+                self.btnRefresh.hidden = false
+                self.tableView.hidden = true
+            }
         }
+    }
+    
+    func refresh(sender: AnyObject) {
+        // Reset data
+        self.products = []
+        self.nextIdx = 0
+        self.isAllItemLoaded = false
+        self.tableView.hidden = true
+        self.lblEmpty.hidden = true
+        self.btnRefresh.hidden = true
+        self.loading.hidden = false
+        getProducts()
+    }
+    
+    @IBAction func refreshPressed(sender: AnyObject) {
+        self.refresh(sender)
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,35 +146,37 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-        let p = products[indexPath.row]
-        
-        cell.lblProductName.text = p.name
-        cell.lblPrice.text = p.price
-        cell.lblOrderTime.text = p.time
-        
-        let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
-        cell.lblCommentCount.text = "\(commentCount)"
-        
-        let loveCount : Int = (p.json["num_lovelist"] != nil) ? p.json["num_lovelist"].int! : 0
-        cell.lblLoveCount.text = "\(loveCount)"
-        
-        cell.imgProduct.image = nil
-        if let url = p.coverImageURL {
-            cell.imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+        if (!refreshControl.refreshing) {
+            let p = products[indexPath.row]
+            
+            cell.lblProductName.text = p.name
+            cell.lblPrice.text = p.price
+            cell.lblOrderTime.text = p.time
+            
+            let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
+            cell.lblCommentCount.text = "\(commentCount)"
+            
+            let loveCount : Int = (p.json["num_lovelist"] != nil) ? p.json["num_lovelist"].int! : 0
+            cell.lblLoveCount.text = "\(loveCount)"
+            
+            cell.imgProduct.image = nil
+            if let url = p.coverImageURL {
+                cell.imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+            }
+            
+            let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
+            cell.lblOrderStatus.text = status.uppercaseString
+            if (status == "Aktif") {
+                cell.lblOrderStatus.textColor = Theme.PrimaryColor
+            } else {
+                cell.lblOrderStatus.textColor = UIColor.redColor()
+            }
+            
+            // Fix product status text width
+            let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
+            //println("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+            cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         }
-        
-        let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
-        cell.lblOrderStatus.text = status.uppercaseString
-        if (status == "Aktif") {
-            cell.lblOrderStatus.textColor = Theme.PrimaryColor
-        } else {
-            cell.lblOrderStatus.textColor = UIColor.redColor()
-        }
-        
-        // Fix product status text width
-        let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-        //println("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
-        cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         
         return cell
         
@@ -154,6 +221,28 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offset : CGPoint = scrollView.contentOffset
+        let bounds : CGRect = scrollView.bounds
+        let size : CGSize = scrollView.contentSize
+        let inset : UIEdgeInsets = scrollView.contentInset
+        let y : CGFloat = offset.y + bounds.size.height - inset.bottom
+        let h : CGFloat = size.height
+        
+        let reloadDistance : CGFloat = 0
+        if (y > h + reloadDistance) {
+            // Load next items only if all items not loaded yet and if its not currently loading items
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+                // Tampilkan loading di bawah
+                consBottomTableView.constant = ConsBottomTableViewWhileUpdating
+                bottomLoading.startAnimating()
+                bottomLoading.hidden = false
+                
+                // Get user products
+                self.getProducts()
+            }
+        }
+    }
 
     /*
     // MARK: - Navigation
