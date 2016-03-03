@@ -284,6 +284,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.currentCart = json
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
+                print(self.arrayItem)
                 
                 if let bonus = json["_data"]["bonus_available"].int
                 {
@@ -299,6 +300,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                                 for i in 0...self.products.count-1
                                 {
                                     let cp = self.products[i]
+                                    print("Cart product : \(cp.toDictionary)")
                                     
                                     let json = self.arrayItem[i]
                                     if let free = json["free_ongkir"].bool
@@ -900,11 +902,30 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         println(x)
         
-        let p = products[indexPath.row]
-        products.removeAtIndex(indexPath.row)
-        println(p.cpID)
-        UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
-        UIApplication.appDelegate.saveContext()
+        let pid = j["product_id"].stringValue
+        
+        var deletedProduct : CartProduct?
+        var index = 0
+        for cp in products
+        {
+            if (cp.cpID == pid) // delete cart product
+            {
+                deletedProduct = cp
+                break
+            }
+            index += 1
+        }
+        
+        if let p = deletedProduct
+        {
+            products.removeAtIndex(index)
+            println(p.cpID)
+            UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+            UIApplication.appDelegate.saveContext()
+        }
+        
+//        let p = products[indexPath.row]
+        
         
         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         if (arrayItem.count == 0) {
@@ -930,38 +951,51 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func itemNeedUpdateShipping(indexPath: NSIndexPath) {
         let j = arrayItem[indexPath.row]
-        let cp = products[indexPath.row]
-        println(j)
-        var names : Array<String> = []
-        var arr = j["shipping_packages"].array
-        if let shippings = j["shipping_packages"].arrayObject
+        let jid = j["product_id"].stringValue
+        var cartProduct : CartProduct?
+        for cp in products
         {
-            for s in shippings
+            if (cp.cpID == jid)
             {
-                let json = JSON(s)
-                if let name = json["name"].string
-                {
-                    names.append(name)
-                }
+                cartProduct = cp
+                break
             }
-            
-            if (names.count > 0)
+        }
+        
+        if let cp = cartProduct
+        {
+            println(j)
+            var names : Array<String> = []
+            var arr = j["shipping_packages"].array
+            if let shippings = j["shipping_packages"].arrayObject
             {
-                ActionSheetStringPicker.showPickerWithTitle("Select Shipping", rows: names, initialSelection: 0, doneBlock: {picker, index, value in
-                    let sjson = arr?[index]
-                    if let pid = sjson?["_id"].string
+                for s in shippings
+                {
+                    let json = JSON(s)
+                    if let name = json["name"].string
                     {
-                        cp.packageId = pid
-                        let c = self.cellViews[indexPath] as! CartCellItem
-                        c.selectedPaymentId = pid
-                        c.adapt(self.arrayItem[indexPath.row])
-                        UIApplication.appDelegate.saveContext()
-                        self.tableView.reloadData()
-                        self.adjustTotal()
+                        names.append(name)
                     }
-                    }, cancelBlock: {picker in
-                        
-                    }, origin: self.view)
+                }
+                
+                if (names.count > 0)
+                {
+                    ActionSheetStringPicker.showPickerWithTitle("Select Shipping", rows: names, initialSelection: 0, doneBlock: {picker, index, value in
+                        let sjson = arr?[index]
+                        if let pid = sjson?["_id"].string
+                        {
+                            cp.packageId = pid
+                            let c = self.cellViews[indexPath] as! CartCellItem
+                            c.selectedPaymentId = pid
+                            c.adapt(self.arrayItem[indexPath.row])
+                            UIApplication.appDelegate.saveContext()
+                            self.tableView.reloadData()
+                            self.adjustTotal()
+                        }
+                        }, cancelBlock: {picker in
+                            
+                        }, origin: self.view)
+                }
             }
         }
     }
