@@ -300,6 +300,64 @@ enum APINotif : URLRequestConvertible
     }
 }
 
+enum APINotifAnggi : URLRequestConvertible
+{
+    static let basePath = "notification/"
+    
+    case GetNotifs(tab : String, page : Int)
+    case GetUnreadNotifCount
+    case ReadNotif(tab : String, id : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .GetNotifs(_, _) : return .GET
+        case .GetUnreadNotifCount : return .GET
+        case .ReadNotif(_, _) : return .POST
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .GetNotifs(let tab, let page) : return "new/\(tab)/\(page)"
+        case .GetUnreadNotifCount : return "new/count"
+        case .ReadNotif(let tab, _) : return "new/\(tab)/read"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .GetNotifs(_, _) :
+            return [:]
+        case .GetUnreadNotifCount :
+            return [:]
+        case .ReadNotif(_, let id) :
+            let p = [
+                "object_id" : id
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotifAnggi.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
 enum APIInbox : URLRequestConvertible
 {
     static let basePath = "inbox/"

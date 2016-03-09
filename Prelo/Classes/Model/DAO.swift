@@ -2197,3 +2197,152 @@ class InboxMessage : NSObject
         self.sendTo(lastThreadId, completion: lastCompletion)
     }
 }
+
+class Notification : NSObject
+{
+    var json : JSON = JSON([:])
+
+    static func instance(json : JSON?) -> Notification? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = Notification()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    // 1000 : Transaksi
+    // 2000 : Inbox
+    // 3000 : Komentar
+    // -9999 : Undefined
+    var type : Int {
+        if let j = json["type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var shortPreview : String {
+        if let j = json["short_preview"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var statusText : String {
+        if let j = json["status_text"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var caption : String {
+        if let j = json["caption"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var objectName : String {
+        if let j = json["object_name"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var objectId : String {
+        if let j = json["object_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var productImages : [String] {
+        if let j = json["product_images"].arrayObject as? [String] {
+            return j
+        }
+        return []
+    }
+    
+    var read : Bool {
+        if let j = json["read"].bool {
+            return j
+        }
+        return true
+    }
+    
+    var ownerId : String {
+        if let j = json["owner_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userIdFrom : String {
+        if let j = json["user_id_from"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userUsernameFrom : String {
+        if let j = json["user_username_from"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userIdOwner : String {
+        if let j = json["user_id_owner"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var inboxType : Int {
+        if let j = json["inbox_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var messageType : Int {
+        if let j = json["message_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var activityType : Int {
+        if let j = json["activity_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    func setRead() {
+        json["read"] = JSON(true)
+    }
+}

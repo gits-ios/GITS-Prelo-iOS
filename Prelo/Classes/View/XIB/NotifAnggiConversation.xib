@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="aOk-nj-kGX" customClass="NotifAnggiConversationViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="dIf-KE-SW5"/>
+                <viewControllerLayoutGuide type="bottom" id="81U-ts-Clo"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="qsa-hG-hX1">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5x8-Ui-29h">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tidak ada notifikasi untuk ditampilkan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xo3-9M-B72">
+                        <rect key="frame" x="16" y="25" width="568" height="16"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vuO-xP-CVO" userLabel="loadingBottomPanel">
+                        <rect key="frame" x="0.0" y="500" width="600" height="36"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="NFh-yk-vPi" userLabel="loadingbottom">
+                                <rect key="frame" x="290" y="8" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="axb-Se-2UD"/>
+                            <constraint firstAttribute="centerY" secondItem="NFh-yk-vPi" secondAttribute="centerY" id="ddp-K1-lNy"/>
+                            <constraint firstAttribute="centerX" secondItem="NFh-yk-vPi" secondAttribute="centerX" id="pmR-sK-Mzv"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOn-oV-giC">
+                        <rect key="frame" x="277" y="48" width="46" height="30"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="hzk-n8-kvc"/>
+                            <constraint firstAttribute="height" constant="30" id="u1y-G5-D93"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                        <state key="normal" title="">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="refreshPressed:" destination="aOk-nj-kGX" eventType="touchUpInside" id="P6H-5K-gJd"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21B-ga-oMF" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Uyv-op-XON" userLabel="loading">
+                                <rect key="frame" x="290" y="25" width="20" height="20"/>
+                                <animations/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstItem="Uyv-op-XON" firstAttribute="top" secondItem="21B-ga-oMF" secondAttribute="top" constant="25" id="Zum-cj-A5H"/>
+                            <constraint firstAttribute="centerX" secondItem="Uyv-op-XON" secondAttribute="centerX" id="fic-ga-ZOy"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="81U-ts-Clo" firstAttribute="top" secondItem="vuO-xP-CVO" secondAttribute="bottom" id="0YS-fU-bzl"/>
+                    <constraint firstItem="5x8-Ui-29h" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="AfE-EB-ng6"/>
+                    <constraint firstAttribute="centerX" secondItem="tOn-oV-giC" secondAttribute="centerX" id="FEH-Ti-poD"/>
+                    <constraint firstAttribute="trailing" secondItem="xo3-9M-B72" secondAttribute="trailing" constant="16" id="M3x-CU-vvz"/>
+                    <constraint firstItem="21B-ga-oMF" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="Mfe-Cu-PfP"/>
+                    <constraint firstItem="81U-ts-Clo" firstAttribute="top" secondItem="21B-ga-oMF" secondAttribute="bottom" id="Onk-S0-fWU"/>
+                    <constraint firstAttribute="trailing" secondItem="vuO-xP-CVO" secondAttribute="trailing" id="PYi-Gp-kD8"/>
+                    <constraint firstItem="vuO-xP-CVO" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" id="Saq-Or-FX7"/>
+                    <constraint firstItem="xo3-9M-B72" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" constant="25" id="TDC-dq-iYM"/>
+                    <constraint firstItem="21B-ga-oMF" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" id="c4E-n6-aVp"/>
+                    <constraint firstItem="tOn-oV-giC" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" constant="48" id="fuP-Xg-BBC"/>
+                    <constraint firstItem="81U-ts-Clo" firstAttribute="top" secondItem="5x8-Ui-29h" secondAttribute="bottom" id="hIa-Or-lqu"/>
+                    <constraint firstItem="5x8-Ui-29h" firstAttribute="top" secondItem="dIf-KE-SW5" secondAttribute="bottom" id="rc4-ar-7pK"/>
+                    <constraint firstAttribute="trailing" secondItem="21B-ga-oMF" secondAttribute="trailing" id="swS-SB-vcc"/>
+                    <constraint firstAttribute="trailing" secondItem="5x8-Ui-29h" secondAttribute="trailing" id="v1W-sL-uTH"/>
+                    <constraint firstItem="xo3-9M-B72" firstAttribute="leading" secondItem="qsa-hG-hX1" secondAttribute="leading" constant="16" id="vzg-rp-7Ob"/>
+                </constraints>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="600" height="600"/>
+            <connections>
+                <outlet property="bottomLoading" destination="NFh-yk-vPi" id="Vtd-87-2ZN"/>
+                <outlet property="bottomLoadingPanel" destination="vuO-xP-CVO" id="VIN-0b-j4X"/>
+                <outlet property="btnRefresh" destination="tOn-oV-giC" id="APD-fP-W00"/>
+                <outlet property="lblEmpty" destination="xo3-9M-B72" id="zHt-Z1-4P3"/>
+                <outlet property="loading" destination="Uyv-op-XON" id="QMp-MZ-PY3"/>
+                <outlet property="loadingPanel" destination="21B-ga-oMF" id="V0O-hk-fXf"/>
+                <outlet property="tableView" destination="5x8-Ui-29h" id="Pfw-nl-qz6"/>
+            </connections>
+            <point key="canvasLocation" x="531" y="209"/>
+        </viewController>
+    </objects>
+</document>

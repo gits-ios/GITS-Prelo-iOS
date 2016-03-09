@@ -135,6 +135,9 @@ class Tags : NSObject
     static let XibNameNotificationPageInbox = "NotificationPageInbox"
     static let XibNameNotificationPageActivity = "NotificationPageActivity"
     static let XibNameSetupPasswordPopUp = "SetupPasswordPopUp"
+    static let XibNameNotifAnggiTabBar = "NotifAnggiTabBar"
+    static let XibNameNotifAnggiTransaction = "NotifAnggiTransaction"
+    static let XibNameNotifAnggiConversation = "NotifAnggiConversation"
 }
 
 class OrderStatus : NSObject
