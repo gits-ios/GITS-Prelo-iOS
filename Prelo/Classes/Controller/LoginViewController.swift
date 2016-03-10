@@ -133,6 +133,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 }
                 
                 if (isProfileSet) {
+                    // Refresh notifications badge
+                    let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let notifListener = delegate.preloNotifListener
+                    notifListener.getTotalUnreadNotifCount()
+                    
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
                     CDUser.deleteAll()
@@ -178,10 +183,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                     
                     UIApplication.appDelegate.saveContext()
-                    
-                    // Refresh notifications
-                    NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.NotificationSaved)
-                    NotificationPageViewController.refreshNotifications()
                     
                     // Save in NSUserDefaults
                     User.StoreUser(userProfileData!.id, token : token, email : userProfileData!.email)

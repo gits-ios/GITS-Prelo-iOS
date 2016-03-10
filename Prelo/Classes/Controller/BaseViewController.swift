@@ -183,8 +183,6 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchNotifPage()
     {
-        //let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPage, owner: nil, options: nil).first as! NotificationPageViewController
-        //let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPageTabbed, owner: nil, options: nil).first as! NotificationPageTabbedViewController
         let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
         self.navigationController?.pushViewController(notifPageVC, animated: true)
     }

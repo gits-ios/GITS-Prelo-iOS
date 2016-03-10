@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: - Protocol
+// MARK: - NotifAnggiTransaction Protocol
 
 protocol NotifAnggiTransactionDelegate {
     func decreaseTransactionBadgeNumber()
@@ -16,7 +16,7 @@ protocol NotifAnggiTransactionDelegate {
 
 // MARK: - Class
 
-class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, NotifAnggiTransactionCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lblEmpty: UILabel!
@@ -57,11 +57,6 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: "refreshPage", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
-        
-        // Get notif is user is logged in
-        if (User.IsLoggedIn == true) {
-            self.refreshPage()
-        }
         
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
@@ -131,36 +126,13 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         var cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
         cell.selectionStyle = .None
         let n = notifications?[indexPath.item]
-        cell.adapt(n!)
+        cell.adapt(n!, idx: indexPath.item)
+        cell.delegate = self
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.showLoading()
-        if let n = notifications?[indexPath.item] {
-            if (!n.read) {
-                request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.id)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
-                        let json = JSON(res!)
-                        let data : Bool? = json["_data"].bool
-                        if (data != nil && data == true) {
-                            self.notifications?[indexPath.item].setRead()
-                            self.delegate?.decreaseTransactionBadgeNumber()
-                            self.navigateReadNotif(n)
-                        } else {
-                            Constant.showDialog("Notifikasi - Transaction", message: "Oops, terdapat masalah pada notifikasi")
-                            self.hideLoading()
-                        }
-                    } else {
-                        self.hideLoading()
-                    }
-                }
-            } else {
-                self.navigateReadNotif(n)
-            }
-        } else {
-            self.hideLoading()
-        }
+        self.readNotif(indexPath.item)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -186,6 +158,12 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 self.getNotif()
             }
         }
+    }
+    
+    // MARK: - NotifAnggiTransactionCell delegate function
+    
+    func cellCollectionTapped(idx: Int) {
+        self.readNotif(idx)
     }
     
     // MARK: - IBActions
@@ -245,6 +223,34 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         tableView.reloadData()
     }
     
+    func readNotif(idx : Int) {
+        self.showLoading()
+        if let n = notifications?[idx] {
+            if (!n.read) {
+                request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
+                        let json = JSON(res!)
+                        let data : Bool? = json["_data"].bool
+                        if (data != nil && data == true) {
+                            self.notifications?[idx].setRead()
+                            self.delegate?.decreaseTransactionBadgeNumber()
+                            self.navigateReadNotif(n)
+                        } else {
+                            Constant.showDialog("Notifikasi - Transaction", message: "Oops, terdapat masalah pada notifikasi")
+                            self.hideLoading()
+                        }
+                    } else {
+                        self.hideLoading()
+                    }
+                }
+            } else {
+                self.navigateReadNotif(n)
+            }
+        } else {
+            self.hideLoading()
+        }
+    }
+    
     func navigateReadNotif(notif : Notification) {
         // Check if user is seller or buyer
         request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
@@ -275,6 +281,12 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
 }
 
+// MARK: - NotifAnggiTransactionCell Protocol
+
+protocol NotifAnggiTransactionCellDelegate {
+    func cellCollectionTapped(idx : Int)
+}
+
 // MARK: - Class
 
 class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -293,6 +305,9 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     @IBOutlet weak var collcTrxProgress: UICollectionView!
     
     var notif : Notification?
+    var idx : Int?
+    
+    var delegate : NotifAnggiTransactionCellDelegate?
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0)
@@ -303,7 +318,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         lblTrxStatus.textColor = Theme.GrayDark
     }
 
-    func adapt(notif : Notification) {
+    func adapt(notif : Notification, idx : Int) {
         // Set background color
         if (!notif.read) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
@@ -346,13 +361,28 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
         // Set collection view
-        self.notif = notif
-        collcTrxProgress.backgroundColor = UIColor.clearColor()
         collcTrxProgress.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
         collcTrxProgress.delegate = self
         collcTrxProgress.dataSource = self
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
+        tapGestureRecognizer.delegate = self
+        collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
+        collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
+        collcTrxProgress.backgroundColor = UIColor.clearColor()
         collcTrxProgress.reloadData()
+        
+        // Set var
+        self.notif = notif
+        self.idx = idx
     }
+    
+    func handleTap() {
+        if (idx != nil) {
+            delegate?.cellCollectionTapped(self.idx!)
+        }
+    }
+    
+    // MARK: - CollectionView delegate functions
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let progress = self.notif?.progress {
@@ -446,5 +476,11 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(25, 25)
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if (idx != nil) {
+            delegate?.cellCollectionTapped(self.idx!)
+        }
     }
 }

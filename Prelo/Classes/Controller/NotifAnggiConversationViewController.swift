@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: - Protocol
+// MARK: - NotifAnggiConversation Protocol
 
 protocol NotifAnggiConversationDelegate {
     func decreaseConversationBadgeNumber()
@@ -57,11 +57,6 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: "refreshPage", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
-        
-        // Get notif is user is logged in
-        if (User.IsLoggedIn == true) {
-            self.refreshPage()
-        }
         
         // Transparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
@@ -139,7 +134,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.showLoading()
         if let n = notifications?[indexPath.item] {
             if (!n.read) {
-                request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.id)).responseJSON { req, resp, res, err in
+                request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.objectId)).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Conversation")) {
                         let json = JSON(res!)
                         let data : Bool? = json["_data"].bool

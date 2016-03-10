@@ -125,15 +125,10 @@ class Tags : NSObject
     static let XibNameMyProductDetail = "MyProductDetail"
     static let XibNameMyLovelist = "MyLovelist"
     static let XibNamePathLogin = "PathLogin"
-    static let XibNameNotificationPage = "NotificationPage"
     static let XibNameTermCondition = "TermCondition"
     static let XibNameReferralPage = "ReferralPage"
     static let XibNameCategoryPreferences = "CategoryPreferences"
     static let XibNameShopReview = "ShopReview"
-    static let XibNameNotificationPageTabbed = "NotificationPageTabbed"
-    static let XibNameNotificationPageTransaction = "NotificationPageTransaction"
-    static let XibNameNotificationPageInbox = "NotificationPageInbox"
-    static let XibNameNotificationPageActivity = "NotificationPageActivity"
     static let XibNameSetupPasswordPopUp = "SetupPasswordPopUp"
     static let XibNameNotifAnggiTabBar = "NotifAnggiTabBar"
     static let XibNameNotifAnggiTransaction = "NotifAnggiTransaction"
@@ -169,7 +164,6 @@ class NotificationName : NSObject
 class UserDefaultsKey : NSObject
 {
     static let AppDataSaved = "appdatasaved"
-    static let NotificationSaved = "notificationsaved"
     static let CategorySaved = "categorysaved"
     static let CategoryPref1 = "categorypref1"
     static let CategoryPref2 = "categorypref2"

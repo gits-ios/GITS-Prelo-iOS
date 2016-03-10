@@ -67,6 +67,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 isFirstAppear = false
                 
                 self.getUnreadNotifCount()
+                self.refreshNotifPage()
             } else {
                 self.notifAnggiTransactionVC?.hideLoading()
                 self.notifAnggiTransactionVC?.showContent()
@@ -134,7 +135,6 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     override func refreshNotifPage() {
         self.notifAnggiTransactionVC?.refreshPage()
         self.notifAnggiConversationVC?.refreshPage()
-        // TODO: handle badge number di notiflistener
     }
     
     // MARK: - NotifAnggi per tab delegate functions
