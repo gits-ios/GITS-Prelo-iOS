@@ -1056,7 +1056,7 @@ enum APIProduct : URLRequestConvertible
     static let basePath = "product/"
     
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case Detail(productId : String)
+    case Detail(productId : String, forEdit : Int)
     case Add(name : String, desc : String, price : String, weight : String, category : String)
     case Love(productID : String)
     case Unlove(productID : String)
@@ -1069,7 +1069,7 @@ enum APIProduct : URLRequestConvertible
             switch self
             {
             case .ListByCategory(_, _, _, _, _, _, _): return .GET
-            case .Detail(_): return .GET
+            case .Detail(_, _): return .GET
             case .Add(_, _, _, _, _) : return .POST
             case .Love(_):return .POST
             case .Unlove(_):return .POST
@@ -1084,7 +1084,7 @@ enum APIProduct : URLRequestConvertible
             switch self
             {
             case .ListByCategory(_, _, _, _, _, _, _): return ""
-            case .Detail(let prodId): return prodId
+            case .Detail(let prodId, _): return prodId
             case .Add(_, _, _, _, let category) : return ""
             case .Love(let prodId):return prodId + "/love"
             case .Unlove(let prodId):return prodId + "/unlove"
@@ -1109,7 +1109,7 @@ enum APIProduct : URLRequestConvertible
                     "price_max":priceMax,
                     "prelo":"true"
                 ]
-            case .Detail(let prodId): return ["prelo":"true"]
+            case .Detail(_, let forEdit): return ["inedit": forEdit]
             case .Add(let name, let desc, let price, let weight, let category):
                 return [
                     "name":name,

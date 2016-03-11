@@ -469,6 +469,7 @@
 		58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */; };
 		58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */; };
 		58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */; };
+		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
@@ -1111,6 +1112,7 @@
 		58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Prelo.entitlements; sourceTree = "<group>"; };
 		58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
+		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
@@ -1800,6 +1802,7 @@
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
 				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2753,6 +2756,7 @@
 				219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */,
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */,
 				58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */,
 				58A99A3C1C6D864E00E3E7D7 /* BranchApplyPromoCodeRequest.m in Sources */,
 				21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */,
