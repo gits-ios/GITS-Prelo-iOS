@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "460631316.306505"
+            timestampString = "477420447.083816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "667"
-            endingLineNumber = "667"
-            landmarkName = "adapt(_:)"
-            landmarkType = "5">
+            startingLineNumber = "673"
+            endingLineNumber = "673"
+            landmarkName = "CartViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "460631316.306505"
+            timestampString = "477420447.083816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
-            landmarkName = "adapt(_:)"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "283"
             endingLineNumber = "283"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkName = "synch()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

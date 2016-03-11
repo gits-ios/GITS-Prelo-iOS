@@ -651,6 +651,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.view.endEditing(true)
     }
     
