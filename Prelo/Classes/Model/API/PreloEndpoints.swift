@@ -613,6 +613,58 @@ enum APITransaction2 : URLRequestConvertible
     }
 }
 
+enum APITransactionAnggi : URLRequestConvertible
+{
+    static let basePath = ""
+    
+    case GetSellerTransaction(id : String)
+    case GetBuyerTransaction(id : String)
+    case GetTransactionProduct(id : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .GetSellerTransaction(_) : return .GET
+        case .GetBuyerTransaction(_) : return .GET
+        case .GetTransactionProduct(_) : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .GetSellerTransaction(let id) : return "transaction/seller/\(id)"
+        case .GetBuyerTransaction(let id) : return "transaction/\(id)"
+        case .GetTransactionProduct(let id) : return "transaction_product/\(id)"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .GetSellerTransaction(let id) : return [:]
+        case .GetBuyerTransaction(let id) : return [:]
+        case .GetTransactionProduct(let id) : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionAnggi.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
 enum APICart : URLRequestConvertible
 {
     static let basePath = "cart/"

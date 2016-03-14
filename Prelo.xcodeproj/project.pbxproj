@@ -1738,6 +1738,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */,
 				5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */,
 				5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */,
 				5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */,
@@ -1802,7 +1803,6 @@
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
 				21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
-				58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

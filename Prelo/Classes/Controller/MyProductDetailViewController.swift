@@ -110,7 +110,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     var imagePicker : UIImagePickerController!
     
     var transactionId : String?
-    var transactionDetail : TransactionDetail?
+    var transactionDetail : TransactionProductDetail?
     
     var contactUs : UIViewController?
     
@@ -183,7 +183,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 let data = json["_data"]
                 
                 // Set label text and image
-                self.transactionDetail = TransactionDetail.instance(data)
+                self.transactionDetail = TransactionProductDetail.instance(data)
                 self.setupContent()
             }
         }

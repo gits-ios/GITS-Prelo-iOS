@@ -252,12 +252,18 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(notif : Notification) {
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+        transactionDetailVC.trxId = notif.objectId
+        transactionDetailVC.isSeller = true
+        self.navigationController?.pushViewController(transactionDetailVC, animated: true)
+        
         // Check if user is seller or buyer
-        request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
+        /*request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
                 let json = JSON(res!)
                 let data = json["_data"]
-                let tpDetail = TransactionDetail.instance(data)
+                let tpDetail = TransactionProductDetail.instance(data)
                 if let sellerId = tpDetail?.sellerId {
                     if (sellerId == User.Id) { // User is seller
                         // Goto MyProductDetail
@@ -277,7 +283,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 self.hideLoading()
                 self.showContent()
             }
-        }
+        }*/
     }
 }
 
