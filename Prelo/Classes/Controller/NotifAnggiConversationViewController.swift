@@ -312,7 +312,7 @@ class NotifAnggiConversationCell: UITableViewCell {
         }
         
         // Set image
-        if (notif.productImages.count > 1) {
+        if (notif.productImages.count > 0) {
             imgSingle.setImageWithUrl(NSURL(string: notif.productImages.objectAtCircleIndex(0))!, placeHolderImage: nil)
         }
         

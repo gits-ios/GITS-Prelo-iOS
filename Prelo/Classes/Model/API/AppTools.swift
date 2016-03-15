@@ -74,6 +74,8 @@ class Theme : NSObject
     
     static var GrayDark = UIColor(hex: "#858585")
     static var GrayLight = UIColor(hex: "#b7b7b7")
+    
+    static var ThemeRed = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
 }
 
 class Tags : NSObject

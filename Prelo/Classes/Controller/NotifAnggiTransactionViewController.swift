@@ -254,8 +254,24 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func navigateReadNotif(notif : Notification) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
-        transactionDetailVC.trxId = notif.objectId
-        transactionDetailVC.isSeller = true
+        // Set trxId/trxProductId
+        if (notif.progress == TransactionDetailTools.ProgressExpired || notif.progress == TransactionDetailTools.ProgressNotPaid || notif.progress == TransactionDetailTools.ProgressClaimedPaid) {
+            transactionDetailVC.trxId = notif.objectId
+        } else if (notif.progress == TransactionDetailTools.ProgressConfirmedPaid) {
+            if (notif.caption.lowercaseString == "jual") {
+                transactionDetailVC.trxId = notif.objectId
+            } else if (notif.caption.lowercaseString == "beli") {
+                transactionDetailVC.trxProductId = notif.objectId
+            }
+        } else {
+            transactionDetailVC.trxProductId = notif.objectId
+        }
+        // Set isSeller
+        if (notif.caption.lowercaseString == "jual") {
+            transactionDetailVC.isSeller = true
+        } else if (notif.caption.lowercaseString == "beli") {
+            transactionDetailVC.isSeller = false
+        }
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer
@@ -358,7 +374,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set trx status text color
         if (notif.progress < 0) {
-            lblTrxStatus.textColor = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
+            lblTrxStatus.textColor = Theme.ThemeRed
         }
         
         // Set trx status text width
@@ -425,7 +441,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         vwIcon.backgroundColor = Theme.PrimaryColor
                     }
                 } else {
-                    vwIcon.backgroundColor = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
+                    vwIcon.backgroundColor = Theme.ThemeRed
                 }
             }
         } else if (self.notif?.caption.lowercaseString == "jual") {

@@ -1456,6 +1456,15 @@ class TransactionDetail : NSObject {
         }
         return ""
     }
+    
+    func isBuyer(compareId : String) -> Bool
+    {
+        if let buyerId = json["buyer_id"].string {
+            return compareId == buyerId
+        } else {
+            return false
+        }
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -1746,6 +1755,15 @@ class TransactionProductDetail : NSObject {
             return json["review"]["comment"].string
         } else {
             return nil
+        }
+    }
+    
+    func isSeller(compareId : String) -> Bool
+    {
+        if let sellerId = json["seller_id"].string {
+            return compareId == sellerId
+        } else {
+            return false
         }
     }
 }
