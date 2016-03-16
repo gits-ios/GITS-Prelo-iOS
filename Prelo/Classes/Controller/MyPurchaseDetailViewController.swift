@@ -108,7 +108,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
     
     var transactionId : String?
-    var transactionDetail : TransactionDetail?
+    var transactionDetail : TransactionProductDetail?
     
     var contactUs : UIViewController?
     
@@ -168,7 +168,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 println("Transaction detail: \(data)")
                 
                 // Set label text and image
-                self.transactionDetail = TransactionDetail.instance(data)
+                self.transactionDetail = TransactionProductDetail.instance(data)
                 self.setupContent()
             }
         }

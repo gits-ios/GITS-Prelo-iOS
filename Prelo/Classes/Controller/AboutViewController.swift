@@ -98,9 +98,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // Disconnect socket
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
-        /* Dimatiin abis gabungin ke messagepool
-        notifListener.willReconnect = true // Pengganti disconnect
-        */
+        
         // Set top bar notif number to 0
         if (notifListener.newNotifCount != 0) {
             notifListener.setNewNotifCount(0)

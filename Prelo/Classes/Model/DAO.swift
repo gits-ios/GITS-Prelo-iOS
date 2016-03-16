@@ -1299,10 +1299,182 @@ class TransactionDetail : NSObject {
     var json : JSON!
     
     static func instance(json : JSON?) -> TransactionDetail? {
+        if (json != nil) {
+            let t = TransactionDetail()
+            t.json = json!
+            return t
+        }
+        return nil
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentMethod : String {
+        if let j = json["payment_method"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var buyerId : String {
+        if let j = json["buyer_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var ipAddress : String {
+        if let j = json["ip_address"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userAgent : String {
+        if let j = json["user_agent"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var bonusUsed : Int {
+        if let j = json["bonus_used"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var totalPrice : Int {
+        if let j = json["total_price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var orderIdValid : Bool {
+        if let j = json["order_id_valid"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var orderId : String {
+        if let j = json["order_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var transactionProducts : [TransactionProductDetail] {
+        var tps : [TransactionProductDetail] = []
+        for (var i = 0; i < json["transaction_products"].count; i++) {
+            if let tp = TransactionProductDetail.instance(json["transaction_products"][i]) {
+                tps.append(tp)
+            }
+        }
+        return tps
+    }
+    
+    var voucherSerial : String {
+        if let j = json["voucher_serial"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var voucherAmount : Int {
+        if let j = json["voucher_amount"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var shippingAddress : String {
+        if let j = json["shipping_address"]["address"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingPostalCode : String {
+        if let j = json["shipping_address"]["postal_code"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingRecipientName : String {
+        if let j = json["shipping_address"]["recipient_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingProvinceId : String {
+        if let j = json["shipping_address"]["province_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingRegionId : String {
+        if let j = json["shipping_address"]["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingRecipientPhone : String {
+        if let j = json["shipping_address"]["recipient_phone"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingEmail : String {
+        if let j = json["shipping_address"]["email"].string {
+            return j
+        }
+        return ""
+    }
+    
+    func isBuyer(compareId : String) -> Bool
+    {
+        if let buyerId = json["buyer_id"].string {
+            return compareId == buyerId
+        } else {
+            return false
+        }
+    }
+}
+
+class TransactionProductDetail : NSObject {
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> TransactionProductDetail? {
         if (json == nil) {
             return nil
         } else {
-            let t = TransactionDetail()
+            let t = TransactionProductDetail()
             t.json = json!
             return t
         }
@@ -1318,9 +1490,44 @@ class TransactionDetail : NSObject {
         return o
     }
     
+    var orderIdValid : Bool {
+        if let j = json["order_id_valid"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var transactionId : String {
+        if let j = json["transaction_id"].string {
+            return j
+        }
+        return ""
+    }
+    
     var productId : String {
         let p = (json["product_id"].string)!
         return p
+    }
+    
+    var buyerId : String {
+        if let j = json["buyer_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var buyerName : String {
+        if let j = json["buyer_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var buyerUsername : String {
+        if let j = json["buyer_username"].string {
+            return j
+        }
+        return ""
     }
     
     var sellerId : String {
@@ -1358,6 +1565,20 @@ class TransactionDetail : NSObject {
         return t
     }
     
+    var totalPriceTotall : Int {
+        if let j = json["total_price_totall"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var commission : Int {
+        if let c = json["commission"].int {
+            return c
+        }
+        return -9999
+    }
+    
     var time : String {
         let t = (json["time"].string)!
         return t
@@ -1378,19 +1599,19 @@ class TransactionDetail : NSObject {
         return NSURL(string: url)
     }
     
-    var paymentMethod : String? {
+    var paymentMethod : String {
         if (json["payment_method"] != nil) {
-            return json["payment_method"].string
+            return json["payment_method"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var paymentDate : String? {
+    var paymentDate : String {
         if (json["payment_date"] != nil) {
-            return json["payment_date"].string
+            return json["payment_date"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1410,6 +1631,20 @@ class TransactionDetail : NSObject {
         }
     }
     
+    var shippingTimeMin : Int {
+        if let j = json["shipping_time_min"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var shippingTimeMax : Int {
+        if let j = json["shipping_time_max"].int {
+            return j
+        }
+        return -9999
+    }
+    
     var resiNumber : String? {
         if (json["resi_number"] != nil) {
             return json["resi_number"].string
@@ -1418,35 +1653,35 @@ class TransactionDetail : NSObject {
         }
     }
     
-    var shippingDate : String? {
+    var shippingDate : String {
         if (json["shipping_date"] != nil) {
-            return json["shipping_date"].string
+            return json["shipping_date"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingAddress : String? {
+    var shippingAddress : String {
         if (json["shipping_address"]["address"] != nil) {
-            return json["shipping_address"]["address"].string
+            return json["shipping_address"]["address"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingPostalCode : String? {
+    var shippingPostalCode : String {
         if (json["shipping_address"]["postal_code"] != nil) {
-            return json["shipping_address"]["postal_code"].string
+            return json["shipping_address"]["postal_code"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingRecipientName : String? {
+    var shippingRecipientName : String {
         if (json["shipping_address"]["recipient_name"] != nil) {
-            return json["shipping_address"]["recipient_name"].string
+            return json["shipping_address"]["recipient_name"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1490,11 +1725,11 @@ class TransactionDetail : NSObject {
         }
     }
     
-    var reviewerName : String? {
+    var reviewerName : String {
         if (json["review"]["buyer_username"] != nil) {
-            return json["review"]["buyer_username"].string
+            return json["review"]["buyer_username"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1507,19 +1742,28 @@ class TransactionDetail : NSObject {
         return NSURL(string: url)
     }
     
-    var reviewStar : Int? {
+    var reviewStar : Int {
         if (json["review"]["star"] != nil) {
-            return json["review"]["star"].int
+            return json["review"]["star"].intValue
         } else {
-            return nil
+            return 0
         }
     }
     
-    var reviewComment : String? {
+    var reviewComment : String {
         if (json["review"]["comment"] != nil) {
-            return json["review"]["comment"].string
+            return json["review"]["comment"].stringValue
         } else {
-            return nil
+            return ""
+        }
+    }
+    
+    func isSeller(compareId : String) -> Bool
+    {
+        if let sellerId = json["seller_id"].string {
+            return compareId == sellerId
+        } else {
+            return false
         }
     }
 }
@@ -1734,7 +1978,7 @@ class UserCheckout : NSObject {
     }
 }
 
-class UserCheckoutProduct : TransactionDetail {
+class UserCheckoutProduct : TransactionProductDetail {
     
     static func instanceCheckoutProduct(obj : JSON?) -> UserCheckoutProduct?
     {
@@ -1751,22 +1995,6 @@ class UserCheckoutProduct : TransactionDetail {
         if let o = json["order_index"].int
         {
             return o
-        }
-        return 0
-    }
-    
-    var shippingTimeMin : Int {
-        if let s = json["shipping_time_min"].int
-        {
-            return s
-        }
-        return 0
-    }
-    
-    var shippingTimeMax : Int {
-        if let s = json["shipping_time_max"].int
-        {
-            return s
         }
         return 0
     }
@@ -2195,5 +2423,154 @@ class InboxMessage : NSObject
     func resend()
     {
         self.sendTo(lastThreadId, completion: lastCompletion)
+    }
+}
+
+class Notification : NSObject
+{
+    var json : JSON = JSON([:])
+
+    static func instance(json : JSON?) -> Notification? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = Notification()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    // 1000 : Transaksi
+    // 2000 : Inbox
+    // 3000 : Komentar
+    // -9999 : Undefined
+    var type : Int {
+        if let j = json["type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var shortPreview : String {
+        if let j = json["short_preview"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var statusText : String {
+        if let j = json["status_text"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var caption : String {
+        if let j = json["caption"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var objectName : String {
+        if let j = json["object_name"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var objectId : String {
+        if let j = json["object_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return "---"
+    }
+    
+    var productImages : [String] {
+        if let j = json["product_images"].arrayObject as? [String] {
+            return j
+        }
+        return []
+    }
+    
+    var read : Bool {
+        if let j = json["read"].bool {
+            return j
+        }
+        return true
+    }
+    
+    var ownerId : String {
+        if let j = json["owner_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userIdFrom : String {
+        if let j = json["user_id_from"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userUsernameFrom : String {
+        if let j = json["user_username_from"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var userIdOwner : String {
+        if let j = json["user_id_owner"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var inboxType : Int {
+        if let j = json["inbox_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var messageType : Int {
+        if let j = json["message_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    var activityType : Int {
+        if let j = json["activity_type"].int {
+            return j
+        }
+        return -9999
+    }
+    
+    func setRead() {
+        json["read"] = JSON(true)
     }
 }

@@ -73,7 +73,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
-            getDetail()
+            getDetail(false)
         }
     }
     
@@ -267,9 +267,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func getDetail()
+    func getDetail(forEdit : Bool)
     {
-        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!))
+        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: (forEdit ? 1 : 0)))
             .responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk"))
                 {
@@ -541,7 +541,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             a.editMode = true
             a.editDoneBlock = {
                 self.tableView?.hidden = true
-                self.getDetail()
+                self.getDetail(true)
             }
             a.editProduct = self.detail
             self.navigationController?.pushViewController(a, animated: true)
@@ -669,7 +669,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         var product = (obj?.json)!["_data"]
         
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16), width: UIScreen.mainScreen().bounds.size.width-16.0)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-16.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool

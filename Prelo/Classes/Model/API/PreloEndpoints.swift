@@ -300,6 +300,64 @@ enum APINotif : URLRequestConvertible
     }
 }
 
+enum APINotifAnggi : URLRequestConvertible
+{
+    static let basePath = "notification/"
+    
+    case GetNotifs(tab : String, page : Int)
+    case GetUnreadNotifCount
+    case ReadNotif(tab : String, id : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .GetNotifs(_, _) : return .GET
+        case .GetUnreadNotifCount : return .GET
+        case .ReadNotif(_, _) : return .POST
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .GetNotifs(let tab, let page) : return "new/\(tab)/\(page)"
+        case .GetUnreadNotifCount : return "new/count"
+        case .ReadNotif(let tab, _) : return "new/\(tab)/read"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .GetNotifs(_, _) :
+            return [:]
+        case .GetUnreadNotifCount :
+            return [:]
+        case .ReadNotif(_, let id) :
+            let p = [
+                "object_id" : id
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotifAnggi.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
+    }
+}
+
 enum APIInbox : URLRequestConvertible
 {
     static let basePath = "inbox/"
@@ -551,6 +609,58 @@ enum APITransaction2 : URLRequestConvertible
             
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param)).0
             
+        return r
+    }
+}
+
+enum APITransactionAnggi : URLRequestConvertible
+{
+    static let basePath = ""
+    
+    case GetSellerTransaction(id : String)
+    case GetBuyerTransaction(id : String)
+    case GetTransactionProduct(id : String)
+    
+    var method : Method
+    {
+        switch self
+        {
+        case .GetSellerTransaction(_) : return .GET
+        case .GetBuyerTransaction(_) : return .GET
+        case .GetTransactionProduct(_) : return .GET
+        }
+    }
+    
+    var path : String
+    {
+        switch self
+        {
+        case .GetSellerTransaction(let id) : return "transaction/seller/\(id)"
+        case .GetBuyerTransaction(let id) : return "transaction/\(id)"
+        case .GetTransactionProduct(let id) : return "transaction_product/\(id)"
+        }
+    }
+    
+    var param : [String : AnyObject]?
+    {
+        switch self
+        {
+        case .GetSellerTransaction(let id) : return [:]
+        case .GetBuyerTransaction(let id) : return [:]
+        case .GetTransactionProduct(let id) : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+    {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionAnggi.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        println("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
         return r
     }
 }
@@ -998,7 +1108,7 @@ enum APIProduct : URLRequestConvertible
     static let basePath = "product/"
     
     case ListByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case Detail(productId : String)
+    case Detail(productId : String, forEdit : Int)
     case Add(name : String, desc : String, price : String, weight : String, category : String)
     case Love(productID : String)
     case Unlove(productID : String)
@@ -1011,7 +1121,7 @@ enum APIProduct : URLRequestConvertible
             switch self
             {
             case .ListByCategory(_, _, _, _, _, _, _): return .GET
-            case .Detail(_): return .GET
+            case .Detail(_, _): return .GET
             case .Add(_, _, _, _, _) : return .POST
             case .Love(_):return .POST
             case .Unlove(_):return .POST
@@ -1026,7 +1136,7 @@ enum APIProduct : URLRequestConvertible
             switch self
             {
             case .ListByCategory(_, _, _, _, _, _, _): return ""
-            case .Detail(let prodId): return prodId
+            case .Detail(let prodId, _): return prodId
             case .Add(_, _, _, _, let category) : return ""
             case .Love(let prodId):return prodId + "/love"
             case .Unlove(let prodId):return prodId + "/unlove"
@@ -1051,7 +1161,7 @@ enum APIProduct : URLRequestConvertible
                     "price_max":priceMax,
                     "prelo":"true"
                 ]
-            case .Detail(let prodId): return ["prelo":"true"]
+            case .Detail(_, let forEdit): return ["inedit": forEdit]
             case .Add(let name, let desc, let price, let weight, let category):
                 return [
                     "name":name,

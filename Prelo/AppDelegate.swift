@@ -525,17 +525,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectNotification() {
-        // Tunggu sampai notif tersimpan dan UINavigationController terbentuk, dalam background process
+        // Tunggu sampai UINavigationController terbentuk, dalam background process
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var rootViewController : UINavigationController?
             
             var wait = true
             var waitCount = Int.max
-            var notifSaved : Bool?
             while (wait) {
-                notifSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.NotificationSaved) as! Bool?
                 if let childVCs = self.window!.rootViewController?.childViewControllers {
-                    if (childVCs.count > 0 && notifSaved == true) {
+                    if (childVCs.count > 0) {
                         if let rootVC = childVCs[0] as? UINavigationController {
                             rootViewController = rootVC
                         }
@@ -549,8 +547,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             // Redirect setelah selesai menunggu
-            if (rootViewController != nil && notifSaved == true) {
-                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotificationPageTabbed, owner: nil, options: nil).first as! NotificationPageTabbedViewController
+            if (rootViewController != nil) {
+                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
                 rootViewController!.pushViewController(notifPageVC, animated: true)
             }
         })

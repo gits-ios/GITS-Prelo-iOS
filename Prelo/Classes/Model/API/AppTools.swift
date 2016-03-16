@@ -43,9 +43,9 @@ extension Int
 }
 
 class AppTools: NSObject {
-//    static var PreloBaseUrl = "http://dev.prelo.id" // Development
+    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-    static var PreloBaseUrl = "https://prelo.co.id" // Production
+//    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
         return (AppTools.PreloBaseUrl == "https://prelo.co.id")
@@ -74,6 +74,8 @@ class Theme : NSObject
     
     static var GrayDark = UIColor(hex: "#858585")
     static var GrayLight = UIColor(hex: "#b7b7b7")
+    
+    static var ThemeRed = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
 }
 
 class Tags : NSObject
@@ -125,16 +127,14 @@ class Tags : NSObject
     static let XibNameMyProductDetail = "MyProductDetail"
     static let XibNameMyLovelist = "MyLovelist"
     static let XibNamePathLogin = "PathLogin"
-    static let XibNameNotificationPage = "NotificationPage"
     static let XibNameTermCondition = "TermCondition"
     static let XibNameReferralPage = "ReferralPage"
     static let XibNameCategoryPreferences = "CategoryPreferences"
     static let XibNameShopReview = "ShopReview"
-    static let XibNameNotificationPageTabbed = "NotificationPageTabbed"
-    static let XibNameNotificationPageTransaction = "NotificationPageTransaction"
-    static let XibNameNotificationPageInbox = "NotificationPageInbox"
-    static let XibNameNotificationPageActivity = "NotificationPageActivity"
     static let XibNameSetupPasswordPopUp = "SetupPasswordPopUp"
+    static let XibNameNotifAnggiTabBar = "NotifAnggiTabBar"
+    static let XibNameNotifAnggiTransaction = "NotifAnggiTransaction"
+    static let XibNameNotifAnggiConversation = "NotifAnggiConversation"
 }
 
 class OrderStatus : NSObject
@@ -166,7 +166,6 @@ class NotificationName : NSObject
 class UserDefaultsKey : NSObject
 {
     static let AppDataSaved = "appdatasaved"
-    static let NotificationSaved = "notificationsaved"
     static let CategorySaved = "categorysaved"
     static let CategoryPref1 = "categorypref1"
     static let CategoryPref2 = "categorypref2"
