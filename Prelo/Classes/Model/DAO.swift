@@ -1314,11 +1314,11 @@ class TransactionDetail : NSObject {
         return ""
     }
     
-    var paymentMethod : Int {
-        if let j = json["payment_method"].int {
+    var paymentMethod : String {
+        if let j = json["payment_method"].string {
             return j
         }
-        return -9999
+        return ""
     }
     
     var progress : Int {
@@ -1599,19 +1599,19 @@ class TransactionProductDetail : NSObject {
         return NSURL(string: url)
     }
     
-    var paymentMethod : String? {
+    var paymentMethod : String {
         if (json["payment_method"] != nil) {
-            return json["payment_method"].string
+            return json["payment_method"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var paymentDate : String? {
+    var paymentDate : String {
         if (json["payment_date"] != nil) {
-            return json["payment_date"].string
+            return json["payment_date"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1653,35 +1653,35 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var shippingDate : String? {
+    var shippingDate : String {
         if (json["shipping_date"] != nil) {
-            return json["shipping_date"].string
+            return json["shipping_date"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingAddress : String? {
+    var shippingAddress : String {
         if (json["shipping_address"]["address"] != nil) {
-            return json["shipping_address"]["address"].string
+            return json["shipping_address"]["address"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingPostalCode : String? {
+    var shippingPostalCode : String {
         if (json["shipping_address"]["postal_code"] != nil) {
-            return json["shipping_address"]["postal_code"].string
+            return json["shipping_address"]["postal_code"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
-    var shippingRecipientName : String? {
+    var shippingRecipientName : String {
         if (json["shipping_address"]["recipient_name"] != nil) {
-            return json["shipping_address"]["recipient_name"].string
+            return json["shipping_address"]["recipient_name"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1725,11 +1725,11 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var reviewerName : String? {
+    var reviewerName : String {
         if (json["review"]["buyer_username"] != nil) {
-            return json["review"]["buyer_username"].string
+            return json["review"]["buyer_username"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1742,19 +1742,19 @@ class TransactionProductDetail : NSObject {
         return NSURL(string: url)
     }
     
-    var reviewStar : Int? {
+    var reviewStar : Int {
         if (json["review"]["star"] != nil) {
-            return json["review"]["star"].int
+            return json["review"]["star"].intValue
         } else {
-            return nil
+            return 0
         }
     }
     
-    var reviewComment : String? {
+    var reviewComment : String {
         if (json["review"]["comment"] != nil) {
-            return json["review"]["comment"].string
+            return json["review"]["comment"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
