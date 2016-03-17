@@ -388,39 +388,55 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
                 if (idx == 0) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                    }
                 } else if (idx == 1) {
-                    
+                    return DefaultHeight
                 } else if (idx == 2) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
                 } else if (idx == 3) {
-                    
+                    return DefaultHeight
                 } else if (idx == 4) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
                 } else if (idx == 5) {
-                    
+                    return DefaultHeight
                 } else if (idx == 6) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                    }
                 } else if (idx == 7) {
-                    
+                    return DefaultHeight
                 }
             } else {
                 if (idx == 0) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                    }
                 } else if (idx == 1) {
-                    
+                    return DefaultHeight
                 } else if (idx == 2) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyer)
+                    }
                 } else if (idx == 3) {
-                    
+                    return DefaultHeight
                 } else if (idx == 4) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanBuyer)
+                    }
                 } else if (idx == 5) {
-                    
+                    return DefaultHeight
                 } else if (idx == 6) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                    }
                 } else if (idx == 7) {
-                    
+                    return DefaultHeight
                 }
             }
         }
@@ -643,21 +659,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else {
                 if (idx == 0) {
-                    
+                    return self.createTableProductsCell()
                 } else if (idx == 1) {
-                    
+                    return self.createTitleCell(TitlePembayaran)
                 } else if (idx == 2) {
-                    
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 3) {
-                    
+                    return self.createTitleCell(TitlePengiriman)
                 } else if (idx == 4) {
-                    
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 5) {
-                    
+                    return self.createTitleCell(TitleReview)
                 } else if (idx == 6) {
-                    
+                    return self.createReviewCell()
                 } else if (idx == 7) {
-                    
+                    return self.createContactPreloCell()
                 }
             }
         }
@@ -666,7 +682,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        // Do nothing
     }
     
     // MARK: - Cell creation
@@ -1026,7 +1042,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentDate
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.paymentDate
                     }
@@ -1034,33 +1050,33 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankTarget
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankTarget
                     }
                     return self.createTitleContentCell("Bank Tujuan", content: content)
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankSource
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankSource
                     }
                     return self.createTitleContentCell("Bank Kamu", content: content)
                 } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankAccount
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankAccount
                     }
                     return self.createTitleContentCell("Rekening Atas Nama", content: content)
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = trxDetail!.totalPrice.asPrice
+                        content = trxDetail!.paymentNominal.asPrice
                     } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.totalPrice.asPrice
+                        content = trxProductDetail!.paymentNominal.asPrice
                     }
                     return self.createTitleContentCell("Nominal", content: content)
                 }
@@ -1076,7 +1092,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentDate
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.paymentDate
                     }
@@ -1134,17 +1150,17 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.shippingName
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.shippingName
                     }
                     return self.createTitleContentCell("Kurir", content: content)
                 } else if (idx == 6) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.resiNumber
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.resiNumber
                     }
                     return self.createTitleContentCell("Nomor Resi", content: content)
                 }
@@ -1204,13 +1220,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 if (idx == 0) {
                     var content = ""
                     if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.myPreloBalance.asPrice
                     }
                     return self.createTitleContentCell("Prelo Balance", content: content)
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.myPreloBonus.asPrice
                     }
                     return self.createTitleContentCell("Prelo Bonus", content: content)
                 }
@@ -1412,7 +1428,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.text = TransactionDetailTools.TextPembayaranExpiredBuyer
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-                let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                let expireTime = trxDetail.expireTime + ". "
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidSeller
                 } else {
@@ -1426,7 +1442,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (isSeller) {
-                    let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                    let expireTime = trxDetail.shippingExpireTime + ". "
                     // FIXME: ada yg ditebelin
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
                 }
@@ -1507,7 +1523,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     func adapt(progress : Int?, order : Int) {
         self.progress = progress
         self.order = order
-        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             btn.setTitle("TARIK TUNAI", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             btn.setTitle("KONFIRMASI PEMBAYARAN", forState: UIControlState.Normal)
@@ -1519,7 +1535,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     }
     
     @IBAction func btnPressed(sender: AnyObject) {
-        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             Constant.showDialog("Button pressed", message: "TARIK TUNAI")
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             Constant.showDialog("Button pressed", message: "KONFIRMASI PEMBAYARAN")
@@ -1555,6 +1571,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
                 btn.setTitle("Tolak Transaksi", forState: UIControlState.Normal)
                 btn.titleLabel!.font = UIFont.systemFontOfSize(13)
                 btn.borderColor = UIColor.clearColor()
+                btn.borderColorHighlight = UIColor.clearColor()
                 btn.contentHorizontalAlignment = .Right
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
