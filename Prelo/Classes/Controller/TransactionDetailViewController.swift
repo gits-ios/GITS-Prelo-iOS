@@ -796,6 +796,86 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             cell.adapt(self.progress, isSeller: isSeller, order: order)
         }
         
+        // Configure actions
+        cell.orderAgain = {
+            
+        }
+        cell.rejectTransaction = {
+            
+        }
+        cell.contactBuyer = {
+            // Get product detail from API
+            var productId = ""
+            if (self.trxDetail != nil) {
+                productId = self.trxDetail!.transactionProducts[0].productId
+            } else if (self.trxProductDetail != nil) {
+                productId = self.trxProductDetail!.productId
+            }
+            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                    let json = JSON(res!)
+                    if let pDetail = ProductDetail.instance(json) {
+                    
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    
+                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID)).responseJSON { req, resp, res, err in
+                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                                let json = JSON(res!)
+                                if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                                    t.tawarItem = Inbox(jsn: json["_data"])
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                } else { // Belum pernah chat
+                                    var j : JSON?
+                                    if (self.trxDetail != nil) {
+                                        j = self.trxDetail!.transactionProducts[0].json["review"]
+                                    } else if (self.trxProductDetail != nil) {
+                                        j = self.trxProductDetail!.json["review"]
+                                    }
+                                    if (j != nil) {
+                                        pDetail.buyerId = j!["buyer_id"].stringValue
+                                        pDetail.buyerName = j!["buyer_fullname"].stringValue
+                                        pDetail.buyerImage = j!["buyer_pict"].stringValue
+                                        pDetail.reverse()
+                                        
+                                        t.tawarItem = pDetail
+                                        t.fromSeller = true
+                                        
+                                        t.toId = j!["buyer_id"].stringValue
+                                        t.prodId = t.tawarItem.itemId
+                                        self.navigationController?.pushViewController(t, animated: true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        cell.contactSeller = {
+            // Get product detail from API
+            var productId = ""
+            if (self.trxDetail != nil) {
+                productId = self.trxDetail!.transactionProducts[0].productId
+            } else if (self.trxProductDetail != nil) {
+                productId = self.trxProductDetail!.productId
+            }
+            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                    let json = JSON(res!)
+                    if let pDetail = ProductDetail.instance(json) {
+                        
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        t.tawarItem = pDetail
+                        t.loadInboxFirst = true
+                        t.prodId = pDetail.productID
+                        self.navigationController?.pushViewController(t, animated: true)
+                    }
+                }
+            }
+        }
+        
         return cell
     }
     
@@ -1466,7 +1546,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (!isSeller) {
-                    let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                    let expireTime = trxProductDetail.shippingExpireTime + ". "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidBuyer1 + expireTime + TransactionDetailTools.TextConfirmedPaidBuyer2
                 }
             } else if (progress == TransactionDetailTools.ProgressSent) {
@@ -1549,12 +1629,21 @@ class TransactionDetailButtonCell : UITableViewCell {
 
 // MARK: - Class
 
+typealias OrderAgain = () -> ()
+typealias RejectTransaction = () -> ()
+typealias ContactBuyer = () -> ()
+typealias ContactSeller = () -> ()
+
 class TransactionDetailBorderedButtonCell : UITableViewCell {
     @IBOutlet weak var btn: BorderedButton!
     
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
+    var orderAgain : OrderAgain = {}
+    var rejectTransaction : RejectTransaction = {}
+    var contactBuyer : ContactBuyer = {}
+    var contactSeller : ContactSeller = {}
     
     func adapt(progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
@@ -1587,21 +1676,21 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     
     @IBAction func btnPressed(sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressExpired) {
-            Constant.showDialog("Button pressed", message: "PESAN LAGI BARANG YANG SAMA")
+            self.orderAgain()
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+            self.contactBuyer()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
-                Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+                self.contactBuyer()
             } else if (order == 2) {
-                Constant.showDialog("Button pressed", message: "Tolak Transaksi")
+                self.rejectTransaction()
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
-                    Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+                    self.contactBuyer()
                 } else {
-                    Constant.showDialog("Button pressed", message: "HUBUNGI SELLER")
+                    self.contactSeller()
                 }
             }
         }

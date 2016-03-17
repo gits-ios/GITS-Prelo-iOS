@@ -1728,6 +1728,13 @@ class TransactionProductDetail : NSObject {
         }
     }
     
+    var shippingExpireTime : String {
+        if let j = json["shipping_expire_time"].string {
+            return j
+        }
+        return ""
+    }
+    
     var shippingName : String {
         if (json["shipping_name"] != nil) {
             return json["shipping_name"].stringValue
