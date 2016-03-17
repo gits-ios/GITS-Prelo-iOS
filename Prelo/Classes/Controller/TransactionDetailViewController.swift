@@ -10,10 +10,11 @@ import Foundation
 
 // MARK: - Class
 
-class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     
+    // Table and loading
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var vwShadow: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     // Variables from previous screen
@@ -44,6 +45,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // Contact us view
     var contactUs : UIViewController?
     
+    // Tolak Pesanan pop up
+    @IBOutlet weak var vwTolakPesanan: UIView!
+    @IBOutlet weak var txtvwAlasanTolak: UITextView!
+    @IBOutlet weak var btnTolakBatal: UIButton!
+    @IBOutlet weak var btnTolakKirim: UIButton!
+    var txtvwGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwAlasanTolak: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint!
+    let TxtvwAlasanTolakPlaceholder = "Tulis alasan penolakan pesanan"
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -52,11 +63,42 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Menghilangkan garis antar cell di baris kosong
         tableView.tableFooterView = UIView()
         
+        // Hide pop up
+        self.vwTolakPesanan.hidden = true
+        
+        // Transparent panel
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.2)
+        
+        // Penanganan kemunculan keyboard
+        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+            if (o) {
+                self.consTopVwTolakPesanan.constant = 10
+            } else {
+                self.consTopVwTolakPesanan.constant = 100
+            }
+        }, completion: nil)
+        
+        // Load content
         getTransactionDetail()
         self.title = productName
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Atur textview
+        txtvwAlasanTolak.delegate = self
+        txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+        txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
+        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        
+        self.validateTolakPesananFields()
+    }
+    
     func getTransactionDetail() {
+        self.showLoading()
+        
         var req : URLRequestConvertible?
         if (trxId != nil) {
             if (userIsSeller()) {
@@ -83,6 +125,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     self.setupTable()
+                    self.hideLoading()
                 }
             }
         }
@@ -801,7 +844,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             
         }
         cell.rejectTransaction = {
-            
+            self.vwShadow.hidden = false
+            self.vwTolakPesanan.hidden = false
         }
         cell.contactBuyer = {
             // Get product detail from API
@@ -913,20 +957,111 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
+    // MARK: - UITextViewDelegate Functions
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+            txtvwAlasanTolak.text = ""
+            txtvwAlasanTolak.textColor = Theme.GrayDark
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+        self.validateTolakPesananFields()
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if (txtvwAlasanTolak.text.isEmpty) {
+            txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+            txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    // MARK: - GestureRecognizer Functions
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    // MARK: - Tolak Pesanan
+    
+    func validateTolakPesananFields() {
+        if (txtvwAlasanTolak.text.isEmpty || txtvwAlasanTolak.text == self.TxtvwAlasanTolakPlaceholder) {
+            // Disable tombol kirim
+            btnTolakKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnTolakKirim.userInteractionEnabled = true
+        }
+    }
+    
+    @IBAction func btnTolakBatalPressed(sender: AnyObject) {
+        vwShadow.hidden = true
+        vwTolakPesanan.hidden = true
+    }
+    
+    @IBAction func btnTolakKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        if (self.trxId != nil) {
+            request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
+                    let json = JSON(res!)
+                    let data : Bool? = json["_data"].bool
+                    if (data != nil || data == true) {
+                        Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
+                        self.sendMode(false)
+                        self.vwShadow.hidden = true
+                        self.vwTolakPesanan.hidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Other functions
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        txtvwAlasanTolak.resignFirstResponder()
+    }
+    
+    func sendMode(mode: Bool) {
+        if (mode) {
+            // Disable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = false
+            btnTolakBatal.userInteractionEnabled = false
+            btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = false
+            btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
+        } else {
+            // Enable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = true
+            btnTolakBatal.userInteractionEnabled = true
+            btnTolakKirim.setTitle("KIRIM", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = true
+            btnTolakKirim.backgroundColor = Theme.PrimaryColor
+        }
+    }
     
     func userIsSeller() -> Bool {
         return (isSeller != nil && isSeller == true)
     }
     
     func hideLoading() {
-        loadingPanel.hidden = true
+        vwShadow.hidden = true
         loading.hidden = true
         loading.stopAnimating()
     }
     
     func showLoading() {
-        loadingPanel.hidden = false
+        vwShadow.hidden = false
         loading.hidden = false
         loading.startAnimating()
     }
@@ -1657,7 +1792,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
             if (order == 1) {
                 btn.setTitle("HUBUNGI BUYER", forState: UIControlState.Normal)
             } else if (order == 2) {
-                btn.setTitle("Tolak Transaksi", forState: UIControlState.Normal)
+                btn.setTitle("Tolak Pesanan", forState: UIControlState.Normal)
                 btn.titleLabel!.font = UIFont.systemFontOfSize(13)
                 btn.borderColor = UIColor.clearColor()
                 btn.borderColorHighlight = UIColor.clearColor()
