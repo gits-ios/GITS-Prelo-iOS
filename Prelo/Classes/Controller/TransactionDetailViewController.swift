@@ -45,15 +45,40 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // Contact us view
     var contactUs : UIViewController?
     
-    // Tolak Pesanan pop up
+    // TolakPesanan pop up
     @IBOutlet weak var vwTolakPesanan: UIView!
     @IBOutlet weak var txtvwAlasanTolak: UITextView!
     @IBOutlet weak var btnTolakBatal: UIButton!
     @IBOutlet weak var btnTolakKirim: UIButton!
-    var txtvwGrowHandler : GrowingTextViewHandler!
+    var txtvwTolakGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwAlasanTolak: NSLayoutConstraint!
     @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint!
     let TxtvwAlasanTolakPlaceholder = "Tulis alasan penolakan pesanan"
+    
+    // ReviewSeller pop up
+    @IBOutlet weak var vwReviewSeller: UIView!
+    @IBOutlet weak var lblRvwSellerName: UILabel!
+    @IBOutlet weak var lblRvwProductName: UILabel!
+    @IBOutlet weak var txtvwReview: UITextView!
+    @IBOutlet weak var btnRvwBatal: UIButton!
+    @IBOutlet weak var btnRvwKirim: UIButton!
+    var btnsRvwLove: [UIButton] = []
+    @IBOutlet var btnLove1: UIButton!
+    @IBOutlet var btnLove2: UIButton!
+    @IBOutlet var btnLove3: UIButton!
+    @IBOutlet var btnLove4: UIButton!
+    @IBOutlet var btnLove5: UIButton!
+    var lblsRvwLove: [UILabel] = []
+    @IBOutlet var lblLove1: UILabel!
+    @IBOutlet var lblLove2: UILabel!
+    @IBOutlet var lblLove3: UILabel!
+    @IBOutlet var lblLove4: UILabel!
+    @IBOutlet var lblLove5: UILabel!
+    var loveValue : Int = 5
+    var txtvwReviewGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
+    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
     
     // MARK: - Init
     
@@ -65,6 +90,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Hide pop up
         self.vwTolakPesanan.hidden = true
+        self.vwReviewSeller.hidden = true
         
         // Transparent panel
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.2)
@@ -73,27 +99,40 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.an_subscribeKeyboardWithAnimations ({ r, t, o in
             if (o) {
                 self.consTopVwTolakPesanan.constant = 10
+                self.consTopVwReviewSeller.constant = 10
             } else {
                 self.consTopVwTolakPesanan.constant = 100
+                self.consTopVwReviewSeller.constant = 150
             }
         }, completion: nil)
         
         // Load content
         getTransactionDetail()
+        
+        // Screen title
         self.title = productName
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Atur textview
+        // Atur textview tolak
         txtvwAlasanTolak.delegate = self
         txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
         txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
-        txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
-        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        txtvwTolakGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
+        txtvwTolakGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
         
         self.validateTolakPesananFields()
+        
+        // Atur textview review
+        txtvwReview.delegate = self
+        txtvwReview.text = TxtvwReviewPlaceholder
+        txtvwReview.textColor = UIColor.lightGrayColor()
+        txtvwReviewGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
+        txtvwReviewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        
+        self.validateRvwKirimFields()
     }
     
     func getTransactionDetail() {
@@ -125,9 +164,30 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     self.setupTable()
+                    self.setupPopUpContent()
                     self.hideLoading()
                 }
             }
+        }
+    }
+    
+    func setupPopUpContent() {
+        // Review seller pop up
+        // Set btnLoves and lblLoves manually
+        btnsRvwLove.append(self.btnLove1)
+        btnsRvwLove.append(self.btnLove2)
+        btnsRvwLove.append(self.btnLove3)
+        btnsRvwLove.append(self.btnLove4)
+        btnsRvwLove.append(self.btnLove5)
+        lblsRvwLove.append(self.lblLove1)
+        lblsRvwLove.append(self.lblLove2)
+        lblsRvwLove.append(self.lblLove3)
+        lblsRvwLove.append(self.lblLove4)
+        lblsRvwLove.append(self.lblLove5)
+        
+        if (trxProductDetail != nil) {
+            self.lblRvwSellerName.text = trxProductDetail!.sellerUsername
+            self.lblRvwProductName.text = trxProductDetail!.productName
         }
     }
     
@@ -828,6 +888,42 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             cell.adapt(self.progress, order: order)
         }
         
+        // Configure actions
+        cell.retrieveCash = {
+            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            self.navigationController?.pushViewController(t, animated: true)
+        }
+        cell.confirmPayment = {
+            if (self.trxDetail != nil) {
+                var imgs : [NSURL] = []
+                let tProducts = self.trxDetail!.transactionProducts
+                for i in 0...(tProducts.count - 1) {
+                    let tProduct : TransactionProductDetail = tProducts[i]
+                    if let url = tProduct.productImageURL {
+                        imgs.append(url)
+                    }
+                }
+                let orderConfirmVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                orderConfirmVC.transactionId = self.trxDetail!.id
+                orderConfirmVC.orderID = self.trxDetail!.orderId
+                orderConfirmVC.total = self.trxDetail!.totalPrice
+                orderConfirmVC.images = imgs
+                orderConfirmVC.fromCheckout = false
+                self.navigationController?.pushViewController(orderConfirmVC, animated: true)
+            }
+        }
+        cell.confirmShipping = {
+            if (self.trxDetail != nil) {
+                let confirmShippingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil).first as! ConfirmShippingViewController
+                confirmShippingVC.trxDetail = self.trxDetail!
+                self.navigationController?.pushViewController(confirmShippingVC, animated: true)
+            }
+        }
+        cell.reviewSeller = {
+            self.vwShadow.hidden = false
+            self.vwReviewSeller.hidden = false
+        }
+        
         return cell
     }
     
@@ -841,7 +937,22 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Configure actions
         cell.orderAgain = {
-            
+            if (self.trxDetail != nil) {
+                var success = true
+                let tProducts = self.trxDetail!.transactionProducts
+                for i in 0...(tProducts.count - 1) {
+                    let tProduct : TransactionProductDetail = tProducts[i]
+                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+                            success = false
+                        }
+                    }
+                }
+                if (!success) {
+                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
+                }
+                self.performSegueWithIdentifier("segCart", sender: nil)
+            }
         }
         cell.rejectTransaction = {
             self.vwShadow.hidden = false
@@ -960,25 +1071,50 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // MARK: - UITextViewDelegate Functions
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
-            txtvwAlasanTolak.text = ""
-            txtvwAlasanTolak.textColor = Theme.GrayDark
+        if (textView == txtvwAlasanTolak) {
+            if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+                txtvwAlasanTolak.text = ""
+                txtvwAlasanTolak.textColor = Theme.GrayDark
+            }
+        } else if (textView == txtvwReview) {
+            if (txtvwReview.textColor == UIColor.lightGrayColor()) {
+                txtvwReview.text = ""
+                txtvwReview.textColor = Theme.GrayDark
+            }
         }
     }
     
     func textViewDidChange(textView: UITextView) {
-        txtvwGrowHandler.resizeTextViewWithAnimation(true)
-        self.validateTolakPesananFields()
+        if (textView == txtvwAlasanTolak) {
+            txtvwTolakGrowHandler.resizeTextViewWithAnimation(true)
+            self.validateTolakPesananFields()
+        } else if (textView == txtvwReview) {
+            txtvwReviewGrowHandler.resizeTextViewWithAnimation(true)
+            self.validateRvwKirimFields()
+        }
+        
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-        if (txtvwAlasanTolak.text.isEmpty) {
-            txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
-            txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        if (textView == txtvwAlasanTolak) {
+            if (txtvwAlasanTolak.text.isEmpty) {
+                txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+                txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+            }
+        } else if (textView == txtvwReview) {
+            if (txtvwReview.text.isEmpty) {
+                txtvwReview.text = TxtvwReviewPlaceholder
+                txtvwReview.textColor = UIColor.lightGrayColor()
+            }
         }
     }
     
     // MARK: - GestureRecognizer Functions
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        txtvwAlasanTolak.resignFirstResponder()
+        txtvwReview.resignFirstResponder()
+    }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
@@ -1000,12 +1136,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
     }
     
-    @IBAction func btnTolakBatalPressed(sender: AnyObject) {
+    @IBAction func tolakBatalPressed(sender: AnyObject) {
         vwShadow.hidden = true
         vwTolakPesanan.hidden = true
     }
     
-    @IBAction func btnTolakKirimPressed(sender: AnyObject) {
+    @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         if (self.trxId != nil) {
             request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
@@ -1014,6 +1150,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let data : Bool? = json["_data"].bool
                     if (data != nil || data == true) {
                         Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
+                        
+                        // Hide pop up
                         self.sendMode(false)
                         self.vwShadow.hidden = true
                         self.vwTolakPesanan.hidden = true
@@ -1026,11 +1164,68 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
     }
     
-    // MARK: - Other functions
+    // MARK: - Review Seller
     
-    @IBAction func disableTextFields(sender : AnyObject) {
-        txtvwAlasanTolak.resignFirstResponder()
+    func validateRvwKirimFields() {
+        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+            // Disable tombol kirim
+            btnRvwKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnRvwKirim.userInteractionEnabled = true
+        }
     }
+    
+    @IBAction func rvwLovePressed(sender: UIButton) {
+        var isFound = false
+        for (var i = 0; i < btnsRvwLove.count; i++) {
+            let b = btnsRvwLove[i]
+            if (!isFound) {
+                if (sender == b) {
+                    isFound = true
+                    loveValue = i + 1
+                    println("loveValue = \(loveValue)")
+                }
+                lblsRvwLove[i].text = ""
+            } else {
+                lblsRvwLove[i].text = ""
+            }
+        }
+    }
+    
+    @IBAction func reviewBatalPressed(sender: AnyObject) {
+        self.vwShadow.hidden = true
+        self.vwReviewSeller.hidden = true
+    }
+    
+    @IBAction func reviewKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        if (self.trxProductDetail != nil) {
+            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Seller")) {
+                    let json = JSON(res!)
+                    let dataBool : Bool = json["_data"].boolValue
+                    let dataInt : Int = json["_data"].intValue
+                    //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                    if (dataBool == true || dataInt == 1) {
+                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                    } else {
+                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                    }
+                    
+                    // Hide pop up
+                    self.sendMode(false)
+                    self.vwShadow.hidden = true
+                    self.vwReviewSeller.hidden = true
+                    
+                    // Reload content
+                    self.getTransactionDetail()
+                }
+            }
+        }
+    }
+    
+    // MARK: - Other functions
     
     func sendMode(mode: Bool) {
         if (mode) {
@@ -1040,6 +1235,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
             btnTolakKirim.userInteractionEnabled = false
             btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
+            
+            // Disable review seller content
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = false
+            }
+            self.txtvwReview.userInteractionEnabled = false
+            self.btnRvwBatal.userInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = false
         } else {
             // Enable tolak pesanan content
             txtvwAlasanTolak.userInteractionEnabled = true
@@ -1047,6 +1252,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.setTitle("KIRIM", forState: .Normal)
             btnTolakKirim.userInteractionEnabled = true
             btnTolakKirim.backgroundColor = Theme.PrimaryColor
+            
+            // Enable review seller content
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = true
+            }
+            self.txtvwReview.userInteractionEnabled = true
+            self.btnRvwBatal.userInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = true
+
         }
     }
     
@@ -1729,11 +1945,20 @@ class TransactionDetailTitleContentCell : UITableViewCell {
 
 // MARK: - Class
 
+typealias RetrieveCash = () -> ()
+typealias ConfirmPayment = () -> ()
+typealias ConfirmShipping = () -> ()
+typealias ReviewSeller = () -> ()
+
 class TransactionDetailButtonCell : UITableViewCell {
     @IBOutlet weak var btn: UIButton!
     
     var progress : Int?
     var order : Int?
+    var retrieveCash : RetrieveCash = {}
+    var confirmPayment : ConfirmPayment = {}
+    var confirmShipping : ConfirmShipping = {}
+    var reviewSeller : ReviewSeller = {}
     
     func adapt(progress : Int?, order : Int) {
         self.progress = progress
@@ -1751,13 +1976,13 @@ class TransactionDetailButtonCell : UITableViewCell {
     
     @IBAction func btnPressed(sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
-            Constant.showDialog("Button pressed", message: "TARIK TUNAI")
+            self.retrieveCash()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-            Constant.showDialog("Button pressed", message: "KONFIRMASI PEMBAYARAN")
+            self.confirmPayment()
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
-            Constant.showDialog("Button pressed", message: "KIRIM / TOLAK")
+            self.confirmShipping()
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            Constant.showDialog("Button pressed", message: "REVIEW SELLER")
+            self.reviewSeller()
         }
     }
 }

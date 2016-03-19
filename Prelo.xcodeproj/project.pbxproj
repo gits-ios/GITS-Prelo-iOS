@@ -469,6 +469,9 @@
 		58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */; };
 		58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */; };
 		58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */; };
+		58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
+		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
+		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
@@ -1112,6 +1115,9 @@
 		58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Prelo.entitlements; sourceTree = "<group>"; };
 		58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
+		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
+		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
+		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
@@ -1738,6 +1744,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */,
 				58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */,
 				5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */,
 				5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */,
@@ -2167,6 +2174,8 @@
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
+				58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */,
+				58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2420,6 +2429,7 @@
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
+				58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */,
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
@@ -2532,6 +2542,7 @@
 				2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
+				58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
@@ -2872,6 +2883,7 @@
 				21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */,
 				58A99A481C6D864E00E3E7D7 /* BranchShortUrlRequest.m in Sources */,
 				21156EB81B8F4293001D7842 /* ServerTrustPolicy.swift in Sources */,
+				58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */,
 				2141BBB31B54BE4C00787F5D /* BFLog.swift in Sources */,
 				2141BBB51B54BE4C00787F5D /* BFSystemSound.swift in Sources */,
 				210000BA1BCB89D500E16611 /* MessagePool.swift in Sources */,
@@ -3023,8 +3035,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -3047,7 +3059,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
+				PROVISIONING_PROFILE = "2fbc9029-31f5-4f11-80f7-3cde351f0167";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -3058,8 +3070,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Framework",
@@ -3079,7 +3091,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
+				PROVISIONING_PROFILE = "2fbc9029-31f5-4f11-80f7-3cde351f0167";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;
