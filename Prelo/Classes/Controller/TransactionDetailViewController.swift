@@ -10,10 +10,11 @@ import Foundation
 
 // MARK: - Class
 
-class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     
+    // Table and loading
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var loadingPanel: UIView!
+    @IBOutlet weak var vwShadow: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     // Variables from previous screen
@@ -44,6 +45,41 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     // Contact us view
     var contactUs : UIViewController?
     
+    // TolakPesanan pop up
+    @IBOutlet weak var vwTolakPesanan: UIView!
+    @IBOutlet weak var txtvwAlasanTolak: UITextView!
+    @IBOutlet weak var btnTolakBatal: UIButton!
+    @IBOutlet weak var btnTolakKirim: UIButton!
+    var txtvwTolakGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwAlasanTolak: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwTolakPesanan: NSLayoutConstraint!
+    let TxtvwAlasanTolakPlaceholder = "Tulis alasan penolakan pesanan"
+    
+    // ReviewSeller pop up
+    @IBOutlet weak var vwReviewSeller: UIView!
+    @IBOutlet weak var lblRvwSellerName: UILabel!
+    @IBOutlet weak var lblRvwProductName: UILabel!
+    @IBOutlet weak var txtvwReview: UITextView!
+    @IBOutlet weak var btnRvwBatal: UIButton!
+    @IBOutlet weak var btnRvwKirim: UIButton!
+    var btnsRvwLove: [UIButton] = []
+    @IBOutlet var btnLove1: UIButton!
+    @IBOutlet var btnLove2: UIButton!
+    @IBOutlet var btnLove3: UIButton!
+    @IBOutlet var btnLove4: UIButton!
+    @IBOutlet var btnLove5: UIButton!
+    var lblsRvwLove: [UILabel] = []
+    @IBOutlet var lblLove1: UILabel!
+    @IBOutlet var lblLove2: UILabel!
+    @IBOutlet var lblLove3: UILabel!
+    @IBOutlet var lblLove4: UILabel!
+    @IBOutlet var lblLove5: UILabel!
+    var loveValue : Int = 5
+    var txtvwReviewGrowHandler : GrowingTextViewHandler!
+    @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
+    @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
+    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -52,11 +88,56 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Menghilangkan garis antar cell di baris kosong
         tableView.tableFooterView = UIView()
         
+        // Hide pop up
+        self.vwTolakPesanan.hidden = true
+        self.vwReviewSeller.hidden = true
+        
+        // Transparent panel
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.2)
+        
+        // Penanganan kemunculan keyboard
+        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+            if (o) {
+                self.consTopVwTolakPesanan.constant = 10
+                self.consTopVwReviewSeller.constant = 10
+            } else {
+                self.consTopVwTolakPesanan.constant = 100
+                self.consTopVwReviewSeller.constant = 150
+            }
+        }, completion: nil)
+        
+        // Load content
         getTransactionDetail()
+        
+        // Screen title
         self.title = productName
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Atur textview tolak
+        txtvwAlasanTolak.delegate = self
+        txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+        txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        txtvwTolakGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
+        txtvwTolakGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        
+        self.validateTolakPesananFields()
+        
+        // Atur textview review
+        txtvwReview.delegate = self
+        txtvwReview.text = TxtvwReviewPlaceholder
+        txtvwReview.textColor = UIColor.lightGrayColor()
+        txtvwReviewGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
+        txtvwReviewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        
+        self.validateRvwKirimFields()
+    }
+    
     func getTransactionDetail() {
+        self.showLoading()
+        
         var req : URLRequestConvertible?
         if (trxId != nil) {
             if (userIsSeller()) {
@@ -83,8 +164,30 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     self.setupTable()
+                    self.setupPopUpContent()
+                    self.hideLoading()
                 }
             }
+        }
+    }
+    
+    func setupPopUpContent() {
+        // Review seller pop up
+        // Set btnLoves and lblLoves manually
+        btnsRvwLove.append(self.btnLove1)
+        btnsRvwLove.append(self.btnLove2)
+        btnsRvwLove.append(self.btnLove3)
+        btnsRvwLove.append(self.btnLove4)
+        btnsRvwLove.append(self.btnLove5)
+        lblsRvwLove.append(self.lblLove1)
+        lblsRvwLove.append(self.lblLove2)
+        lblsRvwLove.append(self.lblLove3)
+        lblsRvwLove.append(self.lblLove4)
+        lblsRvwLove.append(self.lblLove5)
+        
+        if (trxProductDetail != nil) {
+            self.lblRvwSellerName.text = trxProductDetail!.sellerUsername
+            self.lblRvwProductName.text = trxProductDetail!.productName
         }
     }
     
@@ -388,39 +491,55 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             if (userIsSeller()) {
                 if (idx == 0) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                    }
                 } else if (idx == 1) {
-                    
+                    return DefaultHeight
                 } else if (idx == 2) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
+                    }
                 } else if (idx == 3) {
-                    
+                    return DefaultHeight
                 } else if (idx == 4) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                    }
                 } else if (idx == 5) {
-                    
+                    return DefaultHeight
                 } else if (idx == 6) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                    }
                 } else if (idx == 7) {
-                    
+                    return DefaultHeight
                 }
             } else {
                 if (idx == 0) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                    }
                 } else if (idx == 1) {
-                    
+                    return DefaultHeight
                 } else if (idx == 2) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyer)
+                    }
                 } else if (idx == 3) {
-                    
+                    return DefaultHeight
                 } else if (idx == 4) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanBuyer)
+                    }
                 } else if (idx == 5) {
-                    
+                    return DefaultHeight
                 } else if (idx == 6) {
-                    
+                    if (trxProductDetail != nil) {
+                        return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                    }
                 } else if (idx == 7) {
-                    
+                    return DefaultHeight
                 }
             }
         }
@@ -643,21 +762,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else {
                 if (idx == 0) {
-                    
+                    return self.createTableProductsCell()
                 } else if (idx == 1) {
-                    
+                    return self.createTitleCell(TitlePembayaran)
                 } else if (idx == 2) {
-                    
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyer)
                 } else if (idx == 3) {
-                    
+                    return self.createTitleCell(TitlePengiriman)
                 } else if (idx == 4) {
-                    
+                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
                 } else if (idx == 5) {
-                    
+                    return self.createTitleCell(TitleReview)
                 } else if (idx == 6) {
-                    
+                    return self.createReviewCell()
                 } else if (idx == 7) {
-                    
+                    return self.createContactPreloCell()
                 }
             }
         }
@@ -666,7 +785,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        // Do nothing
     }
     
     // MARK: - Cell creation
@@ -769,6 +888,42 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             cell.adapt(self.progress, order: order)
         }
         
+        // Configure actions
+        cell.retrieveCash = {
+            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            self.navigationController?.pushViewController(t, animated: true)
+        }
+        cell.confirmPayment = {
+            if (self.trxDetail != nil) {
+                var imgs : [NSURL] = []
+                let tProducts = self.trxDetail!.transactionProducts
+                for i in 0...(tProducts.count - 1) {
+                    let tProduct : TransactionProductDetail = tProducts[i]
+                    if let url = tProduct.productImageURL {
+                        imgs.append(url)
+                    }
+                }
+                let orderConfirmVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                orderConfirmVC.transactionId = self.trxDetail!.id
+                orderConfirmVC.orderID = self.trxDetail!.orderId
+                orderConfirmVC.total = self.trxDetail!.totalPrice
+                orderConfirmVC.images = imgs
+                orderConfirmVC.fromCheckout = false
+                self.navigationController?.pushViewController(orderConfirmVC, animated: true)
+            }
+        }
+        cell.confirmShipping = {
+            if (self.trxDetail != nil) {
+                let confirmShippingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil).first as! ConfirmShippingViewController
+                confirmShippingVC.trxDetail = self.trxDetail!
+                self.navigationController?.pushViewController(confirmShippingVC, animated: true)
+            }
+        }
+        cell.reviewSeller = {
+            self.vwShadow.hidden = false
+            self.vwReviewSeller.hidden = false
+        }
+        
         return cell
     }
     
@@ -778,6 +933,102 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Adapt cell
         if (progress != nil) {
             cell.adapt(self.progress, isSeller: isSeller, order: order)
+        }
+        
+        // Configure actions
+        cell.orderAgain = {
+            if (self.trxDetail != nil) {
+                var success = true
+                let tProducts = self.trxDetail!.transactionProducts
+                for i in 0...(tProducts.count - 1) {
+                    let tProduct : TransactionProductDetail = tProducts[i]
+                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+                            success = false
+                        }
+                    }
+                }
+                if (!success) {
+                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
+                }
+                self.performSegueWithIdentifier("segCart", sender: nil)
+            }
+        }
+        cell.rejectTransaction = {
+            self.vwShadow.hidden = false
+            self.vwTolakPesanan.hidden = false
+        }
+        cell.contactBuyer = {
+            // Get product detail from API
+            var productId = ""
+            if (self.trxDetail != nil) {
+                productId = self.trxDetail!.transactionProducts[0].productId
+            } else if (self.trxProductDetail != nil) {
+                productId = self.trxProductDetail!.productId
+            }
+            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                    let json = JSON(res!)
+                    if let pDetail = ProductDetail.instance(json) {
+                    
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    
+                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID)).responseJSON { req, resp, res, err in
+                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                                let json = JSON(res!)
+                                if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
+                                    t.tawarItem = Inbox(jsn: json["_data"])
+                                    self.navigationController?.pushViewController(t, animated: true)
+                                } else { // Belum pernah chat
+                                    var j : JSON?
+                                    if (self.trxDetail != nil) {
+                                        j = self.trxDetail!.transactionProducts[0].json["review"]
+                                    } else if (self.trxProductDetail != nil) {
+                                        j = self.trxProductDetail!.json["review"]
+                                    }
+                                    if (j != nil) {
+                                        pDetail.buyerId = j!["buyer_id"].stringValue
+                                        pDetail.buyerName = j!["buyer_fullname"].stringValue
+                                        pDetail.buyerImage = j!["buyer_pict"].stringValue
+                                        pDetail.reverse()
+                                        
+                                        t.tawarItem = pDetail
+                                        t.fromSeller = true
+                                        
+                                        t.toId = j!["buyer_id"].stringValue
+                                        t.prodId = t.tawarItem.itemId
+                                        self.navigationController?.pushViewController(t, animated: true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        cell.contactSeller = {
+            // Get product detail from API
+            var productId = ""
+            if (self.trxDetail != nil) {
+                productId = self.trxDetail!.transactionProducts[0].productId
+            } else if (self.trxProductDetail != nil) {
+                productId = self.trxProductDetail!.productId
+            }
+            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                    let json = JSON(res!)
+                    if let pDetail = ProductDetail.instance(json) {
+                        
+                        // Goto chat
+                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        t.tawarItem = pDetail
+                        t.loadInboxFirst = true
+                        t.prodId = pDetail.productID
+                        self.navigationController?.pushViewController(t, animated: true)
+                    }
+                }
+            }
         }
         
         return cell
@@ -817,20 +1068,216 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
+    // MARK: - UITextViewDelegate Functions
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if (textView == txtvwAlasanTolak) {
+            if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+                txtvwAlasanTolak.text = ""
+                txtvwAlasanTolak.textColor = Theme.GrayDark
+            }
+        } else if (textView == txtvwReview) {
+            if (txtvwReview.textColor == UIColor.lightGrayColor()) {
+                txtvwReview.text = ""
+                txtvwReview.textColor = Theme.GrayDark
+            }
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        if (textView == txtvwAlasanTolak) {
+            txtvwTolakGrowHandler.resizeTextViewWithAnimation(true)
+            self.validateTolakPesananFields()
+        } else if (textView == txtvwReview) {
+            txtvwReviewGrowHandler.resizeTextViewWithAnimation(true)
+            self.validateRvwKirimFields()
+        }
+        
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if (textView == txtvwAlasanTolak) {
+            if (txtvwAlasanTolak.text.isEmpty) {
+                txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
+                txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+            }
+        } else if (textView == txtvwReview) {
+            if (txtvwReview.text.isEmpty) {
+                txtvwReview.text = TxtvwReviewPlaceholder
+                txtvwReview.textColor = UIColor.lightGrayColor()
+            }
+        }
+    }
+    
+    // MARK: - GestureRecognizer Functions
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        txtvwAlasanTolak.resignFirstResponder()
+        txtvwReview.resignFirstResponder()
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    // MARK: - Tolak Pesanan
+    
+    func validateTolakPesananFields() {
+        if (txtvwAlasanTolak.text.isEmpty || txtvwAlasanTolak.text == self.TxtvwAlasanTolakPlaceholder) {
+            // Disable tombol kirim
+            btnTolakKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnTolakKirim.userInteractionEnabled = true
+        }
+    }
+    
+    @IBAction func tolakBatalPressed(sender: AnyObject) {
+        vwShadow.hidden = true
+        vwTolakPesanan.hidden = true
+    }
+    
+    @IBAction func tolakKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        if (self.trxId != nil) {
+            request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
+                    let json = JSON(res!)
+                    let data : Bool? = json["_data"].bool
+                    if (data != nil || data == true) {
+                        Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
+                        
+                        // Hide pop up
+                        self.sendMode(false)
+                        self.vwShadow.hidden = true
+                        self.vwTolakPesanan.hidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - Review Seller
+    
+    func validateRvwKirimFields() {
+        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+            // Disable tombol kirim
+            btnRvwKirim.userInteractionEnabled = false
+        } else {
+            // Enable tombol kirim
+            btnRvwKirim.userInteractionEnabled = true
+        }
+    }
+    
+    @IBAction func rvwLovePressed(sender: UIButton) {
+        var isFound = false
+        for (var i = 0; i < btnsRvwLove.count; i++) {
+            let b = btnsRvwLove[i]
+            if (!isFound) {
+                if (sender == b) {
+                    isFound = true
+                    loveValue = i + 1
+                    println("loveValue = \(loveValue)")
+                }
+                lblsRvwLove[i].text = ""
+            } else {
+                lblsRvwLove[i].text = ""
+            }
+        }
+    }
+    
+    @IBAction func reviewBatalPressed(sender: AnyObject) {
+        self.vwShadow.hidden = true
+        self.vwReviewSeller.hidden = true
+    }
+    
+    @IBAction func reviewKirimPressed(sender: AnyObject) {
+        self.sendMode(true)
+        if (self.trxProductDetail != nil) {
+            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Seller")) {
+                    let json = JSON(res!)
+                    let dataBool : Bool = json["_data"].boolValue
+                    let dataInt : Int = json["_data"].intValue
+                    //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                    if (dataBool == true || dataInt == 1) {
+                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                    } else {
+                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                    }
+                    
+                    // Hide pop up
+                    self.sendMode(false)
+                    self.vwShadow.hidden = true
+                    self.vwReviewSeller.hidden = true
+                    
+                    // Reload content
+                    self.getTransactionDetail()
+                }
+            }
+        }
+    }
+    
     // MARK: - Other functions
+    
+    func sendMode(mode: Bool) {
+        if (mode) {
+            // Disable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = false
+            btnTolakBatal.userInteractionEnabled = false
+            btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = false
+            btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
+            
+            // Disable review seller content
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = false
+            }
+            self.txtvwReview.userInteractionEnabled = false
+            self.btnRvwBatal.userInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = false
+        } else {
+            // Enable tolak pesanan content
+            txtvwAlasanTolak.userInteractionEnabled = true
+            btnTolakBatal.userInteractionEnabled = true
+            btnTolakKirim.setTitle("KIRIM", forState: .Normal)
+            btnTolakKirim.userInteractionEnabled = true
+            btnTolakKirim.backgroundColor = Theme.PrimaryColor
+            
+            // Enable review seller content
+            for (var i = 0; i < btnsRvwLove.count; i++) {
+                let b = btnsRvwLove[i]
+                b.userInteractionEnabled = true
+            }
+            self.txtvwReview.userInteractionEnabled = true
+            self.btnRvwBatal.userInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
+            self.btnRvwKirim.userInteractionEnabled = true
+
+        }
+    }
     
     func userIsSeller() -> Bool {
         return (isSeller != nil && isSeller == true)
     }
     
     func hideLoading() {
-        loadingPanel.hidden = true
+        vwShadow.hidden = true
         loading.hidden = true
         loading.stopAnimating()
     }
     
     func showLoading() {
-        loadingPanel.hidden = false
+        vwShadow.hidden = false
         loading.hidden = false
         loading.startAnimating()
     }
@@ -1026,7 +1473,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentDate
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.paymentDate
                     }
@@ -1034,33 +1481,33 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankTarget
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankTarget
                     }
                     return self.createTitleContentCell("Bank Tujuan", content: content)
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankSource
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankSource
                     }
                     return self.createTitleContentCell("Bank Kamu", content: content)
                 } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentBankAccount
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.paymentBankAccount
                     }
                     return self.createTitleContentCell("Rekening Atas Nama", content: content)
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = trxDetail!.totalPrice.asPrice
+                        content = trxDetail!.paymentNominal.asPrice
                     } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.totalPrice.asPrice
+                        content = trxProductDetail!.paymentNominal.asPrice
                     }
                     return self.createTitleContentCell("Nominal", content: content)
                 }
@@ -1076,7 +1523,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.paymentDate
                     } else if (isTrxProductDetail()) {
                         content = trxProductDetail!.paymentDate
                     }
@@ -1134,17 +1581,17 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.shippingName
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.shippingName
                     }
                     return self.createTitleContentCell("Kurir", content: content)
                 } else if (idx == 6) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = "---"
+                        content = trxDetail!.resiNumber
                     } else if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.resiNumber
                     }
                     return self.createTitleContentCell("Nomor Resi", content: content)
                 }
@@ -1204,13 +1651,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 if (idx == 0) {
                     var content = ""
                     if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.myPreloBalance.asPrice
                     }
                     return self.createTitleContentCell("Prelo Balance", content: content)
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxProductDetail()) {
-                        content = "---"
+                        content = trxProductDetail!.myPreloBonus.asPrice
                     }
                     return self.createTitleContentCell("Prelo Bonus", content: content)
                 }
@@ -1412,7 +1859,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.text = TransactionDetailTools.TextPembayaranExpiredBuyer
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-                let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                let expireTime = trxDetail.expireTime + ". "
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextNotPaid + expireTime + TransactionDetailTools.TextNotPaidSeller
                 } else {
@@ -1426,7 +1873,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (isSeller) {
-                    let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                    let expireTime = trxDetail.shippingExpireTime + ". "
                     // FIXME: ada yg ditebelin
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
                 }
@@ -1450,7 +1897,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (!isSeller) {
-                    let expireTime = "dd/MM/yyyy hh:mm:ss" + ". "
+                    let expireTime = trxProductDetail.shippingExpireTime + ". "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidBuyer1 + expireTime + TransactionDetailTools.TextConfirmedPaidBuyer2
                 }
             } else if (progress == TransactionDetailTools.ProgressSent) {
@@ -1498,16 +1945,25 @@ class TransactionDetailTitleContentCell : UITableViewCell {
 
 // MARK: - Class
 
+typealias RetrieveCash = () -> ()
+typealias ConfirmPayment = () -> ()
+typealias ConfirmShipping = () -> ()
+typealias ReviewSeller = () -> ()
+
 class TransactionDetailButtonCell : UITableViewCell {
     @IBOutlet weak var btn: UIButton!
     
     var progress : Int?
     var order : Int?
+    var retrieveCash : RetrieveCash = {}
+    var confirmPayment : ConfirmPayment = {}
+    var confirmShipping : ConfirmShipping = {}
+    var reviewSeller : ReviewSeller = {}
     
     func adapt(progress : Int?, order : Int) {
         self.progress = progress
         self.order = order
-        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             btn.setTitle("TARIK TUNAI", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             btn.setTitle("KONFIRMASI PEMBAYARAN", forState: UIControlState.Normal)
@@ -1519,19 +1975,24 @@ class TransactionDetailButtonCell : UITableViewCell {
     }
     
     @IBAction func btnPressed(sender: AnyObject) {
-        if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
-            Constant.showDialog("Button pressed", message: "TARIK TUNAI")
+        if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
+            self.retrieveCash()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-            Constant.showDialog("Button pressed", message: "KONFIRMASI PEMBAYARAN")
+            self.confirmPayment()
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
-            Constant.showDialog("Button pressed", message: "KIRIM / TOLAK")
+            self.confirmShipping()
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            Constant.showDialog("Button pressed", message: "REVIEW SELLER")
+            self.reviewSeller()
         }
     }
 }
 
 // MARK: - Class
+
+typealias OrderAgain = () -> ()
+typealias RejectTransaction = () -> ()
+typealias ContactBuyer = () -> ()
+typealias ContactSeller = () -> ()
 
 class TransactionDetailBorderedButtonCell : UITableViewCell {
     @IBOutlet weak var btn: BorderedButton!
@@ -1539,6 +2000,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
+    var orderAgain : OrderAgain = {}
+    var rejectTransaction : RejectTransaction = {}
+    var contactBuyer : ContactBuyer = {}
+    var contactSeller : ContactSeller = {}
     
     func adapt(progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
@@ -1552,9 +2017,10 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
             if (order == 1) {
                 btn.setTitle("HUBUNGI BUYER", forState: UIControlState.Normal)
             } else if (order == 2) {
-                btn.setTitle("Tolak Transaksi", forState: UIControlState.Normal)
+                btn.setTitle("Tolak Pesanan", forState: UIControlState.Normal)
                 btn.titleLabel!.font = UIFont.systemFontOfSize(13)
                 btn.borderColor = UIColor.clearColor()
+                btn.borderColorHighlight = UIColor.clearColor()
                 btn.contentHorizontalAlignment = .Right
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
@@ -1570,21 +2036,21 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     
     @IBAction func btnPressed(sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressExpired) {
-            Constant.showDialog("Button pressed", message: "PESAN LAGI BARANG YANG SAMA")
+            self.orderAgain()
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+            self.contactBuyer()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
-                Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+                self.contactBuyer()
             } else if (order == 2) {
-                Constant.showDialog("Button pressed", message: "Tolak Transaksi")
+                self.rejectTransaction()
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
-                    Constant.showDialog("Button pressed", message: "HUBUNGI BUYER")
+                    self.contactBuyer()
                 } else {
-                    Constant.showDialog("Button pressed", message: "HUBUNGI SELLER")
+                    self.contactSeller()
                 }
             }
         }

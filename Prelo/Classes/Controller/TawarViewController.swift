@@ -88,9 +88,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         header.captionProductName.text = tawarItem.itemName
         if (tawarItem.bargainPrice != 0 && tawarItem.threadState == 2)
         {
+            let b = tawarItem.bargainPrice.asPrice
+            let p = tawarItem.price
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
-            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
+            captionTawarHargaOri.text = "Harga asli " + p
         } else
         {
             header.captionPrice.text = tawarItem.price
@@ -121,6 +123,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             firstSetup()
         }
+        
+        textViewDidChange(textView)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -216,8 +220,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             {
                 if (tawarItem.opIsMe)
                 {
-                    btnTawar1.hidden = false
-                    btnBeli.hidden = false
+                    btnTolak2.hidden = false
+//                    btnTawar1.hidden = false
+//                    btnBeli.hidden = false
                 } else
                 {
                     btnTolak2.hidden = false
@@ -279,7 +284,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
-            captionTawarHargaOri.text = "Harga asli " + tawarItem.bargainPrice.asPrice
+            captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         } else
         {
             let p = tawarItem.price
@@ -391,9 +396,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         textViewGrowHandler.resizeTextViewWithAnimation(true)
         if (textView.text == "")
         {
+            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor.grayColor()), forState: .Normal)
             btnSend.userInteractionEnabled = false
         } else
         {
+            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hex: "#25A79D")), forState: .Normal)
             btnSend.userInteractionEnabled = true
         }
     }
@@ -436,9 +443,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (txtTawar.text == "" || txtTawar.text.match(tawarRegex) == false)
         {
             Constant.showDialog("Masukkan angka penawaran", message: "Contoh: 150000")
-        }
-        else
+        } else
         {
+            var m = txtTawar.text.int
+            if (m < 1000)
+            {
+                Constant.showDialog("Tawar", message: "Mungkin maksud anda " + m.asPrice + "0")
+                return
+            }
             self.hideTawar(nil)
             if (tawarItem.threadId == "")
             {
@@ -449,7 +461,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             txtTawar.text = ""
             btnTawar1.hidden = true
             btnTawar2.hidden = true
-            btnBatal.hidden = false
+//            btnBatal.hidden = false
         }
         
         // Mixpanel
@@ -458,6 +470,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func rejectTawar(sender : UIView?)
     {
+//        var message = String(tawarItem.bargainPrice)
+//        if (tawarFromMe)
+//        {
+//            message = "Tawaran dibatalkan " + tawarItem.bargainPrice.asPrice
+//        }
         sendChat(3, message: String(tawarItem.bargainPrice))
     }
     
@@ -474,10 +491,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
+        var m = textView.text
+        
+        if (m == "")
+        {
+            return
+        }
+        
         sendChat(0, message: textView.text)
         
         // Mixpanel
         self.sendMixpanelEvent(MixpanelEvent.ChatSent)
+        textViewDidChange(textView)
     }
     
     func sendChat(type : Int, message : String)
@@ -485,7 +510,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (type == 1)
         {
             tawarFromMe = true
-        } else
+        } else if (type != 0)
         {
             tawarFromMe = false
         }
@@ -662,6 +687,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.view.endEditing(true)
         let height = scrollView.contentSize.height
         let contentYOffset = scrollView.contentOffset.y
         let distanceFromBottom = height - contentYOffset

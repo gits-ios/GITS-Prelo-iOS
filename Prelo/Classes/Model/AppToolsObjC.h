@@ -42,6 +42,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
 
 + (void) shareToInstagram:(UIImage *)image from:(UIViewController *)parent;
 
++ (UIImage *)imageFromColor:(UIColor *)color;
+
 @end
 
 @interface UINavigationController (AppToolsObjC)

@@ -1314,11 +1314,67 @@ class TransactionDetail : NSObject {
         return ""
     }
     
+    var expireTime : String {
+        if let j = json["expire_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingExpireTime : String {
+        if let j = json["shipping_expire_time"].string {
+            return j
+        }
+        return ""
+    }
+    
     var paymentMethod : String {
         if let j = json["payment_method"].string {
             return j
         }
         return ""
+    }
+    
+    var paymentDate : String {
+        if let j = json["payment_date"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentBankTarget : String {
+        if let j = json["payment_method_param"]["target_bank"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentBankSource : String {
+        if let j = json["payment_method_param"]["source_bank"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentBankAccount : String {
+        if let j = json["payment_method_param"]["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentTime : String {
+        if let j = json["payment_method_param"]["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentNominal : Int {
+        if let j = json["payment_method_param"]["nominal"].int {
+            return j
+        }
+        return 0
     }
     
     var progress : Int {
@@ -1452,6 +1508,20 @@ class TransactionDetail : NSObject {
     
     var shippingEmail : String {
         if let j = json["shipping_address"]["email"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingName : String {
+        if let j = json["shipping_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var resiNumber : String {
+        if let j = json["resi_number"].string {
             return j
         }
         return ""
@@ -1615,6 +1685,41 @@ class TransactionProductDetail : NSObject {
         }
     }
     
+    var paymentBankTarget : String {
+        if let j = json["payment_method_param"]["target_bank"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentBankSource : String {
+        if let j = json["payment_method_param"]["source_bank"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentBankAccount : String {
+        if let j = json["payment_method_param"]["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentTime : String {
+        if let j = json["payment_method_param"]["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var paymentNominal : Int {
+        if let j = json["payment_method_param"]["nominal"].int {
+            return j
+        }
+        return 0
+    }
+    
     var expireTime : String? {
         if (json["expire_time"] != nil) {
             return json["expire_time"].string
@@ -1623,11 +1728,18 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var shippingName : String? {
+    var shippingExpireTime : String {
+        if let j = json["shipping_expire_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingName : String {
         if (json["shipping_name"] != nil) {
-            return json["shipping_name"].string
+            return json["shipping_name"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1645,11 +1757,11 @@ class TransactionProductDetail : NSObject {
         return -9999
     }
     
-    var resiNumber : String? {
+    var resiNumber : String {
         if (json["resi_number"] != nil) {
-            return json["resi_number"].string
+            return json["resi_number"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1756,6 +1868,20 @@ class TransactionProductDetail : NSObject {
         } else {
             return ""
         }
+    }
+    
+    var myPreloBalance : Int {
+        if let j = json["my_prelo_balance"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var myPreloBonus : Int {
+        if let j = json["my_prelo_bonus"].int {
+            return j
+        }
+        return 0
     }
     
     func isSeller(compareId : String) -> Bool
@@ -2289,6 +2415,8 @@ class InboxMessage : NSObject
     var message : String!
     var bargainPrice = ""
     var dynamicMessage : String {
+        
+//        return message
         
         if (messageType == 1)
         {

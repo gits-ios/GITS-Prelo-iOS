@@ -135,6 +135,7 @@ class Tags : NSObject
     static let XibNameNotifAnggiTabBar = "NotifAnggiTabBar"
     static let XibNameNotifAnggiTransaction = "NotifAnggiTransaction"
     static let XibNameNotifAnggiConversation = "NotifAnggiConversation"
+    static let XibNameConfirmShipping = "ConfirmShipping"
 }
 
 class OrderStatus : NSObject

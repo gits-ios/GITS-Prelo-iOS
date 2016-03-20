@@ -43,8 +43,21 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     var overBack = false
     var first = true
     
+    var clearCart = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // clearCart = true kalaw dari Cart
+        if (clearCart)
+        {
+            let products = CartProduct.getAll(User.EmailOrEmptyString)
+            for p in products
+            {
+                UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+            }
+            UIApplication.appDelegate.saveContext()
+        }
         
         free = total == 0
 //        free = true

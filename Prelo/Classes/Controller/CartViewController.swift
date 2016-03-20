@@ -430,11 +430,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let d = ["address":address, "province_id":selectedProvinsiID, "region_id":selectedKotaID, "postal_code":postal, "recipient_name":name, "recipient_phone":phone, "email":email]
         let a = AppToolsObjC.jsonStringFrom(d)
         
+        if (p == "[]" || p == "")
+        {
+            Constant.showDialog("Warning", message: "Tidak ada produk")
+            return
+        }
+        
         self.btnSend.enabled = false
         request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON { req, resp, res, err in
+            println(res)
             self.btnSend.enabled = true
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout")) {
                 var json = JSON(res!)
+                println(json)
                 if let error = json["_message"].string
                 {
                     Constant.showDialog("Warning", message: error)
@@ -450,7 +458,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         return
                     }
                     
-                    let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
+//                    let c = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCartConfirm) as! CarConfirmViewController
                     
                     let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                     
@@ -487,11 +495,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     o.images = imgs
                     
-                    for p in self.products
-                    {
-                        UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
-                    }
-                    UIApplication.appDelegate.saveContext()
+                    // pindah ke OrderConfirmViewController
+//                    for p in self.products
+//                    {
+//                        UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+//                    }
+//                    UIApplication.appDelegate.saveContext()
                     
                     // Mixpanel and Answers
                     if (self.checkoutResult != nil) {
@@ -560,6 +569,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     }
                     
+                    o.clearCart = true
                     self.previousController?.navigationController?.pushViewController(o, animated: true)
                     
                 }
