@@ -532,15 +532,18 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func pinch(pinchedIn : Bool)
     {
+        println("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3)
         {
+            listStage = 1
+        }
+        if (listStage < 1)
+        {
             listStage = 3
         }
-        if (listStage < 0)
-        {
-            listStage = 0
-        }
+        
+        println("next stage : \(listStage)")
         
         setupGrid()
         

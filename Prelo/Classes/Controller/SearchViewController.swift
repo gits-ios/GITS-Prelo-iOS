@@ -29,7 +29,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         super.viewDidLoad()
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
 
-        let t = UITextField(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-52, 30))
+//        let t = UITextField(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-52, 30))
+//        print("\(self.navigationItem.lef)")
+        var w = UIScreen.mainScreen().bounds.size.width * 0.8375
+        if (AppTools.isIPad)
+        {
+            w = UIScreen.mainScreen().bounds.size.width - 68
+        }
+        let t = UITextField(frame: CGRectMake(0, 0, w, 30))
         t.textColor = Theme.PrimaryColorDark
         t.borderStyle = UITextBorderStyle.None
         t.placeholder = "Cari"

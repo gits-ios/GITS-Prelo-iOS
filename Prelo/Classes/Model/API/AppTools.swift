@@ -50,6 +50,10 @@ class AppTools: NSObject {
     static var IsPreloProduction : Bool {
         return (AppTools.PreloBaseUrl == "https://prelo.co.id")
     }
+    
+    static var isIPad : Bool {
+        return UI_USER_INTERFACE_IDIOM() == .Pad
+    }
 }
 
 class Theme : NSObject
@@ -353,3 +357,16 @@ extension NSUserDefaults
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
+
+//extension UIDevice
+//{
+//    static func isIpad() -> Bool
+//    {
+//        if (UI_USER_INTERFACE_IDIOM() == .Pad)
+//        {
+//            return true
+//        }
+//        
+//        return false
+//    }
+//}
