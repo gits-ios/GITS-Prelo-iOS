@@ -1549,18 +1549,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    }
-                    return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
                             content = r
                         }
@@ -1570,6 +1558,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Kota", content: content)
+                } else if (idx == 3) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                            content = p
+                        }
+                    } else if (isTrxProductDetail()) {
+                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                            content = p
+                        }
+                    }
+                    return self.createTitleContentCell("Provinsi", content: content)
                 } else if (idx == 4) {
                     var content = ""
                     if (isTrxDetail()) {
@@ -1617,18 +1617,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    }
-                    return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 4) {
-                    var content = ""
-                    if (isTrxDetail()) {
                         if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
                             content = r
                         }
@@ -1638,6 +1626,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         }
                     }
                     return self.createTitleContentCell("Kota", content: content)
+                } else if (idx == 4) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                            content = p
+                        }
+                    } else if (isTrxProductDetail()) {
+                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                            content = p
+                        }
+                    }
+                    return self.createTitleContentCell("Provinsi", content: content)
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {

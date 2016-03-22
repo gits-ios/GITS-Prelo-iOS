@@ -23,7 +23,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     let titleNama = "Nama"
     let titleTelepon = "Telepon"
-    let titleAlamat = "Alamat"
+    let titleAlamat = "Mis: Jl. Tamansari III no. 1"
     let titleProvinsi = "Provinsi"
     let titleKota = "Kab / Kota"
     let titlePostal = "Kode Pos"

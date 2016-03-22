@@ -28,7 +28,7 @@
                             <string key="text">Label
 Label
 Label</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -41,7 +41,7 @@ Label</string>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tzd-fY-nES">
-                            <rect key="frame" x="271" y="8" width="58" height="20"/>
+                            <rect key="frame" x="274" y="8" width="53" height="20"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3e-eQ-h0d">
                                     <rect key="frame" x="0.0" y="0.0" width="10" height="20"/>
@@ -51,9 +51,9 @@ Label</string>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lRC-ca-Odg">
-                                    <rect key="frame" x="18" y="0.0" width="40" height="20"/>
+                                    <rect key="frame" x="17" y="0.0" width="36" height="20"/>
                                     <animations/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -77,6 +77,16 @@ Label</string>
                                 </mask>
                             </variation>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RJJ-tv-1pf">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                            <animations/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="seeMore:" destination="YhO-QL-dRU" eventType="touchUpInside" id="9cR-v8-9KG"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,7 +106,7 @@ Label</string>
                     <rect key="frame" x="0.0" y="164" width="600" height="32"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-3L-eo2">
-                            <rect key="frame" x="193" y="0.0" width="215" height="32"/>
+                            <rect key="frame" x="197" y="0.0" width="206" height="32"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj7-rR-iJJ">
                                     <rect key="frame" x="0.0" y="8" width="112" height="16"/>
@@ -106,14 +116,14 @@ Label</string>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(0 Review)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPR-yg-QdW">
-                                    <rect key="frame" x="120" y="6" width="75" height="20"/>
+                                    <rect key="frame" x="120" y="8" width="67" height="17"/>
                                     <animations/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRl-5S-hIq">
-                                    <rect key="frame" x="203" y="8" width="12" height="16"/>
+                                    <rect key="frame" x="194" y="8" width="12" height="16"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                     <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -141,9 +151,10 @@ Label</string>
                                 <constraint firstAttribute="height" constant="1" id="TBX-eU-yR6"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bxh-PT-iAn">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="31"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bxh-PT-iAn">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="32"/>
                             <animations/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -155,12 +166,16 @@ Label</string>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Bxh-PT-iAn" secondAttribute="trailing" id="9Uz-Ir-p5b"/>
                         <constraint firstAttribute="bottom" secondItem="SMO-cR-1jk" secondAttribute="bottom" id="Jsa-5b-cot"/>
                         <constraint firstAttribute="centerX" secondItem="s2o-3L-eo2" secondAttribute="centerX" id="Pwi-cg-cw3"/>
                         <constraint firstAttribute="trailing" secondItem="SMO-cR-1jk" secondAttribute="trailing" id="T6w-dO-xRW"/>
+                        <constraint firstItem="Bxh-PT-iAn" firstAttribute="leading" secondItem="abN-FJ-Vln" secondAttribute="leading" id="TOq-Wu-wUu"/>
                         <constraint firstItem="SMO-cR-1jk" firstAttribute="leading" secondItem="abN-FJ-Vln" secondAttribute="leading" id="TpI-gp-rZl"/>
+                        <constraint firstAttribute="bottom" secondItem="Bxh-PT-iAn" secondAttribute="bottom" id="kTe-aC-pyg"/>
                         <constraint firstAttribute="height" constant="32" id="qL6-cQ-4oj"/>
                         <constraint firstAttribute="centerY" secondItem="s2o-3L-eo2" secondAttribute="centerY" id="vvC-XE-Lrc"/>
+                        <constraint firstItem="Bxh-PT-iAn" firstAttribute="top" secondItem="abN-FJ-Vln" secondAttribute="top" id="wJ6-up-YLU"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Aq-QB-gsq">
@@ -175,9 +190,9 @@ Label</string>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFQ-5s-HE1">
-                            <rect key="frame" x="280" y="6" width="40" height="20"/>
+                            <rect key="frame" x="283" y="8" width="36" height="17"/>
                             <animations/>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -210,7 +225,7 @@ Label</string>
                                     <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                     <animations/>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgX-8C-szp">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgX-8C-szp">
                                     <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                     <animations/>
                                     <state key="normal">
@@ -225,11 +240,15 @@ Label</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="2BS-kA-bGb"/>
+                                <constraint firstAttribute="bottom" secondItem="WgX-8C-szp" secondAttribute="bottom" id="3bQ-HQ-05T"/>
+                                <constraint firstItem="WgX-8C-szp" firstAttribute="leading" secondItem="fsB-B7-KsL" secondAttribute="leading" id="4BR-Ic-Cec"/>
                                 <constraint firstAttribute="trailing" secondItem="tZw-8e-gaQ" secondAttribute="trailing" id="BmB-08-dnr"/>
+                                <constraint firstAttribute="trailing" secondItem="WgX-8C-szp" secondAttribute="trailing" id="Eec-cp-tWK"/>
                                 <constraint firstAttribute="height" constant="80" id="F6K-sN-DXJ"/>
                                 <constraint firstAttribute="bottom" secondItem="tZw-8e-gaQ" secondAttribute="bottom" id="LSY-u2-ZHV"/>
                                 <constraint firstItem="tZw-8e-gaQ" firstAttribute="top" secondItem="fsB-B7-KsL" secondAttribute="top" id="gGq-dm-uFh"/>
                                 <constraint firstItem="tZw-8e-gaQ" firstAttribute="leading" secondItem="fsB-B7-KsL" secondAttribute="leading" id="nsq-oP-fBu"/>
+                                <constraint firstItem="WgX-8C-szp" firstAttribute="top" secondItem="fsB-B7-KsL" secondAttribute="top" id="zQN-40-NG8"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -239,16 +258,16 @@ Label</string>
                             </userDefinedRuntimeAttributes>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCo-9k-qop">
-                            <rect key="frame" x="280" y="111" width="40" height="20"/>
+                            <rect key="frame" x="283" y="111" width="36" height="17"/>
                             <animations/>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZP-bo-D9H" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                            <rect key="frame" x="241" y="136" width="119" height="20"/>
+                            <rect key="frame" x="245" y="137" width="111" height="19"/>
                             <animations/>
-                            <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="11"/>
                             <inset key="contentEdgeInsets" minX="8" minY="4" maxX="8" maxY="4"/>
                             <state key="normal" title=" EDIT PROFILE">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
