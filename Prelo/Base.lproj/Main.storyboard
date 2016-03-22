@@ -1496,7 +1496,7 @@ dalam hitungan detik.</string>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GMb-Gi-Ejd">
                                                     <rect key="frame" x="200" y="0.0" width="200" height="90"/>
                                                     <subviews>
-                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jualan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSG-bg-qk0">
+                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request Barang" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSG-bg-qk0">
                                                             <rect key="frame" x="8" y="60" width="184" height="15"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -1569,7 +1569,7 @@ dalam hitungan detik.</string>
                                                                 </mask>
                                                             </variation>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Belanjaan Saya" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05X-Sk-e1G">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voucher Gratis" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05X-Sk-e1G">
                                                             <rect key="frame" x="9" y="60" width="183" height="15"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -1583,7 +1583,7 @@ dalam hitungan detik.</string>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="launchMyPurchases" destination="33S-9l-LM1" eventType="touchUpInside" id="ykm-9F-IjC"/>
+                                                                <action selector="launchFreeVoucher:" destination="33S-9l-LM1" eventType="touchUpInside" id="wEL-OM-X5v"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -1708,16 +1708,16 @@ dalam hitungan detik.</string>
                     <connections>
                         <outlet property="captionName" destination="ISZ-ln-UcD" id="vHL-cj-l4F"/>
                         <outlet property="imgCover" destination="qmP-5d-n5A" id="rHS-5G-OTE"/>
-                        <outlet property="ivBag" destination="txG-F6-hp7" id="F0X-BI-H4v"/>
                         <outlet property="ivLove" destination="CIu-au-kBG" id="fIh-7B-040"/>
-                        <outlet property="ivShirt" destination="2QS-YU-5jg" id="471-ZP-HuV"/>
+                        <outlet property="ivRequest" destination="2QS-YU-5jg" id="p9u-tr-Pa1"/>
+                        <outlet property="ivVoucher" destination="txG-F6-hp7" id="177-XJ-G7w"/>
                         <outlet property="tableView" destination="fZG-Yh-LSu" id="JAb-o6-hIf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Fn-hX-64c" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="8T7-sd-PXa">
                     <connections>
-                        <action selector="launchMyProducts" destination="33S-9l-LM1" id="ywO-pr-Pqv"/>
+                        <action selector="launchRequestBarang:" destination="33S-9l-LM1" id="nqy-qk-TSg"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -9666,7 +9666,7 @@ pembayaran melalui bank transfer.</string>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3yp-Ph-599">
                                                 <rect key="frame" x="0.0" y="256" width="600" height="376"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Produk" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
                                                         <rect key="frame" x="32" y="8" width="109" height="21"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -9706,7 +9706,7 @@ pembayaran melalui bank transfer.</string>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Pilih Kategori" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKU-Dz-Nsd">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pilih Kategori" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKU-Dz-Nsd">
                                                                 <rect key="frame" x="464" y="21" width="96" height="19"/>
                                                                 <animations/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -10493,7 +10493,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8c-Ge-cN3">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8c-Ge-cN3">
                                                         <rect key="frame" x="33" y="1" width="110" height="21"/>
                                                         <animations/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>

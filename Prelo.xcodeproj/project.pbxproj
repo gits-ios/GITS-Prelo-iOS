@@ -471,6 +471,7 @@
 		58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
 		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
+		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
@@ -1106,6 +1107,7 @@
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
+		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
@@ -1858,6 +1860,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58C23B5F1C9DC86300E4C929 /* ic_share.png */,
 				58A223BC1C898CB600619518 /* ic_trx_canceled.png */,
 				58A223BD1C898CB600619518 /* ic_trx_done.png */,
 				58A223BE1C898CB600619518 /* ic_trx_exclamation.png */,
@@ -2501,6 +2504,7 @@
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
 				58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
+				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
 			);
