@@ -1027,8 +1027,13 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         }
         let cs2Size = cs2.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-136)
         
-        var al = (obj?.sellReason)!
-        let alSize = al.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-100)
+//        var al = (obj?.sellReason)!
+        var sellReason = (obj?.sellReason)!
+        if (sellReason == "")
+        {
+            sellReason = "-"
+        }
+        let alSize = sellReason.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-100)
         
         return 163+size.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height
     }
@@ -1128,6 +1133,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             sellReason = "-"
         }
         
+        captionAlasanJual?.numberOfLines = 0
         captionAlasanJual?.text = sellReason
         
         var defect = (obj?.defectDescription)!

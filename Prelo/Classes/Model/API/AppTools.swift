@@ -189,7 +189,7 @@ class PageName
     static let FirstTimeTutorial = "First Time Tutorial"
     static let SetCategoryPreferences = "Set Category Preferences"
     static let About = "About"
-    static let AddProduct = "Add Product"
+    static let AddProduct = "Jual Barang"
     static let ShareAddedProduct = "Share Added Product"
     static let Checkout = "Checkout"
     static let CheckoutConfirmation = "Checkout Confirmation"

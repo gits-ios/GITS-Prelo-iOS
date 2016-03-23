@@ -4135,7 +4135,14 @@ yang kamu gunakan</string>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                         </attributes>
                                                     </fragment>
-                                                    <fragment content="charge prelo yang lebih rendah">
+                                                    <fragment content="charge">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.85043728351593018" green="0.21816034615039825" blue="0.15920260548591614" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <font key="NSFont" size="14" name="HelveticaNeue-Italic"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" prelo yang lebih rendah">
                                                         <attributes>
                                                             <color key="NSColor" red="0.85043728351593018" green="0.21816034615039825" blue="0.15920260548591614" alpha="1" colorSpace="calibratedRGB"/>
                                                             <font key="NSFont" size="14" name="HelveticaNeue"/>
@@ -4144,7 +4151,7 @@ yang kamu gunakan</string>
                                                     </fragment>
                                                     <fragment>
                                                         <string key="content">
-hanya dengan sharing produk kamu ke media sosial</string>
+hanya dengan membagikan produk kamu ke media sosial</string>
                                                         <attributes>
                                                             <color key="NSColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                                                             <font key="NSFont" size="14" name="HelveticaNeue"/>
@@ -7892,8 +7899,8 @@ dalam keranjang belanja</string>
                                     <rect key="frame" x="0.0" y="228" width="584" height="300"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cara Pembayaran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVx-Cp-BKl">
-                                            <rect key="frame" x="8" y="16" width="131" height="20"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Metode Pembayaran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVx-Cp-BKl">
+                                            <rect key="frame" x="8" y="16" width="152" height="20"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -7910,7 +7917,7 @@ dalam keranjang belanja</string>
                                                             <animations/>
                                                             <color key="tintColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </imageView>
-                                                        <label opaque="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="759" text="Bank Transfer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oH2-FL-4ES">
+                                                        <label opaque="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="759" text="Transfer Bank" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oH2-FL-4ES">
                                                             <rect key="frame" x="8" y="81" width="171" height="15"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -8223,7 +8230,7 @@ dalam keranjang belanja</string>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="OHu-sE-77w"/>
                                             </constraints>
-                                            <state key="normal" title="SUBMIT" backgroundImage="basic_green.png">
+                                            <state key="normal" title="BAYAR TRANSAKSI" backgroundImage="basic_green.png">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -8987,7 +8994,7 @@ ke salah satu rekening</string>
                                             <rect key="frame" x="8" y="8" width="254" height="39"/>
                                             <animations/>
                                             <string key="text">Checkout Berhasil. Mohon lakukan
-pembayaran melalui bank transfer.</string>
+pembayaran melalui transfer bank.</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.13725490196078433" green="0.59607843137254901" blue="0.52549019607843139" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -10878,7 +10885,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                     <constraint firstAttribute="height" constant="40" id="Pmv-0X-Xlx"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Submit" backgroundImage="basic_green.png">
+                                                <state key="normal" title="UPLOAD BARANG" backgroundImage="basic_green.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
@@ -11830,7 +11837,7 @@ Label / Merek</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KN4-Bo-dfJ">
-                                <rect key="frame" x="0.0" y="130" width="600" height="362"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="378"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -12088,10 +12095,10 @@ Label / Merek</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sue-il-rAW">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="114"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Frb-Nu-JCV" customClass="TawarHeader" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="114"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="eXZ-Zv-a7c">
                                                 <rect key="frame" x="8" y="8" width="64" height="64"/>
@@ -12130,7 +12137,7 @@ Label / Merek</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="io0-UJ-6Dp">
-                                                <rect key="frame" x="8" y="83" width="288" height="27"/>
+                                                <rect key="frame" x="8" y="79" width="288" height="27"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
@@ -12196,7 +12203,7 @@ Label / Merek</string>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaP-Dy-kBc">
-                                                <rect key="frame" x="304" y="83" width="288" height="27"/>
+                                                <rect key="frame" x="304" y="79" width="288" height="27"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="0.048671051859855652" green="0.38238313794136047" blue="0.4102916419506073" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
@@ -12274,7 +12281,7 @@ Label / Merek</string>
                                             <constraint firstAttribute="trailing" secondItem="9ru-or-cxO" secondAttribute="trailing" constant="8" id="U5V-lO-Kfi"/>
                                             <constraint firstAttribute="trailing" secondItem="VlH-gP-zx0" secondAttribute="trailing" constant="8" id="VyQ-zk-RVx"/>
                                             <constraint firstItem="bbN-TU-GFN" firstAttribute="leading" secondItem="pJ6-LO-Fz9" secondAttribute="trailing" constant="8" id="Wnq-Vf-WQ9"/>
-                                            <constraint firstAttribute="bottom" secondItem="io0-UJ-6Dp" secondAttribute="bottom" constant="20" id="ZgA-t9-bHB"/>
+                                            <constraint firstAttribute="bottom" secondItem="io0-UJ-6Dp" secondAttribute="bottom" constant="8" id="ZgA-t9-bHB"/>
                                             <constraint firstItem="zbz-gn-gbP" firstAttribute="top" secondItem="OvU-UJ-1PS" secondAttribute="bottom" constant="8" id="bx8-YE-1Uw"/>
                                             <constraint firstItem="zWg-B6-4Lv" firstAttribute="leading" secondItem="bbN-TU-GFN" secondAttribute="leading" id="cTV-e6-JJQ"/>
                                             <constraint firstItem="HaP-Dy-kBc" firstAttribute="width" secondItem="zbz-gn-gbP" secondAttribute="width" id="eQe-jr-6WE"/>
@@ -12296,9 +12303,9 @@ Label / Merek</string>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="hND-hP-N2v"/>
                                                 <exclude reference="8WC-uA-Hba"/>
                                                 <exclude reference="SLd-UJ-5vf"/>
+                                                <exclude reference="hND-hP-N2v"/>
                                                 <exclude reference="uwo-xH-uen"/>
                                             </mask>
                                         </variation>
@@ -12315,7 +12322,7 @@ Label / Merek</string>
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goo-fy-viL">
-                                        <rect key="frame" x="0.0" y="129" width="600" height="1"/>
+                                        <rect key="frame" x="0.0" y="113" width="600" height="1"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -12331,7 +12338,7 @@ Label / Merek</string>
                                     <constraint firstItem="Frb-Nu-JCV" firstAttribute="leading" secondItem="sue-il-rAW" secondAttribute="leading" id="4Eu-JH-r1R"/>
                                     <constraint firstItem="goo-fy-viL" firstAttribute="leading" secondItem="sue-il-rAW" secondAttribute="leading" id="CAY-yw-Rw6"/>
                                     <constraint firstAttribute="bottom" secondItem="goo-fy-viL" secondAttribute="bottom" id="Jmy-Kc-q7e"/>
-                                    <constraint firstAttribute="height" constant="130" id="TwA-Pv-7xh"/>
+                                    <constraint firstAttribute="height" constant="114" id="TwA-Pv-7xh"/>
                                     <constraint firstAttribute="trailing" secondItem="goo-fy-viL" secondAttribute="trailing" id="klm-K7-hz7"/>
                                     <constraint firstItem="Frb-Nu-JCV" firstAttribute="top" secondItem="sue-il-rAW" secondAttribute="top" id="wpq-Ny-OLp"/>
                                 </constraints>
@@ -13521,10 +13528,10 @@ Label / Merek</string>
         <image name="tour_3.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gv4-pa-FxU"/>
-        <segue reference="gU7-9Q-bxr"/>
         <segue reference="MUV-Ui-6Bn"/>
         <segue reference="2Zk-mt-sgU"/>
         <segue reference="pME-IT-gHt"/>
+        <segue reference="gU7-9Q-bxr"/>
+        <segue reference="gv4-pa-FxU"/>
     </inferredMetricsTieBreakers>
 </document>

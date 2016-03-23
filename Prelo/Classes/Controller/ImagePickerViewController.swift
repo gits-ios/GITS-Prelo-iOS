@@ -37,7 +37,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         self.navigationItem.leftBarButtonItem = self.dismissButton.toBarButton()
         self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
         
-        ImageSupplier.fetch(ImageSource.Gallery, complete: {r in
+        ImageSupplier.fetch(ImageSource.Gallery, ascending : false, complete: {r in
                 self.images = r
                 self.gridView.dataSource = self
                 self.gridView.delegate = self

@@ -209,7 +209,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else
         {
             self.title = PageName.AddProduct
-            self.btnSubmit.setTitle("Submit", forState: UIControlState.Normal)
+            self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
         }
         
         self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)

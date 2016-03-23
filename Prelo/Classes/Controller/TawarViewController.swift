@@ -180,7 +180,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnTolak2.hidden = false
             btnConfirm.hidden = false
             
-            self.conMarginHeightOptions.constant = 130
+            self.conMarginHeightOptions.constant = 114
         }
         
         if (threadState == -10)
@@ -499,10 +499,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         sendChat(0, message: textView.text)
+        textViewGrowHandler.setText("", withAnimation: true)
         
         // Mixpanel
         self.sendMixpanelEvent(MixpanelEvent.ChatSent)
-        textViewDidChange(textView)
+//        textViewDidChange(textView)
     }
     
     func sendChat(type : Int, message : String)
@@ -681,13 +682,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     var dragged = false
+    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        
         dragged = true
+        self.view.endEditing(true)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.view.endEditing(true)
         let height = scrollView.contentSize.height
         let contentYOffset = scrollView.contentOffset.y
         let distanceFromBottom = height - contentYOffset
