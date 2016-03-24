@@ -295,6 +295,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set deviceRegId for push notif if user is logged in
         if (User.IsLoggedIn) {
             LoginViewController.SendDeviceRegId(onFinish: nil)
+        } else {
+            request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Update Visitor")) {
+                    println("Visitor updated with deviceRegId: \(deviceRegId)")
+                }
+            }
         }
     }
     

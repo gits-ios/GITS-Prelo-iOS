@@ -827,6 +827,42 @@ enum APIAuth : URLRequestConvertible
     }
 }
 
+enum APIVisitor : URLRequestConvertible {
+    static let basePath = "visitors/"
+    
+    case UpdateVisitor(deviceRegId : String)
+    
+    var method : Method {
+        switch self {
+        case .UpdateVisitor(_) : return .POST
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .UpdateVisitor(_) : return "update"
+        }
+    }
+    
+    var param : [String : AnyObject]? {
+        switch self {
+        case .UpdateVisitor(let deviceRegId) :
+            let p = [
+                "device_type" : "APNS",
+                "device_registration_id" : deviceRegId
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIVisitor.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
 enum APIUser : URLRequestConvertible
 {
     static let basePath = "me/"

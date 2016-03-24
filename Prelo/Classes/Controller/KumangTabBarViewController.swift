@@ -18,6 +18,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var btnAdd : UIView?
     
     @IBOutlet var btnDashboard : UIButton!
+    @IBOutlet var btnBrowse : UIButton!
     
     @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
     
@@ -307,6 +308,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBAction func switchController(sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
+            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
@@ -317,6 +321,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
         } else {
+            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
+            
             if (User.IsLoggedIn) {
                 println("To Dashboard")
                 controllerDashboard?.previousController = self

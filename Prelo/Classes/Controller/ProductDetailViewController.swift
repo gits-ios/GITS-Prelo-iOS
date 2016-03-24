@@ -934,11 +934,11 @@ class ProductCellSeller : UITableViewCell
         var product = (obj?.json)!["_data"]
         
         captionSellerName?.text = product["seller"]["username"].stringValue
-        let average_star = product["seller"]["average_star"].intValue
+        let average_star = product["seller"]["average_star"].floatValue
         var stars = ""
-        for x in 1...5
+        for x in 0...4
         {
-            if (x <= average_star)
+            if (Float(x) <= average_star - 0.5)
             {
                 stars = stars+""
             } else
