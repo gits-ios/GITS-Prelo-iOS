@@ -217,7 +217,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if let u = CDUser.getOne() {
             username = u.username
         }
-        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
         
         let m = MFMailComposeViewController()
         if (MFMailComposeViewController.canSendMail()) {
@@ -227,7 +227,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             m.mailComposeDelegate = self
             self.presentViewController(m, animated: true, completion: nil)
         } else {
-            Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Request Barang, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
     }
     
@@ -251,9 +251,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         if (result.value == MFMailComposeResultSent.value) {
-            Constant.showDialog("Request Barang", message: "Email terkirim")
+            Constant.showDialog("Request Barang", message: "E-mail terkirim")
         } else if (result.value == MFMailComposeResultFailed.value) {
-            Constant.showDialog("Request Barang", message: "Email gagal dikirim")
+            Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
         }
         controller.dismissViewControllerAnimated(true, completion: nil)
     }

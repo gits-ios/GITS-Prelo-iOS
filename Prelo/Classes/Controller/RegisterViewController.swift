@@ -108,12 +108,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             }
         }
         if (txtEmail?.text == "") {
-            var placeholder = NSAttributedString(string: "Email harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            var placeholder = NSAttributedString(string: "E-mail harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.attributedPlaceholder = placeholder
             return false
         }
         if (txtEmail?.text.rangeOfString("@") == nil) {
-            var placeholder = NSAttributedString(string: "Email tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            var placeholder = NSAttributedString(string: "E-mail tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.text = ""
             txtEmail?.attributedPlaceholder = placeholder
             return false

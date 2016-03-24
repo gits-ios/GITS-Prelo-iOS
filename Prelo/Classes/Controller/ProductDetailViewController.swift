@@ -258,7 +258,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 m.mailComposeDelegate = self
                 self.presentViewController(m, animated: true, completion: nil)
             } else {
-                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Report, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+                Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             }
         }
     }

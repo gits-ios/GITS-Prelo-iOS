@@ -124,7 +124,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#4dc247"), availibility: Line.isLineInstalled()))
         agents.append(PreloShareAgent(title: "Salin", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
         agents.append(PreloShareAgent(title: "SMS", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMessageComposeViewController.canSendText()))
-        agents.append(PreloShareAgent(title: "Email", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMailComposeViewController.canSendMail()))
+        agents.append(PreloShareAgent(title: "E-mail", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMailComposeViewController.canSendMail()))
         
         // Do any additional setup after loading the view.
         conGridViewBottomMargin.constant = -gridView.height
@@ -363,7 +363,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             self.mixpanelSharedProduct("SMS", username: "")
         }
         
-        if (a.title.lowercaseString == "email")
+        if (a.title.lowercaseString == "e-mail")
         {
             var message = item!.text!
             var name = ""
@@ -381,7 +381,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 
                 self.mixpanelSharedProduct("Email", username: "")
             } else {
-                Constant.showDialog("No Active Email", message: "Untuk dapat membagi produk melalui email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+                Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi produk melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             }
         }
         

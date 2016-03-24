@@ -43,7 +43,7 @@ class CarConfirmViewController: BaseViewController {
         captionTotalPayment?.text = "Rp. " + String(totalPayment)
         captionPaymentMethod?.text = paymentMethod
         
-        captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalizedString + "\nKami baru saja mengirimkan email konfirmasi pesanan Kamu :"
+        captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalizedString + "\nKami baru saja mengirimkan e-mail konfirmasi pesanan Kamu :"
     }
     
     override func viewWillAppear(animated: Bool) {

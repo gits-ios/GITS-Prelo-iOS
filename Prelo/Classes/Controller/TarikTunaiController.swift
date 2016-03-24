@@ -222,7 +222,7 @@ class SetupPasswordPopUp : UIView {
                 let dataInt : Int = json["_data"].intValue
                 //println("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
-                    Constant.showDialog("Success", message: "Email sudah dikirim ke \(self.lblEmail.text!)")
+                    Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
                 } else {
                     Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
                 }

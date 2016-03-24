@@ -503,7 +503,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             }
                         }
                     } else {
-                        Constant.showDialog("Warning", message: "Error getting Twitter email")
+                        Constant.showDialog("Warning", message: "Error getting Twitter e-mail")
                         if (vcLogin != nil) {
                             vcLogin!.hideLoading()
                         }
@@ -535,7 +535,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
 
         scrollView?.delegate = self
         
-        txtEmail?.placeholder = "Username / Email"
+        txtEmail?.placeholder = "Username / E-mail"
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         
@@ -600,9 +600,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
         {
-            let x = UIAlertController(title: "Lupa Password", message: "Masukkan Email", preferredStyle: .Alert)
+            let x = UIAlertController(title: "Lupa Password", message: "Masukkan E-mail", preferredStyle: .Alert)
             x.addTextFieldWithConfigurationHandler({ textfield in
-                textfield.placeholder = "Email"
+                textfield.placeholder = "E-mail"
             })
             let actionOK = UIAlertAction(title: "OK", style: .Default, handler: { act in
 
@@ -619,7 +619,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             self.presentViewController(x, animated: true, completion: nil)
         } else
         {
-            let a = UIAlertView(title: "Lupa Password", message: "Masukkan Email", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
+            let a = UIAlertView(title: "Lupa Password", message: "Masukkan E-mail", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
             a.alertViewStyle = UIAlertViewStyle.PlainTextInput
             a.show()
         }
@@ -629,7 +629,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lupa Password")) {
-                UIAlertView.SimpleShow("Perhatian", message: "Email pemberitahuan sudah kami kirim ke alamat email kamu :)")
+                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
             }
         }
     }
@@ -639,7 +639,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         {
             request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lupa Password")) {
-                    UIAlertView.SimpleShow("Perhatian", message: "Email pemberitahuan sudah kami kirim ke alamat email kamu :)")
+                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
                 }
             }
         }
@@ -664,7 +664,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         if (email == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username/email")
+            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username/e-mail")
             self.hideLoading()
             return
         }
