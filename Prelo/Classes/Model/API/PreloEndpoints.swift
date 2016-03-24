@@ -1395,6 +1395,11 @@ class APIPrelo
     
     static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
+        /** new adding 
+        
+        1. log latest api result as json string to crashlytic. just in case.
+        
+        */
         println("\(reqAlias) req = \(req)")
         
         if let response = resp

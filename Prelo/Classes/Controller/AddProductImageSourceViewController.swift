@@ -42,7 +42,7 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
 
         // Do any additional setup after loading the view.
         
-        ImageSupplier.fetch(ImageSource.Gallery, complete: { r in
+        ImageSupplier.fetch(ImageSource.Gallery, ascending : false, complete: { r in
             self.arrayImages = r
             self.gridView?.dataSource = self
             }, failed: { m in

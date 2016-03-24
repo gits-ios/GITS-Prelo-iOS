@@ -22,7 +22,7 @@ class ImageSupplier: NSObject {
     
     private var source : ImageSource = .Facebook
     
-    static func fetch(source : ImageSource, complete : ([APImage]) -> (), failed : (String) -> ())
+    static func fetch(source : ImageSource, ascending : Bool = true, complete : ([APImage]) -> (), failed : (String) -> ())
     {
         if (source == .Gallery) {
             
@@ -36,6 +36,11 @@ class ImageSupplier: NSObject {
                     ap.url = i
                     ap.usingAssets = true
                     result.append(ap)
+                }
+                
+                if (!ascending)
+                {
+                    result = result.reverse()
                 }
                 
                 complete(result)
