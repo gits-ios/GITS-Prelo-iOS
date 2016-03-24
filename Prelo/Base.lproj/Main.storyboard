@@ -2453,20 +2453,20 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5l-ZT-ELz">
-                                                    <rect key="frame" x="22" y="255" width="14" height="15"/>
+                                                    <rect key="frame" x="22" y="256" width="14" height="14"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp. 100,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7f-5u-kJl">
-                                                    <rect key="frame" x="135" y="228" width="61" height="14"/>
+                                                    <rect key="frame" x="135" y="229" width="61" height="13"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="11"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Rp. 100,000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XU-vq-YZT">
-                                                    <rect key="frame" x="4" y="229" width="127" height="14"/>
+                                                    <rect key="frame" x="4" y="229" width="127" height="13"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -2480,7 +2480,7 @@ in Bandung</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="No6-kQ-u3q">
-                                                    <rect key="frame" x="54" y="255" width="14" height="15"/>
+                                                    <rect key="frame" x="54" y="256" width="14" height="14"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -2544,6 +2544,20 @@ in Bandung</string>
                                                         <constraint firstItem="7yN-QT-Nu6" firstAttribute="leading" secondItem="VXw-ln-4O9" secondAttribute="trailing" constant="4" id="wJZ-eI-jkb"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QCi-p0-PIt" userLabel="sold banner helper">
+                                                    <rect key="frame" x="100" y="0.0" width="1" height="250"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1" id="FRr-j1-ajR"/>
+                                                    </constraints>
+                                                </view>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner_sold.png" translatesAutoresizingMaskIntoConstraints="NO" id="YEl-Eb-TeX">
+                                                    <rect key="frame" x="77" y="0.0" width="123" height="122"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="YEl-Eb-TeX" secondAttribute="height" multiplier="123:122" id="d86-jD-0ph"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2551,8 +2565,11 @@ in Bandung</string>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="centerX" secondItem="QCi-p0-PIt" secondAttribute="centerX" id="08M-uC-Jjq"/>
                                             <constraint firstItem="p5l-ZT-ELz" firstAttribute="leading" secondItem="87x-2n-5fQ" secondAttribute="trailing" constant="2" id="1n8-Vr-jCh"/>
+                                            <constraint firstAttribute="bottom" secondItem="QCi-p0-PIt" secondAttribute="bottom" id="3Lr-Yg-Y9M"/>
                                             <constraint firstItem="OiJ-C3-nY9" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="4" id="5y6-Yu-QTy"/>
+                                            <constraint firstAttribute="centerY" secondItem="QCi-p0-PIt" secondAttribute="centerY" id="7dq-Fl-FoV"/>
                                             <constraint firstItem="OiJ-C3-nY9" firstAttribute="top" secondItem="X32-1K-QZA" secondAttribute="bottom" constant="8" id="Aef-tu-wI5"/>
                                             <constraint firstAttribute="trailing" secondItem="OiJ-C3-nY9" secondAttribute="trailing" constant="4" id="AlG-cg-uGv"/>
                                             <constraint firstItem="I7f-5u-kJl" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="8" id="CSN-dm-V95"/>
@@ -2560,6 +2577,7 @@ in Bandung</string>
                                             <constraint firstAttribute="bottom" secondItem="CIM-nt-4UI" secondAttribute="bottom" constant="-20" id="GuZ-ad-s1F"/>
                                             <constraint firstItem="5XU-vq-YZT" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" constant="4" id="I54-is-7Cc"/>
                                             <constraint firstAttribute="trailing" secondItem="X32-1K-QZA" secondAttribute="trailing" id="Ki7-WW-mw6"/>
+                                            <constraint firstAttribute="trailing" secondItem="YEl-Eb-TeX" secondAttribute="trailing" id="LrQ-Z8-U7i"/>
                                             <constraint firstAttribute="bottom" secondItem="87x-2n-5fQ" secondAttribute="bottom" constant="-11" id="M1h-DA-KFf"/>
                                             <constraint firstItem="87x-2n-5fQ" firstAttribute="top" secondItem="5XU-vq-YZT" secondAttribute="bottom" constant="7" id="Pon-aY-9sf"/>
                                             <constraint firstAttribute="bottom" secondItem="I7f-5u-kJl" secondAttribute="bottom" constant="8" id="S8z-8N-fQ1"/>
@@ -2571,8 +2589,12 @@ in Bandung</string>
                                             <constraint firstItem="CIM-nt-4UI" firstAttribute="leading" secondItem="p5l-ZT-ELz" secondAttribute="trailing" constant="4" id="hFf-s4-YWd"/>
                                             <constraint firstItem="WM2-Ez-8Ku" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" id="iEo-Ah-f0V"/>
                                             <constraint firstItem="WM2-Ez-8Ku" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="ipF-ea-q0t"/>
+                                            <constraint firstItem="YEl-Eb-TeX" firstAttribute="leading" secondItem="QCi-p0-PIt" secondAttribute="trailing" constant="-24" id="ltV-dG-TP5"/>
+                                            <constraint firstItem="YEl-Eb-TeX" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leadingMargin" constant="69" id="mLE-6Q-opv"/>
                                             <constraint firstAttribute="bottom" secondItem="No6-kQ-u3q" secondAttribute="bottom" constant="-20" id="paG-fs-XhD"/>
                                             <constraint firstItem="No6-kQ-u3q" firstAttribute="leading" secondItem="CIM-nt-4UI" secondAttribute="trailing" constant="2" id="pe7-0H-dEZ"/>
+                                            <constraint firstItem="QCi-p0-PIt" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="qvw-Cc-WF4"/>
+                                            <constraint firstItem="YEl-Eb-TeX" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="tFz-xi-sbA"/>
                                             <constraint firstAttribute="bottom" secondItem="p5l-ZT-ELz" secondAttribute="bottom" constant="-20" id="tls-S3-w5h"/>
                                             <constraint firstAttribute="trailing" secondItem="WM2-Ez-8Ku" secondAttribute="trailing" id="v1P-4g-Ytd"/>
                                             <constraint firstItem="I7f-5u-kJl" firstAttribute="leading" secondItem="5XU-vq-YZT" secondAttribute="trailing" constant="4" id="xJ2-3q-Xzq"/>
@@ -2580,6 +2602,8 @@ in Bandung</string>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="mLE-6Q-opv"/>
+                                                <exclude reference="7dq-Fl-FoV"/>
                                                 <exclude reference="Pon-aY-9sf"/>
                                                 <exclude reference="CSN-dm-V95"/>
                                             </mask>
@@ -2593,6 +2617,7 @@ in Bandung</string>
                                             <outlet property="captionPrice" destination="I7f-5u-kJl" id="vnS-ix-kbU"/>
                                             <outlet property="captionSpecialStory" destination="7yN-QT-Nu6" id="DPh-IB-0AQ"/>
                                             <outlet property="captionTitle" destination="OiJ-C3-nY9" id="2jJ-JB-zbe"/>
+                                            <outlet property="imgSold" destination="YEl-Eb-TeX" id="qMw-Da-SwR"/>
                                             <outlet property="ivCover" destination="X32-1K-QZA" id="33I-RE-REV"/>
                                             <outlet property="sectionLove" destination="JBC-Cc-yTc" id="iuA-A5-eJn"/>
                                             <outlet property="sectionSpecialStory" destination="WM2-Ez-8Ku" id="YKv-jx-Jzk"/>
@@ -13492,6 +13517,7 @@ Label / Merek</string>
         </scene>
     </scenes>
     <resources>
+        <image name="banner_sold.png" width="481" height="480"/>
         <image name="basic_facebook.png" width="5" height="5"/>
         <image name="basic_green.png" width="6" height="6"/>
         <image name="basic_orange.png" width="6" height="6"/>

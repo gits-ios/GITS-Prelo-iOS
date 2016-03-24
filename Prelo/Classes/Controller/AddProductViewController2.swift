@@ -997,7 +997,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
                 self.btnSubmit.enabled = true
-                var msgContent = "Terdapat kesalahan saat upload produk, silahkan coba beberapa saat lagi"
+                var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
                 if let msg = op.responseString {
                     if let range1 = msg.rangeOfString("{\"_message\":\"") {
                         //println(range1)
@@ -1008,7 +1008,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         }
                     }
                 }
-                UIAlertView.SimpleShow("Upload Produk", message: msgContent)
+                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
         })
     }
     

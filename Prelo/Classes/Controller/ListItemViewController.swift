@@ -593,12 +593,17 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var avatar : UIImageView!
     @IBOutlet var captionSpecialStory : UILabel!
     @IBOutlet var sectionSpecialStory : UIView!
+    @IBOutlet var imgSold: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
+    }
+    
+    override func prepareForReuse() {
+        imgSold.hidden = true
     }
     
     func adapt(product : Product)
@@ -651,6 +656,12 @@ class ListItemCell : UICollectionViewCell
             let attString = NSMutableAttributedString(string: s as String)
             attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.StyleSingle.rawValue], range: s.rangeOfString(s as String))
             captionOldPrice.attributedText = attString
+        }
+        
+        if let status = product.status {
+            if (status == 4) { // sold
+                imgSold.hidden = false
+            }
         }
     }
 }

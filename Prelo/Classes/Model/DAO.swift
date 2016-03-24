@@ -1042,6 +1042,13 @@ public class Product : NSObject
         }
         return nil
     }
+    
+    var status : Int? {
+        if let s = json["status"].int {
+            return s
+        }
+        return nil
+    }
 }
 
 class MyProductItem : Product {
@@ -1078,7 +1085,7 @@ class MyProductItem : Product {
         return ""
     }
     
-    var status : Int {
+    override var status : Int {
         let s = (json["status"].int)!
         return s
     }
