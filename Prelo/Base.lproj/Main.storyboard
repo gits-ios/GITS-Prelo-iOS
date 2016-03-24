@@ -978,7 +978,7 @@ dalam hitungan detik.</string>
                                                     </mask>
                                                 </variation>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oag-LW-8Hk">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oag-LW-8Hk">
                                                 <rect key="frame" x="20" y="177" width="560" height="30"/>
                                                 <animations/>
                                                 <constraints>
@@ -11359,11 +11359,11 @@ Label / Merek</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aD6-IG-h2w">
                                 <rect key="frame" x="180" y="88" width="240" height="307"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Us" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkm-N9-3wI">
-                                        <rect key="frame" x="4" y="4" width="83" height="20"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hubungi Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkm-N9-3wI">
+                                        <rect key="frame" x="4" y="4" width="114" height="20"/>
                                         <animations/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="83" id="BIR-wl-Hb5"/>
+                                            <constraint firstAttribute="width" constant="114" id="BIR-wl-Hb5"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11513,8 +11513,8 @@ Label / Merek</string>
                                                     <action selector="email:" destination="J7J-Zy-z2D" eventType="touchUpInside" id="bw4-pN-pSP"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Via Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNx-Gr-ozw">
-                                                <rect key="frame" x="28" y="80" width="59" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Via E-mail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNx-Gr-ozw">
+                                                <rect key="frame" x="25" y="80" width="65" height="17"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -12303,9 +12303,9 @@ Label / Merek</string>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="hND-hP-N2v"/>
                                                 <exclude reference="8WC-uA-Hba"/>
                                                 <exclude reference="SLd-UJ-5vf"/>
-                                                <exclude reference="hND-hP-N2v"/>
                                                 <exclude reference="uwo-xH-uen"/>
                                             </mask>
                                         </variation>
@@ -12724,11 +12724,11 @@ Label / Merek</string>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Hp-k7-zb4">
-                                                                        <rect key="frame" x="8" y="0.0" width="130" height="21"/>
+                                                                        <rect key="frame" x="8" y="0.0" width="130" height="16"/>
                                                                         <animations/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="130" id="1WI-39-fSb"/>
-                                                                            <constraint firstAttribute="height" constant="21" id="Mzr-pw-k80"/>
+                                                                            <constraint firstAttribute="height" constant="16" id="Mzr-pw-k80"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -13525,18 +13525,10 @@ Label / Merek</string>
         <image name="tour_3.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-<<<<<<< .merge_file_xFDDqk
         <segue reference="gv4-pa-FxU"/>
         <segue reference="ksh-6D-t59"/>
         <segue reference="2Zk-mt-sgU"/>
         <segue reference="pME-IT-gHt"/>
         <segue reference="gU7-9Q-bxr"/>
-=======
-        <segue reference="MUV-Ui-6Bn"/>
-        <segue reference="2Zk-mt-sgU"/>
-        <segue reference="pME-IT-gHt"/>
-        <segue reference="gU7-9Q-bxr"/>
-        <segue reference="gv4-pa-FxU"/>
->>>>>>> .merge_file_XpcBHk
     </inferredMetricsTieBreakers>
 </document>
