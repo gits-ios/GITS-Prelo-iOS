@@ -76,7 +76,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func getNotif() {
         request(APINotifAnggi.GetNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Conversation")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(res!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -135,7 +135,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if let n = notifications?[indexPath.item] {
             if (!n.read) {
                 request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.objectId)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Conversation")) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(res!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
@@ -143,7 +143,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                             self.delegate?.decreaseConversationBadgeNumber()
                             self.navigateReadNotif(n)
                         } else {
-                            Constant.showDialog("Notifikasi - Conversation", message: "Oops, terdapat masalah pada notifikasi")
+                            Constant.showDialog("Notifikasi - Percakapan", message: "Oops, terdapat masalah pada notifikasi")
                             self.hideLoading()
                         }
                     } else {
@@ -244,7 +244,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if (notif.type == 2000) { // Chat
             // Get inbox detail
             request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Conversation")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(res!)
                     let data = json["_data"]
                     let inboxData = Inbox(jsn: data)
@@ -254,7 +254,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     t.tawarItem = inboxData
                     self.navigationController?.pushViewController(t, animated: true)
                 } else {
-                    Constant.showDialog("Notifikasi - Conversation", message: "Oops, notifikasi inbox tidak bisa dibuka")
+                    Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
                     self.hideLoading()
                     self.showContent()
                 }
@@ -262,7 +262,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
             request(Products.Detail(productId: notif.objectId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Conversation")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(res!)
                     let pDetail = ProductDetail.instance(json)
                     
@@ -271,13 +271,13 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     p.pDetail = pDetail
                     self.navigationController?.pushViewController(p, animated: true)
                 } else {
-                    Constant.showDialog("Notifikasi - Conversation", message: "Oops, notifikasi komentar tidak bisa dibuka")
+                    Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
                     self.hideLoading()
                     self.showContent()
                 }
             }
         } else {
-            Constant.showDialog("Notifikasi - Conversation", message: "Oops, notifikasi tidak bisa dibuka")
+            Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi tidak bisa dibuka")
             self.hideLoading()
             self.showContent()
         }

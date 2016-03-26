@@ -434,7 +434,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             }
         }
         if (self.userEmail == "" && fieldEmail.text == "") {
-            Constant.showDialog("Warning", message: "Email harus diisi")
+            Constant.showDialog("Warning", message: "E-mail harus diisi")
         }
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Nomor HP harus diisi")

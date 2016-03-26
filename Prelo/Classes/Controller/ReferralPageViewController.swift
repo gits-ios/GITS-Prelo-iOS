@@ -83,9 +83,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     // Tampilkan pop up untuk verifikasi email
                     let a = UIAlertView()
                     a.title = "Prelo Bonus"
-                    a.message = "Mohon verifikasi email kamu untuk mendapatkan voucher gratis dari Prelo"
+                    a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan voucher gratis dari Prelo"
                     a.addButtonWithTitle("Batal")
-                    a.addButtonWithTitle("Kirim Email Konfirmasi")
+                    a.addButtonWithTitle("Kirim E-mail Konfirmasi")
                     a.delegate = self
                     a.show()
                 } else {
@@ -403,7 +403,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             
             self.mixpanelSharedReferral("Email", username: "")
         } else {
-            Constant.showDialog("No Active Email", message: "Untuk dapat membagi kode referral melalui email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi kode referral melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
     }
     
@@ -476,17 +476,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 // Tampilkan pop up untuk loading
                 let a = UIAlertView()
                 a.title = "Prelo Bonus"
-                a.message = "Mengirim email..."
+                a.message = "Mengirim e-mail..."
                 a.show()
                 request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
                         a.dismissWithClickedButtonIndex(-1, animated: true)
-                        Constant.showDialog("Prelo Bonus", message: "Email konfirmasi telah terkirim ke \(email)")
+                        Constant.showDialog("Prelo Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
                     self.navigationController?.popViewControllerAnimated(true)
                 }
             } else {
-                Constant.showDialog("Prelo Bonus", message: "Oops, terdapat masalah saat mencari email kamu")
+                Constant.showDialog("Prelo Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
                 self.navigationController?.popViewControllerAnimated(true)
             }
             break

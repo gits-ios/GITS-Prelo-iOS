@@ -13,7 +13,6 @@ extension UIApplication
     static var appDelegate : AppDelegate
     {
         return UIApplication.sharedApplication().delegate as! AppDelegate
-//        AFHTTPRequestOperationManager mana
     }
 }
 
@@ -39,6 +38,26 @@ extension Int
         f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         f.locale = NSLocale(localeIdentifier: "id_ID")
         return f.stringFromNumber(NSNumber(integer: self))!
+    }
+}
+
+extension UILabel {
+    
+    func boldRange(range: Range<String.Index>) {
+        if let text = self.attributedText {
+            let attr = NSMutableAttributedString(attributedString: text)
+            let start = distance(text.string.startIndex, range.startIndex)
+            let length = distance(range.startIndex, range.endIndex)
+            attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(self.font.pointSize)], range: NSMakeRange(start, length))
+            self.attributedText = attr
+        }
+    }
+    
+    func boldSubstring(substr: String) {
+        let range = self.text?.rangeOfString(substr)
+        if let r = range {
+            boldRange(r)
+        }
     }
 }
 

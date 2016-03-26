@@ -29,10 +29,11 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         
         self.title = PageName.About
         
+        self.lblVersion.text = "-"
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            self.lblVersion.text = "Version " + version
-        } else {
-            self.lblVersion.text = "-"
+            if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+                self.lblVersion.text = "Version " + version + " Build " + build
+            }
         }
     }
     

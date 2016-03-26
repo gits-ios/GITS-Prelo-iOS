@@ -79,7 +79,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             composer.setToRecipients(["contact@prelo.co.id"])
             self.presentViewController(composer, animated: true, completion: nil)
         } else {
-            Constant.showDialog("No Active Email", message: "Untuk dapat menghubungi Prelo via email, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat menghubungi Prelo via e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
         
 //        self.batal(nil)

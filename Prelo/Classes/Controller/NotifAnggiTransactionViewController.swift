@@ -76,7 +76,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     func getNotif() {
         request(APINotifAnggi.GetNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(res!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -228,7 +228,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         if let n = notifications?[idx] {
             if (!n.read) {
                 request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
                         let json = JSON(res!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
@@ -236,7 +236,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                             self.delegate?.decreaseTransactionBadgeNumber()
                             self.navigateReadNotif(n)
                         } else {
-                            Constant.showDialog("Notifikasi - Transaction", message: "Oops, terdapat masalah pada notifikasi")
+                            Constant.showDialog("Notifikasi - Transaksi", message: "Oops, terdapat masalah pada notifikasi")
                             self.hideLoading()
                         }
                     } else {
@@ -276,7 +276,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         
         // Check if user is seller or buyer
         /*request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaction")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(res!)
                 let data = json["_data"]
                 let tpDetail = TransactionProductDetail.instance(data)
@@ -293,7 +293,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                         self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
                     }
                 } else {
-                    Constant.showDialog("Notifikasi - Transaction", message: "Oops, ada masalah saat mengecek data produk")
+                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data produk")
                 }
             } else {
                 self.hideLoading()

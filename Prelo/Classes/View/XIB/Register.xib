@@ -62,7 +62,7 @@
                                             <constraint firstAttribute="height" constant="1" id="z8x-6e-rsU"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yt1-5Y-dQ6">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yt1-5Y-dQ6">
                                         <rect key="frame" x="12" y="189" width="548" height="30"/>
                                         <animations/>
                                         <constraints>

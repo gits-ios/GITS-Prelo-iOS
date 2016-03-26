@@ -244,7 +244,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.storeName = json["username"].stringValue
                 self.storeHeader?.captionName.text = self.storeName
                 self.title = self.storeName
-                self.storeHeader?.captionDesc.text = json["profile"]["description"].string
                 let avatarThumbnail = json["profile"]["pict"].stringValue
                 self.storeHeader?.avatar.setImageWithUrl(NSURL(string: avatarThumbnail)!, placeHolderImage: nil)
                 let avatarFull = avatarThumbnail.stringByReplacingOccurrencesOfString("thumbnails/", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -270,17 +269,41 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 var height = 0
                 
-                if let desc = self.storeHeader?.captionDesc.text
+                if let desc = json["profile"]["description"].string
                 {
-                    height = 272 + Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    self.storeHeader?.completeDesc = desc
+                    let oneLineHeight = Int("lol".boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                    let descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                    if (descHeight > oneLineHeight) { // Lebih dari 1 baris, buat menjadi collapse text
+                        // Ambil 27 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
+                        let descToWrite = desc.substringToIndex(26) + "... Selengkapnya"
+                        let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)])
+                        descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: 30, length: 12))
+                        self.storeHeader?.captionDesc.attributedText = descMutableString
+                    } else {
+                        self.storeHeader?.captionDesc.text = desc
+                    }
+                    height = 280 + oneLineHeight
                 } else {
                     self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()
-                    height = 272 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-16).height)
+                    height = 280 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-14).height)
                 }
                 self.storeHeader?.width = UIScreen.mainScreen().bounds.width
                 self.storeHeader?.height = CGFloat(height)
                 self.storeHeader?.y = CGFloat(-height)
+                
+                self.storeHeader?.seeMoreBlock = {
+                    if let completeDesc = self.storeHeader?.completeDesc {
+                        self.storeHeader?.captionDesc.text = completeDesc
+                        let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height
+                        let newHeight : CGFloat = descHeight + 280.0
+                        self.storeHeader?.height = newHeight
+                        self.storeHeader?.y = -newHeight
+                        self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
+                        self.gridView.setContentOffset(CGPointMake(0, -newHeight), animated: false)
+                    }
+                }
                 
                 self.storeHeader?.avatar.superview?.layer.cornerRadius = (self.storeHeader?.avatar.width)!/2
                 self.storeHeader?.avatar.superview?.layer.masksToBounds = true
@@ -324,6 +347,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 self.storeHeader?.zoomAvatarBlock = {
                     let c = CoverZoomController()
+                    c.labels = [json["username"].stringValue]
                     c.images = (self.storeHeader?.avatarUrls)!
                     c.index = 0
                     self.navigationController?.presentViewController(c, animated: true, completion: nil)
@@ -569,12 +593,17 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var avatar : UIImageView!
     @IBOutlet var captionSpecialStory : UILabel!
     @IBOutlet var sectionSpecialStory : UIView!
+    @IBOutlet var imgSold: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
+    }
+    
+    override func prepareForReuse() {
+        imgSold.hidden = true
     }
     
     func adapt(product : Product)
@@ -628,6 +657,12 @@ class ListItemCell : UICollectionViewCell
             attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.StyleSingle.rawValue], range: s.rangeOfString(s as String))
             captionOldPrice.attributedText = attString
         }
+        
+        if let status = product.status {
+            if (status == 4) { // sold
+                imgSold.hidden = false
+            }
+        }
     }
 }
 
@@ -647,9 +682,12 @@ class StoreHeader : UIView
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var captionTotal : UILabel!
     
+    var completeDesc : String = ""
+    
     var editBlock : ()->() = {}
     var reviewBlock : ()->() = {}
     var zoomAvatarBlock : ()->() = {}
+    var seeMoreBlock : ()->() = {}
     
     var avatarUrls : [String] = []
     
@@ -664,5 +702,11 @@ class StoreHeader : UIView
     
     @IBAction func avatarPressed(sender: AnyObject) {
         self.zoomAvatarBlock()
+    }
+    
+    @IBAction func seeMore(sender: AnyObject) {
+        if (self.completeDesc != "" && self.captionDesc.text != self.completeDesc) {
+            self.seeMoreBlock()
+        }
     }
 }

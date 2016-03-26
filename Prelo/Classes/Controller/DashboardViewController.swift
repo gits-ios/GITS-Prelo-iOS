@@ -15,9 +15,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     @IBOutlet var captionName : UILabel?
     @IBOutlet var imgCover : UIImageView?
     
-    @IBOutlet var ivBag  : UIImageView?
-    @IBOutlet var ivShirt  : UIImageView?
     @IBOutlet var ivLove  : UIImageView?
+    @IBOutlet var ivRequest: UIImageView?
+    @IBOutlet weak var ivVoucher: UIImageView?
+    
     
     var menus : Array<[String : String]>?
     
@@ -27,50 +28,41 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let c = CDUser.getOne()
         captionName?.text = c?.username
         
-        if let i = UIImage(named: "ic_bag") {
-            ivBag?.tintColor = Theme.PrimaryColorDark
-            ivBag?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        }
-        
-        if let i2 = UIImage(named: "ic_shirt") {
-            ivShirt?.tintColor = Theme.PrimaryColorDark
-            ivShirt?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        }
-        
-        if let i3 = UIImage(named: "ic_love") {
+        if let i = UIImage(named: "ic_love") {
             ivLove?.tintColor = Theme.PrimaryColorDark
-            ivLove?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            ivLove?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
         
+        if let i2 = UIImage(named: "ic_request") {
+            ivRequest?.tintColor = Theme.PrimaryColorDark
+            ivRequest?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
+    
+        if let i3 = UIImage(named: "ic_share") {
+            ivVoucher?.tintColor = Theme.PrimaryColorDark
+            ivVoucher?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
+
         //self.setupNormalOptions()
         self.setupTitle()
 
         menus = [
-            [
-                "title":"Inbox",
-                "icon":"",
-                "PreloAwesome":"1"
-            ],
-            [
-                "title":"Konfirmasi Bayar",
-                "icon":"",
-                "PreloAwesome":"0"
-            ],
             [
                 "title":"Tarik Uang",
                 "icon":"",
                 "PreloAwesome":"0"
             ],
             [
-                "title":"Voucher Gratis",
-                "icon":"",
-                "PreloAwesome":"0"
-            ],
-            [
-                "title":"Request Barang",
+                "title":"Jualan Saya",
                 "icon":"",
                 "PreloAwesome":"0",
-                "iconimg":"ic_request"
+                "iconimg":"ic_shirt"
+            ],
+            [
+                "title":"Belanjaan Saya",
+                "icon":"",
+                "PreloAwesome":"0",
+                "iconimg":"ic_bag"
             ],
             [
                 "title":"Hubungi Prelo",
@@ -81,12 +73,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
-            ]/*,
-            [
-                "title":"Tutorial",
-                "icon":"",
-                "PreloAwesome":"1"
-            ]*/
+            ]
         ]
         
         tableView?.dataSource = self
@@ -161,6 +148,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if (m["icon"] == "") {
             let img = UIImage(named: m["iconimg"]!)
             let iconImg = UIImageView(image: img)
+            iconImg.tintColor = Theme.PrimaryColorDark
             iconImg.frame = CGRect(x: 8, y: 10, width: 26, height: 26)
             cell.addSubview(iconImg)
         }
@@ -171,51 +159,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     var contactUs : UIViewController?
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.row == 0) // Inbox
-        {
-            let i = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
-            self.previousController?.navigationController?.pushViewController(i, animated: true)
-        }
-        
-        if (indexPath.row == 1) { // Konfirmasi Bayar
-            let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
-            self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
-        }
-        
-        if (indexPath.row == 2) // Dompet
-        {
+        if (indexPath.row == 0) { // Tarik uang
             let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
             self.previousController?.navigationController?.pushViewController(t, animated: true)
-        }
-        
-        if (indexPath.row == 3) // Voucher Gratis
-        {
-            let referralPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil).first as! ReferralPageViewController
-            self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
-        }
-        
-        if (indexPath.row == 4) // Request Barang
-        {
-            var username = "Your beloved user"
-            if let u = CDUser.getOne() {
-                username = u.username
-            }
-            let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui email.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
-            
-            let m = MFMailComposeViewController()
-            if (MFMailComposeViewController.canSendMail()) {
-                m.setToRecipients(["contact@prelo.id"])
-                m.setSubject("Request Barang")
-                m.setMessageBody(msgBody, isHTML: true)
-                m.mailComposeDelegate = self
-                self.presentViewController(m, animated: true, completion: nil)
-            } else {
-                Constant.showDialog("No Active Email", message: "Untuk dapat mengirim Request Barang, aktifkan akun email kamu di menu Settings > Mail, Contacts, Calendars")
-            }
-        }
-        
-        if (indexPath.row == 5) // Hubungi Prelo
-        {
+        } else if (indexPath.row == 1) { // Jualan saya
+            self.launchMyProducts()
+        } else if (indexPath.row == 2) { // Belanjaan saya
+            self.launchMyPurchases()
+        } else if (indexPath.row == 3) { // Hubungi prelo
             let c = self.storyboard?.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
             contactUs = c
             if let v = c.view, let p = self.previousController?.navigationController?.view
@@ -229,19 +180,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     v.alpha = 1
                 })
             }
-        }
-        
-        if (indexPath.row == 6) // About
-        {
+        } else if (indexPath.row == 4) { // About
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
             a.isShowLogout = true
             self.previousController?.navigationController?.pushViewController(a, animated: true)
-        }
-        
-        if (indexPath.row == 7) // Tutorial
-        {
-            self.previousController?.performSegueWithIdentifier("segTour", sender: self)
         }
     }
     
@@ -264,6 +207,30 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
     }
     
+    @IBAction func launchFreeVoucher(sender: AnyObject) {
+        let referralPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil).first as! ReferralPageViewController
+        self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
+    }
+    
+    @IBAction func launchRequestBarang(sender: AnyObject) {
+        var username = "Your beloved user"
+        if let u = CDUser.getOne() {
+            username = u.username
+        }
+        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/><br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+        
+        let m = MFMailComposeViewController()
+        if (MFMailComposeViewController.canSendMail()) {
+            m.setToRecipients(["contact@prelo.id"])
+            m.setSubject("Request Barang")
+            m.setMessageBody(msgBody, isHTML: true)
+            m.mailComposeDelegate = self
+            self.presentViewController(m, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+        }
+    }
+    
     @IBAction func launchMyProducts()
     {
         let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
@@ -284,9 +251,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         if (result.value == MFMailComposeResultSent.value) {
-            Constant.showDialog("Request Barang", message: "Email terkirim")
+            Constant.showDialog("Request Barang", message: "E-mail terkirim")
         } else if (result.value == MFMailComposeResultFailed.value) {
-            Constant.showDialog("Request Barang", message: "Email gagal dikirim")
+            Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
         }
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
