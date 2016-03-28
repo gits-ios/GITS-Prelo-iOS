@@ -657,7 +657,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else if (self.bonusAvailable && r == arrayItem.count) { // Prelo Bonus
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
-                let i = tableView.dequeueReusableCellWithIdentifier("cell_item") as! CartCellItem
+                let i = tableView.dequeueReusableCellWithIdentifier("cell_item2") as! CartCellItem
                 let cp = products[indexPath.row]
                 i.selectedPaymentId = cp.packageId
                 i.adapt(arrayItem[indexPath.row])
@@ -757,9 +757,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 {
                     let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
                     let h = (error as NSString).boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.width - 114, 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(14)], context: nil).height
-                    return 57 + h
+                    return 77 + h
                 }
-                return 74
+                return 94
             }
         } else if (s == 1) {
             if (r == 2) {
@@ -1291,6 +1291,7 @@ class CartCellItem : UITableViewCell
     @IBOutlet var captionLocation : UILabel?
     @IBOutlet var btnShippment : UIButton?
     @IBOutlet var ivCover : UIImageView?
+    @IBOutlet var captionFrom : UILabel?
     
     @IBOutlet var bottomLine : UIView?
     @IBOutlet var topLine : UIView?
@@ -1367,6 +1368,15 @@ class CartCellItem : UITableViewCell
             attString.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark, NSFontAttributeName:UIFont.systemFontOfSize(10)], range: AppToolsObjC.rangeOf(ongkirString, inside: string))
             captionPrice?.attributedText = attString
             shade?.hidden = true
+            
+            let sellerLocationID = json["seller_region"].stringValue
+            if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
+            {
+                self.captionFrom?.text = "Dikirim dari " + regionName
+            } else
+            {
+                self.captionFrom?.text = ""
+            }
         }
         
     }

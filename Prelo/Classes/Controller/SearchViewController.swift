@@ -116,7 +116,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             }
         }
         
-        setupHistory()
+//        setupHistory()
         
         scrollView.delegate = self
         tableView.delegate = self
@@ -125,8 +125,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         tableView.tableFooterView = UIView()
     }
     
+    
     func setupHistory()
     {
+        conHeightSectionHistorySearch.constant = 0
+        
         let arrx = sectionHistorySearch.subviews as! [UIView]
         for v in arrx
         {
@@ -136,17 +139,26 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         let arr : [String] = AppToolsObjC.searchHistories() as! [String]
         var y : CGFloat = 0.0
         var x : CGFloat = 0.0
+        let sw = sectionHistorySearch.width
         for s in arr
         {
             let tag = SearchTag.instance(s)
             tag.x = x
-            if (tag.maxX > sectionHistorySearch.width)
+            tag.y = y
+            let fx = tag.frame
+            let maxx = tag.maxX
+            if (maxx > sw)
             {
                 x = 0
                 tag.x = x
-                y = tag.maxY + 4
+                let maxY = tag.maxY
+                y = maxY + 4
+                tag.y = y
+                let b = tag.bounds
+                let f = tag.frame
+                println("tag new y : \(y)")
             }
-            tag.y = y
+//            tag.y = y
             let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
             tag.addGestureRecognizer(tap)
             tag.userInteractionEnabled = true
@@ -156,6 +168,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             x = tag.maxX + 8
         }
     }
+    
+    @IBAction func clearHistory()
+    {
+        AppToolsObjC.clearSearch()
+        setupHistory()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -163,6 +181,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Search)
         
@@ -182,6 +201,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func viewDidAppear(animated: Bool) {
+        setupHistory()
         self.navigationController?.navigationBar.tintColor = Theme.PrimaryColor
         self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         
