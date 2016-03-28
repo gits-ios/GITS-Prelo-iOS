@@ -71,7 +71,7 @@ class AppTools: NSObject {
     }
     
     static var isIPad : Bool {
-        return UI_USER_INTERFACE_IDIOM() == .Pad
+        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
     }
 }
 
