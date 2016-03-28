@@ -309,7 +309,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
             btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
             
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
@@ -322,7 +324,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             
         } else {
             btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
             
             if (User.IsLoggedIn) {
                 println("To Dashboard")

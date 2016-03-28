@@ -467,6 +467,8 @@
 		58A99A4C1C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A99A291C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m */; };
 		58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */; };
 		58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */; };
+		58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58A9AE951CA9320000DF30C8 /* tour_4.jpg */; };
+		58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58A9AE961CA9320000DF30C8 /* tour_5.jpg */; };
 		58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */; };
 		58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
 		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
@@ -1103,6 +1105,8 @@
 		58A99A291C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchValidatePromoCodeRequest.m; sourceTree = "<group>"; };
 		58A99A4D1C6D866000E3E7D7 /* Prelo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Prelo.entitlements; sourceTree = "<group>"; };
 		58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		58A9AE951CA9320000DF30C8 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
+		58A9AE961CA9320000DF30C8 /* tour_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_5.jpg; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
@@ -1899,6 +1903,8 @@
 				2109BCA11BDDF85E004F36C5 /* tour_1.jpg */,
 				2109BCA21BDDF85E004F36C5 /* tour_2.jpg */,
 				2109BCA31BDDF85E004F36C5 /* tour_3.jpg */,
+				58A9AE951CA9320000DF30C8 /* tour_4.jpg */,
+				58A9AE961CA9320000DF30C8 /* tour_5.jpg */,
 				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
 				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
 				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
@@ -2420,6 +2426,7 @@
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
+				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
@@ -2439,6 +2446,7 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
+				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,

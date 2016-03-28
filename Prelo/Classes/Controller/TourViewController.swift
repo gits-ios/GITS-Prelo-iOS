@@ -50,7 +50,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         
         pager.currentPage = Int(p.x / UIScreen.mainScreen().bounds.width)
         
-        if (pager.currentPage == 2)
+        if (pager.currentPage == 4)
         {
             btnNext.setTitle("Mulai", forState: UIControlState.Normal)
         } else
@@ -88,7 +88,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     var fromButton = false
     @IBAction func next(sender : UIButton)
     {
-        if (pager.currentPage == 2)
+        if (pager.currentPage == 4)
         {
             if (!NSUserDefaults.isCategorySaved()) {
                 // Wait until category is saved
