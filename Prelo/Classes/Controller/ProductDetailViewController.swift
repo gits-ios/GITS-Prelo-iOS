@@ -276,7 +276,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.detail = ProductDetail.instance(JSON(res!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonActivation()
-                    self.adjustButtonIfBought()
+                    self.adjustButtonIfBoughtOrDeleted()
                     println(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
@@ -289,32 +289,43 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func adjustButtonIfBought()
+    func adjustButtonIfBoughtOrDeleted()
     {
-        if (self.detail?.status == 4) {
+        if (self.detail?.status == 3 || self.detail?.status == 4) { // If product is sold or deleted
             self.btnTawar.borderColor = Theme.GrayLight
             self.btnTawar.titleLabel?.textColor = Theme.GrayLight
             self.btnTawar.userInteractionEnabled = false
-            self.btnBuy.setBackgroundImage(nil, forState: .Normal)
-            self.btnBuy.backgroundColor = nil
-            self.btnBuy.setTitleColor(Theme.GrayLight)
-            self.btnBuy.layer.borderColor = Theme.GrayLight.CGColor
-            self.btnBuy.layer.borderWidth = 1
-            self.btnBuy.layer.cornerRadius = 1
-            self.btnBuy.layer.masksToBounds = true
-            self.btnBuy.userInteractionEnabled = false
-            if (self.detail?.boughtByMe == true) {
-                self.btnTawar.hidden = true
-                self.btnBuy.hidden = true
-                if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
-                    // Tampilkan button konfirmasi bayar
-                    self.konfirmasiBayarBtnSet.hidden = false
-                } else if (self.detail?.transactionProgress > 2) {
-                    // Tampilkan button transaction product detail
-                    self.tpDetailBtnSet.hidden = false
+            
+            self.disableButton(self.btnBuy)
+            self.disableButton(self.btnActivate)
+            self.disableButton(self.btnDelete)
+            self.disableButton(self.btnEdit)
+            
+            if (self.detail?.status == 4) {
+                if (self.detail?.boughtByMe == true) {
+                    self.btnTawar.hidden = true
+                    self.btnBuy.hidden = true
+                    if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
+                        // Tampilkan button konfirmasi bayar
+                        self.konfirmasiBayarBtnSet.hidden = false
+                    } else if (self.detail?.transactionProgress > 2) {
+                        // Tampilkan button transaction product detail
+                        self.tpDetailBtnSet.hidden = false
+                    }
                 }
             }
         }
+    }
+    
+    func disableButton(btn : UIButton) {
+        btn.setBackgroundImage(nil, forState: .Normal)
+        btn.backgroundColor = nil
+        btn.setTitleColor(Theme.GrayLight)
+        btn.layer.borderColor = Theme.GrayLight.CGColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 1
+        btn.layer.masksToBounds = true
+        btn.userInteractionEnabled = false
     }
     
     func setupView()
