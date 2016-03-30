@@ -135,6 +135,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.validateRvwKirimFields()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
+    }
+    
     func getTransactionDetail() {
         self.showLoading()
         

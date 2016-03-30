@@ -97,6 +97,18 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (storeMode) {
+            // Remove redirect alert if any
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            if let redirAlert = appDelegate.redirAlert {
+                redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+            }
+        }
+    }
+    
     func refresh()
     {
         if (storeMode)

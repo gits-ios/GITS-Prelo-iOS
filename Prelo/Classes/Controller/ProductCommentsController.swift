@@ -33,7 +33,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = "Komentar"
+        self.title = "Komentar \(pDetail.name)"
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -81,6 +81,12 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             }
             
             }, completion: nil)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {

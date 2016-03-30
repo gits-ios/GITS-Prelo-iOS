@@ -188,6 +188,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
             
         }, completion: nil)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
