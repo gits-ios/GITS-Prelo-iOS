@@ -969,13 +969,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTolakPesanan.hidden = false
         }
         cell.contactBuyer = {
-            // Get product detail from API
             var productId = ""
+            var buyerId = ""
             if (self.trxDetail != nil) {
                 productId = self.trxDetail!.transactionProducts[0].productId
+                buyerId = self.trxDetail!.transactionProducts[0].buyerId
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
+                buyerId = self.trxProductDetail!.buyerId
             }
+            // Get product detail from API
             request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
                     let json = JSON(res!)
@@ -984,7 +987,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
-                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID)).responseJSON { req, resp, res, err in
+                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON { req, resp, res, err in
                             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
                                 let json = JSON(res!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat

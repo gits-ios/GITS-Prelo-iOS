@@ -537,7 +537,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
-                request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!)).responseJSON { req, resp, res, err in
+                request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON { req, resp, res, err in
                     if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
                         let json = JSON(res!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat

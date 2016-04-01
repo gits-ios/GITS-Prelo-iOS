@@ -361,7 +361,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         var api = APIInbox.GetInboxMessage(inboxId: tawarItem.threadId)
         if (fromSeller)
         {
-            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId)
+            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
         request(api).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))

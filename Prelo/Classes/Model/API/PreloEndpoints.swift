@@ -364,7 +364,7 @@ enum APIInbox : URLRequestConvertible
     
     case GetInboxes
     case GetInboxByProductID(productId : String)
-    case GetInboxByProductIDSeller(productId : String)
+    case GetInboxByProductIDSeller(productId : String, buyerId : String)
     case GetInboxMessage (inboxId : String)
     case StartNewOne (productId : String, type : Int, message : String)
     case StartNewOneBySeller (productId : String, type : Int, message : String, toId : String)
@@ -375,7 +375,7 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(_) : return .GET
-            case .GetInboxByProductIDSeller(_) : return .GET
+            case .GetInboxByProductIDSeller(_, _) : return .GET
             case .GetInboxes : return .GET
             case .GetInboxMessage(_) : return .GET
             case .StartNewOne (_, _, _) : return .POST
@@ -389,7 +389,7 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(let prodId) : return "product/"+prodId
-            case .GetInboxByProductIDSeller(let prodId) : return "product/seller/"+prodId
+            case .GetInboxByProductIDSeller(let prodId, _) : return "product/seller/"+prodId
             case .GetInboxes : return ""
             case .GetInboxMessage(let inboxId) : return inboxId
             case .SendTo (let inboxId, _, _) : return inboxId
@@ -403,7 +403,7 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(_) : return [:]
-            case .GetInboxByProductIDSeller(_) : return [:]
+            case .GetInboxByProductIDSeller(_, let buyerId) : return ["buyer_id":buyerId]
             case .GetInboxes : return [:]
             case .GetInboxMessage(_) : return [:]
             case .StartNewOne(let prodId, let type, let m) :
