@@ -505,7 +505,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "fetch(_:ascending:complete:failed:)"
+            landmarkName = "fetch(_:descending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -521,7 +521,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "fetch(_:ascending:complete:failed:)"
+            landmarkName = "fetch(_:descending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -537,14 +537,14 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "fetch(_:ascending:complete:failed:)"
+            landmarkName = "fetch(_:descending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/ImagePickerViewController2.swift"
@@ -682,6 +682,22 @@
             startingLineNumber = "1309"
             endingLineNumber = "1309"
             landmarkName = "adapt(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/AddProductImageSourceViewController.swift"
+            timestampString = "480916740.855472"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
