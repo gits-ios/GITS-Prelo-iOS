@@ -36,6 +36,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var loadAppDataDelegate : LoadAppDataDelegate?
     
+    let RedirProduct = "product"
+    let RedirComment = "comment"
+    let RedirUser = "user"
+    let RedirInbox = "inbox"
+    let RedirNotif = "notification"
+    let RedirConfirm = "confirm"
+    let RedirTrxBuyer = "transaction_buyer"
+    let RedirTrxSeller = "transaction_seller"
+    let RedirTrxPBuyer = "transaction_product_buyer"
+    let RedirTrxPSeller = "transaction_product_seller"
+    
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
 
@@ -112,69 +123,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIApplication.sharedApplication().registerForRemoteNotificationTypes(types)
         }
         
-        // Handling push notification
+        // Handling push notification from APNS
+        // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
                 if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
                     //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    var targetId : String?
                     if let tipe = remoteNotifAps.objectForKey("tipe") as? String {
+                        var targetId : String?
                         if let tId = remoteNotifAps.objectForKey("target_id") as? String {
                             targetId = tId
                         }
-                        //Constant.showDialog("tipe", message: "\(tipe)")
-                        let tipeLowercase = tipe.lowercaseString
-                        if (tipeLowercase == "product") {
-                            if (targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectProduct(targetId!)
-                            }
-                        } else if (tipeLowercase == "comment") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectComment(targetId!)
-                            }
-                        } else if (tipeLowercase == "user") {
-                            if (targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectShopPage(targetId!)
-                            }
-                        } else if (tipeLowercase == "inbox") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectInbox(targetId)
-                            }
-                        } else if (tipeLowercase == "notification") {
-                            if (User.IsLoggedIn) {
-                                self.showRedirAlert()
-                                self.redirectNotification()
-                            }
-                        } else if (tipeLowercase == "confirm") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectConfirmPayment(targetId!)
-                            }
-                        } else if (tipeLowercase == "transaction_buyer") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
-                            }
-                        } else if (tipeLowercase == "transaction_seller") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
-                            }
-                        } else if (tipeLowercase == "transaction_product_buyer") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
-                            }
-                        } else if (tipeLowercase == "transaction_product_seller") {
-                            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-                                self.showRedirAlert()
-                                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
-                            }
-                        }
+                        self.deeplinkRedirect(tipe, targetId: targetId)
                     }
                 }
             }
@@ -183,25 +143,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            //Constant.showDialog("Deeplink", message: "launchURL = \(launchURL)")
-            if (launchURL.host == "product") {
-                if let productId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectProduct(productId)
+            if let tipe = launchURL.host {
+                var targetId : String?
+                if let tId = launchURL.path?.substringFromIndex(1) {
+                    targetId = tId
                 }
-            } else if (launchURL.host == "user") {
-                if let userId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectShopPage(userId)
-                }
-            } else if (launchURL.host == "inbox") {
-                if let inboxId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectInbox(inboxId)
-                }
-            } else if (launchURL.host == "confirm") {
-                if let confirmId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectConfirmPayment(confirmId)
-                }
-            } else if (launchURL.host == "notification") {
-                self.redirectNotification()
+                self.deeplinkRedirect(tipe, targetId: targetId)
             }
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
@@ -224,23 +171,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             println("launch firstParams = \(firstParams)")
             
             let params = JSON(sessionParams)
-            let tipe : String? = params["tipe"].string
-            let targetId : String? = params["target_id"].string
-            if (tipe != nil) {
-                if (targetId != nil) {
-                    if (tipe! == "product") { // deeplinkProduct
-                        self.redirectProduct(targetId!)
-                    } else if (tipe! == "user") { // deeplinkShopPage
-                        self.redirectShopPage(targetId!)
-                    } else if (tipe! == "inbox") { // deeplinkInbox
-                        self.redirectInbox(targetId!)
-                    } else if (tipe! == "confirm") { // deeplinkConfirmPayment
-                        self.redirectConfirmPayment(targetId!)
-                    }
+            if let tipe = params["tipe"].string {
+                var targetId : String?
+                if let tId = params["target_id"].string {
+                    targetId = tId
                 }
-                if (tipe! == "notification") { // deeplinkNotification
-                    self.redirectNotification()
-                }
+                self.deeplinkRedirect(tipe, targetId: targetId)
             }
         })
         
@@ -265,25 +201,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if (!Branch.getInstance().handleDeepLink(url)) {
                 // Handle deeplink from Facebook
-                if (url.host == "product") {
-                    if let productId = url.path?.substringFromIndex(1) {
-                        self.redirectProduct(productId)
+                if let tipe = url.host {
+                    var targetId : String?
+                    if let tId = url.path?.substringFromIndex(1) {
+                        targetId = tId
                     }
-                } else if (url.host == "user") {
-                    if let userId = url.path?.substringFromIndex(1) {
-                        self.redirectShopPage(userId)
-                    }
-                } else if (url.host == "inbox") {
-                    if let inboxId = url.path?.substringFromIndex(1) {
-                        self.redirectInbox(inboxId)
-                    }
-                } else if (url.host == "confirm") {
-                    if let confirmId = url.path?.substringFromIndex(1) {
-                        self.redirectConfirmPayment(confirmId)
-                    }
-                } else if (url.host == "notification") {
-                    self.redirectNotification()
+                    self.deeplinkRedirect(tipe, targetId: targetId)
                 }
+                
                 return FBSDKApplicationDelegate.sharedInstance().application(
                     application,
                     openURL: url,
@@ -378,6 +303,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Redirection functions
+    
+    func deeplinkRedirect(tipe : String, targetId : String?) {
+        //Constant.showDialog("tipe", message: "\(tipe)")
+        let tipeLowercase = tipe.lowercaseString
+        if (tipeLowercase == self.RedirProduct) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectProduct(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirComment) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectComment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirUser) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectShopPage(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirInbox) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectInbox(targetId)
+            }
+        } else if (tipeLowercase == self.RedirNotif) {
+            if (User.IsLoggedIn) {
+                self.showRedirAlert()
+                self.redirectNotification()
+            }
+        } else if (tipeLowercase == self.RedirConfirm) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectConfirmPayment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirTrxBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            }
+        } else if (tipeLowercase == self.RedirTrxPBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxPSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            }
+        }
+    }
     
     func showRedirAlert() {
         redirAlert = UIAlertView()
