@@ -348,6 +348,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
                         self.cells[i2] = b2
                         
+                    } else {
+                        if let modalText = json["_data"]["modal_verify_text"].string {
+                            Constant.showDialog("Perhatian", message: modalText)
+                        }
                     }
                 }
                 
