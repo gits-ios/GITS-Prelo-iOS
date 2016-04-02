@@ -2537,6 +2537,7 @@ class InboxMessage : NSObject
     private var lastCompletion : (InboxMessage)->() = {m in }
     func sendTo(threadId : String, completion : (InboxMessage)->())
     {
+        println("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         sending = true
