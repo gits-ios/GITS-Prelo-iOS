@@ -13,6 +13,7 @@ import Foundation
 class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var consHeightTableView: NSLayoutConstraint!
     @IBOutlet weak var txtFldKurir: UITextField!
@@ -305,6 +306,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             height += self.tableView(tableView, heightForRowAtIndexPath: NSIndexPath(forRow: i, inSection: 0))
         }
         consHeightTableView.constant = height
+        consHeightContentView.constant = height + 330
     }
     
     func hideLoading() {
