@@ -211,7 +211,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 "resi_number" : self.txtFldNoResi.text
             ]
             var images : [UIImage] = []
-            images.append(imgResi.image!)
+            if let imgR = imgResi.image {
+                images.append(imgR)
+            }
             
             let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
             
@@ -269,19 +271,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // MARK: - Other functions
     
     func validateFields() -> Bool {
-        // FIXME: Harusnya kalo semua barang ditolak, ga perlu isi resi dll
-        if (self.txtFldKurir.text == "") {
-            Constant.showDialog("Warning", message: "Field kurir harus diisi")
-            return false
-        }
-        if (self.txtFldNoResi.text == "") {
-            Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
-            return false
-        }
-        if (!self.isPictSelected) {
-            Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
-            return false
-        }
+        var isAllRejected = true
         for (var i = 0; i < isSelected.count; i++) {
             if (!isSelected[i]) {
                 let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
@@ -289,6 +279,22 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
                     return false
                 }
+            } else {
+                isAllRejected = false
+            }
+        }
+        if (!isAllRejected) {
+            if (self.txtFldKurir.text == "") {
+                Constant.showDialog("Warning", message: "Field kurir harus diisi")
+                return false
+            }
+            if (self.txtFldNoResi.text == "") {
+                Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
+                return false
+            }
+            if (!self.isPictSelected) {
+                Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
+                return false
             }
         }
         return true
