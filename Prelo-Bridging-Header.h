@@ -37,5 +37,6 @@
 #import "Branch.h"
 #import "BranchUniversalObject.h"
 #import "BranchLinkProperties.h"
+#import "NotifyManager.h"
 
 #endif

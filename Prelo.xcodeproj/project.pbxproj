@@ -469,7 +469,11 @@
 		58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */; };
 		58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58A9AE951CA9320000DF30C8 /* tour_4.jpg */; };
 		58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58A9AE961CA9320000DF30C8 /* tour_5.jpg */; };
-		58AB57721CB2449A0081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB57711CB2449A0081094B /* libAdIdAccess.a */; };
+		58AB577C1CB24CDF0081094B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB577B1CB24CDF0081094B /* CoreLocation.framework */; };
+		58AB577E1CB24CEA0081094B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB577D1CB24CEA0081094B /* CoreBluetooth.framework */; };
+		58AB57801CB24CFB0081094B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB577F1CB24CFB0081094B /* Security.framework */; };
+		58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578C1CB273190081094B /* libNotifyManager.a */; };
+		58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578E1CB273D20081094B /* libAdIdAccess.a */; };
 		58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */; };
 		58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
 		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
@@ -1108,7 +1112,14 @@
 		58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		58A9AE951CA9320000DF30C8 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
 		58A9AE961CA9320000DF30C8 /* tour_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_5.jpg; sourceTree = "<group>"; };
-		58AB57711CB2449A0081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = Prelo/Classes/External/GoogleAnalytics_3.13/libAdIdAccess.a; sourceTree = "<group>"; };
+		58AB577B1CB24CDF0081094B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		58AB577D1CB24CEA0081094B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		58AB577F1CB24CFB0081094B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		58AB57891CB273190081094B /* NotifyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyManager.h; sourceTree = "<group>"; };
+		58AB578A1CB273190081094B /* NotifyRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyRegionManager.h; sourceTree = "<group>"; };
+		58AB578B1CB273190081094B /* NotifyServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyServiceManager.h; sourceTree = "<group>"; };
+		58AB578C1CB273190081094B /* libNotifyManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotifyManager.a; sourceTree = "<group>"; };
+		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
@@ -1156,8 +1167,10 @@
 				2127A2AC1B7B45B300469CFC /* AssetsLibrary.framework in Frameworks */,
 				2142E1691B85D9A4009D7131 /* AVFoundation.framework in Frameworks */,
 				4453F43F1BBBFF6D00FE7CB5 /* Bolts.framework in Frameworks */,
+				58AB577E1CB24CEA0081094B /* CoreBluetooth.framework in Frameworks */,
 				21EEB43E1B86FA3000CAD5C9 /* CoreData.framework in Frameworks */,
 				21679A5E1B901CE700F18F90 /* CoreGraphics.framework in Frameworks */,
+				58AB577C1CB24CDF0081094B /* CoreLocation.framework in Frameworks */,
 				21679A5A1B901CD400F18F90 /* CoreTelephony.framework in Frameworks */,
 				FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */,
 				216799961B9010E900F18F90 /* Fabric.framework in Frameworks */,
@@ -1169,17 +1182,19 @@
 				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
 				21AE67BB1B4A623300D2CF63 /* QuartzCore.framework in Frameworks */,
 				58A99A501C6D874400E3E7D7 /* SafariServices.framework in Frameworks */,
+				58AB57801CB24CFB0081094B /* Security.framework in Frameworks */,
 				21E7A7591B9FE81600FC9B38 /* Social.framework in Frameworks */,
 				21EEB44A1B86FAFF00CAD5C9 /* StoreKit.framework in Frameworks */,
 				21679A5C1B901CDA00F18F90 /* SystemConfiguration.framework in Frameworks */,
 				44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */,
 				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 				21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */,
-				58AB57721CB2449A0081094B /* libAdIdAccess.a in Frameworks */,
+				58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
+				58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */,
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
@@ -1192,7 +1207,9 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				58AB57711CB2449A0081094B /* libAdIdAccess.a */,
+				58AB577F1CB24CFB0081094B /* Security.framework */,
+				58AB577D1CB24CEA0081094B /* CoreBluetooth.framework */,
+				58AB577B1CB24CDF0081094B /* CoreLocation.framework */,
 				58A99A4F1C6D874400E3E7D7 /* SafariServices.framework */,
 				FD4E8BF21C31258100501F7A /* AdSupport.framework */,
 				FD3C6D471C1963AC0002C7B4 /* libz.dylib */,
@@ -2120,6 +2137,7 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				58AB57861CB273190081094B /* UninstallIO */,
 				44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
 				44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */,
@@ -2270,9 +2288,37 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		58AB57861CB273190081094B /* UninstallIO */ = {
+			isa = PBXGroup;
+			children = (
+				58AB57871CB273190081094B /* include */,
+				58AB578C1CB273190081094B /* libNotifyManager.a */,
+			);
+			path = UninstallIO;
+			sourceTree = "<group>";
+		};
+		58AB57871CB273190081094B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				58AB57881CB273190081094B /* NotifyManager */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		58AB57881CB273190081094B /* NotifyManager */ = {
+			isa = PBXGroup;
+			children = (
+				58AB57891CB273190081094B /* NotifyManager.h */,
+				58AB578A1CB273190081094B /* NotifyRegionManager.h */,
+				58AB578B1CB273190081094B /* NotifyServiceManager.h */,
+			);
+			path = NotifyManager;
+			sourceTree = "<group>";
+		};
 		FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */ = {
 			isa = PBXGroup;
 			children = (
+				58AB578E1CB273D20081094B /* libAdIdAccess.a */,
 				FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */,
 				FD3C6D3D1C1963190002C7B4 /* GAI.h */,
 				FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */,
@@ -2324,6 +2370,9 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = FA5P8G36Y9;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
@@ -3003,6 +3052,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleConversionTrackingSDK-iOS-3.2.0",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
+					"$(PROJECT_DIR)/Prelo/Framework",
+					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3035,6 +3086,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleConversionTrackingSDK-iOS-3.2.0",
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
+					"$(PROJECT_DIR)/Prelo/Framework",
+					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -49,6 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
+    
+    // Uninstall.io
+    // TODO: isi apptoken dan appsecret
+    let UninstallIOAppToken = ""
+    let UninstallIOAppSecret = ""
 
     // MARK: - Application delegate functions
     
@@ -66,7 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
         }
-        
         
         if let c = CDUser.getOne()
         {
@@ -105,7 +109,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
         ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
-        //return true
+        // Uninstall.io
+        NotifyManager.sharedManager().processLaunchOptions(launchOptions)
+        NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
+        var isUninstallIOIdentified = true
+        if let io = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UninstallIOIdentified) as? Bool {
+            if (io == false) {
+                isUninstallIOIdentified = false
+            }
+        } else {
+            isUninstallIOIdentified = false
+        }
+        if (!isUninstallIOIdentified) {
+            if (User.IsLoggedIn) {
+                if let u = CDUser.getOne() {
+                    let p = [
+                        "username" : u.username,
+                        "fullname" : (u.fullname != nil) ? u.fullname! : "",
+                        "email" : u.email,
+                        "phone" : (u.profiles.phone != nil) ? u.profiles.phone! : ""
+                    ]
+                    NotifyManager.sharedManager().identify(u.id, traits: p)
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.UninstallIOIdentified)
+                }
+            }
+        }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
         
@@ -238,6 +266,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         println("deviceToken = \(deviceToken)")
         
+        // Uninstall.io
+        NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
+        
         var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
         
         var deviceRegId: String = (deviceToken.description as NSString)
@@ -268,6 +299,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         println("userInfo = \(userInfo)")
         
+        // Uninstall.io
+        NotifyManager.sharedManager().processRemoteNotification(userInfo)
+        
         if (application.applicationState == UIApplicationState.Active) {
             println("App were active when receiving remote notification")
         } else {
@@ -283,10 +317,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // Uninstall.io
+        NotifyManager.sharedManager().didLoseFocus()
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        // Uninstall.io
+        NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
@@ -301,6 +341,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+    }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        // Uninstall.io
+        NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
     
     // MARK: - Redirection functions

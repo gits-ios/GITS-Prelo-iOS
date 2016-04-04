@@ -187,21 +187,6 @@ class NotificationName : NSObject
     static let PushNew = "pushnew"
 }
 
-class UserDefaultsKey : NSObject
-{
-    static let AppDataSaved = "appdatasaved"
-    static let CategorySaved = "categorysaved"
-    static let CategoryPref1 = "categorypref1"
-    static let CategoryPref2 = "categorypref2"
-    static let CategoryPref3 = "categorypref3"
-    static let Tour = "tour"
-    static let TourDone = "tourdone"
-    static let RedirectFromHome = "redirectfromhome"
-    static let UserAgent = "useragent"
-    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
-    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
-}
-
 class PageName
 {
     static let SplashScreen = "Splash Screen"
@@ -310,6 +295,22 @@ extension Mixpanel
         p["Page"] = pageName
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
     }
+}
+
+class UserDefaultsKey : NSObject
+{
+    static let AppDataSaved = "appdatasaved"
+    static let CategorySaved = "categorysaved"
+    static let CategoryPref1 = "categorypref1"
+    static let CategoryPref2 = "categorypref2"
+    static let CategoryPref3 = "categorypref3"
+    static let Tour = "tour"
+    static let TourDone = "tourdone"
+    static let RedirectFromHome = "redirectfromhome"
+    static let UserAgent = "useragent"
+    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
+    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
+    static let UninstallIOIdentified = "uninstallioidentified"
 }
 
 extension NSUserDefaults
