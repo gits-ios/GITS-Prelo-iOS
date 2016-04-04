@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 let prelloHost = "\(AppTools.PreloBaseUrl)/api/"
 let oldAPI = "http://dev.preloapp.com/api/2/"
@@ -15,6 +16,9 @@ class PreloEndpoints: NSObject {
    
     class func ProcessParam(oldParam : [String : AnyObject]) -> [String : AnyObject]
     {
+        // Set crashlytics custom keys
+        Crashlytics.sharedInstance().setObjectValue(oldParam, forKey: "last_req_param")
+        
         let newParam = oldParam
         return oldParam
     }
@@ -37,6 +41,9 @@ extension NSMutableURLRequest
             //println("User-Agent = \(userAgent)")
             r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
+        
+        // Set crashlytics custom keys
+        Crashlytics.sharedInstance().setObjectValue(url, forKey: "last_req_url")
         
         return r
     }
@@ -1431,11 +1438,10 @@ class APIPrelo
     
     static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
-        /** new adding 
+        // Set crashlytics custom keys
+        Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
+        Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
         
-        1. log latest api result as json string to crashlytic. just in case.
-        
-        */
         println("\(reqAlias) req = \(req)")
         
         if let response = resp
