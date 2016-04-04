@@ -90,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gai.trackerWithTrackingId("UA-68727101-3")
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        gai.defaultTracker.allowIDFACollection = true // Enable IDFA collection
         
         // Google Analytics
         GAI.trackPageVisit(PageName.SplashScreen)
