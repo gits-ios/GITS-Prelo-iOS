@@ -52,7 +52,8 @@ class MessagePool: NSObject
             })
             
             socket.on("error", callback:{ data, ack in
-                
+                println(data)
+                println(ack)
             })
             
             socket.on("reconnect", callback:{ data, ack in
@@ -85,7 +86,7 @@ class MessagePool: NSObject
             })
             
             socket.on("clients", callback:{ data, ack in
-                //println(data)
+                println(data)
             })
             
             let del = UIApplication.sharedApplication().delegate as! AppDelegate

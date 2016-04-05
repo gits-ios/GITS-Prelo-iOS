@@ -391,6 +391,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 
                 let del = UIApplication.sharedApplication().delegate as! AppDelegate
                 del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
+                
+//                if (AppTools.IsPreloProduction == false)
+//                {
+//                    self.sendDummy()
+//                }
+                
             } else
             {
                 
@@ -476,12 +482,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func rejectTawar(sender : UIView?)
     {
-//        var message = String(tawarItem.bargainPrice)
-//        if (tawarFromMe)
-//        {
-//            message = "Tawaran dibatalkan " + tawarItem.bargainPrice.asPrice
-//        }
-        sendChat(3, message: String(tawarItem.bargainPrice))
+        var message = String(tawarItem.bargainPrice)
+        if (tawarFromMe)
+        {
+            message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
+        }
+        sendChat(3, message: message)
     }
     
     func confirmTawar(sender : UIView?)
@@ -509,7 +515,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Mixpanel
         self.sendMixpanelEvent(MixpanelEvent.ChatSent)
-//        textViewDidChange(textView)
+        textViewDidChange(textView)
     }
     
     func sendChat(type : Int, message : String)
@@ -530,7 +536,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (type != 0)
         {
             i.bargainPrice = message
-            tawarItem.setBargainPrice(message.int)
+            
+            // fix : Kalau tawaran diterima, tulisannya "0" di hape sendiri, tapi di hape lawan sih tulisannya "terima tawaran RpX" (kadang) (https://trello.com/c/W3Oajm96)
+            // kemungkinan karna ini, awal nya gak ada if (type == 1), jadi bisa aja waktu type 2 atau 3, dia ke set bargainprice nya 0, walaupun gak bisa ku reproduce
+            if (type == 1)
+            {
+                tawarItem.setBargainPrice(message.int)
+            }
         }
         inboxMessages.append(i)
         
@@ -707,6 +719,24 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    // helper untuk simulate ada message masuk
+    func sendDummy(type : Int = 0, message : String = "DUMMY", delay : NSTimeInterval = 3)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            NSThread.sleepForTimeInterval(delay)
+            dispatch_async(dispatch_get_main_queue(), {
+                let i = InboxMessage()
+                i.senderId = self.tawarItem.theirId
+                i.messageType = type
+                i.message = message
+                i.isMe = i.senderId == CDUser.getOne()?.id
+                i.time = ""
+                i.id = ""
+                self.messageArrived(i)
+            })
+        })
+    }
+    
     func messageArrived(message: InboxMessage) {
         inboxMessages.append(message)
         if (message.messageType != 0)
@@ -718,12 +748,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             t.forceThreadState = threadState
             self.tawarDelegate?.tawarNeedReloadList()
         }
-        if (threadState == 1 && message.isMe == true)
+        if (message.messageType == 1)
         {
-            tawarFromMe = true
-        } else
-        {
-            tawarFromMe = false
+            if (threadState == 1 && message.isMe == true)
+            {
+                tawarFromMe = true
+            } else
+            {
+                tawarFromMe = false
+            }
         }
         
         if (threadState == 1)

@@ -360,15 +360,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     func imageFullScreenDidReplace(controller: AddProductImageFullScreen, image: APImage) {
-        switch (controller.index)
-        {
-        case 0:rm_image1 = 1
-        case 1:rm_image2 = 1
-        case 2:rm_image3 = 1
-        case 3:rm_image4 = 1
-        case 4:rm_image5 = 1
-        default:println("")
-        }
+        /** fix untuk : https://trello.com/c/ByNrWwTL 
+        ternyata walau masih ngirim multipart image, tapi kalo rm_imageN nya di isi 1, tetep di hapus si gambar nya.
+        makadariitu, rm_imageN di kasih nilai kalaw bener2 di delete aja.
+        */
+        
+//        switch (controller.index)
+//        {
+//        case 0:rm_image1 = 1
+//        case 1:rm_image2 = 1
+//        case 2:rm_image3 = 1
+//        case 3:rm_image4 = 1
+//        case 4:rm_image5 = 1
+//        default:println("")
+//        }
         imageViews[controller.index].image = image.image
     }
     
