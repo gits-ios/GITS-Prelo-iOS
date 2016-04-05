@@ -729,7 +729,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Version check
     
     func versionCheck() {
-        request(APIApp.Version(appType: "ios")).responseJSON { req, resp, res, err in
+        request(APIApp.Version).responseJSON { req, resp, res, err in
             if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Version Check")) {
                 let json = JSON(res!)
                 let data = json["_data"]

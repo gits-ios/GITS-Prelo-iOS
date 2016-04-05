@@ -53,14 +53,14 @@ enum APIApp : URLRequestConvertible
 {
     static let basePath = "app/"
     
-    case Version(appType : String)
+    case Version
     case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
     
     var method : Method
     {
         switch self
         {
-        case .Version(_) : return .GET
+        case .Version : return .GET
         case .Metadata(_, _, _, _, _, _) : return .GET
         }
     }
@@ -69,7 +69,7 @@ enum APIApp : URLRequestConvertible
     {
         switch self
         {
-        case .Version(_) : return "version"
+        case .Version : return "version"
         case .Metadata(_, _, _, _, _, _) : return "metadata"
         }
     }
@@ -78,9 +78,9 @@ enum APIApp : URLRequestConvertible
     {
         switch self
         {
-        case .Version(let appType) :
+        case .Version :
             let p = [
-                "app_type" : appType
+                "app_type" : "ios"
             ]
             return p
         case .Metadata(let brands, let categories, let categorySizes, let shippings, let productConditions, let provincesRegions) :
