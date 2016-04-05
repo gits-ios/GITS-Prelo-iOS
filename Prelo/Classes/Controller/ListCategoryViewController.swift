@@ -23,6 +23,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var categoriesFix : [JSON] = []
     
+    // Home promo
+    var vwHomePromo : UIView?
+    
     // Coachmark
     var vwCoachmark : UIView?
     var imgCoachmarkPinch : UIImageView?
@@ -269,32 +272,49 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         scrollCategoryName.layoutIfNeeded()
         contentCategoryNames?.layoutIfNeeded()
         
-        // Coachmark
-        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
-        if (coachmarkDone != true && vwCoachmark == nil) {
-            let screenSize : CGRect = UIScreen.mainScreen().bounds
-            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
-            imgCoachmarkPinch = UIImageView(image: UIImage(named: "cchmrk_pinch"))
-            let imgCoachmarkPinchSize : CGSize = CGSizeMake(180, 134)
-            imgCoachmarkPinch?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), imgCoachmarkPinchSize.width, imgCoachmarkPinchSize.height)
-            imgCoachmarkSpread = UIImageView(image: UIImage(named: "cchmrk_spread"))
-            let imgCoachmarkSpreadSize : CGSize = CGSizeMake(180, 136)
-            imgCoachmarkSpread?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), imgCoachmarkSpreadSize.width, imgCoachmarkSpreadSize.height)
-            
-            let btnCoachmark : UIButton = UIButton(frame: screenSize)
-            btnCoachmark.addTarget(self, action: "btnCoachmarkPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-            
-            if (vwCoachmark != nil && imgCoachmarkPinch != nil && imgCoachmarkSpread != nil) {
-                vwCoachmark!.addSubview(imgCoachmarkPinch!)
-                vwCoachmark!.addSubview(imgCoachmarkSpread!)
-                imgCoachmarkSpread!.hidden = true
-                vwCoachmark!.addSubview(btnCoachmark)
-                //UIApplication.sharedApplication().keyWindow?.addSubview(vwCoachmark!)
-                if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-                    kumangTabBarVC.view.addSubview(vwCoachmark!)
+        // Home promo
+        var isShowPromo = false
+        request(APIApp.Version).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Promo check")) {
+                let json = JSON(res!)
+                let data = json["_data"]
+                
+                if let isPromo = data["is_promo"].bool {
+                    if (isPromo) {
+                        if let promoTitle = data["promo_data"]["title"].string {
+                            if let promoUrlString = data["promo_data"]["url"].string {
+                                if let promoUrl = NSURL(string: promoUrlString) {
+                                    let lastPromoTitle : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.LastPromoTitle) as! String?
+                                    if (promoTitle != lastPromoTitle) { // Artinya blm pernah dimunculkan
+                                        let screenSize : CGRect = UIScreen.mainScreen().bounds
+                                        self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+                                        
+                                        var imgHomePromo = UIImageView()
+                                        imgHomePromo.setImageWithUrl(promoUrl, placeHolderImage: nil)
+                                        let imgHomePromoSize = CGSizeMake(300, 400)
+                                        imgHomePromo.frame = CGRectMake((screenSize.width / 2) - (imgHomePromoSize.width / 2), (screenSize.height / 2) - (imgHomePromoSize.height / 2), imgHomePromoSize.width, imgHomePromoSize.height)
+                                        imgHomePromo.contentMode = UIViewContentMode.ScaleAspectFit
+                                        
+                                        let btnHomePromo : UIButton = UIButton(frame: screenSize)
+                                        btnHomePromo.addTarget(self, action: "btnHomePromoPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+                                        
+                                        self.vwHomePromo!.addSubview(imgHomePromo)
+                                        self.vwHomePromo!.addSubview(btnHomePromo)
+                                        
+                                        NSUserDefaults.setObjectAndSync(promoTitle, forKey: UserDefaultsKey.LastPromoTitle)
+                                        
+                                        isShowPromo = true
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                //self.view.addSubview(vwCoachmark!)
             }
+        }
+        
+        if (!isShowPromo) { // Jika tidak memunculkan promo, langsung munculkan coachmark
+            processCoachmark()
         }
         
         setCurrentTab((categoryNames.count > 1) ? 0 : 0)
@@ -569,7 +589,42 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         return v
     }
     
+    // MARK: - Home promo
+    
+    func btnHomePromoPressed(sender: UIButton) {
+        vwHomePromo!.hidden = true
+        processCoachmark()
+    }
+    
     // MARK: - Coachmark
+    
+    func processCoachmark() {
+        // Coachmark
+        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
+        if (coachmarkDone != true && vwCoachmark == nil) {
+            let screenSize : CGRect = UIScreen.mainScreen().bounds
+            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+            imgCoachmarkPinch = UIImageView(image: UIImage(named: "cchmrk_pinch"))
+            let imgCoachmarkPinchSize : CGSize = CGSizeMake(180, 134)
+            imgCoachmarkPinch?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), imgCoachmarkPinchSize.width, imgCoachmarkPinchSize.height)
+            imgCoachmarkSpread = UIImageView(image: UIImage(named: "cchmrk_spread"))
+            let imgCoachmarkSpreadSize : CGSize = CGSizeMake(180, 136)
+            imgCoachmarkSpread?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), imgCoachmarkSpreadSize.width, imgCoachmarkSpreadSize.height)
+            
+            let btnCoachmark : UIButton = UIButton(frame: screenSize)
+            btnCoachmark.addTarget(self, action: "btnCoachmarkPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            if (vwCoachmark != nil && imgCoachmarkPinch != nil && imgCoachmarkSpread != nil) {
+                vwCoachmark!.addSubview(imgCoachmarkPinch!)
+                vwCoachmark!.addSubview(imgCoachmarkSpread!)
+                imgCoachmarkSpread!.hidden = true
+                vwCoachmark!.addSubview(btnCoachmark)
+                if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                    kumangTabBarVC.view.addSubview(vwCoachmark!)
+                }
+            }
+        }
+    }
     
     func btnCoachmarkPressed(sender: UIButton!) {
         if (imgCoachmarkSpread!.hidden) {
@@ -580,6 +635,5 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkBrowseDone)
         }
     }
-
 }
 

@@ -62,9 +62,9 @@ extension UILabel {
 }
 
 class AppTools: NSObject {
-//    static var PreloBaseUrl = "http://dev.prelo.id" // Development
+    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-    static var PreloBaseUrl = "https://prelo.co.id" // Production
+//    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
         return (AppTools.PreloBaseUrl == "https://prelo.co.id")
@@ -311,6 +311,7 @@ class UserDefaultsKey : NSObject
     static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
     static let CoachmarkBrowseDone = "coachmarkbrowsedone"
     static let UninstallIOIdentified = "uninstallioidentified"
+    static let LastPromoTitle = "lastpromotitle"
 }
 
 extension NSUserDefaults
