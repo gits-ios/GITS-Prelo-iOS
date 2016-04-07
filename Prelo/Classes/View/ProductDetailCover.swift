@@ -20,6 +20,8 @@ class ProductDetailCover: UIView {
     
     var status : Int?
     
+    var banner : UIImageView?
+    
     private func setup(images : Array<String>)
     {
         imageURLS = images
@@ -50,17 +52,38 @@ class ProductDetailCover: UIView {
             iv?.setImageWithUrl(NSURL(string: images.objectAtCircleIndex(i))!, placeHolderImage: nil)
         }
         
+        self.setupBanner()
+    }
+    
+    func updateStatus(newStat : Int) {
+        self.status = newStat
+        self.setupBanner()
+    }
+    
+    func setupBanner() {
         if (status != nil) {
             let screenSize: CGRect = UIScreen.mainScreen().bounds
             let screenWidth = screenSize.width
             if (status == 2) { // under review
-                let underReviewImg = UIImageView(image: UIImage(named: "banner_review.png"))
-                underReviewImg.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)
-                self.addSubview(underReviewImg)
+                banner = UIImageView(image: UIImage(named: "banner_review.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 149)
+                    self.addSubview(banner!)
+                }
             } else if (status == 4) { // sold
-                let soldImg = UIImageView(image: UIImage(named: "banner_sold.png"))
-                soldImg.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
-                self.addSubview(soldImg)
+                banner = UIImageView(image: UIImage(named: "banner_sold.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
+                    self.addSubview(banner!)
+                }
+            } else if (status == 7) { // reserved
+                banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 150)
+                    self.addSubview(banner!)
+                }
+            } else {
+                banner?.removeFromSuperview()
             }
         }
     }

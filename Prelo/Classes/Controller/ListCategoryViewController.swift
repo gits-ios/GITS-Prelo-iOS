@@ -273,8 +273,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         contentCategoryNames?.layoutIfNeeded()
         
         // Home promo
-        var isShowPromo = false
         request(APIApp.Version).responseJSON { req, resp, res, err in
+            var isShowPromo = false
             if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Promo check")) {
                 let json = JSON(res!)
                 let data = json["_data"]
@@ -301,6 +301,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                                         self.vwHomePromo!.addSubview(imgHomePromo)
                                         self.vwHomePromo!.addSubview(btnHomePromo)
                                         
+                                        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                                            kumangTabBarVC.view.addSubview(self.vwHomePromo!)
+                                        }
+                                        
                                         NSUserDefaults.setObjectAndSync(promoTitle, forKey: UserDefaultsKey.LastPromoTitle)
                                         
                                         isShowPromo = true
@@ -311,10 +315,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     }
                 }
             }
-        }
-        
-        if (!isShowPromo) { // Jika tidak memunculkan promo, langsung munculkan coachmark
-            processCoachmark()
+            if (!isShowPromo) { // Jika tidak memunculkan promo, langsung munculkan coachmark
+                self.processCoachmark()
+            }
         }
         
         setCurrentTab((categoryNames.count > 1) ? 0 : 0)

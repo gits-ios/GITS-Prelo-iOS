@@ -1407,6 +1407,49 @@ enum APIPeople : URLRequestConvertible
     }
 }
 
+enum APIGarageSale : URLRequestConvertible {
+    static let basePath = "garagesale/"
+    
+    case CreateReservation(productId : String)
+    case CancelReservation(productId : String)
+    
+    var method : Method {
+        switch self {
+        case .CreateReservation(_) : return .POST
+        case .CancelReservation(_) : return .POST
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .CreateReservation(_) : return "newreservation"
+        case .CancelReservation(_) : return "cancelreservation"
+        }
+    }
+    
+    var param : [String : AnyObject]? {
+        switch self {
+        case .CreateReservation(let productId) :
+            let p = [
+                "product_id" : productId
+            ]
+            return p
+        case .CancelReservation(let productId) :
+            let p = [
+                "product_id" : productId
+            ]
+            return p
+        }
+    }
+    
+    var URLRequest : NSURLRequest {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIGarageSale.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
 class APIPrelo
 {
     /*static func validate(showErrorDialog : Bool, err : NSError?, resp : NSHTTPURLResponse?) -> Bool

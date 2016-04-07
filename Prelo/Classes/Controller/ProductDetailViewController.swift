@@ -38,11 +38,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
     
+    @IBOutlet weak var reservationBtnSet: UIView!
+    @IBOutlet weak var btnReservation: BorderedButton!
+    
+    var pDetailCover : ProductDetailCover?
+    
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
     
     var activated = true
+    
+    let ProductStatusActive = 1
+    let ProductStatusReserved = 7
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -340,15 +348,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        let p = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
-        p?.parent = self
-        p?.largeImageURLS = (detail?.originalPicturers)!
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
+        pDetailCover?.parent = self
+        pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let labels = detail?.imageLabels
         {
-            p?.labels = labels
+            pDetailCover?.labels = labels
         }
-        p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
-        tableView?.tableHeaderView = p
+        pDetailCover?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
+        tableView?.tableHeaderView = pDetailCover
         
         if let price = detail?.json["_data"]["price"].int?.asPrice
         {
@@ -385,29 +393,47 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
         
-        if ((detail?.isMyProduct)! == true)
-        {
+        // Button arrangement
+        if (detail!.isGarageSale) {
+            reservationBtnSet.hidden = false
+            if (detail!.status == 1) { // Product is available
+                self.setBtnReservationToEnabled()
+            } else if (detail!.status == 7) { // Product is reserved
+                if (detail!.boughtByMe) {
+                    self.setBtnReservationToCancel()
+                } else {
+                    self.setBtnReservationToDisabled()
+                }
+            }
+        } else {
+            reservationBtnSet.hidden = true
+            
+            if ((detail?.isMyProduct)! == true)
+            {
 //            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
 //            {
 //                b.hidden = false
 //                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
 //                b.setTitle(" EDIT", forState: UIControlState.Normal)
 //            }
-            self.btnBuy.hidden = true
-            self.btnTawar.hidden = true
-            btnEdit.hidden = false
-            btnActivate.hidden = false
-            btnDelete.hidden = false
-            btnDelete.superview?.hidden = false
-        } else
-        {
-            btnBuy.hidden = false
-            btnTawar.hidden = false
+                self.btnBuy.hidden = true
+                self.btnTawar.hidden = true
+                btnEdit.hidden = false
+                btnActivate.hidden = false
+                btnDelete.hidden = false
+                btnDelete.superview?.hidden = false
+            }
+            else
+            {
+                btnBuy.hidden = false
+                btnTawar.hidden = false
+            }
+            
+            self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+            self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
         }
         
-        self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-        self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
-        
+        // Coachmark
         let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
         if (coachmarkDone != true) {
             NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
@@ -622,6 +648,106 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func coachmarkTapped(sender: AnyObject) {
         self.vwCoachmark.hidden = true
+    }
+    
+    // MARK: - Reservation
+    
+    @IBAction func btnReservationPressed(sender: AnyObject) {
+        if (detail != nil) {
+            if (detail!.status == ProductStatusActive) { // Product is available
+                // Reserve product
+                self.setBtnReservationToLoading()
+                request(APIGarageSale.CreateReservation(productId: detail!.productID)).responseJSON { req, resp, res, err in
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Create Reservation")) {
+                        let json = JSON(res!)
+                        let data = json["_data"]
+                        if let tpId = data["transaction_product_id"].string {
+                            self.detail!.setStatus(self.ProductStatusReserved)
+                            self.detail!.setBoughtByMe(true)
+                            self.pDetailCover?.updateStatus(self.ProductStatusReserved)
+                            self.setBtnReservationToCancel()
+                            // TODO: arahkan ke transaction detail
+                            Constant.showDialog("Success", message: "Masuk trx detail!")
+                        }
+                    } else {
+                        self.setBtnReservationToEnabled()
+                        if (res != nil) {
+                            if let msg = JSON(res!)["_message"].string {
+                                if (msg == "server error: Produk sudah dipesan") {
+                                    self.detail!.setStatus(self.ProductStatusReserved)
+                                    self.detail!.setBoughtByMe(false)
+                                    self.pDetailCover?.updateStatus(self.ProductStatusReserved)
+                                    self.setBtnReservationToDisabled()
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (detail!.status == ProductStatusReserved) { // Product is reserved
+                if (detail!.boughtByMe) {
+                    // Cancel reservation
+                    self.setBtnReservationToLoading()
+                    request(APIGarageSale.CancelReservation(productId: detail!.productID)).responseJSON { req, resp, res, err in
+                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Cancel Reservation")) {
+                            let json = JSON(res!)
+                            if let success = json["_data"].bool {
+                                if (success) {
+                                    self.detail!.setStatus(self.ProductStatusActive)
+                                    self.detail!.setBoughtByMe(false)
+                                    self.pDetailCover?.updateStatus(self.ProductStatusActive)
+                                    self.setBtnReservationToEnabled()
+                                    Constant.showDialog("Cancellation Success", message: "Reservasi barang ini telah kamu batalkan")
+                                } else {
+                                    self.setBtnReservationToCancel()
+                                    Constant.showDialog("Cancel Reservation", message: "Terdapat kesalahan saat melakukan pembatalan reservasi, silahkan coba kembali")
+                                }
+                            } else {
+                                self.setBtnReservationToCancel()
+                                Constant.showDialog("Cancel Reservation", message: "Terdapat kesalahan saat melakukan pembatalan reservasi, silahkan coba kembali")
+                            }
+                        } else {
+                            self.setBtnReservationToCancel()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setBtnReservationToLoading() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.ThemeOrangeDark
+        btnReservation.setTitle("LOADING...", forState: .Normal)
+        btnReservation.userInteractionEnabled = false
+    }
+    
+    func setBtnReservationToEnabled() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.ThemeOrange
+        btnReservation.setTitle(" RESERVE", forState: .Normal)
+        btnReservation.userInteractionEnabled = true
+    }
+    
+    func setBtnReservationToCancel() {
+        btnReservation.cornerRadius = 2.0
+        btnReservation.borderWidth = 1.0
+        btnReservation.borderColor = UIColor.whiteColor()
+        btnReservation.backgroundColor = UIColor.clearColor()
+        btnReservation.setTitle(" CANCEL RESERVATION", forState: .Normal)
+        btnReservation.userInteractionEnabled = true
+    }
+    
+    func setBtnReservationToDisabled() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.GrayLight
+        btnReservation.setTitle(" RESERVE", forState: .Normal)
+        btnReservation.userInteractionEnabled = false
     }
     
     // MARK: - If product is bought

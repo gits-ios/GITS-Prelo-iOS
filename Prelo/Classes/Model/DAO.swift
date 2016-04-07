@@ -510,7 +510,7 @@ class UserProfile : NSObject {
 
 public class ProductDetail : NSObject, TawarItem
 {
-    var json : JSON!
+    var json : JSON = JSON([:])
     
     static func instance(obj : JSON?)->ProductDetail?
     {
@@ -537,12 +537,20 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
+    func setStatus(newStatus : Int) {
+        json["_data"]["status"] = JSON(newStatus)
+    }
+    
     var transactionProgress : Int {
         return json["_data"]["transaction_progress"].intValue
     }
     
     var boughtByMe : Bool {
         return json["_data"]["bought_by_me"].boolValue
+    }
+    
+    func setBoughtByMe(val : Bool) {
+        json["_data"]["bought_by_me"] = JSON(val)
     }
     
     var size : String {
@@ -724,7 +732,7 @@ public class ProductDetail : NSObject, TawarItem
             return _isMyProduct!
         }
         
-        if let sellerId = json?["_data"]["seller"]["_id"].string, let userId = CDUser.getOne()?.id
+        if let sellerId = json["_data"]["seller"]["_id"].string, let userId = CDUser.getOne()?.id
         {
             _isMyProduct = sellerId == userId
             return _isMyProduct!
@@ -915,6 +923,13 @@ public class ProductDetail : NSObject, TawarItem
     func reverse()
     {
         reveresed = !reveresed
+    }
+    
+    var isGarageSale : Bool {
+        if let j = json["_data"]["is_garage_sale"].bool {
+            return j
+        }
+        return false
     }
 }
 
@@ -1898,6 +1913,34 @@ class TransactionProductDetail : NSObject {
         } else {
             return false
         }
+    }
+    
+    var garageSalePlace : String {
+        if let j = json["garage_sale"]["place"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleEventDate : String {
+        if let j = json["garage_sale"]["event_date"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleEventTime : String {
+        if let j = json["garage_sale"]["event_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleMapsUrl : String {
+        if let j = json["garage_sale"]["maps_url"].string {
+            return j
+        }
+        return ""
     }
 }
 

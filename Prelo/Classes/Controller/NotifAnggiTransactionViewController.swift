@@ -254,6 +254,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func navigateReadNotif(notif : Notification) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+        
         // Set trxId/trxProductId
         if (notif.progress == TransactionDetailTools.ProgressExpired || notif.progress == TransactionDetailTools.ProgressNotPaid || notif.progress == TransactionDetailTools.ProgressClaimedPaid) {
             transactionDetailVC.trxId = notif.objectId
@@ -266,6 +267,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         } else {
             transactionDetailVC.trxProductId = notif.objectId
         }
+        
         // Set isSeller
         if (notif.caption.lowercaseString == "jual") {
             transactionDetailVC.isSeller = true
@@ -408,14 +410,16 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let progress = self.notif?.progress {
-            if (progress > 0) {
-                return 6
+            if (TransactionDetailTools.isReservationProgress(progress)) { // Reservation
+                return 2
             } else if (progress == -1) { // Expired
                 return 1
             } else if (progress == -3) { // Rejected by seller
                 return 4
             } else if (progress == -4) { // Not sent
                 return 4
+            } else { // Default
+                return 6
             }
         }
         return 0
@@ -431,55 +435,90 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set background color
         let idx = indexPath.row + 1
-        if (self.notif?.progress < 0) {
-            let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
-            if (nItem < 6) {
-                if (idx < nItem) {
+        if (TransactionDetailTools.isReservationProgress(self.notif?.progress)) {
+            if (idx == 1) {
+                if (self.notif?.caption.lowercaseString == "jual") {
+                    vwIcon.backgroundColor = Theme.ThemeOrange
+                } else if (self.notif?.caption.lowercaseString == "beli") {
+                    vwIcon.backgroundColor = Theme.PrimaryColor
+                }
+            } else {
+                let progress = self.notif!.progress
+                if (progress == 7) {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                } else if (progress == 8) {
                     if (self.notif?.caption.lowercaseString == "jual") {
                         vwIcon.backgroundColor = Theme.ThemeOrange
                     } else if (self.notif?.caption.lowercaseString == "beli") {
                         vwIcon.backgroundColor = Theme.PrimaryColor
                     }
-                } else {
+                } else if (progress == -2) {
                     vwIcon.backgroundColor = Theme.ThemeRed
                 }
             }
-        } else if (self.notif?.caption.lowercaseString == "jual") {
-            if (idx <= self.notif?.progress) {
-                vwIcon.backgroundColor = Theme.ThemeOrange
-            } else {
-                vwIcon.backgroundColor = Theme.GrayLight
-            }
-        } else if (self.notif?.caption.lowercaseString == "beli") {
-            if (idx <= self.notif?.progress) {
-                vwIcon.backgroundColor = Theme.PrimaryColor
-            } else {
-                vwIcon.backgroundColor = Theme.GrayLight
+        } else {
+            if (self.notif?.progress < 0) {
+                let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
+                if (nItem < 6) {
+                    if (idx < nItem) {
+                        if (self.notif?.caption.lowercaseString == "jual") {
+                            vwIcon.backgroundColor = Theme.ThemeOrange
+                        } else if (self.notif?.caption.lowercaseString == "beli") {
+                            vwIcon.backgroundColor = Theme.PrimaryColor
+                        }
+                    } else {
+                        vwIcon.backgroundColor = Theme.ThemeRed
+                    }
+                }
+            } else if (self.notif?.caption.lowercaseString == "jual") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.ThemeOrange
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
+            } else if (self.notif?.caption.lowercaseString == "beli") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.PrimaryColor
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
             }
         }
         
         // Create icon image
         var imgName : String?
         if let progress = self.notif?.progress {
-            if (progress == -1 && idx == 1) { // Expired
-                imgName = "ic_trx_expired"
-            } else if (progress == -3 && idx == 4) { // Rejected by seller
-                imgName = "ic_trx_exclamation"
-            } else if (progress == -4 && idx == 4) { // Not sent
-                imgName = "ic_trx_canceled"
+            if (TransactionDetailTools.isReservationProgress(progress)) {
+                if (idx == 1) { // Reserved
+                    imgName = "ic_trx_reserved"
+                } else {
+                    if (progress == 7 || progress == 8) { // Done
+                        imgName = "ic_trx_reservation_done"
+                    } else if (progress == -2) { // Reservation cancelled
+                        imgName = "ic_trx_reservation_cancelled"
+                    }
+                }
             } else {
-                if (idx == 1) { // Not paid
+                if (progress == -1 && idx == 1) { // Expired
                     imgName = "ic_trx_expired"
-                } else if (idx == 2) { // Claimed paid
-                    imgName = "ic_trx_wait"
-                } else if (idx == 3) { // Confirmed paid
-                    imgName = "ic_trx_paid"
-                } else if (idx == 4) { // Sent
-                    imgName = "ic_trx_shipped"
-                } else if (idx == 5) { // Received
-                    imgName = "ic_trx_received"
-                } else if (idx == 6) { // Reviewed
-                    imgName = "ic_trx_done"
+                } else if (progress == -3 && idx == 4) { // Rejected by seller
+                    imgName = "ic_trx_exclamation"
+                } else if (progress == -4 && idx == 4) { // Not sent
+                    imgName = "ic_trx_canceled"
+                } else {
+                    if (idx == 1) { // Not paid
+                        imgName = "ic_trx_expired"
+                    } else if (idx == 2) { // Claimed paid
+                        imgName = "ic_trx_wait"
+                    } else if (idx == 3) { // Confirmed paid
+                        imgName = "ic_trx_paid"
+                    } else if (idx == 4) { // Sent
+                        imgName = "ic_trx_shipped"
+                    } else if (idx == 5) { // Received
+                        imgName = "ic_trx_received"
+                    } else if (idx == 6) { // Reviewed
+                        imgName = "ic_trx_done"
+                    }
                 }
             }
         }

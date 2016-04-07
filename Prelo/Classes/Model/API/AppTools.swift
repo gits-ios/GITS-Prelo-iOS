@@ -62,9 +62,9 @@ extension UILabel {
 }
 
 class AppTools: NSObject {
-    static var PreloBaseUrl = "http://dev.prelo.id" // Development
+//    static var PreloBaseUrl = "http://dev.prelo.id" // Development
     
-//    static var PreloBaseUrl = "https://prelo.co.id" // Production
+    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
         return (AppTools.PreloBaseUrl == "https://prelo.co.id")
@@ -86,6 +86,7 @@ class Theme : NSObject
     
     static var ThemeOrage = UIColor(hex: "#F88218")
     static var ThemeOrange = UIColor(hex: "#FFA800")
+    static var ThemeOrangeDark = UIColor(hex: "#996600")
     
     static var ThemePink = UIColor(hex: "#F1E3F2")
     static var ThemePinkDark = UIColor(hex: "#CB8FCC")
