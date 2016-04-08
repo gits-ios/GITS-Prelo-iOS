@@ -311,6 +311,7 @@ class UserDefaultsKey : NSObject
     static let UserAgent = "useragent"
     static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
     static let CoachmarkBrowseDone = "coachmarkbrowsedone"
+    static let CoachmarkReserveDone = "coachmarkreservedone"
     static let UninstallIOIdentified = "uninstallioidentified"
     static let LastPromoTitle = "lastpromotitle"
 }

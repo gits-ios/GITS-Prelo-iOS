@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A61D16D6-241F-440A-B4EF-CB0FB9F85FB4</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Prelo</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55</key>
 		<string>https://github.com/kleora/ios_prelo.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Prelo.xcodeproj</string>
+	<string>Prelo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>B1F1AB1FA74A2504EAB6EFD22499C87D883ECD55</key>

@@ -34,6 +34,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var vwCoachmark: UIView!
+    @IBOutlet var vwCoachmarkReserve: UIView!
     
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
@@ -434,11 +435,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         // Coachmark
-        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
-        if (coachmarkDone != true) {
-            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
-            vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-            vwCoachmark.hidden = false
+        if (detail!.isGarageSale) {
+            let coachmarkReserveDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkReserveDone) as! Bool?
+            if (coachmarkReserveDone != true) {
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkReserveDone)
+                vwCoachmarkReserve.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                vwCoachmarkReserve.hidden = false
+            }
+        } else {
+            let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+            if (coachmarkDone != true) {
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+                vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                vwCoachmark.hidden = false
+            }
         }
     }
 
@@ -648,6 +658,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func coachmarkTapped(sender: AnyObject) {
         self.vwCoachmark.hidden = true
+        self.vwCoachmarkReserve.hidden = true
     }
     
     // MARK: - Reservation
