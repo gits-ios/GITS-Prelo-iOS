@@ -666,8 +666,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             self.detail!.setBoughtByMe(true)
                             self.pDetailCover?.updateStatus(self.ProductStatusReserved)
                             self.setBtnReservationToCancel()
-                            // TODO: arahkan ke transaction detail
-                            Constant.showDialog("Success", message: "Masuk trx detail!")
+                            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                            transactionDetailVC.trxProductId = tpId
+                            transactionDetailVC.isSeller = false
+                            self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                         }
                     } else {
                         self.setBtnReservationToEnabled()

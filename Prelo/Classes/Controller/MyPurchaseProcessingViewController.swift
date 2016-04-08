@@ -166,9 +166,20 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
-        myPurchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
-        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+        if (userPurchases != nil && userPurchases!.count >= indexPath.item) {
+            let trxItem = userPurchases![indexPath.item]
+            if (TransactionDetailTools.isReservationProgress(trxItem.progress)) {
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                transactionDetailVC.trxProductId = trxItem.id
+                transactionDetailVC.isSeller = false
+                self.navigationController?.pushViewController(transactionDetailVC, animated: true)
+            } else {
+                let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+                myPurchaseDetailVC.transactionId = trxItem.id
+                self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+            }
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

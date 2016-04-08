@@ -2141,8 +2141,11 @@ class TransactionDetailProductCell : UITableViewCell {
     @IBOutlet weak var vwTransactionStatus: UIView!
     @IBOutlet weak var lblTransactionStatus: UILabel!
     
+    var imgVwIcon : UIImageView?
+    
     override func prepareForReuse() {
         imgProduct.image = UIImage(named: "raisa.jpg")
+        imgVwIcon?.removeFromSuperview()
         vwTransactionStatus.backgroundColor = Theme.GrayDark
         lblTransactionStatus.textColor = Theme.GrayDark
     }
@@ -2212,8 +2215,8 @@ class TransactionDetailProductCell : UITableViewCell {
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
-                let imgVwIcon : UIImageView = UIImageView(frame: CGRectMake(5, 5, 15, 15), image: imgIcon)
-                vwTransactionStatus.addSubview(imgVwIcon)
+                imgVwIcon = UIImageView(frame: CGRectMake(5, 5, 15, 15), image: imgIcon)
+                vwTransactionStatus.addSubview(imgVwIcon!)
             }
         }
     }

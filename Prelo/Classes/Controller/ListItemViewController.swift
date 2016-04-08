@@ -606,6 +606,7 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var captionSpecialStory : UILabel!
     @IBOutlet var sectionSpecialStory : UIView!
     @IBOutlet var imgSold: UIImageView!
+    @IBOutlet var imgReserved: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -616,6 +617,7 @@ class ListItemCell : UICollectionViewCell
     
     override func prepareForReuse() {
         imgSold.hidden = true
+        imgReserved.hidden = true
     }
     
     func adapt(product : Product)
@@ -671,8 +673,10 @@ class ListItemCell : UICollectionViewCell
         }
         
         if let status = product.status {
-            if (status == 4) { // sold
-                imgSold.hidden = false
+            if (status == 4 || status == 8) { // sold
+                self.imgSold.hidden = false
+            } else if (status == 7) { // reserved
+                self.imgReserved.hidden = false
             }
         }
     }

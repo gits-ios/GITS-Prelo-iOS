@@ -831,9 +831,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     var categoryLv1Count = metadata["categories"][0]["children"].count
                                     // Wait until core data saving is actually finished
                                     var wait = true
-                                    var waitCount = Int.max
+                                    var waitCount = self.RedirWaitAmount
                                     while (wait) {
-                                        if (CDCategory.getCategoriesInLevel(1).count >= categoryLv1Count) {
+                                        let c1Count = CDCategory.getCategoriesInLevel(1).count
+                                        if (c1Count >= categoryLv1Count) {
                                             wait = false
                                         }
                                         waitCount--
