@@ -149,6 +149,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             
             li.category = categoriesFix[i]
             
+            li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
+            li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
+            
             let v = li.view
             v.setTranslatesAutoresizingMaskIntoConstraints(false)
 //            v.backgroundColor = colors.objectAtCircleIndex(i)
@@ -320,7 +323,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-        setCurrentTab((categoryNames.count > 1) ? 0 : 0)
+        //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
+        let name = categoriesFix[1]["name"].string
+        if (name?.lowercaseString == "all") {
+            setCurrentTab(1)
+        } else {
+            setCurrentTab(0)
+        }
     }
     
     var currentTabIndex = 0
@@ -342,6 +351,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func adjustIndicator(index : Int)
     {
+        if (index >= categoryNames.count)
+        {
+            return
+        }
+        
         let v = categoryNames[index]
         indicatorMargin?.constant = v.x
         indicatorWidth?.constant = v.width

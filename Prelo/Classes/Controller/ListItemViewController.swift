@@ -33,6 +33,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var storeName = ""
     var storePictPath = ""
     
+    var bannerImageUrl = ""
+    var bannerTargetUrl = ""
+    
     var listStage = 2 // 1 = gallery / very small, 2 = normal, 3 = instagram like
     
     var refresher : UIRefreshControl?
@@ -485,7 +488,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         let s : CGFloat = (listStage == 1 ? 1 : 4)
-        return UIEdgeInsetsMake(20, s, 20, s)
+        return UIEdgeInsetsMake(4, s, 4, s)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -496,6 +499,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionElementKindSectionHeader) {
+            let h = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! ListHeader
+            if let bannerImgUrl = NSURL(string: self.bannerImageUrl) {
+                h.banner.setImageWithUrl(bannerImgUrl, placeHolderImage: nil)
+            }
+            h.targetUrl = self.bannerTargetUrl
+            return h
+        }
         let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
         self.loading = f.loading
         if (self.done)
@@ -505,6 +516,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         return f
     }
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if (self.bannerImageUrl != "") {
+            return CGSizeMake(collectionView.frame.size.width, 100)
+        }
+        return CGSizeZero
+    }
     
     // MARK: - Navigation
 
@@ -678,6 +695,20 @@ class ListItemCell : UICollectionViewCell
             } else if (status == 7) { // reserved
                 self.imgReserved.hidden = false
             }
+        }
+    }
+}
+
+class ListHeader : UICollectionReusableView
+{
+    @IBOutlet var banner : UIImageView!
+    @IBOutlet var btnBanner : UIButton!
+    
+    var targetUrl : String = ""
+    
+    @IBAction func btnBannerPressed(sender: AnyObject) {
+        if let url = NSURL(string: targetUrl) {
+            UIApplication.sharedApplication().openURL(url)
         }
     }
 }
