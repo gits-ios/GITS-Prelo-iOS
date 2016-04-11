@@ -8492,7 +8492,6 @@ dalam keranjang belanja</string>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="8IV-F6-9JL" firstAttribute="leading" secondItem="RIM-EX-6kk" secondAttribute="leadingMargin" constant="8" id="0Ob-jg-2aF"/>
                                                 <constraint firstAttribute="trailing" secondItem="CJa-PH-N7e" secondAttribute="trailing" constant="8" id="5Ud-6F-tcg"/>
                                                 <constraint firstItem="CJa-PH-N7e" firstAttribute="height" secondItem="8IV-F6-9JL" secondAttribute="height" id="FCl-Iy-n3P"/>
                                                 <constraint firstAttribute="bottom" secondItem="FjK-f4-yxf" secondAttribute="bottom" id="Hsf-e0-FCb"/>
@@ -8503,11 +8502,6 @@ dalam keranjang belanja</string>
                                                 <constraint firstAttribute="centerY" secondItem="8IV-F6-9JL" secondAttribute="centerY" id="qVO-55-XKM"/>
                                                 <constraint firstItem="CJa-PH-N7e" firstAttribute="leading" secondItem="8IV-F6-9JL" secondAttribute="trailing" constant="8" id="zbD-PY-8gL"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="0Ob-jg-2aF"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
@@ -8557,7 +8551,6 @@ dalam keranjang belanja</string>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="efR-9F-doJ" secondAttribute="trailing" constant="8" id="9Md-T3-LtY"/>
                                                 <constraint firstAttribute="trailing" secondItem="Yyr-5J-McZ" secondAttribute="trailing" constant="8" id="JSJ-jW-gEz"/>
-                                                <constraint firstItem="GHz-rb-PX4" firstAttribute="leading" secondItem="efR-9F-doJ" secondAttribute="trailing" id="LO0-8M-y4A"/>
                                                 <constraint firstAttribute="centerY" secondItem="cqs-u9-i4M" secondAttribute="centerY" id="MJk-HN-cCh"/>
                                                 <constraint firstAttribute="centerY" secondItem="GHz-rb-PX4" secondAttribute="centerY" id="OBk-gB-Cmn"/>
                                                 <constraint firstAttribute="bottom" secondItem="efR-9F-doJ" secondAttribute="bottom" id="ObT-JF-h7X"/>
@@ -8566,11 +8559,6 @@ dalam keranjang belanja</string>
                                                 <constraint firstItem="efR-9F-doJ" firstAttribute="leading" secondItem="Iji-eq-l8o" secondAttribute="leading" constant="8" id="b3d-rr-F61"/>
                                                 <constraint firstItem="cqs-u9-i4M" firstAttribute="leading" secondItem="Iji-eq-l8o" secondAttribute="leading" constant="8" id="nWj-8v-OWs"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="LO0-8M-y4A"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
@@ -8615,14 +8603,8 @@ dalam keranjang belanja</string>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="74" id="TeQ-VI-aNy"/>
-                                                        <constraint firstAttribute="width" secondItem="6qY-tk-8gW" secondAttribute="height" multiplier="1:1" id="lsM-MJ-HZz"/>
                                                         <constraint firstAttribute="height" constant="74" id="zvn-Sq-aXK"/>
                                                     </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="lsM-MJ-HZz"/>
-                                                        </mask>
-                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G9W-uG-LQ8">
                                                     <rect key="frame" x="90" y="7" width="454" height="17"/>
@@ -8720,9 +8702,7 @@ dalam keranjang belanja</string>
                                                 <constraint firstItem="3am-rK-x2H" firstAttribute="top" secondItem="6qY-tk-8gW" secondAttribute="top" id="Dpr-tw-KEG"/>
                                                 <constraint firstItem="EaS-0C-358" firstAttribute="leading" secondItem="G9W-uG-LQ8" secondAttribute="trailing" constant="8" id="GpA-Qz-ygR"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="4FN-71-cuV" secondAttribute="bottom" constant="-8" id="Hf7-Hx-xci"/>
-                                                <constraint firstItem="3am-rK-x2H" firstAttribute="height" secondItem="6qY-tk-8gW" secondAttribute="height" id="I4M-Fj-yl4"/>
                                                 <constraint firstItem="gI6-9Y-Yho" firstAttribute="centerX" secondItem="EaS-0C-358" secondAttribute="centerX" id="KDJ-lf-IUd"/>
-                                                <constraint firstItem="3am-rK-x2H" firstAttribute="width" secondItem="6qY-tk-8gW" secondAttribute="width" id="KTO-S2-gzA"/>
                                                 <constraint firstItem="6qY-tk-8gW" firstAttribute="leading" secondItem="5yb-Ea-OqG" secondAttribute="leading" constant="8" id="OCf-Ak-Ikl"/>
                                                 <constraint firstItem="4FN-71-cuV" firstAttribute="leading" secondItem="5yb-Ea-OqG" secondAttribute="leadingMargin" id="Si3-3o-geT"/>
                                                 <constraint firstItem="G9W-uG-LQ8" firstAttribute="top" secondItem="5yb-Ea-OqG" secondAttribute="topMargin" constant="-1" id="TIQ-bl-wcd"/>
@@ -8739,17 +8719,9 @@ dalam keranjang belanja</string>
                                                 <constraint firstItem="AC7-cd-3ga" firstAttribute="top" secondItem="G9W-uG-LQ8" secondAttribute="bottom" constant="4" id="oD3-kI-F0h"/>
                                                 <constraint firstItem="3am-rK-x2H" firstAttribute="leading" secondItem="6qY-tk-8gW" secondAttribute="leading" id="pL3-7y-Wjh"/>
                                                 <constraint firstItem="AC7-cd-3ga" firstAttribute="leading" secondItem="3am-rK-x2H" secondAttribute="trailing" constant="8" id="q4F-6v-MBo"/>
-                                                <constraint firstAttribute="bottom" secondItem="6qY-tk-8gW" secondAttribute="bottom" id="u0E-u0-Lac"/>
                                                 <constraint firstItem="4FN-71-cuV" firstAttribute="trailing" secondItem="5yb-Ea-OqG" secondAttribute="trailingMargin" id="wEn-3o-zcR"/>
                                                 <constraint firstItem="gI6-9Y-Yho" firstAttribute="leading" secondItem="MBW-VN-LLS" secondAttribute="trailing" constant="1" id="znn-fh-DhH"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="I4M-Fj-yl4"/>
-                                                    <exclude reference="KTO-S2-gzA"/>
-                                                    <exclude reference="u0E-u0-Lac"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
@@ -8940,12 +8912,10 @@ dalam keranjang belanja</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ddI-AH-dG5" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" id="1sx-0a-eqy"/>
-                            <constraint firstAttribute="centerX" secondItem="449-Mw-YhC" secondAttribute="centerX" id="2Rz-78-eqW"/>
                             <constraint firstItem="ddI-AH-dG5" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" id="6tf-1z-ejR"/>
                             <constraint firstItem="TgT-98-DqM" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" constant="8" id="7Qn-Aq-cdy"/>
                             <constraint firstAttribute="trailing" secondItem="ddI-AH-dG5" secondAttribute="trailing" id="HrI-me-5it"/>
                             <constraint firstItem="lK0-hi-8sa" firstAttribute="top" secondItem="TgT-98-DqM" secondAttribute="bottom" id="IN9-AL-viG"/>
-                            <constraint firstItem="TgT-98-DqM" firstAttribute="top" secondItem="DU0-xu-VKs" secondAttribute="bottom" constant="40" id="Se6-n6-xSV"/>
                             <constraint firstAttribute="trailing" secondItem="TgT-98-DqM" secondAttribute="trailing" constant="8" id="VUT-XL-WKU"/>
                             <constraint firstAttribute="centerX" secondItem="ykb-uJ-lqk" secondAttribute="centerX" id="YjU-ze-Rc2"/>
                             <constraint firstItem="449-Mw-YhC" firstAttribute="leading" secondItem="TzG-rY-mDA" secondAttribute="leading" constant="20" id="ZsL-Fh-T3a"/>
@@ -8957,12 +8927,6 @@ dalam keranjang belanja</string>
                             <constraint firstAttribute="centerY" secondItem="449-Mw-YhC" secondAttribute="centerY" id="s28-bu-OJM"/>
                             <constraint firstAttribute="trailing" secondItem="449-Mw-YhC" secondAttribute="trailing" constant="20" id="sGn-Vt-hbg"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Se6-n6-xSV"/>
-                                <exclude reference="2Rz-78-eqW"/>
-                            </mask>
-                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="MkT-s1-p2u">
