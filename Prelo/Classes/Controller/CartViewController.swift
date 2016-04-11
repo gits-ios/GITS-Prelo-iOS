@@ -574,7 +574,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     
                     o.clearCart = true
-                    self.previousController?.navigationController?.pushViewController(o, animated: true)
+                    self.navigateToVC(o)
                     
                 }
             }
@@ -1018,7 +1018,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func paymentReminderPressed(sender: AnyObject) {
         let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
-        self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+        self.navigateToVC(paymentConfirmationVC)
     }
     
     // MARK: - User Related Delegate
@@ -1039,6 +1039,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     // MARK: - Navigation
+    
+    func navigateToVC(vc: UIViewController) {
+        if (previousController != nil) {
+            self.previousController!.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

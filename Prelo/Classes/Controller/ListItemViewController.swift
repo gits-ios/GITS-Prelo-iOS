@@ -488,7 +488,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         let s : CGFloat = (listStage == 1 ? 1 : 4)
-        return UIEdgeInsetsMake(4, s, 4, s)
+        if (isBannerExist()) {
+            return UIEdgeInsetsMake(4, s, 4, s)
+        } else {
+            return UIEdgeInsetsMake(20, s, 4, s)
+        }
+        
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -517,10 +522,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if (self.bannerImageUrl != "") {
+        if (isBannerExist()) {
             return CGSizeMake(collectionView.frame.size.width, 100)
         }
         return CGSizeZero
+    }
+    
+    func isBannerExist() -> Bool {
+        return (self.bannerImageUrl != "")
     }
     
     // MARK: - Navigation
