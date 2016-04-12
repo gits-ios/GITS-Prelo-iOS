@@ -82,7 +82,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
-            getDetail(false)
+            getDetail()
         }
     }
     
@@ -282,9 +282,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func getDetail(forEdit : Bool)
+    func getDetail()
     {
-        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: (forEdit ? 1 : 0)))
+        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON { req, resp, res, err in
                 if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk"))
                 {
@@ -588,29 +588,32 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        if ((detail?.isMyProduct)! == true)
+        if ((detail?.isMyProduct)! == true) // Edit product
         {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             a.editMode = true
             a.editDoneBlock = {
                 self.tableView?.hidden = true
-                self.getDetail(true)
+                self.getDetail()
             }
-            a.editProduct = self.detail
-            self.navigationController?.pushViewController(a, animated: true)
-            return
-        }
-        
-        if (alreadyInCart) {
-            self.performSegueWithIdentifier("segCart", sender: nil)
-            return
-        }
-        
-        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-            Constant.showDialog("Failed", message: "Gagal Menyimpan")
-        } else {
-            setupView()
-            self.performSegueWithIdentifier("segCart", sender: nil)
+            request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON { req, resp, res, err in
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk")) {
+                    a.editProduct = ProductDetail.instance(JSON(res!))
+                    self.navigationController?.pushViewController(a, animated: true)
+                }
+            }
+        } else { // Add to cart
+            if (alreadyInCart) {
+                self.performSegueWithIdentifier("segCart", sender: nil)
+                return
+            }
+            
+            if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+                Constant.showDialog("Failed", message: "Gagal Menyimpan")
+            } else {
+                setupView()
+                self.performSegueWithIdentifier("segCart", sender: nil)
+            }
         }
     }
     

@@ -1309,6 +1309,39 @@ enum APISearch : URLRequestConvertible
     }
 }
 
+enum APIDemo : URLRequestConvertible
+{
+    static let basePath = "demo/"
+    
+    case HomeCategories
+    
+    var method : Method {
+        switch self {
+        case .HomeCategories : return .GET
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .HomeCategories : return "reference/categories/home"
+        }
+    }
+    
+    var param : [String : AnyObject]? {
+        switch self {
+        case .HomeCategories : return [:]
+        }
+    }
+    
+    var URLRequest : NSURLRequest
+        {
+            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIDemo.basePath).URLByAppendingPathComponent(path)
+            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+            req.HTTPMethod = method.rawValue
+            return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
 enum References : URLRequestConvertible
 {
     static let basePath = "reference/"
