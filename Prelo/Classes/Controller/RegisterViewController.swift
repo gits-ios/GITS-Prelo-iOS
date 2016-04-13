@@ -89,8 +89,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     @IBAction func termConditionPressed(sender: AnyObject) {
-        let termConditionVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameTermCondition, owner: nil, options: nil).first as! TermConditionViewController
-        self.navigationController?.pushViewController(termConditionVC, animated: true)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let termCondVC = mainStoryboard.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+        termCondVC.url = "https://prelo.co.id/syarat-ketentuan?ref=preloapp"
+        termCondVC.titleString = "Syarat dan Ketentuan"
+        let baseNavC = BaseNavigationController()
+        baseNavC.setViewControllers([termCondVC], animated: false)
+        self.presentViewController(baseNavC, animated: true, completion: nil)
     }
     
     func fieldsVerified() -> Bool {

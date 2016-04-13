@@ -11669,17 +11669,39 @@ Label / Merek</string>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-D4-QhS" userLabel="shadow">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6sY-EX-kSi" userLabel="loading">
+                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                        <animations/>
+                                        <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="6sY-EX-kSi" secondAttribute="centerY" id="A48-Yy-SaZ"/>
+                                    <constraint firstAttribute="centerX" secondItem="6sY-EX-kSi" secondAttribute="centerX" id="oc1-Md-1PL"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="Gpa-D4-QhS" secondAttribute="bottom" id="4Hi-tu-QC2"/>
+                            <constraint firstAttribute="trailing" secondItem="Gpa-D4-QhS" secondAttribute="trailing" id="D7z-T2-qxp"/>
                             <constraint firstAttribute="trailing" secondItem="7S4-Kn-bh2" secondAttribute="trailing" id="X28-dD-Wrz"/>
                             <constraint firstItem="7S4-Kn-bh2" firstAttribute="leading" secondItem="0WL-2i-fE5" secondAttribute="leading" id="ZJ9-w9-KFK"/>
+                            <constraint firstItem="Gpa-D4-QhS" firstAttribute="top" secondItem="0WL-2i-fE5" secondAttribute="top" id="jwt-o3-gxB"/>
+                            <constraint firstItem="Gpa-D4-QhS" firstAttribute="leading" secondItem="0WL-2i-fE5" secondAttribute="leading" id="nNh-JD-JXp"/>
                             <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="7S4-Kn-bh2" secondAttribute="bottom" id="rKl-n4-1hg"/>
                             <constraint firstItem="7S4-Kn-bh2" firstAttribute="top" secondItem="0WL-2i-fE5" secondAttribute="top" id="taz-PE-OWv"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loading" destination="6sY-EX-kSi" id="oSv-pi-KSH"/>
+                        <outlet property="loadingPanel" destination="Gpa-D4-QhS" id="mTN-yD-XFh"/>
                         <outlet property="webView" destination="7S4-Kn-bh2" id="DTF-Vs-l53"/>
                     </connections>
                 </viewController>

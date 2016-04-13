@@ -70,6 +70,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 "PreloAwesome":"0"
             ],
             [
+                "title":"FAQ",
+                "icon":"",
+                "PreloAwesome":"1"
+            ],
+            [
                 "title":"About",
                 "icon":"",
                 "PreloAwesome":"1"
@@ -180,7 +185,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     v.alpha = 1
                 })
             }
-        } else if (indexPath.row == 4) { // About
+        } else if (indexPath.row == 4) { // FAQ
+            let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+            helpVC.url = "http://prelo.id/faq"
+            helpVC.titleString = "FAQ"
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([helpVC], animated: false)
+            self.presentViewController(baseNavC, animated: true, completion: nil)
+        } else if (indexPath.row == 5) { // About
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
             a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
             a.isShowLogout = true

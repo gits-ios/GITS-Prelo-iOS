@@ -393,8 +393,6 @@
 		44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */; };
 		44B779DD1BDF4AF300D93D2D /* CDCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DC1BDF4AF300D93D2D /* CDCategory.swift */; };
 		44B779DF1BDF72BB00D93D2D /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
-		44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */; };
-		44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B861021BDA92D20020A9E3 /* TermCondition.xib */; };
 		44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */; };
 		44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */; };
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
@@ -1002,8 +1000,6 @@
 		44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseDetail.xib; sourceTree = "<group>"; };
 		44B779DC1BDF4AF300D93D2D /* CDCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDCategory.swift; sourceTree = "<group>"; };
 		44B779DE1BDF72BB00D93D2D /* CDBrand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDBrand.swift; sourceTree = "<group>"; };
-		44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermConditionViewController.swift; sourceTree = "<group>"; };
-		44B861021BDA92D20020A9E3 /* TermCondition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermCondition.xib; sourceTree = "<group>"; };
 		44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
 		44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TwitterKitResources.bundle; sourceTree = "<group>"; };
 		44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
@@ -1769,7 +1765,6 @@
 				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
 				FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */,
 				440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */,
-				44B861001BDA90F60020A9E3 /* TermConditionViewController.swift */,
 				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
@@ -2193,7 +2188,6 @@
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
 				44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */,
-				44B861021BDA92D20020A9E3 /* TermCondition.xib */,
 				440AF6591BE0DF1600074CBC /* ReferralPage.xib */,
 				FDF728221BF24B9100C0D843 /* CategoryPreferences.xib */,
 				FDF728241BF24F7900C0D843 /* CategoryPreferencesCell.xib */,
@@ -2523,7 +2517,6 @@
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
-				44B861031BDA92D20020A9E3 /* TermCondition.xib in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
@@ -2663,7 +2656,6 @@
 				FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
-				44B861011BDA90F60020A9E3 /* TermConditionViewController.swift in Sources */,
 				58A99A3D1C6D864E00E3E7D7 /* BranchCloseRequest.m in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */,
