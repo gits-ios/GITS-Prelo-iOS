@@ -1457,7 +1457,7 @@ class TransactionDetailTools : NSObject {
     static let TextHubungiBuyer = "Beritahu buyer bahwa barang sudah dikirim. Minta buyer untuk memberikan review apabila barang sudah diterima."
     static let TextDikembalikan = "Pembayaran produk ini telah dikembalikan kepada buyer."
     static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada seller. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik tunai PreloBalance."
+    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan buyer untuk segera membayar."
     static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
@@ -2434,7 +2434,7 @@ class TransactionDetailButtonCell : UITableViewCell {
         self.progress = progress
         self.order = order
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
-            btn.setTitle("TARIK TUNAI", forState: UIControlState.Normal)
+            btn.setTitle("TARIK UANG", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             btn.setTitle("KONFIRMASI PEMBAYARAN", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {

@@ -163,7 +163,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 } else
                 {
 //                    self.getBalance()
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik tunai telah diterima")
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima")
                     
                     // Mixpanel
                     let pt = [

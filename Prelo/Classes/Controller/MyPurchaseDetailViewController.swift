@@ -226,7 +226,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         if (orderStatusText == OrderStatus.PembayaranPending) {
             lblDescription.text = "Pembayaran Kamu sedang diproses"
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) {
-            lblDescription.text = "Jangan khawatir, uang kamu tersimpan sebagai Prelo Balance. Kamu bisa menggunakannya untuk transaksi lain atau tarik tunai."
+            lblDescription.text = "Jangan khawatir, uang kamu tersimpan sebagai Prelo Balance. Kamu bisa menggunakannya untuk transaksi lain atau tarik uang."
         }
         
         // Nama dan gambar reviewer
