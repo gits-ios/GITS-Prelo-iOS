@@ -1561,7 +1561,7 @@ class APIPrelo
         {
             if (showErrorDialog)
             {
-                UIAlertView.SimpleShow(reqAlias, message: "Oops, tidak ada respon dari server")
+                UIAlertView.SimpleShow(reqAlias, message: "Oops, tidak ada respon, silahkan coba beberapa saat lagi")
             }
             return false
         }

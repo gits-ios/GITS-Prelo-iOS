@@ -466,7 +466,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getCategory()
     {
-        request(APIDemo.HomeCategories)
+        request(References.HomeCategories)
             .responseString { req, resp, string, err in
                 if (string != nil)
                 {

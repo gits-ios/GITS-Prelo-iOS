@@ -1534,7 +1534,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
-            height += TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingAddress)
             if let r = CDRegion.getRegionNameWithID(trxDetail.shippingRegionId) {
                 height += TransactionDetailTitleContentCell.heightFor(r)
@@ -1575,7 +1575,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
-            height += TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingAddress)
             if let r = CDRegion.getRegionNameWithID(trxProductDetail.shippingRegionId) {
                 height += TransactionDetailTitleContentCell.heightFor(r)
@@ -1769,7 +1769,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
                     }
                 } else if (idx == 1) {
-                    return TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                    }
                 } else if (idx == 2) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
@@ -1991,7 +1995,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Nama", content: content)
                 } else if (idx == 1) {
-                    return self.createTitleContentCell("Nomor Telepon", content: TransactionDetailTools.TextPreloPhone)
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.shippingRecipientPhone
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.shippingRecipientPhone
+                    }
+                    return self.createTitleContentCell("Nomor Telepon", content: content)
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {

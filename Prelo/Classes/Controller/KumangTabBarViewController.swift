@@ -40,7 +40,17 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             _controllerDashboard?.userRelatedDelegate = self
         }
     }
-    @IBOutlet var controllerDashboard2 : Dashboard2ViewController?
+    var _controllerDashboard2 : BaseViewController?
+    var controllerDashboard2 : BaseViewController?
+        {
+        get {
+            return _controllerDashboard2
+        }
+        set(newController) {
+            _controllerDashboard2 = newController
+            _controllerDashboard2?.userRelatedDelegate = self
+        }
+    }
     @IBOutlet var controllerBrowse : UIViewController?
     @IBOutlet var controllerLogin : LoginViewController?
     @IBOutlet var controllerContactPrelo : BaseViewController?
@@ -82,7 +92,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard?.previousController = self
-        controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
+        controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController//Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
         controllerDashboard2?.previousController = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLoginButton", name: "userLoggedIn", object: nil)
@@ -282,6 +292,18 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     var oldController : UIViewController?
     func changeToController(newController : UIViewController)
     {
+        if ("\(newController.dynamicType)" == "Prelo.ListCategoryViewController") { // Browse
+            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        } else if ("\(newController.dynamicType)" == "Prelo.DashboardViewController") { // Login/Dashboard
+            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        }
+        
         if let o = oldController
         {
             o.removeFromParentViewController()
@@ -308,11 +330,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBAction func switchController(sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
-            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
-            btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-            
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
@@ -323,11 +340,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
         } else {
-            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
-            btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-            
             if (User.IsLoggedIn) {
                 println("To Dashboard")
                 controllerDashboard?.previousController = self

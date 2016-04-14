@@ -345,11 +345,9 @@
 		21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */; };
 		21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */; };
 		21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */; };
-		21EEB4591B87036000CAD5C9 /* Dashboard2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */; };
 		21EEB45A1B87036000CAD5C9 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */; };
 		21EEB45B1B87036000CAD5C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */; };
 		21EEB45C1B87036000CAD5C9 /* KumangNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4581B87036000CAD5C9 /* KumangNavigationController.swift */; };
-		21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB45E1B87038400CAD5C9 /* Dashboard2.xib */; };
 		21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */; };
 		21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */; };
 		21EEB4651B87038400CAD5C9 /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4611B87038400CAD5C9 /* Register.xib */; };
@@ -951,11 +949,9 @@
 		21EEB44B1B86FB0600CAD5C9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		21EEB44D1B86FB0F00CAD5C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		21EEB44F1B86FB2B00CAD5C9 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard2ViewController.swift; sourceTree = "<group>"; };
 		21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
 		21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		21EEB4581B87036000CAD5C9 /* KumangNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KumangNavigationController.swift; sourceTree = "<group>"; };
-		21EEB45E1B87038400CAD5C9 /* Dashboard2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Dashboard2.xib; sourceTree = "<group>"; };
 		21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentConfirmation.xib; sourceTree = "<group>"; };
 		21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentConfirmationCell.xib; sourceTree = "<group>"; };
 		21EEB4611B87038400CAD5C9 /* Register.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Register.xib; sourceTree = "<group>"; };
@@ -1779,7 +1775,6 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
-				21EEB4551B87036000CAD5C9 /* Dashboard2ViewController.swift */,
 				21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */,
 				21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */,
 				21EEB4581B87036000CAD5C9 /* KumangNavigationController.swift */,
@@ -2183,7 +2178,6 @@
 				21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
-				21EEB45E1B87038400CAD5C9 /* Dashboard2.xib */,
 				21EEB45F1B87038400CAD5C9 /* PaymentConfirmation.xib */,
 				21EEB4601B87038400CAD5C9 /* PaymentConfirmationCell.xib */,
 				21EEB4611B87038400CAD5C9 /* Register.xib */,
@@ -2563,7 +2557,6 @@
 				21104AD51BAA8F1200947E7F /* PhoneVerification.xib in Resources */,
 				213E77151BABD8E700D3002B /* SearchResultHeader.xib in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
-				21EEB4621B87038400CAD5C9 /* Dashboard2.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
@@ -2751,7 +2744,6 @@
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
 				2141BBD91B54BE4C00787F5D /* MKImageView.swift in Sources */,
 				2141BB451B53AF7800787F5D /* ProductDetailViewController.swift in Sources */,
-				21EEB4591B87036000CAD5C9 /* Dashboard2ViewController.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,

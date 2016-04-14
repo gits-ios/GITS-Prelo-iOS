@@ -1835,11 +1835,11 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var shippingRecipientPhone : String? {
+    var shippingRecipientPhone : String {
         if (json["shipping_address"]["recipient_phone"] != nil) {
-            return json["shipping_address"]["recipient_phone"].string
+            return json["shipping_address"]["recipient_phone"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
