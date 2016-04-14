@@ -17,6 +17,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBOutlet weak var imgUser: UIImageView!
     @IBOutlet weak var btnUserImage: UIButton!
+    @IBOutlet weak var lblUsername: UILabel!
+    @IBOutlet weak var lblEmail: UILabel!
     
     @IBOutlet weak var lblLoginInstagram: UILabel!
     @IBOutlet weak var lblLoginFacebook: UILabel!
@@ -136,6 +138,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         let user : CDUser = CDUser.getOne()!
         let userProfile : CDUserProfile = CDUserProfile.getOne()!
         let userOther : CDUserOther = CDUserOther.getOne()!
+        
+        // Username and email
+        self.lblUsername.text = user.username
+        self.lblEmail.text = user.email
         
         // Set fields' default value
         if (userProfile.pict != "") {
