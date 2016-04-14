@@ -47,7 +47,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         tableView?.registerNib(UINib(nibName: "AddProductHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "header")
         
-        sectionTitles.append(["title":"Detail Produk", "icon":""])
+        sectionTitles.append(["title":"Detail Barang", "icon":""])
         //        sectionTitles.append(["title":"Ukuran", "icon":""])
         sectionTitles.append(["title":"Ongkos Kirim", "icon":""])
         sectionTitles.append(["title":"Berat", "icon":""])
@@ -62,7 +62,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             picker.doneLoading()
             
         })
-        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Produk", placeHolder: "mis: iPod 5th Gen")
+        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Barang", placeHolder: "mis: iPod 5th Gen")
         baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
@@ -268,7 +268,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 {
                     if let t = d.title
                     {
-                        if (t == "Nama Produk")
+                        if (t == "Nama Barang")
                         {
                             name = d.value
                         }
@@ -996,7 +996,7 @@ class AddProductShippingPaymentCell : UITableViewCell
                     attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
                     lblDescription.attributedText = attrString
                 } else if (x.text == "Ditanggung Penjual") {
-                    lblDescription.text = "Produk akan diberi label FREE ONGKIR (Recommended)"
+                    lblDescription.text = "Barang akan diberi label FREE ONGKIR (Recommended)"
                 }
                 x.textColor = Theme.PrimaryColorDark
             }

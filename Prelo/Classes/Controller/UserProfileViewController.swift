@@ -61,7 +61,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     var asset : ALAssetsLibrary?
     
-    let FldTentangShopPlaceholder = "Produk kamu terpercaya? Yakinkan di sini"
+    let FldTentangShopPlaceholder = "Jualan kamu terpercaya? Yakinkan di sini"
     
     override func viewDidLoad() {
         super.viewDidLoad()

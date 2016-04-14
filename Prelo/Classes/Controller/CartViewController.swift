@@ -436,7 +436,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if (p == "[]" || p == "")
         {
-            Constant.showDialog("Warning", message: "Tidak ada produk")
+            Constant.showDialog("Warning", message: "Tidak ada barang")
             return
         }
         
@@ -796,7 +796,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         l.font = UIFont.systemFontOfSize(16)
         
         if (section == 0) {
-            l.text = "RINGKASAN PRODUK"
+            l.text = "RINGKASAN BARANG"
         } else if (section == 1) {
             l.text = "DATA KAMU"
         } else {

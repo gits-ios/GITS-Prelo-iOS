@@ -381,7 +381,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 
                 self.mixpanelSharedProduct("Email", username: "")
             } else {
-                Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi produk melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+                Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi barang melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             }
         }
         

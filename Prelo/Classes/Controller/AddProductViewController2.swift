@@ -91,7 +91,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtWeight.hidden = true
         
         txtName.placeholder = "mis: iPod 5th Gen"
-        txtDescription.placeholder = "Spesifikasi produk (Opsional)\nmis: 32 GB, dark blue, lightning charger"
+        txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
 //        txtName.fadeTime = 0.2
         txtDescription.fadeTime = 0.2
@@ -803,37 +803,37 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         //validasi
-        if (validateString(name, message: "Nama produk masih kosong") == false)
+        if (validateString(name, message: "Nama barang masih kosong") == false)
         {
             return
         }
         
-//        if (validateString(desc, message: "Deskripsi produk masih kosong") == false)
+//        if (validateString(desc, message: "Deskripsi barang masih kosong") == false)
 //        {
 //            return
 //        }
         
-        if (validateString(weight, message: "Berat produk masih kosong") == false)
+        if (validateString(weight, message: "Berat barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(oldPrice, message: "Harga Beli produk masih kosong") == false)
+        if (validateString(oldPrice, message: "Harga Beli barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(newPrice, message: "Harga Jual produk masih kosong") == false)
+        if (validateString(newPrice, message: "Harga Jual barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(productCategoryId, message: "Silahkan pilih kategori produk") == false)
+        if (validateString(productCategoryId, message: "Silahkan pilih kategori barang") == false)
         {
             return
         }
         
-        if (validateString(kodindisiId, message: "Silahkan pilih kondisi produk") == false)
+        if (validateString(kodindisiId, message: "Silahkan pilih kondisi barang") == false)
         {
             return
         }
@@ -845,13 +845,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (validateString(deflect, message: "") == false && txtDeskripsiCacat.hidden == false)
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat produk kamu")
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat barang kamu")
             return
         }
         
         if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek produk")
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek barang")
             return
         }
         

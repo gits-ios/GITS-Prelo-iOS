@@ -311,7 +311,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (foundItems.count > 0)
             {
-                return ["","PRODUK"]
+                return ["","BARANG"]
             } else
             {
                 return ["", ""]
@@ -352,7 +352,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
                 }
-                c?.textLabel?.text = "Lihat semua produk \"" + currentKeyword + "\""
+                c?.textLabel?.text = "Lihat semua barang \"" + currentKeyword + "\""
                 return c!
             }
             

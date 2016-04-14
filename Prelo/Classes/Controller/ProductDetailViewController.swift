@@ -156,7 +156,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deaktivasi Produk"))
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deaktivasi Barang"))
                 {
                     self.activated = false
                     self.adjustButtonActivation()
@@ -168,7 +168,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             request(Products.Activate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Aktivasi Produk"))
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Aktivasi Barang"))
                 {
                     self.activated = true
                     self.adjustButtonActivation()
@@ -209,7 +209,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func askDeleteOS8()
     {
-        let a = UIAlertController(title: "Hapus", message: "Hapus Produk ?", preferredStyle: .Alert)
+        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
         a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
             self.confirmDeleteProduct()
         }))
@@ -221,7 +221,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     {
         let a = UIAlertView()
         a.title = "Hapus"
-        a.message = "Hapus Produk ?"
+        a.message = "Hapus Barang?"
         a.addButtonWithTitle("Ya")
         a.addButtonWithTitle("Tidak")
         a.delegate = self
@@ -245,7 +245,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.btnDelete.setTitle("LOADING..", forState: .Disabled)
         self.btnDelete.enabled = false
         request(Products.Delete(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hapus Produk"))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hapus Barang"))
             {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
@@ -286,7 +286,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     {
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk"))
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang"))
                 {
                     self.detail = ProductDetail.instance(JSON(res!))
                     self.activated = (self.detail?.isActive)!
@@ -597,7 +597,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.getDetail()
             }
             request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang")) {
                     a.editProduct = ProductDetail.instance(JSON(res!))
                     self.navigationController?.pushViewController(a, animated: true)
                 }

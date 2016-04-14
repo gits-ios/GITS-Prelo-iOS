@@ -79,7 +79,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
-    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
+    let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
     
     // MARK: - Init
     
@@ -1069,7 +1069,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
             // Get product detail from API
             request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(res!)
                     if let pDetail = ProductDetail.instance(json) {
                     
@@ -1077,7 +1077,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
                         request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON { req, resp, res, err in
-                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
                                 let json = JSON(res!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                                     t.tawarItem = Inbox(jsn: json["_data"])
@@ -1118,7 +1118,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 productId = self.trxProductDetail!.productId
             }
             request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(res!)
                     if let pDetail = ProductDetail.instance(json) {
                         
@@ -1330,7 +1330,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
             request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Seller")) {
+                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Penjual")) {
                     let json = JSON(res!)
                     let dataBool : Bool = json["_data"].boolValue
                     let dataInt : Int = json["_data"].intValue
@@ -1453,24 +1453,24 @@ class TransactionDetailTools : NSObject {
     // Text
     static let TextPreloPhone = "022 250 35 93"
     static let TextPembayaranExpiredBuyer = "Pembayaran expired karena kamu belum membayar hingga batas waktu yang ditentukan."
-    static let TextPembayaranExpiredSeller = "Pembayaran expired karena buyer belum membayar hingga batas waktu yang ditentukan."
-    static let TextHubungiBuyer = "Beritahu buyer bahwa barang sudah dikirim. Minta buyer untuk memberikan review apabila barang sudah diterima."
-    static let TextDikembalikan = "Pembayaran produk ini telah dikembalikan kepada buyer."
-    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada seller. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
+    static let TextPembayaranExpiredSeller = "Pembayaran expired karena pembeli belum membayar hingga batas waktu yang ditentukan."
+    static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
+    static let TextDikembalikan = "Pembayaran barang ini telah dikembalikan kepada pembeli."
+    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
     static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
-    static let TextNotPaidSeller = "Ingatkan buyer untuk segera membayar."
+    static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
-    static let TextClaimedPaidSeller = "Pembayaran buyer sedang diproses."
+    static let TextClaimedPaidSeller = "Pembayaran pembeli sedang diproses."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
-    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada buyer. Hubungi Prelo apabila kamu perlu tambahan waktu untuk mengirim."
+    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli. Hubungi Prelo apabila kamu perlu tambahan waktu untuk mengirim."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
-    static let TextConfirmedPaidBuyer2 = "Ingatkan seller untuk mengirim pesanan."
-    static let TextSentSeller = "Beritahu buyer bahwa barang sudah dikirim. Minta buyer untuk memberikan review apabila barang sudah diterima."
-    static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke seller."
-    static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi buyer untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review seller untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
+    static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
+    static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke penjual."
+    static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi pembeli untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
+    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review penjual untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
     static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
@@ -2331,7 +2331,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     let expireTime = trxDetail.shippingExpireTime + ". "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
                     lblDesc.boldSubstring("transaksi akan dibatalkan")
-                    lblDesc.boldSubstring("uang akan dikembalikan kepada buyer")
+                    lblDesc.boldSubstring("uang akan dikembalikan kepada pembeli")
                 }
             }
         }
@@ -2450,7 +2450,7 @@ class TransactionDetailButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             btn.setTitle("KIRIM / TOLAK", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            btn.setTitle("REVIEW SELLER", forState: UIControlState.Normal)
+            btn.setTitle("REVIEW PENJUAL", forState: UIControlState.Normal)
         }
     }
     
@@ -2482,8 +2482,8 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var cancelReservation : () -> () = {}
     
     let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
-    let TitleHubungiBuyer = "HUBUNGI BUYER"
-    let TitleHubungiSeller = "HUBUNGI SELLER"
+    let TitleHubungiBuyer = "HUBUNGI PEMBELI"
+    let TitleHubungiSeller = "HUBUNGI PENJUAL"
     let TitleTolakPesanan = "Tolak Pesanan"
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     

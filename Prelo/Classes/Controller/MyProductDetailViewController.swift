@@ -242,7 +242,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             lblDescription.text = "Pembayaran sedang diproses"
         } else {
             let expireText = ((transactionDetail?.expireTime != nil) ? (transactionDetail?.expireTime)! : "-")
-            lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Buyer untuk segera membayar"
+            lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Pembeli untuk segera membayar"
         }
         
         // Nama dan gambar reviewer
@@ -528,7 +528,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
         request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
                 let json = JSON(res!)
                 //let pDetail = ProductDetail.instance(json)
                 //pDetail?.reverse()
@@ -538,7 +538,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
                 request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
+                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
                         let json = JSON(res!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                             t.tawarItem = Inbox(jsn: json["_data"])

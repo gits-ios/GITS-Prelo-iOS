@@ -26,7 +26,7 @@ class TransactionListCell : UITableViewCell {
     
     override func prepareForReuse() {
         imgProduct.image = nil
-        lblProductName.text = "Nama Produk"
+        lblProductName.text = "Nama Barang"
         lblPrice.text = "Rp -"
         lblCommentCount.text = "0"
         lblLoveCount.text = "0"

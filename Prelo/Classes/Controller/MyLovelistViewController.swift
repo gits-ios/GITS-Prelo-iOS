@@ -178,7 +178,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         // Load detail product
         let selectedLoved : LovedProduct = (userLovelist?[indexPath.item])! as LovedProduct
         request(Products.Detail(productId: selectedLoved.id)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang")) {
                 let json = JSON(res!)
                 let data = json["_data"]
                 // Store data into variable
@@ -234,14 +234,14 @@ class MyLovelistCell : UITableViewCell {
     
     @IBAction func beliPressed(sender: AnyObject) {
         if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
-            Constant.showDialog("Warning", message: "Produk sudah ada di keranjang belanja Anda")
+            Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
             self.delegate?.gotoCart()
         } else { // Not in cart
             if (CartProduct.newOne(productId!, email : User.EmailOrEmptyString, name : (lblProductName.text)!) == nil) { // Failed
-                Constant.showDialog("Warning", message: "Gagal menyimpan produk ke keranjang belanja")
+                Constant.showDialog("Warning", message: "Gagal menyimpan barang ke keranjang belanja")
             } else { // Success
                 // TODO: Kirim API add to cart
-                Constant.showDialog("Success", message: "Produk berhasil ditambahkan ke keranjang belanja")
+                Constant.showDialog("Success", message: "Barang berhasil ditambahkan ke keranjang belanja")
                 self.delegate?.gotoCart()
             }
         }

@@ -105,7 +105,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     var txtvwGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
-    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
+    let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
     
     var transactionId : String?
     var transactionDetail : TransactionProductDetail?
@@ -404,7 +404,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBAction func rvwKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Seller")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Penjual")) {
                 let json = JSON(res!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue

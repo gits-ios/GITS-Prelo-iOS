@@ -295,7 +295,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                         self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
                     }
                 } else {
-                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data produk")
+                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data barang")
                 }
             } else {
                 self.hideLoading()

@@ -99,7 +99,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     func getComments()
     {
         request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Komentar Produk"))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
                 self.tableView.reloadData()
@@ -151,7 +151,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.editable = false
         
         request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Komentar Produk"))
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)

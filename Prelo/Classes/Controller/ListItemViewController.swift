@@ -137,7 +137,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
             self.done = false
             self.requesting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Daftar Produk")) {
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Daftar Barang")) {
                 self.products = []
                 var obj = JSON(res!)
                 for (index : String, item : JSON) in obj["_data"]
@@ -334,7 +334,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 if let count = self.products?.count
                 {
-                    self.storeHeader?.captionTotal.text = String(count) + " PRODUK"
+                    self.storeHeader?.captionTotal.text = String(count) + " BARANG"
                 }
                 
                 self.storeHeader?.captionLocation.text = "Unknown"
