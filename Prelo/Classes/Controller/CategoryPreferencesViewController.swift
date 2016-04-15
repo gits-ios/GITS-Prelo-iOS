@@ -49,6 +49,11 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         // Get categories
         categories = CDCategory.getCategoriesInLevel(1)
         
+        // Jaga2 kalo ternyata gagal dapet kategori
+        if (categories.count < 4) {
+            self.retrieveOfflineCategories()
+        }
+        
         // Setup table
         self.setupCollection()
         
@@ -118,6 +123,52 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
                 cell.imgCategory.hidden = true
             }
         }
+    }
+    
+    // MARK: - Other functions
+    
+    func retrieveOfflineCategories() {
+        categories = []
+        let category1 = CDCategory()
+        category1.id = "55de6dbc5f6522562a2c73ef"
+        category1.name = "Women"
+        category1.imageName = "http://dev.prelo.id/images/categories/fashion-wanita2.png"
+        categories.append(category1)
+        let category2 = CDCategory()
+        category2.id = "55de6dbc5f6522562a2c73f0"
+        category2.name = "Men"
+        category2.imageName = "http://dev.prelo.id/images/categories/fashion-pria2.png"
+        categories.append(category2)
+        let category3 = CDCategory()
+        category3.id = "55fbbca14ef9139b408b4569"
+        category3.name = "Beauty"
+        category3.imageName = "http://dev.prelo.id/images/categories/beauty2.png"
+        categories.append(category3)
+        let category4 = CDCategory()
+        category4.id = "55de6dbc5f6522562a2c73f1"
+        category4.name = "Gadget"
+        category4.imageName = "http://dev.prelo.id/images/categories/elektronik2.png"
+        categories.append(category4)
+        let category5 = CDCategory()
+        category5.id = "55de6dbc5f6522562a2c73f2"
+        category5.name = "Hobby"
+        category5.imageName = "http://dev.prelo.id/images/categories/hobi2.png"
+        categories.append(category5)
+        let category6 = CDCategory()
+        category6.id = "55fbbd0d4ef9139b408b456a"
+        category6.name = "Sport"
+        category6.imageName = "http://dev.prelo.id/images/categories/sport2.png"
+        categories.append(category6)
+        let category7 = CDCategory()
+        category7.id = "55de6dbc5f6522562a2c73f3"
+        category7.name = "Book"
+        category7.imageName = "http://dev.prelo.id/images/categories/buku2.png"
+        categories.append(category7)
+        let category8 = CDCategory()
+        category8.id = "55de6dbc5f6522562a2c73f4"
+        category8.name = "Baby & Kid"
+        category8.imageName = "http://dev.prelo.id/images/categories/baby-kid2.png"
+        categories.append(category8)
     }
 }
 
