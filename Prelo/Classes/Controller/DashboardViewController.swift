@@ -323,7 +323,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchContactPrelo() {
-        let c = self.storyboard?.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        let c = (self.storyboard?.instantiateViewControllerWithIdentifier("contactus"))!
         contactUs = c
         if let v = c.view, let p = self.previousController?.navigationController?.view
         {
@@ -356,10 +356,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Mail compose delegate functions
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        if (result.value == MFMailComposeResultSent.value) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        if (result == MFMailComposeResultSent) {
             Constant.showDialog("Request Barang", message: "E-mail terkirim")
-        } else if (result.value == MFMailComposeResultFailed.value) {
+        } else if (result == MFMailComposeResultFailed) {
             Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
         }
         controller.dismissViewControllerAnimated(true, completion: nil)

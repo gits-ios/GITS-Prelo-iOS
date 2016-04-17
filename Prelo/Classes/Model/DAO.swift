@@ -589,7 +589,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
-        println(json)
+        print(json)
         return json["_data"]["_id"].string!
     }
     
@@ -628,7 +628,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var originalPicturers : Array<String>
         {
-            println(json)
+            print(json)
             if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
             {
                 return ori
@@ -653,7 +653,7 @@ public class ProductDetail : NSObject, TawarItem
     var imageLabels : [String]
     {
         var labels : [String] = []
-        println(json["_data"]["original_picts"])
+        print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
         {
             var i = 0
@@ -2433,7 +2433,7 @@ class Inbox : NSObject, TawarItem
     func setBargainPrice(price: Int) {
         settedBargainPrice = price
 //        json["current_bargain_amount"].int = price
-//        println("current_bargain_amount : " + String(bargainPrice))
+//        print("current_bargain_amount : " + String(bargainPrice))
     }
     
     var bargainerIsMe : Bool {
@@ -2580,15 +2580,16 @@ class InboxMessage : NSObject
     private var lastCompletion : (InboxMessage)->() = {m in }
     func sendTo(threadId : String, completion : (InboxMessage)->())
     {
-        println("sending chat to thread " + threadId)
+        print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         sending = true
         self.failedToSend = false
         var m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
-        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim chat"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim chat"))
             {
                 
             } else

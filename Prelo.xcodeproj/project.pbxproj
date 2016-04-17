@@ -150,13 +150,6 @@
 		2141BBD41B54BE4C00787F5D /* BFKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2141BB811B54BE4C00787F5D /* BFKit.strings */; };
 		2141BBD51B54BE4C00787F5D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2141BB8B1B54BE4C00787F5D /* LICENSE */; };
 		2141BBD61B54BE4C00787F5D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB8C1B54BE4C00787F5D /* README.md */; };
-		2141BBD71B54BE4C00787F5D /* MKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB8E1B54BE4C00787F5D /* MKButton.swift */; };
-		2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB8F1B54BE4C00787F5D /* MKColor.swift */; };
-		2141BBD91B54BE4C00787F5D /* MKImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB901B54BE4C00787F5D /* MKImageView.swift */; };
-		2141BBDA1B54BE4C00787F5D /* MKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB911B54BE4C00787F5D /* MKLabel.swift */; };
-		2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB921B54BE4C00787F5D /* MKLayer.swift */; };
-		2141BBDC1B54BE4C00787F5D /* MKTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB931B54BE4C00787F5D /* MKTableViewCell.swift */; };
-		2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB941B54BE4C00787F5D /* MKTextField.swift */; };
 		2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB961B54BE4C00787F5D /* RAReorderableLayout.swift */; };
 		2141BBDF1B54BE4C00787F5D /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB981B54BE4C00787F5D /* SocketAckManager.swift */; };
 		2141BBE01B54BE4C00787F5D /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB991B54BE4C00787F5D /* SocketAnyEvent.swift */; };
@@ -185,6 +178,42 @@
 		215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		21621CCD1BA1337D009BBACB /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
 		21629A2A1BC51A4A00ACD014 /* TawarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21629A291BC51A4A00ACD014 /* TawarViewController.swift */; };
+		216344B71CC394A1005CBA37 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344AE1CC394A1005CBA37 /* Error.swift */; };
+		216344B81CC394A1005CBA37 /* Info-tvOS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 216344AF1CC394A1005CBA37 /* Info-tvOS.plist */; };
+		216344B91CC394A1005CBA37 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 216344B01CC394A1005CBA37 /* Info.plist */; };
+		216344BA1CC394A1005CBA37 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B11CC394A1005CBA37 /* NetworkReachabilityManager.swift */; };
+		216344BB1CC394A1005CBA37 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B21CC394A1005CBA37 /* Notifications.swift */; };
+		216344BC1CC394A1005CBA37 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B31CC394A1005CBA37 /* Response.swift */; };
+		216344BD1CC394A1005CBA37 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B41CC394A1005CBA37 /* Result.swift */; };
+		216344BE1CC394A1005CBA37 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B51CC394A1005CBA37 /* Stream.swift */; };
+		216344BF1CC394A1005CBA37 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344B61CC394A1005CBA37 /* Timeline.swift */; };
+		216344CA1CC39686005CBA37 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C01CC39686005CBA37 /* SocketAckEmitter.swift */; };
+		216344CB1CC39686005CBA37 /* SocketClientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C11CC39686005CBA37 /* SocketClientSpec.swift */; };
+		216344CC1CC39686005CBA37 /* SocketEnginePacketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C21CC39686005CBA37 /* SocketEnginePacketType.swift */; };
+		216344CD1CC39686005CBA37 /* SocketEnginePollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C31CC39686005CBA37 /* SocketEnginePollable.swift */; };
+		216344CE1CC39686005CBA37 /* SocketEngineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C41CC39686005CBA37 /* SocketEngineSpec.swift */; };
+		216344CF1CC39686005CBA37 /* SocketEngineWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C51CC39686005CBA37 /* SocketEngineWebsocket.swift */; };
+		216344D01CC39686005CBA37 /* SocketIOClientOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C61CC39686005CBA37 /* SocketIOClientOption.swift */; };
+		216344D11CC39686005CBA37 /* SocketIOClientStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C71CC39686005CBA37 /* SocketIOClientStatus.swift */; };
+		216344D21CC39686005CBA37 /* SocketParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C81CC39686005CBA37 /* SocketParsable.swift */; };
+		216344D31CC39686005CBA37 /* SocketStringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344C91CC39686005CBA37 /* SocketStringReader.swift */; };
+		216344FA1CC3A855005CBA37 /* MKActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344E91CC3A855005CBA37 /* MKActivityIndicator.swift */; };
+		216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344EA1CC3A855005CBA37 /* MKButton.swift */; };
+		216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344EB1CC3A855005CBA37 /* MKCardView.swift */; };
+		216344FD1CC3A855005CBA37 /* MKCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344EC1CC3A855005CBA37 /* MKCollectionViewCell.swift */; };
+		216344FE1CC3A855005CBA37 /* MKColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344ED1CC3A855005CBA37 /* MKColor.swift */; };
+		216344FF1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344EE1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift */; };
+		216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344EF1CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift */; };
+		216345011CC3A855005CBA37 /* MKImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F01CC3A855005CBA37 /* MKImageView.swift */; };
+		216345021CC3A855005CBA37 /* MKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F11CC3A855005CBA37 /* MKLabel.swift */; };
+		216345031CC3A855005CBA37 /* MKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F21CC3A855005CBA37 /* MKLayer.swift */; };
+		216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F31CC3A855005CBA37 /* MKNavigationBar.swift */; };
+		216345051CC3A855005CBA37 /* MKRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F41CC3A855005CBA37 /* MKRefreshControl.swift */; };
+		216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F51CC3A855005CBA37 /* MKSideDrawerViewController.swift */; };
+		216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F61CC3A855005CBA37 /* MKSnackbar.swift */; };
+		216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F71CC3A855005CBA37 /* MKSwitch.swift */; };
+		216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F81CC3A855005CBA37 /* MKTableViewCell.swift */; };
+		2163450A1CC3A855005CBA37 /* MKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216344F91CC3A855005CBA37 /* MKTextField.swift */; };
 		21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21660B221B70A9D000910CF1 /* CartProduct.swift */; };
 		216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */; };
 		216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */; };
@@ -663,13 +692,6 @@
 		2141BB891B54BE4C00787F5D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/BFKit.strings"; sourceTree = "<group>"; };
 		2141BB8B1B54BE4C00787F5D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		2141BB8C1B54BE4C00787F5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		2141BB8E1B54BE4C00787F5D /* MKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKButton.swift; sourceTree = "<group>"; };
-		2141BB8F1B54BE4C00787F5D /* MKColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKColor.swift; sourceTree = "<group>"; };
-		2141BB901B54BE4C00787F5D /* MKImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKImageView.swift; sourceTree = "<group>"; };
-		2141BB911B54BE4C00787F5D /* MKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLabel.swift; sourceTree = "<group>"; };
-		2141BB921B54BE4C00787F5D /* MKLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLayer.swift; sourceTree = "<group>"; };
-		2141BB931B54BE4C00787F5D /* MKTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTableViewCell.swift; sourceTree = "<group>"; };
-		2141BB941B54BE4C00787F5D /* MKTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTextField.swift; sourceTree = "<group>"; };
 		2141BB961B54BE4C00787F5D /* RAReorderableLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RAReorderableLayout.swift; sourceTree = "<group>"; };
 		2141BB981B54BE4C00787F5D /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		2141BB991B54BE4C00787F5D /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -699,6 +721,42 @@
 		215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		21621CCC1BA1337D009BBACB /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
 		21629A291BC51A4A00ACD014 /* TawarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TawarViewController.swift; sourceTree = "<group>"; };
+		216344AE1CC394A1005CBA37 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		216344AF1CC394A1005CBA37 /* Info-tvOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
+		216344B01CC394A1005CBA37 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		216344B11CC394A1005CBA37 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManager.swift; sourceTree = "<group>"; };
+		216344B21CC394A1005CBA37 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		216344B31CC394A1005CBA37 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		216344B41CC394A1005CBA37 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		216344B51CC394A1005CBA37 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		216344B61CC394A1005CBA37 /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		216344C01CC39686005CBA37 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
+		216344C11CC39686005CBA37 /* SocketClientSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketClientSpec.swift; sourceTree = "<group>"; };
+		216344C21CC39686005CBA37 /* SocketEnginePacketType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEnginePacketType.swift; sourceTree = "<group>"; };
+		216344C31CC39686005CBA37 /* SocketEnginePollable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEnginePollable.swift; sourceTree = "<group>"; };
+		216344C41CC39686005CBA37 /* SocketEngineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineSpec.swift; sourceTree = "<group>"; };
+		216344C51CC39686005CBA37 /* SocketEngineWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEngineWebsocket.swift; sourceTree = "<group>"; };
+		216344C61CC39686005CBA37 /* SocketIOClientOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientOption.swift; sourceTree = "<group>"; };
+		216344C71CC39686005CBA37 /* SocketIOClientStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketIOClientStatus.swift; sourceTree = "<group>"; };
+		216344C81CC39686005CBA37 /* SocketParsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketParsable.swift; sourceTree = "<group>"; };
+		216344C91CC39686005CBA37 /* SocketStringReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketStringReader.swift; sourceTree = "<group>"; };
+		216344E91CC3A855005CBA37 /* MKActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKActivityIndicator.swift; sourceTree = "<group>"; };
+		216344EA1CC3A855005CBA37 /* MKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKButton.swift; sourceTree = "<group>"; };
+		216344EB1CC3A855005CBA37 /* MKCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKCardView.swift; sourceTree = "<group>"; };
+		216344EC1CC3A855005CBA37 /* MKCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKCollectionViewCell.swift; sourceTree = "<group>"; };
+		216344ED1CC3A855005CBA37 /* MKColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKColor.swift; sourceTree = "<group>"; };
+		216344EE1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKEmbedDrawerControllerSegue.swift; sourceTree = "<group>"; };
+		216344EF1CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKEmbedMainControllerSegue.swift; sourceTree = "<group>"; };
+		216344F01CC3A855005CBA37 /* MKImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKImageView.swift; sourceTree = "<group>"; };
+		216344F11CC3A855005CBA37 /* MKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLabel.swift; sourceTree = "<group>"; };
+		216344F21CC3A855005CBA37 /* MKLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKLayer.swift; sourceTree = "<group>"; };
+		216344F31CC3A855005CBA37 /* MKNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKNavigationBar.swift; sourceTree = "<group>"; };
+		216344F41CC3A855005CBA37 /* MKRefreshControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRefreshControl.swift; sourceTree = "<group>"; };
+		216344F51CC3A855005CBA37 /* MKSideDrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSideDrawerViewController.swift; sourceTree = "<group>"; };
+		216344F61CC3A855005CBA37 /* MKSnackbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSnackbar.swift; sourceTree = "<group>"; };
+		216344F71CC3A855005CBA37 /* MKSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKSwitch.swift; sourceTree = "<group>"; };
+		216344F81CC3A855005CBA37 /* MKTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTableViewCell.swift; sourceTree = "<group>"; };
+		216344F91CC3A855005CBA37 /* MKTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKTextField.swift; sourceTree = "<group>"; };
 		21660B221B70A9D000910CF1 /* CartProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartProduct.swift; sourceTree = "<group>"; };
 		216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bca@2x.png"; sourceTree = "<group>"; };
 		216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bni@2x.png"; sourceTree = "<group>"; };
@@ -1393,6 +1451,15 @@
 		2141BB4C1B54BE4C00787F5D /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				216344AE1CC394A1005CBA37 /* Error.swift */,
+				216344AF1CC394A1005CBA37 /* Info-tvOS.plist */,
+				216344B01CC394A1005CBA37 /* Info.plist */,
+				216344B11CC394A1005CBA37 /* NetworkReachabilityManager.swift */,
+				216344B21CC394A1005CBA37 /* Notifications.swift */,
+				216344B31CC394A1005CBA37 /* Response.swift */,
+				216344B41CC394A1005CBA37 /* Result.swift */,
+				216344B51CC394A1005CBA37 /* Stream.swift */,
+				216344B61CC394A1005CBA37 /* Timeline.swift */,
 				21156EB41B8F4293001D7842 /* Alamofire.h */,
 				21156EB51B8F4293001D7842 /* MultipartFormData.swift */,
 				21156EB61B8F4293001D7842 /* ServerTrustPolicy.swift */,
@@ -1504,25 +1571,11 @@
 		2141BB8A1B54BE4C00787F5D /* MaterialKit */ = {
 			isa = PBXGroup;
 			children = (
+				216344E81CC3A855005CBA37 /* Source */,
 				2141BB8B1B54BE4C00787F5D /* LICENSE */,
 				2141BB8C1B54BE4C00787F5D /* README.md */,
-				2141BB8D1B54BE4C00787F5D /* Source */,
 			);
 			path = MaterialKit;
-			sourceTree = "<group>";
-		};
-		2141BB8D1B54BE4C00787F5D /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				2141BB8E1B54BE4C00787F5D /* MKButton.swift */,
-				2141BB8F1B54BE4C00787F5D /* MKColor.swift */,
-				2141BB901B54BE4C00787F5D /* MKImageView.swift */,
-				2141BB911B54BE4C00787F5D /* MKLabel.swift */,
-				2141BB921B54BE4C00787F5D /* MKLayer.swift */,
-				2141BB931B54BE4C00787F5D /* MKTableViewCell.swift */,
-				2141BB941B54BE4C00787F5D /* MKTextField.swift */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		2141BB951B54BE4C00787F5D /* RAReorderableLayout */ = {
@@ -1536,6 +1589,16 @@
 		2141BB971B54BE4C00787F5D /* SocketIOClientSwift */ = {
 			isa = PBXGroup;
 			children = (
+				216344C01CC39686005CBA37 /* SocketAckEmitter.swift */,
+				216344C11CC39686005CBA37 /* SocketClientSpec.swift */,
+				216344C21CC39686005CBA37 /* SocketEnginePacketType.swift */,
+				216344C31CC39686005CBA37 /* SocketEnginePollable.swift */,
+				216344C41CC39686005CBA37 /* SocketEngineSpec.swift */,
+				216344C51CC39686005CBA37 /* SocketEngineWebsocket.swift */,
+				216344C61CC39686005CBA37 /* SocketIOClientOption.swift */,
+				216344C71CC39686005CBA37 /* SocketIOClientStatus.swift */,
+				216344C81CC39686005CBA37 /* SocketParsable.swift */,
+				216344C91CC39686005CBA37 /* SocketStringReader.swift */,
 				2141BB981B54BE4C00787F5D /* SocketAckManager.swift */,
 				2141BB991B54BE4C00787F5D /* SocketAnyEvent.swift */,
 				2141BB9A1B54BE4C00787F5D /* SocketEngine.swift */,
@@ -1560,6 +1623,30 @@
 				215E6CD41B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m */,
 			);
 			path = "ALAssetsLibrary+CustomPhotoAlbum";
+			sourceTree = "<group>";
+		};
+		216344E81CC3A855005CBA37 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				216344E91CC3A855005CBA37 /* MKActivityIndicator.swift */,
+				216344EA1CC3A855005CBA37 /* MKButton.swift */,
+				216344EB1CC3A855005CBA37 /* MKCardView.swift */,
+				216344EC1CC3A855005CBA37 /* MKCollectionViewCell.swift */,
+				216344ED1CC3A855005CBA37 /* MKColor.swift */,
+				216344EE1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift */,
+				216344EF1CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift */,
+				216344F01CC3A855005CBA37 /* MKImageView.swift */,
+				216344F11CC3A855005CBA37 /* MKLabel.swift */,
+				216344F21CC3A855005CBA37 /* MKLayer.swift */,
+				216344F31CC3A855005CBA37 /* MKNavigationBar.swift */,
+				216344F41CC3A855005CBA37 /* MKRefreshControl.swift */,
+				216344F51CC3A855005CBA37 /* MKSideDrawerViewController.swift */,
+				216344F61CC3A855005CBA37 /* MKSnackbar.swift */,
+				216344F71CC3A855005CBA37 /* MKSwitch.swift */,
+				216344F81CC3A855005CBA37 /* MKTableViewCell.swift */,
+				216344F91CC3A855005CBA37 /* MKTextField.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 		21660B1E1B70A45F00910CF1 /* CoreData */ = {
@@ -2413,6 +2500,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				216344B81CC394A1005CBA37 /* Info-tvOS.plist in Resources */,
 				2124FFD21BBD2AC000194B8F /* README.txt in Resources */,
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
@@ -2477,6 +2565,7 @@
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
 				21C6589E1B8EFDC50037F85F /* ic_dashboard_cover@2x.png in Resources */,
+				216344B91CC394A1005CBA37 /* Info.plist in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
 				FDF39A301C3CF43B002A5DF6 /* banner_sold.png in Resources */,
@@ -2633,6 +2722,7 @@
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
 				2141BBE31B54BE4C00787F5D /* SocketEventHandler.swift in Sources */,
 				44B779DF1BDF72BB00D93D2D /* CDBrand.swift in Sources */,
+				216344FF1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift in Sources */,
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
@@ -2647,11 +2737,11 @@
 				58A99A471C6D864E00E3E7D7 /* BranchSetIdentityRequest.m in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				FDB1A0001BFD8454001F2600 /* ShopReviewViewController.swift in Sources */,
+				216345051CC3A855005CBA37 /* MKRefreshControl.swift in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
 				58A99A3D1C6D864E00E3E7D7 /* BranchCloseRequest.m in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
-				2141BBD81B54BE4C00787F5D /* MKColor.swift in Sources */,
 				2141BBC31B54BE4C00787F5D /* NSString+BFKit.swift in Sources */,
 				21679A581B901C5300F18F90 /* UIView+MPHelpers.m in Sources */,
 				2141BBAB1B54BE4C00787F5D /* Request.swift in Sources */,
@@ -2660,22 +2750,24 @@
 				2167998E1B8F8AB900F18F90 /* AFSecurityPolicy.m in Sources */,
 				21D3875F1B6B967A00D0FA90 /* ZSWTappableLabel.m in Sources */,
 				58A99A2A1C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m in Sources */,
-				2141BBD71B54BE4C00787F5D /* MKButton.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
 				44D58C4A1BC7C8C800F85F13 /* CDNotification.swift in Sources */,
 				21C5AB831B858A580036FF6B /* ImagePickerViewController.swift in Sources */,
 				2113125A1B677BA000A4DA3B /* DashboardViewController.swift in Sources */,
-				2141BBDD1B54BE4C00787F5D /* MKTextField.swift in Sources */,
 				44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */,
+				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
+				216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */,
 				58A99A351C6D864E00E3E7D7 /* Branch.m in Sources */,
+				216344BF1CC394A1005CBA37 /* Timeline.swift in Sources */,
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
 				44B7087E1BBA6D86001EACBF /* MyProductProcessingViewController.swift in Sources */,
 				2127A2AA1B7B338900469CFC /* ImageSupplier.swift in Sources */,
 				211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				2141BBEA1B54BE4C00787F5D /* SwiftRegex.swift in Sources */,
+				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
 				44B7087D1BBA6D86001EACBF /* MyProductDetailViewController.swift in Sources */,
 				21983BF01BE1DE3A00F0C24E /* PreloWebViewController.swift in Sources */,
 				21C68F5E1B746E8B00D1125E /* ListCategoryViewController.swift in Sources */,
@@ -2686,6 +2778,7 @@
 				58A99A421C6D864E00E3E7D7 /* BranchLoadRewardsRequest.m in Sources */,
 				58A99A441C6D864E00E3E7D7 /* BranchOpenRequest.m in Sources */,
 				21104ABB1BAA8ECC00947E7F /* MyPurchaseViewController.swift in Sources */,
+				216344D21CC39686005CBA37 /* SocketParsable.swift in Sources */,
 				21104ABC1BAA8ECC00947E7F /* PhoneReverificationViewController.swift in Sources */,
 				5800FF9F1C883E1600492DB2 /* NotifAnggiConversationViewController.swift in Sources */,
 				58A99A301C6D864E00E3E7D7 /* BNCServerInterface.m in Sources */,
@@ -2703,14 +2796,17 @@
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
 				2141BBE01B54BE4C00787F5D /* SocketAnyEvent.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */,
 				21EA7D501B8AF079005FB8D4 /* MyProductViewController.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
 				21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */,
+				216344CB1CC39686005CBA37 /* SocketClientSpec.swift in Sources */,
 				21629A2A1BC51A4A00ACD014 /* TawarViewController.swift in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
 				211312581B67638F00A4DA3B /* Constant.swift in Sources */,
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
+				216345031CC3A855005CBA37 /* MKLayer.swift in Sources */,
 				21C68F601B74922200D1125E /* OrderConfirmViewController.swift in Sources */,
 				21679A471B901C5300F18F90 /* MPTweakStore.m in Sources */,
 				58A99A4C1C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m in Sources */,
@@ -2725,26 +2821,29 @@
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				44B93C7D1BBEC40800036173 /* PathEndpoints.swift in Sources */,
+				216344D01CC39686005CBA37 /* SocketIOClientOption.swift in Sources */,
+				216344D31CC39686005CBA37 /* SocketStringReader.swift in Sources */,
 				211BC99A1B96EBBE00FDB1DC /* PreloShareController.swift in Sources */,
 				2109BCAA1BDE228E004F36C5 /* CheckoutTourViewController.swift in Sources */,
 				214864D91B6F53EF00EF49EF /* PickerViewController.swift in Sources */,
-				2141BBDB1B54BE4C00787F5D /* MKLayer.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				44B779DD1BDF4AF300D93D2D /* CDCategory.swift in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
+				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
 				2141BBEB1B54BE4C00787F5D /* WebSocket.swift in Sources */,
 				21156EB71B8F4293001D7842 /* MultipartFormData.swift in Sources */,
+				216344BC1CC394A1005CBA37 /* Response.swift in Sources */,
 				210DF0F11B734CFE004AE3D9 /* CDUserOther.swift in Sources */,
 				210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */,
 				21104AC81BAA8EF800947E7F /* CDProvince.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
-				2141BBD91B54BE4C00787F5D /* MKImageView.swift in Sources */,
 				2141BB451B53AF7800787F5D /* ProductDetailViewController.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
+				216344CE1CC39686005CBA37 /* SocketEngineSpec.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
@@ -2771,7 +2870,6 @@
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
 				2119FE391BA2D8B1006EF0CB /* ImagePickerViewController2.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
-				2141BBDC1B54BE4C00787F5D /* MKTableViewCell.swift in Sources */,
 				21104ACA1BAA8EF800947E7F /* CDVersion.swift in Sources */,
 				21679A391B901C5300F18F90 /* MPObjectSerializer.m in Sources */,
 				21EA7D521B8B13E9005FB8D4 /* MyProductSellViewController.swift in Sources */,
@@ -2782,8 +2880,10 @@
 				2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */,
 				21D387601B6B967A00D0FA90 /* CarbonSwipeRefresh.m in Sources */,
 				58A99A371C6D864E00E3E7D7 /* BranchConstants.m in Sources */,
+				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
 				21C658A01B8F01E10037F85F /* AboutViewController.swift in Sources */,
 				219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */,
+				216344CD1CC39686005CBA37 /* SocketEnginePollable.swift in Sources */,
 				2141BBCB1B54BE4C00787F5D /* UIImageView+BFKit.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */,
@@ -2798,6 +2898,7 @@
 				21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */,
 				21EEB45A1B87036000CAD5C9 /* PaymentConfirmationViewController.swift in Sources */,
 				2141BBBD1B54BE4C00787F5D /* NSFileManager+BFKit.swift in Sources */,
+				216344FE1CC3A855005CBA37 /* MKColor.swift in Sources */,
 				21C68F591B74665900D1125E /* ACEExpandableTextCell.m in Sources */,
 				58A99A3E1C6D864E00E3E7D7 /* BranchCreditHistoryRequest.m in Sources */,
 				2141BBBC1B54BE4C00787F5D /* NSDictionary+BFKit.swift in Sources */,
@@ -2806,19 +2907,23 @@
 				2141BBC61B54BE4C00787F5D /* UIButton+BFKit.swift in Sources */,
 				2115E6CE1B4A27E500509D2A /* AppDelegate.swift in Sources */,
 				217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */,
+				216344CC1CC39686005CBA37 /* SocketEnginePacketType.swift in Sources */,
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				21C7ADCB1B73AB8B003C3945 /* SearchViewController.swift in Sources */,
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
 				44BD691D1B957CF000D036F0 /* ProfileSetupViewController.swift in Sources */,
+				216344D11CC39686005CBA37 /* SocketIOClientStatus.swift in Sources */,
 				21D0A0071B60C93000D3A050 /* PreloEndpoints.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */,
+				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
 				58A99A331C6D864E00E3E7D7 /* BNCStrongMatchHelper.m in Sources */,
 				21679A411B901C5300F18F90 /* MPSurveyNavigationController.m in Sources */,
 				21679A491B901C5300F18F90 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				21679A3A1B901C5300F18F90 /* MPObjectSerializerConfig.m in Sources */,
 				2141BBD01B54BE4C00787F5D /* UITextView+BFKit.swift in Sources */,
+				216344FD1CC3A855005CBA37 /* MKCollectionViewCell.swift in Sources */,
 				21EEB45C1B87036000CAD5C9 /* KumangNavigationController.swift in Sources */,
 				21C6589B1B8EF25E0037F85F /* DistancePickerView.m in Sources */,
 				2141BBDF1B54BE4C00787F5D /* SocketAckManager.swift in Sources */,
@@ -2836,12 +2941,15 @@
 				2141BBD61B54BE4C00787F5D /* README.md in Sources */,
 				2141BBC51B54BE4C00787F5D /* String+BFKit.swift in Sources */,
 				21679A301B901C5300F18F90 /* MPEnumDescription.m in Sources */,
+				216344B71CC394A1005CBA37 /* Error.swift in Sources */,
 				2141BBC41B54BE4C00787F5D /* NSThread+BFKit.swift in Sources */,
 				21C5AB851B859A250036FF6B /* BaseNavigationController.swift in Sources */,
+				216344BB1CC394A1005CBA37 /* Notifications.swift in Sources */,
 				21D387421B6B95A500D0FA90 /* FakeBridge.m in Sources */,
 				2141BBBE1B54BE4C00787F5D /* NSMutableArray+BFKit.swift in Sources */,
 				21679A3F1B901C5300F18F90 /* MPSurvey.m in Sources */,
 				21679A171B901C5300F18F90 /* MPAbstractABTestDesignerMessage.m in Sources */,
+				2163450A1CC3A855005CBA37 /* MKTextField.swift in Sources */,
 				2141BBC71B54BE4C00787F5D /* UIColor+BFKit.swift in Sources */,
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
@@ -2851,6 +2959,8 @@
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				2141BBCF1B54BE4C00787F5D /* UITextField+BFKit.swift in Sources */,
 				2141BBB41B54BE4C00787F5D /* BFPassword.swift in Sources */,
+				216344BE1CC394A1005CBA37 /* Stream.swift in Sources */,
+				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,
 				2141BBAE1B54BE4C00787F5D /* Validation.swift in Sources */,
 				2109BCA81BDDF957004F36C5 /* InstagramLoginViewController.swift in Sources */,
 				2141BBCA1B54BE4C00787F5D /* UIImage+BFKit.swift in Sources */,
@@ -2858,13 +2968,18 @@
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
+				216344BA1CC394A1005CBA37 /* NetworkReachabilityManager.swift in Sources */,
+				216344CF1CC39686005CBA37 /* SocketEngineWebsocket.swift in Sources */,
 				2141BBE51B54BE4C00787F5D /* SocketIOClient.swift in Sources */,
 				58A99A461C6D864E00E3E7D7 /* BranchRegisterViewRequest.m in Sources */,
+				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
 				2141BBB21B54BE4C00787F5D /* BFButton.swift in Sources */,
+				216344FA1CC3A855005CBA37 /* MKActivityIndicator.swift in Sources */,
 				2141BBC21B54BE4C00787F5D /* NSProcessInfo+BFKit.swift in Sources */,
 				2141BBC91B54BE4C00787F5D /* UIFont+BFKit.swift in Sources */,
 				212C7D351B71F3EA00360C6A /* KumangCustomView.swift in Sources */,
+				216344BD1CC394A1005CBA37 /* Result.swift in Sources */,
 				58A99A3A1C6D864E00E3E7D7 /* BranchUniversalObject.m in Sources */,
 				217251371BD4A18000926CA3 /* ContactPreloViewController.swift in Sources */,
 				2141BBC11B54BE4C00787F5D /* NSObject+BFKit.swift in Sources */,
@@ -2873,7 +2988,6 @@
 				211312541B675F6900A4DA3B /* ProductDetailCover.swift in Sources */,
 				21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */,
 				58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */,
-				2141BBDA1B54BE4C00787F5D /* MKLabel.swift in Sources */,
 				21104AB91BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift in Sources */,
 				217A18251BB4286E008D1AD8 /* TarikTunaiController.swift in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
@@ -2887,6 +3001,7 @@
 				58A99A311C6D864E00E3E7D7 /* BNCServerRequestQueue.m in Sources */,
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
 				215C52671B6B1ED200EA4E61 /* AppTools.swift in Sources */,
+				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				211BC9941B96D34600FDB1DC /* ProductCommentsController.swift in Sources */,
 				21C658621B8EC32A0037F85F /* AddProductShareViewController.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
@@ -2897,6 +3012,7 @@
 				21679A461B901C5300F18F90 /* MPTweakInline.m in Sources */,
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,
 				2141BBBB1B54BE4C00787F5D /* NSDate+BFKit.swift in Sources */,
+				216344CA1CC39686005CBA37 /* SocketAckEmitter.swift in Sources */,
 				2141BBB11B54BE4C00787F5D /* BFApp.swift in Sources */,
 				2141BBCE1B54BE4C00787F5D /* UITableView+BFKit.swift in Sources */,
 				21660B231B70A9D000910CF1 /* CartProduct.swift in Sources */,
@@ -3050,7 +3166,7 @@
 					"TARGET_OS_IOS=1",
 				);
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3084,7 +3200,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_OS_IOS=1";
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

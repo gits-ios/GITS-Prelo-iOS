@@ -245,7 +245,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (o)
             {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, f.height, 0)
-                println("an_subscribeKeyboardWithAnimations")
+                print("an_subscribeKeyboardWithAnimations")
                 
             } else
             {
@@ -355,7 +355,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         case 2:rm_image3 = 1
         case 3:rm_image4 = 1
         case 4:rm_image5 = 1
-        default:println("")
+        default:print("")
         }
     }
     
@@ -372,7 +372,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        case 2:rm_image3 = 1
 //        case 3:rm_image4 = 1
 //        case 4:rm_image5 = 1
-//        default:println("")
+//        default:print("")
 //        }
         imageViews[controller.index].image = image.image
     }
@@ -400,7 +400,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             case 2:rm_image3 = 1
             case 3:rm_image4 = 1
             case 4:rm_image5 = 1
-            default:println("")
+            default:print("")
             }
         }
     }
@@ -437,7 +437,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 case 2:self.rm_image3=0
                 case 3:self.rm_image4=0
                 case 4:self.rm_image5=0
-                default:println()
+                default:print()
                 }
                 
             } else if (forceBackOnCancel)
@@ -449,7 +449,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var activeTextview : UITextView?
     func textViewDidBeginEditing(textView: UITextView) {
-        println("textViewDidBeginEditing")
+        print("textViewDidBeginEditing")
         activeTextview = textView
     }
     
@@ -598,7 +598,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func getSizes()
     {
         request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands and Sizes")) {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
                 if let x: AnyObject = res
                 {
                     let json = JSON(x)
@@ -920,7 +920,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-            println(res)
+            print(res)
             
             if (self.editMode)
             {
@@ -930,7 +930,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 return
             }
             
-            let json = JSON(res!)
+            let json = JSON(resp.result.value!)
             
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             
@@ -1005,10 +1005,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
                 if let msg = op.responseString {
                     if let range1 = msg.rangeOfString("{\"_message\":\"") {
-                        //println(range1)
+                        //print(range1)
                         let msg1 = msg.substringFromIndex(range1.endIndex)
                         if let range2 = msg1.rangeOfString("\"}") {
-                            //println(range2)
+                            //print(range2)
                             msgContent = msg1.substringToIndex(range2.startIndex)
                         }
                     }

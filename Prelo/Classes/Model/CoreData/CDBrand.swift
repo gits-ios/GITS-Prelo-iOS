@@ -29,10 +29,12 @@ class CDBrand: NSManagedObject {
             isUpdateProgressView = true
             progressPerBrand = p! / Float(brandCount)
         }
-        for (var i = 0; i < brandCount; i++) {
+        for i in 0 ..< brandCount
+        {
             let brandJson = json[i]
             var catIds : [String] = []
-            for (var j = 0; j < brandJson["category_ids"].count; j++) {
+            for j in 0 ... brandJson["category_ids"].count
+            {
                 catIds.append(brandJson["category_ids"][j].string!)
             }
             let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
@@ -51,24 +53,24 @@ class CDBrand: NSManagedObject {
                 }
             }
         }
-        var err : NSError?
-        if (m.save(&err) == false) {
-            println("saveBrands failed")
+//        var err : NSError?
+        if (m.saveSave() == false) {
+            print("saveBrands failed")
             return false
         }
-        println("saveBrands success")
+        print("saveBrands success")
         return true
     }
     
     static func newOne(id : String, name : String, v : NSNumber, categoryIds: NSData) -> CDBrand? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m!) as! CDBrand
+        let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
         r.id = id
         r.name = name
         r.v = v
         r.categoryIds = categoryIds
-        var err : NSError?
-        if ((m?.save(&err))! == false) {
+        
+        if (m.saveSave() == false) {
             return nil
         } else {
             return r
@@ -79,21 +81,19 @@ class CDBrand: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDBrand")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
+        do {
+            let r = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            if let results = r
+            {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDBrand success")
+                }
             }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                println("deleteAll CDBrand success")
-            } else if let error = error {
-                println("deleteAll CDBrand failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            println("deleteAll CDBrand failed with fetch error : \(error)")
+        } catch {
             return false
         }
         return true
@@ -101,12 +101,11 @@ class CDBrand: NSManagedObject {
     
     static func getBrandCount() -> Int {
         let fetchReq = NSFetchRequest(entityName: "CDBrand")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r == nil) {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            return r.count
+        } catch {
             return 0
-        } else {
-            return r!.count
         }
     }
     
@@ -114,12 +113,11 @@ class CDBrand: NSManagedObject {
         let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDBrand")
         fetchReq.predicate = predicate
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return (r.first as! CDBrand).name
+        } catch {
             return nil
-        } else {
-            return (r!.first as! CDBrand).name
         }
     }
     
@@ -127,16 +125,21 @@ class CDBrand: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var brands = [CDBrand]()
         
-        var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDBrand")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
-        brands = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDBrand])!
         
         var arr : [String] = []
-        for brand in brands {
-            arr.append(brand.name + PickerViewController.TAG_START_HIDDEN + brand.id + PickerViewController.TAG_END_HIDDEN)
+        
+        do {
+            brands = try (m.executeFetchRequest(fetchReq) as? [CDBrand])!
+            
+            for brand in brands {
+                arr.append(brand.name + PickerViewController.TAG_START_HIDDEN + brand.id + PickerViewController.TAG_END_HIDDEN)
+            }
+        } catch {
+            
         }
         return arr
     }

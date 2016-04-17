@@ -75,9 +75,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func getNotif() {
-        request(APINotifAnggi.GetNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APINotifAnggi.GetNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
                 
@@ -134,9 +135,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         self.showLoading()
         if let n = notifications?[indexPath.item] {
             if (!n.read) {
-                request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.objectId)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                        let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
                             self.notifications?[indexPath.item].setRead()
@@ -243,9 +245,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     func navigateReadNotif(notif : Notification) {
         if (notif.type == 2000) { // Chat
             // Get inbox detail
-            request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let inboxData = Inbox(jsn: data)
                     
@@ -261,9 +264,9 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
-            request(Products.Detail(productId: notif.objectId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Percakapan")) {
-                    let json = JSON(res!)
+            request(Products.Detail(productId: notif.objectId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                    let json = JSON(resp.result.value!)
                     let pDetail = ProductDetail.instance(json)
                     
                     // Goto product comments
@@ -333,12 +336,12 @@ class NotifAnggiConversationCell: UITableViewCell {
         
         // Set conv status text width
         var sizeThatShouldFitTheContent = lblConvStatus.sizeThatFits(lblConvStatus.frame.size)
-        //println("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
+        //print("size untuk '\(lblConvStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblConvStatus.constant = sizeThatShouldFitTheContent.width
         
         // Set time text width
         sizeThatShouldFitTheContent = lblTime.sizeThatFits(lblTime.frame.size)
-        //println("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
+        //print("size untuk '\(lblTime)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTime.constant = sizeThatShouldFitTheContent.width
     }
 }

@@ -43,7 +43,7 @@ class PhoneReverificationViewController : BaseViewController {
                 }
             }, completion: nil)
         
-        println("verifiedHP = \(verifiedHP)")
+        print("verifiedHP = \(verifiedHP)")
         lblNoHP.text = verifiedHP
     }
     
@@ -69,9 +69,10 @@ class PhoneReverificationViewController : BaseViewController {
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
-            request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Ulang SMS")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
+                    let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
                     
                     let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController

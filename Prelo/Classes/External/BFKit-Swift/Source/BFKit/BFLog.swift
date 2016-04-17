@@ -4,7 +4,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,92 +27,68 @@
 import Foundation
 import UIKit
 
-/// Use this variable to activate o deactivate the BFLog function
+// MARK: - Global variables -
+
+/// Use this variable to activate or deactivate the BFLog function
 public var BFLogActive: Bool = true
 
-/**
-Exented NSLog
+// MARK: - Global functions -
 
-:param: message  Console message
-:param: filename File
-:param: function Function name
-:param: line     Line number
-*/
-public func BFLog(var message: String, filename: String = __FILE__, function: String = __FUNCTION__, line: Int = __LINE__)
-{
-    if BFLogActive
-    {
-        if message.hasSuffix("\n") == false
-        {
-            message += "\n"
+/**
+ Exented NSLog
+
+ - parameter message:  Console message
+ - parameter filename: File
+ - parameter function: Function name
+ - parameter line:     Line number
+ */
+public func BFLog(message: String, filename: String = #file, function: String = #function, line: Int = #line) {
+    if BFLogActive {
+        var _message = message
+        if _message.hasSuffix("\n") == false {
+            _message += "\n"
         }
         
-        if BFLogClass.logString == ""
-        {
-            BFLogClass.logString = message
-        }
-        else
-        {
-            BFLogClass.logString += message
-        }
+        BFLogClass.logString += _message
         
-        let filenameNoExt = NSString(UTF8String: filename)!.lastPathComponent.stringByDeletingPathExtension
-        let log = "(\(function)) (\(filenameNoExt):\(line) \(message)"
-        let timestamp = NSDate.dateInformationDescriptionWithInformation(NSDate().dateInformation(), dateSeparator: "-", usFormat: true)
-        print("\(timestamp) (\(function)) (\(filenameNoExt):\(line)) \(message)")
+        let filenameNoExt = NSURL(string: NSString(UTF8String: filename)! as String)!.URLByDeletingPathExtension!
+        let log = "(\(function)) (\(filenameNoExt):\(line) \(_message)"
+        let timestamp = NSDate.dateInformationDescriptionWithInformation(NSDate().dateInformation(), dateSeparator: "-", usFormat: true, nanosecond: true)
+        print("\(timestamp) \(filenameNoExt):\(line) \(function): \(_message)", terminator: "")
         
         BFLogClass.detailedLogString += log
     }
 }
 
-/**
-Get the log string
-
-:returns: Returns the log string
-*/
-public func BFLogString() -> String
-{
-    if BFLogActive
-    {
+/// Get the log string
+public var BFLogString: String {
+    if BFLogActive {
         return BFLogClass.logString
-    }
-    else
-    {
+    } else {
         return ""
     }
 }
 
-/**
-Get the detailed log string
-
-:returns: Returns the detailed log string
-*/
-public func BFDetailedLogString() -> String
-{
-    if BFLogActive
-    {
+/// Get the detailed log string
+public var BFDetailedLogString: String {
+    if BFLogActive {
         return BFLogClass.detailedLogString
-    }
-    else
-    {
+    } else {
         return ""
     }
 }
 
 /**
-Clear the log string
-*/
-public func BFLogClear()
-{
-    if BFLogActive
-    {
+ Clear the log string
+ */
+public func BFLogClear() {
+    if BFLogActive {
         BFLogClass.clearLog()
     }
 }
 
 /// The private BFLogClass created to manage the log strings
-private class BFLogClass
-{
+private class BFLogClass {
     // MARK: - Variables -
     
     /// The log string
@@ -123,10 +99,9 @@ private class BFLogClass
     // MARK: - Class functions -
     
     /**
-    Private, clear the log string
-    */
-    private static func clearLog()
-    {
+     Private, clear the log string
+     */
+    private static func clearLog() {
         logString = ""
         detailedLogString = ""
     }

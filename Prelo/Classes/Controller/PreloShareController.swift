@@ -214,8 +214,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             return
         }
         
-        println(item?.url)
-        println(item?.text)
+        print(item?.url)
+        print(item?.text)
         
         request(Method.GET, (item?.url?.absoluteString)!).validate().response{ req, res, data, error in
             if let imgData = data
@@ -269,9 +269,10 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         self.mixpanelSharedProduct("Path", username: pathName)
         
         /* FIXME: Sementara dijadiin komentar, soalnya kalo user lagi ga login terus share product via path, harusnya ga usah APIAuth.LoginPath ga sih
+        // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                println("Path login req = \(req)")
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                print("Path login req = \(req)")
                 
                 if (err != nil) { // Terdapat error
                     
@@ -417,16 +418,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                     var getResult = result as SLComposeViewControllerResult
                     switch(getResult.rawValue) {
                     case SLComposeViewControllerResult.Cancelled.rawValue:
-                        println("Cancelled")
+                        print("Cancelled")
                     case SLComposeViewControllerResult.Done.rawValue:
-                        println("Done")
+                        print("Done")
                         if (type == SLServiceTypeFacebook) {
                             self.mixpanelSharedProduct("Facebook", username: "")
                         } else if (type == SLServiceTypeTwitter) {
                             self.mixpanelSharedProduct("Twitter", username: "")
                         }
                     default:
-                        println("Error")
+                        print("Error")
                     }
                 }
                 self.presentViewController(composer, animated: true, completion: nil)

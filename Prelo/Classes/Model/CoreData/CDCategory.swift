@@ -40,10 +40,10 @@ class CDCategory: NSManagedObject {
         
         var err : NSError?
         if (m.save(&err) == false) {
-            println("saveCategories failed")
+            print("saveCategories failed")
             return false
         }
-        println("saveCategories success")
+        print("saveCategories success")
         return true
     }
     
@@ -52,7 +52,7 @@ class CDCategory: NSManagedObject {
         for (var i = 0; i < json.count; i++) {
             let childJson = json[i]
             let c = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m!) as! CDCategory
-            //println("a CDCategory created")
+            //print("a CDCategory created")
             c.id = childJson["_id"].string!
             c.name = childJson["name"].string!
             c.permalink = childJson["permalink"].string!
@@ -78,13 +78,13 @@ class CDCategory: NSManagedObject {
             
             var error : NSError?
             if (m.save(&error) == true) {
-                println("deleteAll CDCategory success")
+                print("deleteAll CDCategory success")
             } else if let error = error {
-                println("deleteAll CDCategory failed with error : \(error.userInfo)")
+                print("deleteAll CDCategory failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDCategory failed with fetch error : \(error)")
+            print("deleteAll CDCategory failed with fetch error : \(error)")
             return false
         }
         return true

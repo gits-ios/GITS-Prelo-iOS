@@ -75,9 +75,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func getNotif() {
-        request(APINotifAnggi.GetNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APINotifAnggi.GetNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
                 
@@ -227,9 +228,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.showLoading()
         if let n = notifications?[idx] {
             if (!n.read) {
-                request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                        let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
                             self.notifications?[idx].setRead()
@@ -277,9 +279,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer
-        /*request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                let json = JSON(res!)
+        /*// API Migrasi
+        request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let tpDetail = TransactionProductDetail.instance(data)
                 if let sellerId = tpDetail?.sellerId {
@@ -381,7 +384,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set trx status text width
         let sizeThatShouldFitTheContent = lblTrxStatus.sizeThatFits(lblTrxStatus.frame.size)
-        //println("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
+        //print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
         // Set collection view

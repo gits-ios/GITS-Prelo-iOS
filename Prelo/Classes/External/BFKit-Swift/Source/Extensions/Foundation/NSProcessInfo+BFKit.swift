@@ -4,7 +4,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,19 +27,16 @@
 import Foundation
 
 /// This extension adds some useful functions to NSProcessInfo
-private extension NSProcessInfo
-{
+private extension NSProcessInfo {
     // MARK: - Class functions -
     
     /**
-    Returns the CPU usage by the current App
+     Returns the CPU usage by the current App
     
-    :returns: Returns the CPU usage by the current App
-    */
-    private static func currentAppCPUUsage() -> Float
-    {
+     - returns: Returns the CPU usage by the current App
+     */
+    private static func currentAppCPUUsage() -> Float {
         // TODO: Get CPU usage
-        
         return 0.0
     }
 }

@@ -341,12 +341,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             
         } else {
             if (User.IsLoggedIn) {
-                println("To Dashboard")
+                print("To Dashboard")
                 controllerDashboard?.previousController = self
                 self.setupNormalOptions() // Agar notification terupdate
                 changeToController(controllerDashboard!)
             } else {
-                println("To Dashboard2")
+                print("To Dashboard2")
                 controllerDashboard2?.previousController = self
                 changeToController(controllerDashboard2!)
             }

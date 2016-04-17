@@ -55,7 +55,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         } else if (parentType == "Prelo.ProductDetailViewController") {
             l.screenBeforeLogin = PageName.ProductDetail
         }
-        //println("screenBeforeLogin = \(l.screenBeforeLogin)")
+        //print("screenBeforeLogin = \(l.screenBeforeLogin)")
         l.userRelatedDelegate = userRelatedDelegate
         l.isFromTourVC = isFromTourVC
         
@@ -65,7 +65,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         parent.presentViewController(n, animated: animated, completion: nil)
     }
     
-    static func SendDeviceRegId(#onFinish: ()?) {
+    static func SendDeviceRegId(onFinish: () -> () = {}) {
         // Store device registration ID to server
         // Di titik inilah user dianggap login/logout, sehingga di titik inilah user mulai/berhenti menerima push notification
         // Get device token
@@ -73,21 +73,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (User.IsLoggedIn && NSUserDefaults.standardUserDefaults().stringForKey("deviceregid") != nil) {
             deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
         }
-        request(APIUser.SetDeviceRegId(deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Set Device Registration ID")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.SetDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set Device Registration ID")) {
+                let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].int!
                 if (isSuccess == 1) { // Berhasil
-                    println("Kode deviceRegId berhasil ditambahkan: \(deviceToken)")
+                    print("Kode deviceRegId berhasil ditambahkan: \(deviceToken)")
                 } else { // Gagal
-                    println("Error setting deviceRegId")
+                    print("Error setting deviceRegId")
                 }
             }
             
             // Execute onFinish
-            if (onFinish != nil) {
-                onFinish
-            }
+//            if (onFinish != nil) {
+//                
+//            }
+            onFinish()
         }
     }
     
@@ -104,9 +106,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         // Get user profile from API and check if required data is set
         // Required data: gender, phone, province, region, shipping
-        request(APIUser.Me).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Profil Pengguna")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.Me).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Profil Pengguna")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 let userProfileData = UserProfile.instance(data)
@@ -141,26 +144,26 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
                     CDUser.deleteAll()
-                    let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                    let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
                     user.id = userProfileData!.id
                     user.email = userProfileData!.email
                     user.fullname = userProfileData!.fullname
                     user.username = userProfileData!.username
                     
                     CDUserProfile.deleteAll()
-                    let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                    let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile)
                     user.profiles = userProfile
                     userProfile.regionID = userProfileData!.regionId
                     userProfile.provinceID = userProfileData!.provinceId
                     userProfile.gender = userProfileData!.gender!
                     userProfile.phone = userProfileData!.phone!
-                    userProfile.pict = userProfileData!.profPictURL!.absoluteString!
+                    userProfile.pict = userProfileData!.profPictURL!.absoluteString
                     userProfile.postalCode = userProfileData!.postalCode
                     userProfile.address = userProfileData!.address
                     userProfile.desc = userProfileData!.desc
                     
                     CDUserOther.deleteAll()
-                    let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+                    let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther)
                     userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
                     userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
                     userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
@@ -203,7 +206,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     if let c = CDUser.getOne() {
                         let provinceName = CDProvince.getProvinceNameWithID(c.profiles.provinceID)
                         let regionName = CDRegion.getRegionNameWithID(c.profiles.regionID)
-                        let sp = [
+                        let sp : [NSObject : AnyObject] = [
                             "User ID" : c.id,
                             "Email" : c.email,
                             "Username" : c.username,
@@ -248,7 +251,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 // Next screen based on isProfileSet
                 if (isProfileSet) {
                     // Send deviceRegId, then dismiss
-                    LoginViewController.SendDeviceRegId(onFinish: sender.dismiss())
+                    LoginViewController.SendDeviceRegId({
+                        sender.dismiss()
+                    })
                 } else {
                     // Go to profile setup or phone verification
                     if (userProfileData!.email != "" &&
@@ -327,26 +332,27 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                         let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                                         let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                                         
-                                        //println("result = \(result)")
-                                        //println("profilePictureUrl = \(profilePictureUrl)")
-                                        //println("accessToken = \(accessToken)")
+                                        //print("result = \(result)")
+                                        //print("profilePictureUrl = \(profilePictureUrl)")
+                                        //print("accessToken = \(accessToken)")
                                         
-                                        request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
-                                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
-                                                let json = JSON(res!)
+//                                        API Migrasi
+                                        request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
+                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                                                let json = JSON(resp.result.value!)
                                                 let data = json["_data"]
                                                 // Save in core data
                                                 let m = UIApplication.appDelegate.managedObjectContext
                                                 var user : CDUser? = CDUser.getOne()
                                                 if (user == nil) {
-                                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
                                                 }
                                                 user!.id = data["_id"].stringValue
                                                 user!.username = data["username"].stringValue
                                                 user!.email = data["email"].stringValue
                                                 user!.fullname = data["fullname"].stringValue
                                                 
-                                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+                                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
                                                 let pr = data["profile"]
                                                 p.pict = pr["pict"].string!
                                                 
@@ -415,7 +421,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 let twShareEmailVC = TWTRShareEmailViewController() { email, error in
                     if (email != nil) {
                         twEmail = email!
-                        //println("twEmail = \(twEmail)")
+                        //print("twEmail = \(twEmail)")
                         
                         let twClient = TWTRAPIClient()
                         let twShowUserEndpoint = "https://api.twitter.com/1.1/users/show.json"
@@ -431,76 +437,83 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
                             sender.dismiss()
                         } else {
-                            twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
-                                if (err != nil) { // Error
-                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
-                                    if (vcLogin != nil) {
-                                        vcLogin!.hideLoading()
-                                    }
-                                    if (vcRegister != nil) {
-                                        vcRegister!.hideLoading()
-                                    }
-                                } else { // Succes
-                                    var jsonErr : NSError?
-                                    let json : AnyObject? = NSJSONSerialization.JSONObjectWithData(res!, options: nil, error: &jsonErr)
-                                    let data = JSON(json!)
-                                    println("Twitter user show json: \(data)")
-                                    
-                                    twFullname = data["name"].string!
-                                    
-                                    request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON { req, resp, res, err in
-                                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Twitter")) {
-                                            let json = JSON(res!)
-                                            let data = json["_data"]
-                                            if (data == nil || data == []) { // Data kembalian kosong
-                                                if (json["_message"] != nil) {
-                                                    Constant.showDialog("Warning", message: json["_message"].string!)
-                                                    if (vcLogin != nil) {
-                                                        vcLogin!.hideLoading()
-                                                    }
-                                                    if (vcRegister != nil) {
-                                                        vcRegister!.hideLoading()
-                                                    }
-                                                }
-                                            } else { // Berhasil
-                                                println("Twitter login data: \(data)")
-                                                
-                                                // Save in core data
-                                                let m = UIApplication.appDelegate.managedObjectContext
-                                                var user : CDUser? = CDUser.getOne()
-                                                if (user == nil) {
-                                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                                                }
-                                                user!.id = data["_id"].string!
-                                                user!.username = data["username"].string!
-                                                user!.email = data["email"].string!
-                                                user!.fullname = data["fullname"].string!
-                                                
-                                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                                                let pr = data["profile"]
-                                                p.pict = pr["pict"].string!
-                                                
-                                                user!.profiles = p
-                                                UIApplication.appDelegate.saveContext()
-                                                
-                                                // Save in NSUserDefaults
-                                                NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                                                NSUserDefaults.standardUserDefaults().synchronize()
-                                                
-                                                // Check if user have set his account
-                                                LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
-                                            }
-                                        } else {
-                                            if (vcLogin != nil) {
-                                                vcLogin!.hideLoading()
-                                            }
-                                            if (vcRegister != nil) {
-                                                vcRegister!.hideLoading()
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            // API Migrasi
+//                            twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
+//                                if (err != nil)
+//                                { // Error
+//                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
+//                                    if (vcLogin != nil) {
+//                                        vcLogin!.hideLoading()
+//                                    }
+//                                    if (vcRegister != nil) {
+//                                        vcRegister!.hideLoading()
+//                                    }
+//                                } else { // Succes
+//                                    var jsonErr : NSError?
+//                                    do {
+//                                        let json : AnyObject? = try NSJSONSerialization.JSONObjectWithData(res!, options: .AllowFragments)
+//                                        let data = JSON(json!)
+//                                        print("Twitter user show json: \(data)")
+//                                        
+//                                        twFullname = data["name"].string!
+//                                        
+//                                        request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
+//                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+//                                                let json = JSON(resp.result.value!)
+//                                                let data = json["_data"]
+//                                                if (data == nil || data == []) { // Data kembalian kosong
+//                                                    if (json["_message"] != nil) {
+//                                                        Constant.showDialog("Warning", message: json["_message"].string!)
+//                                                        if (vcLogin != nil) {
+//                                                            vcLogin!.hideLoading()
+//                                                        }
+//                                                        if (vcRegister != nil) {
+//                                                            vcRegister!.hideLoading()
+//                                                        }
+//                                                    }
+//                                                } else { // Berhasil
+//                                                    print("Twitter login data: \(data)")
+//                                                    
+//                                                    // Save in core data
+//                                                    let m = UIApplication.appDelegate.managedObjectContext
+//                                                    var user : CDUser? = CDUser.getOne()
+//                                                    if (user == nil) {
+//                                                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+//                                                    }
+//                                                    user!.id = data["_id"].string!
+//                                                    user!.username = data["username"].string!
+//                                                    user!.email = data["email"].string!
+//                                                    user!.fullname = data["fullname"].string!
+//                                                    
+//                                                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+//                                                    let pr = data["profile"]
+//                                                    p.pict = pr["pict"].string!
+//                                                    
+//                                                    user!.profiles = p
+//                                                    UIApplication.appDelegate.saveContext()
+//                                                    
+//                                                    // Save in NSUserDefaults
+//                                                    NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+//                                                    NSUserDefaults.standardUserDefaults().synchronize()
+//                                                    
+//                                                    // Check if user have set his account
+//                                                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
+//                                                }
+//                                            } else {
+//                                                if (vcLogin != nil) {
+//                                                    vcLogin!.hideLoading()
+//                                                }
+//                                                if (vcRegister != nil) {
+//                                                    vcRegister!.hideLoading()
+//                                                }
+//                                            }
+//                                        }
+//                                    } catch err
+//                                    {
+//                                        
+//                                    }
+//                                }
+//                            }
                         }
                     } else {
                         Constant.showDialog("Warning", message: "Error getting Twitter e-mail")
@@ -627,21 +640,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     func callAPIForgotPassword(email : String)
     {
-        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lupa Password")) {
-                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-            }
-        }
+        // API Migrasi
+//        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+//                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+//            }
+//        }
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
-            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lupa Password")) {
-                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-                }
-            }
+            // API Migrasi
+//            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON {resp in
+//                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+//                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+//                }
+//            }
         }
     }
     
@@ -675,16 +690,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             return
         }
         
-        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login")) {
-                let json = JSON(res!)
-                let data = json["_data"]
-                //self.getProfile(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
-            } else {
-                self.hideLoading()
-            }
-        }
+        // API Migrasi
+//        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
+//                let json = JSON(resp.result.value!)
+//                let data = json["_data"]
+//                //self.getProfile(data["token"].string!)
+//                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
+//            } else {
+//                self.hideLoading()
+//            }
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -693,7 +709,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -778,37 +794,38 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
         
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                let json = JSON(res!)
-                let data = json["_data"]
-                // Save in core data
-                let m = UIApplication.appDelegate.managedObjectContext
-                var user : CDUser? = CDUser.getOne()
-                if (user == nil) {
-                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                }
-                user!.id = data["_id"].string!
-                user!.username = data["username"].string!
-                user!.email = data["email"].string!
-                user!.fullname = data["fullname"].string!
-                
-                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                let pr = data["profile"]
-                p.pict = pr["pict"].string!
-                
-                user!.profiles = p
-                UIApplication.appDelegate.saveContext()
-                
-                // Save in NSUserDefaults
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
-                
-                // Check if user have set his account
-                //self.checkProfileSetup(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
-            }
-        }
+        // API Migrasi
+//        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+//                let json = JSON(resp.result.value!)
+//                let data = json["_data"]
+//                // Save in core data
+//                let m = UIApplication.appDelegate.managedObjectContext
+//                var user : CDUser? = CDUser.getOne()
+//                if (user == nil) {
+//                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+//                }
+//                user!.id = data["_id"].string!
+//                user!.username = data["username"].string!
+//                user!.email = data["email"].string!
+//                user!.fullname = data["fullname"].string!
+//                
+//                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+//                let pr = data["profile"]
+//                p.pict = pr["pict"].string!
+//                
+//                user!.profiles = p
+//                UIApplication.appDelegate.saveContext()
+//                
+//                // Save in NSUserDefaults
+//                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+//                NSUserDefaults.standardUserDefaults().synchronize()
+//                
+//                // Check if user have set his account
+//                //self.checkProfileSetup(data["token"].string!)
+//                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+//            }
+//        }
     }
     
     func hideLoading() {

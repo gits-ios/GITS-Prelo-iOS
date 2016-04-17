@@ -34,11 +34,11 @@ extension NSMutableURLRequest
         if (User.IsLoggedIn) {
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
-            println("User token = \(t)")   
+            print("User token = \(t)")   
         }
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         if (userAgent != nil) {
-            //println("User-Agent = \(userAgent)")
+            //print("User-Agent = \(userAgent)")
             r.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         }
         
@@ -96,13 +96,13 @@ enum APIApp : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIApp.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -181,13 +181,13 @@ enum APISocial : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISocial.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             
-            println("\(req.allHTTPHeaderFields)")
+            print("\(req.allHTTPHeaderFields)")
             
             let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
             
@@ -229,13 +229,13 @@ enum APIWallet : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIWallet.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             
-            println("\(req.allHTTPHeaderFields)")
+            print("\(req.allHTTPHeaderFields)")
             
             let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
             
@@ -293,13 +293,13 @@ enum APINotif : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotif.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -351,13 +351,13 @@ enum APINotifAnggi : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APINotifAnggi.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -421,13 +421,13 @@ enum APIInbox : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIInbox.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             
-            println("\(req.allHTTPHeaderFields)")
+            print("\(req.allHTTPHeaderFields)")
             
             let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
             
@@ -465,13 +465,13 @@ enum APITransactionCheck : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionCheck.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             
-            println("\(req.allHTTPHeaderFields)")
+            print("\(req.allHTTPHeaderFields)")
             
             let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
             
@@ -555,13 +555,13 @@ enum APITransaction : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -607,12 +607,12 @@ enum APITransaction2 : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransaction2.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
             
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
             
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param)).0
             
@@ -658,13 +658,13 @@ enum APITransactionAnggi : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APITransactionAnggi.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -719,13 +719,13 @@ enum APICart : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
         
-        println("\(req.allHTTPHeaderFields)")
+        print("\(req.allHTTPHeaderFields)")
         
         let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
         
@@ -820,13 +820,13 @@ enum APIAuth : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             
-            println("\(req.allHTTPHeaderFields)")
+            print("\(req.allHTTPHeaderFields)")
             
             let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
             
@@ -862,7 +862,7 @@ enum APIVisitor : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIVisitor.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
@@ -1024,7 +1024,7 @@ enum APIUser : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIUser.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1135,7 +1135,7 @@ enum Products : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(Products.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1221,7 +1221,7 @@ enum APIProduct : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIProduct.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1298,7 +1298,7 @@ enum APISearch : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APISearch.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1333,7 +1333,7 @@ enum APIDemo : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIDemo.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1388,7 +1388,7 @@ enum References : URLRequestConvertible
         }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
     {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(References.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1431,7 +1431,7 @@ enum APIPeople : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSURLRequest
+    var URLRequest : NSMutableURLRequest
         {
             let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIPeople.basePath).URLByAppendingPathComponent(path)
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
@@ -1475,7 +1475,7 @@ enum APIGarageSale : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIGarageSale.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue
@@ -1518,18 +1518,18 @@ class APIPrelo
         Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
         Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
         
-        println("\(reqAlias) req = \(req)")
+        print("\(reqAlias) req = \(req)")
         
         if let response = resp
         {
             if (response.statusCode != 200)
             {
                 if (res != nil) {
-                    if let msg = JSON(res!)["_message"].string {
+                    if let msg = JSON(resp.result.value!)["_message"].string {
                         if (showErrorDialog) {
                             UIAlertView.SimpleShow(reqAlias, message: msg)
                         }
-                        println("\(reqAlias) _message = \(msg)")
+                        print("\(reqAlias) _message = \(msg)")
                         
                         if (msg == "user belum login") {
                             User.Logout()
@@ -1572,14 +1572,14 @@ class APIPrelo
             {
                 UIAlertView.SimpleShow(reqAlias, message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
             }
-            println("\(reqAlias) err = \(error.description)")
+            print("\(reqAlias) err = \(error.description)")
             return false
         }
         else
         {
-            let json = JSON(res!)
+            let json = JSON(resp.result.value!)
             let data = json["_data"]
-            println("\(reqAlias) _data = \(data)")
+            print("\(reqAlias) _data = \(data)")
             return true
         }
     }

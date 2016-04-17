@@ -272,7 +272,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - PreloNotifListenerDelegate function
     
     func showNewNotifCount(count: Int) {
-        println("showNewNotifCount: \(count)")
+        print("showNewNotifCount: \(count)")
         setupNormalOptions()
     }
     

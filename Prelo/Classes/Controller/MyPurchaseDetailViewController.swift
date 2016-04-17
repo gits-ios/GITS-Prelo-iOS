@@ -160,12 +160,13 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     func getPurchaseDetail() {
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Belanjaan Saya")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Belanjaan Saya")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                println("Transaction detail: \(data)")
+                print("Transaction detail: \(data)")
                 
                 // Set label text and image
                 self.transactionDetail = TransactionProductDetail.instance(data)
@@ -215,7 +216,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // lblAlamatPengiriman height fix
         let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
         var sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
-        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
         var groupPengirimanFrame : CGRect = groupPengiriman.frame
@@ -387,7 +388,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 if (sender == b) {
                     isFound = true
                     loveValue = i + 1
-                    println("loveValue = \(loveValue)")
+                    print("loveValue = \(loveValue)")
                 }
                 lblsRvwLove[i].text = ""
             } else {
@@ -403,12 +404,12 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func rvwKirimPressed(sender: AnyObject) {
         self.sendMode(true)
-        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Penjual")) {
-                let json = JSON(res!)
+        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
+                let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue
-                //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                 } else {

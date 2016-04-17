@@ -134,9 +134,9 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 ```swift
 Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .response { (request, response, data, error) in
-                     println(request)
-                     println(response)
-                     println(error)
+                     print(request)
+                     print(response)
+                     print(error)
                    }
 ```
 
@@ -158,7 +158,7 @@ Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
 ```swift
 Alamofire.request(.GET, "http://httpbin.org/get")
          .responseString { (_, _, string, _) in
-                  println(string)
+                  print(string)
          }
 ```
 
@@ -167,7 +167,7 @@ Alamofire.request(.GET, "http://httpbin.org/get")
 ```swift
 Alamofire.request(.GET, "http://httpbin.org/get")
          .responseJSON { (_, _, JSON, _) in
-                  println(JSON)
+                  print(JSON)
          }
 ```
 
@@ -178,10 +178,10 @@ Response handlers can even be chained:
 ```swift
 Alamofire.request(.GET, "http://httpbin.org/get")
          .responseString { (_, _, string, _) in
-                  println(string)
+                  print(string)
          }
          .responseJSON { (_, _, JSON, _) in
-                  println(JSON)
+                  print(JSON)
          }
 ```
 
@@ -314,10 +314,10 @@ Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
 ```swift
 Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
          .progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-             println(totalBytesWritten)
+             print(totalBytesWritten)
          }
          .responseJSON { (request, response, JSON, error) in
-             println(JSON)
+             print(JSON)
          }
 ```
 
@@ -358,10 +358,10 @@ Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destinati
 ```swift
 Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
          .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-             println(totalBytesRead)
+             print(totalBytesRead)
          }
          .response { (request, response, _, error) in
-             println(response)
+             print(response)
          }
 ```
 
@@ -385,7 +385,7 @@ let password = "password"
 Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
          .authenticate(user: user, password: password)
          .response {(request, response, _, error) in
-             println(response)
+             print(response)
          }
 ```
 
@@ -400,7 +400,7 @@ let credential = NSURLCredential(user: user, password: password, persistence: .F
 Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
          .authenticate(usingCredential: credential)
          .response {(request, response, _, error) in
-             println(response)
+             print(response)
          }
 ```
 
@@ -415,7 +415,7 @@ Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .validate(statusCode: 200..<300)
          .validate(contentType: ["application/json"])
          .response { (_, _, _, error) in
-                  println(error)
+                  print(error)
          }
 ```
 
@@ -427,7 +427,7 @@ Automatically validates status code within `200...299` range, and that the `Cont
 Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
          .validate()
          .response { (_, _, _, error) in
-                  println(error)
+                  print(error)
          }
 ```
 
@@ -436,7 +436,7 @@ Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
 ```swift
 let request = Alamofire.request(.GET, "http://httpbin.org/ip")
 
-println(request)
+print(request)
 // GET http://httpbin.org/ip (200)
 ```
 
@@ -445,7 +445,7 @@ println(request)
 ```swift
 let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
 
-debugPrintln(request)
+debugprint(request)
 ```
 
 #### Output (cURL)
@@ -610,7 +610,7 @@ final class User: ResponseObjectSerializable {
 ```swift
 Alamofire.request(.GET, "http://example.com/users/mattt")
          .responseObject { (_, _, user: User?, _) in
-             println(user)
+             print(user)
          }
 ```
 

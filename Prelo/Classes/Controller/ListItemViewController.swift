@@ -67,8 +67,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.title = storeName
         }
         
-        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
+        // API Migrasi
+        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                 
             }
         }
@@ -95,7 +96,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        println("viewWillDisappear x")
+        print("viewWillDisappear x")
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
@@ -134,12 +135,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.done = false
             self.requesting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Daftar Barang")) {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                 self.products = []
-                var obj = JSON(res!)
+                var obj = JSON(resp.result.value!)
                 for (index : String, item : JSON) in obj["_data"]
                 {
                     let p = Product.instance(item)
@@ -207,13 +209,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             catId = standaloneCategoryID
         } else {
-            println(category)
+            print(category)
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Product By Category")) {
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
                 self.setupData(res)
             }
             self.setupGrid()
@@ -224,9 +227,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     {
         requesting = true
         
-        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Product"))
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product"))
             {
                 self.setupData(res)
             } else {
@@ -240,11 +244,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func getStoreProduct()
     {
         self.requesting = true
-        request(APIPeople.GetShopPage(id: storeId)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APIPeople.GetShopPage(id: storeId)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Data Shop Pengguna"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna"))
             {
-                println(res)
+                print(res)
                 self.setupData(res)
                 
                 if (self.storeHeader == nil)
@@ -253,8 +258,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     self.gridView.addSubview(self.storeHeader!)
                 }
                 
-                let json = JSON(res!)["_data"]
-                println(json)
+                let json = JSON(resp.result.value!)["_data"]
+                print(json)
                 
                 self.storeName = json["username"].stringValue
                 self.storeHeader?.captionName.text = self.storeName
@@ -379,9 +384,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func setupData(res : AnyObject?)
     {
-        println(res)
-        var obj = JSON(res!)
-        println(obj)
+        print(res)
+        var obj = JSON(resp.result.value!)
+        print(obj)
         if let arr = obj["_data"].array
         {
             if arr.count == 0
@@ -594,7 +599,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func pinch(pinchedIn : Bool)
     {
-        println("current stage : \(listStage)")
+        print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3)
         {
@@ -605,7 +610,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             listStage = 3
         }
         
-        println("next stage : \(listStage)")
+        print("next stage : \(listStage)")
         
         setupGrid()
         

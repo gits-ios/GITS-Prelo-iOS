@@ -75,12 +75,14 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     @IBAction func logout()
     {
         // Remove deviceRegId so the device won't receive push notification
-        LoginViewController.SendDeviceRegId(onFinish: nil)
+        LoginViewController.SendDeviceRegId()
         
         // Tell server
-        request(APIAuth.Logout).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Logout")) {
-                println("Logout API success")
+        // API Migrasi
+        // API Migrasi
+        request(APIAuth.Logout).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout")) {
+                print("Logout API success")
             }
         }
         
@@ -134,12 +136,12 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     // MARK: - Other functions
     
     func printCoreDataCount() {
-        println("Category = \(CDCategory.getCategoryCount())")
-        println("Brand = \(CDBrand.getBrandCount())")
-        println("CategorySize = \(CDCategorySize.getCategorySizeCount())")
-        println("Shipping = \(CDShipping.getShippingCount())")
-        println("ProductCondition = \(CDProductCondition.getProductConditionCount())")
-        println("Province = \(CDProvince.getProvinceCount())")
+        print("Category = \(CDCategory.getCategoryCount())")
+        print("Brand = \(CDBrand.getBrandCount())")
+        print("CategorySize = \(CDCategorySize.getCategorySizeCount())")
+        print("Shipping = \(CDShipping.getShippingCount())")
+        print("ProductCondition = \(CDProductCondition.getProductConditionCount())")
+        print("Province = \(CDProvince.getProvinceCount())")
     }
     
     func reloadingAppData() {
@@ -157,9 +159,10 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
         a.show()
 
-        request(APIApp.Metadata(brands: "1", categories: "1", categorySizes: "1", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Reload App Data")) {
-                let metaJson = JSON(res!)
+        // API Migrasi
+        request(APIApp.Metadata(brands: "1", categories: "1", categorySizes: "1", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Reload App Data")) {
+                let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]
                 
                 var isSuccess : Bool = true
@@ -171,7 +174,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                         
                         // Update categories
-                        println("Updating categories..")
+                        print("Updating categories..")
                         if (CDCategory.deleteAll(moc)) {
                             if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -191,7 +194,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                         
                         // Update brands
-                        println("Updating brands..")
+                        print("Updating brands..")
                         if (CDBrand.deleteAll(moc)) {
                             if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
                             } else {
@@ -208,7 +211,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                         
                         // Update category sizes
-                        println("Updating category sizes..")
+                        print("Updating category sizes..")
                         if (CDCategorySize.deleteAll(moc)) {
                             if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -228,7 +231,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                     
                         // Update shippings
-                        println("Updating shippings..")
+                        print("Updating shippings..")
                         if (CDShipping.deleteAll(moc)) {
                             if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -248,7 +251,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                         
                         // Update product conditions
-                        println("Updating product conditions..")
+                        print("Updating product conditions..")
                         if (CDProductCondition.deleteAll(moc)) {
                             if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                                 dispatch_async(dispatch_get_main_queue(), {
@@ -268,7 +271,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         moc.persistentStoreCoordinator = psc
                         
                         // Update provinces regions
-                        println("Updating provinces regions..")
+                        print("Updating provinces regions..")
                         if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                             if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                                 dispatch_async(dispatch_get_main_queue(), {

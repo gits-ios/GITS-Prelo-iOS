@@ -51,8 +51,8 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     func getCategory()
     {
-        request(References.CategoryList).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Kategori")) {
+        request(References.CategoryList).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Kategori")) {
                 NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.setupData()
@@ -158,7 +158,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(parent)
+        print(parent)
         if let name = parent["name"].string
         {
             self.title = name.capitalizedString
@@ -198,7 +198,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         let j = categories[indexPath.row]
         if let name = j["name"].string
         {
-            println(j)
+            print(j)
             c?.textLabel!.text = name
         }
         

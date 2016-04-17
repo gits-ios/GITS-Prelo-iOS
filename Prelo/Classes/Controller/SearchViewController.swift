@@ -57,11 +57,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         })
         
-        request(APISearch.GetTopSearch(limit: "10")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Top Search"))
+        // API Migrasi
+        request(APISearch.GetTopSearch(limit: "10")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search"))
             {
                 self.topSearchLoading.hidden = true
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let data = json["_data"].array
                 {
                     if (data.count > 0)
@@ -156,7 +157,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 tag.y = y
                 let b = tag.bounds
                 let f = tag.frame
-                println("tag new y : \(y)")
+                print("tag new y : \(y)")
             }
 //            tag.y = y
             let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
@@ -396,11 +397,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.searchMode = true
                 l.searchKey = currentKeyword
-                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
-                        println("TOP")
-                        println(res)
-                        println("TOPEND")
+                // API Migrasi
+        request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                        print("TOP")
+                        print(res)
+                        print("TOPEND")
                     }
                 }
                 AppToolsObjC.insertNewSearch(txtSearch.text)
@@ -408,11 +410,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
-                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
-                        println("TOP")
-                        println(res)
-                        println("TOPEND")
+                // API Migrasi
+        request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                        print("TOP")
+                        print(res)
+                        print("TOPEND")
                     }
                 }
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
@@ -425,7 +428,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
                 u.keyword = txtSearch.text
-                request(APISearch.InsertTopSearch(search: txtSearch.text))
+                // API Migrasi
+        request(APISearch.InsertTopSearch(search: txtSearch.text))
                 self.navigationController?.pushViewController(u, animated: true)
                 
             } else
@@ -435,7 +439,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.storeMode = true
                 d.storeName = u.username
                 
-                request(APISearch.InsertTopSearch(search: u.username))
+                // API Migrasi
+        request(APISearch.InsertTopSearch(search: u.username))
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
@@ -479,13 +484,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
+        itemRequest = // API Migrasi
+        request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
         
-        itemRequest?.responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Item"))
+        itemRequest?.responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Item"))
             {
                 self.foundItems = []
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     if (arr.count > 0)
@@ -529,12 +535,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        userRequest = request(APISearch.User(keyword: keyword))
+        userRequest = // API Migrasi
+        request(APISearch.User(keyword: keyword))
         userRequest?.responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search User"))
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
             {
                 self.foundUsers = []
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     if (arr.count > 0)

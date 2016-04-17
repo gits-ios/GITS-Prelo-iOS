@@ -477,28 +477,30 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             
             // Get device token
             let deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
-            //println("deviceToken = \(deviceToken)")
+            //print("deviceToken = \(deviceToken)")
             
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
             // Set token first, because APIUser.SetupAccount & APIUser.SetUserPreferencedCategories need token
             User.SetToken(self.userToken)
             
-            request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON { req, resp, res, err in
+            // API Migrasi
+        request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Setelan Akun")) {
-                    let json = JSON(res!)
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
                     // Set user's preferenced categories by current stored categories
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
-                    request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Set User Preferenced Categories")) {
-                            let json = JSON(res!)
+                    // API Migrasi
+        request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
+                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set User Preferenced Categories")) {
+                            let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!
                             if (isSuccess) { // Berhasil
-                                println("Success setting user preferenced categories")
+                                print("Success setting user preferenced categories")
                             } else { // Gagal
-                                println("Error setting user preferenced categories")
+                                print("Error setting user preferenced categories")
                             }
                         }
                         // Delete token because user is considered not logged in

@@ -75,7 +75,7 @@ class APImage
             }
             
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                assetLib?.assetForURL(self.url!, resultBlock: { asset in
+                self.assetLib?.assetForURL(self.url!, resultBlock: { asset in
                     if let ast = asset {
                         let rep = ast.defaultRepresentation()
                         let ref = rep.fullScreenImage().takeUnretainedValue()

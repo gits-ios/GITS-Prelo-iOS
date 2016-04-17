@@ -30,11 +30,14 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
     func getUsers()
     {
         self.title = "Loading.."
-        request(APISearch.User(keyword: keyword)).responseJSON { req, resp, res, err in
-            //println(res)
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Search User"))
+        // API Migrasi
+        request(APISearch.User(keyword: keyword))
+//            .responseJSON {resp in
+            .responseJSON { resp in
+            //print(res)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     for i in 0...arr.count-1
@@ -69,8 +72,8 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if (self.failed == true)
         {
-            let c = tableView.dequeueReusableCellWithIdentifier("cell2") as! UITableViewCell
-            return c
+            let c = tableView.dequeueReusableCellWithIdentifier("cell2")
+            return c!
         }
         
         let c = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchUserCell2

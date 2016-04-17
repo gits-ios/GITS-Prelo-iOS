@@ -60,9 +60,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.title = PageName.Checkout
         
-        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout - Unpaid Transaction")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
                     let nUnpaid = data["n_transaction_unpaid"].intValue
@@ -266,7 +267,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
-        println(p)
+        print(p)
         
         var pID = ""
         var rID = ""
@@ -278,9 +279,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
         
-        request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Keranjang Belanja")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
+                let json = JSON(resp.result.value!)
                 self.currentCart = json
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
@@ -420,7 +422,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 postal = (b?.value)!
             }
             
-            println((b?.title)! + " : " + (b?.value)!)
+            print((b?.title)! + " : " + (b?.value)!)
         }
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
@@ -441,18 +443,19 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         self.btnSend.enabled = false
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON { req, resp, res, err in
-            println(res)
+        // API Migrasi
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON {resp in
+            print(res)
             self.btnSend.enabled = true
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout")) {
-                var json = JSON(res!)
-                println(json)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
+                var json = JSON(resp.result.value!)
+                print(json)
                 if let error = json["_message"].string
                 {
                     Constant.showDialog("Warning", message: error)
                 } else {
-                    println(res)
-                    let json = JSON(res!)
+                    print(res)
+                    let json = JSON(resp.result.value!)
                     self.checkoutResult = json["_data"]
                     
                     if (json["_data"]["_have_error"].intValue == 1)
@@ -908,13 +911,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var shouldBack = false
     func itemNeedDelete(indexPath: NSIndexPath) {
         let j = arrayItem[indexPath.row]
-        println(j)
+        print(j)
         arrayItem.removeAtIndex(indexPath.row)
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonStringFrom(c)
         
-        println(x)
+        print(x)
         
         let pid = j["product_id"].stringValue
         
@@ -933,7 +936,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if let p = deletedProduct
         {
             products.removeAtIndex(index)
-            println(p.cpID)
+            print(p.cpID)
             UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
             UIApplication.appDelegate.saveContext()
         }
@@ -978,7 +981,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if let cp = cartProduct
         {
-            println(j)
+            print(j)
             var names : Array<String> = []
             var arr = j["shipping_packages"].array
             if let shippings = j["shipping_packages"].arrayObject
@@ -1317,7 +1320,7 @@ class CartCellItem : UITableViewCell
     
     func adapt (json : JSON)
     {
-        println(json)
+        print(json)
         captionName?.text = json["name"].stringValue
         captionLocation?.text = ""
         

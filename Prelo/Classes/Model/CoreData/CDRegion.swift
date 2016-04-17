@@ -23,7 +23,7 @@ class CDRegion : NSManagedObject {
         r.name = name
         r.province = province
         var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m?.saveSave() == false) {
             return nil
         } else {
             return r
@@ -42,13 +42,13 @@ class CDRegion : NSManagedObject {
             
             var error : NSError?
             if (m.save(&error) == true) {
-                println("deleteAll CDRegion success")
+                print("deleteAll CDRegion success")
             } else if let error = error {
-                println("deleteAll CDRegion failed with error : \(error.userInfo)")
+                print("deleteAll CDRegion failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDRegion failed with fetch error : \(error)")
+            print("deleteAll CDRegion failed with fetch error : \(error)")
             return false
         }
         return true

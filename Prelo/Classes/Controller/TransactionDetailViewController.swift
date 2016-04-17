@@ -161,9 +161,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         
         if (req != nil) {
-            request(req!).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Transaksi")) {
-                    let json = JSON(res!)
+            request(req!).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Transaksi")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
                     if (self.trxId != nil) {
@@ -1068,17 +1068,18 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 buyerId = self.trxProductDetail!.buyerId
             }
             // Get product detail from API
-            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
-                    let json = JSON(res!)
+            request(Products.Detail(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
-                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON { req, resp, res, err in
-                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
-                                let json = JSON(res!)
+                        // API Migrasi
+        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
+                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                                let json = JSON(resp.result.value!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                                     t.tawarItem = Inbox(jsn: json["_data"])
                                     self.navigationController?.pushViewController(t, animated: true)
@@ -1117,9 +1118,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Pembeli")) {
-                    let json = JSON(res!)
+            request(Products.Detail(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
                         
                         // Goto chat
@@ -1140,9 +1141,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            request(APIGarageSale.CancelReservation(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Cancel Reservation")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APIGarageSale.CancelReservation(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
+                    let json = JSON(resp.result.value!)
                     if let success = json["_data"].bool {
                         if (success) {
                             isSuccess = true
@@ -1272,9 +1274,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         if (self.trxId != nil) {
-            request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
+                    let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
                     if (data != nil || data == true) {
                         Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
@@ -1312,7 +1315,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (sender == b) {
                     isFound = true
                     loveValue = i + 1
-                    println("loveValue = \(loveValue)")
+                    print("loveValue = \(loveValue)")
                 }
                 lblsRvwLove[i].text = ""
             } else {
@@ -1329,12 +1332,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBAction func reviewKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Penjual")) {
-                    let json = JSON(res!)
+            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
+                    let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
                     let dataInt : Int = json["_data"].intValue
-                    //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                    //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                     if (dataBool == true || dataInt == 1) {
                         Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                     } else {

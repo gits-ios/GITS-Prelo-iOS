@@ -72,9 +72,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         GAI.trackPageVisit(PageName.Referral)
         
         var isEmailVerified : Bool = false
-        request(APIUser.Me).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Referral Page - Get Profile")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.Me).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
                 // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
@@ -153,9 +154,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func getReferralData() {
+        // API Migrasi
         request(APIUser.ReferralData).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
-                let json = JSON(res!)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 self.saldo = data["bonus"].int!
@@ -233,9 +235,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         self.mixpanelSharedReferral("Path", username: pathName)
         
         /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
+        // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                let json = JSON(res!)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 // Save in core data
@@ -286,7 +289,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
-        println("DidEndPreview")
+        print("DidEndPreview")
     }
     
     // MARK: - IBActions
@@ -312,12 +315,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 var getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
-                    println("Cancelled")
+                    print("Cancelled")
                 case SLComposeViewControllerResult.Done.rawValue:
-                    println("Done")
+                    print("Done")
                     self.mixpanelSharedReferral("Facebook", username: "")
                 default:
-                    println("Error")
+                    print("Error")
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -338,12 +341,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 var getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
-                    println("Cancelled")
+                    print("Cancelled")
                 case SLComposeViewControllerResult.Done.rawValue:
-                    println("Done")
+                    print("Done")
                     self.mixpanelSharedReferral("Twitter", username: "")
                 default:
-                    println("Error")
+                    print("Error")
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -422,9 +425,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         } else {
             self.showLoading()
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Prelo Bonus")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Prelo Bonus")) {
+                    let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
                         Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
@@ -478,8 +482,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 a.title = "Prelo Bonus"
                 a.message = "Mengirim e-mail..."
                 a.show()
-                request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
+                // API Migrasi
+        request(APIUser.ResendVerificationEmail).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
                         a.dismissWithClickedButtonIndex(-1, animated: true)
                         Constant.showDialog("Prelo Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }

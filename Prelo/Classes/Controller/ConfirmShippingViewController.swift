@@ -218,7 +218,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
             
             AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                println("Confirm shipping res = \(res)")
+                print("Confirm shipping res = \(res)")
                 let json = JSON(res)
                 let data = json["_data"].boolValue
                 if (data == true) {

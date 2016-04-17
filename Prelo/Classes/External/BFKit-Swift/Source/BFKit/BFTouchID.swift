@@ -4,7 +4,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,27 +28,25 @@ import Foundation
 import LocalAuthentication
 
 /// This class adds some useful functions to use TouchID
-@availability(*, introduced=8.0)
-public class BFTouchID
-{
+@available(iOS 8, *)
+public class BFTouchID {
     // MARK: - Enums -
     
     /**
-    Touch result enum
+     Touch result enum
     
-    - Success:              Success
-    - Error:                Error
-    - AuthenticationFailed: Authentication Failed
-    - UserCancel:           User Cancel
-    - UserFallback:         User Fallback
-    - SystemCancel:         System Cancel
-    - PasscodeNotSet:       Passcode Not Set
-    - NotAvailable:         Not Available
-    - NotEnrolled:          Not Enrolled
-    */
-    @availability(*, introduced=8.0)
-    public enum TouchIDResult : Int
-    {
+     - Success:              Success
+     - Error:                Error
+     - AuthenticationFailed: Authentication Failed
+     - UserCancel:           User Cancel
+     - UserFallback:         User Fallback
+     - SystemCancel:         System Cancel
+     - PasscodeNotSet:       Passcode Not Set
+     - NotAvailable:         Not Available
+     - NotEnrolled:          Not Enrolled
+     */
+    @available(iOS 8, *)
+    public enum TouchIDResult : Int {
         case Success
         case Error
         case AuthenticationFailed
@@ -63,53 +61,50 @@ public class BFTouchID
     // MARK: - Class functions -
     
     /**
-    Shows the TouchID alert
+     Shows the TouchID alert
     
-    :param: reason     Text to show in the alert
-    :param: completion Completion handler. It returns the TouchID result, from the TouchIDResult enum
-    */
-    public static func showTouchIDAuthenticationWithReason(reason: String, completion: (TouchIDResult) -> ())
-    {
+     - parameter reason:        Text to show in the alert
+     - parameter fallbackTitle: Default title "Enter Password" is used when this property is left nil. If set to empty string, the button will be hidden
+     - parameter completion:    Completion handler. It returns the TouchID result, from the TouchIDResult enum
+     */
+    public static func showTouchIDAuthenticationWithReason(reason: String, fallbackTitle: String? = nil, completion: (result: TouchIDResult) -> ()) {
+        
         let context: LAContext = LAContext()
         
+        context.localizedFallbackTitle = fallbackTitle
+        
         var error: NSError?
-        if context.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error)
-        {
-            context.evaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: NSError!) -> Void in
-                if success
-                {
-                    completion(.Success)
-                }
-                else
-                {
-                    switch error.code
-                    {
+        if context.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: NSError?) -> Void in
+                if success {
+                    completion(result: .Success)
+                } else {
+                    switch error!.code {
                     case LAError.AuthenticationFailed.rawValue:
-                        completion(.AuthenticationFailed)
+                        completion(result: .AuthenticationFailed)
                     case LAError.UserCancel.rawValue:
-                        completion(.UserCancel)
+                        completion(result: .UserCancel)
                     case LAError.UserFallback.rawValue:
-                        completion(.UserFallback)
+                        completion(result: .UserFallback)
                     case LAError.SystemCancel.rawValue:
-                        completion(.SystemCancel)
+                        completion(result: .SystemCancel)
                     default:
-                        completion(.Error)
+                        completion(result: .Error)
                     }
                 }
             })
         }
         else
         {
-            switch error!.code
-            {
+            switch error!.code {
             case LAError.PasscodeNotSet.rawValue:
-                completion(.PasscodeNotSet)
+                completion(result: .PasscodeNotSet)
             case LAError.TouchIDNotAvailable.rawValue:
-                completion(.NotAvailable)
+                completion(result: .NotAvailable)
             case LAError.TouchIDNotEnrolled.rawValue:
-                completion(.NotEnrolled)
+                completion(result: .NotEnrolled)
             default:
-                completion(.Error)
+                completion(result: .Error)
             }
         }
     }

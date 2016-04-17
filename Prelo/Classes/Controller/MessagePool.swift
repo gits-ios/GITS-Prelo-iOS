@@ -42,26 +42,26 @@ class MessagePool: NSObject
             socket = SocketIOClient(socketURL: AppTools.PreloBaseUrl)
             
             socket.on("connect", callback:{ data, ack in
-                println("Socket connected, registering..")
+                print("Socket connected, registering..")
                 self.register()
             })
             
             socket.on("disconnect", callback:{ data, ack in
-                println("Socket disconnected, reconnecting..")
+                print("Socket disconnected, reconnecting..")
                 self.socket.reconnect()
             })
             
             socket.on("error", callback:{ data, ack in
-                println(data)
-                println(ack)
+                print(data)
+                print(ack)
             })
             
             socket.on("reconnect", callback:{ data, ack in
-                println("Socket reconnected")
+                print("Socket reconnected")
             })
             
             socket.on("message", callback:{ data, ack in
-                println(data)
+                print(data)
                 
                 if let arr = data
                 {
@@ -86,14 +86,14 @@ class MessagePool: NSObject
             })
             
             socket.on("clients", callback:{ data, ack in
-                println(data)
+                print(data)
             })
             
             let del = UIApplication.sharedApplication().delegate as! AppDelegate
             let notifListener = del.preloNotifListener
             socket.on("notification", callback: { data, ack in
                 if (!notifListener.willReconnect) {
-                    println("Get notification from messagepool")
+                    print("Get notification from messagepool")
                     notifListener.handleNotification(JSON(data!)[0])
                 }
             })
@@ -102,7 +102,7 @@ class MessagePool: NSObject
             }
             
             // FOR TESTING
-            self.socket.onAny {println("Got socket event: \($0.event), with items: \($0.items)")}
+            self.socket.onAny {print("Got socket event: \($0.event), with items: \($0.items)")}
             
             socket.connect()
         }
@@ -116,7 +116,7 @@ class MessagePool: NSObject
             socket.emit("register", id)
         } else
         {
-            println("REGISTER SOCKET.IO FAILED BECAUSE USER IS NONE")
+            print("REGISTER SOCKET.IO FAILED BECAUSE USER IS NONE")
         }
     }
     

@@ -31,10 +31,10 @@ class CDShipping: NSManagedObject {
         }
         var err : NSError?
         if (m.save(&err) == false) {
-            println("saveShippings failed")
+            print("saveShippings failed")
             return false
         }
-        println("saveShippings success")
+        print("saveShippings success")
         return true
     }
     
@@ -46,7 +46,7 @@ class CDShipping: NSManagedObject {
         r.packageId = packageId
         r.packageName = packageName
         var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m?.saveSave() == false) {
             return nil
         } else {
             return r
@@ -65,13 +65,13 @@ class CDShipping: NSManagedObject {
             
             var error : NSError?
             if (m.save(&error) == true) {
-                println("deleteAll CDShipping success")
+                print("deleteAll CDShipping success")
             } else if let error = error {
-                println("deleteAll CDShipping failed with error : \(error.userInfo)")
+                print("deleteAll CDShipping failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDShipping failed with fetch error : \(error)")
+            print("deleteAll CDShipping failed with fetch error : \(error)")
             return false
         }
         return true

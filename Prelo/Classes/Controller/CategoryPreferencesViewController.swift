@@ -112,12 +112,12 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         let priority : Int? = find(self.selectedIds, categories[indexPath.item].id)
         if (priority != nil) { // Sedang terpilih
             selectedIds.removeAtIndex(priority!)
-            println("selectedIds = \(selectedIds)")
+            print("selectedIds = \(selectedIds)")
             self.setupCollection()
         } else { // Sedang tidak terpilih
             if (self.selectedIds.count < 3) {
                 self.selectedIds.append(cell.categoryId)
-                println("selectedIds = \(selectedIds)")
+                print("selectedIds = \(selectedIds)")
                 cell.lblPriority.text = "\(self.selectedIds.count)"
                 cell.lblPriority.hidden = false
                 cell.imgCategory.hidden = true
@@ -211,7 +211,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
                 self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
                 self.imgCategory.tintColor = UIColor.whiteColor()
                 }, failure: { (_, _, err) -> Void in
-                    println("Show category image err: \(err)")
+                    print("Show category image err: \(err)")
             })
         }
     }

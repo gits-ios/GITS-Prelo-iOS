@@ -145,7 +145,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Set fields' default value
         if (userProfile.pict != "") {
-            //println("userProfile.pict = \(userProfile.pict)")
+            //print("userProfile.pict = \(userProfile.pict)")
             let url = NSURL(string: userProfile.pict)
             if (url != nil) {
                 self.imgUser.image = nil
@@ -189,7 +189,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Shipping
         let shippingIds : [String] = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
-        //println("shippingIds = \(shippingIds)")
+        //print("shippingIds = \(shippingIds)")
         for (var i = 0; i < shippingIds.count; i++) {
             let shipId : String = shippingIds[i]
             let shipName : String = CDShipping.getShippingCompleteNameWithId(shipId)!
@@ -332,9 +332,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     func instagramLoginSuccess(token: String, id: String, name: String) {
-        request(APISocial.PostInstagramData(id: id, username: name, token: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Instagram")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APISocial.PostInstagramData(id: id, username: name, token: token)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"].bool
                 if (data != nil && data == true) { // Berhasil
                     // Save in core data
@@ -417,14 +418,15 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         let name = result["name"] as? String
                         let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                         
-                        println("result = \(result)")
-                        println("accessToken = \(accessToken)")
+                        print("result = \(result)")
+                        print("accessToken = \(accessToken)")
                         
                         // userId & name is required
                         if (userId != nil && name != nil) {
-                            request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { req, resp, res, err in
-                                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
-                                    let json = JSON(res!)
+                            // API Migrasi
+        request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                                    let json = JSON(resp.result.value!)
                                     let data = json["_data"].bool
                                     
                                     // Save in core data
@@ -481,9 +483,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     let twToken = session!.authToken
                     let twSecret = session!.authTokenSecret
                     
-                    request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Twitter")) {
-                            let json = JSON(res!)
+                    // API Migrasi
+        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON {resp in
+                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                            let json = JSON(resp.result.value!)
                             let data = json["_data"].bool
                             
                             // Save in core data
@@ -540,9 +543,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         let pathName = userData["name"].string!
         let email = userData["email"].string!
         
-        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"].bool
                 
                 // Save in core data
@@ -627,9 +631,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.hideLoading()
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
-                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Instagram")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"].bool
                         
                         // Save in core data
@@ -647,9 +652,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     self.hideLoading()
                 }
             } else if (alertView.title == "Facebook Logout") {
-                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Facebook")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"].bool
                         
                         // End session
@@ -670,9 +676,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     self.hideLoading()
                 }
             } else if (alertView.title == "Twitter Logout") {
-                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Twitter")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"].bool
                         
                         // End session
@@ -694,9 +701,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     self.hideLoading()
                 }
             } else if (alertView.title == "Path Logout") {
-                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Logout Path")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"].bool
                         
                         // Save in core data
@@ -728,10 +736,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         userProfile.phone = newPhone
         let m = UIApplication.appDelegate.managedObjectContext
         var err : NSError?
-        if ((m?.save(&err))! == false) {
-            println("Update phone in core data failed")
+        if (m?.saveSave() == false) {
+            print("Update phone in core data failed")
         } else {
-            println("Update phone in core data success")
+            print("Update phone in core data success")
         }
     }
     
@@ -747,7 +755,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     func textViewDidChange(textView: UITextView) {
         let fieldTentangShopHeight = fieldTentangShop.frame.size.height
         var sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
-        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         
         // Tambahkan tinggi scrollview content sesuai dengan penambahan tinggi textview
         contentViewHeightConstraint.constant = contentViewHeightConstraint.constant + sizeThatShouldFitTheContent.height - fieldTentangShopHeight
@@ -819,9 +827,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             let tentangShop : String = (fieldTentangShop.text != FldTentangShopPlaceholder) ? fieldTentangShop.text : ""
             
             if (!self.isUserPictUpdated) {
-                request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Edit Profil")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APIUser.SetProfile(fullname: fieldNama.text, address: fieldAlamat.text, province: selectedProvinsiID, region: selectedKabKotaID, postalCode: fieldKodePos.text, description: tentangShop, shipping: shipping)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Edit Profil")) {
+                        let json = JSON(resp.result.value!)
                         self.simpanDataSucceed(json)
                     } else {
                         self.btnSimpanData.enabled = true
@@ -844,11 +853,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                    println("Edit profile res = \(res)")
+                    print("Edit profile res = \(res)")
                     let json = JSON(res)
                     self.simpanDataSucceed(json)
                 }, failure: { op, err in
-                    println(err) // failed
+                    print(err) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
                     self.btnSimpanData.enabled = true
                     self.loadingPanel.hidden = true
@@ -859,7 +868,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     func simpanDataSucceed(json : JSON) {
-        println("json = \(json)")
+        print("json = \(json)")
         let data = json["_data"]
         let profile : UserProfile = UserProfile.instance(data)!
         let m = UIApplication.appDelegate.managedObjectContext
@@ -889,7 +898,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.loadingPanel.hidden = true
             self.loading.stopAnimating()
         } else {
-            println("Data saved")
+            print("Data saved")
             self.navigationController?.popViewControllerAnimated(true)
         }
     }

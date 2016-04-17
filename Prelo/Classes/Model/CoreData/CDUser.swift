@@ -64,13 +64,13 @@ class CDUser: NSManagedObject {
             
             var error : NSError?
             if (m?.save(&error) != nil) {
-                println("deleteAll CDUser success")
+                print("deleteAll CDUser success")
             } else if let error = error {
-                println("deleteAll CDUser failed with error : \(error.userInfo)")
+                print("deleteAll CDUser failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDUser failed with fetch error : \(error)")
+            print("deleteAll CDUser failed with fetch error : \(error)")
             return false
         }
         return true

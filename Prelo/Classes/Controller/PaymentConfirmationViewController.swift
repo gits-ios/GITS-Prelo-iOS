@@ -31,8 +31,8 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         self.title = "Pesanan Saya"
         
         // DEBUG: Tableview bounds and frame
-        //println("tableView bounds = \(tableView.bounds)")
-        //println("tableView frame = \(tableView.frame)")
+        //print("tableView bounds = \(tableView.bounds)")
+        //print("tableView frame = \(tableView.frame)")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -68,9 +68,10 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     }
     
     func getUserCheckouts() {
-        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Pesanan Saya")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Pesanan Saya")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 // Store data into variable
@@ -125,7 +126,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //println("Row \(indexPath.row) selected")
+        //print("Row \(indexPath.row) selected")
         
         let u : UserCheckout = (userCheckouts?[indexPath.item])!
         if (u.progress == 2) { // Pembayaran pending

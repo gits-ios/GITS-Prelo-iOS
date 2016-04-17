@@ -63,12 +63,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func getUserReviews() {
-        request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Pengguna")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Pengguna")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let r = UserReview.instance(item)
                     if (r != nil) {
                         self.userReviews.append(r!)
@@ -110,7 +111,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //println("Row \(indexPath.row) selected")
+        //print("Row \(indexPath.row) selected")
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath:  NSIndexPath) -> CGFloat {
@@ -142,7 +143,7 @@ class ShopReviewCell : UITableViewCell {
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblStar.attributedText = attrStringLove
     }
 }

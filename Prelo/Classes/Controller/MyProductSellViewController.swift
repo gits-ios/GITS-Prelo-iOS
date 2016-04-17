@@ -68,8 +68,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getProducts()
     {
-        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya")) {
+        // API Migrasi
+        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
                 if let result: AnyObject = res
                 {
                     let j = JSON(result)
@@ -174,7 +175,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             // Fix product status text width
             let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-            //println("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+            //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
             cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         }
         

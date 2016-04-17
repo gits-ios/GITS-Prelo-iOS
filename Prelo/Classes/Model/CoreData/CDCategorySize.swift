@@ -39,10 +39,10 @@ class CDCategorySize: NSManagedObject {
         }
         var err : NSError?
         if (m.save(&err) == false) {
-            println("saveCategorySizes failed")
+            print("saveCategorySizes failed")
             return false
         }
-        println("saveCategorySizes success")
+        print("saveCategorySizes success")
         return true
     }
     
@@ -56,7 +56,7 @@ class CDCategorySize: NSManagedObject {
         r.typeName = typeName
         r.typeSizes = typeSizes
         var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m?.saveSave() == false) {
             return nil
         } else {
             return r
@@ -75,13 +75,13 @@ class CDCategorySize: NSManagedObject {
             
             var error : NSError?
             if (m.save(&error) == true) {
-                println("deleteAll CDCategorySize success")
+                print("deleteAll CDCategorySize success")
             } else if let error = error {
-                println("deleteAll CDCategorySize failed with error : \(error.userInfo)")
+                print("deleteAll CDCategorySize failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDCategorySize failed with fetch error : \(error)")
+            print("deleteAll CDCategorySize failed with fetch error : \(error)")
             return false
         }
         return true

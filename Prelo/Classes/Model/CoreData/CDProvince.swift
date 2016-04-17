@@ -22,7 +22,7 @@ class CDProvince : NSManagedObject {
             let p = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
             p.id = provJson["_id"].string!
             p.name = provJson["name"].string!
-            //println("Province \(p.name) added")
+            //print("Province \(p.name) added")
             for (var j = 0; j < provJson["regions"].count; j++) {
                 let regJson = provJson["regions"][j]
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
@@ -30,16 +30,16 @@ class CDProvince : NSManagedObject {
                 r.name = regJson["name"].string!
                 r.province = p
                 p.regions.addObject(r)
-                //println("Region: \(r.name) added to province: \(p.name)")
+                //print("Region: \(r.name) added to province: \(p.name)")
             }
         }
         
         var err : NSError?
         if (m.save(&err) == false) {
-            println("saveProvinceRegions failed")
+            print("saveProvinceRegions failed")
             return false
         }
-        println("saveProvinceRegions success")
+        print("saveProvinceRegions success")
         return true
     }
     
@@ -55,13 +55,13 @@ class CDProvince : NSManagedObject {
             
             var error : NSError?
             if (m.save(&error) == true) {
-                println("deleteAll CDProvince success")
+                print("deleteAll CDProvince success")
             } else if let error = error {
-                println("deleteAll CDProvince failed with error : \(error.userInfo)")
+                print("deleteAll CDProvince failed with error : \(error.userInfo)")
                 return false
             }
         } else if let error = error {
-            println("deleteAll CDProvince failed with fetch error : \(error)")
+            print("deleteAll CDProvince failed with fetch error : \(error)")
             return false
         }
         return true

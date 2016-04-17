@@ -71,9 +71,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Conditions")) {
-                        let json = JSON(res!)
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Conditions")) {
+                        let json = JSON(resp.result.value!)
                         let brands = json["product_conditions"].array
                         var items : Array<String> = []
                         if let arrBrands = brands
@@ -104,9 +104,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands")) {
-                        let json = JSON(res!)
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands")) {
+                        let json = JSON(resp.result.value!)
                         let brands = json["brands"].array
                         var items : Array<String> = []
                         if let arrBrands = brands
@@ -337,9 +337,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            println(res)
+            print(res)
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON(res!)
+            let json = JSON(resp.result.value!)
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
@@ -443,7 +443,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     */
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        println("index \(buttonIndex)")
+        print("index \(buttonIndex)")
         if (buttonIndex == 0)
         {
             replaceIndex = -1
@@ -613,7 +613,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (r == 0) {
                 var g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
                 g.decorate()
-                println("asd")
+                print("asd")
                 c = g
             } else if (r == 1) {
                 let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")

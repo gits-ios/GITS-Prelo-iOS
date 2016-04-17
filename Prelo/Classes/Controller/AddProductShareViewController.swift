@@ -105,12 +105,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         var getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
                         case SLComposeViewControllerResult.Cancelled.rawValue:
-                            println("Cancelled")
+                            print("Cancelled")
                         case SLComposeViewControllerResult.Done.rawValue:
-                            println("Done")
+                            print("Done")
                             self.updateButtons(sender)
                         default:
-                            println("Error")
+                            print("Error")
                         }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     }
@@ -136,12 +136,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         var getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
                         case SLComposeViewControllerResult.Cancelled.rawValue:
-                            println("Cancelled")
+                            print("Cancelled")
                         case SLComposeViewControllerResult.Done.rawValue:
-                            println("Done")
+                            print("Done")
                             self.updateButtons(sender)
                         default:
-                            println("Error")
+                            print("Error")
                         }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     }
@@ -164,8 +164,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     }
     
     func instagramLoginSuccess(token: String) {
-        request(APISocial.StoreInstagramToken(token: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Store Instagram Token")) {
+        // API Migrasi
+        request(APISocial.StoreInstagramToken(token: token)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Store Instagram Token")) {
                 
             } else {
                 self.select(self.pathSender!)
@@ -181,9 +182,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 let twToken = session!.authToken
                 let twSecret = session!.authTokenSecret
                 
-                request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Post Twitter Data")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Post Twitter Data")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"].bool
                         if (data != nil && data == true) { // Berhasil
                             // Save in core data
@@ -211,10 +213,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if (error != nil) { // Process error
-                println("Process error")
+                print("Process error")
                 User.LogoutFacebook()
             } else if result.isCancelled { // User cancellation
-                println("User cancel")
+                print("User cancel")
                 User.LogoutFacebook()
             } else { // Success
                 if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
@@ -237,7 +239,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 
                 if ((error) != nil) {
                     // Handle error
-                    println("Error fetching facebook profile")
+                    print("Error fetching facebook profile")
                 } else {
                     // Handle Profile Photo URL String
                     let userId =  result["id"] as! String
@@ -246,8 +248,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     
-                    request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbUsername: name, fbAccessToken: accessToken)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Login Facebook")) {
+                    // API Migrasi
+        request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbUsername: name, fbAccessToken: accessToken)).responseJSON {resp in
+                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                             self.me?.others.fbAccessToken = accessToken
                             UIApplication.appDelegate.saveContext()
                         }
@@ -264,8 +267,9 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         let email = userData["email"].string!
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
+        // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
                 NSUserDefaults.standardUserDefaults().synchronize()
             } else {
@@ -387,8 +391,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             }
         }
         
-        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Share Commission")) {
+        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
                 let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! UIViewController
                 self.navigationController?.pushViewController(b, animated: true)
             } else {

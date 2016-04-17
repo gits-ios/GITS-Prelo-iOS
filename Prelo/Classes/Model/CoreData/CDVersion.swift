@@ -57,10 +57,10 @@ class CDVersion: NSManagedObject {
         }
         
         var err : NSError?
-        if ((m?.save(&err))! == false) {
-            println("saveVersion failed")
+        if (m?.saveSave() == false) {
+            print("saveVersion failed")
         } else {
-            println("saveVersion success")
+            print("saveVersion success")
         }
     }
 }

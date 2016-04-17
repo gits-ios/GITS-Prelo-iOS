@@ -105,7 +105,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             return false
         } else {
             let usernameRegex = "^[a-zA-Z0-9_]{4,15}$"
-            if (txtUsername?.text.match(usernameRegex) == false) {
+            if (txtUsername?.text!.match(usernameRegex) == false) {
                 txtUsername?.text = ""
                 var placeholder = NSAttributedString(string: "Username: 4-15 char (a-z, A-Z, 0-9, _)", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
                 txtUsername?.attributedPlaceholder = placeholder
@@ -117,7 +117,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             txtEmail?.attributedPlaceholder = placeholder
             return false
         }
-        if (txtEmail?.text.rangeOfString("@") == nil) {
+        if (txtEmail?.text!.rangeOfString("@") == nil) {
             var placeholder = NSAttributedString(string: "E-mail tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.text = ""
             txtEmail?.attributedPlaceholder = placeholder
@@ -127,7 +127,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             var placeholder = NSAttributedString(string: "Kata sandi harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtPassword?.attributedPlaceholder = placeholder
             return false
-        } else if (txtPassword?.text.length() < 6) {
+        } else if (txtPassword?.text!.length < 6) {
             var placeholder = NSAttributedString(string: "Kata sandi minimal 6 karakter", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtPassword?.attributedPlaceholder = placeholder
             txtPassword?.text = ""
@@ -185,41 +185,42 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
-        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Register")) {
-                let json = JSON(res!)
-                let data = json["_data"]
-                
-                let m = UIApplication.appDelegate.managedObjectContext
-                CDUser.deleteAll()
-                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-                c.id = data["_id"].stringValue
-                c.email = data["email"].stringValue
-                c.username = data["username"].stringValue
-                c.fullname = data["fullname"].stringValue
-                
-                CDUserProfile.deleteAll()
-                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-                let pr = data["profile"]
-                p.pict = pr["pict"].stringValue
-                c.profiles = p
-                
-                CDUserOther.deleteAll()
-                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
-                let oth = data["others"]
-                o.lastLogin = oth["last_login"].stringValue
-                o.registerTime = oth["register_time"].stringValue
-                c.others = o
-                
-                UIApplication.appDelegate.saveContext()
-                
-                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
-                
-                self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
-            } else {
-                self.btnRegister?.enabled = true
-            }
-        }
+        // API Migrasi
+//        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Register")) {
+//                let json = JSON(resp.result.value!)
+//                let data = json["_data"]
+//                
+//                let m = UIApplication.appDelegate.managedObjectContext
+//                CDUser.deleteAll()
+//                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
+//                c.id = data["_id"].stringValue
+//                c.email = data["email"].stringValue
+//                c.username = data["username"].stringValue
+//                c.fullname = data["fullname"].stringValue
+//                
+//                CDUserProfile.deleteAll()
+//                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
+//                let pr = data["profile"]
+//                p.pict = pr["pict"].stringValue
+//                c.profiles = p
+//                
+//                CDUserOther.deleteAll()
+//                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
+//                let oth = data["others"]
+//                o.lastLogin = oth["last_login"].stringValue
+//                o.registerTime = oth["register_time"].stringValue
+//                c.others = o
+//                
+//                UIApplication.appDelegate.saveContext()
+//                
+//                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+//                
+//                self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
+//            } else {
+//                self.btnRegister?.enabled = true
+//            }
+//        }
         
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
         //self.toProfileSetup("", userToken : "", userEmail : "", isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
@@ -249,7 +250,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -296,50 +297,51 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
 
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                let json = JSON(res!)
-                let data = json["_data"]
-                
-                // Save in core data
-                let m = UIApplication.appDelegate.managedObjectContext
-                var user : CDUser? = CDUser.getOne()
-                if (user == nil) {
-                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
-                }
-                user!.id = data["_id"].string!
-                user!.username = data["username"].string!
-                user!.email = data["email"].string!
-                user!.fullname = data["fullname"].string!
-                
-                var p : CDUserProfile? = CDUserProfile.getOne()
-                if (p == nil) {
-                    p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
-                }
-                let pr = data["profile"]
-                p!.pict = pr["pict"].string!
-                
-                var o : CDUserOther? = CDUserOther.getOne()
-                if (o == nil) {
-                    o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                }
-                o!.pathID = pathId
-                o!.pathUsername = pathName
-                o!.pathAccessToken = token
-                
-                user!.profiles = p!
-                user!.others = o!
-                UIApplication.appDelegate.saveContext()
-                
-                // Save in NSUserDefaults
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
-                
-                // Check if user have set his account
-                //self.checkProfileSetup(data["token"].string!)
-                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
-            }
-        }
+        // API Migrasi
+//        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+//                let json = JSON(resp.result.value!)
+//                let data = json["_data"]
+//                
+//                // Save in core data
+//                let m = UIApplication.appDelegate.managedObjectContext
+//                var user : CDUser? = CDUser.getOne()
+//                if (user == nil) {
+//                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+//                }
+//                user!.id = data["_id"].string!
+//                user!.username = data["username"].string!
+//                user!.email = data["email"].string!
+//                user!.fullname = data["fullname"].string!
+//                
+//                var p : CDUserProfile? = CDUserProfile.getOne()
+//                if (p == nil) {
+//                    p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+//                }
+//                let pr = data["profile"]
+//                p!.pict = pr["pict"].string!
+//                
+//                var o : CDUserOther? = CDUserOther.getOne()
+//                if (o == nil) {
+//                    o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
+//                }
+//                o!.pathID = pathId
+//                o!.pathUsername = pathName
+//                o!.pathAccessToken = token
+//                
+//                user!.profiles = p!
+//                user!.others = o!
+//                UIApplication.appDelegate.saveContext()
+//                
+//                // Save in NSUserDefaults
+//                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+//                NSUserDefaults.standardUserDefaults().synchronize()
+//                
+//                // Check if user have set his account
+//                //self.checkProfileSetup(data["token"].string!)
+//                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+//            }
+//        }
     }
     
     func hideLoading() {

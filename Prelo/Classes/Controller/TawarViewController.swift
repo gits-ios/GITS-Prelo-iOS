@@ -158,7 +158,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
-        println("prodStatus = \(self.prodStatus)")
+        print("prodStatus = \(self.prodStatus)")
         if (self.prodStatus != 1) // Jika produk sudah dibeli
         {
             btnTawar1.hidden = true
@@ -337,13 +337,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInbox()
     {
         self.tableView.hidden = true
-        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Get Inbox By Product ID")) {}
+        // API Migrasi
+        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Inbox By Product ID")) {}
             self.tableView.hidden = false
-            let json = JSON(res!)
+            let json = JSON(resp.result.value!)
             let data = json["_data"]
             let i = Inbox(jsn: data)
-            //println(data)
+            //print(data)
             if (i.itemId != "")
             {
                 self.tawarItem = i
@@ -351,7 +352,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarFromMe = self.tawarItem.bargainerIsMe
             self.adjustButtons()
             self.getMessages()
-            //println(res)
+            //print(res)
         }
     }
     
@@ -363,11 +364,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
-        request(api).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
+        // API Migrasi
+        request(API).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
-                let json = JSON(res!)
-                println(res)
+                let json = JSON(resp.result.value!)
+                print(res)
                 if let arr = json["_data"]["messages"].array
                 {
                     if (arr.count > 0)
@@ -597,12 +599,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
-        request(api).responseJSON { req, resp, res, err in
-            println(res)
+        // API Migrasi
+        request(API).responseJSON {resp in
+            print(res)
             self.starting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let inbox = Inbox(jsn: data)
                 self.tawarItem = inbox
@@ -623,7 +626,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
             } else
             {
-                println(err)
+                print(err)
             }
         }
     }

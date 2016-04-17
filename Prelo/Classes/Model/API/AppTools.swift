@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 extension UIApplication
 {
@@ -378,6 +379,33 @@ extension NSUserDefaults
     static func setObjectAndSync(value : AnyObject?, forKey key : String) {
         NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+}
+
+extension NSManagedObjectContext
+{
+    public func saveSave() -> Bool
+    {
+        var success = true
+        do {
+            try self.save()
+        } catch
+        {
+            success = false
+        }
+        return success
+    }
+}
+
+extension NSData
+{
+    public func convertToUTF8String() -> String
+    {
+        if let s = NSString(data: self, encoding: NSUTF8StringEncoding)
+        {
+            return s as String
+        }
+        return ""
     }
 }
 

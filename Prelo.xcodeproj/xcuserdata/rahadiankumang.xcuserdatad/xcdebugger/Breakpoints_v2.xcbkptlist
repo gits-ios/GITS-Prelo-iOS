@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "628"
             endingLineNumber = "628"
-            landmarkName = "numberOfSectionsInTableView(_:)"
+            landmarkName = "didReceiveMemoryWarning()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -345,7 +345,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2419"
             endingLineNumber = "2419"
-            landmarkName = "InboxMessage"
+            landmarkName = "Inbox"
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
@@ -457,7 +457,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "548"
             endingLineNumber = "548"
-            landmarkName = "pinch(_:)"
+            landmarkName = "prepareForSegue(_:sender:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -473,8 +473,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "536"
             endingLineNumber = "536"
-            landmarkName = "pinch(_:)"
-            landmarkType = "5">
+            landmarkName = "ListItemViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -489,8 +489,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "537"
             endingLineNumber = "537"
-            landmarkName = "pinch(_:)"
-            landmarkType = "5">
+            landmarkName = "ListItemViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -505,7 +505,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "fetch(_:descending:complete:failed:)"
+            landmarkName = "fetch(_:ascending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -521,7 +521,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "fetch(_:descending:complete:failed:)"
+            landmarkName = "fetch(_:ascending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -537,7 +537,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "fetch(_:descending:complete:failed:)"
+            landmarkName = "fetch(_:ascending:complete:failed:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -665,8 +665,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1308"
             endingLineNumber = "1308"
-            landmarkName = "adapt(_:)"
-            landmarkType = "5">
+            landmarkName = "CartCellItem"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -681,8 +681,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1309"
             endingLineNumber = "1309"
-            landmarkName = "adapt(_:)"
-            landmarkType = "5">
+            landmarkName = "CartCellItem"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -745,7 +745,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "731"
             endingLineNumber = "731"
-            landmarkName = "messageArrived(_:)"
+            landmarkName = "sendDummy(_:message:delay:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1001,8 +1001,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "586"
             endingLineNumber = "586"
-            landmarkName = "startNew(_:message:)"
-            landmarkType = "5">
+            landmarkName = "TawarViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1017,7 +1017,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "519"
             endingLineNumber = "519"
-            landmarkName = "sendChat(_:message:)"
+            landmarkName = "addChat(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

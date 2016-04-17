@@ -98,12 +98,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     var sellerId : String = ""
     func getComments()
     {
-        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Komentar Barang"))
+        // API Migrasi
+        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
                 self.tableView.reloadData()
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let id = json["_data"]["seller_id"].string
                 {
                     self.sellerId = id
@@ -150,8 +151,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.resignFirstResponder()
         txtMessage.editable = false
         
-        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Komentar Barang"))
+        // API Migrasi
+        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)

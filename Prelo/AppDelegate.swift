@@ -144,12 +144,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Register push notification
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
         {
-            let setting = UIUserNotificationSettings(forTypes: (UIUserNotificationType.Badge|UIUserNotificationType.Sound|UIUserNotificationType.Alert), categories: nil)
+            let setting = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
             UIApplication.sharedApplication().registerUserNotificationSettings(setting)
         } else
         {
-            let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
-            UIApplication.sharedApplication().registerForRemoteNotificationTypes(types)
+//            let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
+            UIApplication.sharedApplication().registerForRemoteNotificationTypes([.Badge, .Sound, .Alert])
         }
         
         // Handling push notification from APNS
@@ -182,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
                 if (error != nil) { // Process error
-                    println("Received error while fetching deferred app link \(error)")
+                    print("Received error while fetching deferred app link \(error)")
                 }
                 if (url != nil) {
                     UIApplication.sharedApplication().openURL(url)
@@ -196,8 +196,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
             let firstParams = Branch.getInstance().getFirstReferringParams()
-            println("launch sessionParams = \(sessionParams)")
-            println("launch firstParams = \(firstParams)")
+            print("launch sessionParams = \(sessionParams)")
+            print("launch firstParams = \(firstParams)")
             
             let params = JSON(sessionParams)
             if let tipe = params["tipe"].string {
@@ -248,8 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
     }
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
-        // Pass the url to the handle deep link call
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         Branch.getInstance().continueUserActivity(userActivity)
         
         return true
@@ -260,11 +259,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("Action : \(identifier)")
+        print("Action : \(identifier)")
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("deviceToken = \(deviceToken)")
+        print("deviceToken = \(deviceToken)")
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
@@ -275,37 +274,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .stringByTrimmingCharactersInSet(characterSet)
             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
-        println("deviceRegId = \(deviceRegId)")
+        print("deviceRegId = \(deviceRegId)")
         
         NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
         NSUserDefaults.standardUserDefaults().synchronize()
         
         // Set deviceRegId for push notif if user is logged in
         if (User.IsLoggedIn) {
-            LoginViewController.SendDeviceRegId(onFinish: nil)
+            LoginViewController.SendDeviceRegId()
         } else {
-            request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Update Visitor")) {
-                    println("Visitor updated with deviceRegId: \(deviceRegId)")
+            // API Migrasi
+        request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
+                    print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
             }
         }
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("ERROR : \(error)")
+        print("ERROR : \(error)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("userInfo = \(userInfo)")
+        print("userInfo = \(userInfo)")
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
         
         if (application.applicationState == UIApplicationState.Active) {
-            println("App were active when receiving remote notification")
+            print("App were active when receiving remote notification")
         } else {
-            println("App weren't active when receiving remote notification")
+            print("App weren't active when receiving remote notification")
         }
     }
     
@@ -429,9 +429,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectProduct(productId : String) {
-        request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Product")) {
-                let json = JSON(res!)
+        request(Products.Detail(productId: productId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let p = Product.instance(data)
                 
@@ -473,9 +473,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectComment(productId : String) {
-        request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Product Comment")) {
-                let json = JSON(res!)
+        request(Products.Detail(productId: productId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product Comment")) {
+                let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)
                 
                 let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -575,9 +575,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Redirect setelah selesai menunggu
             if (rootViewController != nil) {
-                request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Inbox")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"]
                         let inbox = Inbox(jsn: data)
                         
@@ -628,9 +629,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func redirectConfirmPayment(transactionId : String) {
         if (transactionId != "") {
-            request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Confirm Payment")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let progress = data["progress"].intValue
                     
@@ -729,9 +731,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Version check
     
     func versionCheck() {
-        request(APIApp.Version).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Version Check")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIApp.Version).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Version Check")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Jika versi metadata baru, load dan save kembali di coredata
                 let ver : CDVersion? = CDVersion.getOne()
@@ -782,7 +785,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                 } else {
-                    println("Same metadata version")
+                    print("Same metadata version")
                     
                     // Set categorysaved to true so CategoryPreferencesVC can be executed
                     NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
@@ -800,9 +803,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func updateMetadata(updateBrands : String, updateCategories : String, updateCategorySizes : String, updateShippings : String, updateProductConditions : String, updateProvincesRegions : String)
     {
-        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Metadata Update")) {
-                let metaJson = JSON(res!)
+        // API Migrasi
+        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Metadata Update")) {
+                let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]
                 
                 var progressPortionLeft : Float = 0.97
@@ -825,7 +829,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update categories
-                            println("Updating categories..")
+                            print("Updating categories..")
                             if (CDCategory.deleteAll(moc)) {
                                 if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
                                     var categoryLv1Count = metadata["categories"][0]["children"].count
@@ -869,7 +873,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update category sizes
-                            println("Updating category sizes..")
+                            print("Updating category sizes..")
                             if (CDCategorySize.deleteAll(moc)) {
                                 if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
@@ -896,7 +900,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update shippings
-                            println("Updating shippings..")
+                            print("Updating shippings..")
                             if (CDShipping.deleteAll(moc)) {
                                 if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
@@ -923,7 +927,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update product conditions
-                            println("Updating product conditions..")
+                            print("Updating product conditions..")
                             if (CDProductCondition.deleteAll(moc)) {
                                 if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
@@ -950,7 +954,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update provinces regions
-                            println("Updating provinces regions..")
+                            print("Updating provinces regions..")
                             if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                                 if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                                     self.increaseLoadAppDataProgressBy(progressPortion)
@@ -977,7 +981,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             moc.persistentStoreCoordinator = psc
                             
                             // Update brands
-                            println("Updating brands..")
+                            print("Updating brands..")
                             if (CDBrand.deleteAll(moc)) {
                                 if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : progressPortionLeft)) {
                                 } else {
@@ -1021,40 +1025,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
 
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
-        // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
-        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Prelo.sqlite")
-        var error: NSError? = nil
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         
-        let opt = [NSMigratePersistentStoresAutomaticallyOption:true, NSInferMappingModelAutomaticallyOption:true]
-        
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: opt, error: &error) == nil {
-            coordinator = nil
+        // migration
+        let option = [NSMigratePersistentStoresAutomaticallyOption:true, NSInferMappingModelAutomaticallyOption:true]
+        do {
+            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: option)
+        } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
-            dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            
+            dict[NSUnderlyingErrorKey] = error as! NSError
+            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
             abort()
         }
         
         return coordinator
     }()
 
-    lazy var managedObjectContext: NSManagedObjectContext? = {
+
+    lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        if coordinator == nil {
-            return nil
-        }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
@@ -1062,12 +1065,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data Saving support
 
     func saveContext () {
-        if let moc = self.managedObjectContext {
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
+        if managedObjectContext.hasChanges {
+            do {
+                try managedObjectContext.save()
+            } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
+                let nserror = error as NSError
+                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
                 abort()
             }
         }
@@ -1082,14 +1087,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Other functions
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
-        let t : UITouch = event.allTouches()?.first as! UITouch
-        let loc = t.locationInView(self.window)
-        let f = UIApplication.sharedApplication().statusBarFrame
-        let b = CGRectContainsPoint(f, loc)
-        if (b) {
-            NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
+        
+        if let t = event?.allTouches()?.first
+        {
+            let loc = t.locationInView(self.window)
+            let f = UIApplication.sharedApplication().statusBarFrame
+            let b = CGRectContainsPoint(f, loc)
+            if (b) {
+                NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
+            }
         }
     }
+    
+//    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//        
+//    }
 }

@@ -154,9 +154,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (activated)
         {
-            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {resp in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deaktivasi Barang"))
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deaktivasi Barang"))
                 {
                     self.activated = false
                     self.adjustButtonActivation()
@@ -166,9 +166,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         } else
         {
-            request(Products.Activate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {resp in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Aktivasi Barang"))
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Aktivasi Barang"))
                 {
                     self.activated = true
                     self.adjustButtonActivation()
@@ -231,11 +231,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 0)
         {
-            println("DELETE")
+            print("DELETE")
             self.confirmDeleteProduct()
         } else
         {
-            println("NO DELETE")
+            print("NO DELETE")
         }
     }
     
@@ -244,8 +244,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         deleting = true
         self.btnDelete.setTitle("LOADING..", forState: .Disabled)
         self.btnDelete.enabled = false
-        request(Products.Delete(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hapus Barang"))
+        request(Products.Delete(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
             {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
@@ -284,15 +284,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func getDetail()
     {
+        // API Migrasi
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
-            .responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang"))
+            .responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang"))
                 {
-                    self.detail = ProductDetail.instance(JSON(res!))
+                    self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonActivation()
                     self.adjustButtonIfBoughtOrDeleted()
-                    println(self.detail?.json)
+                    print(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
                     self.tableView?.hidden = false
@@ -596,9 +597,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.tableView?.hidden = true
                 self.getDetail()
             }
-            request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang")) {
-                    a.editProduct = ProductDetail.instance(JSON(res!))
+            // API Migrasi
+        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
                     self.navigationController?.pushViewController(a, animated: true)
                 }
             }
@@ -671,9 +673,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             if (detail!.status == ProductStatusActive) { // Product is available
                 // Reserve product
                 self.setBtnReservationToLoading()
-                request(APIGarageSale.CreateReservation(productId: detail!.productID)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Create Reservation")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APIGarageSale.CreateReservation(productId: detail!.productID)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Create Reservation")) {
+                        let json = JSON(resp.result.value!)
                         let data = json["_data"]
                         if let tpId = data["transaction_product_id"].string {
                             self.detail!.setStatus(self.ProductStatusReserved)
@@ -689,7 +692,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     } else {
                         self.setBtnReservationToEnabled()
                         if (res != nil) {
-                            if let msg = JSON(res!)["_message"].string {
+                            if let msg = JSON(resp.result.value!)["_message"].string {
                                 if (msg == "server error: Produk sudah dipesan") {
                                     self.detail!.setStatus(self.ProductStatusReserved)
                                     self.detail!.setBoughtByMe(false)
@@ -704,9 +707,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (detail!.boughtByMe) {
                     // Cancel reservation
                     self.setBtnReservationToLoading()
-                    request(APIGarageSale.CancelReservation(productId: detail!.productID)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Cancel Reservation")) {
-                            let json = JSON(res!)
+                    // API Migrasi
+        request(APIGarageSale.CancelReservation(productId: detail!.productID)).responseJSON {resp in
+                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
+                            let json = JSON(resp.result.value!)
                             if let success = json["_data"].bool {
                                 if (success) {
                                     self.detail!.setStatus(self.ProductStatusActive)
@@ -932,8 +936,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = true
         loveCount+=1
         setupLoveView()
-        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Love Product"))
+        // API Migrasi
+        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Love Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -953,8 +958,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = false
         loveCount-=1
         setupLoveView()
-        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Unlove Product"))
+        // API Migrasi
+        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -1305,7 +1311,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {
-        //println(attributes)
+        //print(attributes)
         
         if (cellDelegate != nil) {
             if let brandName = attributes["brand"] as? String { // Brand clicked

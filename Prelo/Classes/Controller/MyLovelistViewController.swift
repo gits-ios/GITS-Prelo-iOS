@@ -75,9 +75,10 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func getUserLovelist() {
-        request(APIUser.MyLovelist).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Lovelist")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.MyLovelist).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lovelist")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 // Store data into variable
@@ -125,7 +126,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func deleteCell(cell: MyLovelistCell) {
-        println("delete cell with productId = \(cell.productId)")
+        print("delete cell with productId = \(cell.productId)")
         
         // Delete data in userLovelist
         for (var i = 0; i < userLovelist!.count; i++) {
@@ -169,7 +170,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //println("Row \(indexPath.row) selected")
+        //print("Row \(indexPath.row) selected")
         
         // Tampilkan loading
         loadingPanel.hidden = false
@@ -177,9 +178,9 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Load detail product
         let selectedLoved : LovedProduct = (userLovelist?[indexPath.item])! as LovedProduct
-        request(Products.Detail(productId: selectedLoved.id)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Barang")) {
-                let json = JSON(res!)
+        request(Products.Detail(productId: selectedLoved.id)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Store data into variable
                 self.selectedProduct = Product.instance(data)
@@ -254,9 +255,9 @@ class MyLovelistCell : UITableViewCell {
         self.delegate?.showLoading()
         
         // Send unlove API
-        request(Products.Unlove(productID: productId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Unlove")) {
-                let json = JSON(res!)
+        request(Products.Unlove(productID: productId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove")) {
+                let json = JSON(resp.result.value!)
                 let isLove : Bool = json["_data"]["love"].bool!
                 if (!isLove) { // Berhasil unlove
                     // Delete cell
