@@ -232,8 +232,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Handle deeplink from Facebook
                 if let tipe = url.host {
                     var targetId : String?
-                    if let tId = url.path?.substringFromIndex(1) {
-                        targetId = tId
+                    if let path = url.path {
+                        if (path.length() > 1) {
+                            targetId = path.substringFromIndex(1)
+                        }
                     }
                     self.deeplinkRedirect(tipe, targetId: targetId)
                 }
