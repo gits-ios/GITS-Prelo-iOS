@@ -47,8 +47,8 @@ extension UILabel {
     func boldRange(range: Range<String.Index>) {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
-            let start = distance(text.string.startIndex, range.startIndex)
-            let length = distance(range.startIndex, range.endIndex)
+            let start = text.string.startIndex.distanceTo(range.startIndex)
+            let length = range.startIndex.distanceTo(range.endIndex)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
@@ -394,6 +394,18 @@ extension NSManagedObjectContext
             success = false
         }
         return success
+    }
+    
+    public func tryExecuteFetchRequest(req : NSFetchRequest) -> [NSManagedObject]? {
+        var results : [NSManagedObject]?
+        do {
+            try results = self.executeFetchRequest(req) as? [NSManagedObject]
+            print("Fetch request success")
+        } catch {
+            print("Fetch request failed")
+            results = nil
+        }
+        return results
     }
 }
 
