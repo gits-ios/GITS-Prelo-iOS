@@ -94,6 +94,30 @@ class CartProduct: NSManagedObject {
         return array
     }
     
+    static func deleteAll() {
+        if let m = UIApplication.appDelegate.managedObjectContext {
+        
+            let fetchRequest = NSFetchRequest(entityName: "CartProduct")
+            fetchRequest.includesPropertyValues = false
+            
+            var error : NSError?
+            if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                var error : NSError?
+                if (m.save(&error) == true) {
+                    println("deleteAll CartProduct success")
+                } else if let error = error {
+                    println("deleteAll CartProduct failed with error : \(error.userInfo)")
+                }
+            } else if let error = error {
+                println("deleteAll CartProduct failed with fetch error : \(error)")
+            }
+        }
+    }
+    
     var toDictionary : [String : String]
     {
         return ["product_id":self.cpID, "email":self.email, "shipping_package_id":packageId]

@@ -324,7 +324,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         } else {
             // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
             if (self.fromCheckout) {
-                NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+                //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         }

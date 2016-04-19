@@ -116,8 +116,16 @@ public class User : NSObject
         if let u = CDUser.getOne()
         {
             UIApplication.appDelegate.managedObjectContext?.deleteObject(u)
-            UIApplication.appDelegate.saveContext()
         }
+        if let uProfile = CDUserProfile.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext?.deleteObject(uProfile)
+        }
+        if let uOther = CDUserOther.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext?.deleteObject(uOther)
+        }
+        UIApplication.appDelegate.saveContext()
         
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)

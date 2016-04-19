@@ -68,8 +68,29 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     @IBAction func clearCache()
     {
+        disableBtnClearCache()
         UIImageView.sharedImageCache().clearAll()
-        UIAlertView.SimpleShow("Perhatian", message: "Cache Cleared")
+        
+        CartProduct.deleteAll()
+        let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
+        let p = AppToolsObjC.jsonStringFrom(c)
+        var pID = ""
+        var rID = ""
+        if let u = CDUser.getOne()
+        {
+            pID = u.profiles.provinceID
+            rID = u.profiles.regionID
+        }
+        let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
+        request(APICart.Refresh(cart: p, address: a, voucher: nil)).responseJSON { req, resp, res, err in
+            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Clear Cache")) {
+                self.enableBtnClearCache()
+                
+                UIAlertView.SimpleShow("Clear Cache", message: "Clear Cache telah berhasil")
+            } else {
+                self.enableBtnClearCache()
+            }
+        }
     }
     
     @IBAction func logout()
@@ -132,6 +153,20 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     // MARK: - Other functions
+    
+    func enableBtnClearCache() {
+        self.btnClear.setTitle("CLEAR CACHE", forState: .Normal)
+        self.btnClear.userInteractionEnabled = true
+        self.btnClear2.setTitle("CLEAR CACHE", forState: .Normal)
+        self.btnClear2.userInteractionEnabled = true
+    }
+    
+    func disableBtnClearCache() {
+        btnClear.setTitle("Loading...", forState: .Normal)
+        btnClear.userInteractionEnabled = false
+        btnClear2.setTitle("Loading...", forState: .Normal)
+        btnClear2.userInteractionEnabled = false
+    }
     
     func printCoreDataCount() {
         println("Category = \(CDCategory.getCategoryCount())")

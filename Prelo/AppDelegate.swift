@@ -21,7 +21,7 @@ protocol LoadAppDataDelegate {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     var window: UIWindow?
 
@@ -728,6 +728,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    // MARK: - UIAlertViewDelegate functions
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Update
+            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            break
+        case 1: // Cancel
+            break
+        default:
+            break
+        }
+    }
+    
     // MARK: - Version check
     
     func versionCheck() {
@@ -796,6 +810,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 CDVersion.saveVersions(data)
+                // Check if app need to be updated
+                if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                    if let newVer = CDVersion.getOne()?.appVersion {
+                        if (installedVer != newVer) {
+                            let a = UIAlertView()
+                            a.title = "New Version Available"
+                            a.message = "Prelo \(newVer) is available on App Store"
+                            a.addButtonWithTitle("Update")
+                            if let isForceUpdate = data["is_force_update"].bool {
+                                if (!isForceUpdate) {
+                                    a.addButtonWithTitle("Cancel")
+                                }
+                            } else {
+                                a.addButtonWithTitle("Cancel")
+                            }
+                            a.delegate = self
+                            a.show()
+                        }
+                    }
+                }
             }
         }
     }

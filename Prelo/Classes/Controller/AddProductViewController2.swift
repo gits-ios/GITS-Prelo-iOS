@@ -50,6 +50,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionSize2 : UILabel!
     @IBOutlet var captionSize3 : UILabel!
     
+    @IBOutlet weak var ivImage: UIImageView!
+    
     var sizes : Array<String> = []
     
     var productCategoryId = ""
@@ -587,6 +589,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let id = children["_id"].string
             {
                 self.productCategoryId = id
+            }
+            
+            let dataJson = JSON(data)
+            if let imgName = dataJson["category_image_name"].string
+            {
+                if let imgUrl = NSURL(string: imgName) {
+                    self.ivImage.setImageWithUrl(imgUrl, placeHolderImage: nil)
+                }
             }
             
             self.getSizes()
