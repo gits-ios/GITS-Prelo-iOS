@@ -365,11 +365,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
         // API Migrasi
-        request(API).responseJSON {resp in
+        request(api).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
                 let json = JSON(resp.result.value!)
-                print(res)
+//                print(res)
                 if let arr = json["_data"]["messages"].array
                 {
                     if (arr.count > 0)
@@ -453,13 +453,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func sendTawar(sender : UIView?)
     {
+        guard txtTawar.text != nil else
+        {
+            return
+        }
+        
         let tawarRegex = "^[0-9]*$"
-        if (txtTawar.text == "" || txtTawar.text.match(tawarRegex) == false)
+        if (txtTawar.text == "" || txtTawar.text!.match(tawarRegex) == false)
         {
             Constant.showDialog("Masukkan angka penawaran", message: "Contoh: 150000")
         } else
         {
-            var m = txtTawar.text.int
+            let m = txtTawar.text!.int
             if (m < 1000)
             {
                 Constant.showDialog("Tawar", message: "Mungkin maksud anda " + m.asPrice + "0")
@@ -468,9 +473,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.hideTawar(nil)
             if (tawarItem.threadId == "")
             {
-                startNew(1, message : txtTawar.text)
+                startNew(1, message : txtTawar.text!)
             } else {
-                sendChat(1, message: txtTawar.text)
+                sendChat(1, message: txtTawar.text!)
             }
             txtTawar.text = ""
             btnTawar1.hidden = true
@@ -533,7 +538,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let date = NSDate()
         let f = NSDateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        var time = f.stringFromDate(date)
+        let time = f.stringFromDate(date)
         let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
         if (type != 0)
         {
@@ -600,8 +605,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
         // API Migrasi
-        request(API).responseJSON {resp in
-            print(res)
+        request(api).responseJSON {resp in
+//            print(res)
             self.starting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
@@ -614,7 +619,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let date = NSDate()
                 let f = NSDateFormatter()
                 f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                var time = f.stringFromDate(date)
+                let time = f.stringFromDate(date)
                 let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
                 self.inboxMessages.append(i)
                 self.textView.text = ""
@@ -626,7 +631,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
             } else
             {
-                print(err)
+                print(resp.result.error)
             }
         }
     }
@@ -804,7 +809,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 
     func randomElementIndex<T>(s: Set<T>) -> T {
         let n = Int(arc4random_uniform(UInt32(s.count)))
-        let i = advance(s.startIndex, n)
+        let i = s.startIndex.advancedBy(n)
         return s[i]
     }
 }

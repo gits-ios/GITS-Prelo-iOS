@@ -20,12 +20,12 @@ class CDCategorySize: NSManagedObject {
     @NSManaged var typeSizes : NSData
     
     static func saveCategorySizes(json : JSON, m : NSManagedObjectContext) -> Bool {
-        for (var i = 0; i < json.count; i++) {
+        for i in 0 ..< json.count {
             let catJson = json[i]
-            for (var j = 0; j < catJson["size_types"].count; j++) {
+            for j in 0 ..< catJson["size_types"].count {
                 let typeJson = catJson["size_types"][j]
                 var sizes : [String] = []
-                for (var k = 0; k < typeJson["sizes"].count; k++) {
+                for k in 0 ..< typeJson["sizes"].count {
                     sizes.append(typeJson["sizes"][k].string!)
                 }
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m) as! CDCategorySize
@@ -37,8 +37,8 @@ class CDCategorySize: NSManagedObject {
                 r.typeSizes = NSKeyedArchiver.archivedDataWithRootObject(sizes)
             }
         }
-        var err : NSError?
-        if (m.save(&err) == false) {
+        
+        if (m.saveSave() == false) {
             print("saveCategorySizes failed")
             return false
         }
@@ -48,15 +48,15 @@ class CDCategorySize: NSManagedObject {
     
     static func newOne(id : String, name : String, v : NSNumber, typeOrder : NSNumber, typeName : String, typeSizes : NSData) -> CDCategorySize? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m!) as! CDCategorySize
+        let r = NSEntityDescription.insertNewObjectForEntityForName("CDCategorySize", inManagedObjectContext: m) as! CDCategorySize
         r.id = id
         r.name = name
         r.v = v
         r.typeOrder = typeOrder
         r.typeName = typeName
         r.typeSizes = typeSizes
-        var err : NSError?
-        if (m?.saveSave() == false) {
+        
+        if (m.saveSave() == false) {
             return nil
         } else {
             return r
@@ -67,21 +67,20 @@ class CDCategorySize: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDCategorySize")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDCategorySize success")
+                } else {
+                    print("deleteAll CDCategorySize failed")
+                    return false
+                }
             }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                print("deleteAll CDCategorySize success")
-            } else if let error = error {
-                print("deleteAll CDCategorySize failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            print("deleteAll CDCategorySize failed with fetch error : \(error)")
+        } catch {
             return false
         }
         return true
@@ -89,12 +88,12 @@ class CDCategorySize: NSManagedObject {
     
     static func getCategorySizeCount() -> Int {
         let fetchReq = NSFetchRequest(entityName: "CDCategorySize")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r == nil) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            return r.count
+        } catch {
             return 0
-        } else {
-            return r!.count
         }
     }
 }

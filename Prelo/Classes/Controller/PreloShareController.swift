@@ -242,11 +242,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     func postToPath(image : UIImage, token : String)
     {
-        let param = [
-            "caption":(item?.text)!
-        ]
-        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
-        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        let param = [
+//            "caption":(item?.text)!
+//        ]
+        
+//        do {
+//            let data = try NSJSONSerialization.dataWithJSONObject(param, options: NSJSONWritingOptions.init(rawValue: 0))
+//            let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding)
+//        } catch {
+//        
+//        }
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
         AppToolsObjC.PATHPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
@@ -477,7 +482,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UICollectionView.classForCoder()) || touch.view.tag == 1)
+        if (touch.view!.isKindOfClass(UICollectionView.classForCoder()) || touch.view!.tag == 1)
         {
             return false
         }

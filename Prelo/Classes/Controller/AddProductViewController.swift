@@ -339,7 +339,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
             print(res)
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON(resp.result.value!)
+            let json = JSON(res)
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
@@ -611,7 +611,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }
         } else if (s == 10) {
             if (r == 0) {
-                var g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
+                let g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
                 g.decorate()
                 print("asd")
                 c = g
@@ -620,7 +620,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 c = b
             }
         } else if (s == 1) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_ongkir") as? UITableViewCell
+            c = tableView.dequeueReusableCellWithIdentifier("cell_ongkir")
         } else if (s == 2) {
             if (r == 0) {
                 let w = tableView.dequeueReusableCellWithIdentifier("cell_weight") as? AddProductCellWeight
@@ -635,7 +635,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             c = b
         } else if (s == 5) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_share") as? UITableViewCell
+            c = tableView.dequeueReusableCellWithIdentifier("cell_share")
         }
         
         cells[indexPath] = c!
@@ -799,7 +799,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (cell == nil) {
                 s += 1
                 r = -1
-                if (s == tableView.numberOfSections()) { // finish, last cell
+                if (s == tableView.numberOfSections) { // finish, last cell
                     con = false
                 }
             } else {
@@ -1026,7 +1026,7 @@ class AddProductSizeFlow : UICollectionViewFlowLayout
         
         let targetRect = CGRectMake(proposedContentOffset.x, 0, (self.collectionView?.bounds.size.width)!, (self.collectionView?.bounds.size.height)!)
         
-        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElementsInRect(targetRect) as! Array<UICollectionViewLayoutAttributes>
+        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElementsInRect(targetRect)! as Array<UICollectionViewLayoutAttributes>
         
         for layoutAttributes in array
         {
@@ -1112,7 +1112,7 @@ class AddProductImageCell : UICollectionViewCell
                     }
                     
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        asset?.assetForURL((_apImage?.url)!, resultBlock: { asset in
+                        self.asset?.assetForURL((self._apImage?.url)!, resultBlock: { asset in
                             if let ast = asset {
                                 let rep = ast.defaultRepresentation()
                                 let ref = rep.fullScreenImage().takeUnretainedValue()
@@ -1219,7 +1219,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
             
             if (found == false)
             {
-                index++
+                index += 1
             }
         }
         
@@ -1242,7 +1242,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        var s = textField.text as NSString
+        var s = textField.text == nil ? "" : textField.text! as NSString
         s = s.stringByReplacingCharactersInRange(range, withString: string)
         
         if let d = weightDelegate

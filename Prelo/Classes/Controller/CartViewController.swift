@@ -445,7 +445,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.btnSend.enabled = false
         // API Migrasi
         request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON {resp in
-            print(res)
+//            print(res)
             self.btnSend.enabled = true
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
                 var json = JSON(resp.result.value!)
@@ -454,7 +454,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 {
                     Constant.showDialog("Warning", message: error)
                 } else {
-                    print(res)
+//                    print(res)
                     let json = JSON(resp.result.value!)
                     self.checkoutResult = json["_data"]
                     
@@ -684,7 +684,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if (s == 1) {
             if (r == 2) {
-                cell = tableView.dequeueReusableCellWithIdentifier("cell_edit") as! UITableViewCell
+                cell = tableView.dequeueReusableCellWithIdentifier("cell_edit")!
             } else {
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             }
@@ -762,7 +762,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let json = arrayItem[indexPath.row]
                 if let error = json["_error"].string
                 {
-                    let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
+                    let options : NSStringDrawingOptions = [.UsesLineFragmentOrigin, .UsesFontLeading]
                     let h = (error as NSString).boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.width - 114, 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(14)], context: nil).height
                     return 77 + h
                 }
@@ -837,7 +837,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (textField == txtVoucher) {
-            voucher = txtVoucher.text
+            voucher = txtVoucher.text == nil ? "" : txtVoucher.text!
             return false
         }
         
@@ -858,7 +858,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 if (cell == nil) {
                     s += 1
                     r = -1
-                    if (s == tableView.numberOfSections()) { // finish, last cell
+                    if (s == tableView.numberOfSections) { // finish, last cell
                         con = false
                     }
                 } else {
@@ -937,7 +937,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         {
             products.removeAtIndex(index)
             print(p.cpID)
-            UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+            UIApplication.appDelegate.managedObjectContext.deleteObject(p)
             UIApplication.appDelegate.saveContext()
         }
         

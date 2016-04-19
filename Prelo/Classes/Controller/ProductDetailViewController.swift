@@ -691,7 +691,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         }
                     } else {
                         self.setBtnReservationToEnabled()
-                        if (res != nil) {
+                        if (resp.result.value != nil) {
                             if let msg = JSON(resp.result.value!)["_message"].string {
                                 if (msg == "server error: Produk sudah dipesan") {
                                     self.detail!.setStatus(self.ProductStatusReserved)
@@ -1234,7 +1234,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             let p = [
                 "brand_id":product["brand_id"].stringValue,
                 "brand":product["brand"].stringValue,
-                "range":NSStringFromRange(NSMakeRange(0, merk.length())),
+                "range":NSStringFromRange(NSMakeRange(0, merk.length)),
                 ZSWTappableLabelTappableRegionAttributeName: Int(true),
                 ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                 ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
@@ -1269,7 +1269,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 let p = [
                     "category_name":name,
                     "category_id":d["_id"].string!,
-                    "range":NSStringFromRange(NSMakeRange(categoryString.length(), name.length())),
+                    "range":NSStringFromRange(NSMakeRange(categoryString.length, name.length)),
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                     ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),

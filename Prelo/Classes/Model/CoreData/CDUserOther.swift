@@ -39,12 +39,12 @@ class CDUserOther: NSManagedObject {
 
     static func getOne() -> CDUserOther? {
         let fetchReq = NSFetchRequest(entityName: "CDUserOther")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : r.first as? CDUserOther
+        } catch {
             return nil
-        } else {
-            return r?.first as? CDUserOther
         }
     }
     
@@ -53,23 +53,23 @@ class CDUserOther: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDUserOther")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m?.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() != false) {
+                    print("deleteAll CDUserOther success")
+                } else {
+                    print("deleteAll CDUserOther failed")
+                    return false
+                }
             }
-            
-            var error : NSError?
-            if (m?.save(&error) != nil) {
-                print("deleteAll CDUserOther success")
-            } else if let error = error {
-                print("deleteAll CDUserOther failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            print("deleteAll CDUserOther failed with fetch error : \(error)")
+        } catch {
             return false
         }
+        
         return true
     }
 }

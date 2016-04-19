@@ -91,7 +91,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var c = tableView.dequeueReusableCellWithIdentifier("cell")
         if (c == nil)
         {
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")

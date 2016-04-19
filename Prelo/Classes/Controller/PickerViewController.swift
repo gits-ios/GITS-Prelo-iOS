@@ -142,7 +142,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
         if (cell == nil) {
             if (subtitles.count != 0 && subtitles.count == usedItems.count)
             {
@@ -220,7 +220,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                 return false
             })
             
-            usedItems.insert("Tambahkan merek '"+searchBar.text+"'", atIndex: 0)
+            usedItems.insert("Tambahkan merek '" + (searchBar.text == nil ? "" : searchBar.text!) + "'", atIndex: 0)
         }
     }
     

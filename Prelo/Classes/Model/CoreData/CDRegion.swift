@@ -18,12 +18,11 @@ class CDRegion : NSManagedObject {
     
     static func newOne(id : String, name : String, province : CDProvince) -> CDRegion? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m!) as! CDRegion
+        let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
         r.id = id
         r.name = name
         r.province = province
-        var err : NSError?
-        if (m?.saveSave() == false) {
+        if (m.saveSave() == false) {
             return nil
         } else {
             return r
@@ -34,21 +33,17 @@ class CDRegion : NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDRegion")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDRegion success")
+                }
             }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                print("deleteAll CDRegion success")
-            } else if let error = error {
-                print("deleteAll CDRegion failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            print("deleteAll CDRegion failed with fetch error : \(error)")
+        } catch {
             return false
         }
         return true
@@ -58,18 +53,21 @@ class CDRegion : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var regions = [CDRegion]()
         
-        var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDRegion")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
-        regions = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDRegion])!
-        
         var arr : [String] = []
-        for region in regions {
-            if (region.province.id == provID) {
-                arr.append(region.name + PickerViewController.TAG_START_HIDDEN + region.id + PickerViewController.TAG_END_HIDDEN)
+        
+        do {
+            regions = try (m.executeFetchRequest(fetchReq) as? [CDRegion])!
+            for region in regions {
+                if (region.province.id == provID) {
+                    arr.append(region.name + PickerViewController.TAG_START_HIDDEN + region.id + PickerViewController.TAG_END_HIDDEN)
+                }
             }
+        } catch {
+            
         }
         return arr
     }
@@ -78,12 +76,11 @@ class CDRegion : NSManagedObject {
         let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDRegion")
         fetchReq.predicate = predicate
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDRegion).name
+        } catch {
             return nil
-        } else {
-            return (r!.first as! CDRegion).name
         }
     }
 }

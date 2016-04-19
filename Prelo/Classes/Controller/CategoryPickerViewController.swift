@@ -53,7 +53,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     {
         request(References.CategoryList).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Kategori")) {
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.setupData()
             }
@@ -189,7 +189,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var c = tableView.dequeueReusableCellWithIdentifier("cell")
         if (c == nil)
         {
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
@@ -243,7 +243,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 } else
                 {
                     let c = self.navigationController?.viewControllers.count
-                    let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
+                    let v = (self.navigationController?.viewControllers[c!-backTreshold])!
                     self.navigationController?.popToViewController(v, animated: true)
                 }
             }

@@ -348,7 +348,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundItems.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -370,7 +370,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundUsers.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")

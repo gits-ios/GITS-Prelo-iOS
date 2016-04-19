@@ -62,7 +62,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
             {
                 
             }
-        }.responseString { req, resp, string, err in
+        }.responseString { resp in
             //print(string)
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")

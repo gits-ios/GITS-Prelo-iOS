@@ -142,7 +142,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                 self.products = []
                 var obj = JSON(resp.result.value!)
-                for (index : String, item : JSON) in obj["_data"]
+                for (index, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -217,7 +217,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
-                self.setupData(res)
+                self.setupData(resp.result.value)
             }
             self.setupGrid()
         }
@@ -232,7 +232,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product"))
             {
-                self.setupData(res)
+                self.setupData(resp.result.value)
             } else {
                 
             }
@@ -249,8 +249,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna"))
             {
-                print(res)
-                self.setupData(res)
+//                print(res)
+                self.setupData(resp.result.value)
                 
                 if (self.storeHeader == nil)
                 {
@@ -272,7 +272,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 // Love
                 let reviewScore = json["average_star"].floatValue
                 var loveText = ""
-                for (var i = 0; i < 5; i++) {
+                for i in 0 ..< 5 {
                     if (Float(i) <= reviewScore - 0.5) {
                         loveText += ""
                     } else {
@@ -280,7 +280,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
                 let attrStringLove = NSMutableAttributedString(string: loveText)
-                attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+                attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
                 self.storeHeader?.captionLove.attributedText = attrStringLove
                 
                 // Reviewer count
@@ -384,8 +384,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func setupData(res : AnyObject?)
     {
+        guard res != nil else
+        {
+            return
+        }
         print(res)
-        var obj = JSON(resp.result.value!)
+        var obj = JSON(res!)
         print(obj)
         if let arr = obj["_data"].array
         {
@@ -395,7 +399,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.loading?.hidden = true
             } else
             {
-                for (index : String, item : JSON) in obj["_data"]
+                for (index, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {

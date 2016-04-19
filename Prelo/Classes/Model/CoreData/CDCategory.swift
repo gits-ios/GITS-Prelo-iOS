@@ -38,8 +38,7 @@ class CDCategory: NSManagedObject {
         a.parent = nil
         self.saveCategoryChildren(a, json: allJson["children"])
         
-        var err : NSError?
-        if (m.save(&err) == false) {
+        if (m.saveSave() == false) {
             print("saveCategories failed")
             return false
         }
@@ -49,9 +48,9 @@ class CDCategory: NSManagedObject {
     
     static func saveCategoryChildren(parent : CDCategory, json : JSON) {
         let m = UIApplication.appDelegate.managedObjectContext
-        for (var i = 0; i < json.count; i++) {
+        for i in 0 ..< json.count {
             let childJson = json[i]
-            let c = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m!) as! CDCategory
+            let c = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m) as! CDCategory
             //print("a CDCategory created")
             c.id = childJson["_id"].string!
             c.name = childJson["name"].string!
@@ -70,21 +69,21 @@ class CDCategory: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDCategory")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDCategory success")
+                } else {
+                    print("deleteAll CDCategory failed with error")
+                    return false
+                }
             }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                print("deleteAll CDCategory success")
-            } else if let error = error {
-                print("deleteAll CDCategory failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            print("deleteAll CDCategory failed with fetch error : \(error)")
+        } catch {
             return false
         }
         return true
@@ -92,27 +91,25 @@ class CDCategory: NSManagedObject {
     
     static func getCategoryCount() -> Int {
         let fetchReq = NSFetchRequest(entityName: "CDCategory")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r == nil) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            return r.count
+        } catch {
             return 0
-        } else {
-            return r!.count
         }
     }
     
     static func getCategoriesInLevel(level : NSNumber) -> [CDCategory] {
-        let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "level == %@", level)
         let fetchReq = NSFetchRequest(entityName: "CDCategory")
         fetchReq.predicate = predicate
         
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r == nil || r?.count == 0) {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r as! [CDCategory]
+        } catch {
             return []
-        } else {
-            return (r as! [CDCategory])
         }
     }
     
@@ -120,12 +117,12 @@ class CDCategory: NSManagedObject {
         let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDCategory")
         fetchReq.predicate = predicate
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDCategory).name
+        } catch {
             return nil
-        } else {
-            return (r!.first as! CDCategory).name
         }
     }
 }

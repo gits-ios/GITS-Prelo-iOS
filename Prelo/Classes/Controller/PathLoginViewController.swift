@@ -73,7 +73,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         let currentURL = webView.request?.URL
         print("currentURL = \(currentURL)")
         
-        if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
+        if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
             self.delegate?.hideLoading()
             // Back to prev scene
             if (self.standAlone)
@@ -83,9 +83,9 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             {
                 self.navigationController?.popViewControllerAnimated(true)
             }
-        } else if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
+        } else if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
-            let code : String = codeParam.substringWithRange(Range(start: advance(codeParam.startIndex, 5), end: codeParam.endIndex))
+            let code : String = codeParam.substringWithRange(Range(start: codeParam.startIndex.advancedBy(5), end: codeParam.endIndex))
             //print("code = \(code)")
             
             // Get token
