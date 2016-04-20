@@ -243,7 +243,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
-        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-9
+        for i in 0 ..< isShowGroups.count { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
                 groups[i].hidden = false
@@ -273,7 +273,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -427,7 +427,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 return false
             } else {
                 let usernameRegex = "^[a-zA-Z0-9_]{4,15}$"
-                if (fieldFullname.text.match(usernameRegex) == false) {
+                if (fieldFullname.text!.match(usernameRegex) == false) {
                     Constant.showDialog("Warning", message: "Username harus sepanjang 4-15 karakter (a-z, A-Z, 0-9, _)")
                     return false
                 }
@@ -458,7 +458,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBAction func applyPressed(sender: AnyObject) {
         if (fieldsVerified()) {
             disableTextFields(NSNull)
-            btnApply.enabled = false
+            self.btnApply.enabled = false
             
             var username = ""
             if (self.isSocmedAccount == true) {
@@ -466,13 +466,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             }
             var email = ""
             if (self.userEmail == "") {
-                email = fieldEmail.text
+                email = fieldEmail.text!
             }
-            let userFullname = fieldFullname?.text
+            _ = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
             let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
-            let userReferral = fieldKodeReferral.text
+            let userReferral = fieldKodeReferral.text!
             let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             
             // Get device token
@@ -484,7 +484,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             User.SetToken(self.userToken)
             
             // API Migrasi
-        request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
+            request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)
@@ -493,7 +493,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     // Set user's preferenced categories by current stored categories
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
                     // API Migrasi
-        request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
+                    request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
                         if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set User Preferenced Categories")) {
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!
@@ -507,31 +507,35 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         User.SetToken(nil)
                     }
                     
-                    let userProfileData = UserProfile.instance(data)
+                    guard let userProfileData = UserProfile.instance(data) else {
+                        Constant.showDialog("Setelan Akun", message: "Oops, terdapat kesalahan saat memproses data")
+                        self.btnApply.enabled = true
+                        return
+                    }
                     
                     // Mixpanel
                     let sp = [
-                        "User ID" : userProfileData?.id,
-                        "Username" : userProfileData?.username,
-                        "Gender" : userProfileData?.gender,
-                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
-                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "User ID" : userProfileData.id,
+                        "Username" : userProfileData.username,
+                        "Gender" : userProfileData.gender,
+                        "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
                         "Referral Code Used" : userReferral
                     ]
                     Mixpanel.sharedInstance().registerSuperProperties(sp)
-                    Mixpanel.sharedInstance().identify(userProfileData?.id)
+                    Mixpanel.sharedInstance().identify(userProfileData.id)
                     let p = [
-                        "User ID" : userProfileData?.id,
-                        "$username" : userProfileData?.username,
-                        "Gender" : userProfileData?.gender,
-                        "Province Input" : (userProfileData != nil) ? (CDProvince.getProvinceNameWithID(userProfileData!.provinceId)!) : "",
-                        "City Input" : (userProfileData != nil) ? (CDRegion.getRegionNameWithID(userProfileData!.regionId)!) : "",
+                        "User ID" : userProfileData.id,
+                        "$username" : userProfileData.username,
+                        "Gender" : userProfileData.gender,
+                        "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
+                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
                         "Referral Code Used" : userReferral
                     ]
                     Mixpanel.sharedInstance().people.set(p)
                     var shippingArr : [String] = []
                     var shippingArrName : [String] = []
-                    for (var i = 0; i < data["shipping_preferences_ids"].count; i++) {
+                    for i in 0 ..< data["shipping_preferences_ids"].count {
                         let s : String = data["shipping_preferences_ids"][i].string!
                         shippingArr.append(s)
                         if let sName = CDShipping.getShippingCompleteNameWithId(s) {
@@ -540,7 +544,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     }
                     var pt = [String : AnyObject]()
                     pt["Shipping Options"] = shippingArrName
-                    pt["Phone"] = userProfileData?.phone
+                    pt["Phone"] = userProfileData.phone
                     Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [NSObject : AnyObject])
                     let pt2 = [
                         "Activation Screen" : "Setup Account"
@@ -551,7 +555,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
                     phoneVerificationVC.userId = self.userId
                     phoneVerificationVC.userToken = self.userToken
-                    phoneVerificationVC.userEmail = (userProfileData != nil) ? userProfileData!.email : "" // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
+                    phoneVerificationVC.userEmail = userProfileData.email // Tidak menggunakan 'self.userEmail' karena mungkin kosong dan baru diset di halaman ini
                     phoneVerificationVC.isShowBackBtn = false
                     phoneVerificationVC.loginMethod = self.loginMethod
                     phoneVerificationVC.noHpToVerify = userPhone!

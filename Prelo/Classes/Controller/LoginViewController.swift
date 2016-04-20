@@ -116,22 +116,21 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 
                 // Update user preferenced categories in NSUserDefaults
                 let catPrefIds = userProfileData!.categoryPrefIds
-                if (catPrefIds != nil && catPrefIds!.count >= 3) {
-                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds![0], forKey: UserDefaultsKey.CategoryPref1)
-                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds![1], forKey: UserDefaultsKey.CategoryPref2)
-                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds![2], forKey: UserDefaultsKey.CategoryPref3)
+                if (catPrefIds.count >= 3) {
+                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds[0], forKey: UserDefaultsKey.CategoryPref1)
+                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds[1], forKey: UserDefaultsKey.CategoryPref2)
+                    NSUserDefaults.standardUserDefaults().setObject(catPrefIds[2], forKey: UserDefaultsKey.CategoryPref3)
                     NSUserDefaults.standardUserDefaults().synchronize()
                 }
                 
                 if (userProfileData != nil &&
                     userProfileData!.email != "" &&
-                    userProfileData!.gender != nil &&
-                    userProfileData!.phone != nil &&
+                    userProfileData!.gender != "" &&
+                    userProfileData!.phone != "" &&
                     userProfileData!.provinceId != "" &&
                     userProfileData!.regionId != "" &&
-                    userProfileData!.shippingIds != nil &&
-                    userProfileData!.isPhoneVerified != nil &&
-                    userProfileData!.isPhoneVerified! == true) {
+                    userProfileData!.shippingIds.count > 0 &&
+                    userProfileData!.isPhoneVerified == true) {
                         isProfileSet = true
                 }
                 
@@ -155,8 +154,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     user.profiles = userProfile
                     userProfile.regionID = userProfileData!.regionId
                     userProfile.provinceID = userProfileData!.provinceId
-                    userProfile.gender = userProfileData!.gender!
-                    userProfile.phone = userProfileData!.phone!
+                    userProfile.gender = userProfileData!.gender
+                    userProfile.phone = userProfileData!.phone
                     userProfile.pict = userProfileData!.profPictURL!.absoluteString
                     userProfile.postalCode = userProfileData!.postalCode
                     userProfile.address = userProfileData!.address
@@ -164,11 +163,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     CDUserOther.deleteAll()
                     let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther)
-                    userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds!)
-                    userOther.lastLogin = (userProfileData!.lastLogin != nil) ? (userProfileData!.lastLogin!) : ""
-                    userOther.phoneCode = (userProfileData!.phoneCode != nil) ? (userProfileData!.phoneCode!) : ""
-                    userOther.phoneVerified = (userProfileData!.isPhoneVerified != nil) ? (userProfileData!.isPhoneVerified!) : false
-                    userOther.registerTime = (userProfileData!.registerTime != nil) ? (userProfileData!.registerTime!) : ""
+                    userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(userProfileData!.shippingIds)
+                    userOther.lastLogin = userProfileData!.lastLogin
+                    userOther.phoneCode = userProfileData!.phoneCode
+                    userOther.phoneVerified = userProfileData!.isPhoneVerified
+                    userOther.registerTime = userProfileData!.registerTime
                     userOther.fbAccessToken = userProfileData!.fbAccessToken
                     userOther.fbID = userProfileData!.fbId
                     userOther.fbUsername = userProfileData!.fbUsername
@@ -182,7 +181,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userOther.pathAccessToken = userProfileData!.pathAccessToken
                     userOther.pathID = userProfileData!.pathId
                     userOther.pathUsername = userProfileData!.pathUsername
-                    userOther.emailVerified = ((userProfileData!.isEmailVerified != nil) && (userProfileData!.isEmailVerified! == true)) ? 1 : 0
+                    userOther.emailVerified = userProfileData!.isEmailVerified ? 1 : 0
                     // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                     
                     UIApplication.appDelegate.saveContext()
@@ -257,11 +256,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 } else {
                     // Go to profile setup or phone verification
                     if (userProfileData!.email != "" &&
-                        userProfileData!.gender != nil &&
-                        userProfileData!.phone != nil &&
+                        userProfileData!.gender != "" &&
+                        userProfileData!.phone != "" &&
                         userProfileData!.provinceId != "" &&
                         userProfileData!.regionId != "" &&
-                        userProfileData!.shippingIds != nil) { // User has finished profile setup
+                        userProfileData!.shippingIds.count > 0) { // User has finished profile setup
                             // Goto PhoneVerificationVC
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = sender.userRelatedDelegate
@@ -271,7 +270,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             phoneVerificationVC.isShowBackBtn = false
                             phoneVerificationVC.loginMethod = loginMethod
                             phoneVerificationVC.userProfileData = userProfileData
-                            phoneVerificationVC.noHpToVerify = userProfileData!.phone!
+                            phoneVerificationVC.noHpToVerify = userProfileData!.phone
                             sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                     } else { // User hasn't finished profile setup
                         let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
@@ -301,9 +300,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     static func LoginWithFacebook(sender : BaseViewController, screenBeforeLogin : String) {
-        let vcLogin = sender as? LoginViewController
-        let vcRegister = sender as? RegisterViewController
-        
         // Log in and get permission from facebook
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
@@ -329,14 +325,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                     // userId & name is required
                                     if (userId != nil && name != nil) {
                                         let emailToSend : String = (email != nil) ? email! : ""
-                                        let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
+                                        _ = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                                         let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                                         
                                         //print("result = \(result)")
                                         //print("profilePictureUrl = \(profilePictureUrl)")
                                         //print("accessToken = \(accessToken)")
                                         
-//                                        API Migrasi
+                                        // API Migrasi
                                         request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
                                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                                 let json = JSON(resp.result.value!)
@@ -619,7 +615,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             })
             let actionOK = UIAlertAction(title: "OK", style: .Default, handler: { act in
 
-                let txtField = x.textFields![0] as! UITextField
+                let txtField = x.textFields![0] 
                 self.callAPIForgotPassword((txtField.text)!)
             })
             
