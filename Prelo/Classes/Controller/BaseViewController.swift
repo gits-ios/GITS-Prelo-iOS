@@ -82,7 +82,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     static func instatiateViewControllerFromStoryboardWithID(id : String) -> UIViewController
     {
-        let c = BaseViewController.GlobalStoryboard?.instantiateViewControllerWithIdentifier(id) as! UIViewController
+        let c = (BaseViewController.GlobalStoryboard?.instantiateViewControllerWithIdentifier(id))!
         return c
     }
     
@@ -180,7 +180,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchSearch()
     {
-        let search = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch) as! UIViewController
+        let search = (self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch))!
         self.navigationController?.pushViewController(search, animated: true)
     }
     
@@ -217,7 +217,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func createButtonWithIcon(appFont : AppFont, icon : String) ->UIButton
     {
-        var b : UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let b = UIButton(type: .Custom)
         var name = "Prelo2"
         switch appFont
         {
@@ -232,7 +232,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     
     func createButtonWithIconAndNumber(appFont : AppFont, icon : String, num : Int) -> UIButton {
-        var b : UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let b = UIButton(type: .Custom)
         var name = "Prelo2"
         switch appFont
         {
@@ -244,7 +244,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         b.setTitle(icon, forState: UIControlState.Normal)
         b.frame = CGRectMake(0, 0, 33, 46)
         if (num > 0) {
-            let badge = GIBadgeView.new()
+            let badge = GIBadgeView()
             badge.badgeValue = num
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 9

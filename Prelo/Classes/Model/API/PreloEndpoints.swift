@@ -1525,7 +1525,7 @@ class APIPrelo
             if (response.statusCode != 200)
             {
                 if (res != nil) {
-                    if let msg = JSON(resp.result.value!)["_message"].string {
+                    if let msg = JSON(res!)["_message"].string {
                         if (showErrorDialog) {
                             UIAlertView.SimpleShow(reqAlias, message: msg)
                         }
@@ -1537,7 +1537,8 @@ class APIPrelo
                             if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
                                 if let rootVC = childVCs[0] as? UIViewController {
                                     let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
-                                    let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+//                                    let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+                                    let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
                                     if (uiNavigationController != nil && kumangTabBarVC != nil) {
                                         uiNavigationController!.popToRootViewControllerAnimated(true)
                                         LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
@@ -1577,7 +1578,7 @@ class APIPrelo
         }
         else
         {
-            let json = JSON(resp.result.value!)
+            let json = JSON(res!)
             let data = json["_data"]
             print("\(reqAlias) _data = \(data)")
             return true

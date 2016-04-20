@@ -75,7 +75,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                 let data = json["_data"]
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (index, item) in data {
                     let u = UserCheckout.instance(item)
                     if (u != nil) {
                         self.userCheckouts?.append(u!)

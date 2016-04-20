@@ -67,7 +67,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
                     return true
                 }
                 let s = name.lowercaseString as NSString
-                if (s.rangeOfString(self.searchBar.text.lowercaseString).location != NSNotFound)
+                if (s.rangeOfString((self.searchBar.text == nil ? "" : self.searchBar.text!).lowercaseString).location != NSNotFound)
                 {
                     return true
                 }

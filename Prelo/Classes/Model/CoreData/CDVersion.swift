@@ -22,12 +22,12 @@ class CDVersion: NSManagedObject {
     
     static func getOne() -> CDVersion? {
         let fetchReq = NSFetchRequest(entityName : "CDVersion")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : r.first as? CDVersion
+        } catch {
             return nil
-        } else {
-            return r?.first as? CDVersion
         }
     }
     
@@ -45,7 +45,7 @@ class CDVersion: NSManagedObject {
             ver?.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         } else {
             // Make new
-            let newVer = NSEntityDescription.insertNewObjectForEntityForName("CDVersion", inManagedObjectContext: m!) as! CDVersion
+            let newVer = NSEntityDescription.insertNewObjectForEntityForName("CDVersion", inManagedObjectContext: m) as! CDVersion
             newVer.appVersion = json["version"].string!
             newVer.appVersion = json["version"].string!
             newVer.brandsVersion = json["metadata_versions"]["brands"].number!
@@ -56,8 +56,7 @@ class CDVersion: NSManagedObject {
             newVer.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         }
         
-        var err : NSError?
-        if (m?.saveSave() == false) {
+        if (m.saveSave() == false) {
             print("saveVersion failed")
         } else {
             print("saveVersion success")
