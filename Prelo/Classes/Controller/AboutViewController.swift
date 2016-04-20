@@ -68,7 +68,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     
     @IBAction func clearCache()
     {
-        UIImageView.sharedImageCache().clearAll()
+//        UIImageView.sharedImageCache().clearAll()
         UIAlertView.SimpleShow("Perhatian", message: "Cache Cleared")
     }
     
@@ -166,120 +166,114 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 let metadata = metaJson["_data"]
                 
                 var isSuccess : Bool = true
-                var queue : NSOperationQueue = NSOperationQueue.new()
+                var queue : NSOperationQueue = NSOperationQueue()
                 
                 let opCategories : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
-                        
-                        // Update categories
-                        print("Updating categories..")
-                        if (CDCategory.deleteAll(moc)) {
-                            if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
-                            } else {
-                                isSuccess = false
-                            }
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
+                    
+                    // Update categories
+                    print("Updating categories..")
+                    if (CDCategory.deleteAll(moc)) {
+                        if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                pView.setProgress(pView.progress + 0.05, animated: true)
+                            })
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })
                 queue.addOperation(opCategories)
                 
                 let opBrands : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
-                        
-                        // Update brands
-                        print("Updating brands..")
-                        if (CDBrand.deleteAll(moc)) {
-                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
-                            } else {
-                                isSuccess = false
-                            }
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
+                    
+                    // Update brands
+                    print("Updating brands..")
+                    if (CDBrand.deleteAll(moc)) {
+                        if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })
                 queue.addOperation(opBrands)
                 
                 let opCategorySizes : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
-                        
-                        // Update category sizes
-                        print("Updating category sizes..")
-                        if (CDCategorySize.deleteAll(moc)) {
-                            if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
-                            } else {
-                                isSuccess = false
-                            }
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
+                    
+                    // Update category sizes
+                    print("Updating category sizes..")
+                    if (CDCategorySize.deleteAll(moc)) {
+                        if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                pView.setProgress(pView.progress + 0.05, animated: true)
+                            })
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })
                 queue.addOperation(opCategorySizes)
                 
                 let opShippings : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
                     
-                        // Update shippings
-                        print("Updating shippings..")
-                        if (CDShipping.deleteAll(moc)) {
-                            if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
-                            } else {
-                                isSuccess = false
-                            }
+                    // Update shippings
+                    print("Updating shippings..")
+                    if (CDShipping.deleteAll(moc)) {
+                        if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                pView.setProgress(pView.progress + 0.05, animated: true)
+                            })
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })
                 queue.addOperation(opShippings)
                 
                 let opProductConditions : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
-                        
-                        // Update product conditions
-                        print("Updating product conditions..")
-                        if (CDProductCondition.deleteAll(moc)) {
-                            if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
-                            } else {
-                                isSuccess = false
-                            }
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
+                    
+                    // Update product conditions
+                    print("Updating product conditions..")
+                    if (CDProductCondition.deleteAll(moc)) {
+                        if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                pView.setProgress(pView.progress + 0.05, animated: true)
+                            })
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })
                 queue.addOperation(opProductConditions)
                 
                 let opProvincesRegions : NSOperation = NSBlockOperation(block: {
-                    if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                        var moc = NSManagedObjectContext()
-                        moc.persistentStoreCoordinator = psc
-                        
-                        // Update provinces regions
-                        print("Updating provinces regions..")
-                        if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
-                            if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    pView.setProgress(pView.progress + 0.05, animated: true)
-                                })
-                            } else {
-                                isSuccess = false
-                            }
+                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                    var moc = NSManagedObjectContext()
+                    moc.persistentStoreCoordinator = psc
+                    
+                    // Update provinces regions
+                    print("Updating provinces regions..")
+                    if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
+                        if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
+                            dispatch_async(dispatch_get_main_queue(), {
+                                pView.setProgress(pView.progress + 0.05, animated: true)
+                            })
+                        } else {
+                            isSuccess = false
                         }
                     }
                 })

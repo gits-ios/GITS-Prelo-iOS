@@ -37,13 +37,13 @@ class CDCategorySize: NSManagedObject {
                 r.typeSizes = NSKeyedArchiver.archivedDataWithRootObject(sizes)
             }
         }
+        
         if (m.saveSave() == false) {
             print("saveCategorySizes failed")
             return false
-        } else {
-            print("saveCategorySizes success")
-            return true
         }
+        print("saveCategorySizes success")
+        return true
     }
     
     static func newOne(id : String, name : String, v : NSNumber, typeOrder : NSNumber, typeName : String, typeSizes : NSData) -> CDCategorySize? {
@@ -55,6 +55,7 @@ class CDCategorySize: NSManagedObject {
         r.typeOrder = typeOrder
         r.typeName = typeName
         r.typeSizes = typeSizes
+        
         if (m.saveSave() == false) {
             return nil
         } else {
@@ -66,28 +67,33 @@ class CDCategorySize: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDCategorySize")
         fetchRequest.includesPropertyValues = false
         
-        guard let results = m.tryExecuteFetchRequest(fetchRequest) else {
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDCategorySize success")
+                } else {
+                    print("deleteAll CDCategorySize failed")
+                    return false
+                }
+            }
+        } catch {
             return false
-        }
-        for result in results {
-            m.deleteObject(result)
-        }
-        if (m.saveSave() == false) {
-            print("deleteAll CDCategorySize failed")
-            return false
-        } else {
-            print("deleteAll CDCategorySize success")
         }
         return true
     }
     
     static func getCategorySizeCount() -> Int {
-        let m = UIApplication.appDelegate.managedObjectContext
         let fetchReq = NSFetchRequest(entityName: "CDCategorySize")
         
-        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            return r.count
+        } catch {
             return 0
         }
-        return r.count
     }
 }

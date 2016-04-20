@@ -812,7 +812,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var progressPortionLeft : Float = 0.97
                 let progressPortion : Float = 0.05
                 
-                var queue : NSOperationQueue = NSOperationQueue.new()
+                var queue : NSOperationQueue = NSOperationQueue()
                 
                 let opFinish : NSOperation = NSBlockOperation(block: {
                     // Set appdatasaved to true so the app is no longer blocked
@@ -824,37 +824,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateCategories == "1") {
                     opCategories = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update categories
-                            print("Updating categories..")
-                            if (CDCategory.deleteAll(moc)) {
-                                if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                                    var categoryLv1Count = metadata["categories"][0]["children"].count
-                                    // Wait until core data saving is actually finished
-                                    var wait = true
-                                    var waitCount = self.RedirWaitAmount
-                                    while (wait) {
-                                        let c1Count = CDCategory.getCategoriesInLevel(1).count
-                                        if (c1Count >= categoryLv1Count) {
-                                            wait = false
-                                        }
-                                        waitCount--
-                                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                                            wait = false
-                                        }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update categories
+                        print("Updating categories..")
+                        if (CDCategory.deleteAll(moc)) {
+                            if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                                var categoryLv1Count = metadata["categories"][0]["children"].count
+                                // Wait until core data saving is actually finished
+                                var wait = true
+                                var waitCount = self.RedirWaitAmount
+                                while (wait) {
+                                    let c1Count = CDCategory.getCategoriesInLevel(1).count
+                                    if (c1Count >= categoryLv1Count) {
+                                        wait = false
                                     }
-                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
-                                    
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
+                                    waitCount--
+                                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                        wait = false
+                                    }
                                 }
+                                // Set categorysaved to true so CategoryPreferencesVC can be executed
+                                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
+                                
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -868,20 +867,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateCategorySizes == "1") {
                     let opCategorySizes : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update category sizes
-                            print("Updating category sizes..")
-                            if (CDCategorySize.deleteAll(moc)) {
-                                if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update category sizes
+                        print("Updating category sizes..")
+                        if (CDCategorySize.deleteAll(moc)) {
+                            if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -895,20 +893,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateShippings == "1") {
                     let opShippings : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update shippings
-                            print("Updating shippings..")
-                            if (CDShipping.deleteAll(moc)) {
-                                if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update shippings
+                        print("Updating shippings..")
+                        if (CDShipping.deleteAll(moc)) {
+                            if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -922,20 +919,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateProductConditions == "1") {
                     let opProductConditions : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update product conditions
-                            print("Updating product conditions..")
-                            if (CDProductCondition.deleteAll(moc)) {
-                                if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update product conditions
+                        print("Updating product conditions..")
+                        if (CDProductCondition.deleteAll(moc)) {
+                            if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -949,20 +945,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateProvincesRegions == "1") {
                     let opProvincesRegions : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update provinces regions
-                            print("Updating provinces regions..")
-                            if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
-                                if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update provinces regions
+                        print("Updating provinces regions..")
+                        if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
+                            if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -976,17 +971,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateBrands == "1") {
                     let opBrands : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update brands
-                            print("Updating brands..")
-                            if (CDBrand.deleteAll(moc)) {
-                                if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : progressPortionLeft)) {
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        var moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update brands
+                        print("Updating brands..")
+                        if (CDBrand.deleteAll(moc)) {
+                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : progressPortionLeft)) {
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -1016,7 +1010,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "id.gits.Prelo" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] as NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {

@@ -53,7 +53,6 @@ class CDBrand: NSManagedObject {
                 }
             }
         }
-//        var err : NSError?
         if (m.saveSave() == false) {
             print("saveBrands failed")
             return false
@@ -115,7 +114,7 @@ class CDBrand: NSManagedObject {
         fetchReq.predicate = predicate
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
-            return (r.first as! CDBrand).name
+            return r.count == 0 ? nil : (r.first as! CDBrand).name
         } catch {
             return nil
         }

@@ -115,7 +115,7 @@ public class User : NSObject
         
         if let u = CDUser.getOne()
         {
-            UIApplication.appDelegate.managedObjectContext?.deleteObject(u)
+            UIApplication.appDelegate.managedObjectContext.deleteObject(u)
             UIApplication.appDelegate.saveContext()
         }
         
@@ -253,7 +253,7 @@ class UserProfile : NSObject {
         let s : [String]?
         if (json["shipping_preferences_ids"] != nil) {
             s = []
-            for (var i = 0; i < json["shipping_preferences_ids"].count; i++) {
+            for i in 0 ..< json["shipping_preferences_ids"].count {
                 s!.append(json["shipping_preferences_ids"][i].string!)
             }
             return s
@@ -266,7 +266,7 @@ class UserProfile : NSObject {
         let c : [String]?
         if (json["others"]["category_preferences_ids"] != nil) {
             c = []
-            for (var i = 0; i < json["others"]["category_preferences_ids"].count; i++) {
+            for i in 0 ..< json["others"]["category_preferences_ids"].count {
                 c!.append(json["others"]["category_preferences_ids"][i].string!)
             }
             return c
@@ -517,7 +517,7 @@ public class ProductDetail : NSObject, TawarItem
         if (obj == nil) {
             return nil
         } else {
-            var p = ProductDetail()
+            let p = ProductDetail()
             p.json = obj!
             return p
         }
@@ -671,7 +671,7 @@ public class ProductDetail : NSObject, TawarItem
                     default : labels.append("unknown")
                     }
                 }
-                i++
+                i += 1
             }
         }
         return labels
@@ -708,7 +708,7 @@ public class ProductDetail : NSObject, TawarItem
             if (a?.count == 0) {
                 return []
             } else {
-                let f = a?.objectAtCircleIndex(0)
+//                let f = a?.objectAtCircleIndex(0)
                 var r : Array<ProductDiscussion> = []
                 if (a != nil)
                 {
@@ -952,7 +952,7 @@ public class Product : NSObject
         if (obj == nil) {
             return nil
         } else {
-            var p = Product()
+            let p = Product()
             p.json = obj!
             return p
         }
@@ -960,7 +960,7 @@ public class Product : NSObject
     
     var coverImageURL : NSURL?
     {
-        if let err = json["display_picts"][0].error
+        if json["display_picts"][0].error != nil
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
@@ -1073,7 +1073,7 @@ class MyProductItem : Product {
         if (obj == nil) {
             return nil
         } else {
-            var p = MyProductItem()
+            let p = MyProductItem()
             p.json = obj!
             return p
         }
@@ -1255,7 +1255,7 @@ class UserTransaction: NSObject {
     var productImageURL : NSURL? {
         let arr = json["transaction_products"].array!
         
-        if let err = arr[0]["display_picts"][0].error
+        if arr[0]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1305,7 +1305,7 @@ class UserTransactionItem: UserTransaction {
     
     // Only take first image from json
     override var productImageURL : NSURL? {
-        if let err = json["product"]["display_picts"][0].error
+        if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1464,7 +1464,7 @@ class TransactionDetail : NSObject {
     
     var transactionProducts : [TransactionProductDetail] {
         var tps : [TransactionProductDetail] = []
-        for (var i = 0; i < json["transaction_products"].count; i++) {
+        for i in 0 ..< json["transaction_products"].count {
             if let tp = TransactionProductDetail.instance(json["transaction_products"][i]) {
                 tps.append(tp)
             }
@@ -1683,7 +1683,7 @@ class TransactionProductDetail : NSObject {
     
     // Only take first image from json
     var productImageURL : NSURL? {
-        if let err = json["product"]["display_picts"][0].error
+        if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1868,7 +1868,7 @@ class TransactionProductDetail : NSObject {
     }
     
     var reviewerImageURL : NSURL? {
-        if let err = json["review"]["buyer_pict"].error
+        if json["review"]["buyer_pict"].error != nil
         {
             return nil
         }
@@ -2073,7 +2073,7 @@ class UserCheckout : NSObject {
             let u = UserCheckout()
             u.json = json!
             u.transactionProducts = []
-            for (var i = 0; i < u.json["transaction_products"].count; i++) {
+            for i in 0 ..< u.json["transaction_products"].count {
                 let t = u.json["transaction_products"][i]
                 if (t != nil) {
                     u.transactionProducts.append(UserCheckoutProduct.instanceCheckoutProduct(t)!)
@@ -2161,7 +2161,7 @@ class UserCheckoutProduct : TransactionProductDetail {
         if (obj == nil) {
             return nil
         } else {
-            var p = UserCheckoutProduct()
+            let p = UserCheckoutProduct()
             p.json = obj!
             return p
         }
@@ -2585,7 +2585,7 @@ class InboxMessage : NSObject
         lastCompletion = completion
         sending = true
         self.failedToSend = false
-        var m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
+        let m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
         // API Migrasi
         request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false

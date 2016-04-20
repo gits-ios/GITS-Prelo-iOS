@@ -238,7 +238,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             textField.resignFirstResponder()
             return false
         }
-        var stringx = textField.text as NSString
+        var stringx = (textField.text == nil ? "" : textField.text!) as NSString
         
         stringx = stringx.stringByReplacingCharactersInRange(range, withString: string)
         let keyword = stringx as String
@@ -348,7 +348,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundItems.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -370,7 +370,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundUsers.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -398,10 +398,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 l.searchMode = true
                 l.searchKey = currentKeyword
                 // API Migrasi
-        request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON {resp in
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                         print("TOP")
-                        print(res)
+//                        print(res)
                         print("TOPEND")
                     }
                 }
@@ -411,10 +411,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             } else
             {
                 // API Migrasi
-        request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON {resp in
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                         print("TOP")
-                        print(res)
+//                        print(res)
                         print("TOPEND")
                     }
                 }
@@ -427,9 +427,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (indexPath.row == foundUsers.count)
             {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
-                u.keyword = txtSearch.text
+                u.keyword = txtSearch.text == nil ? "" : txtSearch.text!
                 // API Migrasi
-        request(APISearch.InsertTopSearch(search: txtSearch.text))
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!))
                 self.navigationController?.pushViewController(u, animated: true)
                 
             } else
@@ -537,7 +537,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         userRequest = // API Migrasi
         request(APISearch.User(keyword: keyword))
-        userRequest?.responseJSON {req, resp, res, err in
+        userRequest?.responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
             {
                 self.foundUsers = []

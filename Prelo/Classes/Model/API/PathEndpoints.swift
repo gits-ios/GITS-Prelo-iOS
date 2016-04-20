@@ -54,7 +54,7 @@ enum APIPathAuth : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: pathHost)?.URLByAppendingPathComponent(APIPathAuth.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: nil)
         req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -94,7 +94,7 @@ enum APIPathUser : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: pathHost)?.URLByAppendingPathComponent(APIPathUser.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: token)
         req.HTTPMethod = method.rawValue

@@ -21,12 +21,14 @@ class CDVersion: NSManagedObject {
     @NSManaged var provincesRegionsVersion : NSNumber
     
     static func getOne() -> CDVersion? {
-        let m = UIApplication.appDelegate.managedObjectContext
         let fetchReq = NSFetchRequest(entityName : "CDVersion")
-        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : r.first as? CDVersion
+        } catch {
             return nil
         }
-        return r.first as? CDVersion
     }
     
     static func saveVersions(json : JSON) {
@@ -54,7 +56,6 @@ class CDVersion: NSManagedObject {
             newVer.provincesRegionsVersion = json["metadata_versions"]["provinces_regions"].number!
         }
         
-        var err : NSError?
         if (m.saveSave() == false) {
             print("saveVersion failed")
         } else {

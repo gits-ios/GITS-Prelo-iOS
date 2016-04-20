@@ -215,7 +215,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         
         // lblAlamatPengiriman height fix
         let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
-        var sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
+        let sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
         //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
@@ -238,7 +238,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         
         // Love
         var loveText = ""
-        for (var i = 0; i < 5; i++) {
+        for i in 0 ..< 5 {
             if (i < transactionDetail?.reviewStar) {
                 loveText += ""
             } else {
@@ -246,7 +246,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblHearts.attributedText = attrStringLove
         
         // Review Seller pop up
@@ -265,9 +265,9 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor == UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.redColor()
         } else {
-            lblOrderStatus.textColor == Theme.ThemeOrange
+            lblOrderStatus.textColor = Theme.ThemeOrange
         }
         
         // Set groups and top constraints manually
@@ -337,7 +337,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
-        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-9
+        for i in 0 ..< isShowGroups.count { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
                 groups[i].hidden = false
@@ -358,7 +358,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -382,7 +382,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func rvwLovePressed(sender: UIButton) {
         var isFound = false
-        for (var i = 0; i < btnsRvwLove.count; i++) {
+        for i in 0 ..< btnsRvwLove.count {
             let b = btnsRvwLove[i]
             if (!isFound) {
                 if (sender == b) {
@@ -430,7 +430,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     @IBAction func hubungiPreloPressed(sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
         contactUs = c
         if let v = c.view, let p = self.navigationController?.view
         {
@@ -478,7 +478,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     func sendMode(mode: Bool) {
         if (mode) {
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = false
             }
@@ -487,7 +487,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
             self.btnRvwKirim.userInteractionEnabled = false
         } else {
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = true
             }

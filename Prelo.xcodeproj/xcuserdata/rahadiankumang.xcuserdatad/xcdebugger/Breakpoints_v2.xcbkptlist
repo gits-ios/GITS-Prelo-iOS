@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "628"
             endingLineNumber = "628"
-            landmarkName = "didReceiveMemoryWarning()"
+            landmarkName = "viewWillDisappear(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "viewDidLoad()"
+            landmarkName = "RevealHiddenString(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -339,22 +339,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Model/DAO.swift"
-            timestampString = "480150850.224438"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2419"
-            endingLineNumber = "2419"
-            landmarkName = "Inbox"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/TawarViewController.swift"
             timestampString = "481466777.445136"
             startingColumnNumber = "9223372036854775807"
@@ -409,7 +393,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "279"
             endingLineNumber = "279"
-            landmarkName = "isiPad()"
+            landmarkName = "isiPod()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -425,7 +409,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "283"
             endingLineNumber = "283"
-            landmarkName = "isiPad()"
+            landmarkName = "isiPod()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -441,7 +425,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
             endingLineNumber = "195"
-            landmarkName = "devicePlatform()"
+            landmarkName = "devicePlatformString()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -473,8 +457,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "536"
             endingLineNumber = "536"
-            landmarkName = "ListItemViewController"
-            landmarkType = "3">
+            landmarkName = "isBannerExist()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -489,8 +473,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "537"
             endingLineNumber = "537"
-            landmarkName = "ListItemViewController"
-            landmarkType = "3">
+            landmarkName = "isBannerExist()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1001,8 +985,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "586"
             endingLineNumber = "586"
-            landmarkName = "TawarViewController"
-            landmarkType = "3">
+            landmarkName = "sendMixpanelEvent(_:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

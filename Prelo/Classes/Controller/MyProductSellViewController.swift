@@ -71,7 +71,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // API Migrasi
         request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
-                if let result: AnyObject = res
+                if let result: AnyObject = resp.result.value
                 {
                     let j = JSON(result)
                     let d = j["_data"].arrayObject

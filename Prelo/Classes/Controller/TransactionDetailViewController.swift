@@ -1247,7 +1247,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -2581,7 +2581,7 @@ class TransactionDetailReviewCell : UITableViewCell {
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblLove.attributedText = attrStringLove
     }
 }

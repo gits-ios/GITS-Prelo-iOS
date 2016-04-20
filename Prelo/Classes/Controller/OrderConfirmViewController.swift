@@ -54,7 +54,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             let products = CartProduct.getAll(User.EmailOrEmptyString)
             for p in products
             {
-                UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+                UIApplication.appDelegate.managedObjectContext.deleteObject(p)
             }
             UIApplication.appDelegate.saveContext()
         }
@@ -174,8 +174,11 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         {
             var x = self.navigationController?.viewControllers
             x?.removeAtIndex((x?.count)!-2)
-//            x?.removeAtIndex((x?.count)!-2)
-            self.navigationController?.setViewControllers(x, animated: false)
+            if (x == nil)
+            {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
             first = false
         }
         
@@ -206,14 +209,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellData.keys.array.count
+//        return cellData.keys.array.count
+        return cellData.keys.count
     }
     
     var rawCells : [UITableViewCell] = []
     func createCells()
     {
         if (!free) {
-            for i in 0...cellData.keys.array.count-1
+            for i in 0...cellData.keys.count-1
             {
                 var c : UITableViewCell?
                 var b : BaseCartCell
@@ -298,7 +302,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 if (cell == nil) {
                     s += 1
                     r = -1
-                    if (s == tableView!.numberOfSections()) { // finish, last cell
+                    if (s == tableView!.numberOfSections) { // finish, last cell
                         con = false
                     }
                 } else {

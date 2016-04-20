@@ -37,27 +37,33 @@ class CDProvince : NSManagedObject {
         if (m.saveSave() == false) {
             print("saveProvinceRegions failed")
             return false
-        } else {
-            print("saveProvinceRegions success")
-            return true
         }
+        print("saveProvinceRegions success")
+        return true
     }
     
     static func deleteAll(m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDProvince")
         fetchRequest.includesPropertyValues = false
         
-        guard let results = m.tryExecuteFetchRequest(fetchRequest) else {
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDProvince success")
+                } else {
+                    print("deleteAll CDProvince failed")
+                    return false
+                }
+            }
+        } catch {
             return false
         }
-        for result in results {
-            m.deleteObject(result)
-        }
-        if (m.saveSave() == false) {
-            print("deleteAll CDProvince failed")
-        } else {
-            print("deleteAll CDProvince success")
-        }
+        
+        
         return true
     }
     
@@ -69,31 +75,40 @@ class CDProvince : NSManagedObject {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
-        provinces = (m.tryExecuteFetchRequest(fetchReq) as? [CDProvince])!
         var arr : [String] = []
-        for province in provinces {
-            arr.append(province.name + PickerViewController.TAG_START_HIDDEN + province.id + PickerViewController.TAG_END_HIDDEN)
+        
+        do {
+            provinces = try (m.executeFetchRequest(fetchReq) as? [CDProvince])!
+            for province in provinces {
+                arr.append(province.name + PickerViewController.TAG_START_HIDDEN + province.id + PickerViewController.TAG_END_HIDDEN)
+            }
+        } catch {
+            
         }
         return arr
     }
     
     static func getProvinceNameWithID(id : String) -> String? {
-        let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
         fetchReq.predicate = predicate
-        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDProvince).name
+        } catch {
             return nil
         }
-        return (r.first as! CDProvince).name
     }
     
     static func getProvinceCount() -> Int {
-        let m = UIApplication.appDelegate.managedObjectContext
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
-        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count
+        } catch {
             return 0
         }
-        return r.count
     }
 }
