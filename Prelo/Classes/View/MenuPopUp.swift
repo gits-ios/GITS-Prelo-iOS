@@ -107,7 +107,7 @@ class MenuPopUp: UIView {
     
     func animate(showing : Bool)
     {
-        for (view : UIView, pos : MenuAnimPos) in animationPos
+        for (view, pos) in animationPos
         {
             UIView.animateWithDuration(0.2, animations: {
                 let m = view as! MenuButton

@@ -19,7 +19,7 @@ class PreloEndpoints: NSObject {
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(oldParam, forKey: "last_req_param")
         
-        let newParam = oldParam
+        _ = oldParam
         return oldParam
     }
     
@@ -652,9 +652,9 @@ enum APITransactionAnggi : URLRequestConvertible
     {
         switch self
         {
-        case .GetSellerTransaction(let id) : return [:]
-        case .GetBuyerTransaction(let id) : return [:]
-        case .GetTransactionProduct(let id) : return [:]
+        case .GetSellerTransaction(_) : return [:]
+        case .GetBuyerTransaction(_) : return [:]
+        case .GetTransactionProduct(_) : return [:]
         }
     }
     
@@ -1078,7 +1078,7 @@ enum Products : URLRequestConvertible
         case .MyProducts(_, _) : return ""
         case .ListByCategory(_, _, _, _, _, _, _): return ""
         case .Detail(let prodId): return prodId
-        case .Add(_, _, _, _, let category) : return ""
+        case .Add(_, _, _, _, _) : return ""
         case .Love(let prodId):return prodId + "/love"
         case .Unlove(let prodId):return prodId + "/unlove"
         case .PostComment(let pId, _, _):return pId + "/comments"
@@ -1112,7 +1112,7 @@ enum Products : URLRequestConvertible
                 "price_max":priceMax,
                 "prelo":"true"
             ]
-        case .Detail(let prodId): return ["prelo":"true"]
+        case .Detail(_): return ["prelo":"true"]
         case .Add(let name, let desc, let price, let weight, let category):
             return [
                 "name":name,
@@ -1124,8 +1124,8 @@ enum Products : URLRequestConvertible
         case .Love(let pId):return ["product_id":pId]
         case .Unlove(let pId):return ["product_id":pId]
         case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
-        case .GetComment(let pId) :return [:]
-        case .ShareCommission(let pId, let i, let p, let f, let t) : return ["instagram":i, "facebook":f, "path":p, "twitter":t]
+        case .GetComment(_) : return [:]
+        case .ShareCommission(_, let i, let p, let f, let t) : return ["instagram":i, "facebook":f, "path":p, "twitter":t]
         case .PostReview(_, let comment, let star) :
             return [
                 "comment" : comment,
@@ -1180,7 +1180,7 @@ enum APIProduct : URLRequestConvertible
             {
             case .ListByCategory(_, _, _, _, _, _, _): return ""
             case .Detail(let prodId, _): return prodId
-            case .Add(_, _, _, _, let category) : return ""
+            case .Add(_, _, _, _, _) : return ""
             case .Love(let prodId):return prodId + "/love"
             case .Unlove(let prodId):return prodId + "/unlove"
             case .PostComment(let pId, _, _):return pId + "/comments"
@@ -1216,7 +1216,7 @@ enum APIProduct : URLRequestConvertible
             case .Love(let pId):return ["product_id":pId]
             case .Unlove(let pId):return ["product_id":pId]
             case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
-            case .GetComment(let pId) :return [:]
+            case .GetComment(_) :return [:]
             case .MyProduct(let c, let l): return ["current":c, "limit":l]
             }
     }
@@ -1535,14 +1535,13 @@ class APIPrelo
                             User.Logout()
                             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
-                                if let rootVC = childVCs[0] as? UIViewController {
-                                    let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
-//                                    let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
-                                    let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
-                                    if (uiNavigationController != nil && kumangTabBarVC != nil) {
-                                        uiNavigationController!.popToRootViewControllerAnimated(true)
-                                        LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
-                                    }
+                                let rootVC = childVCs[0]
+                                let uiNavigationController : UINavigationController? = rootVC as? UINavigationController
+                                //let kumangTabBarVC : KumangTabBarViewController? = childVCs[0].viewControllers![0] as? KumangTabBarViewController
+                                let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
+                                if (uiNavigationController != nil && kumangTabBarVC != nil) {
+                                    uiNavigationController!.popToRootViewControllerAnimated(true)
+                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
                                 }
                             }
                         }

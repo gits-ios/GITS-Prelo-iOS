@@ -12,7 +12,7 @@ let pathHost = "https://partner.path.com/"
 
 class PathEndpoints: NSObject {
     class func ProcessParam(oldParam : [String : AnyObject]) -> [String : AnyObject] {
-        let newParam = oldParam
+        _ = oldParam
         return oldParam
     }
 }
@@ -99,6 +99,6 @@ enum APIPathUser : URLRequestConvertible {
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: token)
         req.HTTPMethod = method.rawValue
         let r = ParameterEncoding.URL.encode(req, parameters: PathEndpoints.ProcessParam(param!)).0
-        return req
+        return r
     }
 }

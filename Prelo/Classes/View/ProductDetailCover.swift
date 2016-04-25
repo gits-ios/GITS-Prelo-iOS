@@ -48,7 +48,7 @@ class ProductDetailCover: UIView {
             print("Cover TAG : " + String(iv!.tag))
             iv?.tag = i
             iv?.userInteractionEnabled = true
-            iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapped:"))
+            iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
             iv?.setImageWithUrl(NSURL(string: images.objectAtCircleIndex(i))!, placeHolderImage: nil)
         }
         
@@ -193,7 +193,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             label?.text = t
         }
         rearrangeLabel()
-        label?.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin
+        label?.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin]
         
         scrollView?.delegate = self
     }

@@ -20,13 +20,13 @@ class CartProduct: NSManagedObject {
     static func newOne(cpID : String, email : String, name : String) -> CartProduct?
     {
         let m = UIApplication.appDelegate.managedObjectContext
-        let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m!) as! CartProduct
+        let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m) as! CartProduct
         c.cpID = cpID
         c.email = email
         c.packageId = ""
         c.name = name
-        var err : NSError?
-        if (m?.saveSave() == false) {
+        
+        if (m.saveSave() == false) {
             return nil
         } else {
             return c
@@ -41,7 +41,6 @@ class CartProduct: NSManagedObject {
             cp.email = email
         }
         
-        var error : NSError?
         UIApplication.appDelegate.saveContext()
     }
     
@@ -50,12 +49,11 @@ class CartProduct: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CartProduct")
         let p1 = NSPredicate(format: "email ==[c] %@", email)
         let p2 = NSPredicate(format: "cpID ==[c] %@", itemID)
-//        let predicate = NSCompoundPredicate.andPredicateWithSubpredicates([p1, p2])
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2])
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq) as? [CartProduct]
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CartProduct]
             
             return r?.first
         } catch
@@ -76,7 +74,7 @@ class CartProduct: NSManagedObject {
         fetchReq.predicate = p1
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq) as? [CartProduct]
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CartProduct]
             
             if (r == nil) {
                 return []
