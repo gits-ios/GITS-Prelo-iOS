@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Mixpanel.trackPageVisit(PageName.SplashScreen)
         
         // Configure GAI options.
-        var gai = GAI.sharedInstance()
+        let gai = GAI.sharedInstance()
         gai.trackerWithTrackingId("UA-68727101-3")
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
@@ -135,22 +135,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }*/
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.userLoggedIn), name: "userLoggedIn", object: nil)
         
         // Default deviceRegId so it's not nil
         NSUserDefaults.standardUserDefaults().setObject("", forKey: "deviceregid")
         NSUserDefaults.standardUserDefaults().synchronize()
         
         // Register push notification
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
-        {
-            let setting = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
-            UIApplication.sharedApplication().registerUserNotificationSettings(setting)
-        } else
-        {
-//            let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
-            UIApplication.sharedApplication().registerForRemoteNotificationTypes([.Badge, .Sound, .Alert])
-        }
+        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.sharedApplication().registerForRemoteNotifications()
         
         // Handling push notification from APNS
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
@@ -224,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
-        annotation: AnyObject?) -> Bool {
+        annotation: AnyObject) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
             
@@ -268,9 +262,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
         
-        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
         
-        var deviceRegId: String = (deviceToken.description as NSString)
+        let deviceRegId: String = (deviceToken.description as NSString)
             .stringByTrimmingCharactersInSet(characterSet)
             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
@@ -416,7 +410,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func hideRedirAlertWithDelay(delay: Double) {
         let delayTime = delay * Double(NSEC_PER_SEC)
-        var time = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime))
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime))
         dispatch_after(time, dispatch_get_main_queue(), {
             self.redirAlert?.dismissWithClickedButtonIndex(-1, animated: true)
         })
@@ -451,7 +445,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 wait = false
                             }
                         }
-                        waitCount--
+                        waitCount -= 1
                         if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                             wait = false
                         }
@@ -478,7 +472,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)
                 
-                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 var rootViewController : UINavigationController?
                 
                 // Tunggu sampai UINavigationController terbentuk, dalam background process
@@ -494,7 +487,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 wait = false
                             }
                         }
-                        waitCount--
+                        waitCount -= 1
                         if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                             wait = false
                         }
@@ -532,7 +525,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -567,7 +560,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -611,7 +604,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -651,7 +644,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     wait = false
                                 }
                             }
-                            waitCount--
+                            waitCount -= 1
                             if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                                 wait = false
                             }
@@ -666,7 +659,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             } else {
                                 let products = data["products"]
                                 var imgs : [NSURL] = []
-                                for (var i = 0; i < products.count; i++) {
+                                for i in 0 ..< products.count {
                                     if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
                                         imgs.append(c.productImageURL!)
                                     }
@@ -708,7 +701,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -812,7 +805,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var progressPortionLeft : Float = 0.97
                 let progressPortion : Float = 0.05
                 
-                var queue : NSOperationQueue = NSOperationQueue()
+                let queue : NSOperationQueue = NSOperationQueue()
                 
                 let opFinish : NSOperation = NSBlockOperation(block: {
                     // Set appdatasaved to true so the app is no longer blocked
@@ -825,14 +818,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateCategories == "1") {
                     opCategories = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update categories
                         print("Updating categories..")
                         if (CDCategory.deleteAll(moc)) {
                             if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                                var categoryLv1Count = metadata["categories"][0]["children"].count
+                                let categoryLv1Count = metadata["categories"][0]["children"].count
                                 // Wait until core data saving is actually finished
                                 var wait = true
                                 var waitCount = self.RedirWaitAmount
@@ -841,7 +834,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     if (c1Count >= categoryLv1Count) {
                                         wait = false
                                     }
-                                    waitCount--
+                                    waitCount -= 1
                                     if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                                         wait = false
                                     }
@@ -868,7 +861,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateCategorySizes == "1") {
                     let opCategorySizes : NSOperation = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update category sizes
@@ -894,7 +887,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateShippings == "1") {
                     let opShippings : NSOperation = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update shippings
@@ -920,7 +913,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateProductConditions == "1") {
                     let opProductConditions : NSOperation = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update product conditions
@@ -946,7 +939,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateProvincesRegions == "1") {
                     let opProvincesRegions : NSOperation = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update provinces regions
@@ -972,7 +965,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if (updateBrands == "1") {
                     let opBrands : NSOperation = NSBlockOperation(block: {
                         let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                        var moc = NSManagedObjectContext()
+                        let moc = NSManagedObjectContext()
                         moc.persistentStoreCoordinator = psc
                         
                         // Update brands
@@ -1036,7 +1029,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             
-            dict[NSUnderlyingErrorKey] = error as! NSError
+            dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

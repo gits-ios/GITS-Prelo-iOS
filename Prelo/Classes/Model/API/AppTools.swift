@@ -263,9 +263,9 @@ extension GAI
     {
         // Send if Prelo production only (not development)
         if (AppTools.IsPreloProduction) {
-            var tracker = GAI.sharedInstance().defaultTracker
+            let tracker = GAI.sharedInstance().defaultTracker
             tracker.set(kGAIScreenName, value: pageName)
-            var builder = GAIDictionaryBuilder.createScreenView()
+            let builder = GAIDictionaryBuilder.createScreenView()
             tracker.send(builder.build() as [NSObject : AnyObject])
         }
     }
@@ -420,16 +420,3 @@ extension NSData
         return ""
     }
 }
-
-//extension UIDevice
-//{
-//    static func isIpad() -> Bool
-//    {
-//        if (UI_USER_INTERFACE_IDIOM() == .Pad)
-//        {
-//            return true
-//        }
-//        
-//        return false
-//    }
-//}
