@@ -132,7 +132,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     @IBAction func withdraw()
     {
-        let amount = txtJumlah.text
+        let amount = txtJumlah.text == nil ? "" : txtJumlah.text!
         let i = (amount as NSString).integerValue
         
         if i < 50000
@@ -148,9 +148,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         }
         
         namaBank = namaBank.stringByReplacingOccurrencesOfString("Bank ", withString: "")
-        let norek = txtNomerRekening.text
-        let namarek = txtNamaRekening.text
-        let pass = txtPassword.text
+        let norek = txtNomerRekening.text == nil ? "" : txtNomerRekening.text!
+        let namarek = txtNamaRekening.text == nil ? "" : txtNamaRekening.text!
+        let pass = txtPassword.text == nil ? "" : txtPassword.text!
         
         self.btnWithdraw.enabled = false
         

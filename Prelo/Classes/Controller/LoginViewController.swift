@@ -687,16 +687,16 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         
         // API Migrasi
-//        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"]
-//                //self.getProfile(data["token"].string!)
-//                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
-//            } else {
-//                self.hideLoading()
-//            }
-//        }
+        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                //self.getProfile(data["token"].string!)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: false, loginMethod: "Basic", screenBeforeLogin: self.screenBeforeLogin)
+            } else {
+                self.hideLoading()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

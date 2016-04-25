@@ -268,7 +268,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         // API Migrasi
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
                 NSUserDefaults.standardUserDefaults().synchronize()
@@ -393,8 +393,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
-                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! UIViewController
-                self.navigationController?.pushViewController(b, animated: true)
+                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+                self.navigationController?.pushViewController(b!, animated: true)
             } else {
                 self.btnSend.enabled = true
             }

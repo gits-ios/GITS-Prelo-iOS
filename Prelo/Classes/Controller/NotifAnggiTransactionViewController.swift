@@ -83,7 +83,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 let dataCount = data.count
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (index, item) in data {
                     let n = Notification.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)

@@ -332,9 +332,9 @@ public extension UIColor {
     
      - returns: Returns the UIColor instance
      */
-    public convenience init(hex: String) {
-        self.dynamicType.init(hexString: hex)
-    }
+//    public convenience init(hex: String) {
+//        self.dynamicType.init(hexString: hex)
+//    }
     
     /**
      Create a color from HEX with alpha
@@ -344,9 +344,9 @@ public extension UIColor {
     
      - returns: Returns the UIColor instance
      */
-//    public convenience init(hex: Int, alpha: CGFloat = 1.0) {
-//        self.init(red: CGFloat(((hex & 0xFF0000) >> 16)) / 255.0, green: CGFloat(((hex & 0xFF00) >> 8)) / 255.0, blue: CGFloat((hex & 0xFF)) / 255.0, alpha: alpha)
-//    }
+    public convenience init(hex: Int, alpha: CGFloat = 1.0) {
+        self.init(red: CGFloat(((hex & 0xFF0000) >> 16)) / 255.0, green: CGFloat(((hex & 0xFF00) >> 8)) / 255.0, blue: CGFloat((hex & 0xFF)) / 255.0, alpha: alpha)
+    }
     
     /**
      Create a color from a HEX string.
@@ -388,7 +388,7 @@ public extension UIColor {
             break
         }
         
-        self.dynamicType.init(red:red, green:green, blue:blue, alpha:alpha)
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
     
     // MARK: - Class functions -
@@ -465,7 +465,7 @@ public extension UIColor {
         if UIColor.respondsToSelector(Selector(colorString!.lowercaseString.stringByAppendingString("Color"))) {
             return self.getColorFromColorString(colorString!)
         } else {
-            return UIColor(hex: colorString!)
+            return UIColor(hexString: colorString!)
         }
     }
     

@@ -75,9 +75,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         //self.setupNormalOptions()
         self.setupTitle()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNew:", name: NotificationName.PushNew, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideBottomBar", name: "hideBottomBar", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showBottomBar", name: "showBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.pushNew(_:)), name: NotificationName.PushNew, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: "hideBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: "showBottomBar", object: nil)
 
         // Do any additional setup after loading the view.
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
@@ -95,7 +95,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController//Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
         controllerDashboard2?.previousController = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLoginButton", name: "userLoggedIn", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: "userLoggedIn", object: nil)
     }
     
     func updateLoginButton()
@@ -167,7 +167,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 UIApplication.appDelegate.loadAppDataDelegate = self
                 
                 // Check if app is currently loading app data
-                var appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                let appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
                 if (appDataSaved == nil) { // Proses pengecekan di AppDelegate bahkan belum berjalan, tunggu pengecekan selesai
                     // Tampilkan pop up untuk loading
                     self.loadAppDataAlert = UIAlertView()
@@ -280,8 +280,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     func pushNew(sender : AnyObject)
     {
         let n : NSNotification = sender as! NSNotification
-        var d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-        var nav = UINavigationController(rootViewController: d)
+        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let nav = UINavigationController(rootViewController: d)
         nav.navigationBar.translucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
         nav.navigationBar.tintColor = UIColor.whiteColor()
@@ -312,9 +312,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         let oldView = sectionContent?.viewWithTag(1)
         oldView?.removeFromSuperview()
         
-        var v : UIViewController? = newController
+        let v : UIViewController? = newController
         v?.view.tag = 1
-        v?.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        v?.view.translatesAutoresizingMaskIntoConstraints = false
         
         sectionContent?.addSubview((v?.view)!)
         let horizontalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v1]-0-|", options: .AlignAllTop, metrics: nil, views: ["v1": v!.view])
@@ -336,7 +336,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             if (changeToBrowseCount == 0) {
                 changeToBrowseCount = 1
                 sectionContent?.hidden = true
-                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "delayBrowseSwitch", userInfo: nil, repeats: false)
+                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(KumangTabBarViewController.delayBrowseSwitch), userInfo: nil, repeats: false)
             }
             
         } else {
@@ -411,7 +411,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segTour") {
-            var t = segue.destinationViewController.viewControllers?.first as! TourViewController
+            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
             t.parent = sender as? BaseViewController
         }
     }

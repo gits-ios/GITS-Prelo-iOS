@@ -186,41 +186,41 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let password = txtPassword?.text
         let name = txtName?.text
         // API Migrasi
-//        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Register")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"]
-//                
-//                let m = UIApplication.appDelegate.managedObjectContext
-//                CDUser.deleteAll()
-//                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser
-//                c.id = data["_id"].stringValue
-//                c.email = data["email"].stringValue
-//                c.username = data["username"].stringValue
-//                c.fullname = data["fullname"].stringValue
-//                
-//                CDUserProfile.deleteAll()
-//                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile
-//                let pr = data["profile"]
-//                p.pict = pr["pict"].stringValue
-//                c.profiles = p
-//                
-//                CDUserOther.deleteAll()
-//                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther
-//                let oth = data["others"]
-//                o.lastLogin = oth["last_login"].stringValue
-//                o.registerTime = oth["register_time"].stringValue
-//                c.others = o
-//                
-//                UIApplication.appDelegate.saveContext()
-//                
-//                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
-//                
-//                self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
-//            } else {
-//                self.btnRegister?.enabled = true
-//            }
-//        }
+        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Register")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let m = UIApplication.appDelegate.managedObjectContext
+                CDUser.deleteAll()
+                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser
+                c.id = data["_id"].stringValue
+                c.email = data["email"].stringValue
+                c.username = data["username"].stringValue
+                c.fullname = data["fullname"].stringValue
+                
+                CDUserProfile.deleteAll()
+                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                let pr = data["profile"]
+                p.pict = pr["pict"].stringValue
+                c.profiles = p
+                
+                CDUserOther.deleteAll()
+                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther
+                let oth = data["others"]
+                o.lastLogin = oth["last_login"].stringValue
+                o.registerTime = oth["register_time"].stringValue
+                c.others = o
+                
+                UIApplication.appDelegate.saveContext()
+                
+                CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
+                
+                self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
+            } else {
+                self.btnRegister?.enabled = true
+            }
+        }
         
         // FOR TESTING (TO PROFILE SETUP DIRECTLY)
         //self.toProfileSetup("", userToken : "", userEmail : "", isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)

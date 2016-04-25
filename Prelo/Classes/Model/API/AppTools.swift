@@ -78,27 +78,27 @@ class AppTools: NSObject {
 
 class Theme : NSObject
 {
-    static var PrimaryColor = UIColor(hex: "#00A79D")
-    static var PrimaryColorDark = UIColor(hex: "#00747C")
-    static var PrimaryColorLight = UIColor(hex: "#8CD7AE")
+    static var PrimaryColor = UIColor(hexString: "#00A79D")
+    static var PrimaryColorDark = UIColor(hexString: "#00747C")
+    static var PrimaryColorLight = UIColor(hexString: "#8CD7AE")
     
-    static var ThemePurple = UIColor(hex: "#62115F")
-    static var ThemePurpleDark = UIColor(hex: "#00A79D")
+    static var ThemePurple = UIColor(hexString: "#62115F")
+    static var ThemePurpleDark = UIColor(hexString: "#00A79D")
     
-    static var ThemeOrage = UIColor(hex: "#F88218")
-    static var ThemeOrange = UIColor(hex: "#FFA800")
-    static var ThemeOrangeDark = UIColor(hex: "#996600")
+    static var ThemeOrage = UIColor(hexString: "#F88218")
+    static var ThemeOrange = UIColor(hexString: "#FFA800")
+    static var ThemeOrangeDark = UIColor(hexString: "#996600")
     
-    static var ThemePink = UIColor(hex: "#F1E3F2")
-    static var ThemePinkDark = UIColor(hex: "#CB8FCC")
+    static var ThemePink = UIColor(hexString: "#F1E3F2")
+    static var ThemePinkDark = UIColor(hexString: "#CB8FCC")
     
-    static var navBarColor = UIColor(hex: "#00A79D")
+    static var navBarColor = UIColor(hexString: "#00A79D")
     
-    static var TabSelectedColor = UIColor(hex: "#858585")
-    static var TabNormalColor = UIColor(hex: "#b7b7b7")
+    static var TabSelectedColor = UIColor(hexString: "#858585")
+    static var TabNormalColor = UIColor(hexString: "#b7b7b7")
     
-    static var GrayDark = UIColor(hex: "#858585")
-    static var GrayLight = UIColor(hex: "#b7b7b7")
+    static var GrayDark = UIColor(hexString: "#858585")
+    static var GrayLight = UIColor(hexString: "#b7b7b7")
     
     static var ThemeRed = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
 }
@@ -411,12 +411,12 @@ extension NSManagedObjectContext
 
 extension NSData
 {
-    public func convertToUTF8String() -> String
-    {
-        if let s = NSString(data: self, encoding: NSUTF8StringEncoding)
-        {
-            return s as String
-        }
-        return ""
-    }
+//    public func convertToUTF8String() -> String
+//    {
+//        if let s = NSString(data: self, encoding: NSUTF8StringEncoding)
+//        {
+//            return s as String
+//        }
+//        return ""
+//    }
 }

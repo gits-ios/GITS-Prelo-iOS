@@ -1514,6 +1514,7 @@ class APIPrelo
     
     static func validate(showErrorDialog : Bool, req : NSURLRequest, resp : NSHTTPURLResponse?, res : AnyObject?, err : NSError?, reqAlias : String) -> Bool
     {
+        print("validating : \(res)")
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
         Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")

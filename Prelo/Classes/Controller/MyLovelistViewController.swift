@@ -82,7 +82,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 let data = json["_data"]
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (index, item) in data {
                     let l = LovedProduct.instance(item)
                     if (l != nil) {
                         self.userLovelist?.append(l!)

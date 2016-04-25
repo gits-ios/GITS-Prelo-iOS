@@ -597,9 +597,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func getSizes()
     {
-        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {req, resp, res, err in
+        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
-                if let x: AnyObject = res
+                if let x: AnyObject = resp.result.value
                 {
                     let json = JSON(x)
                     let jsizes = json["_data"]["sizes"]
@@ -930,7 +930,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 return
             }
             
-            let json = JSON(resp.result.value!)
+            let json = JSON(res)
             
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             
@@ -942,7 +942,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             for i in 0...self.images.count - 1 {
                 mixpImgs.append(self.images[i] as? UIImage)
                 if (mixpImgs[i] != nil) {
-                    mixpImageCount++
+                    mixpImageCount += 1
                 }
             }
             let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
@@ -1017,9 +1017,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         })
     }
     
-    func validateString(text : String, message : String) -> Bool
+    func validateString(text : String?, message : String) -> Bool
     {
-        if (text == "")
+        guard text != nil || text == "" else
         {
             if (message != "")
             {
@@ -1027,7 +1027,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             return false
         }
+        
         return true
+        
+//        if (text == "")
+//        {
+//            if (message != "")
+//            {
+//                UIAlertView.SimpleShow("Perhatian", message: message)
+//            }
+//            return false
+//        }
+//        return true
     }
 
     /*

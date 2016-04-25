@@ -155,7 +155,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     func getReferralData() {
         // API Migrasi
-        request(APIUser.ReferralData).responseJSON {req, resp, res, err in
+        request(APIUser.ReferralData).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -185,7 +185,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -270,11 +270,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func postToPath(image : UIImage, token : String) {
-        let param = [
-            "caption": shareText
-        ]
-        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
-        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        let param = [
+//            "caption": shareText
+//        ]
+//        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil)
+//        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
         AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
@@ -420,13 +420,19 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     @IBAction func submitPressed(sender: AnyObject) {
-        if (self.fieldKodeReferral.text.isEmpty) {
+        guard self.fieldKodeReferral.text != nil else
+        {
+            Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
+            return
+        }
+        
+        if (self.fieldKodeReferral.text!.isEmpty) {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
             self.showLoading()
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             // API Migrasi
-        request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON {resp in
+        request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Prelo Bonus")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
@@ -442,7 +448,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         
                         // Mixpanel
                         let p = [
-                            "Referral Code Used" : self.fieldKodeReferral.text
+                            "Referral Code Used" : self.fieldKodeReferral.text!
                         ]
                         Mixpanel.sharedInstance().registerSuperProperties(p)
                         Mixpanel.sharedInstance().people.setOnce(p)

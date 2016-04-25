@@ -1059,10 +1059,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 if (v.isKindOfClass(UILabel.classForCoder()))
                 {
                     let l = v as! UILabel
-                    l.textColor = UIColor(hex: "#858585")
+                    l.textColor = UIColor(hexString: "#858585")
                 } else
                 {
-                    (v as! UIView).backgroundColor = UIColor(hex: "#858585")
+                    (v as! UIView).backgroundColor = UIColor(hexString: "#858585")
                 }
             }
         }
