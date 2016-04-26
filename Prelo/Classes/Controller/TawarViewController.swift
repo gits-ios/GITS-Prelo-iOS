@@ -414,7 +414,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnSend.userInteractionEnabled = false
         } else
         {
-            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hex: "#25A79D")), forState: .Normal)
+            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hexString: "#25A79D")), forState: .Normal)
             btnSend.userInteractionEnabled = true
         }
     }
@@ -854,7 +854,7 @@ class TawarCell : UITableViewCell
                 self.captionMessage.textColor = UIColor.whiteColor()
             } else
             {
-                self.sectionMessage.backgroundColor = UIColor(hex: "#E8ECEE")
+                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
                 self.captionMessage.textColor = UIColor.darkGrayColor()
             }
             
@@ -865,7 +865,7 @@ class TawarCell : UITableViewCell
             {
                 self.captionMessage.text = "[GAGAL MENGIRIM]\n\n" + m.message
                 self.captionMessage.textColor = UIColor.whiteColor()
-                self.sectionMessage.backgroundColor = UIColor(hex : "#AC281C")
+                self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
                 self.btnRetry?.hidden = false
             } else
             {
@@ -888,7 +888,7 @@ class TawarCell : UITableViewCell
             
             if (m.messageType == 3)
             {
-                self.sectionMessage.backgroundColor = UIColor(hex: "#E8ECEE")
+                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
                 self.captionMessage.textColor = UIColor.darkGrayColor()
             }
             

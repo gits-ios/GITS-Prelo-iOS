@@ -411,7 +411,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segTour") {
-            let t = (segue.destinationViewController as! UINavigationController).viewControllers.first as! TourViewController
+            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
             t.parent = sender as? BaseViewController
         }
     }

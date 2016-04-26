@@ -668,7 +668,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             acee?.textView.font = UIFont.systemFontOfSize(14)
         }
         
-//        acee?.textView.textColor = UIColor(hex: "#858585")
+//        acee?.textView.textColor = UIColor(hexString: "#858585")
         acee?.textView.textColor = UIColor.darkGrayColor()
         
         return acee

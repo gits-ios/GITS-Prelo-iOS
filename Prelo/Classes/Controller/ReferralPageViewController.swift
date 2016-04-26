@@ -155,7 +155,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     func getReferralData() {
         // API Migrasi
-        request(APIUser.ReferralData).responseJSON { resp in
+        request(APIUser.ReferralData).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -193,12 +193,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     // MARK: - MFMessage Delegate Functions
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - MFMail Delegate Functions
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -225,7 +225,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func registerPathToken(userData : JSON, token : String) {
-        /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
@@ -235,7 +234,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         self.mixpanelSharedReferral("Path", username: pathName)
         
-        
+        /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
         // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
@@ -271,20 +270,16 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func postToPath(image : UIImage, token : String) {
-        let param = [
-            "caption": shareText
-        ]
-        do {
-            let data = try NSJSONSerialization.dataWithJSONObject(param, options: NSJSONWritingOptions())
-            _ = NSString(data: data, encoding: NSUTF8StringEncoding)
-            let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
-            a.show()
-            AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
-                a.dismissWithClickedButtonIndex(0, animated: true)
-                }, failure: nil)
-        } catch {
-            
-        }
+//        let param = [
+//            "caption": shareText
+//        ]
+//        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil)
+//        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+        let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
+        a.show()
+        AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
+            a.dismissWithClickedButtonIndex(0, animated: true)
+        }, failure: nil)
     }
     
     // MARK: - Instagram
@@ -317,7 +312,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                let getResult = result as SLComposeViewControllerResult
+                var getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
                     print("Cancelled")
@@ -343,7 +338,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                let getResult = result as SLComposeViewControllerResult
+                var getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
                     print("Cancelled")
@@ -374,7 +369,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func whatsappPressed(sender: AnyObject) {
         if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
-            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!)
+            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
             UIApplication.sharedApplication().openURL(url!)
             self.mixpanelSharedReferral("Whatsapp", username: "")
         } else {
@@ -425,6 +420,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     @IBAction func submitPressed(sender: AnyObject) {
+        guard self.fieldKodeReferral.text != nil else
+        {
+            Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
+            return
+        }
+        
         if (self.fieldKodeReferral.text!.isEmpty) {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {

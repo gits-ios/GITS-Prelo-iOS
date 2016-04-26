@@ -31,7 +31,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
 
         // Do any additional setup after loading the view.
         webView = UIWebView(frame: self.view.bounds)
-        webView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        webView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(webView)
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[w]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["w":webView]))
@@ -70,12 +70,14 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         
         if let s = request.URL?.host
         {
-            var ns = s as NSString
+            let ns = s as NSString
             if (ns.rangeOfString("prelo").location != NSNotFound)
             {
-                ns = (request.URL?.absoluteString)!
-                ns = ns.componentsSeparatedByString("=").last as! String
-                getToken(ns as String)
+                let string = request.URL?.absoluteString
+                let token = string?.componentsSeparatedByString("=").last
+//                ns = (request.URL?.absoluteString)!
+//                ns = ns.componentsSeparatedByString("=").last!
+                getToken(token == nil ? "" : token!)
                 return false
             }
         }

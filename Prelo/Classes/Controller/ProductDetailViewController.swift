@@ -56,11 +56,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        let i = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
-        self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnAddDiscussion?.addTarget(self, action: "segAddComment:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        btnDelete.addTarget(self, action: #selector(ProductDetailViewController.deleteProduct), forControlEvents: .TouchUpInside)
+        btnDelete.addTarget(self, action: "deleteProduct", forControlEvents: .TouchUpInside)
         
         btnBuy.hidden = true
         btnTawar.hidden = true
@@ -69,13 +69,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         btnAddDiscussion?.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnAddDiscussion?.layer.borderWidth = 1
         
-        let btnClose = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnClose.addTarget(self, action: #selector(ProductDetailViewController.dismiss(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        var btnClose = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnClose.addTarget(self, action: "dismiss:", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
-        let btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), forControlEvents: UIControlEvents.TouchUpInside)
+        var btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnOption.addTarget(self, action: "option", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
@@ -91,7 +91,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.title = product?.name
         
-        if (self.detail != nil)
+        if let d = self.detail
         {
             if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
                 alreadyInCart = true
@@ -278,7 +278,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -360,12 +360,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         pDetailCover?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
         tableView?.tableHeaderView = pDetailCover
         
-        /*if let price = detail?.json["_data"]["price"].int?.asPrice
+        if let price = detail?.json["_data"]["price"].int?.asPrice
         {
 //            captionPrice.text = price
         } else {
 //            captionPrice.text = Int(0).asPrice
-        }*/
+        }
         
         if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
             alreadyInCart = true
@@ -432,7 +432,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
             
             self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-            self.btnTawar.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
         }
         
         // Coachmark
@@ -853,14 +853,14 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         btnShare?.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnShare?.layer.borderWidth = 1
         
-        btnShare?.addTarget(self, action: #selector(ProductCellTitle.share), forControlEvents: UIControlEvents.TouchUpInside)
+        btnShare?.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
         
         sectionLove?.layer.borderColor = UIColor.lightGrayColor().CGColor
         sectionLove?.layer.borderWidth = 1
         sectionLove?.layer.cornerRadius = 2
         sectionLove?.layer.masksToBounds = true
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.love))
+        let tap = UITapGestureRecognizer(target: self, action: "love")
         sectionLove?.addGestureRecognizer(tap)
         
         sectionComment?.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -868,7 +868,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         sectionComment?.layer.cornerRadius = 2
         sectionComment?.layer.masksToBounds = true
         
-        let tapcomment = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.comment))
+        let tapcomment = UITapGestureRecognizer(target: self, action: "comment")
         sectionComment?.addGestureRecognizer(tapcomment)
     }
     
@@ -1048,7 +1048,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     l.textColor = UIColor.whiteColor()
                 } else
                 {
-                    v.backgroundColor = UIColor.whiteColor()
+                    (v as! UIView).backgroundColor = UIColor.whiteColor()
                 }
             }
         } else
@@ -1059,10 +1059,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 if (v.isKindOfClass(UILabel.classForCoder()))
                 {
                     let l = v as! UILabel
-                    l.textColor = UIColor(hex: "#858585")
+                    l.textColor = UIColor(hexString: "#858585")
                 } else
                 {
-                    v.backgroundColor = UIColor(hex: "#858585")
+                    (v as! UIView).backgroundColor = UIColor(hexString: "#858585")
                 }
             }
         }
@@ -1284,7 +1284,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             }
         }
         
-        let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
+        var attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
         {
             let r = NSRangeFromString(p["range"] as! String)
@@ -1339,7 +1339,7 @@ class ProductCellDiscussion : UITableViewCell
         if (obj == nil) {
             return 64
         }
-        _ = (obj?.json)!
+        var json = (obj?.json)!
         
         let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
         let h = 47+(s?.height)!

@@ -207,8 +207,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
             let param = [
                 "confirmation_data" : confirmData,
-                "kurir" : self.txtFldKurir.text!,
-                "resi_number" : self.txtFldNoResi.text!
+                "kurir" : self.txtFldKurir.text == nil ? "" : self.txtFldKurir.text!,
+                "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
             ]
             var images : [UIImage] = []
             if let imgR = imgResi.image {
@@ -237,7 +237,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     @IBAction func btnContactPreloPressed(sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") 
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
         self.contactUs = c
         if let v = c.view, let p = self.navigationController?.view {
             v.alpha = 0
