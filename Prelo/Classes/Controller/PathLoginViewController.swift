@@ -33,7 +33,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PathLoginViewController.batal))
         
         let url = NSURL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
         let requestObj = NSURLRequest(URL: url!)
@@ -85,7 +85,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             }
         } else if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
-            let code : String = codeParam.substringWithRange(Range(start: codeParam.startIndex.advancedBy(5), end: codeParam.endIndex))
+            let code : String = codeParam.substringWithRange(codeParam.startIndex.advancedBy(5) ..< codeParam.endIndex)
             //print("code = \(code)")
             
             // Get token
@@ -95,7 +95,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                     let json = JSON(resp.result.value!)
                     print("json = \(json)")
                     if (json["code"].int == 200) { // OK
-                        let pathId : String = json["user_id"].string!
+                        _ = json["user_id"].string!
                         let pathToken : String = json["access_token"].string!
                         
                         // Get user Path data

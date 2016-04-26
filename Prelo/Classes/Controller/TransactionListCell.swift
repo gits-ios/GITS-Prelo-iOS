@@ -56,9 +56,9 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor == UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.redColor()
         } else {
-            lblOrderStatus.textColor == Theme.ThemeOrange
+            lblOrderStatus.textColor = Theme.ThemeOrange
         }
     }
     
@@ -83,9 +83,9 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor == UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.redColor()
         } else {
-            lblOrderStatus.textColor == Theme.ThemeOrange
+            lblOrderStatus.textColor = Theme.ThemeOrange
         }
         
         let images = userPurchase.productImages

@@ -28,7 +28,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var myLovelistCellNib = UINib(nibName: "MyLovelistCell", bundle: nil)
+        let myLovelistCellNib = UINib(nibName: "MyLovelistCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
         
         // Set title
@@ -82,7 +82,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 let data = json["_data"]
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let l = LovedProduct.instance(item)
                     if (l != nil) {
                         self.userLovelist?.append(l!)
@@ -129,7 +129,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         print("delete cell with productId = \(cell.productId)")
         
         // Delete data in userLovelist
-        for (var i = 0; i < userLovelist!.count; i++) {
+        for i in 0 ..< userLovelist!.count {
             let l = userLovelist?.objectAtCircleIndex(i)
             if (l?.id == cell.productId) {
                 userLovelist?.removeAtIndex(i)
@@ -161,7 +161,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: MyLovelistCell = self.tableView.dequeueReusableCellWithIdentifier("MyLovelistCell") as! MyLovelistCell
+        let cell: MyLovelistCell = self.tableView.dequeueReusableCellWithIdentifier("MyLovelistCell") as! MyLovelistCell
         cell.selectionStyle = .None
         cell.delegate = self
         let u = userLovelist?[indexPath.item]

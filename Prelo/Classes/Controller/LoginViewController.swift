@@ -433,83 +433,86 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
                             sender.dismiss()
                         } else {
-                            // API Migrasi
-//                            twClient.sendTwitterRequest(twReq) { (resp, res, err) -> Void in
-//                                if (err != nil)
-//                                { // Error
-//                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
-//                                    if (vcLogin != nil) {
-//                                        vcLogin!.hideLoading()
-//                                    }
-//                                    if (vcRegister != nil) {
-//                                        vcRegister!.hideLoading()
-//                                    }
-//                                } else { // Succes
-//                                    var jsonErr : NSError?
-//                                    do {
-//                                        let json : AnyObject? = try NSJSONSerialization.JSONObjectWithData(res!, options: .AllowFragments)
-//                                        let data = JSON(json!)
-//                                        print("Twitter user show json: \(data)")
-//                                        
-//                                        twFullname = data["name"].string!
-//                                        
-//                                        request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
-//                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
-//                                                let json = JSON(resp.result.value!)
-//                                                let data = json["_data"]
-//                                                if (data == nil || data == []) { // Data kembalian kosong
-//                                                    if (json["_message"] != nil) {
-//                                                        Constant.showDialog("Warning", message: json["_message"].string!)
-//                                                        if (vcLogin != nil) {
-//                                                            vcLogin!.hideLoading()
-//                                                        }
-//                                                        if (vcRegister != nil) {
-//                                                            vcRegister!.hideLoading()
-//                                                        }
-//                                                    }
-//                                                } else { // Berhasil
-//                                                    print("Twitter login data: \(data)")
-//                                                    
-//                                                    // Save in core data
-//                                                    let m = UIApplication.appDelegate.managedObjectContext
-//                                                    var user : CDUser? = CDUser.getOne()
-//                                                    if (user == nil) {
-//                                                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
-//                                                    }
-//                                                    user!.id = data["_id"].string!
-//                                                    user!.username = data["username"].string!
-//                                                    user!.email = data["email"].string!
-//                                                    user!.fullname = data["fullname"].string!
-//                                                    
-//                                                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
-//                                                    let pr = data["profile"]
-//                                                    p.pict = pr["pict"].string!
-//                                                    
-//                                                    user!.profiles = p
-//                                                    UIApplication.appDelegate.saveContext()
-//                                                    
-//                                                    // Save in NSUserDefaults
-//                                                    NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-//                                                    NSUserDefaults.standardUserDefaults().synchronize()
-//                                                    
-//                                                    // Check if user have set his account
-//                                                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
-//                                                }
-//                                            } else {
-//                                                if (vcLogin != nil) {
-//                                                    vcLogin!.hideLoading()
-//                                                }
-//                                                if (vcRegister != nil) {
-//                                                    vcRegister!.hideLoading()
-//                                                }
-//                                            }
-//                                        }
-//                                    } catch err
-//                                    {
-//                                        
-//                                    }
-//                                }
-//                            }
+                            twClient.sendTwitterRequest(twReq, completion: { (resp, res, err) -> Void in
+                                if (err != nil)
+                                { // Error
+                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
+                                    if (vcLogin != nil) {
+                                        vcLogin!.hideLoading()
+                                    }
+                                    if (vcRegister != nil) {
+                                        vcRegister!.hideLoading()
+                                    }
+                                } else { // Succes
+                                    do {
+                                        let json : AnyObject? = try NSJSONSerialization.JSONObjectWithData(res!, options: .AllowFragments)
+                                        let data = JSON(json!)
+                                        print("Twitter user show json: \(data)")
+                                        
+                                        twFullname = data["name"].string!
+                                        
+                                        request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
+                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                                                let json = JSON(resp.result.value!)
+                                                let data = json["_data"]
+                                                if (data == nil || data == []) { // Data kembalian kosong
+                                                    if (json["_message"] != nil) {
+                                                        Constant.showDialog("Warning", message: json["_message"].string!)
+                                                        if (vcLogin != nil) {
+                                                            vcLogin!.hideLoading()
+                                                        }
+                                                        if (vcRegister != nil) {
+                                                            vcRegister!.hideLoading()
+                                                        }
+                                                    }
+                                                } else { // Berhasil
+                                                    print("Twitter login data: \(data)")
+                                                    
+                                                    // Save in core data
+                                                    let m = UIApplication.appDelegate.managedObjectContext
+                                                    var user : CDUser? = CDUser.getOne()
+                                                    if (user == nil) {
+                                                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+                                                    }
+                                                    user!.id = data["_id"].string!
+                                                    user!.username = data["username"].string!
+                                                    user!.email = data["email"].string!
+                                                    user!.fullname = data["fullname"].string!
+                                                    
+                                                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                                                    let pr = data["profile"]
+                                                    p.pict = pr["pict"].string!
+                                                    
+                                                    user!.profiles = p
+                                                    UIApplication.appDelegate.saveContext()
+                                                    
+                                                    // Save in NSUserDefaults
+                                                    NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                                                    NSUserDefaults.standardUserDefaults().synchronize()
+                                                    
+                                                    // Check if user have set his account
+                                                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
+                                                }
+                                            } else {
+                                                if (vcLogin != nil) {
+                                                    vcLogin!.hideLoading()
+                                                }
+                                                if (vcRegister != nil) {
+                                                    vcRegister!.hideLoading()
+                                                }
+                                            }
+                                        }
+                                    } catch {
+                                        Constant.showDialog("Warning", message: "Error login twitter")//: \(err)")
+                                        if (vcLogin != nil) {
+                                            vcLogin!.hideLoading()
+                                        }
+                                        if (vcRegister != nil) {
+                                            vcRegister!.hideLoading()
+                                        }
+                                    }
+                                }
+                            })
                         }
                     } else {
                         Constant.showDialog("Warning", message: "Error getting Twitter e-mail")

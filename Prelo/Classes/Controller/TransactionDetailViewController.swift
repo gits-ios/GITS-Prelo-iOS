@@ -1181,7 +1181,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Adapt cell
         cell.showContactPrelo = {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+            let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") 
             self.contactUs = c
             if let v = c.view, let p = self.navigationController?.view {
                 v.alpha = 0
@@ -1309,7 +1309,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     @IBAction func rvwLovePressed(sender: UIButton) {
         var isFound = false
-        for (var i = 0; i < btnsRvwLove.count; i++) {
+        for i in 0 ..< btnsRvwLove.count {
             let b = btnsRvwLove[i]
             if (!isFound) {
                 if (sender == b) {
@@ -1368,7 +1368,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
             
             // Disable review seller content
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = false
             }
@@ -1385,7 +1385,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.backgroundColor = Theme.PrimaryColor
             
             // Enable review seller content
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = true
             }
@@ -2406,7 +2406,7 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     
     static func heightFor(text : String) -> CGFloat {
         let titleWidth : CGFloat = 130.0
-        var textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
         return textRect.height + 4
     }
     
@@ -2556,7 +2556,7 @@ class TransactionDetailReviewCell : UITableViewCell {
     
     static func heightFor(reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
-        var textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
+        let textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
         return textRect.height + 42.0 + (2 * TransactionDetailTools.Margin)
     }
     
@@ -2572,8 +2572,8 @@ class TransactionDetailReviewCell : UITableViewCell {
         
         // Love
         var loveText = ""
-        var star = trxProductDetail.reviewStar
-        for (var i = 0; i < 5; i++) {
+        let star = trxProductDetail.reviewStar
+        for i in 0 ..< 5 {
             if (i < star) {
                 loveText += ""
             } else {

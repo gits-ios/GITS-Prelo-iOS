@@ -75,14 +75,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         refresher = UIRefreshControl()
-        refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
 //        gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
         
@@ -142,7 +142,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                 self.products = []
                 var obj = JSON(resp.result.value!)
-                for (index, item) in obj["_data"]
+                for (_, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -399,7 +399,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.loading?.hidden = true
             } else
             {
-                for (index, item) in obj["_data"]
+                for (_, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -475,7 +475,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             getProducts()
         }
         
-        var cell:ListItemCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListItemCell
+        let cell:ListItemCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListItemCell
         
         let p = products?[indexPath.item]
         cell.adapt(p!)
@@ -694,7 +694,7 @@ class ListItemCell : UICollectionViewCell
             captionMyLove.text = ""
         }
         
-        let firstImg = obj["display_picts"][0].string
+        _ = obj["display_picts"][0].string
         ivCover.image = nil
         ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
         

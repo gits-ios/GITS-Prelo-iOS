@@ -28,7 +28,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
+        let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
     }
     
@@ -103,7 +103,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : ShopReviewCell = self.tableView.dequeueReusableCellWithIdentifier("ShopReviewCell") as! ShopReviewCell
+        let cell : ShopReviewCell = self.tableView.dequeueReusableCellWithIdentifier("ShopReviewCell") as! ShopReviewCell
         cell.selectionStyle = .None
         let u = userReviews[indexPath.item]
         cell.adapt(u)
@@ -135,7 +135,7 @@ class ShopReviewCell : UITableViewCell {
         
         // Love
         var loveText = ""
-        for (var i = 0; i < 5; i++) {
+        for i in 0 ..< 5 {
             if (i < userReview.star) {
                 loveText += ""
             } else {

@@ -44,7 +44,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
+        let notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
         tableView.registerNib(notifTransactionCellNib, forCellReuseIdentifier: "NotifAnggiTransactionCell")
         
         // Hide and show
@@ -55,7 +55,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refreshPage", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Transparent panel
@@ -83,7 +83,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 let dataCount = data.count
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let n = Notification.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)
@@ -96,7 +96,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 }
                 
                 // Set next page
-                self.currentPage++
+                self.currentPage += 1
             }
             
             // Hide loading (for first time request)
@@ -124,7 +124,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
+        let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
         cell.selectionStyle = .None
         let n = notifications?[indexPath.item]
         cell.adapt(n!, idx: indexPath.item)
@@ -391,7 +391,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         collcTrxProgress.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
         collcTrxProgress.delegate = self
         collcTrxProgress.dataSource = self
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
         tapGestureRecognizer.delegate = self
         collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
         collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
@@ -430,7 +430,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         // Create cell
-        let cell = collcTrxProgress.dequeueReusableCellWithReuseIdentifier("collcTrxProgressCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collcTrxProgress.dequeueReusableCellWithReuseIdentifier("collcTrxProgressCell", forIndexPath: indexPath) 
         
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRectMake(0, 0, 25, 25))

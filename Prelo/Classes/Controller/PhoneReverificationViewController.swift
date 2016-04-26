@@ -73,7 +73,7 @@ class PhoneReverificationViewController : BaseViewController {
         request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
                     let json = JSON(resp.result.value!)
-                    let data : Bool? = json["_data"].bool
+                    _ = json["_data"].bool
                     
                     let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                     phoneVerificationVC.isReverification = true

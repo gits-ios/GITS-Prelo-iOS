@@ -70,7 +70,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         let dType = "\(self.dynamicType)"
         if ((dType != "Prelo.KumangTabBarViewController") && (dType != "Prelo.ListCategoryViewController")) {
             self.navigationItem.hidesBackButton = true
-            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(BaseViewController.backPressed(_:)))
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
             self.navigationItem.leftBarButtonItem = newBackButton
         }
@@ -120,14 +120,14 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     var dismissButton : UIButton
     {
         let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        b.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.dismiss), forControlEvents: UIControlEvents.TouchUpInside)
         return b
     }
     
     var confirmButton : UIButton
     {
         let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        b.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.confirm), forControlEvents: UIControlEvents.TouchUpInside)
         return b
     }
     
@@ -162,11 +162,11 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         let bell = createBellButton(newNotifCount)
         let troli = createTroliButton()
         
-        troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
+        troli.addTarget(self, action: #selector(BaseViewController.launchCart), forControlEvents: UIControlEvents.TouchUpInside)
         
-        bell.addTarget(self, action: "launchNotifPage", forControlEvents: UIControlEvents.TouchUpInside)
+        bell.addTarget(self, action: #selector(BaseViewController.launchNotifPage), forControlEvents: UIControlEvents.TouchUpInside)
         
-        search.addTarget(self, action: "launchSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        search.addTarget(self, action: #selector(BaseViewController.launchSearch), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
     }

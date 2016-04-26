@@ -44,7 +44,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var notifConversationCellNib = UINib(nibName: "NotifAnggiConversationCell", bundle: nil)
+        let notifConversationCellNib = UINib(nibName: "NotifAnggiConversationCell", bundle: nil)
         tableView.registerNib(notifConversationCellNib, forCellReuseIdentifier: "NotifAnggiConversationCell")
         
         // Hide and show
@@ -55,7 +55,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refreshPage", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(NotifAnggiConversationViewController.refreshPage), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Transparent panel
@@ -83,7 +83,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 let dataCount = data.count
                 
                 // Store data into variable
-                for (index, item) in data {
+                for (_, item) in data {
                     let n = Notification.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)
@@ -96,7 +96,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 }
                 
                 // Set next page
-                self.currentPage++
+                self.currentPage += 1
             }
             
             // Hide loading (for first time request)
@@ -124,7 +124,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as! NotifAnggiConversationCell
+        let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as! NotifAnggiConversationCell
         cell.selectionStyle = .None
         let n = notifications?[indexPath.item]
         cell.adapt(n!)

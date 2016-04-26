@@ -24,7 +24,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var paymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
+        let paymentConfirmationCellNib = UINib(nibName: "PaymentConfirmationCell", bundle: nil)
         tableView.registerNib(paymentConfirmationCellNib, forCellReuseIdentifier: "PaymentConfirmationCell")
         
         // Title
@@ -75,7 +75,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
                 let data = json["_data"]
                 
                 // Store data into variable
-                for (index, item) in data {
+                for (_, item) in data {
                     let u = UserCheckout.instance(item)
                     if (u != nil) {
                         self.userCheckouts?.append(u!)
@@ -118,7 +118,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: PaymentConfirmationCell = self.tableView.dequeueReusableCellWithIdentifier("PaymentConfirmationCell") as! PaymentConfirmationCell
+        let cell: PaymentConfirmationCell = self.tableView.dequeueReusableCellWithIdentifier("PaymentConfirmationCell") as! PaymentConfirmationCell
         cell.selectionStyle = .None
         let u = userCheckouts?[indexPath.item]
         cell.adapt(u!)
@@ -133,7 +133,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             Constant.showDialog("", message: "Pembayaran sedang diproses Prelo, mohon ditunggu")
         } else {
             var imgs : [NSURL] = []
-            for (var i = 0; i < u.transactionProducts.count; i++) {
+            for i in 0 ..< u.transactionProducts.count {
                 let c : UserCheckoutProduct = u.transactionProducts[i]
                 imgs.append(c.productImageURL!)
             }
@@ -182,7 +182,7 @@ class PaymentConfirmationCell : UITableViewCell {
         lblProductCount.text = "\(pCount) Barang"
         
         // Kosongkan gambar terlebih dahulu
-        for (var j = 0; j < imgProducts.count; j++) {
+        for j in 0 ..< imgProducts.count {
             imgProducts[j].image = nil
         }
         
@@ -200,7 +200,7 @@ class PaymentConfirmationCell : UITableViewCell {
         }
         
         // Munculkan gambar
-        for (var i = 1; i <= imgCount; i++) {
+        for i in 1 ..< imgCount {
             imgProducts[imgCount - i].setImageWithUrl(userCheckout.transactionProducts[i - 1].productImageURL!, placeHolderImage: nil)
         }
     }

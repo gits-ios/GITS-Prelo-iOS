@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, PreloNotifListenerDelegate, UserRelatedDelegate {
+class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notifAnggiTransactionVC : NotifAnggiTransactionViewController?
@@ -35,7 +35,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         notifAnggiConversationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil).first as? NotifAnggiConversationViewController
         notifAnggiConversationVC?.delegate = self
         
-        tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
@@ -142,7 +142,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func decreaseTransactionBadgeNumber() {
         if (self.transactionBadgeNumber != nil && self.transactionBadgeNumber! > 0) {
-            self.transactionBadgeNumber!--
+            self.transactionBadgeNumber! -= 1
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
@@ -155,7 +155,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func decreaseConversationBadgeNumber() {
         if (self.conversationBadgeNumber != nil && self.conversationBadgeNumber! > 0) {
-            self.conversationBadgeNumber!--
+            self.conversationBadgeNumber! -= 1
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!

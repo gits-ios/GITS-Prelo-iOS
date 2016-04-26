@@ -57,7 +57,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             super.viewDidLoad()
         } else {
             self.navigationItem.hidesBackButton = true
-            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed2:")
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PhoneVerificationViewController.backPressed2(_:)))
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
             self.navigationItem.leftBarButtonItem = newBackButton
         }
@@ -162,7 +162,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 user.profiles = userProfile
                                 userProfile.regionID = self.userProfileData!.regionId
                                 userProfile.provinceID = self.userProfileData!.provinceId
-                                userProfile.gender = self.userProfileData!.gender!
+                                userProfile.gender = self.userProfileData!.gender
                                 userProfile.phone = self.fldNoHp.text!
                                 userProfile.pict = self.userProfileData!.profPictURL!.absoluteString
                                 userProfile.postalCode = self.userProfileData!.postalCode
@@ -171,11 +171,11 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 
                                 CDUserOther.deleteAll()
                                 let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther)
-                                userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(self.userProfileData!.shippingIds!)
-                                userOther.lastLogin = (self.userProfileData!.lastLogin != nil) ? (self.userProfileData!.lastLogin!) : ""
-                                userOther.phoneCode = (self.userProfileData!.phoneCode != nil) ? (self.userProfileData!.phoneCode!) : ""
-                                userOther.phoneVerified = (self.userProfileData!.isPhoneVerified != nil) ? (self.userProfileData!.isPhoneVerified!) : false
-                                userOther.registerTime = (self.userProfileData!.registerTime != nil) ? (self.userProfileData!.registerTime!) : ""
+                                userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(self.userProfileData!.shippingIds)
+                                userOther.lastLogin = self.userProfileData!.lastLogin
+                                userOther.phoneCode = self.userProfileData!.phoneCode
+                                userOther.phoneVerified = self.userProfileData!.isPhoneVerified
+                                userOther.registerTime = self.userProfileData!.registerTime
                                 userOther.fbAccessToken = self.userProfileData!.fbAccessToken
                                 userOther.fbID = self.userProfileData!.fbId
                                 userOther.fbUsername = self.userProfileData!.fbUsername
@@ -189,7 +189,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 userOther.pathAccessToken = self.userProfileData!.pathAccessToken
                                 userOther.pathID = self.userProfileData!.pathId
                                 userOther.pathUsername = self.userProfileData!.pathUsername
-                                userOther.emailVerified = ((self.userProfileData!.isEmailVerified != nil) && (self.userProfileData!.isEmailVerified! == true)) ? 1 : 0
+                                userOther.emailVerified = (self.userProfileData!.isEmailVerified) ? 1 : 0
                                 // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                                 
                                 UIApplication.appDelegate.saveContext()

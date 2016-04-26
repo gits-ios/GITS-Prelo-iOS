@@ -33,7 +33,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
@@ -43,7 +43,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductCompletedViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
@@ -158,7 +158,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
-            var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+            let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
             if (!refreshControl.refreshing) {
                 let u = userProducts?[indexPath.item]
                 cell.adaptItem(u!)

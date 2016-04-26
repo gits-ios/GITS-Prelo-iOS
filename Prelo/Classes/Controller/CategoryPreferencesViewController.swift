@@ -25,7 +25,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         super.viewDidLoad()
         
         // Register custom cell
-        var categoryPrefCellNib = UINib(nibName: "CategoryPreferencesCell", bundle: nil)
+        let categoryPrefCellNib = UINib(nibName: "CategoryPreferencesCell", bundle: nil)
         collcCategory.registerNib(categoryPrefCellNib, forCellWithReuseIdentifier: "CategoryPreferencesCell")
         
         // Sembunyikan tombol back
@@ -100,7 +100,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
+        let cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
         cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
         return cell
     }
@@ -108,8 +108,8 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     // MARK: - UICollectionViewDelegate Functions
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
-        let priority : Int? = find(self.selectedIds, categories[indexPath.item].id)
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
+        let priority : Int? = self.selectedIds.indexOf(categories[indexPath.item].id)
         if (priority != nil) { // Sedang terpilih
             selectedIds.removeAtIndex(priority!)
             print("selectedIds = \(selectedIds)")
@@ -197,7 +197,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
             lblCategoryName.text = "Baby & Kids"
         }
         
-        let priority : Int? = find(selectedIds, categoryId)
+        let priority : Int? = selectedIds.indexOf(categoryId)
         if (priority != nil) {
             lblPriority.text = "\(priority! + 1)"
             lblPriority.hidden = false
