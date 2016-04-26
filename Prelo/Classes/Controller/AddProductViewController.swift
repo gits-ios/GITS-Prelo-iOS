@@ -37,7 +37,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.title = PageName.AddProduct
         // Do any additional setup after loading the view.
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductViewController.back))
         
         sectionHeader?.width = UIScreen.mainScreen().bounds.width
         sectionHeader?.height = UIScreen.mainScreen().bounds.width * 3 / 4
@@ -247,17 +247,17 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     @IBOutlet var btnSend : UIButton!
     func callAPI()
     {
-        var xxx = false
-        if (xxx)
-        {
-            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
-            self.navigationController?.pushViewController(s, animated: true)
-            return
-        }
+//        let xxx = false
+//        if (xxx)
+//        {
+//            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+//            self.navigationController?.pushViewController(s, animated: true)
+//            return
+//        }
         
         var price : String?
         
-        var imgs : Array<UIImage> = []
+//        var imgs : Array<UIImage> = []
         
         for (i, c) in cells
         {
@@ -694,7 +694,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header") as! AddProductHeader
+        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header") as! AddProductHeader
         h.width = UIScreen.mainScreen().bounds.size.width
         let d = sectionTitles[section]
         h.captionIcon.text = d["icon"]
@@ -875,7 +875,7 @@ class ProductCategoryCell : CartCellInput2
     override func becomeFirstResponder() -> Bool {
         let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
         c.blockDone = { data in
-            let parent = JSON(data["parent"]!)
+            _ = JSON(data["parent"]!)
             let children = JSON(data["child"]!)
             
             if let name = children["name"].string
@@ -923,9 +923,9 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
                 rightLayer?.removeFromSuperlayer()
             }
             
-            let x = leftPanel.frame
+            _ = leftPanel.frame
             leftLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 1).CGColor, UIColor(white: 1, alpha: 0).CGColor], withView: leftPanel)
-            let f = rightPanel.frame
+            _ = rightPanel.frame
             rightLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 0).CGColor, UIColor(white: 1, alpha: 1).CGColor], withView: rightPanel)
             decorated = true
         }
@@ -942,7 +942,7 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! UICollectionViewCell
+        return collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) 
     }
 }
 
@@ -961,7 +961,7 @@ class AddProductShippingPaymentCell : UITableViewCell
         {
             for b in btnShippingPayments
             {
-                b.addTarget(self, action: "setShippingPayment:", forControlEvents: UIControlEvents.TouchUpInside)
+                b.addTarget(self, action: #selector(AddProductShippingPaymentCell.setShippingPayment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
             setted = true
         }
@@ -982,17 +982,17 @@ class AddProductShippingPaymentCell : UITableViewCell
             }
         }
         
-        var c = sender.superview as! BorderedView
+        let c = sender.superview as! BorderedView
         for l in c.subviews
         {
             if (l.isKindOfClass(UILabel.classForCoder()))
             {
                 let x = l as! UILabel
                 if (x.text == "Ditanggung Pembeli") {
-                    var mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
-                    var greenTxt = "Lihat syarat & ketentuan"
-                    var range = (mainTxt as NSString).rangeOfString(greenTxt)
-                    var attrString = NSMutableAttributedString(string: mainTxt)
+                    let mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
+                    let greenTxt = "Lihat syarat & ketentuan"
+                    let range = (mainTxt as NSString).rangeOfString(greenTxt)
+                    let attrString = NSMutableAttributedString(string: mainTxt)
                     attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
                     lblDescription.attributedText = attrString
                 } else if (x.text == "Ditanggung Penjual") {
@@ -1070,7 +1070,7 @@ class AddProductImageCell : UICollectionViewCell
         
         if (tapImg == nil)
         {
-            tapImg = UITapGestureRecognizer(target: self, action: "tapped")
+            tapImg = UITapGestureRecognizer(target: self, action: #selector(AddProductImageCell.tapped))
             ivCover.addGestureRecognizer(tapImg!)
         }
     }

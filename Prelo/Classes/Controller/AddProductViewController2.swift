@@ -111,9 +111,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             i.tag = index
             i.contentMode = UIViewContentMode.ScaleAspectFill
             i.clipsToBounds = true
-            index++
+            index += 1
             i.userInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: "imageTapped:")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.imageTapped(_:)))
             i.addGestureRecognizer(tap)
         }
         
@@ -212,7 +212,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
         }
         
-        self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
         self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
         
         txtName.autocapitalizationType = .Words
@@ -664,7 +664,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 eurString = eur[i]
                             }
                             
-                            var sizeString = usaString + "\n" + smlString + "\n" + eurString
+                            let sizeString = usaString + "\n" + smlString + "\n" + eurString
                             self.sizes.append(sizeString)
                         }
                         
@@ -689,7 +689,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 var index = 0
                                 for s1 in self.sizes
                                 {
-                                    var s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
+                                    let s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
                                     if (s1s == s)
                                     {
                                         self.sizePicker.selectItem(UInt(index), animated: false)
@@ -720,8 +720,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Kondisi"
         
-        var names : [String] = CDProductCondition.getProductConditionPickerItems()
-        var details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
+        let names : [String] = CDProductCondition.getProductConditionPickerItems()
+        let details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
         
         p.items = names
         p.subtitles = details
@@ -751,7 +751,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Merk"
         
-        var names : [String] = CDBrand.getBrandPickerItems()
+        let names : [String] = CDBrand.getBrandPickerItems()
         
         p.merkMode = true
         p.items = names

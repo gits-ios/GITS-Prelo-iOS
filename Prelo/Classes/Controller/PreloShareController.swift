@@ -114,8 +114,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             
         }
         
-        let url = NSURL(string : "")
-        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
+//        let url = NSURL(string : "")
+//        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
         agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor.brownColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
         agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#3b5998"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"fb://")!)))
         agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#00aced"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"twitter://timeline")!)))
@@ -266,9 +266,9 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     func registerPathToken(userData : JSON, token : String)
     {
-        let pathId = userData["id"].string!
+//        let pathId = userData["id"].string!
         let pathName = userData["name"].string!
-        let email = userData["email"].string!
+//        let email = userData["email"].string!
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         self.mixpanelSharedProduct("Path", username: pathName)
@@ -330,8 +330,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+            
             let url = NSURL(string : "whatsapp://send?text="+message)
             UIApplication.sharedApplication().openURL(url!)
             self.mixpanelSharedProduct("Whatsapp", username: "")
@@ -420,7 +420,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                     composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
                 }
                 composer.completionHandler = { result -> Void in
-                    var getResult = result as SLComposeViewControllerResult
+                    let getResult = result as SLComposeViewControllerResult
                     switch(getResult.rawValue) {
                     case SLComposeViewControllerResult.Cancelled.rawValue:
                         print("Cancelled")
@@ -473,11 +473,11 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     

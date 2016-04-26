@@ -39,7 +39,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         tableView.delegate = self
         
         txtMessage.delegate = self
-        btnSend.addTarget(self, action: "send", forControlEvents: UIControlEvents.TouchUpInside)
+        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.tableFooterView = UIView()
         

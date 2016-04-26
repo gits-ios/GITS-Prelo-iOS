@@ -88,7 +88,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         header.captionProductName.text = tawarItem.itemName
         if (tawarItem.bargainPrice != 0 && tawarItem.threadState == 2)
         {
-            let b = tawarItem.bargainPrice.asPrice
+//            let b = tawarItem.bargainPrice.asPrice
             let p = tawarItem.price
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
@@ -116,8 +116,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.btnSend.userInteractionEnabled = false
         textView.delegate = self
         
-        btnTawar1.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-        btnTawar2.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         if (User.IsLoggedIn == true)
         {
@@ -190,9 +190,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         if (firstButton)
         {
-            btnTolak.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-            btnTolak2.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-            btnConfirm.addTarget(self, action: "confirmTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+            btnTolak.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnTolak2.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnConfirm.addTarget(self, action: #selector(TawarViewController.confirmTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             firstButton = false
         }
         
@@ -422,7 +422,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBAction func beli(sender : UIView?)
     {
         var success = true
-        if let x = CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString)
+        if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) != nil)
         {
             
         } else
@@ -510,7 +510,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        var m = textView.text
+        let m = textView.text
         
         if (m == "")
         {
@@ -638,7 +638,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func scroll()
     {
-        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "scrollToBottom", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(TawarViewController.scrollToBottom), userInfo: nil, repeats: false)
     }
     
     func scrollToBottom()
@@ -663,8 +663,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let m = inboxMessages[indexPath.row]
-        var id = m.isMe ? "me" : "them"
-        var cell = tableView.dequeueReusableCellWithIdentifier(id) as! TawarCell
+        let id = m.isMe ? "me" : "them"
+        let cell = tableView.dequeueReusableCellWithIdentifier(id) as! TawarCell
         
         cell.inboxMessage = m
         cell.decor()

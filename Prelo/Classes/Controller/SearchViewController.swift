@@ -67,7 +67,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 {
                     if (data.count > 0)
                     {
-                        let width = UIScreen.mainScreen().bounds.width-16
+                        _ = UIScreen.mainScreen().bounds.width-16
                         var lastView : UIView?
                         for i in 0...data.count-1
                         {
@@ -96,7 +96,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                                 searchTag.x = 0
                                 searchTag.y = 0
                             }
-                            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
                             searchTag.addGestureRecognizer(tap)
                             searchTag.userInteractionEnabled = true
                             searchTag.captionTitle.userInteractionEnabled = true
@@ -131,7 +131,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     {
         conHeightSectionHistorySearch.constant = 0
         
-        let arrx = sectionHistorySearch.subviews as! [UIView]
+        let arrx = sectionHistorySearch.subviews 
         for v in arrx
         {
             v.removeFromSuperview()
@@ -146,7 +146,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let tag = SearchTag.instance(s)
             tag.x = x
             tag.y = y
-            let fx = tag.frame
+            _ = tag.frame
             let maxx = tag.maxX
             if (maxx > sw)
             {
@@ -155,12 +155,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let maxY = tag.maxY
                 y = maxY + 4
                 tag.y = y
-                let b = tag.bounds
-                let f = tag.frame
+                _ = tag.bounds
+                _ = tag.frame
                 print("tag new y : \(y)")
             }
 //            tag.y = y
-            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
             tag.addGestureRecognizer(tap)
             tag.userInteractionEnabled = true
             tag.captionTitle.userInteractionEnabled = true
@@ -295,7 +295,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         if (arr.count > 0)
         {
             let s = tableView.dequeueReusableHeaderFooterViewWithIdentifier("head") as! SearchResultHeader
-            let t = titleForSection(section)
+            _ = titleForSection(section)
             let ss = titleForSection(section)
             s.captionName.text = ss[1]
             s.captionIcon.text = ss[0]

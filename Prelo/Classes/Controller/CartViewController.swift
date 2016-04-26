@@ -127,7 +127,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             fullname = x
         }
         
-        var c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
+        let c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
         c.keyboardType = UIKeyboardType.NumberPad
         
         var pID = ""
@@ -295,7 +295,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         self.bonusValue = bonus
                         self.bonusAvailable = true
                         let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
-                        if let price = json["_data"]["bonus_available"].int?.asPrice
+                        if (json["_data"]["bonus_available"].int?.asPrice != nil)
                         {
                             var totalOngkir = 0
                             if (self.products.count > 0) {
@@ -396,7 +396,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var name = ""
         var phone = ""
         var postal = ""
-        var email = (CDUser.getOne()?.email)!
+        let email = (CDUser.getOne()?.email)!
         for i in cells.keys
         {
             let b = cells[i]
@@ -428,7 +428,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
-        var user = CDUser.getOne()
+        let user = CDUser.getOne()
         user?.profiles.address = address
         user?.profiles.postalCode = postal
         UIApplication.appDelegate.saveContext()
@@ -614,7 +614,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "cartTour")
             NSUserDefaults.standardUserDefaults().synchronize()
-            var segTourTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("performSegTour"), userInfo: nil, repeats: false)
+            _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CartViewController.performSegTour), userInfo: nil, repeats: false)
         }
     }
     
@@ -950,7 +950,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //            self.navigationController?.popViewControllerAnimated(true)
         } //else {
             cells = [:]
-            for (i, c) in cellViews
+            for (_, c) in cellViews
             {
                 if let b = c as? BaseCartCell
                 {
@@ -1368,7 +1368,7 @@ class CartCellItem : UITableViewCell
             {
                 first = sh.first
             }
-            var ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
+            let ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
             
             if let name = first?["name"].string
             {
@@ -1376,7 +1376,7 @@ class CartCellItem : UITableViewCell
             }
             
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : " (+ONGKIR " + ongkir!.asPrice + ")"
-            var priceString = json["price"].int!.asPrice + ongkirString
+            let priceString = json["price"].int!.asPrice + ongkirString
             let string = priceString + "" + ""
             let attString = NSMutableAttributedString(string: string)
             attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorDark, NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: AppToolsObjC.rangeOf(priceString, inside: string))
@@ -1402,7 +1402,7 @@ class CartCellItem : UITableViewCell
     {
         if let d = cartItemCellDelegate
         {
-            var row = indexPath.row
+            _ = indexPath.row
             d.itemNeedDelete(indexPath)
         }
     }

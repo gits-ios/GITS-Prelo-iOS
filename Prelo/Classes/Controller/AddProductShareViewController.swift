@@ -80,8 +80,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                     mgInstagram = MGInstagram()
                     let imgUrl = NSURL(string: self.productImg)
-                    var imgData = NSData(contentsOfURL: imgUrl!)
-                    var img = UIImage(data: imgData!)
+                    let imgData = NSData(contentsOfURL: imgUrl!)
+                    let img = UIImage(data: imgData!)
                     mgInstagram?.postImage(img, withCaption: self.textToShare1, inView: self.view, delegate: self)
                     self.updateButtons(sender)
                 } else {
@@ -102,7 +102,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     }
                     composer.setInitialText("Temukan barang bekas berkualitas-ku, download aplikasinya sekarang juga di http://prelo.co.id #PreloID")
                     composer.completionHandler = { result -> Void in
-                        var getResult = result as SLComposeViewControllerResult
+                        let getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
                         case SLComposeViewControllerResult.Cancelled.rawValue:
                             print("Cancelled")
@@ -133,7 +133,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     }
                     composer.setInitialText(self.textToShare2)
                     composer.completionHandler = { result -> Void in
-                        var getResult = result as SLComposeViewControllerResult
+                        let getResult = result as SLComposeViewControllerResult
                         switch(getResult.rawValue) {
                         case SLComposeViewControllerResult.Cancelled.rawValue:
                             print("Cancelled")
@@ -245,7 +245,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     let userId =  result["id"] as! String
                     let name = result["name"] as! String
                     let email = result["email"] as! String
-                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
+                    //let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     
                     // API Migrasi
@@ -344,7 +344,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         {
             string = "Charge Prelo : FREE"
         }
-        var attString = NSMutableAttributedString(string: string)
+        let attString = NSMutableAttributedString(string: string)
         attString.addAttributes([NSForegroundColorAttributeName:UIColor.redColor()], range: AppToolsObjC.rangeOf(chargePercent.roundString+"%", inside: string))
         attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.rangeOf("FREE", inside: string))
         captionCharge.attributedText = attString

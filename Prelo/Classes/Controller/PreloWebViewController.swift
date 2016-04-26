@@ -25,7 +25,7 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         webView.loadRequest(req)
         webView.delegate = self
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: .Plain, target: self, action: "done")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: .Plain, target: self, action: #selector(PreloWebViewController.done))
         
         self.title = titleString
         

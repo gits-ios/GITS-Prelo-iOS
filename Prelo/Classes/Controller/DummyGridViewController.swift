@@ -31,7 +31,7 @@ class DummyGridViewController: UIViewController, UICollectionViewDataSource, UIC
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! UICollectionViewCell
+        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) 
         return c
     }
     

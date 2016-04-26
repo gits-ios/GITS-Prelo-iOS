@@ -106,7 +106,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 v.hidden = true
             }
             
-            if var f = captionTitle.superview?.frame
+            if let f = captionTitle.superview?.frame
             {
 //                f.size.height = CGFloat(260)
                 captionTitle.superview?.frame = f
@@ -256,7 +256,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
 //            b = tableView.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
 //        }
         
-        var b = rawCells[r] as! BaseCartCell
+        let b = rawCells[r] as! BaseCartCell
         
         if (b.lastIndex != nil) {
             cellData[b.lastIndex!] = b.obtainValue()
@@ -356,11 +356,11 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
         
-        var orderId = transactionId
-        var bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
-        var bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
-        var name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
-        var nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
+        let orderId = transactionId
+        let bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
+        let bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
+        let name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
+        let nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {

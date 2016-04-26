@@ -41,7 +41,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.delegate = self
         
         // Register custom cell
-        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
@@ -52,7 +52,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
@@ -146,7 +146,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
         if (!refreshControl.refreshing) {
             let p = products[indexPath.row]
             
@@ -214,7 +214,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         selectedProduct = products[indexPath.row]
         
-        var d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         d.product = selectedProduct!
         
         self.previousController?.navigationController?.pushViewController(d, animated: true)

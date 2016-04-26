@@ -131,9 +131,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    func initiateFields() {
-//        let m = UIApplication.appDelegate.managedObjectContext
-        
+    func initiateFields() {        
         // Fetch data from core data
         let user : CDUser = CDUser.getOne()!
         let userProfile : CDUserProfile = CDUserProfile.getOne()!
@@ -426,9 +424,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                             // API Migrasi
                             request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
-//                                    let json = JSON(resp.result.value!)
-//                                    let data = json["_data"].bool
-                                    
+
                                     // Save in core data
                                     let userOther : CDUserOther = CDUserOther.getOne()!
                                     userOther.fbID = userId
@@ -486,9 +482,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                     // API Migrasi
         request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON {resp in
                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
-//                            let json = JSON(resp.result.value!)
-//                            let data = json["_data"].bool
-                            
+
                             // Save in core data
                             let userOther : CDUserOther = CDUserOther.getOne()!
                             userOther.twitterID = twId
@@ -541,14 +535,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     func pathLoginSuccess(userData: JSON, token: String) {
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
-//        let email = userData["email"].string!
+        _ = userData["email"].string!
         
         // API Migrasi
         request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"].bool
-                
+
                 // Save in core data
                 let userOther : CDUserOther = CDUserOther.getOne()!
                 userOther.pathID = pathId
@@ -634,9 +626,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // API Migrasi
         request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
-//                        let json = JSON(resp.result.value!)
-//                        let data = json["_data"].bool
-                        
+
                         // Save in core data
                         let userOther : CDUserOther = CDUserOther.getOne()!
                         userOther.instagramID = nil
@@ -655,9 +645,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // API Migrasi
         request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
-//                        let json = JSON(resp.result.value!)
-//                        let data = json["_data"].bool
-                        
+
                         // End session
                         User.LogoutFacebook()
                         
@@ -679,9 +667,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // API Migrasi
         request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
-//                        let json = JSON(resp.result.value!)
-//                        let data = json["_data"].bool
-                        
+
                         // End session
                         User.LogoutTwitter()
                         
@@ -704,9 +690,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // API Migrasi
         request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
-//                        let json = JSON(resp.result.value!)
-//                        let data = json["_data"].bool
-                        
+
                         // Save in core data
                         let userOther : CDUserOther = CDUserOther.getOne()!
                         userOther.pathID = nil

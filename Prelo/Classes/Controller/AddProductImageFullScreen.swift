@@ -46,7 +46,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
         
         imageView.image = apImage.image
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductImageFullScreen.batal))
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: UIBarButtonItemStyle.Plain, target: self, action: "done")
     }
 

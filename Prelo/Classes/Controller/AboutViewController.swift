@@ -166,11 +166,11 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 let metadata = metaJson["_data"]
                 
                 var isSuccess : Bool = true
-                var queue : NSOperationQueue = NSOperationQueue()
+                let queue : NSOperationQueue = NSOperationQueue()
                 
                 let opCategories : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update categories
@@ -189,7 +189,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opBrands : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update brands
@@ -205,7 +205,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opCategorySizes : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update category sizes
@@ -224,7 +224,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opShippings : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update shippings
@@ -243,7 +243,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opProductConditions : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update product conditions
@@ -262,7 +262,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 
                 let opProvincesRegions : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    var moc = NSManagedObjectContext()
+                    let moc = NSManagedObjectContext()
                     moc.persistentStoreCoordinator = psc
                     
                     // Update provinces regions

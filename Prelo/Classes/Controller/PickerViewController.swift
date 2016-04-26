@@ -125,7 +125,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "dismiss")
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickerViewController.dismiss))
         newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
         self.navigationItem.leftBarButtonItem = newBackButton
         
@@ -208,7 +208,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     func filter(k : String)
     {
-        var key = k.lowercaseString
+        let key = k.lowercaseString
         if let arr = self.items
         {
             usedItems = arr.filter({

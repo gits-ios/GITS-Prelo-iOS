@@ -40,7 +40,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         webView.delegate = self
         webView.loadRequest(NSURLRequest(URL: NSURL(string: "https://api.instagram.com/oauth/authorize/?client_id="+clientID+"&redirect_uri="+"http://"+urlCallback+"&response_type=code")!))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(InstagramLoginViewController.batal))
     }
     
     func batal()

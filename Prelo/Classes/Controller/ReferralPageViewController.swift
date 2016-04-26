@@ -193,12 +193,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     // MARK: - MFMessage Delegate Functions
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - MFMail Delegate Functions
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -225,16 +225,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func registerPathToken(userData : JSON, token : String) {
-        let pathId = userData["id"].string!
         let pathName = userData["name"].string!
+        
+        self.mixpanelSharedReferral("Path", username: pathName)
+        
+        /*FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
+        let pathId = userData["id"].string!
+         
         let email = userData["email"].string!
         if (userData["photo"] != nil) {
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
-        
-        self.mixpanelSharedReferral("Path", username: pathName)
-        
-        /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
         // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
@@ -312,7 +313,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                var getResult = result as SLComposeViewControllerResult
+                let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
                     print("Cancelled")
@@ -338,7 +339,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                var getResult = result as SLComposeViewControllerResult
+                let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
                     print("Cancelled")
@@ -369,7 +370,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func whatsappPressed(sender: AnyObject) {
         if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
-            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
+            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!)
             UIApplication.sharedApplication().openURL(url!)
             self.mixpanelSharedReferral("Whatsapp", username: "")
         } else {

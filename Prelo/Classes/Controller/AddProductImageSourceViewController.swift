@@ -242,7 +242,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
         super.awakeFromNib()
         
         if (longPress == nil) {
-            longPress = UILongPressGestureRecognizer(target: self, action: "longPressed:")
+            longPress = UILongPressGestureRecognizer(target: self, action: #selector(ImageSourceCell.longPressed(_:)))
             self.addGestureRecognizer(longPress!)
         }
     }

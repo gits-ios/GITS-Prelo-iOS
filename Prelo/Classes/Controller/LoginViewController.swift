@@ -86,9 +86,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             }
             
             // Execute onFinish
-//            if (onFinish != nil) {
-//                
-//            }
             onFinish()
         }
     }
@@ -640,22 +637,22 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func callAPIForgotPassword(email : String)
     {
         // API Migrasi
-//        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
-//                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-//            }
-//        }
+        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+            }
+        }
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
             // API Migrasi
-//            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON {resp in
-//                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
-//                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-//                }
-//            }
+            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+                }
+            }
         }
     }
     
@@ -788,43 +785,43 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
-        var profilePictureUrl : String?
+        /*var profilePictureUrl : String?
         if (userData["photo"] != nil) {
             profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
-        }
+        }*/
         
         // API Migrasi
-//        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"]
-//                // Save in core data
-//                let m = UIApplication.appDelegate.managedObjectContext
-//                var user : CDUser? = CDUser.getOne()
-//                if (user == nil) {
-//                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
-//                }
-//                user!.id = data["_id"].string!
-//                user!.username = data["username"].string!
-//                user!.email = data["email"].string!
-//                user!.fullname = data["fullname"].string!
-//                
-//                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
-//                let pr = data["profile"]
-//                p.pict = pr["pict"].string!
-//                
-//                user!.profiles = p
-//                UIApplication.appDelegate.saveContext()
-//                
-//                // Save in NSUserDefaults
-//                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-//                NSUserDefaults.standardUserDefaults().synchronize()
-//                
-//                // Check if user have set his account
-//                //self.checkProfileSetup(data["token"].string!)
-//                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
-//            }
-//        }
+        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                // Save in core data
+                let m = UIApplication.appDelegate.managedObjectContext
+                var user : CDUser? = CDUser.getOne()
+                if (user == nil) {
+                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+                }
+                user!.id = data["_id"].string!
+                user!.username = data["username"].string!
+                user!.email = data["email"].string!
+                user!.fullname = data["fullname"].string!
+                
+                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                let pr = data["profile"]
+                p.pict = pr["pict"].string!
+                
+                user!.profiles = p
+                UIApplication.appDelegate.saveContext()
+                
+                // Save in NSUserDefaults
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+                // Check if user have set his account
+                //self.checkProfileSetup(data["token"].string!)
+                LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
+            }
+        }
     }
     
     func hideLoading() {
