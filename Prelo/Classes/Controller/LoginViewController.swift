@@ -40,19 +40,19 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     {
         let l = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
         let parentType = "\(parent.dynamicType)"
-        if (parentType == "Prelo.KumangTabBarViewController") {
+        if (parentType == "KumangTabBarViewController") {
             if (isFromTourVC) {
                 l.screenBeforeLogin = PageName.SetCategoryPreferences
             } else {
                 l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
-        } else if (parentType == "Prelo.CartViewController") {
+        } else if (parentType == "CartViewController") {
             l.screenBeforeLogin = PageName.Checkout
-        } else if (parentType == "Prelo.AddProductViewController" || parentType == "Prelo.AddProductViewController2") {
+        } else if (parentType == "AddProductViewController" || parentType == "AddProductViewController2") {
             l.screenBeforeLogin = PageName.AddProduct
-        } else if (parentType == "Prelo.NotificationPageViewController") {
+        } else if (parentType == "NotificationPageViewController") {
             l.screenBeforeLogin = PageName.Notification
-        } else if (parentType == "Prelo.ProductDetailViewController") {
+        } else if (parentType == "ProductDetailViewController") {
             l.screenBeforeLogin = PageName.ProductDetail
         }
         //print("screenBeforeLogin = \(l.screenBeforeLogin)")

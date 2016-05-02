@@ -68,7 +68,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
         // Tombol back
         let dType = "\(self.dynamicType)"
-        if ((dType != "Prelo.KumangTabBarViewController") && (dType != "Prelo.ListCategoryViewController")) {
+        if ((dType != "KumangTabBarViewController") && (dType != "ListCategoryViewController")) {
             self.navigationItem.hidesBackButton = true
             let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(BaseViewController.backPressed(_:)))
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)

@@ -292,12 +292,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     var oldController : UIViewController?
     func changeToController(newController : UIViewController)
     {
-        if ("\(newController.dynamicType)" == "Prelo.ListCategoryViewController") { // Browse
+        print("class name = \(newController.dynamicType)")
+        if ("\(newController.dynamicType)" == "ListCategoryViewController") { // Browse
             btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
             btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
             btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        } else if ("\(newController.dynamicType)" == "Prelo.DashboardViewController") { // Login/Dashboard
+        } else if ("\(newController.dynamicType)" == "DashboardViewController") { // Login/Dashboard
             btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
             btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
