@@ -19,6 +19,9 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     
     var parent : BaseViewController?
     
+    var isUseCategoriesOffline = false
+    var categoriesOffline : [[String : String]] = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -96,12 +99,20 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     // MARK: - UICollectionViewDataSource Functions
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
+        if (isUseCategoriesOffline) {
+            return categoriesOffline.count
+        } else {
+            return categories.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
-        cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
+        if (isUseCategoriesOffline) {
+            cell.adapt2(categoriesOffline[indexPath.item], selectedIds: self.selectedIds)
+        } else {
+            cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
+        }
         return cell
     }
     
@@ -109,7 +120,12 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
-        let priority : Int? = self.selectedIds.indexOf(categories[indexPath.item].id)
+        var priority : Int?
+        if (isUseCategoriesOffline) {
+			priority = self.selectedIds.indexOf(categoriesOffline[indexPath.item]["id"]!)
+        } else {
+			priority = self.selectedIds.indexOf(categories[indexPath.item].id)
+        }
         if (priority != nil) { // Sedang terpilih
             selectedIds.removeAtIndex(priority!)
             print("selectedIds = \(selectedIds)")
@@ -128,47 +144,55 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     // MARK: - Other functions
     
     func retrieveOfflineCategories() {
-        categories = []
-        let category1 = CDCategory()
-        category1.id = "55de6dbc5f6522562a2c73ef"
-        category1.name = "Women"
-        category1.imageName = "http://dev.prelo.id/images/categories/fashion-wanita2.png"
-        categories.append(category1)
-        let category2 = CDCategory()
-        category2.id = "55de6dbc5f6522562a2c73f0"
-        category2.name = "Men"
-        category2.imageName = "http://dev.prelo.id/images/categories/fashion-pria2.png"
-        categories.append(category2)
-        let category3 = CDCategory()
-        category3.id = "55fbbca14ef9139b408b4569"
-        category3.name = "Beauty"
-        category3.imageName = "http://dev.prelo.id/images/categories/beauty2.png"
-        categories.append(category3)
-        let category4 = CDCategory()
-        category4.id = "55de6dbc5f6522562a2c73f1"
-        category4.name = "Gadget"
-        category4.imageName = "http://dev.prelo.id/images/categories/elektronik2.png"
-        categories.append(category4)
-        let category5 = CDCategory()
-        category5.id = "55de6dbc5f6522562a2c73f2"
-        category5.name = "Hobby"
-        category5.imageName = "http://dev.prelo.id/images/categories/hobi2.png"
-        categories.append(category5)
-        let category6 = CDCategory()
-        category6.id = "55fbbd0d4ef9139b408b456a"
-        category6.name = "Sport"
-        category6.imageName = "http://dev.prelo.id/images/categories/sport2.png"
-        categories.append(category6)
-        let category7 = CDCategory()
-        category7.id = "55de6dbc5f6522562a2c73f3"
-        category7.name = "Book"
-        category7.imageName = "http://dev.prelo.id/images/categories/buku2.png"
-        categories.append(category7)
-        let category8 = CDCategory()
-        category8.id = "55de6dbc5f6522562a2c73f4"
-        category8.name = "Baby & Kid"
-        category8.imageName = "http://dev.prelo.id/images/categories/baby-kid2.png"
-        categories.append(category8)
+        self.isUseCategoriesOffline = true
+        let category1 = [
+            "id" : "55de6dbc5f6522562a2c73ef",
+            "name" : "Women",
+            "imageName" : "http://dev.prelo.id/images/categories/fashion-wanita2.png"
+        ]
+        let category2 = [
+            "id" : "55de6dbc5f6522562a2c73f0",
+            "name" : "Men",
+            "imageName" : "http://dev.prelo.id/images/categories/fashion-pria2.png"
+        ]
+        let category3 = [
+            "id" : "55fbbca14ef9139b408b4569",
+            "name" : "Beauty",
+            "imageName" : "http://dev.prelo.id/images/categories/beauty2.png"
+        ]
+        let category4 = [
+            "id" : "55de6dbc5f6522562a2c73f1",
+            "name" : "Gadget",
+            "imageName" : "http://dev.prelo.id/images/categories/elektronik2.png"
+        ]
+        let category5 = [
+            "id" : "55de6dbc5f6522562a2c73f2",
+            "name" : "Hobby",
+            "imageName" : "http://dev.prelo.id/images/categories/hobi2.png"
+        ]
+        let category6 = [
+            "id" : "55fbbd0d4ef9139b408b456a",
+            "name" : "Sport",
+            "imageName" : "http://dev.prelo.id/images/categories/sport2.png"
+        ]
+        let category7 = [
+            "id" : "55de6dbc5f6522562a2c73f3",
+            "name" : "Book",
+            "imageName" : "http://dev.prelo.id/images/categories/buku2.png"
+        ]
+        let category8 = [
+            "id" : "55de6dbc5f6522562a2c73f4",
+            "name" : "Baby & Kid",
+            "imageName" : "http://dev.prelo.id/images/categories/baby-kid2.png"
+        ]
+        categoriesOffline.append(category1)
+        categoriesOffline.append(category2)
+        categoriesOffline.append(category3)
+        categoriesOffline.append(category4)
+        categoriesOffline.append(category5)
+        categoriesOffline.append(category6)
+        categoriesOffline.append(category7)
+        categoriesOffline.append(category8)
     }
 }
 
@@ -206,6 +230,42 @@ class CategoryPreferencesCell : UICollectionViewCell {
             lblPriority.hidden = true
             imgCategory.hidden = false
             let url = NSURL(string: category.imageName)!
+            let urlReq = NSURLRequest(URL: url)
+            imgCategory.setImageWithUrlRequest(urlReq, placeHolderImage: nil, success: {(_, _, img: UIImage!, _) -> Void in
+                self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                self.imgCategory.tintColor = UIColor.whiteColor()
+                }, failure: { (_, _, err) -> Void in
+                    print("Show category image err: \(err)")
+            })
+        }
+    }
+    
+    func adapt2(category : [String : String], selectedIds : [String]) {
+        categoryId = category["id"]
+        
+        lblCategoryName.text = category["name"]
+        // Manual fixing
+        if (lblCategoryName.text == "Men") {
+            lblCategoryName.text = "Men Fashion"
+        } else if (lblCategoryName.text == "Women") {
+            lblCategoryName.text = "Women Fashion"
+        } else if (lblCategoryName.text == "Beauty") {
+            lblCategoryName.text = "Beauty & Grooming"
+        } else if (lblCategoryName.text == "Sports") {
+            lblCategoryName.text = "Sports & Outdoors"
+        } else if (lblCategoryName.text == "Baby & Kid") {
+            lblCategoryName.text = "Baby & Kids"
+        }
+        
+        let priority : Int? = selectedIds.indexOf(categoryId)
+        if (priority != nil) {
+            lblPriority.text = "\(priority! + 1)"
+            lblPriority.hidden = false
+            imgCategory.hidden = true
+        } else {
+            lblPriority.hidden = true
+            imgCategory.hidden = false
+            let url = NSURL(string: category["imageName"]!)!
             let urlReq = NSURLRequest(URL: url)
             imgCategory.setImageWithUrlRequest(urlReq, placeHolderImage: nil, success: {(_, _, img: UIImage!, _) -> Void in
                 self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)

@@ -292,18 +292,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 if let desc = json["profile"]["description"].string
                 {
                     self.storeHeader?.completeDesc = desc
-                    let oneLineHeight = Int("lol".boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
-                    let descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
-                    if (descHeight > oneLineHeight) { // Lebih dari 1 baris, buat menjadi collapse text
-                        // Ambil 27 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
-                        let descToWrite = desc.substringToIndex(26) + "... Selengkapnya"
+                    let descLengthCollapse = 160
+                    var descHeight : Int = 0
+                    //let oneLineHeight = Int("lol".boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                    if (desc.length > descLengthCollapse) { // Jika lebih dari 160 karakter, buat menjadi collapse text
+                        // Ambil 160 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
+                        let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
                         let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)])
-                        descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: 30, length: 12))
+                        descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
                         self.storeHeader?.captionDesc.attributedText = descMutableString
+                        descHeight = Int(descMutableString.string.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
                     } else {
                         self.storeHeader?.captionDesc.text = desc
+                        descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
                     }
-                    height = 280 + oneLineHeight
+                    height = 280 + descHeight
                 } else {
                     self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()

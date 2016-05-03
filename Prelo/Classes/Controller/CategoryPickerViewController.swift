@@ -118,6 +118,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             c.backTreshold = 3
             c.root = self.root
             c.searchMode = self.searchMode
+            c.categoryImageName = categories[indexPath.item]["image_name"].stringValue
             self.navigationController?.pushViewController(c, animated: true)
         }
     }
@@ -134,6 +135,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.backTreshold = 3
         c.root = self.root
         c.searchMode = self.searchMode
+        c.categoryImageName = selectedCategory!["image_name"].stringValue
     }
 
 }
@@ -150,6 +152,8 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var parent : JSON = JSON(["name":""])
     var blockDone : BlockCategorySelected?
     var searchMode = false
+    
+    var categoryImageName : String = ""
     
     @IBOutlet var tableView : UITableView!
     
@@ -224,10 +228,11 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.backTreshold = backTreshold+1
             p.searchMode = self.searchMode
             p.root = root
+            p.categoryImageName = self.categoryImageName
             self.navigationController?.pushViewController(p, animated: true)
         } else
         {
-            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue]
+            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue, "category_image_name":self.categoryImageName]
             if (searchMode)
             {
                 let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController

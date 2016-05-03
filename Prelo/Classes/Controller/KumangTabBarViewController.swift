@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate, LoadAppDataDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, LoadAppDataDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -142,7 +142,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     var isAlreadyGetCategory : Bool = false
     var userDidLoggedIn : Bool?
-    var isAlreadyCheckVersion : Bool = false
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -193,25 +192,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
         }
         userDidLoggedIn = User.IsLoggedIn
-        
-        // Check new version in AppStore
-        if (!isAlreadyCheckVersion) {
-            // Check app version
-            if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-                if let newVer = CDVersion.getOne()?.appVersion {
-                    if (installedVer != newVer) {
-                        let a = UIAlertView()
-                        a.title = "New Version Available"
-                        a.message = "Prelo \(newVer) is available on App Store"
-                        a.addButtonWithTitle("Cancel")
-                        a.addButtonWithTitle("Update")
-                        a.delegate = self
-                        a.show()
-                    }
-                }
-            }
-            isAlreadyCheckVersion = true
-        }
     }
     
     func updateProgress(progress: Float) {
@@ -262,18 +242,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                     }
                 }
             }
-        }
-    }
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Cancel
-            break
-        case 1: // Update
-            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-            break
-        default:
-            break
         }
     }
     
