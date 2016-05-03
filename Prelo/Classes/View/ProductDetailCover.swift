@@ -227,7 +227,10 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (scrollView == self.scrollView)
         {
-            let p = scrollView.contentOffset.x / scrollView.bounds.width
+            var p : CGFloat = 0
+            if (scrollView.bounds.width > 0) {
+                p = scrollView.contentOffset.x / scrollView.bounds.width
+            }
             if (currentPage != Int(p))
             {
                 currentPage = Int(p)

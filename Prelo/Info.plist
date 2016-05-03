@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>636</string>
+	<string>639</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -72,6 +72,11 @@
 	<string>Prelo</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PreloAwesome.ttf</string>

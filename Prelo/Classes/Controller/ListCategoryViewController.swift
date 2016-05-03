@@ -404,7 +404,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var lastContentOffset = CGPoint()
     var isPageTracked = false
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let i = Int(scrollView.contentOffset.x / scrollView.width)
+        var i = 0
+        if (scrollView.width > 0) {
+            i = Int(scrollView.contentOffset.x / scrollView.width)
+        }
         currentTabIndex = i
         centerCategoryView(currentTabIndex)
         adjustIndicator(currentTabIndex)

@@ -23,44 +23,48 @@ class CDBrand: NSManagedObject {
         // Kalo (pView != nil) artinya progress view dihandle fungsi ini
         // Kalo (pView == nil) artinya progress view dihandle appdelegate
         let brandCount : Int = json.count
-        var isUpdateProgressView : Bool = false
-        var progressPerBrand : Float?
-        if (p != nil) {
-            isUpdateProgressView = true
-            progressPerBrand = p! / Float(brandCount)
-        }
-        for i in 0 ..< brandCount
-        {
-            let brandJson = json[i]
-            print(brandJson.rawString())
-            var catIds : [String] = []
-            let bcount = brandJson["category_ids"].arrayValue.count
-            for j in 0 ..< bcount
-            {
-                catIds.append(brandJson["category_ids"][j].string!)
+        if (brandCount > 0) {
+            var isUpdateProgressView : Bool = false
+            var progressPerBrand : Float?
+            if (p != nil) {
+                isUpdateProgressView = true
+                progressPerBrand = p! / Float(brandCount)
             }
-            let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
-            r.id = brandJson["_id"].string!
-            r.name = brandJson["name"].string!
-            r.v = brandJson["__v"].number!
-            r.categoryIds = NSKeyedArchiver.archivedDataWithRootObject(catIds)
-            if (isUpdateProgressView) {
-                if (pView != nil) {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
-                    })
-                } else {
-                    UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
-                    UIApplication.appDelegate.loadAppDataDelegate?.updateProgress(UIApplication.appDelegate.loadAppDataProgress)
+            for i in 0 ..< brandCount
+            {
+                let brandJson = json[i]
+                print(brandJson.rawString())
+                var catIds : [String] = []
+                let bcount = brandJson["category_ids"].arrayValue.count
+                for j in 0 ..< bcount
+                {
+                    catIds.append(brandJson["category_ids"][j].string!)
+                }
+                let r = NSEntityDescription.insertNewObjectForEntityForName("CDBrand", inManagedObjectContext: m) as! CDBrand
+                r.id = brandJson["_id"].string!
+                r.name = brandJson["name"].string!
+                r.v = brandJson["__v"].number!
+                r.categoryIds = NSKeyedArchiver.archivedDataWithRootObject(catIds)
+                if (isUpdateProgressView) {
+                    if (pView != nil) {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
+                        })
+                    } else {
+                        UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
+                        UIApplication.appDelegate.loadAppDataDelegate?.updateProgress(UIApplication.appDelegate.loadAppDataProgress)
+                    }
                 }
             }
+            if (m.saveSave() == false) {
+                print("saveBrands failed")
+                return false
+            }
+            print("saveBrands success")
+            return true
         }
-        if (m.saveSave() == false) {
-            print("saveBrands failed")
-            return false
-        }
-        print("saveBrands success")
-        return true
+        print("saveBrands failed, no brand at all")
+        return false
     }
     
     static func newOne(id : String, name : String, v : NSNumber, categoryIds: NSData) -> CDBrand? {
