@@ -49,7 +49,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     var saldo : Int = 0
     
-    let MAX_BONUS_TIMES : Float = 10
     let BONUS_AMOUNT : Int = 25000
     
     var shareImage : UIImage = UIImage(named:"raisa.jpg")!
@@ -74,7 +73,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         var isEmailVerified : Bool = false
         // API Migrasi
         request(APIUser.Me).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
@@ -92,6 +91,8 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 } else {
                     self.getReferralData()
                 }
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
         
@@ -160,12 +161,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                self.saldo = data["bonus"].int!
+                self.saldo = data["bonus"].intValue
                 self.lblSaldo.text = "\(self.saldo.asPrice)"
-                self.lblKodeReferral.text = data["referral"]["my_referral_code"].string!
+                self.lblKodeReferral.text = data["referral"]["my_referral_code"].stringValue
                 
                 // Set progress bar
-                let progress : Float = data["referral"]["total_referred"].float! / self.MAX_BONUS_TIMES
+                let progress : Float = data["referral"]["total_referral_amount"].floatValue / data["referral"]["max_referral_amount"].floatValue
                 self.progressBonus.setProgress(progress, animated: true)
                 
                 // Jika sudah pernah memasukkan referral, sembunyikan field
