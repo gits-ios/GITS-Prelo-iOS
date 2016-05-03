@@ -912,6 +912,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 cell.adaptTableProducts([trxProductDetail!])
             }
         }
+        cell.toProductDetail = { productId in
+            self.showLoading()
+            request(Products.Detail(productId: productId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                }
+                self.hideLoading()
+            }
+        }
         
         return cell
     }
@@ -1506,6 +1520,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     let TransactionDetailProductCellId = "TransactionDetailProductCell"
     let TransactionDetailTitleContentCellId = "TransactionDetailTitleContentCell"
     
+    // Actions
+    var toProductDetail : (String) -> () = { _ in }
+    
     static func heightForProducts(trxProducts : [TransactionProductDetail]) -> CGFloat {
         return (CGFloat(trxProducts.count) * TransactionDetailTools.TransactionDetailProductCellHeight)
     }
@@ -2086,8 +2103,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (isTitleContentCell) {
-            let idx = indexPath.row
+        let idx = indexPath.row
+        if (isProductCell) {
+            self.toProductDetail(trxProducts[idx].productId)
+        } else if (isTitleContentCell) {
             if (titleContentType == TransactionDetailTools.TitleContentReserved) {
                 if (idx == 0) {
                     // Open Safari
