@@ -116,8 +116,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             let placeholder = NSAttributedString(string: "E-mail harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.attributedPlaceholder = placeholder
             return false
-        }
-        if (txtEmail?.text!.rangeOfString("@") == nil) {
+        } else if (txtEmail?.text!.match("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}") == false) {
             let placeholder = NSAttributedString(string: "E-mail tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
             txtEmail?.text = ""
             txtEmail?.attributedPlaceholder = placeholder

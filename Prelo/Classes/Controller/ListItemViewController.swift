@@ -535,7 +535,16 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if (isBannerExist()) {
-            return CGSizeMake(collectionView.frame.size.width, 100)
+            let headerWidth : CGFloat = collectionView.frame.size.width - 8
+            var headerHeight : CGFloat = 0
+            if let bannerImageUrl = NSURL(string: self.bannerImageUrl) {
+                if let imgData = NSData.init(contentsOfURL: bannerImageUrl) {
+                    if let img = UIImage.init(data: imgData) {
+                        headerHeight = ((headerWidth / img.size.width) * img.size.height) + 14
+                    }
+                }
+            }
+            return CGSizeMake(headerWidth, headerHeight)
         }
         return CGSizeZero
     }
