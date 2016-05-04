@@ -109,6 +109,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
         ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
+        // AppsFlyer Tracker
+        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
+        AppsFlyerTracker.sharedTracker().appleAppID = "1027248488"
+        
         // Uninstall.io (disabled)
         /*NotifyManager.sharedManager().processLaunchOptions(launchOptions)
         NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
@@ -331,6 +335,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         
         // Remove app badge if any
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
+        // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
+        AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
     func applicationWillTerminate(application: UIApplication) {

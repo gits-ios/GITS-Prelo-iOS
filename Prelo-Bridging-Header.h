@@ -38,5 +38,6 @@
 #import "BranchUniversalObject.h"
 #import "BranchLinkProperties.h"
 #import "NotifyManager.h"
+#import "AppsFlyerTracker.h"
 
 #endif

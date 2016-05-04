@@ -515,6 +515,8 @@
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
 		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
+		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
+		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
@@ -1198,6 +1200,9 @@
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
 		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
+		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
+		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
@@ -1249,6 +1254,7 @@
 				4453F43C1BBBF2C100FE7CB5 /* FBSDKCoreKit.framework in Frameworks */,
 				4453F4401BBBFF6D00FE7CB5 /* FBSDKLoginKit.framework in Frameworks */,
 				21EEB4401B86FABE00CAD5C9 /* Foundation.framework in Frameworks */,
+				58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */,
 				21EEB4461B86FADF00CAD5C9 /* MessageUI.framework in Frameworks */,
 				21EEB44C1B86FB0600CAD5C9 /* MobileCoreServices.framework in Frameworks */,
 				21EEB4481B86FAEE00CAD5C9 /* OpenGLES.framework in Frameworks */,
@@ -1262,6 +1268,7 @@
 				44B8EDC61BEB47620063DEA8 /* TwitterKit.framework in Frameworks */,
 				21EEB44E1B86FB0F00CAD5C9 /* UIKit.framework in Frameworks */,
 				58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */,
+				58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */,
 				21EEB4501B86FB2B00CAD5C9 /* libc++.dylib in Frameworks */,
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -1279,6 +1286,7 @@
 		163B49F396DAE9C45C1A8F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58D7D5241CD9B6FC00308A50 /* iAd.framework */,
 				58AB577F1CB24CFB0081094B /* Security.framework */,
 				58AB577D1CB24CEA0081094B /* CoreBluetooth.framework */,
 				58AB577B1CB24CDF0081094B /* CoreLocation.framework */,
@@ -2246,6 +2254,7 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				58D7D5201CD9B68300308A50 /* AF-iOS-SDK */,
 				58AB57861CB273190081094B /* UninstallIO */,
 				44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */,
 				44B8EDC41BEB47620063DEA8 /* TwitterKitResources.bundle */,
@@ -2420,6 +2429,15 @@
 				58AB578B1CB273190081094B /* NotifyServiceManager.h */,
 			);
 			path = NotifyManager;
+			sourceTree = "<group>";
+		};
+		58D7D5201CD9B68300308A50 /* AF-iOS-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */,
+				58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */,
+			);
+			path = "AF-iOS-SDK";
 			sourceTree = "<group>";
 		};
 		FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */ = {
@@ -3201,6 +3219,7 @@
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
 					"$(PROJECT_DIR)/Prelo/Framework",
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
+					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3236,6 +3255,7 @@
 					"$(PROJECT_DIR)/Prelo/Classes/External/GoogleAnalytics_3.13",
 					"$(PROJECT_DIR)/Prelo/Framework",
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
+					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
