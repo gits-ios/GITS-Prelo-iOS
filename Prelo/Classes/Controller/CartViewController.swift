@@ -509,8 +509,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //                    }
 //                    UIApplication.appDelegate.saveContext()
                     
-                    // Mixpanel and Answers
+                    // Send tracking data
                     if (self.checkoutResult != nil) {
+                        // Mixpanel
                         var pName : String? = ""
                         var rName : String? = ""
                         if let u = CDUser.getOne()
@@ -552,8 +553,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             totalCommissionPrice += cPrice
                         }
                         
+                        let orderId = self.checkoutResult!["order_id"].stringValue
                         let pt = [
-                            "Order ID" : self.checkoutResult!["order_id"].stringValue,
+                            "Order ID" : orderId,
                             "Items" : items,
                             "Items Category" : itemsCategory,
                             "Items Seller" : itemsSeller,
@@ -568,11 +570,26 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
                         
+                        // Answers
                         if (AppTools.IsPreloProduction) {
                             Answers.logStartCheckoutWithPrice(NSDecimalNumber(integer: totalPrice), currency: "IDR", itemCount: NSNumber(integer: items.count), customAttributes: nil)
                             for j in 0...items.count-1 {
                                 Answers.logPurchaseWithPrice(NSDecimalNumber(integer: itemsPrice[j]), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
                             }
+                        }
+                        
+                        // Google Analytics Ecommerce Tracking
+                        let gaTracker = GAI.sharedInstance().defaultTracker
+                        let trxDict = GAIDictionaryBuilder.createTransactionWithId(orderId, affiliation: "iOS Checkout", revenue: totalPrice, tax: totalCommissionPrice, shipping: self.totalOngkir, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                        gaTracker.send(trxDict)
+                        for i in 0...self.arrayItem.count - 1 {
+                            let json = self.arrayItem[i]
+                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                            if (cName == nil) {
+                                cName = json["category_id"].stringValue
+                            }
+                            let trxItemDict = GAIDictionaryBuilder.createItemWithTransactionId(orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue, quantity: 1, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                            gaTracker.send(trxItemDict)
                         }
                     }
                     
