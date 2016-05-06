@@ -579,18 +579,50 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                         
                         // Google Analytics Ecommerce Tracking
-                        let gaTracker = GAI.sharedInstance().defaultTracker
-                        let trxDict = GAIDictionaryBuilder.createTransactionWithId(orderId, affiliation: "iOS Checkout", revenue: totalPrice, tax: totalCommissionPrice, shipping: self.totalOngkir, currencyCode: "IDR").build() as [NSObject : AnyObject]
-                        gaTracker.send(trxDict)
-                        for i in 0...self.arrayItem.count - 1 {
-                            let json = self.arrayItem[i]
-                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
-                            if (cName == nil) {
-                                cName = json["category_id"].stringValue
+                        if (AppTools.IsPreloProduction) {
+                            let gaTracker = GAI.sharedInstance().defaultTracker
+                            let trxDict = GAIDictionaryBuilder.createTransactionWithId(orderId, affiliation: "iOS Checkout", revenue: totalPrice, tax: totalCommissionPrice, shipping: self.totalOngkir, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                            gaTracker.send(trxDict)
+                            for i in 0...self.arrayItem.count - 1 {
+                                let json = self.arrayItem[i]
+                                var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                                if (cName == nil) {
+                                    cName = json["category_id"].stringValue
+                                }
+                                let trxItemDict = GAIDictionaryBuilder.createItemWithTransactionId(orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue, quantity: 1, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                                gaTracker.send(trxItemDict)
                             }
-                            let trxItemDict = GAIDictionaryBuilder.createItemWithTransactionId(orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue, quantity: 1, currencyCode: "IDR").build() as [NSObject : AnyObject]
-                            gaTracker.send(trxItemDict)
                         }
+                        
+                        // MoEngage
+                        let moeDict = NSMutableDictionary()
+                        moeDict.setObject(orderId, forKey: "Order ID")
+                        moeDict.setObject(items, forKey: "Items")
+                        moeDict.setObject(itemsCategory, forKey: "Items Category")
+                        moeDict.setObject(itemsSeller, forKey: "Items Seller")
+                        moeDict.setObject(itemsPrice, forKey: "Items Price")
+                        moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage")
+                        moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price")
+                        moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price")
+                        moeDict.setObject(self.totalOngkir, forKey: "Shipping Price")
+                        moeDict.setObject(totalPrice, forKey: "Total Price")
+                        moeDict.setObject(rName!, forKey: "Shipping Region")
+                        moeDict.setObject(pName!, forKey: "Shipping Province")
+                        let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
+                        moeEventTracker.setTimeStamp(NSDate.timeIntervalSinceReferenceDate(), forKey: "startTime")
+                        moeEventTracker.setDate(NSDate(), forKey: "startDate")
+                        let locManager = CLLocationManager()
+                        locManager.requestWhenInUseAuthorization()
+                        var currentLocation : CLLocation!
+                        var currentLat : Double = 0
+                        var currentLng : Double = 0
+                        if (CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == .AuthorizedAlways) {
+                            currentLocation = locManager.location
+                            currentLat = currentLocation.coordinate.latitude
+                            currentLng = currentLocation.coordinate.longitude
+                        }
+                        moeEventTracker.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                        MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                     }
                     
                     o.clearCart = true

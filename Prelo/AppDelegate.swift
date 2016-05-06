@@ -81,6 +81,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
             Crashlytics.sharedInstance().setUserEmail(c.email)
             Crashlytics.sharedInstance().setUserName(c.fullname!)
+            
+            // MoEngage
+            MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
+            MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
+            MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
+            MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
+            MoEngage.sharedInstance().setUserAttribute(c.profiles.phone!, forKey: "phone")
         }/* else {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
@@ -112,6 +119,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // AppsFlyer Tracker
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
         AppsFlyerTracker.sharedTracker().appleAppID = "1027248488"
+        
+        // MoEngage
+        MoEngage.sharedInstance().initializeWithApiKey("N4VL0T0CGHRODQUOGRKZVWFH", inApplication: application, withLaunchOptions: launchOptions)
         
         // Uninstall.io (disabled)
         /*NotifyManager.sharedManager().processLaunchOptions(launchOptions)
@@ -256,6 +266,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
+        
+        // MoEngage
+        MoEngage.sharedInstance().didRegisterForUserNotificationSettings(notificationSettings)
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
@@ -294,10 +307,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         print("ERROR : \(error)")
+        
+        // MoEngage
+        MoEngage.sharedInstance().didFailToRegisterForPush()
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("userInfo = \(userInfo)")
+        
+        // MoEngage
+        MoEngage.sharedInstance().didReceieveNotificationinApplication(application, withInfo: userInfo)
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
@@ -318,6 +337,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
+        // MoEngage
+        MoEngage.sharedInstance().stop(application)
+        
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
     }
@@ -336,14 +358,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // Remove app badge if any
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
+        // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        
+        // MoEngage
+        MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
     }
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        
+        // MoEngage
+        MoEngage.sharedInstance().applicationTerminated(application)
     }
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
@@ -812,9 +841,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
                 
+                // Check if app is installed for the first time
+                if (CDVersion.getOne() == nil) {
+                    // MoEngage
+                    MoEngage.sharedInstance().appStatus(INSTALL)
+                }
+                
+                // Check if app is just updated
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                    if let lastInstalledVer = CDVersion.getOne()?.appVersion {
+                        if (installedVer.compare(lastInstalledVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
+                            // MoEngage
+                            MoEngage.sharedInstance().appStatus(UPDATE)
+                        }
+                    }
+                }
+                
+                // Save version to core data
                 CDVersion.saveVersions(data)
+                
                 // Check if app need to be updated
-                if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
                         if (installedVer != newVer) {
                             let a = UIAlertView()

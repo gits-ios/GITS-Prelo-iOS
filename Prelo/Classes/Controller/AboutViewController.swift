@@ -100,7 +100,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         
         // Tell server
         // API Migrasi
-        // API Migrasi
         request(APIAuth.Logout).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout")) {
                 print("Logout API success")
@@ -132,6 +131,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         Mixpanel.sharedInstance().reset()
         let uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString
         Mixpanel.sharedInstance().identify(uuid)
+        
+        // MoEngage reset
+        MoEngage.sharedInstance().resetUser()
         
         // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)

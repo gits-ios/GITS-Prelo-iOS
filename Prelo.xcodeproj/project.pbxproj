@@ -515,6 +515,10 @@
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
 		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
+		58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */; };
+		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
+		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
+		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
@@ -1200,6 +1204,14 @@
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
 		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMoEngageSDK.a; sourceTree = "<group>"; };
+		58D125241CDC4D1F002BC78A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		58D125251CDC4D1F002BC78A /* MoEngage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MoEngage.bundle; sourceTree = "<group>"; };
+		58D125271CDC4D1F002BC78A /* MOGeofenceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOGeofenceHandler.h; sourceTree = "<group>"; };
+		58D125291CDC4D1F002BC78A /* MOEHelperConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOEHelperConstants.h; sourceTree = "<group>"; };
+		58D1252A1CDC4D1F002BC78A /* MoEngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoEngage.h; sourceTree = "<group>"; };
+		58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOPayloadBuilder.h; sourceTree = "<group>"; };
+		58D125361CDC4D1F002BC78A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -1273,6 +1285,7 @@
 				21679A601B901DD400F18F90 /* libicucore.dylib in Frameworks */,
 				FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */,
 				2124FFD11BBD2AC000194B8F /* libGoogleConversionTracking.a in Frameworks */,
+				58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */,
 				58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */,
 				21EEB4441B86FAD100CAD5C9 /* libsqlite3.dylib in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
@@ -2254,6 +2267,7 @@
 		21EEB4361B86F9EF00CAD5C9 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				58D125221CDC4D1F002BC78A /* MoEngageSDK_V2.1 */,
 				58D7D5201CD9B68300308A50 /* AF-iOS-SDK */,
 				58AB57861CB273190081094B /* UninstallIO */,
 				44B8EDC31BEB47620063DEA8 /* TwitterKit.framework */,
@@ -2431,6 +2445,37 @@
 			path = NotifyManager;
 			sourceTree = "<group>";
 		};
+		58D125221CDC4D1F002BC78A /* MoEngageSDK_V2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */,
+				58D125241CDC4D1F002BC78A /* LICENSE */,
+				58D125251CDC4D1F002BC78A /* MoEngage.bundle */,
+				58D125261CDC4D1F002BC78A /* MOGeofence */,
+				58D125281CDC4D1F002BC78A /* MOHeaders */,
+				58D125361CDC4D1F002BC78A /* README.md */,
+			);
+			path = MoEngageSDK_V2.1;
+			sourceTree = "<group>";
+		};
+		58D125261CDC4D1F002BC78A /* MOGeofence */ = {
+			isa = PBXGroup;
+			children = (
+				58D125271CDC4D1F002BC78A /* MOGeofenceHandler.h */,
+			);
+			path = MOGeofence;
+			sourceTree = "<group>";
+		};
+		58D125281CDC4D1F002BC78A /* MOHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				58D125291CDC4D1F002BC78A /* MOEHelperConstants.h */,
+				58D1252A1CDC4D1F002BC78A /* MoEngage.h */,
+				58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */,
+			);
+			path = MOHeaders;
+			sourceTree = "<group>";
+		};
 		58D7D5201CD9B68300308A50 /* AF-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -2567,7 +2612,9 @@
 				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
+				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
+				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,
 				58A223C61C898CB600619518 /* ic_trx_exclamation.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
 				FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */,
@@ -3038,6 +3085,7 @@
 				FDF728211BF24B5300C0D843 /* CategoryPreferencesViewController.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				58A99A2D1C6D864E00E3E7D7 /* BNCLinkCache.m in Sources */,
+				58D1253E1CDC4D1F002BC78A /* README.md in Sources */,
 				212007C61B6A102600D9C84B /* LoginViewController.swift in Sources */,
 				58A99A3F1C6D864E00E3E7D7 /* BranchGetPromoCodeRequest.m in Sources */,
 				58A99A311C6D864E00E3E7D7 /* BNCServerRequestQueue.m in Sources */,
@@ -3220,6 +3268,7 @@
 					"$(PROJECT_DIR)/Prelo/Framework",
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
+					"$(PROJECT_DIR)/Prelo/Framework/MoEngageSDK_V2.1",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3256,6 +3305,7 @@
 					"$(PROJECT_DIR)/Prelo/Framework",
 					"$(PROJECT_DIR)/Prelo/Framework/UninstallIO",
 					"$(PROJECT_DIR)/Prelo/Framework/AF-iOS-SDK",
+					"$(PROJECT_DIR)/Prelo/Framework/MoEngageSDK_V2.1",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
