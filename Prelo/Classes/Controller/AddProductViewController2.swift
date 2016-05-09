@@ -36,6 +36,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var txtOldPrice : UITextField!
     @IBOutlet var txtNewPrice : UITextField!
     @IBOutlet var txtWeight : UITextField!
+    @IBOutlet var txtCommission: UITextField!
     
     @IBOutlet var captionKondisi : UILabel!
     @IBOutlet var captionMerek : UILabel!
@@ -158,6 +159,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let oldPrice = editProduct?.json["_data"]["price"].int
             {
                 txtNewPrice.text = String(oldPrice)
+            }
+            
+            if let commission = editProduct?.json["_data"]["commission"].int
+            {
+                txtCommission.text = "\(String(commission)) %"
             }
             
             if let category_breadcrumbs = editProduct?.json["_data"]["category_breadcrumbs"].array
