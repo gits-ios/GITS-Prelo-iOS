@@ -812,6 +812,22 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let i = s.startIndex.advancedBy(n)
         return s[i]
     }
+    
+    @IBAction func gotoProduct(sender: AnyObject) {
+        if (tawarItem.itemId != "") {
+            request(Products.Detail(productId: tawarItem.itemId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                }
+            }
+        }
+    }
+    
 }
 
 class TawarCell : UITableViewCell
