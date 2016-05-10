@@ -37,7 +37,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.title = PageName.AddProduct
         // Do any additional setup after loading the view.
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "back")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductViewController.back))
         
         sectionHeader?.width = UIScreen.mainScreen().bounds.width
         sectionHeader?.height = UIScreen.mainScreen().bounds.width * 3 / 4
@@ -47,7 +47,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         tableView?.registerNib(UINib(nibName: "AddProductHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "header")
         
-        sectionTitles.append(["title":"Detail Produk", "icon":""])
+        sectionTitles.append(["title":"Detail Barang", "icon":""])
         //        sectionTitles.append(["title":"Ukuran", "icon":""])
         sectionTitles.append(["title":"Ongkos Kirim", "icon":""])
         sectionTitles.append(["title":"Berat", "icon":""])
@@ -62,7 +62,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             picker.doneLoading()
             
         })
-        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Produk", placeHolder: "mis: iPod 5th Gen")
+        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Barang", placeHolder: "mis: iPod 5th Gen")
         baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
         baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
@@ -71,9 +71,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Conditions")) {
-                        let json = JSON(res!)
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Conditions")) {
+                        let json = JSON(resp.result.value!)
                         let brands = json["product_conditions"].array
                         var items : Array<String> = []
                         if let arrBrands = brands
@@ -104,9 +104,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands")) {
-                        let json = JSON(res!)
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands")) {
+                        let json = JSON(resp.result.value!)
                         let brands = json["brands"].array
                         var items : Array<String> = []
                         if let arrBrands = brands
@@ -247,17 +247,17 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     @IBOutlet var btnSend : UIButton!
     func callAPI()
     {
-        var xxx = false
-        if (xxx)
-        {
-            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
-            self.navigationController?.pushViewController(s, animated: true)
-            return
-        }
+//        let xxx = false
+//        if (xxx)
+//        {
+//            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+//            self.navigationController?.pushViewController(s, animated: true)
+//            return
+//        }
         
         var price : String?
         
-        var imgs : Array<UIImage> = []
+//        var imgs : Array<UIImage> = []
         
         for (i, c) in cells
         {
@@ -268,7 +268,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 {
                     if let t = d.title
                     {
-                        if (t == "Nama Produk")
+                        if (t == "Nama Barang")
                         {
                             name = d.value
                         }
@@ -337,9 +337,9 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
         AppToolsObjC.sendMultipart(["name":name!, "description":desc!, "category":selectedCategoryID, "price":price!, "weight":currentWeight], images: self.sendIMGs, withToken: User.Token!, success: {op, res in
-            println(res)
+            print(res)
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            let json = JSON(res!)
+            let json = JSON(res)
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
@@ -443,7 +443,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     */
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        println("index \(buttonIndex)")
+        print("index \(buttonIndex)")
         if (buttonIndex == 0)
         {
             replaceIndex = -1
@@ -611,16 +611,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }
         } else if (s == 10) {
             if (r == 0) {
-                var g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
+                let g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
                 g.decorate()
-                println("asd")
+                print("asd")
                 c = g
             } else if (r == 1) {
                 let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
                 c = b
             }
         } else if (s == 1) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_ongkir") as? UITableViewCell
+            c = tableView.dequeueReusableCellWithIdentifier("cell_ongkir")
         } else if (s == 2) {
             if (r == 0) {
                 let w = tableView.dequeueReusableCellWithIdentifier("cell_weight") as? AddProductCellWeight
@@ -635,7 +635,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             c = b
         } else if (s == 5) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_share") as? UITableViewCell
+            c = tableView.dequeueReusableCellWithIdentifier("cell_share")
         }
         
         cells[indexPath] = c!
@@ -668,7 +668,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             acee?.textView.font = UIFont.systemFontOfSize(14)
         }
         
-//        acee?.textView.textColor = UIColor(hex: "#858585")
+//        acee?.textView.textColor = UIColor(hexString: "#858585")
         acee?.textView.textColor = UIColor.darkGrayColor()
         
         return acee
@@ -694,7 +694,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header") as! AddProductHeader
+        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header") as! AddProductHeader
         h.width = UIScreen.mainScreen().bounds.size.width
         let d = sectionTitles[section]
         h.captionIcon.text = d["icon"]
@@ -799,7 +799,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if (cell == nil) {
                 s += 1
                 r = -1
-                if (s == tableView.numberOfSections()) { // finish, last cell
+                if (s == tableView.numberOfSections) { // finish, last cell
                     con = false
                 }
             } else {
@@ -875,7 +875,7 @@ class ProductCategoryCell : CartCellInput2
     override func becomeFirstResponder() -> Bool {
         let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
         c.blockDone = { data in
-            let parent = JSON(data["parent"]!)
+            _ = JSON(data["parent"]!)
             let children = JSON(data["child"]!)
             
             if let name = children["name"].string
@@ -923,9 +923,9 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
                 rightLayer?.removeFromSuperlayer()
             }
             
-            let x = leftPanel.frame
+            _ = leftPanel.frame
             leftLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 1).CGColor, UIColor(white: 1, alpha: 0).CGColor], withView: leftPanel)
-            let f = rightPanel.frame
+            _ = rightPanel.frame
             rightLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 0).CGColor, UIColor(white: 1, alpha: 1).CGColor], withView: rightPanel)
             decorated = true
         }
@@ -942,7 +942,7 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! UICollectionViewCell
+        return collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) 
     }
 }
 
@@ -961,7 +961,7 @@ class AddProductShippingPaymentCell : UITableViewCell
         {
             for b in btnShippingPayments
             {
-                b.addTarget(self, action: "setShippingPayment:", forControlEvents: UIControlEvents.TouchUpInside)
+                b.addTarget(self, action: #selector(AddProductShippingPaymentCell.setShippingPayment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
             setted = true
         }
@@ -982,21 +982,21 @@ class AddProductShippingPaymentCell : UITableViewCell
             }
         }
         
-        var c = sender.superview as! BorderedView
+        let c = sender.superview as! BorderedView
         for l in c.subviews
         {
             if (l.isKindOfClass(UILabel.classForCoder()))
             {
                 let x = l as! UILabel
                 if (x.text == "Ditanggung Pembeli") {
-                    var mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
-                    var greenTxt = "Lihat syarat & ketentuan"
-                    var range = (mainTxt as NSString).rangeOfString(greenTxt)
-                    var attrString = NSMutableAttributedString(string: mainTxt)
+                    let mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
+                    let greenTxt = "Lihat syarat & ketentuan"
+                    let range = (mainTxt as NSString).rangeOfString(greenTxt)
+                    let attrString = NSMutableAttributedString(string: mainTxt)
                     attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
                     lblDescription.attributedText = attrString
                 } else if (x.text == "Ditanggung Penjual") {
-                    lblDescription.text = "Produk akan diberi label FREE ONGKIR (Recommended)"
+                    lblDescription.text = "Barang akan diberi label FREE ONGKIR (Recommended)"
                 }
                 x.textColor = Theme.PrimaryColorDark
             }
@@ -1026,7 +1026,7 @@ class AddProductSizeFlow : UICollectionViewFlowLayout
         
         let targetRect = CGRectMake(proposedContentOffset.x, 0, (self.collectionView?.bounds.size.width)!, (self.collectionView?.bounds.size.height)!)
         
-        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElementsInRect(targetRect) as! Array<UICollectionViewLayoutAttributes>
+        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElementsInRect(targetRect)! as Array<UICollectionViewLayoutAttributes>
         
         for layoutAttributes in array
         {
@@ -1070,7 +1070,7 @@ class AddProductImageCell : UICollectionViewCell
         
         if (tapImg == nil)
         {
-            tapImg = UITapGestureRecognizer(target: self, action: "tapped")
+            tapImg = UITapGestureRecognizer(target: self, action: #selector(AddProductImageCell.tapped))
             ivCover.addGestureRecognizer(tapImg!)
         }
     }
@@ -1112,7 +1112,7 @@ class AddProductImageCell : UICollectionViewCell
                     }
                     
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        asset?.assetForURL((_apImage?.url)!, resultBlock: { asset in
+                        self.asset?.assetForURL((self._apImage?.url)!, resultBlock: { asset in
                             if let ast = asset {
                                 let rep = ast.defaultRepresentation()
                                 let ref = rep.fullScreenImage().takeUnretainedValue()
@@ -1219,7 +1219,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
             
             if (found == false)
             {
-                index++
+                index += 1
             }
         }
         
@@ -1242,7 +1242,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        var s = textField.text as NSString
+        var s = textField.text == nil ? "" : textField.text! as NSString
         s = s.stringByReplacingCharactersInRange(range, withString: string)
         
         if let d = weightDelegate

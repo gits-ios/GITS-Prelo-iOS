@@ -30,14 +30,15 @@ class PreloNotificationListener {
     }
     
     func getTotalUnreadNotifCount() {
-        request(APINotifAnggi.GetUnreadNotifCount).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Unread Count")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APINotifAnggi.GetUnreadNotifCount).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 self.newNotifCount = data["total"].intValue
                 
-                println("newNotifCount = \(self.newNotifCount)")
+                print("newNotifCount = \(self.newNotifCount)")
                 self.delegate?.showNewNotifCount(self.newNotifCount)
                 self.delegate?.refreshNotifPage()
             }

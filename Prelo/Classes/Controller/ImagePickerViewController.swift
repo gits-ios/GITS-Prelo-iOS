@@ -120,7 +120,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             if (result != nil) {
                 ap.image = result
             } else {
-                println("Error highres render: \(error)")
+                print("Error highres render: \(error)")
                 ap.image = image
             }
             editor.dismissViewControllerAnimated(false, completion: {
@@ -156,7 +156,8 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         {
             c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ImagePickerCell
             c.isCamera = false
-            if let i = find(selecteds, indexPath)
+//            if let i = find(selecteds, indexPath)
+            if selecteds.indexOf(indexPath) != nil
             {
                 c.captionSelected.hidden = false
             } else // not found
@@ -203,7 +204,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
             self.presentViewController(i, animated: true, completion: nil)
         } else
         {
-            if let i = find(selecteds, indexPath)
+            if let i = selecteds.indexOf(indexPath)
             {
                 selecteds.removeAtIndex(i)
                 let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
@@ -238,18 +239,18 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
     }
     
     var picker : UIImagePickerController?
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.picker = picker
-        println(info)
+        print(info)
         let apImage = APImage()
         apImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        var r : [APImage] = [apImage]
+        let r : [APImage] = [apImage]
         self.doneBlock!(r)
         
         picker.dismissViewControllerAnimated(true, completion: {
             self.dismissViewControllerAnimated(true, completion: nil)
         })
-//        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as! UIImage, self, "savedDone", nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -304,9 +305,9 @@ class ImagePickerCell : UICollectionViewCell
                 }
                 
                 
-                _url = (_apImage?.url)!.absoluteString!
+                _url = (_apImage?.url)!.absoluteString
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    asset?.assetForURL(NSURL(string: _url)!, resultBlock: { asset in
+                    self.asset?.assetForURL(NSURL(string: self._url)!, resultBlock: { asset in
                         if let ast = asset {
                             let ref = ast.thumbnail().takeUnretainedValue()
                             let i = UIImage(CGImage: ref)
@@ -367,15 +368,12 @@ class ImagePickerCell : UICollectionViewCell
         
         let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
-        var error : NSError?
-        let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: &error) as? AVCaptureInput
-        if (input == nil)
-        {
-            println("CAMERA ERROR")
-        } else
-        {
-            session?.addInput(input!)
+        do {
+            let input = try AVCaptureDeviceInput(device: device) as AVCaptureInput
+            session?.addInput(input)
             session?.startRunning()
+        } catch {
+            print("CAMERA ERROR")
         }
     }
 }

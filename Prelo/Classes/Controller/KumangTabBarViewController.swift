@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, UIAlertViewDelegate, LoadAppDataDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, LoadAppDataDelegate {
     
     var numberOfControllers : Int = 0
     
@@ -40,7 +40,17 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             _controllerDashboard?.userRelatedDelegate = self
         }
     }
-    @IBOutlet var controllerDashboard2 : Dashboard2ViewController?
+    var _controllerDashboard2 : BaseViewController?
+    var controllerDashboard2 : BaseViewController?
+        {
+        get {
+            return _controllerDashboard2
+        }
+        set(newController) {
+            _controllerDashboard2 = newController
+            _controllerDashboard2?.userRelatedDelegate = self
+        }
+    }
     @IBOutlet var controllerBrowse : UIViewController?
     @IBOutlet var controllerLogin : LoginViewController?
     @IBOutlet var controllerContactPrelo : BaseViewController?
@@ -65,9 +75,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         //self.setupNormalOptions()
         self.setupTitle()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNew:", name: NotificationName.PushNew, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideBottomBar", name: "hideBottomBar", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showBottomBar", name: "showBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.pushNew(_:)), name: NotificationName.PushNew, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: "hideBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: "showBottomBar", object: nil)
 
         // Do any additional setup after loading the view.
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
@@ -82,17 +92,17 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard?.previousController = self
-        controllerDashboard2 = Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
+        controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController//Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
         controllerDashboard2?.previousController = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLoginButton", name: "userLoggedIn", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: "userLoggedIn", object: nil)
     }
     
     func updateLoginButton()
     {
         if (User.IsLoggedIn)
         {
-            btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
+            btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
         } else
         {
             btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
@@ -132,7 +142,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     var isAlreadyGetCategory : Bool = false
     var userDidLoggedIn : Bool?
-    var isAlreadyCheckVersion : Bool = false
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -157,7 +166,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 UIApplication.appDelegate.loadAppDataDelegate = self
                 
                 // Check if app is currently loading app data
-                var appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
+                let appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
                 if (appDataSaved == nil) { // Proses pengecekan di AppDelegate bahkan belum berjalan, tunggu pengecekan selesai
                     // Tampilkan pop up untuk loading
                     self.loadAppDataAlert = UIAlertView()
@@ -183,25 +192,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
         }
         userDidLoggedIn = User.IsLoggedIn
-        
-        // Check new version in AppStore
-        if (!isAlreadyCheckVersion) {
-            // Check app version
-            if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-                if let newVer = CDVersion.getOne()?.appVersion {
-                    if (installedVer != newVer) {
-                        let a = UIAlertView()
-                        a.title = "New Version Available"
-                        a.message = "Prelo \(newVer) is available on App Store"
-                        a.addButtonWithTitle("Cancel")
-                        a.addButtonWithTitle("Update")
-                        a.delegate = self
-                        a.show()
-                    }
-                }
-            }
-            isAlreadyCheckVersion = true
-        }
     }
     
     func updateProgress(progress: Float) {
@@ -255,23 +245,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        switch buttonIndex {
-        case 0: // Cancel
-            break
-        case 1: // Update
-            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-            break
-        default:
-            break
-        }
-    }
-    
     func pushNew(sender : AnyObject)
     {
         let n : NSNotification = sender as! NSNotification
-        var d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-        var nav = UINavigationController(rootViewController: d)
+        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let nav = UINavigationController(rootViewController: d)
         nav.navigationBar.translucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
         nav.navigationBar.tintColor = UIColor.whiteColor()
@@ -282,6 +260,19 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     var oldController : UIViewController?
     func changeToController(newController : UIViewController)
     {
+        print("class name = \(newController.dynamicType)")
+        if ("\(newController.dynamicType)" == "ListCategoryViewController") { // Browse
+            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        } else if ("\(newController.dynamicType)" == "DashboardViewController") { // Login/Dashboard
+            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
+            btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
+            btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        }
+        
         if let o = oldController
         {
             o.removeFromParentViewController()
@@ -290,9 +281,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         let oldView = sectionContent?.viewWithTag(1)
         oldView?.removeFromSuperview()
         
-        var v : UIViewController? = newController
+        let v : UIViewController? = newController
         v?.view.tag = 1
-        v?.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        v?.view.translatesAutoresizingMaskIntoConstraints = false
         
         sectionContent?.addSubview((v?.view)!)
         let horizontalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v1]-0-|", options: .AlignAllTop, metrics: nil, views: ["v1": v!.view])
@@ -308,29 +299,23 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBAction func switchController(sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
-            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
-            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            
             self.setupNormalOptions() // Agar notification terupdate
             changeToController(controllerBrowse!)
             
             if (changeToBrowseCount == 0) {
                 changeToBrowseCount = 1
                 sectionContent?.hidden = true
-                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "delayBrowseSwitch", userInfo: nil, repeats: false)
+                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(KumangTabBarViewController.delayBrowseSwitch), userInfo: nil, repeats: false)
             }
             
         } else {
-            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
-            
             if (User.IsLoggedIn) {
-                println("To Dashboard")
+                print("To Dashboard")
                 controllerDashboard?.previousController = self
                 self.setupNormalOptions() // Agar notification terupdate
                 changeToController(controllerDashboard!)
             } else {
-                println("To Dashboard2")
+                print("To Dashboard2")
                 controllerDashboard2?.previousController = self
                 changeToController(controllerDashboard2!)
             }
@@ -359,7 +344,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedIn() {
-        btnDashboard.setTitle("AKUN SAYA", forState: UIControlState.Normal)
+        btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
         let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
         d.previousController = self
         changeToController(d)
@@ -395,7 +380,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segTour") {
-            var t = segue.destinationViewController.viewControllers?.first as! TourViewController
+            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
             t.parent = sender as? BaseViewController
         }
     }

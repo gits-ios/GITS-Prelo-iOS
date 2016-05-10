@@ -71,9 +71,10 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         txtNomerRekening.textAlignment = NSTextAlignment.Right
         
         // Munculkan pop up jika user belum mempunyai password
-        request(APIUser.CheckPassword).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.CheckPassword).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang")) {
+                let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil && data == true) {
                     self.getBalance()
@@ -105,10 +106,11 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     func getBalance()
     {
-        request(APIWallet.GetBalance).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang"))
+        // API Migrasi
+        request(APIWallet.GetBalance).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let i = json["_data"].int
                 {
                     let f = NSNumberFormatter()
@@ -130,7 +132,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     @IBAction func withdraw()
     {
-        let amount = txtJumlah.text
+        let amount = txtJumlah.text == nil ? "" : txtJumlah.text!
         let i = (amount as NSString).integerValue
         
         if i < 50000
@@ -146,24 +148,25 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         }
         
         namaBank = namaBank.stringByReplacingOccurrencesOfString("Bank ", withString: "")
-        let norek = txtNomerRekening.text
-        let namarek = txtNamaRekening.text
-        let pass = txtPassword.text
+        let norek = txtNomerRekening.text == nil ? "" : txtNomerRekening.text!
+        let namarek = txtNamaRekening.text == nil ? "" : txtNamaRekening.text!
+        let pass = txtPassword.text == nil ? "" : txtPassword.text!
         
         self.btnWithdraw.enabled = false
         
-        request(APIWallet.Withdraw(amount: amount, targetBank: namaBank, norek: norek, namarek: namarek, password: pass)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APIWallet.Withdraw(amount: amount, targetBank: namaBank, norek: norek, namarek: namarek, password: pass)).responseJSON {resp in
             self.btnWithdraw.enabled = true
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Tarik Uang"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Tarik Uang"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let message = json["_message"].string
                 {
                     UIAlertView.SimpleShow("Perhatian", message: message)
                 } else
                 {
 //                    self.getBalance()
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik tunai telah diterima")
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima")
                     
                     // Mixpanel
                     let pt = [
@@ -215,12 +218,12 @@ class SetupPasswordPopUp : UIView {
         self.disableBackBlock()
         self.btnKirimEmail.setTitle("MENGIRIM...", forState: .Normal)
         self.btnKirimEmail.userInteractionEnabled = false
-        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Tarik Uang - Password Checking")) {
-                let json = JSON(res!)
+        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang - Password Checking")) {
+                let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue
-                //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                 if (dataBool == true || dataInt == 1) {
                     Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
                 } else {

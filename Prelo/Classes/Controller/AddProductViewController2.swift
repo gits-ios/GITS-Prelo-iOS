@@ -50,6 +50,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionSize2 : UILabel!
     @IBOutlet var captionSize3 : UILabel!
     
+    @IBOutlet weak var ivImage: UIImageView!
+    
     var sizes : Array<String> = []
     
     var productCategoryId = ""
@@ -91,7 +93,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtWeight.hidden = true
         
         txtName.placeholder = "mis: iPod 5th Gen"
-        txtDescription.placeholder = "Spesifikasi produk (Opsional)\nmis: 32 GB, dark blue, lightning charger"
+        txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
 //        txtName.fadeTime = 0.2
         txtDescription.fadeTime = 0.2
@@ -111,9 +113,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             i.tag = index
             i.contentMode = UIViewContentMode.ScaleAspectFill
             i.clipsToBounds = true
-            index++
+            index += 1
             i.userInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: "imageTapped:")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.imageTapped(_:)))
             i.addGestureRecognizer(tap)
         }
         
@@ -212,7 +214,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
         }
         
-        self.btnSubmit.addTarget(self, action: "sendProduct", forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
         self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
         
         txtName.autocapitalizationType = .Words
@@ -245,7 +247,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (o)
             {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, f.height, 0)
-                println("an_subscribeKeyboardWithAnimations")
+                print("an_subscribeKeyboardWithAnimations")
                 
             } else
             {
@@ -355,7 +357,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         case 2:rm_image3 = 1
         case 3:rm_image4 = 1
         case 4:rm_image5 = 1
-        default:println("")
+        default:print("")
         }
     }
     
@@ -372,7 +374,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        case 2:rm_image3 = 1
 //        case 3:rm_image4 = 1
 //        case 4:rm_image5 = 1
-//        default:println("")
+//        default:print("")
 //        }
         imageViews[controller.index].image = image.image
     }
@@ -400,7 +402,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             case 2:rm_image3 = 1
             case 3:rm_image4 = 1
             case 4:rm_image5 = 1
-            default:println("")
+            default:print("")
             }
         }
     }
@@ -437,7 +439,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 case 2:self.rm_image3=0
                 case 3:self.rm_image4=0
                 case 4:self.rm_image5=0
-                default:println()
+                default:print()
                 }
                 
             } else if (forceBackOnCancel)
@@ -449,7 +451,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     var activeTextview : UITextView?
     func textViewDidBeginEditing(textView: UITextView) {
-        println("textViewDidBeginEditing")
+        print("textViewDidBeginEditing")
         activeTextview = textView
     }
     
@@ -589,6 +591,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.productCategoryId = id
             }
             
+            let dataJson = JSON(data)
+            if let imgName = dataJson["category_image_name"].string
+            {
+                if let imgUrl = NSURL(string: imgName) {
+                    self.ivImage.setImageWithUrl(imgUrl, placeHolderImage: nil)
+                }
+            }
+            
             self.getSizes()
         }
         p.root = self
@@ -597,9 +607,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func getSizes()
     {
-        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Product Brands and Sizes")) {
-                if let x: AnyObject = res
+        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
+                if let x: AnyObject = resp.result.value
                 {
                     let json = JSON(x)
                     let jsizes = json["_data"]["sizes"]
@@ -664,7 +674,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 eurString = eur[i]
                             }
                             
-                            var sizeString = usaString + "\n" + smlString + "\n" + eurString
+                            let sizeString = usaString + "\n" + smlString + "\n" + eurString
                             self.sizes.append(sizeString)
                         }
                         
@@ -689,7 +699,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                                 var index = 0
                                 for s1 in self.sizes
                                 {
-                                    var s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
+                                    let s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
                                     if (s1s == s)
                                     {
                                         self.sizePicker.selectItem(UInt(index), animated: false)
@@ -720,8 +730,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Kondisi"
         
-        var names : [String] = CDProductCondition.getProductConditionPickerItems()
-        var details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
+        let names : [String] = CDProductCondition.getProductConditionPickerItems()
+        let details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
         
         p.items = names
         p.subtitles = details
@@ -751,7 +761,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Merk"
         
-        var names : [String] = CDBrand.getBrandPickerItems()
+        let names : [String] = CDBrand.getBrandPickerItems()
         
         p.merkMode = true
         p.items = names
@@ -803,37 +813,37 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         //validasi
-        if (validateString(name, message: "Nama produk masih kosong") == false)
+        if (validateString(name, message: "Nama barang masih kosong") == false)
         {
             return
         }
         
-//        if (validateString(desc, message: "Deskripsi produk masih kosong") == false)
+//        if (validateString(desc, message: "Deskripsi barang masih kosong") == false)
 //        {
 //            return
 //        }
         
-        if (validateString(weight, message: "Berat produk masih kosong") == false)
+        if (validateString(weight, message: "Berat barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(oldPrice, message: "Harga Beli produk masih kosong") == false)
+        if (validateString(oldPrice, message: "Harga Beli barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(newPrice, message: "Harga Jual produk masih kosong") == false)
+        if (validateString(newPrice, message: "Harga Jual barang masih kosong") == false)
         {
             return
         }
         
-        if (validateString(productCategoryId, message: "Silahkan pilih kategori produk") == false)
+        if (validateString(productCategoryId, message: "Silahkan pilih kategori barang") == false)
         {
             return
         }
         
-        if (validateString(kodindisiId, message: "Silahkan pilih kondisi produk") == false)
+        if (validateString(kodindisiId, message: "Silahkan pilih kondisi barang") == false)
         {
             return
         }
@@ -845,13 +855,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (validateString(deflect, message: "") == false && txtDeskripsiCacat.hidden == false)
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat produk kamu")
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat barang kamu")
             return
         }
         
         if (validateString(merekId, message: "") == false && captionMerek.text == "")
         {
-            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek produk")
+            UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih merek barang")
             return
         }
         
@@ -920,7 +930,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-            println(res)
+            print(res)
             
             if (self.editMode)
             {
@@ -930,7 +940,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 return
             }
             
-            let json = JSON(res!)
+            let json = JSON(res)
             
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             
@@ -942,7 +952,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             for i in 0...self.images.count - 1 {
                 mixpImgs.append(self.images[i] as? UIImage)
                 if (mixpImgs[i] != nil) {
-                    mixpImageCount++
+                    mixpImageCount += 1
                 }
             }
             let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
@@ -1005,10 +1015,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
                 if let msg = op.responseString {
                     if let range1 = msg.rangeOfString("{\"_message\":\"") {
-                        //println(range1)
+                        //print(range1)
                         let msg1 = msg.substringFromIndex(range1.endIndex)
                         if let range2 = msg1.rangeOfString("\"}") {
-                            //println(range2)
+                            //print(range2)
                             msgContent = msg1.substringToIndex(range2.startIndex)
                         }
                     }
@@ -1017,9 +1027,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         })
     }
     
-    func validateString(text : String, message : String) -> Bool
+    func validateString(text : String?, message : String) -> Bool
     {
-        if (text == "")
+        guard text != nil || text == "" else
         {
             if (message != "")
             {
@@ -1027,7 +1037,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             return false
         }
+        
         return true
+        
+//        if (text == "")
+//        {
+//            if (message != "")
+//            {
+//                UIAlertView.SimpleShow("Perhatian", message: message)
+//            }
+//            return false
+//        }
+//        return true
     }
 
     /*

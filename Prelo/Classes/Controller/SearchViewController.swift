@@ -57,16 +57,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         })
         
-        request(APISearch.GetTopSearch(limit: "10")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Top Search"))
+        // API Migrasi
+        request(APISearch.GetTopSearch(limit: "10")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search"))
             {
                 self.topSearchLoading.hidden = true
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let data = json["_data"].array
                 {
                     if (data.count > 0)
                     {
-                        let width = UIScreen.mainScreen().bounds.width-16
+                        _ = UIScreen.mainScreen().bounds.width-16
                         var lastView : UIView?
                         for i in 0...data.count-1
                         {
@@ -95,7 +96,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                                 searchTag.x = 0
                                 searchTag.y = 0
                             }
-                            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
                             searchTag.addGestureRecognizer(tap)
                             searchTag.userInteractionEnabled = true
                             searchTag.captionTitle.userInteractionEnabled = true
@@ -130,7 +131,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     {
         conHeightSectionHistorySearch.constant = 0
         
-        let arrx = sectionHistorySearch.subviews as! [UIView]
+        let arrx = sectionHistorySearch.subviews 
         for v in arrx
         {
             v.removeFromSuperview()
@@ -145,7 +146,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let tag = SearchTag.instance(s)
             tag.x = x
             tag.y = y
-            let fx = tag.frame
+            _ = tag.frame
             let maxx = tag.maxX
             if (maxx > sw)
             {
@@ -154,12 +155,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let maxY = tag.maxY
                 y = maxY + 4
                 tag.y = y
-                let b = tag.bounds
-                let f = tag.frame
-                println("tag new y : \(y)")
+                _ = tag.bounds
+                _ = tag.frame
+                print("tag new y : \(y)")
             }
 //            tag.y = y
-            let tap = UITapGestureRecognizer(target: self, action: "searchTopKey:")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
             tag.addGestureRecognizer(tap)
             tag.userInteractionEnabled = true
             tag.captionTitle.userInteractionEnabled = true
@@ -237,7 +238,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             textField.resignFirstResponder()
             return false
         }
-        var stringx = textField.text as NSString
+        var stringx = (textField.text == nil ? "" : textField.text!) as NSString
         
         stringx = stringx.stringByReplacingCharactersInRange(range, withString: string)
         let keyword = stringx as String
@@ -294,7 +295,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         if (arr.count > 0)
         {
             let s = tableView.dequeueReusableHeaderFooterViewWithIdentifier("head") as! SearchResultHeader
-            let t = titleForSection(section)
+            _ = titleForSection(section)
             let ss = titleForSection(section)
             s.captionName.text = ss[1]
             s.captionIcon.text = ss[0]
@@ -311,7 +312,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (foundItems.count > 0)
             {
-                return ["","PRODUK"]
+                return ["","BARANG"]
             } else
             {
                 return ["", ""]
@@ -347,12 +348,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundItems.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
                 }
-                c?.textLabel?.text = "Lihat semua produk \"" + currentKeyword + "\""
+                c?.textLabel?.text = "Lihat semua barang \"" + currentKeyword + "\""
                 return c!
             }
             
@@ -369,7 +370,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundUsers.count)
             {
-                var c = tableView.dequeueReusableCellWithIdentifier("viewmore") as? UITableViewCell
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil)
                 {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -396,11 +397,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.searchMode = true
                 l.searchKey = currentKeyword
-                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
-                        println("TOP")
-                        println(res)
-                        println("TOPEND")
+                // API Migrasi
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                        print("TOP")
+//                        print(res)
+                        print("TOPEND")
                     }
                 }
                 AppToolsObjC.insertNewSearch(txtSearch.text)
@@ -408,11 +410,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
-                request(APISearch.InsertTopSearch(search: txtSearch.text)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
-                        println("TOP")
-                        println(res)
-                        println("TOPEND")
+                // API Migrasi
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                        print("TOP")
+//                        print(res)
+                        print("TOPEND")
                     }
                 }
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
@@ -424,8 +427,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (indexPath.row == foundUsers.count)
             {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
-                u.keyword = txtSearch.text
-                request(APISearch.InsertTopSearch(search: txtSearch.text))
+                u.keyword = txtSearch.text == nil ? "" : txtSearch.text!
+                // API Migrasi
+                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!))
                 self.navigationController?.pushViewController(u, animated: true)
                 
             } else
@@ -435,7 +439,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.storeMode = true
                 d.storeName = u.username
                 
-                request(APISearch.InsertTopSearch(search: u.username))
+                // API Migrasi
+        request(APISearch.InsertTopSearch(search: u.username))
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
@@ -479,13 +484,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
+        itemRequest = // API Migrasi
+        request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
         
-        itemRequest?.responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Item"))
+        itemRequest?.responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Item"))
             {
                 self.foundItems = []
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     if (arr.count > 0)
@@ -529,12 +535,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        userRequest = request(APISearch.User(keyword: keyword))
-        userRequest?.responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search User"))
+        userRequest = // API Migrasi
+        request(APISearch.User(keyword: keyword))
+        userRequest?.responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
             {
                 self.foundUsers = []
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     if (arr.count > 0)

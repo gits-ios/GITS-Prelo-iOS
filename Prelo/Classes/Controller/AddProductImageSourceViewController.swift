@@ -67,24 +67,14 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
         return c
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesMoved(touches, withEvent: event)
-        
-        println("touchesMoved")
-    }
-    
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
-        println("touchesEnded")
-        
         dragDropView = nil
         highlightProductRowView()
     }
     
-    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         super.touchesCancelled(touches, withEvent: event)
-        println("touchesCancelled")
-        
         dragDropView = nil
         highlightProductRowView()
     }
@@ -96,12 +86,12 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
         } else {
             
             let p = cell.longPress?.locationInView(self.view)
-            println("begin drag | x : " + String(Int((p?.x)!)) + ", y : " + String(Int((p?.y)!)))
+            print("begin drag | x : " + String(Int((p?.x)!)) + ", y : " + String(Int((p?.y)!)))
             if (cell.longPress?.state == UIGestureRecognizerState.Began) {
                 cell.hidden = true
                 dragDropView?.center = (gridView?.convertPoint(cell.center, toView: self.view))!
                 UIView.animateWithDuration(0.2, animations: {
-                    dragDropView?.center = p!
+                    self.dragDropView?.center = p!
                 })
             } else {
                 dragDropView?.center = p!
@@ -121,7 +111,7 @@ class AddProductImageSourceViewController: BaseViewController, UICollectionViewD
             return
         }
         highlightting = true
-        println("highlightting")
+        print("highlightting")
         let h = (dragDropView?.hidden)!
         for p in arrayProductRow
         {
@@ -221,7 +211,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
                 }
                 
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    asset?.assetForURL((_apImage?.url)!, resultBlock: { asset in
+                    self.asset?.assetForURL((self._apImage?.url)!, resultBlock: { asset in
                         if let ast = asset {
                             let rep = ast.defaultRepresentation()
                             let ref = rep.fullScreenImage().takeUnretainedValue()
@@ -252,7 +242,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
         super.awakeFromNib()
         
         if (longPress == nil) {
-            longPress = UILongPressGestureRecognizer(target: self, action: "longPressed:")
+            longPress = UILongPressGestureRecognizer(target: self, action: #selector(ImageSourceCell.longPressed(_:)))
             self.addGestureRecognizer(longPress!)
         }
     }

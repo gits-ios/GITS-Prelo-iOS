@@ -43,7 +43,7 @@ class PhoneReverificationViewController : BaseViewController {
                 }
             }, completion: nil)
         
-        println("verifiedHP = \(verifiedHP)")
+        print("verifiedHP = \(verifiedHP)")
         lblNoHP.text = verifiedHP
     }
     
@@ -58,7 +58,7 @@ class PhoneReverificationViewController : BaseViewController {
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -69,14 +69,15 @@ class PhoneReverificationViewController : BaseViewController {
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
-            request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Ulang SMS")) {
-                    let json = JSON(res!)
-                    let data : Bool? = json["_data"].bool
+            // API Migrasi
+        request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
+                    let json = JSON(resp.result.value!)
+                    _ = json["_data"].bool
                     
                     let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                     phoneVerificationVC.isReverification = true
-                    phoneVerificationVC.noHpToVerify = self.fieldNoHP.text
+                    phoneVerificationVC.noHpToVerify = self.fieldNoHP.text == nil ? "" : self.fieldNoHP.text!
                     phoneVerificationVC.isShowBackBtn = true
                     phoneVerificationVC.delegate = self.prevVC
                     self.navigationController?.pushViewController(phoneVerificationVC, animated: true)

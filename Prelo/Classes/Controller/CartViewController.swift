@@ -60,9 +60,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.title = PageName.Checkout
         
-        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout - Unpaid Transaction")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransactionCheck.CheckUnpaidTransaction).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout - Unpaid Transaction")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
                     let nUnpaid = data["n_transaction_unpaid"].intValue
@@ -126,7 +127,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             fullname = x
         }
         
-        var c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
+        let c = BaseCartData.instance(titlePostal, placeHolder: "Kode Pos", value : postalcode)
         c.keyboardType = UIKeyboardType.NumberPad
         
         var pID = ""
@@ -266,7 +267,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
-        println(p)
+        print(p)
         
         var pID = ""
         var rID = ""
@@ -278,9 +279,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
         
-        request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Keranjang Belanja")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
+                let json = JSON(resp.result.value!)
                 self.currentCart = json
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
@@ -293,7 +295,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         self.bonusValue = bonus
                         self.bonusAvailable = true
                         let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
-                        if let price = json["_data"]["bonus_available"].int?.asPrice
+                        if (json["_data"]["bonus_available"].int?.asPrice != nil)
                         {
                             var totalOngkir = 0
                             if (self.products.count > 0) {
@@ -348,6 +350,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
                         self.cells[i2] = b2
                         
+                    } else {
+                        if let modalText = json["_data"]["modal_verify_text"].string {
+                            Constant.showDialog("Perhatian", message: modalText)
+                        }
                     }
                 }
                 
@@ -390,7 +396,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         var name = ""
         var phone = ""
         var postal = ""
-        var email = (CDUser.getOne()?.email)!
+        let email = (CDUser.getOne()?.email)!
         for i in cells.keys
         {
             let b = cells[i]
@@ -416,13 +422,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 postal = (b?.value)!
             }
             
-            println((b?.title)! + " : " + (b?.value)!)
+            print((b?.title)! + " : " + (b?.value)!)
         }
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonStringFrom(c)
         
-        var user = CDUser.getOne()
+        let user = CDUser.getOne()
         user?.profiles.address = address
         user?.profiles.postalCode = postal
         UIApplication.appDelegate.saveContext()
@@ -432,23 +438,24 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if (p == "[]" || p == "")
         {
-            Constant.showDialog("Warning", message: "Tidak ada produk")
+            Constant.showDialog("Warning", message: "Tidak ada barang")
             return
         }
         
         self.btnSend.enabled = false
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON { req, resp, res, err in
-            println(res)
+        // API Migrasi
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON {resp in
+//            print(res)
             self.btnSend.enabled = true
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Checkout")) {
-                var json = JSON(res!)
-                println(json)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
+                var json = JSON(resp.result.value!)
+                print(json)
                 if let error = json["_message"].string
                 {
                     Constant.showDialog("Warning", message: error)
                 } else {
-                    println(res)
-                    let json = JSON(res!)
+//                    print(res)
+                    let json = JSON(resp.result.value!)
                     self.checkoutResult = json["_data"]
                     
                     if (json["_data"]["_have_error"].intValue == 1)
@@ -570,7 +577,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                     
                     o.clearCart = true
-                    self.previousController?.navigationController?.pushViewController(o, animated: true)
+                    self.navigateToVC(o)
                     
                 }
             }
@@ -607,7 +614,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "cartTour")
             NSUserDefaults.standardUserDefaults().synchronize()
-            var segTourTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("performSegTour"), userInfo: nil, repeats: false)
+            _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(CartViewController.performSegTour), userInfo: nil, repeats: false)
         }
     }
     
@@ -677,7 +684,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         } else if (s == 1) {
             if (r == 2) {
-                cell = tableView.dequeueReusableCellWithIdentifier("cell_edit") as! UITableViewCell
+                cell = tableView.dequeueReusableCellWithIdentifier("cell_edit")!
             } else {
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             }
@@ -755,7 +762,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let json = arrayItem[indexPath.row]
                 if let error = json["_error"].string
                 {
-                    let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
+                    let options : NSStringDrawingOptions = [.UsesLineFragmentOrigin, .UsesFontLeading]
                     let h = (error as NSString).boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.width - 114, 0), options: options, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(14)], context: nil).height
                     return 77 + h
                 }
@@ -792,7 +799,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         l.font = UIFont.systemFontOfSize(16)
         
         if (section == 0) {
-            l.text = "RINGKASAN PRODUK"
+            l.text = "RINGKASAN BARANG"
         } else if (section == 1) {
             l.text = "DATA KAMU"
         } else {
@@ -830,7 +837,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (textField == txtVoucher) {
-            voucher = txtVoucher.text
+            voucher = txtVoucher.text == nil ? "" : txtVoucher.text!
             return false
         }
         
@@ -851,7 +858,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 if (cell == nil) {
                     s += 1
                     r = -1
-                    if (s == tableView.numberOfSections()) { // finish, last cell
+                    if (s == tableView.numberOfSections) { // finish, last cell
                         con = false
                     }
                 } else {
@@ -904,13 +911,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var shouldBack = false
     func itemNeedDelete(indexPath: NSIndexPath) {
         let j = arrayItem[indexPath.row]
-        println(j)
+        print(j)
         arrayItem.removeAtIndex(indexPath.row)
         
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let x = AppToolsObjC.jsonStringFrom(c)
         
-        println(x)
+        print(x)
         
         let pid = j["product_id"].stringValue
         
@@ -929,8 +936,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if let p = deletedProduct
         {
             products.removeAtIndex(index)
-            println(p.cpID)
-            UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+            print(p.cpID)
+            UIApplication.appDelegate.managedObjectContext.deleteObject(p)
             UIApplication.appDelegate.saveContext()
         }
         
@@ -943,7 +950,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //            self.navigationController?.popViewControllerAnimated(true)
         } //else {
             cells = [:]
-            for (i, c) in cellViews
+            for (_, c) in cellViews
             {
                 if let b = c as? BaseCartCell
                 {
@@ -974,7 +981,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         if let cp = cartProduct
         {
-            println(j)
+            print(j)
             var names : Array<String> = []
             var arr = j["shipping_packages"].array
             if let shippings = j["shipping_packages"].arrayObject
@@ -1014,7 +1021,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBAction func paymentReminderPressed(sender: AnyObject) {
         let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
-        self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+        self.navigateToVC(paymentConfirmationVC)
     }
     
     // MARK: - User Related Delegate
@@ -1035,6 +1042,14 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     // MARK: - Navigation
+    
+    func navigateToVC(vc: UIViewController) {
+        if (previousController != nil) {
+            self.previousController!.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -1305,7 +1320,7 @@ class CartCellItem : UITableViewCell
     
     func adapt (json : JSON)
     {
-        println(json)
+        print(json)
         captionName?.text = json["name"].stringValue
         captionLocation?.text = ""
         
@@ -1353,7 +1368,7 @@ class CartCellItem : UITableViewCell
             {
                 first = sh.first
             }
-            var ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
+            let ongkir = json["free_ongkir"].bool == true ? 0 : first?["price"].int
             
             if let name = first?["name"].string
             {
@@ -1361,7 +1376,7 @@ class CartCellItem : UITableViewCell
             }
             
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : " (+ONGKIR " + ongkir!.asPrice + ")"
-            var priceString = json["price"].int!.asPrice + ongkirString
+            let priceString = json["price"].int!.asPrice + ongkirString
             let string = priceString + "" + ""
             let attString = NSMutableAttributedString(string: string)
             attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorDark, NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: AppToolsObjC.rangeOf(priceString, inside: string))
@@ -1387,7 +1402,7 @@ class CartCellItem : UITableViewCell
     {
         if let d = cartItemCellDelegate
         {
-            var row = indexPath.row
+            _ = indexPath.row
             d.itemNeedDelete(indexPath)
         }
     }

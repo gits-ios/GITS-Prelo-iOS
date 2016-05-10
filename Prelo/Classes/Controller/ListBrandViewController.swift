@@ -40,11 +40,12 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
 //        {
 //                    }
         self.title = "Loading.."
-        request(APIApp.Metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APIApp.Metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
             self.title = "Merek"
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Merk"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Merk"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 let brands = json["_data"]["brands"].array
                 self.rawBrands = brands!
                 self.filter()
@@ -66,7 +67,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
                     return true
                 }
                 let s = name.lowercaseString as NSString
-                if (s.rangeOfString(self.searchBar.text.lowercaseString).location != NSNotFound)
+                if (s.rangeOfString((self.searchBar.text == nil ? "" : self.searchBar.text!).lowercaseString).location != NSNotFound)
                 {
                     return true
                 }
@@ -90,7 +91,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var c = tableView.dequeueReusableCellWithIdentifier("cell")
         if (c == nil)
         {
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")

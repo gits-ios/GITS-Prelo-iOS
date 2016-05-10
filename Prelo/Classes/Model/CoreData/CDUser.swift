@@ -21,7 +21,7 @@ class CDUser: NSManagedObject {
     
     static func pathTokenAvailable() -> Bool
     {
-        if let t = NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")
+        if NSUserDefaults.standardUserDefaults().stringForKey("pathtoken") != nil
         {
             return true
         }
@@ -31,7 +31,7 @@ class CDUser: NSManagedObject {
     
     static func twitterTokenAvailable() -> Bool
     {
-        if let t = NSUserDefaults.standardUserDefaults().stringForKey("twittertoken")
+        if NSUserDefaults.standardUserDefaults().stringForKey("twittertoken") != nil
         {
             return true
         }
@@ -42,12 +42,12 @@ class CDUser: NSManagedObject {
     static func getOne() -> CDUser?
     {
         let fetchReq = NSFetchRequest(entityName: "CDUser")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r?.count == 0) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            return r.count == 0 ? nil : r.first as? CDUser
+        } catch {
             return nil
-        } else {
-            return r?.first as? CDUser
         }
     }
 
@@ -56,21 +56,20 @@ class CDUser: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDUser")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m?.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m?.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() != false) {
+                    print("deleteAll CDUser success")
+                } else {
+                    print("deleteAll CDUser failed")
+                    return false
+                }
             }
-            
-            var error : NSError?
-            if (m?.save(&error) != nil) {
-                println("deleteAll CDUser success")
-            } else if let error = error {
-                println("deleteAll CDUser failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            println("deleteAll CDUser failed with fetch error : \(error)")
+        } catch {
             return false
         }
         return true

@@ -12,7 +12,7 @@ let pathHost = "https://partner.path.com/"
 
 class PathEndpoints: NSObject {
     class func ProcessParam(oldParam : [String : AnyObject]) -> [String : AnyObject] {
-        let newParam = oldParam
+        _ = oldParam
         return oldParam
     }
 }
@@ -54,7 +54,7 @@ enum APIPathAuth : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: pathHost)?.URLByAppendingPathComponent(APIPathAuth.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: nil)
         req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -94,11 +94,11 @@ enum APIPathUser : URLRequestConvertible {
         }
     }
     
-    var URLRequest : NSURLRequest {
+    var URLRequest : NSMutableURLRequest {
         let baseURL = NSURL(string: pathHost)?.URLByAppendingPathComponent(APIPathUser.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: token)
         req.HTTPMethod = method.rawValue
         let r = ParameterEncoding.URL.encode(req, parameters: PathEndpoints.ProcessParam(param!)).0
-        return req
+        return r
     }
 }

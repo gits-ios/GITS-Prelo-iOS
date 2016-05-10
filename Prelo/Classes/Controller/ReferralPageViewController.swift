@@ -49,7 +49,6 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     var saldo : Int = 0
     
-    let MAX_BONUS_TIMES : Float = 10
     let BONUS_AMOUNT : Int = 25000
     
     var shareImage : UIImage = UIImage(named:"raisa.jpg")!
@@ -72,9 +71,10 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         GAI.trackPageVisit(PageName.Referral)
         
         var isEmailVerified : Bool = false
-        request(APIUser.Me).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Referral Page - Get Profile")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.Me).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
                 // TODO: Apakah isEmailVerified di core data perlu diupdate? sepertinya tidak..
@@ -91,6 +91,8 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 } else {
                     self.getReferralData()
                 }
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
         
@@ -153,17 +155,18 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func getReferralData() {
-        request(APIUser.ReferralData).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIUser.ReferralData).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
-                self.saldo = data["bonus"].int!
+                self.saldo = data["bonus"].intValue
                 self.lblSaldo.text = "\(self.saldo.asPrice)"
-                self.lblKodeReferral.text = data["referral"]["my_referral_code"].string!
+                self.lblKodeReferral.text = data["referral"]["my_referral_code"].stringValue
                 
                 // Set progress bar
-                let progress : Float = data["referral"]["total_referred"].float! / self.MAX_BONUS_TIMES
+                let progress : Float = data["referral"]["total_referral_amount"].floatValue / data["referral"]["max_referral_amount"].floatValue
                 self.progressBonus.setProgress(progress, animated: true)
                 
                 // Jika sudah pernah memasukkan referral, sembunyikan field
@@ -183,7 +186,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -191,12 +194,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     // MARK: - MFMessage Delegate Functions
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - MFMail Delegate Functions
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -223,19 +226,21 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func registerPathToken(userData : JSON, token : String) {
-        let pathId = userData["id"].string!
         let pathName = userData["name"].string!
+        
+        self.mixpanelSharedReferral("Path", username: pathName)
+        
+        /*FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
+        let pathId = userData["id"].string!
+         
         let email = userData["email"].string!
         if (userData["photo"] != nil) {
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
-        
-        self.mixpanelSharedReferral("Path", username: pathName)
-        
-        /* FIXME: Sementara dijadiin komentar, login path harusnya dimatiin karna di edit profile udah ga ada
+        // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                let json = JSON(res!)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 // Save in core data
@@ -267,11 +272,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func postToPath(image : UIImage, token : String) {
-        let param = [
-            "caption": shareText
-        ]
-        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
-        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        let param = [
+//            "caption": shareText
+//        ]
+//        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil)
+//        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
         AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
@@ -286,7 +291,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
-        println("DidEndPreview")
+        print("DidEndPreview")
     }
     
     // MARK: - IBActions
@@ -309,15 +314,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                var getResult = result as SLComposeViewControllerResult
+                let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
-                    println("Cancelled")
+                    print("Cancelled")
                 case SLComposeViewControllerResult.Done.rawValue:
-                    println("Done")
+                    print("Done")
                     self.mixpanelSharedReferral("Facebook", username: "")
                 default:
-                    println("Error")
+                    print("Error")
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -335,15 +340,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             composer.addImage(shareImage)
             composer.setInitialText(shareText)
             composer.completionHandler = { result -> Void in
-                var getResult = result as SLComposeViewControllerResult
+                let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
                 case SLComposeViewControllerResult.Cancelled.rawValue:
-                    println("Cancelled")
+                    print("Cancelled")
                 case SLComposeViewControllerResult.Done.rawValue:
-                    println("Done")
+                    print("Done")
                     self.mixpanelSharedReferral("Twitter", username: "")
                 default:
-                    println("Error")
+                    print("Error")
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -366,7 +371,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     @IBAction func whatsappPressed(sender: AnyObject) {
         if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
-            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
+            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!)
             UIApplication.sharedApplication().openURL(url!)
             self.mixpanelSharedReferral("Whatsapp", username: "")
         } else {
@@ -417,14 +422,21 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     @IBAction func submitPressed(sender: AnyObject) {
-        if (self.fieldKodeReferral.text.isEmpty) {
+        guard self.fieldKodeReferral.text != nil else
+        {
+            Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
+            return
+        }
+        
+        if (self.fieldKodeReferral.text!.isEmpty) {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
             self.showLoading()
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
-            request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text, deviceId: deviceId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Submit Prelo Bonus")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Prelo Bonus")) {
+                    let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
                         Constant.showDialog("Success", message: "Kode referral berhasil ditambahkan")
@@ -438,7 +450,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         
                         // Mixpanel
                         let p = [
-                            "Referral Code Used" : self.fieldKodeReferral.text
+                            "Referral Code Used" : self.fieldKodeReferral.text!
                         ]
                         Mixpanel.sharedInstance().registerSuperProperties(p)
                         Mixpanel.sharedInstance().people.setOnce(p)
@@ -478,8 +490,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 a.title = "Prelo Bonus"
                 a.message = "Mengirim e-mail..."
                 a.show()
-                request(APIUser.ResendVerificationEmail).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Prelo Bonus")) {
+                // API Migrasi
+        request(APIUser.ResendVerificationEmail).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
                         a.dismissWithClickedButtonIndex(-1, animated: true)
                         Constant.showDialog("Prelo Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }

@@ -31,7 +31,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
 
         // Do any additional setup after loading the view.
         webView = UIWebView(frame: self.view.bounds)
-        webView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        webView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(webView)
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[w]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["w":webView]))
@@ -40,7 +40,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         webView.delegate = self
         webView.loadRequest(NSURLRequest(URL: NSURL(string: "https://api.instagram.com/oauth/authorize/?client_id="+clientID+"&redirect_uri="+"http://"+urlCallback+"&response_type=code")!))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(InstagramLoginViewController.batal))
     }
     
     func batal()
@@ -70,12 +70,14 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         
         if let s = request.URL?.host
         {
-            var ns = s as NSString
+            let ns = s as NSString
             if (ns.rangeOfString("prelo").location != NSNotFound)
             {
-                ns = (request.URL?.absoluteString)!
-                ns = ns.componentsSeparatedByString("=").last as! String
-                getToken(ns as String)
+                let string = request.URL?.absoluteString
+                let token = string?.componentsSeparatedByString("=").last
+//                ns = (request.URL?.absoluteString)!
+//                ns = ns.componentsSeparatedByString("=").last!
+                getToken(token == nil ? "" : token!)
                 return false
             }
         }
@@ -85,10 +87,10 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     
     func getToken(code : String)
     {
-        request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Login Instagram"))
+        request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let token = json["access_token"].string
                 {
                     self.instagramLoginDelegate?.instagramLoginSuccess(token)

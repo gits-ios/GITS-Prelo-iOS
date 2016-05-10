@@ -19,7 +19,7 @@ class MessagePool: NSObject
     
     func registerDelegate(threadId : String, d : MessagePoolDelegate)
     {
-        if let d = delegates[threadId]
+        if (delegates[threadId]) != nil
         {
             
         } else
@@ -37,64 +37,60 @@ class MessagePool: NSObject
     var started = false
     func start()
     {
-        if let id = CDUser.getOne()?.id
+        if (CDUser.getOne()?.id != nil)
         {
-            socket = SocketIOClient(socketURL: AppTools.PreloBaseUrl)
+            socket = SocketIOClient(socketURL: NSURL(string: AppTools.PreloBaseUrl)!)
             
             socket.on("connect", callback:{ data, ack in
-                println("Socket connected, registering..")
+                print("Socket connected, registering..")
                 self.register()
             })
             
             socket.on("disconnect", callback:{ data, ack in
-                println("Socket disconnected, reconnecting..")
+                print("Socket disconnected, reconnecting..")
                 self.socket.reconnect()
             })
             
             socket.on("error", callback:{ data, ack in
-                println(data)
-                println(ack)
+                print(data)
+                print(ack)
             })
             
             socket.on("reconnect", callback:{ data, ack in
-                println("Socket reconnected")
+                print("Socket reconnected")
             })
             
             socket.on("message", callback:{ data, ack in
-                println(data)
+                print(data)
                 
-                if let arr = data
+                for d in data
                 {
-                    for d in arr
+                    let inboxId : String = d["inbox_id"] as! String
+                    if let delegate = self.delegates[inboxId]
                     {
-                        let inboxId : String = d["inbox_id"] as! String
-                        if let delegate = self.delegates[inboxId]
-                        {
-                            let i = InboxMessage()
-                            i.senderId = d["sender_id"] as! String
-                            let o : NSNumber = d["message_type"] as! NSNumber
-                            i.messageType = o.integerValue
-                            i.message = d["message"] as! String
-                            i.isMe = i.senderId == CDUser.getOne()?.id
-                            i.time = ""
-                            i.id = ""
-                            delegate.messageArrived(i)
-                        }
+                        let i = InboxMessage()
+                        i.senderId = d["sender_id"] as! String
+                        let o : NSNumber = d["message_type"] as! NSNumber
+                        i.messageType = o.integerValue
+                        i.message = d["message"] as! String
+                        i.isMe = i.senderId == CDUser.getOne()?.id
+                        i.time = ""
+                        i.id = ""
+                        delegate.messageArrived(i)
                     }
                 }
-                
             })
             
             socket.on("clients", callback:{ data, ack in
-                println(data)
+                print(data)
             })
             
             let del = UIApplication.sharedApplication().delegate as! AppDelegate
             let notifListener = del.preloNotifListener
             socket.on("notification", callback: { data, ack in
                 if (!notifListener.willReconnect) {
-                    println("Get notification from messagepool")
-                    notifListener.handleNotification(JSON(data!)[0])
+                    print("Get notification from messagepool")
+                    notifListener.handleNotification(JSON(data)[0])
                 }
             })
             if (notifListener.willReconnect) {
@@ -102,7 +98,7 @@ class MessagePool: NSObject
             }
             
             // FOR TESTING
-            self.socket.onAny {println("Got socket event: \($0.event), with items: \($0.items)")}
+            self.socket.onAny {print("Got socket event: \($0.event), with items: \($0.items)")}
             
             socket.connect()
         }
@@ -116,7 +112,7 @@ class MessagePool: NSObject
             socket.emit("register", id)
         } else
         {
-            println("REGISTER SOCKET.IO FAILED BECAUSE USER IS NONE")
+            print("REGISTER SOCKET.IO FAILED BECAUSE USER IS NONE")
         }
     }
     

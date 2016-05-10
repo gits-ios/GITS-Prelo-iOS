@@ -33,7 +33,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PathLoginViewController.batal))
         
         let url = NSURL(string: "https://partner.path.com/oauth2/authenticate?response_type=code&client_id=\(pathClientId)")
         let requestObj = NSURLRequest(URL: url!)
@@ -71,9 +71,9 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
         loading.stopAnimating()
         
         let currentURL = webView.request?.URL
-        println("currentURL = \(currentURL)")
+        print("currentURL = \(currentURL)")
         
-        if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
+        if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathDeclineUrlString) != nil) { // User canceled path login
             self.delegate?.hideLoading()
             // Back to prev scene
             if (self.standAlone)
@@ -83,25 +83,27 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             {
                 self.navigationController?.popViewControllerAnimated(true)
             }
-        } else if (currentURL?.absoluteString?.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
+        } else if (currentURL?.absoluteString.lowercaseString.rangeOfString(pathLoginSuccessUrlString) != nil) { // User successfully login
             let codeParam : String = (currentURL?.query)!
-            let code : String = codeParam.substringWithRange(Range(start: advance(codeParam.startIndex, 5), end: codeParam.endIndex))
-            //println("code = \(code)")
+            let code : String = codeParam.substringWithRange(codeParam.startIndex.advancedBy(5) ..< codeParam.endIndex)
+            //print("code = \(code)")
             
             // Get token
-            request(APIPathAuth.GetToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                    let json = JSON(res!)
-                    println("json = \(json)")
+            // API Migrasi
+        request(APIPathAuth.GetToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                    let json = JSON(resp.result.value!)
+                    print("json = \(json)")
                     if (json["code"].int == 200) { // OK
-                        let pathId : String = json["user_id"].string!
+                        _ = json["user_id"].string!
                         let pathToken : String = json["access_token"].string!
                         
                         // Get user Path data
-                        request(APIPathUser.GetSelfData(token: pathToken)).responseJSON { req, resp, res, err in
-                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                                let json = JSON(res!)
-                                println("json = \(json)")
+                        // API Migrasi
+        request(APIPathUser.GetSelfData(token: pathToken)).responseJSON {resp in
+                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                                let json = JSON(resp.result.value!)
+                                print("json = \(json)")
                                 if (json["code"].int == 200) { // OK
                                     self.delegate?.pathLoginSuccess(json["user"], token: pathToken)
                                 } else { // Not OK

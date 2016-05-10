@@ -1,6 +1,6 @@
 //
 //  SocketEngineClient.swift
-//  Socket.IO-Swift
+//  Socket.IO-Client-Swift
 //
 //  Created by Erik Little on 3/19/15.
 //
@@ -25,13 +25,10 @@
 
 import Foundation
 
-@objc public protocol SocketEngineClient {
-    var handleQueue:dispatch_queue_attr_t! {get}
-    var socketURL:String {get}
-    var secure:Bool {get}
-    
-    func didError(reason:AnyObject)
-    func engineDidClose(reason:String)
-    func parseSocketMessage(msg:String)
-    func parseBinaryData(data:NSData)
+@objc public protocol SocketEngineClient {    
+    func engineDidError(reason: String)
+    func engineDidClose(reason: String)
+    optional func engineDidOpen(reason: String)
+    func parseEngineMessage(msg: String)
+    func parseEngineBinaryData(data: NSData)
 }

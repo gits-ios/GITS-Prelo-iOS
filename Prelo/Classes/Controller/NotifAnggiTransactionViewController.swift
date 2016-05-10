@@ -44,7 +44,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
+        let notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
         tableView.registerNib(notifTransactionCellNib, forCellReuseIdentifier: "NotifAnggiTransactionCell")
         
         // Hide and show
@@ -55,7 +55,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refreshPage", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Transparent panel
@@ -75,14 +75,15 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func getNotif() {
-        request(APINotifAnggi.GetNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APINotifAnggi.GetNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let n = Notification.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)
@@ -95,7 +96,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 }
                 
                 // Set next page
-                self.currentPage++
+                self.currentPage += 1
             }
             
             // Hide loading (for first time request)
@@ -123,7 +124,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
+        let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
         cell.selectionStyle = .None
         let n = notifications?[indexPath.item]
         cell.adapt(n!, idx: indexPath.item)
@@ -227,9 +228,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.showLoading()
         if let n = notifications?[idx] {
             if (!n.read) {
-                request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APINotifAnggi.ReadNotif(tab: "transaction", id: n.objectId)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                        let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
                             self.notifications?[idx].setRead()
@@ -254,6 +256,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func navigateReadNotif(notif : Notification) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+        
         // Set trxId/trxProductId
         if (notif.progress == TransactionDetailTools.ProgressExpired || notif.progress == TransactionDetailTools.ProgressNotPaid || notif.progress == TransactionDetailTools.ProgressClaimedPaid) {
             transactionDetailVC.trxId = notif.objectId
@@ -266,6 +269,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         } else {
             transactionDetailVC.trxProductId = notif.objectId
         }
+        
         // Set isSeller
         if (notif.caption.lowercaseString == "jual") {
             transactionDetailVC.isSeller = true
@@ -275,9 +279,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         
         // Check if user is seller or buyer
-        /*request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Transaksi")) {
-                let json = JSON(res!)
+        /*// API Migrasi
+        request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let tpDetail = TransactionProductDetail.instance(data)
                 if let sellerId = tpDetail?.sellerId {
@@ -293,7 +298,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                         self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
                     }
                 } else {
-                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data produk")
+                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data barang")
                 }
             } else {
                 self.hideLoading()
@@ -379,14 +384,14 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set trx status text width
         let sizeThatShouldFitTheContent = lblTrxStatus.sizeThatFits(lblTrxStatus.frame.size)
-        //println("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
+        //print("size untuk '\(lblTrxStatus.text)' = \(sizeThatShouldFitTheContent)")
         consWidthLblTrxStatus.constant = sizeThatShouldFitTheContent.width
         
         // Set collection view
         collcTrxProgress.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "collcTrxProgressCell")
         collcTrxProgress.delegate = self
         collcTrxProgress.dataSource = self
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTap")
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NotifAnggiTransactionCell.handleTap))
         tapGestureRecognizer.delegate = self
         collcTrxProgress.backgroundView = UIView(frame: collcTrxProgress.bounds)
         collcTrxProgress.backgroundView!.addGestureRecognizer(tapGestureRecognizer)
@@ -408,14 +413,16 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let progress = self.notif?.progress {
-            if (progress > 0) {
-                return 6
+            if (TransactionDetailTools.isReservationProgress(progress)) { // Reservation
+                return 2
             } else if (progress == -1) { // Expired
                 return 1
             } else if (progress == -3) { // Rejected by seller
                 return 4
             } else if (progress == -4) { // Not sent
                 return 4
+            } else { // Default
+                return 6
             }
         }
         return 0
@@ -423,7 +430,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         // Create cell
-        let cell = collcTrxProgress.dequeueReusableCellWithReuseIdentifier("collcTrxProgressCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collcTrxProgress.dequeueReusableCellWithReuseIdentifier("collcTrxProgressCell", forIndexPath: indexPath) 
         
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRectMake(0, 0, 25, 25))
@@ -431,55 +438,90 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Set background color
         let idx = indexPath.row + 1
-        if (self.notif?.progress < 0) {
-            let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
-            if (nItem < 6) {
-                if (idx < nItem) {
+        if (TransactionDetailTools.isReservationProgress(self.notif?.progress)) {
+            if (idx == 1) {
+                if (self.notif?.caption.lowercaseString == "jual") {
+                    vwIcon.backgroundColor = Theme.ThemeOrange
+                } else if (self.notif?.caption.lowercaseString == "beli") {
+                    vwIcon.backgroundColor = Theme.PrimaryColor
+                }
+            } else {
+                let progress = self.notif!.progress
+                if (progress == 7) {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                } else if (progress == 8) {
                     if (self.notif?.caption.lowercaseString == "jual") {
                         vwIcon.backgroundColor = Theme.ThemeOrange
                     } else if (self.notif?.caption.lowercaseString == "beli") {
                         vwIcon.backgroundColor = Theme.PrimaryColor
                     }
-                } else {
+                } else if (progress == -2) {
                     vwIcon.backgroundColor = Theme.ThemeRed
                 }
             }
-        } else if (self.notif?.caption.lowercaseString == "jual") {
-            if (idx <= self.notif?.progress) {
-                vwIcon.backgroundColor = Theme.ThemeOrange
-            } else {
-                vwIcon.backgroundColor = Theme.GrayLight
-            }
-        } else if (self.notif?.caption.lowercaseString == "beli") {
-            if (idx <= self.notif?.progress) {
-                vwIcon.backgroundColor = Theme.PrimaryColor
-            } else {
-                vwIcon.backgroundColor = Theme.GrayLight
+        } else {
+            if (self.notif?.progress < 0) {
+                let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
+                if (nItem < 6) {
+                    if (idx < nItem) {
+                        if (self.notif?.caption.lowercaseString == "jual") {
+                            vwIcon.backgroundColor = Theme.ThemeOrange
+                        } else if (self.notif?.caption.lowercaseString == "beli") {
+                            vwIcon.backgroundColor = Theme.PrimaryColor
+                        }
+                    } else {
+                        vwIcon.backgroundColor = Theme.ThemeRed
+                    }
+                }
+            } else if (self.notif?.caption.lowercaseString == "jual") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.ThemeOrange
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
+            } else if (self.notif?.caption.lowercaseString == "beli") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.PrimaryColor
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
             }
         }
         
         // Create icon image
         var imgName : String?
         if let progress = self.notif?.progress {
-            if (progress == -1 && idx == 1) { // Expired
-                imgName = "ic_trx_expired"
-            } else if (progress == -3 && idx == 4) { // Rejected by seller
-                imgName = "ic_trx_exclamation"
-            } else if (progress == -4 && idx == 4) { // Not sent
-                imgName = "ic_trx_canceled"
+            if (TransactionDetailTools.isReservationProgress(progress)) {
+                if (idx == 1) { // Reserved
+                    imgName = "ic_trx_reserved"
+                } else {
+                    if (progress == 7 || progress == 8) { // Done
+                        imgName = "ic_trx_reservation_done"
+                    } else if (progress == -2) { // Reservation cancelled
+                        imgName = "ic_trx_reservation_cancelled"
+                    }
+                }
             } else {
-                if (idx == 1) { // Not paid
+                if (progress == -1 && idx == 1) { // Expired
                     imgName = "ic_trx_expired"
-                } else if (idx == 2) { // Claimed paid
-                    imgName = "ic_trx_wait"
-                } else if (idx == 3) { // Confirmed paid
-                    imgName = "ic_trx_paid"
-                } else if (idx == 4) { // Sent
-                    imgName = "ic_trx_shipped"
-                } else if (idx == 5) { // Received
-                    imgName = "ic_trx_received"
-                } else if (idx == 6) { // Reviewed
-                    imgName = "ic_trx_done"
+                } else if (progress == -3 && idx == 4) { // Rejected by seller
+                    imgName = "ic_trx_exclamation"
+                } else if (progress == -4 && idx == 4) { // Not sent
+                    imgName = "ic_trx_canceled"
+                } else {
+                    if (idx == 1) { // Not paid
+                        imgName = "ic_trx_expired"
+                    } else if (idx == 2) { // Claimed paid
+                        imgName = "ic_trx_wait"
+                    } else if (idx == 3) { // Confirmed paid
+                        imgName = "ic_trx_paid"
+                    } else if (idx == 4) { // Sent
+                        imgName = "ic_trx_shipped"
+                    } else if (idx == 5) { // Received
+                        imgName = "ic_trx_received"
+                    } else if (idx == 6) { // Reviewed
+                        imgName = "ic_trx_done"
+                    }
                 }
             }
         }

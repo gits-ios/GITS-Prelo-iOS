@@ -37,7 +37,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="1136"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUs-Fp-7Uj" userLabel="Group Upload Foto">
-                                        <rect key="frame" x="8" y="27" width="584" height="64"/>
+                                        <rect key="frame" x="8" y="27" width="584" height="82"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qfi-Ym-Y7o">
                                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
@@ -57,11 +57,49 @@
                                                     <constraint firstAttribute="bottom" secondItem="I4l-cm-c43" secondAttribute="bottom" id="j2E-lb-UMM"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
-                                                <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foto akan diupload saat button Simpan Data ditekan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0W-Im-eAT">
+                                                <rect key="frame" x="72" y="47" width="512" height="14"/>
+                                                <animations/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tP-yT-Ky7">
+                                                <rect key="frame" x="72" y="0.0" width="512" height="23"/>
                                                 <animations/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="gWc-ue-Yhe"/>
+                                                    <constraint firstAttribute="height" constant="23" id="yDn-IL-1PJ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efF-Rg-uHP">
+                                                <rect key="frame" x="72" y="22" width="512" height="23"/>
+                                                <animations/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="23" id="UO7-tE-Nva"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ubah" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxh-cA-Sil">
+                                                <rect key="frame" x="0.0" y="65" width="64" height="17"/>
+                                                <animations/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="64" id="10D-pn-zeJ"/>
+                                                    <constraint firstAttribute="height" constant="17" id="vtC-5A-OXg"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                <color key="textColor" red="1" green="0.6588235294117647" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzG-eu-RHF">
+                                                <rect key="frame" x="0.0" y="0.0" width="64" height="83"/>
+                                                <animations/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="83" id="gWc-ue-Yhe"/>
                                                     <constraint firstAttribute="width" constant="64" id="sfn-l9-MHF"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="34"/>
@@ -69,43 +107,29 @@
                                                     <color key="titleColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr2-q0-Q8A">
-                                                <rect key="frame" x="72" y="0.0" width="512" height="40"/>
-                                                <animations/>
-                                                <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="Tpn-gs-Ohz"/>
-                                                </constraints>
-                                                <state key="normal" title="PILIH FOTO">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
                                                 <connections>
-                                                    <action selector="pilihFotoPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="56I-Ok-Ggp"/>
+                                                    <action selector="pilihFotoPressed:" destination="jRc-KW-xfl" eventType="touchUpInside" id="LDP-sy-H82"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foto akan diupload saat button Simpan Data ditekan" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0W-Im-eAT">
-                                                <rect key="frame" x="72" y="47" width="512" height="15"/>
-                                                <animations/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                         <animations/>
                                         <constraints>
-                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="3Pn-CZ-Mr1"/>
+                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="top" secondItem="efF-Rg-uHP" secondAttribute="bottom" constant="2" id="2d8-RE-Js4"/>
                                             <constraint firstItem="n0W-Im-eAT" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="4kh-45-v4M"/>
+                                            <constraint firstItem="efF-Rg-uHP" firstAttribute="top" secondItem="8tP-yT-Ky7" secondAttribute="bottom" constant="-1" id="8iv-ow-1BJ"/>
                                             <constraint firstItem="Qfi-Ym-Y7o" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="K73-M5-khM"/>
                                             <constraint firstItem="wzG-eu-RHF" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="Kmv-bn-IfJ"/>
-                                            <constraint firstAttribute="height" constant="64" id="PhR-D8-oWN"/>
+                                            <constraint firstAttribute="height" constant="82" id="PhR-D8-oWN"/>
                                             <constraint firstItem="Qfi-Ym-Y7o" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="QgN-47-UD0"/>
-                                            <constraint firstItem="n0W-Im-eAT" firstAttribute="top" secondItem="fr2-q0-Q8A" secondAttribute="bottom" constant="7" id="V8a-Z9-vMu"/>
-                                            <constraint firstAttribute="trailing" secondItem="fr2-q0-Q8A" secondAttribute="trailing" id="WuS-Px-sm3"/>
                                             <constraint firstItem="wzG-eu-RHF" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="XrD-QC-DXs"/>
-                                            <constraint firstItem="fr2-q0-Q8A" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="ghb-AP-SLf"/>
+                                            <constraint firstItem="efF-Rg-uHP" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="Ygd-ku-Mr9"/>
+                                            <constraint firstAttribute="trailing" secondItem="8tP-yT-Ky7" secondAttribute="trailing" id="dAu-PF-PsG"/>
+                                            <constraint firstItem="8tP-yT-Ky7" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="top" id="dwz-sR-TF8"/>
+                                            <constraint firstItem="8tP-yT-Ky7" firstAttribute="leading" secondItem="wzG-eu-RHF" secondAttribute="trailing" constant="8" id="kTt-nF-cJc"/>
+                                            <constraint firstItem="Hxh-cA-Sil" firstAttribute="top" secondItem="Qfi-Ym-Y7o" secondAttribute="bottom" constant="1" id="nAO-UV-gOp"/>
+                                            <constraint firstAttribute="trailing" secondItem="efF-Rg-uHP" secondAttribute="trailing" id="oir-iq-88D"/>
                                             <constraint firstAttribute="trailing" secondItem="n0W-Im-eAT" secondAttribute="trailing" id="rLb-Bd-bDf"/>
+                                            <constraint firstItem="Hxh-cA-Sil" firstAttribute="leading" secondItem="bUs-Fp-7Uj" secondAttribute="leading" id="zvI-o7-6qG"/>
                                         </constraints>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PLV-3Q-3qI" userLabel="Group Prelo Sync">
@@ -1126,7 +1150,7 @@
                                 <constraints>
                                     <constraint firstItem="bUs-Fp-7Uj" firstAttribute="leading" secondItem="Z3w-xQ-Il0" secondAttribute="leading" constant="8" id="5xN-w1-LMh"/>
                                     <constraint firstItem="2rL-4Y-FGg" firstAttribute="top" secondItem="EqZ-oH-xhg" secondAttribute="bottom" constant="39" id="6k4-Yw-apo"/>
-                                    <constraint firstItem="PLV-3Q-3qI" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="bottom" constant="40" id="DJg-uE-h3j"/>
+                                    <constraint firstItem="PLV-3Q-3qI" firstAttribute="top" secondItem="bUs-Fp-7Uj" secondAttribute="bottom" constant="22" id="DJg-uE-h3j"/>
                                     <constraint firstItem="2rL-4Y-FGg" firstAttribute="leading" secondItem="Z3w-xQ-Il0" secondAttribute="leading" constant="8" id="Eky-9c-leO"/>
                                     <constraint firstItem="BWe-gK-ODw" firstAttribute="leading" secondItem="Z3w-xQ-Il0" secondAttribute="leading" constant="8" id="I26-xw-M1C"/>
                                     <constraint firstAttribute="trailing" secondItem="EqZ-oH-xhg" secondAttribute="trailing" constant="8" id="J2T-tF-gtd"/>
@@ -1217,6 +1241,7 @@
                 <outlet property="fieldTentangShop" destination="i41-sy-Cne" id="96a-vt-M52"/>
                 <outlet property="fieldTentangShopHeightConstraint" destination="bqH-g6-Ck7" id="Ha6-3p-qme"/>
                 <outlet property="imgUser" destination="I4l-cm-c43" id="Q9B-0x-4Iz"/>
+                <outlet property="lblEmail" destination="efF-Rg-uHP" id="450-d8-7XB"/>
                 <outlet property="lblJenisKelamin" destination="zZr-F2-JEd" id="Tez-UT-L2Y"/>
                 <outlet property="lblJneCheckbox" destination="y8J-me-V4n" id="xLd-yR-jeG"/>
                 <outlet property="lblKabKota" destination="uaT-ie-m9g" id="vzp-CY-5Yk"/>
@@ -1227,6 +1252,7 @@
                 <outlet property="lblNoHP" destination="ozF-RZ-e41" id="1R7-3L-Ef1"/>
                 <outlet property="lblProvinsi" destination="dDR-fx-KgW" id="iKu-Rb-fXd"/>
                 <outlet property="lblTikiCheckbox" destination="M3M-wy-drc" id="qfu-DG-gHO"/>
+                <outlet property="lblUsername" destination="8tP-yT-Ky7" id="Bt4-nU-1ff"/>
                 <outlet property="loading" destination="y0H-x9-vBk" id="keF-cx-7fx"/>
                 <outlet property="loadingPanel" destination="h7V-UM-C6Z" id="ghv-ga-wjJ"/>
                 <outlet property="scrollView" destination="TdC-7n-nuM" id="g4H-gZ-pnh"/>

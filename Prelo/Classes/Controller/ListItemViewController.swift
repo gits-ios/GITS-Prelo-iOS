@@ -33,6 +33,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var storeName = ""
     var storePictPath = ""
     
+    var bannerImageUrl = ""
+    var bannerTargetUrl = ""
+    
     var listStage = 2 // 1 = gallery / very small, 2 = normal, 3 = instagram like
     
     var refresher : UIRefreshControl?
@@ -64,21 +67,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.title = storeName
         }
         
-        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{ req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Insert Top Search")) {
+        // API Migrasi
+        request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                 
             }
         }
         
         refresher = UIRefreshControl()
-        refresher!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarTapped", name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
 //        gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
         
@@ -92,9 +96,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        println("viewWillDisappear x")
+        print("viewWillDisappear x")
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (storeMode) {
+            // Remove redirect alert if any
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            if let redirAlert = appDelegate.redirAlert {
+                redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+            }
+        }
     }
     
     func refresh()
@@ -119,13 +135,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.done = false
             self.requesting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Daftar Produk")) {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                 self.products = []
-                var obj = JSON(res!)
-                for (index : String, item : JSON) in obj["_data"]
+                var obj = JSON(resp.result.value!)
+                for (_, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -192,14 +209,15 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (standalone) {
             catId = standaloneCategoryID
         } else {
-            println(category)
+            print(category)
             catId = category!["_id"].string
         }
         
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Product By Category")) {
-                self.setupData(res)
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
+                self.setupData(resp.result.value)
             }
             self.setupGrid()
         }
@@ -209,11 +227,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     {
         requesting = true
         
-        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Search Product"))
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product"))
             {
-                self.setupData(res)
+                self.setupData(resp.result.value)
             } else {
                 
             }
@@ -225,12 +244,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func getStoreProduct()
     {
         self.requesting = true
-        request(APIPeople.GetShopPage(id: storeId)).responseJSON { req, resp, res, err in
+        // API Migrasi
+        request(APIPeople.GetShopPage(id: storeId)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Data Shop Pengguna"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna"))
             {
-                println(res)
-                self.setupData(res)
+//                print(res)
+                self.setupData(resp.result.value)
                 
                 if (self.storeHeader == nil)
                 {
@@ -238,8 +258,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     self.gridView.addSubview(self.storeHeader!)
                 }
                 
-                let json = JSON(res!)["_data"]
-                println(json)
+                let json = JSON(resp.result.value!)["_data"]
+                print(json)
                 
                 self.storeName = json["username"].stringValue
                 self.storeHeader?.captionName.text = self.storeName
@@ -252,7 +272,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 // Love
                 let reviewScore = json["average_star"].floatValue
                 var loveText = ""
-                for (var i = 0; i < 5; i++) {
+                for i in 0 ..< 5 {
                     if (Float(i) <= reviewScore - 0.5) {
                         loveText += ""
                     } else {
@@ -260,7 +280,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
                 let attrStringLove = NSMutableAttributedString(string: loveText)
-                attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+                attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
                 self.storeHeader?.captionLove.attributedText = attrStringLove
                 
                 // Reviewer count
@@ -272,18 +292,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 if let desc = json["profile"]["description"].string
                 {
                     self.storeHeader?.completeDesc = desc
-                    let oneLineHeight = Int("lol".boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
-                    let descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
-                    if (descHeight > oneLineHeight) { // Lebih dari 1 baris, buat menjadi collapse text
-                        // Ambil 27 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
-                        let descToWrite = desc.substringToIndex(26) + "... Selengkapnya"
+                    let descLengthCollapse = 160
+                    var descHeight : Int = 0
+                    //let oneLineHeight = Int("lol".boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                    if (desc.length > descLengthCollapse) { // Jika lebih dari 160 karakter, buat menjadi collapse text
+                        // Ambil 160 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
+                        let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
                         let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)])
-                        descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: 30, length: 12))
+                        descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
                         self.storeHeader?.captionDesc.attributedText = descMutableString
+                        descHeight = Int(descMutableString.string.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
                     } else {
                         self.storeHeader?.captionDesc.text = desc
+                        descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
                     }
-                    height = 280 + oneLineHeight
+                    height = 280 + descHeight
                 } else {
                     self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()
@@ -319,7 +342,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 if let count = self.products?.count
                 {
-                    self.storeHeader?.captionTotal.text = String(count) + " PRODUK"
+                    self.storeHeader?.captionTotal.text = String(count) + " BARANG"
                 }
                 
                 self.storeHeader?.captionLocation.text = "Unknown"
@@ -364,9 +387,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func setupData(res : AnyObject?)
     {
-        println(res)
+        guard res != nil else
+        {
+            return
+        }
+        print(res)
         var obj = JSON(res!)
-        println(obj)
+        print(obj)
         if let arr = obj["_data"].array
         {
             if arr.count == 0
@@ -375,7 +402,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.loading?.hidden = true
             } else
             {
-                for (index : String, item : JSON) in obj["_data"]
+                for (_, item) in obj["_data"]
                 {
                     let p = Product.instance(item)
                     if (p != nil) {
@@ -451,7 +478,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             getProducts()
         }
         
-        var cell:ListItemCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListItemCell
+        let cell:ListItemCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListItemCell
         
         let p = products?[indexPath.item]
         cell.adapt(p!)
@@ -473,7 +500,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         let s : CGFloat = (listStage == 1 ? 1 : 4)
-        return UIEdgeInsetsMake(20, s, 20, s)
+        if (isBannerExist()) {
+            return UIEdgeInsetsMake(4, s, 4, s)
+        } else {
+            return UIEdgeInsetsMake(20, s, 4, s)
+        }
+        
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
@@ -484,6 +516,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionElementKindSectionHeader) {
+            let h = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! ListHeader
+            if let bannerImgUrl = NSURL(string: self.bannerImageUrl) {
+                h.banner.setImageWithUrl(bannerImgUrl, placeHolderImage: nil)
+            }
+            h.targetUrl = self.bannerTargetUrl
+            return h
+        }
         let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
         self.loading = f.loading
         if (self.done)
@@ -493,6 +533,25 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         return f
     }
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if (isBannerExist()) {
+            let headerWidth : CGFloat = collectionView.frame.size.width - 8
+            var headerHeight : CGFloat = 0
+            if let bannerImageUrl = NSURL(string: self.bannerImageUrl) {
+                if let imgData = NSData.init(contentsOfURL: bannerImageUrl) {
+                    if let img = UIImage.init(data: imgData) {
+                        headerHeight = ((headerWidth / img.size.width) * img.size.height) + 14
+                    }
+                }
+            }
+            return CGSizeMake(headerWidth, headerHeight)
+        }
+        return CGSizeZero
+    }
+    
+    func isBannerExist() -> Bool {
+        return (self.bannerImageUrl != "")
+    }
     
     // MARK: - Navigation
 
@@ -556,7 +615,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func pinch(pinchedIn : Bool)
     {
-        println("current stage : \(listStage)")
+        print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3)
         {
@@ -567,7 +626,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             listStage = 3
         }
         
-        println("next stage : \(listStage)")
+        print("next stage : \(listStage)")
         
         setupGrid()
         
@@ -594,6 +653,7 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var captionSpecialStory : UILabel!
     @IBOutlet var sectionSpecialStory : UIView!
     @IBOutlet var imgSold: UIImageView!
+    @IBOutlet var imgReserved: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -604,6 +664,7 @@ class ListItemCell : UICollectionViewCell
     
     override func prepareForReuse() {
         imgSold.hidden = true
+        imgReserved.hidden = true
     }
     
     func adapt(product : Product)
@@ -645,7 +706,7 @@ class ListItemCell : UICollectionViewCell
             captionMyLove.text = ""
         }
         
-        let firstImg = obj["display_picts"][0].string
+        _ = obj["display_picts"][0].string
         ivCover.image = nil
         ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
         
@@ -659,9 +720,25 @@ class ListItemCell : UICollectionViewCell
         }
         
         if let status = product.status {
-            if (status == 4) { // sold
-                imgSold.hidden = false
+            if (status == 4 || status == 8) { // sold
+                self.imgSold.hidden = false
+            } else if (status == 7) { // reserved
+                self.imgReserved.hidden = false
             }
+        }
+    }
+}
+
+class ListHeader : UICollectionReusableView
+{
+    @IBOutlet var banner : UIImageView!
+    @IBOutlet var btnBanner : UIButton!
+    
+    var targetUrl : String = ""
+    
+    @IBAction func btnBannerPressed(sender: AnyObject) {
+        if let url = NSURL(string: targetUrl) {
+            UIApplication.sharedApplication().openURL(url)
         }
     }
 }

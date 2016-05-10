@@ -19,13 +19,16 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     
     var parent : BaseViewController?
     
+    var isUseCategoriesOffline = false
+    var categoriesOffline : [[String : String]] = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Register custom cell
-        var categoryPrefCellNib = UINib(nibName: "CategoryPreferencesCell", bundle: nil)
+        let categoryPrefCellNib = UINib(nibName: "CategoryPreferencesCell", bundle: nil)
         collcCategory.registerNib(categoryPrefCellNib, forCellWithReuseIdentifier: "CategoryPreferencesCell")
         
         // Sembunyikan tombol back
@@ -48,6 +51,11 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
         
         // Get categories
         categories = CDCategory.getCategoriesInLevel(1)
+        
+        // Jaga2 kalo ternyata gagal dapet kategori
+        if (categories.count < 4) {
+            self.retrieveOfflineCategories()
+        }
         
         // Setup table
         self.setupCollection()
@@ -91,33 +99,100 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     // MARK: - UICollectionViewDataSource Functions
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
+        if (isUseCategoriesOffline) {
+            return categoriesOffline.count
+        } else {
+            return categories.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
-        cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
+        let cell : CategoryPreferencesCell = self.collcCategory.dequeueReusableCellWithReuseIdentifier("CategoryPreferencesCell", forIndexPath: indexPath) as! CategoryPreferencesCell
+        if (isUseCategoriesOffline) {
+            cell.adapt2(categoriesOffline[indexPath.item], selectedIds: self.selectedIds)
+        } else {
+            cell.adapt(categories[indexPath.item], selectedIds: self.selectedIds)
+        }
         return cell
     }
     
     // MARK: - UICollectionViewDelegate Functions
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
-        let priority : Int? = find(self.selectedIds, categories[indexPath.item].id)
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! CategoryPreferencesCell
+        var priority : Int?
+        if (isUseCategoriesOffline) {
+			priority = self.selectedIds.indexOf(categoriesOffline[indexPath.item]["id"]!)
+        } else {
+			priority = self.selectedIds.indexOf(categories[indexPath.item].id)
+        }
         if (priority != nil) { // Sedang terpilih
             selectedIds.removeAtIndex(priority!)
-            println("selectedIds = \(selectedIds)")
+            print("selectedIds = \(selectedIds)")
             self.setupCollection()
         } else { // Sedang tidak terpilih
             if (self.selectedIds.count < 3) {
                 self.selectedIds.append(cell.categoryId)
-                println("selectedIds = \(selectedIds)")
+                print("selectedIds = \(selectedIds)")
                 cell.lblPriority.text = "\(self.selectedIds.count)"
                 cell.lblPriority.hidden = false
                 cell.imgCategory.hidden = true
             }
         }
+    }
+    
+    // MARK: - Other functions
+    
+    func retrieveOfflineCategories() {
+        self.isUseCategoriesOffline = true
+        let category1 = [
+            "id" : "55de6dbc5f6522562a2c73ef",
+            "name" : "Women",
+            "imageName" : "http://dev.prelo.id/images/categories/fashion-wanita2.png"
+        ]
+        let category2 = [
+            "id" : "55de6dbc5f6522562a2c73f0",
+            "name" : "Men",
+            "imageName" : "http://dev.prelo.id/images/categories/fashion-pria2.png"
+        ]
+        let category3 = [
+            "id" : "55fbbca14ef9139b408b4569",
+            "name" : "Beauty",
+            "imageName" : "http://dev.prelo.id/images/categories/beauty2.png"
+        ]
+        let category4 = [
+            "id" : "55de6dbc5f6522562a2c73f1",
+            "name" : "Gadget",
+            "imageName" : "http://dev.prelo.id/images/categories/elektronik2.png"
+        ]
+        let category5 = [
+            "id" : "55de6dbc5f6522562a2c73f2",
+            "name" : "Hobby",
+            "imageName" : "http://dev.prelo.id/images/categories/hobi2.png"
+        ]
+        let category6 = [
+            "id" : "55fbbd0d4ef9139b408b456a",
+            "name" : "Sport",
+            "imageName" : "http://dev.prelo.id/images/categories/sport2.png"
+        ]
+        let category7 = [
+            "id" : "55de6dbc5f6522562a2c73f3",
+            "name" : "Book",
+            "imageName" : "http://dev.prelo.id/images/categories/buku2.png"
+        ]
+        let category8 = [
+            "id" : "55de6dbc5f6522562a2c73f4",
+            "name" : "Baby & Kid",
+            "imageName" : "http://dev.prelo.id/images/categories/baby-kid2.png"
+        ]
+        categoriesOffline.append(category1)
+        categoriesOffline.append(category2)
+        categoriesOffline.append(category3)
+        categoriesOffline.append(category4)
+        categoriesOffline.append(category5)
+        categoriesOffline.append(category6)
+        categoriesOffline.append(category7)
+        categoriesOffline.append(category8)
     }
 }
 
@@ -146,7 +221,7 @@ class CategoryPreferencesCell : UICollectionViewCell {
             lblCategoryName.text = "Baby & Kids"
         }
         
-        let priority : Int? = find(selectedIds, categoryId)
+        let priority : Int? = selectedIds.indexOf(categoryId)
         if (priority != nil) {
             lblPriority.text = "\(priority! + 1)"
             lblPriority.hidden = false
@@ -160,7 +235,43 @@ class CategoryPreferencesCell : UICollectionViewCell {
                 self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
                 self.imgCategory.tintColor = UIColor.whiteColor()
                 }, failure: { (_, _, err) -> Void in
-                    println("Show category image err: \(err)")
+                    print("Show category image err: \(err)")
+            })
+        }
+    }
+    
+    func adapt2(category : [String : String], selectedIds : [String]) {
+        categoryId = category["id"]
+        
+        lblCategoryName.text = category["name"]
+        // Manual fixing
+        if (lblCategoryName.text == "Men") {
+            lblCategoryName.text = "Men Fashion"
+        } else if (lblCategoryName.text == "Women") {
+            lblCategoryName.text = "Women Fashion"
+        } else if (lblCategoryName.text == "Beauty") {
+            lblCategoryName.text = "Beauty & Grooming"
+        } else if (lblCategoryName.text == "Sports") {
+            lblCategoryName.text = "Sports & Outdoors"
+        } else if (lblCategoryName.text == "Baby & Kid") {
+            lblCategoryName.text = "Baby & Kids"
+        }
+        
+        let priority : Int? = selectedIds.indexOf(categoryId)
+        if (priority != nil) {
+            lblPriority.text = "\(priority! + 1)"
+            lblPriority.hidden = false
+            imgCategory.hidden = true
+        } else {
+            lblPriority.hidden = true
+            imgCategory.hidden = false
+            let url = NSURL(string: category["imageName"]!)!
+            let urlReq = NSURLRequest(URL: url)
+            imgCategory.setImageWithUrlRequest(urlReq, placeHolderImage: nil, success: {(_, _, img: UIImage!, _) -> Void in
+                self.imgCategory.image = img.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                self.imgCategory.tintColor = UIColor.whiteColor()
+                }, failure: { (_, _, err) -> Void in
+                    print("Show category image err: \(err)")
             })
         }
     }

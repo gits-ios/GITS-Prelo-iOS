@@ -57,7 +57,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             super.viewDidLoad()
         } else {
             self.navigationItem.hidesBackButton = true
-            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed2:")
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PhoneVerificationViewController.backPressed2(_:)))
             newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
             self.navigationItem.leftBarButtonItem = newBackButton
         }
@@ -100,7 +100,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -129,14 +129,15 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 User.SetToken(self.userToken)
             }
             
-            request(APIUser.VerifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text)).responseJSON { req, resp, res, err in
+            // API Migrasi
+            request(APIUser.VerifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text!)).responseJSON {resp in
                 if (!self.isReverification) {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)
                 }
                 
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Verifikasi Nomor HP")) {
-                    let json = JSON(res!)
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Verifikasi Nomor HP")) {
+                    let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
                         if (self.isReverification) { // User is changing phone number from edit profile
@@ -150,31 +151,31 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 // Save in core data
                                 let m = UIApplication.appDelegate.managedObjectContext
                                 CDUser.deleteAll()
-                                let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m!) as! CDUser)
+                                let user : CDUser = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
                                 user.id = self.userProfileData!.id
                                 user.email = self.userProfileData!.email
                                 user.fullname = self.userProfileData!.fullname
                                 user.username = self.userProfileData!.username
                                 
                                 CDUserProfile.deleteAll()
-                                let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m!) as! CDUserProfile)
+                                let userProfile : CDUserProfile = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile)
                                 user.profiles = userProfile
                                 userProfile.regionID = self.userProfileData!.regionId
                                 userProfile.provinceID = self.userProfileData!.provinceId
-                                userProfile.gender = self.userProfileData!.gender!
+                                userProfile.gender = self.userProfileData!.gender
                                 userProfile.phone = self.fldNoHp.text!
-                                userProfile.pict = self.userProfileData!.profPictURL!.absoluteString!
+                                userProfile.pict = self.userProfileData!.profPictURL!.absoluteString
                                 userProfile.postalCode = self.userProfileData!.postalCode
                                 userProfile.address = self.userProfileData!.address
                                 userProfile.desc = self.userProfileData!.desc
                                 
                                 CDUserOther.deleteAll()
-                                let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m!) as! CDUserOther)
-                                userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(self.userProfileData!.shippingIds!)
-                                userOther.lastLogin = (self.userProfileData!.lastLogin != nil) ? (self.userProfileData!.lastLogin!) : ""
-                                userOther.phoneCode = (self.userProfileData!.phoneCode != nil) ? (self.userProfileData!.phoneCode!) : ""
-                                userOther.phoneVerified = (self.userProfileData!.isPhoneVerified != nil) ? (self.userProfileData!.isPhoneVerified!) : false
-                                userOther.registerTime = (self.userProfileData!.registerTime != nil) ? (self.userProfileData!.registerTime!) : ""
+                                let userOther : CDUserOther = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther)
+                                userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(self.userProfileData!.shippingIds)
+                                userOther.lastLogin = self.userProfileData!.lastLogin
+                                userOther.phoneCode = self.userProfileData!.phoneCode
+                                userOther.phoneVerified = self.userProfileData!.isPhoneVerified
+                                userOther.registerTime = self.userProfileData!.registerTime
                                 userOther.fbAccessToken = self.userProfileData!.fbAccessToken
                                 userOther.fbID = self.userProfileData!.fbId
                                 userOther.fbUsername = self.userProfileData!.fbUsername
@@ -188,7 +189,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 userOther.pathAccessToken = self.userProfileData!.pathAccessToken
                                 userOther.pathID = self.userProfileData!.pathId
                                 userOther.pathUsername = self.userProfileData!.pathUsername
-                                userOther.emailVerified = ((self.userProfileData!.isEmailVerified != nil) && (self.userProfileData!.isEmailVerified! == true)) ? 1 : 0
+                                userOther.emailVerified = (self.userProfileData!.isEmailVerified) ? 1 : 0
                                 // TODO: belum lengkap (isActiveSeller, seller, shopName, shopPermalink, simplePermalink)
                                 
                                 UIApplication.appDelegate.saveContext()
@@ -214,7 +215,9 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             Crashlytics.sharedInstance().setUserName(user.fullname!)
                             
                             // Send deviceRegId before finish
-                            LoginViewController.SendDeviceRegId(onFinish: self.phoneVerificationSucceed())
+                            LoginViewController.SendDeviceRegId({
+                                self.phoneVerificationSucceed()
+                            })
                         }
                     } else { // Gagal
                         Constant.showDialog("Warning", message: "Error verifying phone number")
@@ -228,9 +231,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func phoneVerificationSucceed() {
+        var noHp = ""
+        if let p = self.fldNoHp.text
+        {
+            noHp = p
+        }
         // Mixpanel
         let sp = [
-            "Phone" : self.fldNoHp.text,
+            "Phone" : noHp,
             "Login Method" : self.loginMethod,
             "Orders Purchased Count" : 0,
             "Initial Value Count" : 0,
@@ -246,7 +254,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         ]
         Mixpanel.sharedInstance().registerSuperProperties(sp as [NSObject : AnyObject])
         let p = [
-            "$phone" : self.fldNoHp.text
+            "$phone" : noHp
         ]
         Mixpanel.sharedInstance().people.set(p)
         Mixpanel.trackEvent(MixpanelEvent.PhoneVerified)
@@ -258,7 +266,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     func phoneReverificationSucceed() {
         // Pop 2 views (self and phoneReverificationVC)
-        let viewControllers: [UIViewController] = self.navigationController?.viewControllers as! [UIViewController]
+        let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
         self.navigationController?.popToViewController(viewControllers[viewControllers.count - 3], animated: true);
     }
     
@@ -273,14 +281,14 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             User.SetToken(self.userToken)
         }
         
-        request(APIUser.ResendVerificationSms(phone: self.fldNoHp.text!)).responseJSON { req, resp, res, err in
+        request(APIUser.ResendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {resp in
             if (!self.isReverification) {
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)
             }
             
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Verifikasi Nomor HP")) {
-                let json = JSON(res!)
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Verifikasi Nomor HP")) {
+                let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
                     Constant.showDialog("Success", message: "SMS telah dikirim ulang")

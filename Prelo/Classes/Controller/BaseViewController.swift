@@ -67,10 +67,13 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         }
         
         // Tombol back
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action: "backPressed:")
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
-        self.navigationItem.leftBarButtonItem = newBackButton
+        let dType = "\(self.dynamicType)"
+        if ((dType != "KumangTabBarViewController") && (dType != "ListCategoryViewController")) {
+            self.navigationItem.hidesBackButton = true
+            let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(BaseViewController.backPressed(_:)))
+            newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+            self.navigationItem.leftBarButtonItem = newBackButton
+        }
     }
     
     func backPressed(sender: UIBarButtonItem) {
@@ -79,7 +82,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     static func instatiateViewControllerFromStoryboardWithID(id : String) -> UIViewController
     {
-        let c = BaseViewController.GlobalStoryboard?.instantiateViewControllerWithIdentifier(id) as! UIViewController
+        let c = (BaseViewController.GlobalStoryboard?.instantiateViewControllerWithIdentifier(id))!
         return c
     }
     
@@ -117,14 +120,14 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     var dismissButton : UIButton
     {
         let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        b.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.dismiss), forControlEvents: UIControlEvents.TouchUpInside)
         return b
     }
     
     var confirmButton : UIButton
     {
         let b = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        b.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.confirm), forControlEvents: UIControlEvents.TouchUpInside)
         return b
     }
     
@@ -159,11 +162,11 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         let bell = createBellButton(newNotifCount)
         let troli = createTroliButton()
         
-        troli.addTarget(self, action: "launchCart", forControlEvents: UIControlEvents.TouchUpInside)
+        troli.addTarget(self, action: #selector(BaseViewController.launchCart), forControlEvents: UIControlEvents.TouchUpInside)
         
-        bell.addTarget(self, action: "launchNotifPage", forControlEvents: UIControlEvents.TouchUpInside)
+        bell.addTarget(self, action: #selector(BaseViewController.launchNotifPage), forControlEvents: UIControlEvents.TouchUpInside)
         
-        search.addTarget(self, action: "launchSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        search.addTarget(self, action: #selector(BaseViewController.launchSearch), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
     }
@@ -177,7 +180,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func launchSearch()
     {
-        let search = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch) as! UIViewController
+        let search = (self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdSearch))!
         self.navigationController?.pushViewController(search, animated: true)
     }
     
@@ -214,7 +217,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func createButtonWithIcon(appFont : AppFont, icon : String) ->UIButton
     {
-        var b : UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let b = UIButton(type: .Custom)
         var name = "Prelo2"
         switch appFont
         {
@@ -229,7 +232,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     }
     
     func createButtonWithIconAndNumber(appFont : AppFont, icon : String, num : Int) -> UIButton {
-        var b : UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let b = UIButton(type: .Custom)
         var name = "Prelo2"
         switch appFont
         {
@@ -241,7 +244,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         b.setTitle(icon, forState: UIControlState.Normal)
         b.frame = CGRectMake(0, 0, 33, 46)
         if (num > 0) {
-            let badge = GIBadgeView.new()
+            let badge = GIBadgeView()
             badge.badgeValue = num
             badge.backgroundColor = Theme.ThemeOrage
             badge.topOffset = 9
@@ -269,7 +272,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     // MARK: - PreloNotifListenerDelegate function
     
     func showNewNotifCount(count: Int) {
-        println("showNewNotifCount: \(count)")
+        print("showNewNotifCount: \(count)")
         setupNormalOptions()
     }
     

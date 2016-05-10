@@ -41,6 +41,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     let TitlePembayaran = "PEMBAYARAN"
     let TitlePengiriman = "PENGIRIMAN"
     let TitleReview = "REVIEW"
+    let TitleReserved = "RESERVED"
     
     // Contact us view
     var contactUs : UIViewController?
@@ -78,7 +79,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
-    let TxtvwReviewPlaceholder = "Tulis review tentang seller ini"
+    let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
     
     // MARK: - Init
     
@@ -135,6 +136,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.validateRvwKirimFields()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
+    }
+    
     func getTransactionDetail() {
         self.showLoading()
         
@@ -150,9 +161,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         
         if (req != nil) {
-            request(req!).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Transaksi")) {
-                    let json = JSON(res!)
+            request(req!).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Transaksi")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
                     if (self.trxId != nil) {
@@ -237,6 +248,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else {
                 return 8
             }
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            return 7
+        } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+            return 5
+        } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+            return 3
         }
         return 0
     }
@@ -542,6 +559,52 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 }
             }
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            if (idx == 0) {
+                if (trxProductDetail != nil) {
+                    return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                }
+            } else if (idx == 1) {
+                return DefaultHeight
+            } else if (idx == 2) {
+                return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+            } else if (idx == 3) {
+                if (trxProductDetail != nil) {
+                    return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentReserved)
+                }
+            } else if (idx == 4) {
+                return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 2)
+            } else if (idx == 5) {
+                return DefaultHeight
+            } else if (idx == 6) {
+                return DefaultHeight
+            }
+        } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+            if (idx == 0) {
+                if (trxProductDetail != nil) {
+                    return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                }
+            } else if (idx == 1) {
+                return DefaultHeight
+            } else if (idx == 2) {
+                if (trxProductDetail != nil) {
+                    return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranReservasi)
+                }
+            } else if (idx == 3) {
+                return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+            } else if (idx == 4) {
+                return DefaultHeight
+            }
+        } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+            if (idx == 0) {
+                if (trxProductDetail != nil) {
+                    return TransactionDetailTableCell.heightForProducts([trxProductDetail!])
+                }
+            } else if (idx == 1) {
+                return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+            } else if (idx == 2) {
+                return DefaultHeight
+            }
         }
         
         return 0
@@ -779,6 +842,42 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return self.createContactPreloCell()
                 }
             }
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            if (idx == 0) {
+                return self.createTableProductsCell()
+            } else if (idx == 1) {
+                return self.createTitleCell(TitleReserved)
+            } else if (idx == 2) {
+                return self.createDescriptionCell(1)
+            } else if (idx == 3) {
+                return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentReserved)
+            } else if (idx == 4) {
+                return self.createDescriptionCell(2)
+            } else if (idx == 5) {
+                return self.createBorderedButtonCell(1)
+            } else if (idx == 6) {
+                return self.createContactPreloCell()
+            }
+        } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+            if (idx == 0) {
+                return self.createTableProductsCell()
+            } else if (idx == 1) {
+                return self.createTitleCell(TitlePembayaran)
+            } else if (idx == 2) {
+                return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranReservasi)
+            } else if (idx == 3) {
+                return self.createDescriptionCell(1)
+            } else if (idx == 4) {
+                return self.createContactPreloCell()
+            }
+        } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+            if (idx == 0) {
+                return self.createTableProductsCell()
+            } else if (idx == 1) {
+                return self.createDescriptionCell(1)
+            } else if (idx == 2) {
+                return self.createContactPreloCell()
+            }
         }
         
         return UITableViewCell()
@@ -811,6 +910,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         } else {
             if (trxProductDetail != nil) {
                 cell.adaptTableProducts([trxProductDetail!])
+            }
+        }
+        cell.toProductDetail = { productId in
+            self.showLoading()
+            request(Products.Detail(productId: productId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                }
+                self.hideLoading()
             }
         }
         
@@ -959,24 +1072,28 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTolakPesanan.hidden = false
         }
         cell.contactBuyer = {
-            // Get product detail from API
             var productId = ""
+            var buyerId = ""
             if (self.trxDetail != nil) {
                 productId = self.trxDetail!.transactionProducts[0].productId
+                buyerId = self.trxDetail!.transactionProducts[0].buyerId
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
+                buyerId = self.trxProductDetail!.buyerId
             }
-            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
-                    let json = JSON(res!)
+            // Get product detail from API
+            request(Products.Detail(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
                     
                         // Goto chat
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
-                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID)).responseJSON { req, resp, res, err in
-                            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
-                                let json = JSON(res!)
+                        // API Migrasi
+        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
+                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                                let json = JSON(resp.result.value!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                                     t.tawarItem = Inbox(jsn: json["_data"])
                                     self.navigationController?.pushViewController(t, animated: true)
@@ -1015,9 +1132,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
-                    let json = JSON(res!)
+            request(Products.Detail(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                    let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
                         
                         // Goto chat
@@ -1027,6 +1144,33 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         t.prodId = pDetail.productID
                         self.navigationController?.pushViewController(t, animated: true)
                     }
+                }
+            }
+        }
+        cell.cancelReservation = {
+            cell.btn.setTitle("LOADING...", forState: .Normal)
+            cell.btn.userInteractionEnabled = false
+            var isSuccess = false
+            var productId = ""
+            if (self.trxProductDetail != nil) {
+                productId = self.trxProductDetail!.productId
+            }
+            // API Migrasi
+        request(APIGarageSale.CancelReservation(productId: productId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
+                    let json = JSON(resp.result.value!)
+                    if let success = json["_data"].bool {
+                        if (success) {
+                            isSuccess = true
+                            
+                            // Reload content
+                            self.getTransactionDetail()
+                        }
+                    }
+                }
+                if (!isSuccess) {
+                    cell.btn.setTitle(cell.TitleBatalkanReservasi, forState: .Normal)
+                    cell.btn.userInteractionEnabled = true
                 }
             }
         }
@@ -1051,7 +1195,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Adapt cell
         cell.showContactPrelo = {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+            let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") 
             self.contactUs = c
             if let v = c.view, let p = self.navigationController?.view {
                 v.alpha = 0
@@ -1117,7 +1261,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -1144,9 +1288,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         if (self.trxId != nil) {
-            request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
+                    let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
                     if (data != nil || data == true) {
                         Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
@@ -1178,13 +1323,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     @IBAction func rvwLovePressed(sender: UIButton) {
         var isFound = false
-        for (var i = 0; i < btnsRvwLove.count; i++) {
+        for i in 0 ..< btnsRvwLove.count {
             let b = btnsRvwLove[i]
             if (!isFound) {
                 if (sender == b) {
                     isFound = true
                     loveValue = i + 1
-                    println("loveValue = \(loveValue)")
+                    print("loveValue = \(loveValue)")
                 }
                 lblsRvwLove[i].text = ""
             } else {
@@ -1201,12 +1346,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBAction func reviewKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Seller")) {
-                    let json = JSON(res!)
+            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
+                    let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
                     let dataInt : Int = json["_data"].intValue
-                    //println("dataBool = \(dataBool), dataInt = \(dataInt)")
+                    //print("dataBool = \(dataBool), dataInt = \(dataInt)")
                     if (dataBool == true || dataInt == 1) {
                         Constant.showDialog("Success", message: "Review berhasil ditambahkan")
                     } else {
@@ -1237,7 +1382,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
             
             // Disable review seller content
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = false
             }
@@ -1254,7 +1399,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             btnTolakKirim.backgroundColor = Theme.PrimaryColor
             
             // Enable review seller content
-            for (var i = 0; i < btnsRvwLove.count; i++) {
+            for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
                 b.userInteractionEnabled = true
             }
@@ -1297,6 +1442,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
 class TransactionDetailTools : NSObject {
     // Progress number
     static let ProgressExpired = -1
+    static let ProgressReservationCancelled = -2
     static let ProgressRejectedBySeller = -3
     static let ProgressNotSent = -4
     static let ProgressNotPaid = 1
@@ -1305,11 +1451,12 @@ class TransactionDetailTools : NSObject {
     static let ProgressSent = 4
     static let ProgressReceived = 5
     static let ProgressReviewed = 6
+    static let ProgressReserved = 7
+    static let ProgressReserveDone = 8
     
     // Layouting
     static let Margin : CGFloat = 8.0
     static let TransactionDetailProductCellHeight : CGFloat = 109
-//    static let TransactionDetailTitleContentCellHeight : CGFloat = 20
     
     // TitleContent type
     static let TitleContentPembayaranBuyer = "tcpembayaranbuyer"
@@ -1317,28 +1464,39 @@ class TransactionDetailTools : NSObject {
     static let TitleContentPengirimanBuyer = "tcpengirimanbuyer"
     static let TitleContentPengirimanSeller = "tcpengirimanseller"
     static let TitleContentReimburse = "tcreimburse"
+    static let TitleContentReserved = "tcreserved"
+    static let TitleContentPembayaranReservasi = "tcpembayaranreservasi"
     
     // Text
     static let TextPreloPhone = "022 250 35 93"
     static let TextPembayaranExpiredBuyer = "Pembayaran expired karena kamu belum membayar hingga batas waktu yang ditentukan."
-    static let TextPembayaranExpiredSeller = "Pembayaran expired karena buyer belum membayar hingga batas waktu yang ditentukan."
-    static let TextHubungiBuyer = "Beritahu buyer bahwa barang sudah dikirim. Minta buyer untuk memberikan review apabila barang sudah diterima."
-    static let TextDikembalikan = "Pembayaran produk ini telah dikembalikan kepada buyer."
-    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada seller. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik tunai PreloBalance."
+    static let TextPembayaranExpiredSeller = "Pembayaran expired karena pembeli belum membayar hingga batas waktu yang ditentukan."
+    static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
+    static let TextDikembalikan = "Pembayaran barang ini telah dikembalikan kepada pembeli."
+    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
+    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang PreloBalance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
-    static let TextNotPaidSeller = "Ingatkan buyer untuk segera membayar."
+    static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
-    static let TextClaimedPaidSeller = "Pembayaran buyer sedang diproses."
+    static let TextClaimedPaidSeller = "Pembayaran pembeli sedang diproses."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
-    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada buyer. Hubungi Prelo apabila kamu perlu tambahan waktu untuk mengirim."
+    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli. Hubungi Prelo apabila kamu perlu tambahan waktu untuk mengirim."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
-    static let TextConfirmedPaidBuyer2 = "Ingatkan seller untuk mengirim pesanan."
-    static let TextSentSeller = "Beritahu buyer bahwa barang sudah dikirim. Minta buyer untuk memberikan review apabila barang sudah diterima."
-    static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke seller."
-    static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi buyer untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
-    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review seller untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
+    static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
+    static let TextSentBuyer = "Berikan review sebagai konfirmasi penerimaan. Prelo akan meneruskan pembayaran ke penjual."
+    static let TextReceivedSeller = "Barang semestinya sudah diterima. Hubungi pembeli untuk mengecek apakah barang sudah diterima dan minta review untuk menyelesaikan transaksi."
+    static let TextReceivedBuyer = "Barang semestinya sudah kamu terima. Review penjual untuk menyelesaikan transaksi. Belum terima barang? Hubungi Prelo."
+    static let TextReserved1 = "Barang ini telah direservasi khusus untuk kamu. Kamu dapat menyelesaikan pembelian barang ini dengan menyelesaikan pembayaran pada"
+    static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
+    static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
+    static let TextReservationCancelled = "Reservasi kamu sudah resmi dibatalkan. Apabila kamu ingin memesan kembali, kamu bisa memilih barang ini di menu Garage Sale."
+    
+    // Functions
+    static func isReservationProgress(progress : Int?) -> Bool {
+        return (progress == 7 || progress == 8 || progress == -2)
+    }
 }
 
 // MARK: - Class
@@ -1361,6 +1519,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     // Cell identifiers
     let TransactionDetailProductCellId = "TransactionDetailProductCell"
     let TransactionDetailTitleContentCellId = "TransactionDetailTitleContentCell"
+    
+    // Actions
+    var toProductDetail : (String) -> () = { _ in }
     
     static func heightForProducts(trxProducts : [TransactionProductDetail]) -> CGFloat {
         return (CGFloat(trxProducts.count) * TransactionDetailTools.TransactionDetailProductCellHeight)
@@ -1393,7 +1554,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
-            height += TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingAddress)
             if let r = CDRegion.getRegionNameWithID(trxDetail.shippingRegionId) {
                 height += TransactionDetailTitleContentCell.heightFor(r)
@@ -1434,7 +1595,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
-            height += TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientPhone)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingAddress)
             if let r = CDRegion.getRegionNameWithID(trxProductDetail.shippingRegionId) {
                 height += TransactionDetailTitleContentCell.heightFor(r)
@@ -1446,6 +1607,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBalance.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBonus.asPrice)
+        } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.garageSalePlace)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.garageSaleEventDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.garageSaleEventTime)
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
         }
         
         return height
@@ -1493,6 +1662,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 return 6
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 return 2
+            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                return 3
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                return 3
             }
             return 0
         }
@@ -1616,7 +1789,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
                     }
                 } else if (idx == 1) {
-                    return TransactionDetailTitleContentCell.heightFor(TransactionDetailTools.TextPreloPhone)
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                    }
                 } else if (idx == 2) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
@@ -1658,6 +1835,26 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 1) {
                     if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.myPreloBonus.asPrice)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                if (isTrxProductDetail()) {
+                    if (idx == 0) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSalePlace)
+                    } else if (idx == 1) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventDate)
+                    } else if (idx == 2) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventTime)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                if (isTrxProductDetail()) {
+                    if (idx == 0) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                    } else if (idx == 1) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    } else if (idx == 2) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
                     }
                 }
             }
@@ -1818,7 +2015,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Nama", content: content)
                 } else if (idx == 1) {
-                    return self.createTitleContentCell("Nomor Telepon", content: TransactionDetailTools.TextPreloPhone)
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.shippingRecipientPhone
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.shippingRecipientPhone
+                    }
+                    return self.createTitleContentCell("Nomor Telepon", content: content)
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
@@ -1874,13 +2077,46 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     return self.createTitleContentCell("Prelo Bonus", content: content)
                 }
+            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                if (isTrxProductDetail()) {
+                    if (idx == 0) {
+                        return self.createTitleContentCellTappable("Tempat", content: trxProductDetail!.garageSalePlace, url: trxProductDetail!.garageSaleMapsUrl)
+                    } else if (idx == 1) {
+                        return self.createTitleContentCell("Tanggal", content: trxProductDetail!.garageSaleEventDate)
+                    } else if (idx == 2) {
+                        return self.createTitleContentCell("Waktu", content: trxProductDetail!.garageSaleEventTime)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                if (isTrxProductDetail()) {
+                    if (idx == 0) {
+                        return self.createTitleContentCell("Metode", content: trxProductDetail!.paymentMethod)
+                    } else if (idx == 1) {
+                        return self.createTitleContentCell("Tanggal", content: trxProductDetail!.paymentDate)
+                    } else if (idx == 2) {
+                        return self.createTitleContentCell("Nominal", content: trxProductDetail!.paymentNominal.asPrice)
+                    }
+                }
             }
         }
         return UITableViewCell()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // Do nothing
+        let idx = indexPath.row
+        if (isProductCell) {
+            self.toProductDetail(trxProducts[idx].productId)
+        } else if (isTitleContentCell) {
+            if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                if (idx == 0) {
+                    // Open Safari
+                    let cell = tableView.cellForRowAtIndexPath(indexPath) as! TransactionDetailTitleContentCell
+                    if let url = NSURL(string: cell.tapUrl) {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
+                }
+            }
+        }
     }
     
     // MARK: - Cell creation
@@ -1890,6 +2126,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         
         // Adapt call
         cell.adapt(title, content: content)
+        
+        return cell
+    }
+    
+    func createTitleContentCellTappable(title : String, content : String, url : String) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+        
+        // Adapt call
+        cell.adaptWithUrl(title, content: content, url: url)
         
         return cell
     }
@@ -1928,8 +2173,11 @@ class TransactionDetailProductCell : UITableViewCell {
     @IBOutlet weak var vwTransactionStatus: UIView!
     @IBOutlet weak var lblTransactionStatus: UILabel!
     
+    var imgVwIcon : UIImageView?
+    
     override func prepareForReuse() {
         imgProduct.image = UIImage(named: "raisa.jpg")
+        imgVwIcon?.removeFromSuperview()
         vwTransactionStatus.backgroundColor = Theme.GrayDark
         lblTransactionStatus.textColor = Theme.GrayDark
     }
@@ -1990,11 +2238,17 @@ class TransactionDetailProductCell : UITableViewCell {
             imgName = "ic_trx_received"
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
             imgName = "ic_trx_done"
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            imgName = "ic_trx_reserved"
+        } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+            imgName = "ic_trx_reservation_done"
+        } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+            imgName = "ic_trx_reservation_cancelled"
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
-                let imgVwIcon : UIImageView = UIImageView(frame: CGRectMake(5, 5, 15, 15), image: imgIcon)
-                vwTransactionStatus.addSubview(imgVwIcon)
+                imgVwIcon = UIImageView(frame: CGRectMake(5, 5, 15, 15), image: imgIcon)
+                vwTransactionStatus.addSubview(imgVwIcon!)
             }
         }
     }
@@ -2053,6 +2307,16 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 } else {
                     textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
+            } else if (progress == TransactionDetailTools.ProgressReserved) {
+                if (order == 1) {
+                    textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                } else if (order == 2) {
+                    textRect = TransactionDetailTools.TextReserved2.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                }
+            } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+                textRect = TransactionDetailTools.TextReserveDone.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+            } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+                textRect = TransactionDetailTools.TextReservationCancelled.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
             }
             if (textRect != nil) {
                 return textRect!.height + (2 * TransactionDetailTools.Margin)
@@ -2089,7 +2353,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     let expireTime = trxDetail.shippingExpireTime + ". "
                     lblDesc.text = TransactionDetailTools.TextConfirmedPaidSeller1 + expireTime + TransactionDetailTools.TextConfirmedPaidSeller2
                     lblDesc.boldSubstring("transaksi akan dibatalkan")
-                    lblDesc.boldSubstring("uang akan dikembalikan kepada buyer")
+                    lblDesc.boldSubstring("uang akan dikembalikan kepada pembeli")
                 }
             }
         }
@@ -2126,6 +2390,16 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 } else {
                     lblDesc.text = TransactionDetailTools.TextReceivedBuyer
                 }
+            } else if (progress == TransactionDetailTools.ProgressReserved) {
+                if (order == 1) {
+                    lblDesc.text = TransactionDetailTools.TextReserved1
+                } else if (order == 2) {
+                    lblDesc.text = TransactionDetailTools.TextReserved2
+                }
+            } else if (progress == TransactionDetailTools.ProgressReserveDone) {
+                lblDesc.text = TransactionDetailTools.TextReserveDone
+            } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
+                lblDesc.text = TransactionDetailTools.TextReservationCancelled
             }
         }
     }
@@ -2147,9 +2421,11 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
     
+    var tapUrl : String = ""
+    
     static func heightFor(text : String) -> CGFloat {
         let titleWidth : CGFloat = 130.0
-        var textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
         return textRect.height + 4
     }
     
@@ -2161,36 +2437,42 @@ class TransactionDetailTitleContentCell : UITableViewCell {
             self.lblContent.text = content
         }
     }
+    
+    func adaptWithUrl(title : String, content : String, url : String) {
+        self.lblTitle.text = title
+        if (content.isEmpty) {
+            self.lblContent.text = "---"
+        } else {
+            self.lblContent.text = content
+        }
+        self.tapUrl = url
+        self.lblContent.textColor = Theme.PrimaryColor
+    }
 }
 
 // MARK: - Class
-
-typealias RetrieveCash = () -> ()
-typealias ConfirmPayment = () -> ()
-typealias ConfirmShipping = () -> ()
-typealias ReviewSeller = () -> ()
 
 class TransactionDetailButtonCell : UITableViewCell {
     @IBOutlet weak var btn: UIButton!
     
     var progress : Int?
     var order : Int?
-    var retrieveCash : RetrieveCash = {}
-    var confirmPayment : ConfirmPayment = {}
-    var confirmShipping : ConfirmShipping = {}
-    var reviewSeller : ReviewSeller = {}
+    var retrieveCash : () -> () = {}
+    var confirmPayment : () -> () = {}
+    var confirmShipping : () -> () = {}
+    var reviewSeller : () -> () = {}
     
     func adapt(progress : Int?, order : Int) {
         self.progress = progress
         self.order = order
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
-            btn.setTitle("TARIK TUNAI", forState: UIControlState.Normal)
+            btn.setTitle("TARIK UANG", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             btn.setTitle("KONFIRMASI PEMBAYARAN", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             btn.setTitle("KIRIM / TOLAK", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            btn.setTitle("REVIEW SELLER", forState: UIControlState.Normal)
+            btn.setTitle("REVIEW PENJUAL", forState: UIControlState.Normal)
         }
     }
     
@@ -2209,35 +2491,37 @@ class TransactionDetailButtonCell : UITableViewCell {
 
 // MARK: - Class
 
-typealias OrderAgain = () -> ()
-typealias RejectTransaction = () -> ()
-typealias ContactBuyer = () -> ()
-typealias ContactSeller = () -> ()
-
 class TransactionDetailBorderedButtonCell : UITableViewCell {
     @IBOutlet weak var btn: BorderedButton!
     
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
-    var orderAgain : OrderAgain = {}
-    var rejectTransaction : RejectTransaction = {}
-    var contactBuyer : ContactBuyer = {}
-    var contactSeller : ContactSeller = {}
+    var orderAgain : () -> () = {}
+    var rejectTransaction : () -> () = {}
+    var contactBuyer : () -> () = {}
+    var contactSeller : () -> () = {}
+    var cancelReservation : () -> () = {}
+    
+    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+    let TitleHubungiBuyer = "HUBUNGI PEMBELI"
+    let TitleHubungiSeller = "HUBUNGI PENJUAL"
+    let TitleTolakPesanan = "Tolak Pesanan"
+    let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     
     func adapt(progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
         self.order = order
         self.isSeller = isSeller
         if (progress == TransactionDetailTools.ProgressExpired) {
-            btn.setTitle("PESAN LAGI BARANG YANG SAMA", forState: UIControlState.Normal)
+            btn.setTitle(TitlePesanLagi, forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            btn.setTitle("HUBUNGI BUYER", forState: UIControlState.Normal)
+            btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
-                btn.setTitle("HUBUNGI BUYER", forState: UIControlState.Normal)
+                btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
             } else if (order == 2) {
-                btn.setTitle("Tolak Pesanan", forState: UIControlState.Normal)
+                btn.setTitle(TitleTolakPesanan, forState: UIControlState.Normal)
                 btn.titleLabel!.font = UIFont.systemFontOfSize(13)
                 btn.borderColor = UIColor.clearColor()
                 btn.borderColorHighlight = UIColor.clearColor()
@@ -2246,11 +2530,13 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
-                    btn.setTitle("HUBUNGI BUYER", forState: UIControlState.Normal)
+                    btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
                 } else {
-                    btn.setTitle("HUBUNGI SELLER", forState: UIControlState.Normal)
+                    btn.setTitle(TitleHubungiSeller, forState: UIControlState.Normal)
                 }
             }
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            btn.setTitle(TitleBatalkanReservasi, forState: UIControlState.Normal)
         }
     }
     
@@ -2273,6 +2559,8 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
                     self.contactSeller()
                 }
             }
+        } else if (progress == TransactionDetailTools.ProgressReserved) {
+            self.cancelReservation()
         }
     }
 }
@@ -2287,7 +2575,7 @@ class TransactionDetailReviewCell : UITableViewCell {
     
     static func heightFor(reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
-        var textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
+        let textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
         return textRect.height + 42.0 + (2 * TransactionDetailTools.Margin)
     }
     
@@ -2303,8 +2591,8 @@ class TransactionDetailReviewCell : UITableViewCell {
         
         // Love
         var loveText = ""
-        var star = trxProductDetail.reviewStar
-        for (var i = 0; i < 5; i++) {
+        let star = trxProductDetail.reviewStar
+        for i in 0 ..< 5 {
             if (i < star) {
                 loveText += ""
             } else {
@@ -2312,17 +2600,15 @@ class TransactionDetailReviewCell : UITableViewCell {
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblLove.attributedText = attrStringLove
     }
 }
 
 // MARK: - Class
 
-typealias ShowContactPrelo = () -> ()
-
 class TransactionDetailContactPreloCell : UITableViewCell {
-    var showContactPrelo : ShowContactPrelo = {}
+    var showContactPrelo : () -> () = {}
     
     @IBAction func btnContactPressed(sender: AnyObject) {
         self.showContactPrelo()

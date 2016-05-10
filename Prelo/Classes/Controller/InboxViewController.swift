@@ -40,10 +40,11 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func getInboxes()
     {
-        request(APIInbox.GetInboxes).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Inbox"))
+        // API Migrasi
+        request(APIInbox.GetInboxes).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
                 {
                     if (arr.count > 0)
@@ -51,7 +52,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
                         for i in 0...arr.count-1
                         {
                             let inbox = arr[i]
-                            //println(inbox)
+                            //print(inbox)
                             self.inboxes.append(Inbox(jsn: inbox))
                         }
                     }
@@ -61,14 +62,14 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
             {
                 
             }
-        }.responseString { req, resp, string, err in
-            //println(string)
+        }.responseString { resp in
+            //print(string)
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
-//        request(.GET, (url?.absoluteString)!).responseJSON { req, resp, res, err in
-//            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Inbox"))
+//        request(.GET, (url?.absoluteString)!).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
 //            {
-//                let json = JSON(res!)
+//                let json = JSON(resp.result.value!)
 //                if let arr = json["_data"].array
 //                {
 //                    if (arr.count > 0)
@@ -76,7 +77,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
 //                        for i in 0...arr.count-1
 //                        {
 //                            let inbox = arr[i]
-//                            println(inbox)
+//                            print(inbox)
 //                            self.inboxes.append(Inbox(jsn: inbox))
 //                        }
 //                    }

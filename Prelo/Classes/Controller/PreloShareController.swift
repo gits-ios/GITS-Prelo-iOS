@@ -114,14 +114,14 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             
         }
         
-        let url = NSURL(string : "")
-        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
+//        let url = NSURL(string : "")
+//        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
         agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor.brownColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
-        agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#3b5998"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"fb://")!)))
-        agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#00aced"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"twitter://timeline")!)))
-        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#cb2027"), availibility: true))
-        agents.append(PreloShareAgent(title: "Whatsapp", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#4dc247"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"whatsapp://app")!)))
-        agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hex: "#4dc247"), availibility: Line.isLineInstalled()))
+        agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#3b5998"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"fb://")!)))
+        agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#00aced"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"twitter://timeline")!)))
+        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#cb2027"), availibility: true))
+        agents.append(PreloShareAgent(title: "Whatsapp", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"whatsapp://app")!)))
+        agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: Line.isLineInstalled()))
         agents.append(PreloShareAgent(title: "Salin", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
         agents.append(PreloShareAgent(title: "SMS", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMessageComposeViewController.canSendText()))
         agents.append(PreloShareAgent(title: "E-mail", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMailComposeViewController.canSendMail()))
@@ -214,8 +214,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             return
         }
         
-        println(item?.url)
-        println(item?.text)
+        print(item?.url)
+        print(item?.text)
         
         request(Method.GET, (item?.url?.absoluteString)!).validate().response{ req, res, data, error in
             if let imgData = data
@@ -242,11 +242,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     func postToPath(image : UIImage, token : String)
     {
-        let param = [
-            "caption":(item?.text)!
-        ]
-        let data = NSJSONSerialization.dataWithJSONObject(param, options: nil, error: nil)
-        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+//        let param = [
+//            "caption":(item?.text)!
+//        ]
+        
+//        do {
+//            let data = try NSJSONSerialization.dataWithJSONObject(param, options: NSJSONWritingOptions.init(rawValue: 0))
+//            let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding)
+//        } catch {
+//        
+//        }
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
         AppToolsObjC.PATHPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
@@ -261,17 +266,18 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     func registerPathToken(userData : JSON, token : String)
     {
-        let pathId = userData["id"].string!
+//        let pathId = userData["id"].string!
         let pathName = userData["name"].string!
-        let email = userData["email"].string!
+//        let email = userData["email"].string!
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         self.mixpanelSharedProduct("Path", username: pathName)
         
         /* FIXME: Sementara dijadiin komentar, soalnya kalo user lagi ga login terus share product via path, harusnya ga usah APIAuth.LoginPath ga sih
+        // API Migrasi
         request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Login Path")) {
-                println("Path login req = \(req)")
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                print("Path login req = \(req)")
                 
                 if (err != nil) { // Terdapat error
                     
@@ -324,8 +330,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             {
                 name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+            
             let url = NSURL(string : "whatsapp://send?text="+message)
             UIApplication.sharedApplication().openURL(url!)
             self.mixpanelSharedProduct("Whatsapp", username: "")
@@ -381,7 +387,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 
                 self.mixpanelSharedProduct("Email", username: "")
             } else {
-                Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi produk melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+                Constant.showDialog("No Active E-mail", message: "Untuk dapat membagi barang melalui e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             }
         }
         
@@ -414,19 +420,19 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                     composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
                 }
                 composer.completionHandler = { result -> Void in
-                    var getResult = result as SLComposeViewControllerResult
+                    let getResult = result as SLComposeViewControllerResult
                     switch(getResult.rawValue) {
                     case SLComposeViewControllerResult.Cancelled.rawValue:
-                        println("Cancelled")
+                        print("Cancelled")
                     case SLComposeViewControllerResult.Done.rawValue:
-                        println("Done")
+                        print("Done")
                         if (type == SLServiceTypeFacebook) {
                             self.mixpanelSharedProduct("Facebook", username: "")
                         } else if (type == SLServiceTypeTwitter) {
                             self.mixpanelSharedProduct("Twitter", username: "")
                         }
                     default:
-                        println("Error")
+                        print("Error")
                     }
                 }
                 self.presentViewController(composer, animated: true, completion: nil)
@@ -467,16 +473,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UICollectionView.classForCoder()) || touch.view.tag == 1)
+        if (touch.view!.isKindOfClass(UICollectionView.classForCoder()) || touch.view!.tag == 1)
         {
             return false
         }

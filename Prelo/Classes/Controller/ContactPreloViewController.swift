@@ -23,10 +23,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
             {
                 continue
             }
-            if let view = v as? UIView
-            {
-                view.backgroundColor = UIColor.whiteColor()
-            }
+            v.backgroundColor = UIColor.whiteColor()
         }
         
         // Mixpanel
@@ -121,11 +118,11 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller .dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -54,7 +54,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             let products = CartProduct.getAll(User.EmailOrEmptyString)
             for p in products
             {
-                UIApplication.appDelegate.managedObjectContext?.deleteObject(p)
+                UIApplication.appDelegate.managedObjectContext.deleteObject(p)
             }
             UIApplication.appDelegate.saveContext()
         }
@@ -106,7 +106,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 v.hidden = true
             }
             
-            if var f = captionTitle.superview?.frame
+            if let f = captionTitle.superview?.frame
             {
 //                f.size.height = CGFloat(260)
                 captionTitle.superview?.frame = f
@@ -174,8 +174,11 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         {
             var x = self.navigationController?.viewControllers
             x?.removeAtIndex((x?.count)!-2)
-//            x?.removeAtIndex((x?.count)!-2)
-            self.navigationController?.setViewControllers(x, animated: false)
+            if (x == nil)
+            {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
             first = false
         }
         
@@ -188,6 +191,12 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
             
         }, completion: nil)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -200,14 +209,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellData.keys.array.count
+//        return cellData.keys.array.count
+        return cellData.keys.count
     }
     
     var rawCells : [UITableViewCell] = []
     func createCells()
     {
         if (!free) {
-            for i in 0...cellData.keys.array.count-1
+            for i in 0...cellData.keys.count-1
             {
                 var c : UITableViewCell?
                 var b : BaseCartCell
@@ -246,7 +256,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
 //            b = tableView.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
 //        }
         
-        var b = rawCells[r] as! BaseCartCell
+        let b = rawCells[r] as! BaseCartCell
         
         if (b.lastIndex != nil) {
             cellData[b.lastIndex!] = b.obtainValue()
@@ -292,7 +302,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 if (cell == nil) {
                     s += 1
                     r = -1
-                    if (s == tableView!.numberOfSections()) { // finish, last cell
+                    if (s == tableView!.numberOfSections) { // finish, last cell
                         con = false
                     }
                 } else {
@@ -318,7 +328,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         } else {
             // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
             if (self.fromCheckout) {
-                NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
+                //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         }
@@ -346,11 +356,11 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
         }
         
-        var orderId = transactionId
-        var bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
-        var bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
-        var name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
-        var nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
+        let orderId = transactionId
+        let bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
+        let bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
+        let name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
+        let nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
         
         if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
         {
@@ -369,8 +379,9 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
                 return
             }
             let x = (nom as NSString).integerValue
-            request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Konfirmasi Bayar")) {
+            // API Migrasi
+        request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
                     Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }

@@ -33,7 +33,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
@@ -43,7 +43,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyPurchaseProcessingViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
@@ -79,14 +79,15 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func getUserPurchases() {
-        request(APITransaction.Purchases(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Belanjaan Saya - Diproses")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransaction.Purchases(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Belanjaan Saya - Diproses")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
                 
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let u = UserTransactionItem.instanceTransactionItem(item)
                     if (u != nil) {
                         self.userPurchases?.append(u!)
@@ -157,7 +158,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) ->
         UITableViewCell {
-        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
         if (!refreshControl.refreshing) {
             let u = userPurchases?[indexPath.item]
             cell.adaptItem(u!)
@@ -166,9 +167,20 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
-        myPurchaseDetailVC.transactionId = userPurchases?[indexPath.item].id
-        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+        if (userPurchases != nil && userPurchases!.count >= indexPath.item) {
+            let trxItem = userPurchases![indexPath.item]
+            if (TransactionDetailTools.isReservationProgress(trxItem.progress)) {
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                transactionDetailVC.trxProductId = trxItem.id
+                transactionDetailVC.isSeller = false
+                self.navigationController?.pushViewController(transactionDetailVC, animated: true)
+            } else {
+                let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+                myPurchaseDetailVC.transactionId = trxItem.id
+                self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+            }
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

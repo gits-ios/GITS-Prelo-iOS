@@ -21,7 +21,7 @@ protocol LoadAppDataDelegate {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     var window: UIWindow?
 
@@ -36,7 +36,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var loadAppDataDelegate : LoadAppDataDelegate?
     
+    let RedirProduct = "product"
+    let RedirComment = "comment"
+    let RedirUser = "user"
+    let RedirInbox = "inbox"
+    let RedirNotif = "notification"
+    let RedirConfirm = "confirm"
+    let RedirTrxBuyer = "transaction_buyer"
+    let RedirTrxSeller = "transaction_seller"
+    let RedirTrxPBuyer = "transaction_product_buyer"
+    let RedirTrxPSeller = "transaction_product_seller"
+    
     var redirAlert : UIAlertView?
+    var RedirWaitAmount : Int = 10000000
+    
+    // Uninstall.io (disabled)
+    /*// TODO: isi apptoken dan appsecret
+    let UninstallIOAppToken = ""
+    let UninstallIOAppSecret = ""*/
 
     // MARK: - Application delegate functions
     
@@ -54,7 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
         }
-        
         
         if let c = CDUser.getOne()
         {
@@ -74,10 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Mixpanel.trackPageVisit(PageName.SplashScreen)
         
         // Configure GAI options.
-        var gai = GAI.sharedInstance()
+        let gai = GAI.sharedInstance()
         gai.trackerWithTrackingId("UA-68727101-3")
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        gai.defaultTracker.allowIDFACollection = true // Enable IDFA collection
         
         // Google Analytics
         GAI.trackPageVisit(PageName.SplashScreen)
@@ -92,58 +109,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
         ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
-        //return true
+        // AppsFlyer Tracker
+        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
+        AppsFlyerTracker.sharedTracker().appleAppID = "1027248488"
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoggedIn", name: "userLoggedIn", object: nil)
+        // Uninstall.io (disabled)
+        /*NotifyManager.sharedManager().processLaunchOptions(launchOptions)
+        NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
+        var isUninstallIOIdentified = true
+        if let io = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UninstallIOIdentified) as? Bool {
+            if (io == false) {
+                isUninstallIOIdentified = false
+            }
+        } else {
+            isUninstallIOIdentified = false
+        }
+        if (!isUninstallIOIdentified) {
+            if (User.IsLoggedIn) {
+                if let u = CDUser.getOne() {
+                    let p = [
+                        "username" : u.username,
+                        "fullname" : (u.fullname != nil) ? u.fullname! : "",
+                        "email" : u.email,
+                        "phone" : (u.profiles.phone != nil) ? u.profiles.phone! : ""
+                    ]
+                    NotifyManager.sharedManager().identify(u.id, traits: p)
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.UninstallIOIdentified)
+                }
+            }
+        }*/
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.userLoggedIn), name: "userLoggedIn", object: nil)
         
         // Default deviceRegId so it's not nil
         NSUserDefaults.standardUserDefaults().setObject("", forKey: "deviceregid")
         NSUserDefaults.standardUserDefaults().synchronize()
         
         // Register push notification
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
-        {
-            let setting = UIUserNotificationSettings(forTypes: (UIUserNotificationType.Badge|UIUserNotificationType.Sound|UIUserNotificationType.Alert), categories: nil)
-            UIApplication.sharedApplication().registerUserNotificationSettings(setting)
-        } else
-        {
-            let types = (UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound|UIRemoteNotificationType.Alert)
-            UIApplication.sharedApplication().registerForRemoteNotificationTypes(types)
-        }
+        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.sharedApplication().registerForRemoteNotifications()
         
-        // Handling push notification
+        // Handling push notification from APNS
+        // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
             if let remoteNotif = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
                 if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
                     //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    var targetId : String?
                     if let tipe = remoteNotifAps.objectForKey("tipe") as? String {
+                        var targetId : String?
                         if let tId = remoteNotifAps.objectForKey("target_id") as? String {
                             targetId = tId
                         }
-                        //Constant.showDialog("tipe", message: "\(tipe)")
-                        let tipeLowercase = tipe.lowercaseString
-                        if (tipeLowercase == "product") {
-                            if (targetId != nil) {
-                                self.redirectProduct(targetId!)
-                            }
-                        } else if (tipeLowercase == "user") {
-                            if (targetId != nil) {
-                                self.redirectShopPage(targetId!)
-                            }
-                        } else if (tipeLowercase == "inbox") {
-                            self.redirectInbox(targetId)
-                        } else if (tipeLowercase == "confirm") {
-                            if (targetId != nil) {
-                                self.redirectConfirmPayment(targetId!)
-                            }
-                        } else if (tipeLowercase == "notification") {
-                            redirAlert = UIAlertView()
-                            redirAlert!.title = "Redirecting..."
-                            redirAlert!.message = "Harap tunggu beberapa saat"
-                            redirAlert!.show()
-                            self.redirectNotification()
-                        }
+                        self.deeplinkRedirect(tipe, targetId: targetId)
                     }
                 }
             }
@@ -152,30 +170,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            //Constant.showDialog("Deeplink", message: "launchURL = \(launchURL)")
-            if (launchURL.host == "product") {
-                if let productId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectProduct(productId)
+            if let tipe = launchURL.host {
+                var targetId : String?
+                if let tId = launchURL.path?.substringFromIndex(1) {
+                    targetId = tId
                 }
-            } else if (launchURL.host == "user") {
-                if let userId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectShopPage(userId)
-                }
-            } else if (launchURL.host == "inbox") {
-                if let inboxId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectInbox(inboxId)
-                }
-            } else if (launchURL.host == "confirm") {
-                if let confirmId = launchURL.path?.substringFromIndex(1) {
-                    self.redirectConfirmPayment(confirmId)
-                }
-            } else if (launchURL.host == "notification") {
-                self.redirectNotification()
+                self.deeplinkRedirect(tipe, targetId: targetId)
             }
 
             FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
                 if (error != nil) { // Process error
-                    println("Received error while fetching deferred app link \(error)")
+                    print("Received error while fetching deferred app link \(error)")
                 }
                 if (url != nil) {
                     UIApplication.sharedApplication().openURL(url)
@@ -189,27 +194,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
             let firstParams = Branch.getInstance().getFirstReferringParams()
-            println("launch sessionParams = \(sessionParams)")
-            println("launch firstParams = \(firstParams)")
+            print("launch sessionParams = \(sessionParams)")
+            print("launch firstParams = \(firstParams)")
             
             let params = JSON(sessionParams)
-            let tipe : String? = params["tipe"].string
-            let targetId : String? = params["target_id"].string
-            if (tipe != nil) {
-                if (targetId != nil) {
-                    if (tipe! == "product") { // deeplinkProduct
-                        self.redirectProduct(targetId!)
-                    } else if (tipe! == "user") { // deeplinkShopPage
-                        self.redirectShopPage(targetId!)
-                    } else if (tipe! == "inbox") { // deeplinkInbox
-                        self.redirectInbox(targetId!)
-                    } else if (tipe! == "confirm") { // deeplinkConfirmPayment
-                        self.redirectConfirmPayment(targetId!)
-                    }
+            if let tipe = params["tipe"].string {
+                var targetId : String?
+                if let tId = params["target_id"].string {
+                    targetId = tId
                 }
-                if (tipe! == "notification") { // deeplinkNotification
-                    self.redirectNotification()
-                }
+                self.deeplinkRedirect(tipe, targetId: targetId)
             }
         })
         
@@ -228,31 +222,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
-        annotation: AnyObject?) -> Bool {
+        annotation: AnyObject) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
             
             if (!Branch.getInstance().handleDeepLink(url)) {
                 // Handle deeplink from Facebook
-                if (url.host == "product") {
-                    if let productId = url.path?.substringFromIndex(1) {
-                        self.redirectProduct(productId)
+                if let tipe = url.host {
+                    var targetId : String?
+                    if let path = url.path {
+                        if (path.length > 1) {
+                            targetId = path.substringFromIndex(1)
+                        }
                     }
-                } else if (url.host == "user") {
-                    if let userId = url.path?.substringFromIndex(1) {
-                        self.redirectShopPage(userId)
-                    }
-                } else if (url.host == "inbox") {
-                    if let inboxId = url.path?.substringFromIndex(1) {
-                        self.redirectInbox(inboxId)
-                    }
-                } else if (url.host == "confirm") {
-                    if let confirmId = url.path?.substringFromIndex(1) {
-                        self.redirectConfirmPayment(confirmId)
-                    }
-                } else if (url.host == "notification") {
-                    self.redirectNotification()
+                    self.deeplinkRedirect(tipe, targetId: targetId)
                 }
+                
                 return FBSDKApplicationDelegate.sharedInstance().application(
                     application,
                     openURL: url,
@@ -263,8 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
     }
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
-        // Pass the url to the handle deep link call
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         Branch.getInstance().continueUserActivity(userActivity)
         
         return true
@@ -275,46 +259,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        println("Action : \(identifier)")
+        print("Action : \(identifier)")
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("deviceToken = \(deviceToken)")
+        print("deviceToken = \(deviceToken)")
         
-        var characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        // Uninstall.io (disabled)
+        //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
         
-        var deviceRegId: String = (deviceToken.description as NSString)
+        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        let deviceRegId: String = (deviceToken.description as NSString)
             .stringByTrimmingCharactersInSet(characterSet)
             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
-        println("deviceRegId = \(deviceRegId)")
+        print("deviceRegId = \(deviceRegId)")
         
         NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
         NSUserDefaults.standardUserDefaults().synchronize()
         
         // Set deviceRegId for push notif if user is logged in
         if (User.IsLoggedIn) {
-            LoginViewController.SendDeviceRegId(onFinish: nil)
+            LoginViewController.SendDeviceRegId()
         } else {
-            request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Update Visitor")) {
-                    println("Visitor updated with deviceRegId: \(deviceRegId)")
+            // API Migrasi
+        request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
+                    print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
             }
         }
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("ERROR : \(error)")
+        print("ERROR : \(error)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("userInfo = \(userInfo)")
+        print("userInfo = \(userInfo)")
+        
+        // Uninstall.io (disabled)
+        //NotifyManager.sharedManager().processRemoteNotification(userInfo)
         
         if (application.applicationState == UIApplicationState.Active) {
-            println("App were active when receiving remote notification")
+            print("App were active when receiving remote notification")
         } else {
-            println("App weren't active when receiving remote notification")
+            print("App weren't active when receiving remote notification")
         }
     }
     
@@ -326,10 +317,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // Uninstall.io (disabled)
+        //NotifyManager.sharedManager().didLoseFocus()
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        // Uninstall.io (disabled)
+        //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
@@ -338,6 +335,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Remove app badge if any
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
+        // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
+        AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -346,93 +346,185 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
-    // MARK: - Redirect functions
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        // Uninstall.io (disabled)
+        //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
+    }
+    
+    // MARK: - Redirection functions
+    
+    func deeplinkRedirect(tipe : String, targetId : String?) {
+        //Constant.showDialog("tipe", message: "\(tipe)")
+        let tipeLowercase = tipe.lowercaseString
+        if (tipeLowercase == self.RedirProduct) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectProduct(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirComment) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectComment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirUser) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectShopPage(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirInbox) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectInbox(targetId)
+            }
+        } else if (tipeLowercase == self.RedirNotif) {
+            if (User.IsLoggedIn) {
+                self.showRedirAlert()
+                self.redirectNotification()
+            }
+        } else if (tipeLowercase == self.RedirConfirm) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectConfirmPayment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirTrxBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            }
+        } else if (tipeLowercase == self.RedirTrxPBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxPSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            }
+        }
+    }
+    
+    func showRedirAlert() {
+        redirAlert = UIAlertView()
+        redirAlert!.title = "Redirecting..."
+        redirAlert!.message = "Harap tunggu beberapa saat"
+        redirAlert!.show()
+    }
+    
+    func hideRedirAlertWithDelay(delay: Double) {
+        let delayTime = delay * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            self.redirAlert?.dismissWithClickedButtonIndex(-1, animated: true)
+        })
+    }
+    
+    func showFailedRedirAlert() {
+        redirAlert?.title = "Redirection Failed"
+        redirAlert?.message = "Terdapat kesalahan saat memproses data"
+        self.hideRedirAlertWithDelay(3.0)
+    }
     
     func redirectProduct(productId : String) {
-        if (productId != "") {
-            request(Products.Detail(productId: productId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Product")) {
-                    let json = JSON(res!)
-                    let data = json["_data"]
-                    let p = Product.instance(data)
-                    
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    var rootViewController : UINavigationController?
-                    
-                    // Tunggu sampai UINavigationController terbentuk, dalam background process
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        var wait = true
-                        var waitCount = Int.max
-                        while (wait) {
-                            if let childVCs = self.window!.rootViewController?.childViewControllers {
-                                if (childVCs.count > 0) {
-                                    if let rootVC = childVCs[0] as? UINavigationController {
-                                        rootViewController = rootVC
-                                    }
-                                    wait = false
+        request(Products.Detail(productId: productId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                let p = Product.instance(data)
+                
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                var rootViewController : UINavigationController?
+                
+                // Tunggu sampai UINavigationController terbentuk, dalam background process
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    var wait = true
+                    var waitCount = self.RedirWaitAmount
+                    while (wait) {
+                        if let childVCs = self.window!.rootViewController?.childViewControllers {
+                            if (childVCs.count > 0) {
+                                if let rootVC = childVCs[0] as? UINavigationController {
+                                    rootViewController = rootVC
                                 }
-                            }
-                            waitCount--
-                            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                                 wait = false
                             }
                         }
-                        
-                        // Redirect setelah selesai menunggu
-                        if (rootViewController != nil) {
-                            let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                            productDetailVC.product = p!
-                            rootViewController!.pushViewController(productDetailVC, animated: true)
+                        waitCount -= 1
+                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                            wait = false
                         }
-                    })
-                }
+                    }
+                    
+                    // Redirect setelah selesai menunggu
+                    if (rootViewController != nil) {
+                        let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                        productDetailVC.product = p!
+                        rootViewController!.pushViewController(productDetailVC, animated: true)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                })
+            } else {
+                self.showFailedRedirAlert()
+            }
+        }
+    }
+    
+    func redirectComment(productId : String) {
+        request(Products.Detail(productId: productId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product Comment")) {
+                let json = JSON(resp.result.value!)
+                let pDetail = ProductDetail.instance(json)
+                
+                var rootViewController : UINavigationController?
+                
+                // Tunggu sampai UINavigationController terbentuk, dalam background process
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    var wait = true
+                    var waitCount = self.RedirWaitAmount
+                    while (wait) {
+                        if let childVCs = self.window!.rootViewController?.childViewControllers {
+                            if (childVCs.count > 0) {
+                                if let rootVC = childVCs[0] as? UINavigationController {
+                                    rootViewController = rootVC
+                                }
+                                wait = false
+                            }
+                        }
+                        waitCount -= 1
+                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                            wait = false
+                        }
+                    }
+                    
+                    // Redirect setelah selesai menunggu
+                    if (rootViewController != nil) {
+                        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                        p.pDetail = pDetail
+                        rootViewController!.pushViewController(p, animated: true)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                })
+            } else {
+                self.showFailedRedirAlert()
             }
         }
     }
     
     func redirectShopPage(userId : String) {
-        if (userId != "") {
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            var rootViewController : UINavigationController?
-            
-            // Tunggu sampai UINavigationController terbentuk, dalam background process
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                var wait = true
-                var waitCount = Int.max
-                while (wait) {
-                    if let childVCs = self.window!.rootViewController?.childViewControllers {
-                        if (childVCs.count > 0) {
-                            if let rootVC = childVCs[0] as? UINavigationController {
-                                rootViewController = rootVC
-                            }
-                            wait = false
-                        }
-                    }
-                    waitCount--
-                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                        wait = false
-                    }
-                }
-                
-                // Redirect setelah selesai menunggu
-                if (rootViewController != nil) {
-                    let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                    shopPage.storeMode = true
-                    shopPage.storeId = userId
-                    rootViewController!.pushViewController(shopPage, animated: true)
-                }
-            })
-        }
-    }
-    
-    func redirectInbox(inboxId : String?) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UINavigationController?
         
         // Tunggu sampai UINavigationController terbentuk, dalam background process
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var wait = true
-            var waitCount = Int.max
+            var waitCount = self.RedirWaitAmount
             while (wait) {
                 if let childVCs = self.window!.rootViewController?.childViewControllers {
                     if (childVCs.count > 0) {
@@ -442,7 +534,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -450,31 +542,99 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Redirect setelah selesai menunggu
             if (rootViewController != nil) {
-                if (inboxId != nil && inboxId != "") {
-                    request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON { req, resp, res, err in
-                        if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Inbox")) {
-                            let json = JSON(res!)
-                            let data = json["_data"]
-                            let inbox = Inbox(jsn: data)
-                            
-                            let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
-                            tawarVC.tawarItem = inbox
-                            rootViewController!.pushViewController(tawarVC, animated: true)
+                let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                shopPage.storeMode = true
+                shopPage.storeId = userId
+                rootViewController!.pushViewController(shopPage, animated: true)
+            } else {
+                self.showFailedRedirAlert()
+            }
+        })
+    }
+    
+    func redirectInbox(inboxId : String?) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk, dalam background process
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var wait = true
+            var waitCount = self.RedirWaitAmount
+            while (wait) {
+                if let childVCs = self.window!.rootViewController?.childViewControllers {
+                    if (childVCs.count > 0) {
+                        if let rootVC = childVCs[0] as? UINavigationController {
+                            rootViewController = rootVC
                         }
+                        wait = false
                     }
-                } else {
-                    let inboxVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdInbox) as! InboxViewController
-                    rootViewController!.pushViewController(inboxVC, animated: true)
                 }
+                waitCount -= 1
+                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                    wait = false
+                }
+            }
+            
+            // Redirect setelah selesai menunggu
+            if (rootViewController != nil) {
+                // API Migrasi
+        request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"]
+                        let inbox = Inbox(jsn: data)
+                        
+                        let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+                        tawarVC.tawarItem = inbox
+                        rootViewController!.pushViewController(tawarVC, animated: true)
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
+        })
+    }
+    
+    func redirectNotification() {
+        // Tunggu sampai UINavigationController terbentuk, dalam background process
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var rootViewController : UINavigationController?
+            
+            var wait = true
+            var waitCount = self.RedirWaitAmount
+            while (wait) {
+                if let childVCs = self.window!.rootViewController?.childViewControllers {
+                    if (childVCs.count > 0) {
+                        if let rootVC = childVCs[0] as? UINavigationController {
+                            rootViewController = rootVC
+                        }
+                        wait = false
+                    }
+                }
+                waitCount -= 1
+                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                    wait = false
+                }
+            }
+            
+            // Redirect setelah selesai menunggu
+            if (rootViewController != nil) {
+                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
+                rootViewController!.pushViewController(notifPageVC, animated: true)
+            } else {
+                self.showFailedRedirAlert()
             }
         })
     }
     
     func redirectConfirmPayment(transactionId : String) {
         if (transactionId != "") {
-            request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Deeplink Confirm Payment")) {
-                    let json = JSON(res!)
+            // API Migrasi
+        request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
+                    let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let progress = data["progress"].intValue
                     
@@ -483,7 +643,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Tunggu sampai UINavigationController terbentuk, dalam background process
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                         var wait = true
-                        var waitCount = Int.max
+                        var waitCount = self.RedirWaitAmount
                         while (wait) {
                             if let childVCs = self.window!.rootViewController?.childViewControllers {
                                 if (childVCs.count > 0) {
@@ -493,7 +653,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     wait = false
                                 }
                             }
-                            waitCount--
+                            waitCount -= 1
                             if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                                 wait = false
                             }
@@ -501,14 +661,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                         // Redirect setelah selesai menunggu
                         if (rootViewController != nil) {
-                            if (progress == 2) { // Pembayaran pending
-                                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
-                                rootViewController!.pushViewController(paymentConfirmationVC, animated: true)
-                                Constant.showDialog("", message: "Pembayaran sedang diproses Prelo, mohon ditunggu")
+                            if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
+                                self.redirAlert?.title = "Perhatian"
+                                self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+                                self.hideRedirAlertWithDelay(3.0)
                             } else {
                                 let products = data["products"]
                                 var imgs : [NSURL] = []
-                                for (var i = 0; i < products.count; i++) {
+                                for i in 0 ..< products.count {
                                     if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
                                         imgs.append(c.productImageURL!)
                                     }
@@ -523,20 +683,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 orderConfirmVC.fromCheckout = false
                                 rootViewController!.pushViewController(orderConfirmVC, animated: true)
                             }
+                        } else {
+                            self.showFailedRedirAlert()
                         }
                     })
+                } else {
+                    self.showFailedRedirAlert()
                 }
             }
         }
     }
     
-    func redirectNotification() {
+    func redirectTransaction(trxId : String?, trxProductId : String?, isSeller : Bool) {
         // Tunggu sampai UINavigationController terbentuk, dalam background process
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var rootViewController : UINavigationController?
             
             var wait = true
-            var waitCount = Int.max
+            var waitCount = self.RedirWaitAmount
             while (wait) {
                 if let childVCs = self.window!.rootViewController?.childViewControllers {
                     if (childVCs.count > 0) {
@@ -546,7 +710,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         wait = false
                     }
                 }
-                waitCount--
+                waitCount -= 1
                 if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
@@ -554,18 +718,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Redirect setelah selesai menunggu
             if (rootViewController != nil) {
-                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
-                rootViewController!.pushViewController(notifPageVC, animated: true)
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                transactionDetailVC.trxId = trxId
+                transactionDetailVC.trxProductId = trxProductId
+                transactionDetailVC.isSeller = isSeller
+                rootViewController!.pushViewController(transactionDetailVC, animated: true)
+            } else {
+                self.showFailedRedirAlert()
             }
         })
+    }
+    
+    // MARK: - UIAlertViewDelegate functions
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        switch buttonIndex {
+        case 0: // Update
+            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            break
+        case 1: // Cancel
+            break
+        default:
+            break
+        }
     }
     
     // MARK: - Version check
     
     func versionCheck() {
-        request(APIApp.Version(appType: "ios")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Version Check")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIApp.Version).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Version Check")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Jika versi metadata baru, load dan save kembali di coredata
                 let ver : CDVersion? = CDVersion.getOne()
@@ -616,7 +801,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     self.updateMetadata(isUpdateVers[0], updateCategories: isUpdateVers[1], updateCategorySizes: isUpdateVers[2], updateShippings: isUpdateVers[3], updateProductConditions: isUpdateVers[4], updateProvincesRegions: isUpdateVers[5])
                 } else {
-                    println("Same metadata version")
+                    print("Same metadata version")
                     
                     // Set categorysaved to true so CategoryPreferencesVC can be executed
                     NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.CategorySaved)
@@ -628,21 +813,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 
                 CDVersion.saveVersions(data)
+                // Check if app need to be updated
+                if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                    if let newVer = CDVersion.getOne()?.appVersion {
+                        if (installedVer != newVer) {
+                            let a = UIAlertView()
+                            a.title = "New Version Available"
+                            a.message = "Prelo \(newVer) is available on App Store"
+                            a.addButtonWithTitle("Update")
+                            if let isForceUpdate = data["is_force_update"].bool {
+                                if (!isForceUpdate) {
+                                    a.addButtonWithTitle("Cancel")
+                                }
+                            } else {
+                                a.addButtonWithTitle("Cancel")
+                            }
+                            a.delegate = self
+                            a.show()
+                        }
+                    }
+                }
             }
         }
     }
     
     func updateMetadata(updateBrands : String, updateCategories : String, updateCategorySizes : String, updateShippings : String, updateProductConditions : String, updateProvincesRegions : String)
     {
-        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Metadata Update")) {
-                let metaJson = JSON(res!)
+        // API Migrasi
+        request(APIApp.Metadata(brands: updateBrands, categories: updateCategories, categorySizes: updateCategorySizes, shippings: updateShippings, productConditions: updateProductConditions, provincesRegions: updateProvincesRegions)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Metadata Update")) {
+                let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]
                 
                 var progressPortionLeft : Float = 0.97
                 let progressPortion : Float = 0.05
                 
-                var queue : NSOperationQueue = NSOperationQueue.new()
+                let queue : NSOperationQueue = NSOperationQueue()
                 
                 let opFinish : NSOperation = NSBlockOperation(block: {
                     // Set appdatasaved to true so the app is no longer blocked
@@ -654,36 +860,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateCategories == "1") {
                     opCategories = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update categories
-                            println("Updating categories..")
-                            if (CDCategory.deleteAll(moc)) {
-                                if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
-                                    var categoryLv1Count = metadata["categories"][0]["children"].count
-                                    // Wait until core data saving is actually finished
-                                    var wait = true
-                                    var waitCount = Int.max
-                                    while (wait) {
-                                        if (CDCategory.getCategoriesInLevel(1).count >= categoryLv1Count) {
-                                            wait = false
-                                        }
-                                        waitCount--
-                                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                                            wait = false
-                                        }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update categories
+                        print("Updating categories..")
+                        if (CDCategory.deleteAll(moc)) {
+                            if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
+                                let categoryLv1Count = metadata["categories"][0]["children"].count
+                                // Wait until core data saving is actually finished
+                                var wait = true
+                                var waitCount = self.RedirWaitAmount
+                                while (wait) {
+                                    let c1Count = CDCategory.getCategoriesInLevel(1).count
+                                    if (c1Count >= categoryLv1Count) {
+                                        wait = false
                                     }
-                                    // Set categorysaved to true so CategoryPreferencesVC can be executed
-                                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
-                                    
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
+                                    waitCount -= 1
+                                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                                        wait = false
+                                    }
                                 }
+                                // Set categorysaved to true so CategoryPreferencesVC can be executed
+                                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CategorySaved)
+                                
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -697,20 +903,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateCategorySizes == "1") {
                     let opCategorySizes : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update category sizes
-                            println("Updating category sizes..")
-                            if (CDCategorySize.deleteAll(moc)) {
-                                if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update category sizes
+                        print("Updating category sizes..")
+                        if (CDCategorySize.deleteAll(moc)) {
+                            if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -724,20 +929,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateShippings == "1") {
                     let opShippings : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update shippings
-                            println("Updating shippings..")
-                            if (CDShipping.deleteAll(moc)) {
-                                if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update shippings
+                        print("Updating shippings..")
+                        if (CDShipping.deleteAll(moc)) {
+                            if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -751,20 +955,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateProductConditions == "1") {
                     let opProductConditions : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update product conditions
-                            println("Updating product conditions..")
-                            if (CDProductCondition.deleteAll(moc)) {
-                                if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update product conditions
+                        print("Updating product conditions..")
+                        if (CDProductCondition.deleteAll(moc)) {
+                            if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -778,20 +981,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateProvincesRegions == "1") {
                     let opProvincesRegions : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update provinces regions
-                            println("Updating provinces regions..")
-                            if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
-                                if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
-                                    self.increaseLoadAppDataProgressBy(progressPortion)
-                                    self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
-                                    progressPortionLeft -= progressPortion
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update provinces regions
+                        print("Updating provinces regions..")
+                        if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
+                            if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
+                                self.increaseLoadAppDataProgressBy(progressPortion)
+                                self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
+                                progressPortionLeft -= progressPortion
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -805,17 +1007,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if (updateBrands == "1") {
                     let opBrands : NSOperation = NSBlockOperation(block: {
-                        if let psc = UIApplication.appDelegate.persistentStoreCoordinator {
-                            var moc = NSManagedObjectContext()
-                            moc.persistentStoreCoordinator = psc
-                            
-                            // Update brands
-                            println("Updating brands..")
-                            if (CDBrand.deleteAll(moc)) {
-                                if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : progressPortionLeft)) {
-                                } else {
-                                    self.isLoadAppDataSuccess = false
-                                }
+                        let psc = UIApplication.appDelegate.persistentStoreCoordinator
+                        let moc = NSManagedObjectContext()
+                        moc.persistentStoreCoordinator = psc
+                        
+                        // Update brands
+                        print("Updating brands..")
+                        if (CDBrand.deleteAll(moc)) {
+                            if (CDBrand.saveBrands(metadata["brands"], m: moc, pView: nil, p : progressPortionLeft)) {
+                            } else {
+                                self.isLoadAppDataSuccess = false
                             }
                         }
                     })
@@ -845,7 +1046,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "id.gits.Prelo" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] as NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -854,40 +1055,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
 
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
-        // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
-        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Prelo.sqlite")
-        var error: NSError? = nil
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         
-        let opt = [NSMigratePersistentStoresAutomaticallyOption:true, NSInferMappingModelAutomaticallyOption:true]
-        
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: opt, error: &error) == nil {
-            coordinator = nil
+        // migration
+        let option = [NSMigratePersistentStoresAutomaticallyOption:true, NSInferMappingModelAutomaticallyOption:true]
+        do {
+            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: option)
+        } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
-            dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            
+            dict[NSUnderlyingErrorKey] = error as! NSError
+            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
             abort()
         }
         
         return coordinator
     }()
 
-    lazy var managedObjectContext: NSManagedObjectContext? = {
+
+    lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        if coordinator == nil {
-            return nil
-        }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
@@ -895,12 +1095,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data Saving support
 
     func saveContext () {
-        if let moc = self.managedObjectContext {
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
+        if managedObjectContext.hasChanges {
+            do {
+                try managedObjectContext.save()
+            } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
+                let nserror = error as NSError
+                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
                 abort()
             }
         }
@@ -915,14 +1117,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Other functions
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
-        let t : UITouch = event.allTouches()?.first as! UITouch
-        let loc = t.locationInView(self.window)
-        let f = UIApplication.sharedApplication().statusBarFrame
-        let b = CGRectContainsPoint(f, loc)
-        if (b) {
-            NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
+        
+        if let t = event?.allTouches()?.first
+        {
+            let loc = t.locationInView(self.window)
+            let f = UIApplication.sharedApplication().statusBarFrame
+            let b = CGRectContainsPoint(f, loc)
+            if (b) {
+                NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
+            }
         }
     }
+    
+//    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//        
+//    }
 }

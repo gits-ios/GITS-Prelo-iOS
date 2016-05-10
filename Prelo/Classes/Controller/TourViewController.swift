@@ -42,15 +42,18 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let p = scrollView.contentOffset
         
-        var x = p.x * scrollViewTitle.width / scrollView.width
+        var x = p.x * scrollViewTitle.width / ((scrollView.width > 0) ? scrollView.width : 1)
         scrollViewTitle.contentOffset = CGPointMake(x, 0)
         
-        x = p.x * scrollViewSubtitle.width / scrollView.width
+        x = p.x * scrollViewSubtitle.width / ((scrollView.width > 0) ? scrollView.width : 1)
         scrollViewSubtitle.contentOffset = CGPointMake(x, 0)
         
-        pager.currentPage = Int(p.x / UIScreen.mainScreen().bounds.width)
+        let scrWidth = UIScreen.mainScreen().bounds.width
+        if (scrWidth > 0) {
+            pager.currentPage = Int(p.x / scrWidth)
+        }
         
-        if (pager.currentPage == 2)
+        if (pager.currentPage == 4)
         {
             btnNext.setTitle("Mulai", forState: UIControlState.Normal)
         } else
@@ -88,7 +91,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     var fromButton = false
     @IBAction func next(sender : UIButton)
     {
-        if (pager.currentPage == 2)
+        if (pager.currentPage == 4)
         {
             if (!NSUserDefaults.isCategorySaved()) {
                 // Wait until category is saved

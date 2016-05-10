@@ -23,7 +23,7 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         
         purchaseCompletedVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseCompleted, owner: nil, options: nil).first as! MyPurchaseCompletedViewController
         
-        tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: ["DIPROSES", "SELESAI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["DIPROSES", "SELESAI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)

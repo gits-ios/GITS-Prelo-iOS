@@ -88,7 +88,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         header.captionProductName.text = tawarItem.itemName
         if (tawarItem.bargainPrice != 0 && tawarItem.threadState == 2)
         {
-            let b = tawarItem.bargainPrice.asPrice
+//            let b = tawarItem.bargainPrice.asPrice
             let p = tawarItem.price
             header.captionPrice.text = tawarItem.bargainPrice.asPrice
             header.captionOldPrice.text = tawarItem.price
@@ -116,8 +116,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.btnSend.userInteractionEnabled = false
         textView.delegate = self
         
-        btnTawar1.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-        btnTawar2.addTarget(self, action: "showTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         if (User.IsLoggedIn == true)
         {
@@ -158,7 +158,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tawarFromMe = false
     func adjustButtons()
     {
-        println("prodStatus = \(self.prodStatus)")
+        print("prodStatus = \(self.prodStatus)")
         if (self.prodStatus != 1) // Jika produk sudah dibeli
         {
             btnTawar1.hidden = true
@@ -190,9 +190,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         if (firstButton)
         {
-            btnTolak.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-            btnTolak2.addTarget(self, action: "rejectTawar:", forControlEvents: UIControlEvents.TouchUpInside)
-            btnConfirm.addTarget(self, action: "confirmTawar:", forControlEvents: UIControlEvents.TouchUpInside)
+            btnTolak.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnTolak2.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnConfirm.addTarget(self, action: #selector(TawarViewController.confirmTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             firstButton = false
         }
         
@@ -319,6 +319,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             // login
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         }
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -331,13 +337,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInbox()
     {
         self.tableView.hidden = true
-        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(false, req: req, resp: resp, res: res, err: err, reqAlias: "Get Inbox By Product ID")) {}
+        // API Migrasi
+        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON {resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Inbox By Product ID")) {}
             self.tableView.hidden = false
-            let json = JSON(res!)
+            let json = JSON(resp.result.value!)
             let data = json["_data"]
             let i = Inbox(jsn: data)
-            //println(data)
+            //print(data)
             if (i.itemId != "")
             {
                 self.tawarItem = i
@@ -345,7 +352,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarFromMe = self.tawarItem.bargainerIsMe
             self.adjustButtons()
             self.getMessages()
-            //println(res)
+            //print(res)
         }
     }
     
@@ -355,13 +362,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         var api = APIInbox.GetInboxMessage(inboxId: tawarItem.threadId)
         if (fromSeller)
         {
-            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId)
+            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
-        request(api).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
+        // API Migrasi
+        request(api).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
-                let json = JSON(res!)
-                println(res)
+                let json = JSON(resp.result.value!)
+//                print(res)
                 if let arr = json["_data"]["messages"].array
                 {
                     if (arr.count > 0)
@@ -406,7 +414,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             btnSend.userInteractionEnabled = false
         } else
         {
-            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hex: "#25A79D")), forState: .Normal)
+            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hexString: "#25A79D")), forState: .Normal)
             btnSend.userInteractionEnabled = true
         }
     }
@@ -414,7 +422,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBAction func beli(sender : UIView?)
     {
         var success = true
-        if let x = CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString)
+        if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) != nil)
         {
             
         } else
@@ -445,13 +453,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func sendTawar(sender : UIView?)
     {
+        guard txtTawar.text != nil else
+        {
+            return
+        }
+        
         let tawarRegex = "^[0-9]*$"
-        if (txtTawar.text == "" || txtTawar.text.match(tawarRegex) == false)
+        if (txtTawar.text == "" || txtTawar.text!.match(tawarRegex) == false)
         {
             Constant.showDialog("Masukkan angka penawaran", message: "Contoh: 150000")
         } else
         {
-            var m = txtTawar.text.int
+            let m = txtTawar.text!.int
             if (m < 1000)
             {
                 Constant.showDialog("Tawar", message: "Mungkin maksud anda " + m.asPrice + "0")
@@ -460,9 +473,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.hideTawar(nil)
             if (tawarItem.threadId == "")
             {
-                startNew(1, message : txtTawar.text)
+                startNew(1, message : txtTawar.text!)
             } else {
-                sendChat(1, message: txtTawar.text)
+                sendChat(1, message: txtTawar.text!)
             }
             txtTawar.text = ""
             btnTawar1.hidden = true
@@ -497,7 +510,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        var m = textView.text
+        let m = textView.text
         
         if (m == "")
         {
@@ -525,7 +538,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let date = NSDate()
         let f = NSDateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        var time = f.stringFromDate(date)
+        let time = f.stringFromDate(date)
         let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
         if (type != 0)
         {
@@ -591,12 +604,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         {
             api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
-        request(api).responseJSON { req, resp, res, err in
-            println(res)
+        // API Migrasi
+        request(api).responseJSON {resp in
+//            print(res)
             self.starting = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Chat"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat"))
             {
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let inbox = Inbox(jsn: data)
                 self.tawarItem = inbox
@@ -605,7 +619,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 let date = NSDate()
                 let f = NSDateFormatter()
                 f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                var time = f.stringFromDate(date)
+                let time = f.stringFromDate(date)
                 let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
                 self.inboxMessages.append(i)
                 self.textView.text = ""
@@ -617,14 +631,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
             } else
             {
-                println(err)
+                print(resp.result.error)
             }
         }
     }
     
     func scroll()
     {
-        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "scrollToBottom", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(TawarViewController.scrollToBottom), userInfo: nil, repeats: false)
     }
     
     func scrollToBottom()
@@ -649,8 +663,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let m = inboxMessages[indexPath.row]
-        var id = m.isMe ? "me" : "them"
-        var cell = tableView.dequeueReusableCellWithIdentifier(id) as! TawarCell
+        let id = m.isMe ? "me" : "them"
+        let cell = tableView.dequeueReusableCellWithIdentifier(id) as! TawarCell
         
         cell.inboxMessage = m
         cell.decor()
@@ -795,7 +809,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 
     func randomElementIndex<T>(s: Set<T>) -> T {
         let n = Int(arc4random_uniform(UInt32(s.count)))
-        let i = advance(s.startIndex, n)
+        let i = s.startIndex.advancedBy(n)
         return s[i]
     }
 }
@@ -840,7 +854,7 @@ class TawarCell : UITableViewCell
                 self.captionMessage.textColor = UIColor.whiteColor()
             } else
             {
-                self.sectionMessage.backgroundColor = UIColor(hex: "#E8ECEE")
+                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
                 self.captionMessage.textColor = UIColor.darkGrayColor()
             }
             
@@ -851,7 +865,7 @@ class TawarCell : UITableViewCell
             {
                 self.captionMessage.text = "[GAGAL MENGIRIM]\n\n" + m.message
                 self.captionMessage.textColor = UIColor.whiteColor()
-                self.sectionMessage.backgroundColor = UIColor(hex : "#AC281C")
+                self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
                 self.btnRetry?.hidden = false
             } else
             {
@@ -874,7 +888,7 @@ class TawarCell : UITableViewCell
             
             if (m.messageType == 3)
             {
-                self.sectionMessage.backgroundColor = UIColor(hex: "#E8ECEE")
+                self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
                 self.captionMessage.textColor = UIColor.darkGrayColor()
             }
             

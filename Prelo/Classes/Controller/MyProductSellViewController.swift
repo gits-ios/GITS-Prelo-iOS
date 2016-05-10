@@ -41,7 +41,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.delegate = self
         
         // Register custom cell
-        var transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
+        let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
         tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
@@ -52,7 +52,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
@@ -68,9 +68,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getProducts()
     {
-        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Jualan Saya")) {
-                if let result: AnyObject = res
+        // API Migrasi
+        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
+                if let result: AnyObject = resp.result.value
                 {
                     let j = JSON(result)
                     let d = j["_data"].arrayObject
@@ -145,7 +146,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
         if (!refreshControl.refreshing) {
             let p = products[indexPath.row]
             
@@ -174,7 +175,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             // Fix product status text width
             let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-            //println("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
+            //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
             cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
         }
         
@@ -213,7 +214,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         selectedProduct = products[indexPath.row]
         
-        var d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         d.product = selectedProduct!
         
         self.previousController?.navigationController?.pushViewController(d, animated: true)

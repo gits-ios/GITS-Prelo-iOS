@@ -17,10 +17,10 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageId : String
     @NSManaged var packageName : String
     
-    static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool{
-        for (var i = 0; i < json.count; i++) {
+    static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
+        for i in 0 ..< json.count {
             let shipJson = json[i]
-            for (var j = 0; j < shipJson["shipping_packages"].count; j++) {
+            for j in 0 ..< shipJson["shipping_packages"].count {
                 let packJson = shipJson["shipping_packages"][j]
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
                 r.id = shipJson["_id"].string!
@@ -29,24 +29,23 @@ class CDShipping: NSManagedObject {
                 r.packageName = packJson["name"].string!
             }
         }
-        var err : NSError?
-        if (m.save(&err) == false) {
-            println("saveShippings failed")
+        if (m.saveSave() == false) {
+            print("saveShippings failed")
             return false
+        } else {
+            print("saveShippings success")
+            return true
         }
-        println("saveShippings success")
-        return true
     }
     
     static func newOne(id : String, name : String, packageId : String, packageName : String) -> CDShipping? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m!) as! CDShipping
+        let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
         r.id = id
         r.name = name
         r.packageId = packageId
         r.packageName = packageName
-        var err : NSError?
-        if ((m?.save(&err))! == false) {
+        if (m.saveSave() == false) {
             return nil
         } else {
             return r
@@ -57,48 +56,40 @@ class CDShipping: NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDShipping")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
-            }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                println("deleteAll CDShipping success")
-            } else if let error = error {
-                println("deleteAll CDShipping failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            println("deleteAll CDShipping failed with fetch error : \(error)")
+        guard let results = m.tryExecuteFetchRequest(fetchRequest) else {
+            print("deleteAll CDShipping failed")
             return false
         }
-        return true
+        for result in results {
+            m.deleteObject(result)
+        }
+        if (m.saveSave() == false) {
+            print("deleteAll CDShipping failed")
+            return false
+        } else {
+            print("deleteAll CDShipping success")
+            return true
+        }
     }
     
     static func getShippingCount() -> Int {
+        let m = UIApplication.appDelegate.managedObjectContext
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r == nil) {
+        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return 0
-        } else {
-            return r!.count
         }
+        return r.count
     }
     
     static func getShippingCompleteNameWithId(id : String) -> String? {
+        let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "packageId like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
         fetchReq.predicate = predicate
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return nil
-        } else {
-            let s = r!.first as! CDShipping
-            return "\(s.name) \(s.packageName)"
         }
+        let s = r.first as! CDShipping
+        return "\(s.name) \(s.packageName)"
     }
 }

@@ -37,7 +37,7 @@ extension String
     {
         var s = self
         
-        for (key : String, value : String) in Constant.escapesSymbols
+        for (key, value) in Constant.escapesSymbols
         {
             s = self.stringByReplacingOccurrencesOfString(key, withString: value, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         }
@@ -67,8 +67,11 @@ extension NSAttributedString {
     }
 }
 
+var CalendarOption = NSCalendarOptions.MatchLast
+
 extension NSDate
 {
+    
     struct Date {
         static let formatter = NSDateFormatter()
     }
@@ -89,35 +92,36 @@ extension NSDate
     }
     
     func yearsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitYear, fromDate: date, toDate: self, options: nil).year
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Year, fromDate: date, toDate: self, options: CalendarOption).year
     }
     func monthsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitMonth, fromDate: date, toDate: self, options: nil).month
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date, toDate: self, options: CalendarOption).month
     }
     func weeksFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitWeekOfYear, fromDate: date, toDate: self, options: nil).weekOfYear
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.WeekOfYear, fromDate: date, toDate: self, options: CalendarOption).weekOfYear
     }
     func daysFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitDay, fromDate: date, toDate: self, options: nil).day
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date, toDate: self, options: CalendarOption).day
     }
     func hoursFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitHour, fromDate: date, toDate: self, options: nil).hour
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Hour, fromDate: date, toDate: self, options: CalendarOption).hour
     }
     func minutesFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitMinute, fromDate: date, toDate: self, options: nil).minute
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Minute, fromDate: date, toDate: self, options: CalendarOption).minute
     }
     func secondsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.CalendarUnitSecond, fromDate: date, toDate: self, options: nil).second
+        return NSCalendar.currentCalendar().components(NSCalendarUnit.Second, fromDate: date, toDate: self, options: CalendarOption).second
     }
     
     func minutesFromIsoFormatted(formatted : String) -> Int {
         let calendar : NSCalendar = NSCalendar.currentCalendar()
-        var comp : NSDateComponents = calendar.components((.CalendarUnitEra | .CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond), fromDate: NSDate())
+//        var comp : NSDateComponents = calendar.components((.Era | .Year | .Month | .Day | .Hour | .Minute | .Second), fromDate: NSDate())
+        var comp : NSDateComponents = calendar.components([.Era, .Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
         if let nowDate = calendar.dateFromComponents(comp) {
-            //println("nowDate = \(nowDate)")
+            //print("nowDate = \(nowDate)")
             if let rollbackNSDate = NSDate().rollbackIsoFormatted(formatted) {
-                //println("rollbackNSDate = \(rollbackNSDate)")
-                comp = calendar.components((.CalendarUnitEra | .CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay | .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond), fromDate: rollbackNSDate)
+                //print("rollbackNSDate = \(rollbackNSDate)")
+                comp = calendar.components([.Era, .Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: rollbackNSDate)
                 if let rollbackDate = calendar.dateFromComponents(comp) {
                     return nowDate.minutesFrom(rollbackDate)
                 }

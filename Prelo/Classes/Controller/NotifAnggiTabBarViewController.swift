@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, PreloNotifListenerDelegate, UserRelatedDelegate {
+class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var notifAnggiTransactionVC : NotifAnggiTransactionViewController?
@@ -35,7 +35,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         notifAnggiConversationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil).first as? NotifAnggiConversationViewController
         notifAnggiConversationVC?.delegate = self
         
-        tabSwipe = CarbonTabSwipeNavigation.alloc().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
@@ -102,9 +102,10 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     }
     
     func getUnreadNotifCount() {
-        request(APINotifAnggi.GetUnreadNotifCount).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Notifikasi - Unread Count")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APINotifAnggi.GetUnreadNotifCount).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 self.transactionBadgeNumber = data["tp_notif"].intValue
@@ -141,7 +142,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func decreaseTransactionBadgeNumber() {
         if (self.transactionBadgeNumber != nil && self.transactionBadgeNumber! > 0) {
-            self.transactionBadgeNumber!--
+            self.transactionBadgeNumber! -= 1
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
@@ -154,7 +155,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func decreaseConversationBadgeNumber() {
         if (self.conversationBadgeNumber != nil && self.conversationBadgeNumber! > 0) {
-            self.conversationBadgeNumber!--
+            self.conversationBadgeNumber! -= 1
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!

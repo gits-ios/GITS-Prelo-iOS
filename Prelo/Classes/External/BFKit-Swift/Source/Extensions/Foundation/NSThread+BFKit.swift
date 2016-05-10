@@ -4,7 +4,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,19 +29,53 @@ import Foundation
 // MARK: - Global functions -
 
 /**
-Runs a block in the main thread
+ Runs a block in the main thread
 
-:param: block Block to be executed
-*/
-public func runOnMainThread(block: () -> ())
-{
+ - parameter block: Block to be executed
+ */
+public func runOnMainThread(block: () -> ()) {
     dispatch_async(dispatch_get_main_queue(), {
         block()
     })
 }
 
+/**
+ Runs a block in background
+
+ - parameter: block Block to be executed
+ */
+public func runInBackground(block: () -> ()) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        block()
+    }
+}
+
 /// This extesion adds some useful functions to NSThread
-private extension NSThread
-{
+public extension NSThread {
+    /**
+     Exectute a selector asyncronously after a delay
     
+     - parameter selector: Selector to be executed
+     - parameter target:   Target (Usually "self")
+     - parameter delay:    Delay to excute the selector
+    
+     - returns: Return an NSTimer who handle the execution of the selector
+     */
+    public static func callSelectorAsync(selector: Selector, target: AnyObject, delay: NSTimeInterval = 0.0) -> NSTimer {
+        return NSTimer.scheduledTimerWithTimeInterval(delay, target: target, selector: selector, userInfo: nil, repeats: false)
+    }
+    
+    /**
+     Exetute a selector
+    
+     - parameter selector: Selector to be executed
+     - parameter target:   Target (Usually "self")
+     - parameter object:   Object to pass to the selector
+     - parameter delay:    Delay to excute the selector
+     */
+    public static func callSelector(selector: Selector, target: AnyObject, object: AnyObject? = nil, delay: NSTimeInterval = 0.0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+            NSThread.detachNewThreadSelector(selector, toTarget: target, withObject: object)
+        })
+    }
 }

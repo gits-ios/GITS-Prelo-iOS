@@ -17,29 +17,28 @@ class CDProvince : NSManagedObject {
     @NSManaged var regions : NSMutableSet
     
     static func saveProvinceRegions(json : JSON, m : NSManagedObjectContext) -> Bool {
-        for (var i = 0; i < json.count; i++) {
+        for i in 0 ..< json.count {
             let provJson = json[i]
             let p = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
             p.id = provJson["_id"].string!
             p.name = provJson["name"].string!
-            //println("Province \(p.name) added")
-            for (var j = 0; j < provJson["regions"].count; j++) {
+            //print("Province \(p.name) added")
+            for j in 0 ..< provJson["regions"].count {
                 let regJson = provJson["regions"][j]
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
                 r.id = regJson["_id"].string!
                 r.name = regJson["name"].string!
                 r.province = p
                 p.regions.addObject(r)
-                //println("Region: \(r.name) added to province: \(p.name)")
+                //print("Region: \(r.name) added to province: \(p.name)")
             }
         }
         
-        var err : NSError?
-        if (m.save(&err) == false) {
-            println("saveProvinceRegions failed")
+        if (m.saveSave() == false) {
+            print("saveProvinceRegions failed")
             return false
         }
-        println("saveProvinceRegions success")
+        print("saveProvinceRegions success")
         return true
     }
     
@@ -47,23 +46,24 @@ class CDProvince : NSManagedObject {
         let fetchRequest = NSFetchRequest(entityName: "CDProvince")
         fetchRequest.includesPropertyValues = false
         
-        var error : NSError?
-        if let results = m.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject] {
-            for result in results {
-                m.deleteObject(result)
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() == true) {
+                    print("deleteAll CDProvince success")
+                } else {
+                    print("deleteAll CDProvince failed")
+                    return false
+                }
             }
-            
-            var error : NSError?
-            if (m.save(&error) == true) {
-                println("deleteAll CDProvince success")
-            } else if let error = error {
-                println("deleteAll CDProvince failed with error : \(error.userInfo)")
-                return false
-            }
-        } else if let error = error {
-            println("deleteAll CDProvince failed with fetch error : \(error)")
+        } catch {
             return false
         }
+        
+        
         return true
     }
     
@@ -71,16 +71,19 @@ class CDProvince : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var provinces = [CDProvince]()
         
-        var err : NSError?
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
-        provinces = (m?.executeFetchRequest(fetchReq, error: &err) as? [CDProvince])!
-        
         var arr : [String] = []
-        for province in provinces {
-            arr.append(province.name + PickerViewController.TAG_START_HIDDEN + province.id + PickerViewController.TAG_END_HIDDEN)
+        
+        do {
+            provinces = try (m.executeFetchRequest(fetchReq) as? [CDProvince])!
+            for province in provinces {
+                arr.append(province.name + PickerViewController.TAG_START_HIDDEN + province.id + PickerViewController.TAG_END_HIDDEN)
+            }
+        } catch {
+            
         }
         return arr
     }
@@ -89,23 +92,23 @@ class CDProvince : NSManagedObject {
         let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
         fetchReq.predicate = predicate
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err)
-        if (err != nil || r?.count == 0) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDProvince).name
+        } catch {
             return nil
-        } else {
-            return (r!.first as! CDProvince).name
         }
     }
     
     static func getProvinceCount() -> Int {
         let fetchReq = NSFetchRequest(entityName: "CDProvince")
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err);
-        if (err != nil || r == nil) {
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count
+        } catch {
             return 0
-        } else {
-            return r!.count
         }
     }
 }

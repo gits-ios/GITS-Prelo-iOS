@@ -13,6 +13,7 @@ import Foundation
 class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var consHeightTableView: NSLayoutConstraint!
     @IBOutlet weak var txtFldKurir: UITextField!
@@ -53,7 +54,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         self.hideLoading()
         
         // Register custom cell
-        var confirmShippingCellNib = UINib(nibName: "ConfirmShippingCell", bundle: nil)
+        let confirmShippingCellNib = UINib(nibName: "ConfirmShippingCell", bundle: nil)
         tableView.registerNib(confirmShippingCellNib, forCellReuseIdentifier: "ConfirmShippingCell")
         
         // Transaparent panel
@@ -69,7 +70,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if (trxProductDetails.count > 0) {
                 // For default, all transaction product is set as selected
                 isSelected = []
-                for (var i = 0; i < trxProductDetails.count; i++) {
+                for _ in 0 ..< trxProductDetails.count {
                     isSelected.append(true)
                 }
                 setupTable()
@@ -170,8 +171,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             self.showLoading()
             
             var sentTp : [String] = []
-            var rejectedTp : NSMutableArray = []
-            for (var i = 0; i < trxProductDetails.count; i++) {
+            let rejectedTp : NSMutableArray = []
+            for i in 0 ..< trxProductDetails.count {
                 let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
                 if (cell.isSelected == true) {
                     sentTp.append(trxProductDetails[i].id)
@@ -184,7 +185,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 }
             }
             var confirmData = "{\"sent\":["
-            for (var j = 0; j < sentTp.count; j++) {
+            for j in 0 ..< sentTp.count {
                 let s = sentTp[j]
                 confirmData += "\"\(s)\""
                 if (j < sentTp.count - 1) {
@@ -192,7 +193,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 }
             }
             confirmData += "], \"rejected\":["
-            for (var k = 0; k < rejectedTp.count; k++) {
+            for k in 0 ..< rejectedTp.count {
                 let r : [String:String] = rejectedTp[k] as! [String : String]
                 let rTpId = r["tp_id"]!
                 let rReason = r["reason"]!
@@ -203,19 +204,21 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             }
             confirmData += "]}"
             
-            var url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
-            var param = [
+            let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
+            let param = [
                 "confirmation_data" : confirmData,
-                "kurir" : self.txtFldKurir.text,
-                "resi_number" : self.txtFldNoResi.text
+                "kurir" : self.txtFldKurir.text == nil ? "" : self.txtFldKurir.text!,
+                "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
             ]
             var images : [UIImage] = []
-            images.append(imgResi.image!)
+            if let imgR = imgResi.image {
+                images.append(imgR)
+            }
             
             let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
             
             AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-                println("Confirm shipping res = \(res)")
+                print("Confirm shipping res = \(res)")
                 let json = JSON(res)
                 let data = json["_data"].boolValue
                 if (data == true) {
@@ -234,7 +237,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     @IBAction func btnContactPreloPressed(sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
         self.contactUs = c
         if let v = c.view, let p = self.navigationController?.view {
             v.alpha = 0
@@ -251,14 +254,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // MARK: - GestureRecognizer Functions
     
     @IBAction func disableTextFields(sender : AnyObject) {
-        for (var i = 0; i < trxProductDetails.count; i++) {
+        for i in 0 ..< trxProductDetails.count {
             let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
             cell.textView.resignFirstResponder()
         }
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -268,26 +271,30 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // MARK: - Other functions
     
     func validateFields() -> Bool {
-        // FIXME: Harusnya kalo semua barang ditolak, ga perlu isi resi dll
-        if (self.txtFldKurir.text == "") {
-            Constant.showDialog("Warning", message: "Field kurir harus diisi")
-            return false
-        }
-        if (self.txtFldNoResi.text == "") {
-            Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
-            return false
-        }
-        if (!self.isPictSelected) {
-            Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
-            return false
-        }
-        for (var i = 0; i < isSelected.count; i++) {
+        var isAllRejected = true
+        for i in 0 ..< isSelected.count {
             if (!isSelected[i]) {
                 let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
                 if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
                     return false
                 }
+            } else {
+                isAllRejected = false
+            }
+        }
+        if (!isAllRejected) {
+            if (self.txtFldKurir.text == "") {
+                Constant.showDialog("Warning", message: "Field kurir harus diisi")
+                return false
+            }
+            if (self.txtFldNoResi.text == "") {
+                Constant.showDialog("Warning", message: "Field nomor resi harus diisi")
+                return false
+            }
+            if (!self.isPictSelected) {
+                Constant.showDialog("Warning", message: "Harap melampirkan foto bukti resi")
+                return false
             }
         }
         return true
@@ -301,10 +308,11 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         tableView.reloadData()
         var height : CGFloat = 0
-        for (var i = 0; i < isSelected.count; i++) {
+        for i in 0 ..< isSelected.count {
             height += self.tableView(tableView, heightForRowAtIndexPath: NSIndexPath(forRow: i, inSection: 0))
         }
         consHeightTableView.constant = height
+        consHeightContentView.constant = height + 330
     }
     
     func hideLoading() {

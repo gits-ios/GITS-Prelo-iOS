@@ -4,7 +4,7 @@
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,45 +28,42 @@ import Foundation
 import UIKit
 
 /// This extesion adds some useful functions to UILabel
-public extension UILabel
-{
+public extension UILabel {
     // MARK: - Init functions -
     
     /**
-    Create an UILabel with the given parameters, with clearColor for the shadow
+     Create an UILabel with the given parameters, with clearColor for the shadow
     
-    :param: frame     Label's frame
-    :param: text      Label's text
-    :param: font      Label's font name, FontName enum is declared in UIFont+BFKit
-    :param: size      Label's font size
-    :param: color     Label's text color
-    :param: alignment Label's text alignment
-    :param: lines     Label's text lines
+     - parameter frame:     Label's frame
+     - parameter text:      Label's text
+     - parameter font:      Label's font name, FontName enum is declared in UIFont+BFKit
+     - parameter size:      Label's font size
+     - parameter color:     Label's text color
+     - parameter alignment: Label's text alignment
+     - parameter lines:     Label's text lines
     
-    :returns: Returns the created UILabel
-    */
-    @availability(*, deprecated=1.2.0, message="Use UILabel(_, text:, font:, size:, color:, alignment:, lines:, shadowColor:)")
-    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int)
-    {
+     - returns: Returns the created UILabel
+     */
+    @available(*, obsoleted=1.2.0, message="Use UILabel(_, text:, font:, size:, color:, alignment:, lines:, shadowColor:)")
+    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int) {
         self.init(frame: frame, text: text, font: font, size: size, color: color, alignment: alignment, lines: lines, shadowColor: UIColor.clearColor())
     }
     
     /**
-    Create an UILabel with the given parameters
+     Create an UILabel with the given parameters
     
-    :param: frame       Label's frame
-    :param: text        Label's text
-    :param: font        Label's font name, FontName enum is declared in UIFont+BFKit
-    :param: size        Label's font size
-    :param: color       Label's text color
-    :param: alignment   Label's text alignment
-    :param: lines       Label's text lines
-    :param: shadowColor Label's text shadow color
+     - parameter frame:       Label's frame
+     - parameter text:        Label's text
+     - parameter font:        Label's font name, FontName enum is declared in UIFont+BFKit
+     - parameter size:        Label's font size
+     - parameter color:       Label's text color
+     - parameter alignment:   Label's text alignment
+     - parameter lines:       Label's text lines
+     - parameter shadowColor: Label's text shadow color
     
-    :returns: Returns the created UILabel
-    */
-    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clearColor())
-    {
+     - returns: Returns the created UILabel
+     */
+    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clearColor()) {
         self.init(frame: frame)
         self.font = UIFont(fontName: font, size: size)
         self.text = text
@@ -75,5 +72,31 @@ public extension UILabel
         self.textAlignment = alignment
         self.numberOfLines = lines
         self.shadowColor = shadowColor
+    }
+    
+    // MARK: - Instance functions -
+    
+    /**
+    Calculates height based on text, width and font
+    
+    - returns: Returns calculated height
+    */
+    public func calculatedHeight() -> CGFloat {
+        let text: String = self.text!
+        return text.heightForWidth(self.frame.size.width, font: self.font)
+    }
+    
+    /**
+     Sets a custom font from a character at an index to character at another index
+     
+     - parameter font:      New font to be setted
+     - parameter fromIndex: The start index
+     - parameter toIndex:   The end index
+     */
+    public func setFont(font: UIFont, fromIndex: Int, toIndex: Int) {
+        let string = NSMutableAttributedString(string: self.text!)
+        string.addAttribute(NSFontAttributeName, value: font, range: NSMakeRange(fromIndex, toIndex - fromIndex))
+        
+        self.attributedText = string;
     }
 }

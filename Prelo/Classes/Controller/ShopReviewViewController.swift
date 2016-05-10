@@ -28,7 +28,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.tableFooterView = UIView()
         
         // Register custom cell
-        var myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
+        let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
     }
     
@@ -63,12 +63,13 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func getUserReviews() {
-        request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Review Pengguna")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Pengguna")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Store data into variable
-                for (index : String, item : JSON) in data {
+                for (_, item) in data {
                     let r = UserReview.instance(item)
                     if (r != nil) {
                         self.userReviews.append(r!)
@@ -102,7 +103,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : ShopReviewCell = self.tableView.dequeueReusableCellWithIdentifier("ShopReviewCell") as! ShopReviewCell
+        let cell : ShopReviewCell = self.tableView.dequeueReusableCellWithIdentifier("ShopReviewCell") as! ShopReviewCell
         cell.selectionStyle = .None
         let u = userReviews[indexPath.item]
         cell.adapt(u)
@@ -110,7 +111,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //println("Row \(indexPath.row) selected")
+        //print("Row \(indexPath.row) selected")
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath:  NSIndexPath) -> CGFloat {
@@ -134,7 +135,7 @@ class ShopReviewCell : UITableViewCell {
         
         // Love
         var loveText = ""
-        for (var i = 0; i < 5; i++) {
+        for i in 0 ..< 5 {
             if (i < userReview.star) {
                 loveText += ""
             } else {
@@ -142,7 +143,7 @@ class ShopReviewCell : UITableViewCell {
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblStar.attributedText = attrStringLove
     }
 }

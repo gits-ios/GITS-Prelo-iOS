@@ -78,7 +78,8 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
         {
             c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ImagePickerCell
             c.isCamera = false
-            if let i = find(selecteds, indexPath)
+//            if let i = find(selecteds, indexPath)
+            if selecteds.indexOf(indexPath) != nil
             {
                 c.captionSelected.hidden = false
             } else // not found
@@ -125,7 +126,7 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
             self.presentViewController(i, animated: true, completion: nil)
         } else
         {
-            if let i = find(selecteds, indexPath)
+            if let i = selecteds.indexOf(indexPath)
             {
                 selecteds.removeAtIndex(i)
                 let c = collectionView.cellForItemAtIndexPath(indexPath) as! ImagePickerCell
@@ -158,12 +159,13 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
     }
     
     var picker : UIImagePickerController?
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.picker = picker
-        println(info)
+        print(info)
         let apImage = APImage()
         apImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        var r : [APImage] = [apImage]
+        let r : [APImage] = [apImage]
         self.doneBlock!(r)
         
         picker.dismissViewControllerAnimated(true, completion: {

@@ -140,7 +140,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         // Set delegate textfield
         fldKonfNoResi.delegate = self
-        fldKonfNoResi.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        
+        // suggested by kumang
+        fldKonfNoResi.addTarget(self, action: #selector(MyProductDetailViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         
         // Atur textview
         txtvwAlasanTolak.delegate = self
@@ -177,9 +179,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     func getProductDetail() {
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Jualan Saya")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Jualan Saya")) {
+                let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 // Set label text and image
@@ -229,8 +232,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         // lblAlamatPengiriman height fix
         let lblAlamatPengirimanHeight = lblAlamatPengiriman.frame.size.height
-        var sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
-        //println("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
+        let sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
+        //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
         consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
         var groupPengirimanFrame : CGRect = groupPengiriman.frame
@@ -242,7 +245,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             lblDescription.text = "Pembayaran sedang diproses"
         } else {
             let expireText = ((transactionDetail?.expireTime != nil) ? (transactionDetail?.expireTime)! : "-")
-            lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Buyer untuk segera membayar"
+            lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Pembeli untuk segera membayar"
         }
         
         // Nama dan gambar reviewer
@@ -253,7 +256,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         // Love
         var loveText = ""
-        for (var i = 0; i < 5; i++) {
+        for i in 0 ..< 5 {
             if (i < transactionDetail?.reviewStar) {
                 loveText += ""
             } else {
@@ -261,7 +264,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             }
         }
         let attrStringLove = NSMutableAttributedString(string: loveText)
-        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length()))
+        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
         lblHearts.attributedText = attrStringLove
         
         // Konfirmasi Pengiriman pop up
@@ -280,7 +283,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else {
-            lblOrderStatus.textColor == Theme.ThemeOrange
+            lblOrderStatus.textColor = Theme.ThemeOrange
         }
         
         // Set groups and top constraints manually
@@ -338,7 +341,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
-        for (var i = 0; i < isShowGroups.count; i++) { // asumsi i = 0-10
+        for i in 0 ..< isShowGroups.count { // asumsi i = 0-10
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
                 groups[i].hidden = false
@@ -361,7 +364,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     // MARK: - GestureRecognizer Functions
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view.isKindOfClass(UIButton.classForCoder()) || touch.view.isKindOfClass(UITextField.classForCoder())) {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -370,7 +373,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     // MARK: - ImagePickerDelegate Functions
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         
         imgFotoBukti.image = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -436,7 +439,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     @IBAction func hubungiPreloPressed(sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") as! UIViewController
+        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
         contactUs = c
         if let v = c.view, let p = self.navigationController?.view
         {
@@ -454,11 +457,17 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func fotoBuktiPressed(sender: AnyObject) {
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        if TARGET_IPHONE_SIMULATOR == 1 {
-            imagePicker.sourceType = .PhotoLibrary
-        } else {
-            imagePicker.sourceType = .Camera // Lie, it'll be executed ->
-        }
+        
+        // suggestion by kumang
+        // kemungkinan kalaw ada device yang kamera nya rusak, .Camera gakan bisa juga
+        // jadi kayaknya bagusan di cek dulu, jangan pake if target_iphone_xx
+        imagePicker.sourceType = UIImagePickerController.isSourceTypeAvailable(.Camera) == true ? .Camera : .PhotoLibrary
+        
+//        if TARGET_IPHONE_SIMULATOR == 1 {
+//            imagePicker.sourceType = .PhotoLibrary
+//        } else {
+//            imagePicker.sourceType = .Camera // Lie, it'll be executed ->
+//        }
         
         presentViewController(imagePicker, animated: true, completion: nil)
     }
@@ -470,9 +479,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     @IBAction func tolakKirimPressed(sender: AnyObject) {
         self.sendMode(true)
-        request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Tolak Pengiriman")) {
-                let json = JSON(res!)
+        // API Migrasi
+        request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
+                let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
                     Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
@@ -497,9 +507,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func konfKirimPressed(sender: AnyObject) {
         self.sendMode(true)
         
-        var url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.transactionId!)/sent"
-        var param = [
-            "resi_number" : fldKonfNoResi.text
+        let url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.transactionId!)/sent"
+        var noHp = ""
+        if let p = fldKonfNoResi.text
+        {
+            noHp = p
+        }
+        let param = [
+            "resi_number" : noHp
         ]
         var images : [UIImage] = []
         images.append(imgFotoBukti.image!)
@@ -507,11 +522,11 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
-            println("KonfKirim res = \(res)")
+            print("KonfKirim res = \(res)")
             let json = JSON(res)
             let data : Bool? = json["_data"].bool
             if (data == nil || data == false) { // Gagal
-                let msg = json["message"]
+//                let msg = json["message"]
                 Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")//: \(msg)")
                 self.sendMode(false)
             } else { // Berhasil
@@ -527,9 +542,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(sender: AnyObject) {
         // Get product detail from API
-        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
-                let json = JSON(res!)
+        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                let json = JSON(resp.result.value!)
                 //let pDetail = ProductDetail.instance(json)
                 //pDetail?.reverse()
                 self.detail = ProductDetail.instance(json)
@@ -537,9 +552,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
-                request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!)).responseJSON { req, resp, res, err in
-                    if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hubungi Buyer")) {
-                        let json = JSON(res!)
+                // API Migrasi
+        request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                        let json = JSON(resp.result.value!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                             t.tawarItem = Inbox(jsn: json["_data"])
                             self.navigationController?.pushViewController(t, animated: true)
@@ -578,7 +594,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     func validateKonfKirimFields() {
-        if (fldKonfNoResi.text.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
+        let noResi = fldKonfNoResi.text == nil ? "" : fldKonfNoResi.text!
+        if (noResi.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
             // Disable tombol kirim
             btnKonfKirim.backgroundColor = Theme.PrimaryColor
             btnKonfKirim.userInteractionEnabled = false

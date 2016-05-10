@@ -51,9 +51,9 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     
     func getCategory()
     {
-        request(References.CategoryList).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "List Kategori")) {
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(res!), forKey: "pre_categories")
+        request(References.CategoryList).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Kategori")) {
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.setupData()
             }
@@ -118,6 +118,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             c.backTreshold = 3
             c.root = self.root
             c.searchMode = self.searchMode
+            c.categoryImageName = categories[indexPath.item]["image_name"].stringValue
             self.navigationController?.pushViewController(c, animated: true)
         }
     }
@@ -134,6 +135,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.backTreshold = 3
         c.root = self.root
         c.searchMode = self.searchMode
+        c.categoryImageName = selectedCategory!["image_name"].stringValue
     }
 
 }
@@ -151,6 +153,8 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var blockDone : BlockCategorySelected?
     var searchMode = false
     
+    var categoryImageName : String = ""
+    
     @IBOutlet var tableView : UITableView!
     
     var categories : Array<JSON> = []
@@ -158,7 +162,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(parent)
+        print(parent)
         if let name = parent["name"].string
         {
             self.title = name.capitalizedString
@@ -189,7 +193,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var c = tableView.dequeueReusableCellWithIdentifier("cell")
         if (c == nil)
         {
             c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
@@ -198,7 +202,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         let j = categories[indexPath.row]
         if let name = j["name"].string
         {
-            println(j)
+            print(j)
             c?.textLabel!.text = name
         }
         
@@ -224,10 +228,11 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.backTreshold = backTreshold+1
             p.searchMode = self.searchMode
             p.root = root
+            p.categoryImageName = self.categoryImageName
             self.navigationController?.pushViewController(p, animated: true)
         } else
         {
-            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue]
+            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue, "category_image_name":self.categoryImageName]
             if (searchMode)
             {
                 let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
@@ -243,7 +248,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 } else
                 {
                     let c = self.navigationController?.viewControllers.count
-                    let v = self.navigationController?.viewControllers[c!-backTreshold] as! UIViewController
+                    let v = (self.navigationController?.viewControllers[c!-backTreshold])!
                     self.navigationController?.popToViewController(v, animated: true)
                 }
             }

@@ -20,13 +20,13 @@ class CartProduct: NSManagedObject {
     static func newOne(cpID : String, email : String, name : String) -> CartProduct?
     {
         let m = UIApplication.appDelegate.managedObjectContext
-        let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m!) as! CartProduct
+        let c = NSEntityDescription.insertNewObjectForEntityForName("CartProduct", inManagedObjectContext: m) as! CartProduct
         c.cpID = cpID
         c.email = email
         c.packageId = ""
         c.name = name
-        var err : NSError?
-        if ((m?.save(&err))! == false) {
+        
+        if (m.saveSave() == false) {
             return nil
         } else {
             return c
@@ -41,7 +41,6 @@ class CartProduct: NSManagedObject {
             cp.email = email
         }
         
-        var error : NSError?
         UIApplication.appDelegate.saveContext()
     }
     
@@ -50,13 +49,17 @@ class CartProduct: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CartProduct")
         let p1 = NSPredicate(format: "email ==[c] %@", email)
         let p2 = NSPredicate(format: "cpID ==[c] %@", itemID)
-        let predicate = NSCompoundPredicate.andPredicateWithSubpredicates([p1, p2])
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2])
         fetchReq.predicate = predicate
         
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err) as? [CartProduct]
-        
-        return r?.first
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CartProduct]
+            
+            return r?.first
+        } catch
+        {
+            return nil
+        }
     }
     
     static func isExist(itemID : String, email : String) -> Bool
@@ -70,13 +73,19 @@ class CartProduct: NSManagedObject {
         let p1 = NSPredicate(format: "email ==[c] %@", email)
         fetchReq.predicate = p1
         
-        var err : NSError?
-        let r = UIApplication.appDelegate.managedObjectContext?.executeFetchRequest(fetchReq, error: &err) as? [CartProduct]
-        
-        if (r == nil) {
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CartProduct]
+            
+            if (r == nil) {
+                return []
+            } else {
+//                return (r?.sorted{ $0.name < $1.name})!
+                return (r?.sort({c1, c2 in
+                    return c1.name < c2.name
+                }))!
+            }
+        } catch {
             return []
-        } else {
-            return (r?.sorted{ $0.name < $1.name})!
         }
     }
     
@@ -92,6 +101,29 @@ class CartProduct: NSManagedObject {
         }
         
         return array
+    }
+    
+    static func deleteAll() {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let fetchRequest = NSFetchRequest(entityName: "CartProduct")
+        fetchRequest.includesPropertyValues = false
+        
+        do {
+            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+                for result in results {
+                    m.deleteObject(result)
+                }
+                
+                if (m.saveSave() != false) {
+                    print("deleteAll CartProduct success")
+                } else {
+                    print("deleteAll CartProduct failed")
+                }
+            }
+        } catch {
+            print("deleteAll CartProduct failed")
+        }
+        print("deleteAll CartProduct success")
     }
     
     var toDictionary : [String : String]

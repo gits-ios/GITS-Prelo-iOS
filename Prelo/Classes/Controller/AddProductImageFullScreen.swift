@@ -46,7 +46,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
         
         imageView.image = apImage.image
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: "batal")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductImageFullScreen.batal))
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: UIBarButtonItemStyle.Plain, target: self, action: "done")
     }
 
@@ -123,7 +123,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
                 self.apImage.image = result
                 self.imageView.image = result
             } else {
-                println("Error highres render: \(error)")
+                print("Error highres render: \(error)")
                 self.apImage.image = image
                 self.imageView.image = image
             }

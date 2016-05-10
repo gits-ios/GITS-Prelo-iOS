@@ -34,9 +34,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnDelete : UIButton!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var vwCoachmark: UIView!
+    @IBOutlet var vwCoachmarkReserve: UIView!
     
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
+    
+    @IBOutlet weak var reservationBtnSet: UIView!
+    @IBOutlet weak var btnReservation: BorderedButton!
+    
+    var pDetailCover : ProductDetailCover?
     
     var cellTitle : ProductCellTitle?
     var cellSeller : ProductCellSeller?
@@ -44,14 +50,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var activated = true
     
+    let ProductStatusActive = 1
+    let ProductStatusReserved = 7
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let i = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
-        self.btnAddDiscussion?.addTarget(self, action: "segAddComment:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
-        btnDelete.addTarget(self, action: "deleteProduct", forControlEvents: .TouchUpInside)
+        btnDelete.addTarget(self, action: #selector(ProductDetailViewController.deleteProduct), forControlEvents: .TouchUpInside)
         
         btnBuy.hidden = true
         btnTawar.hidden = true
@@ -60,20 +69,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         btnAddDiscussion?.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnAddDiscussion?.layer.borderWidth = 1
         
-        var btnClose = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnClose.addTarget(self, action: "dismiss:", forControlEvents: UIControlEvents.TouchUpInside)
+        let btnClose = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnClose.addTarget(self, action: #selector(ProductDetailViewController.dismiss(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
-        var btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnOption.addTarget(self, action: "option", forControlEvents: UIControlEvents.TouchUpInside)
+        let btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
+        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
     }
     
     override func viewWillAppear(animated: Bool) {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         if (detail == nil) {
-            getDetail(false)
+            getDetail()
         }
     }
     
@@ -82,7 +91,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.title = product?.name
         
-        if let d = self.detail
+        if (self.detail) != nil
         {
             if (CartProduct.isExist((detail?.productID)!, email : User.EmailOrEmptyString)) {
                 alreadyInCart = true
@@ -124,6 +133,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
         }
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     var processingActivation = false
@@ -139,9 +154,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         if (activated)
         {
-            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {resp in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Deaktivasi Produk"))
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deaktivasi Barang"))
                 {
                     self.activated = false
                     self.adjustButtonActivation()
@@ -151,9 +166,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         } else
         {
-            request(Products.Activate(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
+            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {resp in
                 self.processingActivation = false
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Aktivasi Produk"))
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Aktivasi Barang"))
                 {
                     self.activated = true
                     self.adjustButtonActivation()
@@ -194,7 +209,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func askDeleteOS8()
     {
-        let a = UIAlertController(title: "Hapus", message: "Hapus Produk ?", preferredStyle: .Alert)
+        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
         a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
             self.confirmDeleteProduct()
         }))
@@ -206,7 +221,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     {
         let a = UIAlertView()
         a.title = "Hapus"
-        a.message = "Hapus Produk ?"
+        a.message = "Hapus Barang?"
         a.addButtonWithTitle("Ya")
         a.addButtonWithTitle("Tidak")
         a.delegate = self
@@ -216,11 +231,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 0)
         {
-            println("DELETE")
+            print("DELETE")
             self.confirmDeleteProduct()
         } else
         {
-            println("NO DELETE")
+            print("NO DELETE")
         }
     }
     
@@ -229,8 +244,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         deleting = true
         self.btnDelete.setTitle("LOADING..", forState: .Disabled)
         self.btnDelete.enabled = false
-        request(Products.Delete(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Hapus Produk"))
+        request(Products.Delete(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
             {
                 self.navigationController?.popViewControllerAnimated(true)
             } else {
@@ -263,21 +278,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func getDetail(forEdit : Bool)
+    func getDetail()
     {
-        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: (forEdit ? 1 : 0)))
-            .responseJSON { req, resp, res, err in
-                if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Detail Produk"))
+        // API Migrasi
+        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
+            .responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang"))
                 {
-                    self.detail = ProductDetail.instance(JSON(res!))
+                    self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonActivation()
-                    self.adjustButtonIfBought()
-                    println(self.detail?.json)
+                    self.adjustButtonIfBoughtOrDeleted()
+                    print(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
                     self.tableView?.hidden = false
@@ -289,32 +305,43 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func adjustButtonIfBought()
+    func adjustButtonIfBoughtOrDeleted()
     {
-        if (self.detail?.status == 4) {
+        if (self.detail?.status == 3 || self.detail?.status == 4) { // If product is sold or deleted
             self.btnTawar.borderColor = Theme.GrayLight
             self.btnTawar.titleLabel?.textColor = Theme.GrayLight
             self.btnTawar.userInteractionEnabled = false
-            self.btnBuy.setBackgroundImage(nil, forState: .Normal)
-            self.btnBuy.backgroundColor = nil
-            self.btnBuy.setTitleColor(Theme.GrayLight)
-            self.btnBuy.layer.borderColor = Theme.GrayLight.CGColor
-            self.btnBuy.layer.borderWidth = 1
-            self.btnBuy.layer.cornerRadius = 1
-            self.btnBuy.layer.masksToBounds = true
-            self.btnBuy.userInteractionEnabled = false
-            if (self.detail?.boughtByMe == true) {
-                self.btnTawar.hidden = true
-                self.btnBuy.hidden = true
-                if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
-                    // Tampilkan button konfirmasi bayar
-                    self.konfirmasiBayarBtnSet.hidden = false
-                } else if (self.detail?.transactionProgress > 2) {
-                    // Tampilkan button transaction product detail
-                    self.tpDetailBtnSet.hidden = false
+            
+            self.disableButton(self.btnBuy)
+            self.disableButton(self.btnActivate)
+            self.disableButton(self.btnDelete)
+            self.disableButton(self.btnEdit)
+            
+            if (self.detail?.status == 4) {
+                if (self.detail?.boughtByMe == true) {
+                    self.btnTawar.hidden = true
+                    self.btnBuy.hidden = true
+                    if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
+                        // Tampilkan button konfirmasi bayar
+                        self.konfirmasiBayarBtnSet.hidden = false
+                    } else if (self.detail?.transactionProgress > 2) {
+                        // Tampilkan button transaction product detail
+                        self.tpDetailBtnSet.hidden = false
+                    }
                 }
             }
         }
+    }
+    
+    func disableButton(btn : UIButton) {
+        btn.setBackgroundImage(nil, forState: .Normal)
+        btn.backgroundColor = nil
+        btn.setTitleColor(Theme.GrayLight)
+        btn.layer.borderColor = Theme.GrayLight.CGColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 1
+        btn.layer.masksToBounds = true
+        btn.userInteractionEnabled = false
     }
     
     func setupView()
@@ -323,17 +350,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        let p = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
-        p?.parent = self
-        p?.largeImageURLS = (detail?.originalPicturers)!
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
+        pDetailCover?.parent = self
+        pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let labels = detail?.imageLabels
         {
-            p?.labels = labels
+            pDetailCover?.labels = labels
         }
-        p?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
-        tableView?.tableHeaderView = p
+        pDetailCover?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
+        tableView?.tableHeaderView = pDetailCover
         
-        if let price = detail?.json["_data"]["price"].int?.asPrice
+        if (detail?.json["_data"]["price"].int?.asPrice) != nil
         {
 //            captionPrice.text = price
         } else {
@@ -368,34 +395,61 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
         
-        if ((detail?.isMyProduct)! == true)
-        {
+        // Button arrangement
+        if (detail!.isGarageSale) {
+            reservationBtnSet.hidden = false
+            if (detail!.status == 1) { // Product is available
+                self.setBtnReservationToEnabled()
+            } else if (detail!.status == 7) { // Product is reserved
+                if (detail!.boughtByMe) {
+                    self.setBtnReservationToCancel()
+                } else {
+                    self.setBtnReservationToDisabled()
+                }
+            }
+        } else {
+            reservationBtnSet.hidden = true
+            
+            if ((detail?.isMyProduct)! == true)
+            {
 //            if let b : UIButton = self.view.viewWithTag(12) as? UIButton
 //            {
 //                b.hidden = false
 //                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
 //                b.setTitle(" EDIT", forState: UIControlState.Normal)
 //            }
-            self.btnBuy.hidden = true
-            self.btnTawar.hidden = true
-            btnEdit.hidden = false
-            btnActivate.hidden = false
-            btnDelete.hidden = false
-            btnDelete.superview?.hidden = false
-        } else
-        {
-            btnBuy.hidden = false
-            btnTawar.hidden = false
+                self.btnBuy.hidden = true
+                self.btnTawar.hidden = true
+                btnEdit.hidden = false
+                btnActivate.hidden = false
+                btnDelete.hidden = false
+                btnDelete.superview?.hidden = false
+            }
+            else
+            {
+                btnBuy.hidden = false
+                btnTawar.hidden = false
+            }
+            
+            self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+            self.btnTawar.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         }
         
-        self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-        self.btnTawar.addTarget(self, action: "tawar:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
-        if (coachmarkDone != true) {
-            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
-            vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-            vwCoachmark.hidden = false
+        // Coachmark
+        if (detail!.isGarageSale) {
+            let coachmarkReserveDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkReserveDone) as! Bool?
+            if (coachmarkReserveDone != true) {
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkReserveDone)
+                vwCoachmarkReserve.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                vwCoachmarkReserve.hidden = false
+            }
+        } else {
+            let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+            if (coachmarkDone != true) {
+                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+                vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                vwCoachmark.hidden = false
+            }
         }
     }
 
@@ -535,29 +589,33 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        if ((detail?.isMyProduct)! == true)
+        if ((detail?.isMyProduct)! == true) // Edit product
         {
             let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             a.editMode = true
             a.editDoneBlock = {
                 self.tableView?.hidden = true
-                self.getDetail(true)
+                self.getDetail()
             }
-            a.editProduct = self.detail
-            self.navigationController?.pushViewController(a, animated: true)
-            return
-        }
-        
-        if (alreadyInCart) {
-            self.performSegueWithIdentifier("segCart", sender: nil)
-            return
-        }
-        
-        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-            Constant.showDialog("Failed", message: "Gagal Menyimpan")
-        } else {
-            setupView()
-            self.performSegueWithIdentifier("segCart", sender: nil)
+            // API Migrasi
+        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                    self.navigationController?.pushViewController(a, animated: true)
+                }
+            }
+        } else { // Add to cart
+            if (alreadyInCart) {
+                self.performSegueWithIdentifier("segCart", sender: nil)
+                return
+            }
+            
+            if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+                Constant.showDialog("Failed", message: "Gagal Menyimpan")
+            } else {
+                setupView()
+                self.performSegueWithIdentifier("segCart", sender: nil)
+            }
         }
     }
     
@@ -605,6 +663,112 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func coachmarkTapped(sender: AnyObject) {
         self.vwCoachmark.hidden = true
+        self.vwCoachmarkReserve.hidden = true
+    }
+    
+    // MARK: - Reservation
+    
+    @IBAction func btnReservationPressed(sender: AnyObject) {
+        if (detail != nil) {
+            if (detail!.status == ProductStatusActive) { // Product is available
+                // Reserve product
+                self.setBtnReservationToLoading()
+                // API Migrasi
+        request(APIGarageSale.CreateReservation(productId: detail!.productID)).responseJSON {resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Create Reservation")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"]
+                        if let tpId = data["transaction_product_id"].string {
+                            self.detail!.setStatus(self.ProductStatusReserved)
+                            self.detail!.setBoughtByMe(true)
+                            self.pDetailCover?.updateStatus(self.ProductStatusReserved)
+                            self.setBtnReservationToCancel()
+                            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                            transactionDetailVC.trxProductId = tpId
+                            transactionDetailVC.isSeller = false
+                            self.navigationController?.pushViewController(transactionDetailVC, animated: true)
+                        }
+                    } else {
+                        self.setBtnReservationToEnabled()
+                        if (resp.result.value != nil) {
+                            if let msg = JSON(resp.result.value!)["_message"].string {
+                                if (msg == "server error: Produk sudah dipesan") {
+                                    self.detail!.setStatus(self.ProductStatusReserved)
+                                    self.detail!.setBoughtByMe(false)
+                                    self.pDetailCover?.updateStatus(self.ProductStatusReserved)
+                                    self.setBtnReservationToDisabled()
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (detail!.status == ProductStatusReserved) { // Product is reserved
+                if (detail!.boughtByMe) {
+                    // Cancel reservation
+                    self.setBtnReservationToLoading()
+                    // API Migrasi
+        request(APIGarageSale.CancelReservation(productId: detail!.productID)).responseJSON {resp in
+                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
+                            let json = JSON(resp.result.value!)
+                            if let success = json["_data"].bool {
+                                if (success) {
+                                    self.detail!.setStatus(self.ProductStatusActive)
+                                    self.detail!.setBoughtByMe(false)
+                                    self.pDetailCover?.updateStatus(self.ProductStatusActive)
+                                    self.setBtnReservationToEnabled()
+                                    Constant.showDialog("Cancellation Success", message: "Reservasi barang ini telah kamu batalkan")
+                                } else {
+                                    self.setBtnReservationToCancel()
+                                    Constant.showDialog("Cancel Reservation", message: "Terdapat kesalahan saat melakukan pembatalan reservasi, silahkan coba kembali")
+                                }
+                            } else {
+                                self.setBtnReservationToCancel()
+                                Constant.showDialog("Cancel Reservation", message: "Terdapat kesalahan saat melakukan pembatalan reservasi, silahkan coba kembali")
+                            }
+                        } else {
+                            self.setBtnReservationToCancel()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setBtnReservationToLoading() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.ThemeOrangeDark
+        btnReservation.setTitle("LOADING...", forState: .Normal)
+        btnReservation.userInteractionEnabled = false
+    }
+    
+    func setBtnReservationToEnabled() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.ThemeOrange
+        btnReservation.setTitle(" RESERVE", forState: .Normal)
+        btnReservation.userInteractionEnabled = true
+    }
+    
+    func setBtnReservationToCancel() {
+        btnReservation.cornerRadius = 2.0
+        btnReservation.borderWidth = 1.0
+        btnReservation.borderColor = UIColor.whiteColor()
+        btnReservation.backgroundColor = UIColor.clearColor()
+        btnReservation.setTitle(" CANCEL RESERVATION", forState: .Normal)
+        btnReservation.userInteractionEnabled = true
+    }
+    
+    func setBtnReservationToDisabled() {
+        btnReservation.cornerRadius = 0
+        btnReservation.borderWidth = 0
+        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.backgroundColor = Theme.GrayLight
+        btnReservation.setTitle(" RESERVE", forState: .Normal)
+        btnReservation.userInteractionEnabled = false
     }
     
     // MARK: - If product is bought
@@ -689,14 +853,14 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         btnShare?.layer.borderColor = UIColor.lightGrayColor().CGColor
         btnShare?.layer.borderWidth = 1
         
-        btnShare?.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
+        btnShare?.addTarget(self, action: #selector(ProductCellTitle.share), forControlEvents: UIControlEvents.TouchUpInside)
         
         sectionLove?.layer.borderColor = UIColor.lightGrayColor().CGColor
         sectionLove?.layer.borderWidth = 1
         sectionLove?.layer.cornerRadius = 2
         sectionLove?.layer.masksToBounds = true
         
-        let tap = UITapGestureRecognizer(target: self, action: "love")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.love))
         sectionLove?.addGestureRecognizer(tap)
         
         sectionComment?.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -704,7 +868,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         sectionComment?.layer.cornerRadius = 2
         sectionComment?.layer.masksToBounds = true
         
-        let tapcomment = UITapGestureRecognizer(target: self, action: "comment")
+        let tapcomment = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.comment))
         sectionComment?.addGestureRecognizer(tapcomment)
     }
     
@@ -772,8 +936,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = true
         loveCount+=1
         setupLoveView()
-        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Love Product"))
+        // API Migrasi
+        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Love Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -793,8 +958,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         isLoved = false
         loveCount-=1
         setupLoveView()
-        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Unlove Product"))
+        // API Migrasi
+        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -882,7 +1048,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                     l.textColor = UIColor.whiteColor()
                 } else
                 {
-                    (v as! UIView).backgroundColor = UIColor.whiteColor()
+                    v.backgroundColor = UIColor.whiteColor()
                 }
             }
         } else
@@ -893,10 +1059,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 if (v.isKindOfClass(UILabel.classForCoder()))
                 {
                     let l = v as! UILabel
-                    l.textColor = UIColor(hex: "#858585")
+                    l.textColor = UIColor(hexString: "#858585")
                 } else
                 {
-                    (v as! UIView).backgroundColor = UIColor(hex: "#858585")
+                    v.backgroundColor = UIColor(hexString: "#858585")
                 }
             }
         }
@@ -1068,7 +1234,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             let p = [
                 "brand_id":product["brand_id"].stringValue,
                 "brand":product["brand"].stringValue,
-                "range":NSStringFromRange(NSMakeRange(0, merk.length())),
+                "range":NSStringFromRange(NSMakeRange(0, merk.length)),
                 ZSWTappableLabelTappableRegionAttributeName: Int(true),
                 ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                 ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
@@ -1103,7 +1269,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 let p = [
                     "category_name":name,
                     "category_id":d["_id"].string!,
-                    "range":NSStringFromRange(NSMakeRange(categoryString.length(), name.length())),
+                    "range":NSStringFromRange(NSMakeRange(categoryString.length, name.length)),
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
                     ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
@@ -1118,7 +1284,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             }
         }
         
-        var attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
         for p in param
         {
             let r = NSRangeFromString(p["range"] as! String)
@@ -1145,7 +1311,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
     }
     
     func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {
-        //println(attributes)
+        //print(attributes)
         
         if (cellDelegate != nil) {
             if let brandName = attributes["brand"] as? String { // Brand clicked
@@ -1173,7 +1339,7 @@ class ProductCellDiscussion : UITableViewCell
         if (obj == nil) {
             return 64
         }
-        var json = (obj?.json)!
+        _ = (obj?.json)!
         
         let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
         let h = 47+(s?.height)!

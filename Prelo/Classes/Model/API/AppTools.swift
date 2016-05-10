@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 extension UIApplication
 {
@@ -46,8 +47,8 @@ extension UILabel {
     func boldRange(range: Range<String.Index>) {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
-            let start = distance(text.string.startIndex, range.startIndex)
-            let length = distance(range.startIndex, range.endIndex)
+            let start = text.string.startIndex.distanceTo(range.startIndex)
+            let length = range.startIndex.distanceTo(range.endIndex)
             attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
@@ -63,7 +64,6 @@ extension UILabel {
 
 class AppTools: NSObject {
     static var PreloBaseUrl = "http://dev.prelo.id" // Development
-    
 //    static var PreloBaseUrl = "https://prelo.co.id" // Production
     
     static var IsPreloProduction : Bool {
@@ -71,32 +71,33 @@ class AppTools: NSObject {
     }
     
     static var isIPad : Bool {
-        return UI_USER_INTERFACE_IDIOM() == .Pad
+        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
     }
 }
 
 class Theme : NSObject
 {
-    static var PrimaryColor = UIColor(hex: "#00A79D")
-    static var PrimaryColorDark = UIColor(hex: "#00747C")
-    static var PrimaryColorLight = UIColor(hex: "#8CD7AE")
+    static var PrimaryColor = UIColor(hexString: "#00A79D")
+    static var PrimaryColorDark = UIColor(hexString: "#00747C")
+    static var PrimaryColorLight = UIColor(hexString: "#8CD7AE")
     
-    static var ThemePurple = UIColor(hex: "#62115F")
-    static var ThemePurpleDark = UIColor(hex: "#00A79D")
+    static var ThemePurple = UIColor(hexString: "#62115F")
+    static var ThemePurpleDark = UIColor(hexString: "#00A79D")
     
-    static var ThemeOrage = UIColor(hex: "#F88218")
-    static var ThemeOrange = UIColor(hex: "#FFA800")
+    static var ThemeOrage = UIColor(hexString: "#F88218")
+    static var ThemeOrange = UIColor(hexString: "#FFA800")
+    static var ThemeOrangeDark = UIColor(hexString: "#996600")
     
-    static var ThemePink = UIColor(hex: "#F1E3F2")
-    static var ThemePinkDark = UIColor(hex: "#CB8FCC")
+    static var ThemePink = UIColor(hexString: "#F1E3F2")
+    static var ThemePinkDark = UIColor(hexString: "#CB8FCC")
     
-    static var navBarColor = UIColor(hex: "#00A79D")
+    static var navBarColor = UIColor(hexString: "#00A79D")
     
-    static var TabSelectedColor = UIColor(hex: "#858585")
-    static var TabNormalColor = UIColor(hex: "#b7b7b7")
+    static var TabSelectedColor = UIColor(hexString: "#858585")
+    static var TabNormalColor = UIColor(hexString: "#b7b7b7")
     
-    static var GrayDark = UIColor(hex: "#858585")
-    static var GrayLight = UIColor(hex: "#b7b7b7")
+    static var GrayDark = UIColor(hexString: "#858585")
+    static var GrayLight = UIColor(hexString: "#b7b7b7")
     
     static var ThemeRed = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
 }
@@ -187,21 +188,6 @@ class NotificationName : NSObject
     static let PushNew = "pushnew"
 }
 
-class UserDefaultsKey : NSObject
-{
-    static let AppDataSaved = "appdatasaved"
-    static let CategorySaved = "categorysaved"
-    static let CategoryPref1 = "categorypref1"
-    static let CategoryPref2 = "categorypref2"
-    static let CategoryPref3 = "categorypref3"
-    static let Tour = "tour"
-    static let TourDone = "tourdone"
-    static let RedirectFromHome = "redirectfromhome"
-    static let UserAgent = "useragent"
-    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
-    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
-}
-
 class PageName
 {
     static let SplashScreen = "Splash Screen"
@@ -276,9 +262,9 @@ extension GAI
     {
         // Send if Prelo production only (not development)
         if (AppTools.IsPreloProduction) {
-            var tracker = GAI.sharedInstance().defaultTracker
+            let tracker = GAI.sharedInstance().defaultTracker
             tracker.set(kGAIScreenName, value: pageName)
-            var builder = GAIDictionaryBuilder.createScreenView()
+            let builder = GAIDictionaryBuilder.createScreenView()
             tracker.send(builder.build() as [NSObject : AnyObject])
         }
     }
@@ -310,6 +296,24 @@ extension Mixpanel
         p["Page"] = pageName
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
     }
+}
+
+class UserDefaultsKey : NSObject
+{
+    static let AppDataSaved = "appdatasaved"
+    static let CategorySaved = "categorysaved"
+    static let CategoryPref1 = "categorypref1"
+    static let CategoryPref2 = "categorypref2"
+    static let CategoryPref3 = "categorypref3"
+    static let Tour = "tour"
+    static let TourDone = "tourdone"
+    static let RedirectFromHome = "redirectfromhome"
+    static let UserAgent = "useragent"
+    static let CoachmarkProductDetailDone = "coachmarkproductdetaildone"
+    static let CoachmarkBrowseDone = "coachmarkbrowsedone"
+    static let CoachmarkReserveDone = "coachmarkreservedone"
+    static let UninstallIOIdentified = "uninstallioidentified"
+    static let LastPromoTitle = "lastpromotitle"
 }
 
 extension NSUserDefaults
@@ -377,15 +381,41 @@ extension NSUserDefaults
     }
 }
 
-//extension UIDevice
-//{
-//    static func isIpad() -> Bool
+extension NSManagedObjectContext
+{
+    public func saveSave() -> Bool
+    {
+        var success = true
+        do {
+            try self.save()
+        } catch
+        {
+            success = false
+        }
+        return success
+    }
+    
+    public func tryExecuteFetchRequest(req : NSFetchRequest) -> [NSManagedObject]? {
+        var results : [NSManagedObject]?
+        do {
+            try results = self.executeFetchRequest(req) as? [NSManagedObject]
+            print("Fetch request success")
+        } catch {
+            print("Fetch request failed")
+            results = nil
+        }
+        return results
+    }
+}
+
+extension NSData
+{
+//    public func convertToUTF8String() -> String
 //    {
-//        if (UI_USER_INTERFACE_IDIOM() == .Pad)
+//        if let s = NSString(data: self, encoding: NSUTF8StringEncoding)
 //        {
-//            return true
+//            return s as String
 //        }
-//        
-//        return false
+//        return ""
 //    }
-//}
+}

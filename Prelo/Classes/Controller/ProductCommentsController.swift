@@ -33,13 +33,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = "Komentar"
+        self.title = "Komentar \(pDetail.name)"
         
         tableView.dataSource = self
         tableView.delegate = self
         
         txtMessage.delegate = self
-        btnSend.addTarget(self, action: "send", forControlEvents: UIControlEvents.TouchUpInside)
+        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.tableFooterView = UIView()
         
@@ -81,6 +81,12 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             }
             
             }, completion: nil)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -92,12 +98,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     var sellerId : String = ""
     func getComments()
     {
-        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Komentar Produk"))
+        // API Migrasi
+        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
                 self.tableView.reloadData()
-                let json = JSON(res!)
+                let json = JSON(resp.result.value!)
                 if let id = json["_data"]["seller_id"].string
                 {
                     self.sellerId = id
@@ -144,8 +151,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.resignFirstResponder()
         txtMessage.editable = false
         
-        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON { req, resp, res, err in
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim Komentar Produk"))
+        // API Migrasi
+        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)

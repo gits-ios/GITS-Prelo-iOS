@@ -115,9 +115,17 @@ public class User : NSObject
         
         if let u = CDUser.getOne()
         {
-            UIApplication.appDelegate.managedObjectContext?.deleteObject(u)
-            UIApplication.appDelegate.saveContext()
+            UIApplication.appDelegate.managedObjectContext.deleteObject(u)
         }
+        if let uProfile = CDUserProfile.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext.deleteObject(uProfile)
+        }
+        if let uOther = CDUserOther.getOne()
+        {
+            UIApplication.appDelegate.managedObjectContext.deleteObject(uOther)
+        }
+        UIApplication.appDelegate.saveContext()
         
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
@@ -195,12 +203,11 @@ class UserProfile : NSObject {
         return nil
     }
     
-    var phone : String? {
-        if (json["profile"]["phone"] != nil) {
-            return json["profile"]["phone"].string
-        } else {
-            return nil
+    var phone : String {
+        if let j = json["profile"]["phone"].string {
+            return j
         }
+        return ""
     }
     
     var regionId : String {
@@ -217,307 +224,251 @@ class UserProfile : NSObject {
         return ""
     }
     
-    var gender : String? {
-        if (json["profile"]["gender"] != nil) {
-            return json["profile"]["gender"].string
-        } else {
-            return nil
+    var gender : String {
+        if let j = json["profile"]["gender"].string {
+            return j
         }
+        return ""
     }
     
-    var postalCode : String? {
-        if (json["profile"]["postal_code"] != nil) {
-            return json["profile"]["postal_code"].string
-        } else {
-            return nil
+    var postalCode : String {
+        if let j = json["profile"]["postal_code"].string {
+            return j
         }
+        return ""
     }
     
-    var address : String? {
-        if (json["profile"]["address"] != nil) {
-            return json["profile"]["address"].string
-        } else {
-            return nil
+    var address : String {
+        if let j = json["profile"]["address"].string {
+            return j
         }
+        return ""
     }
     
-    var desc : String? {
-        if (json["profile"]["description"] != nil) {
-            return json["profile"]["description"].string
-        } else {
-            return nil
+    var desc : String {
+        if let j = json["profile"]["description"].string {
+            return j
         }
+        return ""
     }
     
-    var shippingIds : [String]? {
-        let s : [String]?
-        if (json["shipping_preferences_ids"] != nil) {
-            s = []
-            for (var i = 0; i < json["shipping_preferences_ids"].count; i++) {
-                s!.append(json["shipping_preferences_ids"][i].string!)
+    var shippingIds : [String] {
+        var s : [String] = []
+        if let j : JSON = json["shipping_preferences_ids"] {
+            for i in 0 ..< j.count {
+                if let shipId = j[i].string {
+                    s.append(shipId)
+                }
             }
-            return s
-        } else {
-            return nil
         }
+        return s
     }
     
-    var categoryPrefIds : [String]? {
-        let c : [String]?
-        if (json["others"]["category_preferences_ids"] != nil) {
-            c = []
-            for (var i = 0; i < json["others"]["category_preferences_ids"].count; i++) {
-                c!.append(json["others"]["category_preferences_ids"][i].string!)
+    var categoryPrefIds : [String] {
+        var c : [String] = []
+        if let j : JSON = json["others"]["category_preferences_ids"] {
+            for i in 0 ..< j.count {
+                if let pref = j[i].string {
+                    c.append(pref)
+                }
             }
-            return c
-        } else {
-            return nil
         }
+        return c
     }
     
-    var isPhoneVerified : Bool? {
-        if (json["others"]["is_phone_verified"] != nil) {
-            return json["others"]["is_phone_verified"].bool
-        } else {
-            return nil
+    var isPhoneVerified : Bool {
+        if let j = json["others"]["is_phone_verified"].bool {
+            return j
         }
+        return false
     }
     
-    var isEmailVerified : Bool? {
-        if (json["others"]["is_email_verified"] != nil) {
-            return json["others"]["is_email_verified"].bool
-        } else {
-            return nil
+    var isEmailVerified : Bool {
+        if let j = json["others"]["is_email_verified"].bool {
+            return j
         }
+        return false
     }
     
-    var registerTime : String? {
-        let j = json["others"]["register_time"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var registerTime : String {
+        if let j = json["others"]["register_time"].string {
+            return j
         }
+        return ""
     }
     
-    var lastLogin : String? {
-        let j = json["others"]["last_login"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var lastLogin : String {
+        if let j = json["others"]["last_login"].string {
+            return j
         }
+        return ""
     }
     
-    var userPermalink : String? {
-        let j = json["others"]["user_permalink"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var userPermalink : String {
+        if let j = json["others"]["user_permalink"].string {
+            return j
         }
+        return ""
     }
     
-    var phoneCode : String? {
-        let j = json["others"]["phone_code"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var phoneCode : String {
+        if let j = json["others"]["phone_code"].string {
+            return j
         }
+        return ""
     }
     
-    var numReviewer : Int? {
-        let j = json["others"]["num_reviewer"]
-        if (j != nil) {
-            return j.int
-        } else {
-            return nil
+    var numReviewer : Int {
+        if let j = json["others"]["num_reviewer"].int {
+            return j
         }
+        return 0
     }
     
-    var totalStar : Int? {
-        let j = json["others"]["total_star"]
-        if (j != nil) {
-            return j.int
-        } else {
-            return nil
+    var totalStar : Int {
+        if let j = json["others"]["total_star"].int {
+            return j
         }
+        return 0
     }
     
-    var lastOpenNotif : String? {
-        let j = json["others"]["last_open_notification"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var lastOpenNotif : String {
+        if let j = json["others"]["last_open_notification"].string {
+            return j
         }
+        return ""
     }
     
-    var resetPwdCode : String? {
-        let j = json["others"]["reset_password_code"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var resetPwdCode : String {
+        if let j = json["others"]["reset_password_code"].string {
+            return j
         }
+        return ""
     }
     
-    var resetPwdTime : String? {
-        let j = json["others"]["reset_password_time"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var resetPwdTime : String {
+        if let j = json["others"]["reset_password_time"].string {
+            return j
         }
+        return ""
     }
     
-    var deviceRegId : String? {
-        let j = json["others"]["device_registration_id"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var deviceRegId : String {
+        if let j = json["others"]["device_registration_id"].string {
+            return j
         }
+        return ""
     }
     
-    var deviceType : String? {
-        let j = json["others"]["device_type"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var deviceType : String {
+        if let j = json["others"]["device_type"].string {
+            return j
         }
+        return ""
     }
     
-    var fbId : String? {
-        let j = json["others"]["fb_id"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var fbId : String {
+        if let j = json["others"]["fb_id"].string {
+            return j
         }
+        return ""
     }
     
-    var fbUsername : String? {
-        let j = json["others"]["fb_username"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var fbUsername : String {
+        if let j = json["others"]["fb_username"].string {
+            return j
         }
+        return ""
     }
     
-    var fbAccessToken : String? {
-        let j = json["others"]["fb_access_token"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var fbAccessToken : String {
+        if let j = json["others"]["fb_access_token"].string {
+            return j
         }
+        return ""
     }
     
-    var pathId : String? {
-        let j = json["others"]["path_id"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var pathId : String {
+        if let j = json["others"]["path_id"].string {
+            return j
         }
+        return ""
     }
     
-    var pathUsername : String? {
-        let j = json["others"]["path_username"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var pathUsername : String {
+        if let j = json["others"]["path_username"].string {
+            return j
         }
+        return ""
     }
     
-    var pathAccessToken : String? {
-        let j = json["others"]["path_access_token"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var pathAccessToken : String {
+        if let j = json["others"]["path_access_token"].string {
+            return j
         }
+        return ""
     }
     
-    var instagramId : String? {
-        let j = json["others"]["instagram_id"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var instagramId : String {
+        if let j = json["others"]["instagram_id"].string {
+            return j
         }
+        return ""
     }
     
-    var instagramUsername : String? {
-        let j = json["others"]["instagram_username"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var instagramUsername : String {
+        if let j = json["others"]["instagram_username"].string {
+            return j
         }
+        return ""
     }
     
-    var instagramAccessToken : String? {
-        let j = json["others"]["instagram_access_token"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var instagramAccessToken : String {
+        if let j = json["others"]["instagram_access_token"].string {
+            return j
         }
+        return ""
     }
     
-    var twitterId : String? {
-        let j = json["others"]["twitter_id"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var twitterId : String {
+        if let j = json["others"]["twitter_id"].string {
+            return j
         }
+        return ""
     }
     
-    var twitterUsername : String? {
-        let j = json["others"]["twitter_username"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var twitterUsername : String {
+        if let j = json["others"]["twitter_username"].string {
+            return j
         }
+        return ""
     }
     
-    var twitterAccessToken : String? {
-        let j = json["others"]["twitter_access_token"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var twitterAccessToken : String {
+        if let j = json["others"]["twitter_access_token"].string {
+            return j
         }
+        return ""
     }
     
-    var twitterTokenSecret : String? {
-        let j = json["others"]["twitter_token_secret"]
-        if (j != nil) {
-            return j.string
-        } else {
-            return nil
+    var twitterTokenSecret : String {
+        if let j = json["others"]["twitter_token_secret"].string {
+            return j
         }
+        return ""
     }
 }
 
 public class ProductDetail : NSObject, TawarItem
 {
-    var json : JSON!
+    var json : JSON = JSON([:])
     
     static func instance(obj : JSON?)->ProductDetail?
     {
         if (obj == nil) {
             return nil
         } else {
-            var p = ProductDetail()
+            let p = ProductDetail()
             p.json = obj!
             return p
         }
@@ -537,12 +488,20 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
+    func setStatus(newStatus : Int) {
+        json["_data"]["status"] = JSON(newStatus)
+    }
+    
     var transactionProgress : Int {
         return json["_data"]["transaction_progress"].intValue
     }
     
     var boughtByMe : Bool {
         return json["_data"]["bought_by_me"].boolValue
+    }
+    
+    func setBoughtByMe(val : Bool) {
+        json["_data"]["bought_by_me"] = JSON(val)
     }
     
     var size : String {
@@ -581,7 +540,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var productID : String
     {
-        println(json)
+        print(json)
         return json["_data"]["_id"].string!
     }
     
@@ -620,7 +579,7 @@ public class ProductDetail : NSObject, TawarItem
     
     var originalPicturers : Array<String>
         {
-            println(json)
+            print(json)
             if let ori : Array<String> = json["_data"]["original_picts"].arrayObject as? Array<String>
             {
                 return ori
@@ -645,7 +604,7 @@ public class ProductDetail : NSObject, TawarItem
     var imageLabels : [String]
     {
         var labels : [String] = []
-        println(json["_data"]["original_picts"])
+        print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
         {
             var i = 0
@@ -663,7 +622,7 @@ public class ProductDetail : NSObject, TawarItem
                     default : labels.append("unknown")
                     }
                 }
-                i++
+                i += 1
             }
         }
         return labels
@@ -700,7 +659,7 @@ public class ProductDetail : NSObject, TawarItem
             if (a?.count == 0) {
                 return []
             } else {
-                let f = a?.objectAtCircleIndex(0)
+//                let f = a?.objectAtCircleIndex(0)
                 var r : Array<ProductDiscussion> = []
                 if (a != nil)
                 {
@@ -724,7 +683,7 @@ public class ProductDetail : NSObject, TawarItem
             return _isMyProduct!
         }
         
-        if let sellerId = json?["_data"]["seller"]["_id"].string, let userId = CDUser.getOne()?.id
+        if let sellerId = json["_data"]["seller"]["_id"].string, let userId = CDUser.getOne()?.id
         {
             _isMyProduct = sellerId == userId
             return _isMyProduct!
@@ -916,6 +875,13 @@ public class ProductDetail : NSObject, TawarItem
     {
         reveresed = !reveresed
     }
+    
+    var isGarageSale : Bool {
+        if let j = json["_data"]["is_garage_sale"].bool {
+            return j
+        }
+        return false
+    }
 }
 
 public class Product : NSObject
@@ -937,7 +903,7 @@ public class Product : NSObject
         if (obj == nil) {
             return nil
         } else {
-            var p = Product()
+            let p = Product()
             p.json = obj!
             return p
         }
@@ -945,7 +911,7 @@ public class Product : NSObject
     
     var coverImageURL : NSURL?
     {
-        if let err = json["display_picts"][0].error
+        if json["display_picts"][0].error != nil
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
         }
@@ -1058,7 +1024,7 @@ class MyProductItem : Product {
         if (obj == nil) {
             return nil
         } else {
-            var p = MyProductItem()
+            let p = MyProductItem()
             p.json = obj!
             return p
         }
@@ -1240,7 +1206,7 @@ class UserTransaction: NSObject {
     var productImageURL : NSURL? {
         let arr = json["transaction_products"].array!
         
-        if let err = arr[0]["display_picts"][0].error
+        if arr[0]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1290,7 +1256,7 @@ class UserTransactionItem: UserTransaction {
     
     // Only take first image from json
     override var productImageURL : NSURL? {
-        if let err = json["product"]["display_picts"][0].error
+        if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1449,7 +1415,7 @@ class TransactionDetail : NSObject {
     
     var transactionProducts : [TransactionProductDetail] {
         var tps : [TransactionProductDetail] = []
-        for (var i = 0; i < json["transaction_products"].count; i++) {
+        for i in 0 ..< json["transaction_products"].count {
             if let tp = TransactionProductDetail.instance(json["transaction_products"][i]) {
                 tps.append(tp)
             }
@@ -1668,7 +1634,7 @@ class TransactionProductDetail : NSObject {
     
     // Only take first image from json
     var productImageURL : NSURL? {
-        if let err = json["product"]["display_picts"][0].error
+        if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
@@ -1820,11 +1786,11 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var shippingRecipientPhone : String? {
+    var shippingRecipientPhone : String {
         if (json["shipping_address"]["recipient_phone"] != nil) {
-            return json["shipping_address"]["recipient_phone"].string
+            return json["shipping_address"]["recipient_phone"].stringValue
         } else {
-            return nil
+            return ""
         }
     }
     
@@ -1853,7 +1819,7 @@ class TransactionProductDetail : NSObject {
     }
     
     var reviewerImageURL : NSURL? {
-        if let err = json["review"]["buyer_pict"].error
+        if json["review"]["buyer_pict"].error != nil
         {
             return nil
         }
@@ -1898,6 +1864,34 @@ class TransactionProductDetail : NSObject {
         } else {
             return false
         }
+    }
+    
+    var garageSalePlace : String {
+        if let j = json["garage_sale"]["place"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleEventDate : String {
+        if let j = json["garage_sale"]["event_date"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleEventTime : String {
+        if let j = json["garage_sale"]["event_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var garageSaleMapsUrl : String {
+        if let j = json["garage_sale"]["maps_url"].string {
+            return j
+        }
+        return ""
     }
 }
 
@@ -2030,7 +2024,7 @@ class UserCheckout : NSObject {
             let u = UserCheckout()
             u.json = json!
             u.transactionProducts = []
-            for (var i = 0; i < u.json["transaction_products"].count; i++) {
+            for i in 0 ..< u.json["transaction_products"].count {
                 let t = u.json["transaction_products"][i]
                 if (t != nil) {
                     u.transactionProducts.append(UserCheckoutProduct.instanceCheckoutProduct(t)!)
@@ -2118,7 +2112,7 @@ class UserCheckoutProduct : TransactionProductDetail {
         if (obj == nil) {
             return nil
         } else {
-            var p = UserCheckoutProduct()
+            let p = UserCheckoutProduct()
             p.json = obj!
             return p
         }
@@ -2390,7 +2384,7 @@ class Inbox : NSObject, TawarItem
     func setBargainPrice(price: Int) {
         settedBargainPrice = price
 //        json["current_bargain_amount"].int = price
-//        println("current_bargain_amount : " + String(bargainPrice))
+//        print("current_bargain_amount : " + String(bargainPrice))
     }
     
     var bargainerIsMe : Bool {
@@ -2537,15 +2531,16 @@ class InboxMessage : NSObject
     private var lastCompletion : (InboxMessage)->() = {m in }
     func sendTo(threadId : String, completion : (InboxMessage)->())
     {
-        println("sending chat to thread " + threadId)
+        print("sending chat to thread " + threadId)
         lastThreadId = threadId
         lastCompletion = completion
         sending = true
         self.failedToSend = false
-        var m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
-        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON { req, resp, res, err in
+        let m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
+        // API Migrasi
+        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
-            if (APIPrelo.validate(true, req: req, resp: resp, res: res, err: err, reqAlias: "Kirim chat"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim chat"))
             {
                 
             } else
