@@ -677,6 +677,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.avatar.setImageWithUrl(tawarItem.theirImage, placeHolderImage: nil)
         }
         
+        cell.toShopPage = {
+            self.gotoShopPage(0)
+        }
+        
         return cell
     }
     
@@ -828,6 +832,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    @IBAction func gotoShopPage(sender: AnyObject) {
+        if (tawarItem.theirId != "") {
+            let shopPage = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            shopPage.storeMode = true
+            shopPage.storeId = tawarItem.theirId
+            self.navigationController?.pushViewController(shopPage, animated: true)
+        }
+    }
 }
 
 class TawarCell : UITableViewCell
@@ -846,6 +858,9 @@ class TawarCell : UITableViewCell
     var formattedLongTime : String?
     
     var decorated = false
+    
+    var toShopPage : () -> () = {}
+    
     func decor()
     {
         if (decorated == false)
@@ -921,6 +936,10 @@ class TawarCell : UITableViewCell
             m.resend()
             self.decor()
         }
+    }
+    
+    @IBAction func gotoShopPage(sender: AnyObject) {
+        self.toShopPage()
     }
 }
 

@@ -765,9 +765,9 @@ public class ProductDetail : NSObject, TawarItem
         {
             return buyerName
         }
-        if let fullname = json["_data"]["seller"]["fullname"].string
+        if let username = json["_data"]["seller"]["username"].string
         {
-            return fullname
+            return username
         }
         return ""
     }
