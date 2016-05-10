@@ -221,7 +221,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             if let imgData = data
             {
                 let i = UIImage(data: imgData)
-                self.share(a, image: i!)
+                self.share(a, img: i!)
             }
         }
     }
@@ -291,8 +291,9 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     var mgInstagram : MGInstagram?
     var pathImage : UIImage?
-    func share(a : PreloShareAgent, var image : UIImage)
+    func share(a : PreloShareAgent, img : UIImage)
     {
+        var image = img
         image = image.putPreloWatermarkWithUsername("@" + (detail?.json["_data"]["seller"]["username"].stringValue)!)!
         
         if (a.title.lowercaseString == "instagram")
