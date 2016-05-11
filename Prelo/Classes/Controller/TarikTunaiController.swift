@@ -135,11 +135,12 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         let amount = txtJumlah.text == nil ? "" : txtJumlah.text!
         let i = (amount as NSString).integerValue
         
+        /* Minimum transfer disabled
         if i < 50000
         {
             UIAlertView.SimpleShow("Perhatian", message: "Jumlah penarikan minimum adalah Rp. 50.000")
             return
-        }
+        }*/
         
         var namaBank = ""
         if let nb = txtNamaBank.text
