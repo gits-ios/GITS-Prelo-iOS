@@ -9,8 +9,11 @@
 import UIKit
 import Crashlytics
 
-let prelloHost = "\(AppTools.PreloBaseUrl)/api/"
-let oldAPI = "http://dev.preloapp.com/api/2/"
+var prelloHost : String {
+    get {
+        return "\(AppTools.PreloBaseUrl)/api/"
+    }
+}
 
 class PreloEndpoints: NSObject {
    

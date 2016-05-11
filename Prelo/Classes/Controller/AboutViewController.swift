@@ -15,6 +15,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     @IBOutlet var btnClear : BorderedButton!
     @IBOutlet var btnClear2 : BorderedButton!
     @IBOutlet weak var lblVersion: UILabel!
+    @IBOutlet weak var btnUrlPrelo: UIButton!
     
     var isShowLogout : Bool = true
     
@@ -35,6 +36,17 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 self.lblVersion.text = "Version " + version + " Build " + build
             }
         }
+        
+        if (AppTools.IsDemoMode) {
+            let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue, NSForegroundColorAttributeName: UIColor.whiteColor()]
+            if (AppTools.IsPreloProduction) {
+                let attrString = NSAttributedString(string: "switch to dev", attributes: attr)
+                self.btnUrlPrelo.setAttributedTitle(attrString, forState: .Normal)
+            } else {
+                let attrString = NSAttributedString(string: "switch to production", attributes: attr)
+                self.btnUrlPrelo.setAttributedTitle(attrString, forState: .Normal)
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,7 +65,18 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     @IBAction func openPreloSite(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
+        if (AppTools.IsDemoMode) {
+            self.logout()
+            if (AppTools.IsPreloProduction) {
+                // switch to dev
+                AppTools.PreloBaseUrl = "http://dev.prelo.id"
+            } else {
+                // switch to production
+                AppTools.PreloBaseUrl = "https://prelo.co.id"
+            }
+        } else {
+            UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
+        }
     }
     
     @IBAction func reloadAppData(sender: AnyObject) {

@@ -2150,30 +2150,29 @@ in Bandung</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NiA-oF-J9p">
-                                        <rect key="frame" x="7" y="94" width="108" height="30"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                        <state key="normal" title="www.prelo.co.id">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NiA-oF-J9p">
+                                        <rect key="frame" x="-7" y="94" width="136" height="30"/>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="www.prelo.co.id">
+                                                    <attributes>
+                                                        <color key="NSColor" red="1" green="1" blue="0.999363598428199" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="charWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        <integer key="NSUnderline" value="1"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
                                         </state>
                                         <connections>
                                             <action selector="openPreloSite:" destination="67s-Rd-7nY" eventType="touchUpInside" id="Lzd-7w-DZV"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mEy-Rp-46q">
-                                        <rect key="frame" x="7" y="120" width="108" height="1"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="QQ3-HI-fQ0"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="mEy-Rp-46q" firstAttribute="trailing" secondItem="NiA-oF-J9p" secondAttribute="trailing" id="2fs-EE-qEC"/>
                                     <constraint firstItem="FbI-Ka-ZnE" firstAttribute="top" secondItem="An2-gb-kvv" secondAttribute="top" id="40d-Ak-2OD"/>
                                     <constraint firstItem="P7V-dG-bi2" firstAttribute="top" secondItem="FbI-Ka-ZnE" secondAttribute="bottom" constant="16" id="44w-0s-svc"/>
-                                    <constraint firstItem="mEy-Rp-46q" firstAttribute="bottom" secondItem="NiA-oF-J9p" secondAttribute="bottom" constant="-7" id="547-y4-hvc"/>
                                     <constraint firstItem="NiA-oF-J9p" firstAttribute="top" secondItem="P7V-dG-bi2" secondAttribute="bottom" constant="8" id="7xh-rP-Vce"/>
                                     <constraint firstAttribute="trailing" secondItem="P7V-dG-bi2" secondAttribute="trailing" id="HmX-Wd-EJk"/>
                                     <constraint firstItem="FbI-Ka-ZnE" firstAttribute="leading" secondItem="An2-gb-kvv" secondAttribute="leading" id="HsR-OZ-DUg"/>
@@ -2183,7 +2182,6 @@ in Bandung</string>
                                     <constraint firstAttribute="centerX" secondItem="NiA-oF-J9p" secondAttribute="centerX" id="MLb-au-ttO"/>
                                     <constraint firstAttribute="bottom" secondItem="NiA-oF-J9p" secondAttribute="bottom" id="Mp8-gw-asp"/>
                                     <constraint firstAttribute="trailing" secondItem="NiA-oF-J9p" secondAttribute="trailing" id="RwG-oL-TIu"/>
-                                    <constraint firstItem="mEy-Rp-46q" firstAttribute="leading" secondItem="NiA-oF-J9p" secondAttribute="leading" id="jlc-P5-Y2S"/>
                                     <constraint firstItem="NiA-oF-J9p" firstAttribute="top" secondItem="P7V-dG-bi2" secondAttribute="bottom" constant="16" id="o1W-vw-33N"/>
                                 </constraints>
                                 <variation key="default">
@@ -2260,6 +2258,7 @@ in Bandung</string>
                         <outlet property="btnClear" destination="9NN-WD-vJR" id="au1-14-ERN"/>
                         <outlet property="btnClear2" destination="2rg-Mc-Zh2" id="7t5-o8-oda"/>
                         <outlet property="btnLogout" destination="WeA-Uv-Qzk" id="TW6-HN-god"/>
+                        <outlet property="btnUrlPrelo" destination="NiA-oF-J9p" id="lB2-Dd-bXg"/>
                         <outlet property="lblVersion" destination="P7V-dG-bi2" id="CVl-PS-ss6"/>
                     </connections>
                 </viewController>
