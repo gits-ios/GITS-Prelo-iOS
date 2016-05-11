@@ -294,7 +294,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     {
                         self.bonusValue = bonus
                         self.bonusAvailable = true
-                        let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
+                        let b2 = BaseCartData.instance("Referral Bonus", placeHolder: nil, enable : false)
                         if (json["_data"]["bonus_available"].int?.asPrice != nil)
                         {
                             var totalOngkir = 0
@@ -710,7 +710,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (s == 0) {
             if ((self.bonusAvailable && r == arrayItem.count + 1) || (!self.bonusAvailable && r == arrayItem.count)) { // Total
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
-            } else if (self.bonusAvailable && r == arrayItem.count) { // Prelo Bonus
+            } else if (self.bonusAvailable && r == arrayItem.count) { // Referral Bonus
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item2") as! CartCellItem

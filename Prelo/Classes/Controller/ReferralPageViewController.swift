@@ -82,7 +82,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 if (!isEmailVerified) {
                     // Tampilkan pop up untuk verifikasi email
                     let a = UIAlertView()
-                    a.title = "Prelo Bonus"
+                    a.title = "Referral Bonus"
                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan voucher gratis dari Prelo"
                     a.addButtonWithTitle("Batal")
                     a.addButtonWithTitle("Kirim E-mail Konfirmasi")
@@ -133,7 +133,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         super.viewDidLoad()
         
         // Set title
-        self.title = "Prelo Bonus"
+        self.title = "Referral Bonus"
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -157,7 +157,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     func getReferralData() {
         // API Migrasi
         request(APIUser.ReferralData).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -435,7 +435,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             // API Migrasi
         request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Prelo Bonus")) {
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Referral Bonus")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
@@ -487,19 +487,19 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 // Tampilkan pop up untuk loading
                 let a = UIAlertView()
-                a.title = "Prelo Bonus"
+                a.title = "Referral Bonus"
                 a.message = "Mengirim e-mail..."
                 a.show()
                 // API Migrasi
         request(APIUser.ResendVerificationEmail).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Prelo Bonus")) {
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
                         a.dismissWithClickedButtonIndex(-1, animated: true)
-                        Constant.showDialog("Prelo Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
+                        Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
                     self.navigationController?.popViewControllerAnimated(true)
                 }
             } else {
-                Constant.showDialog("Prelo Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
+                Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
                 self.navigationController?.popViewControllerAnimated(true)
             }
             break

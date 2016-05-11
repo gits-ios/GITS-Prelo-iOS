@@ -2075,7 +2075,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     if (isTrxProductDetail()) {
                         content = trxProductDetail!.myPreloBonus.asPrice
                     }
-                    return self.createTitleContentCell("Prelo Bonus", content: content)
+                    return self.createTitleContentCell("Referral Bonus", content: content)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
                 if (isTrxProductDetail()) {
