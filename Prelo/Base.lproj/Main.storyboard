@@ -8660,6 +8660,7 @@ dalam keranjang belanja</string>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RINGKASAN BELANJA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="868-L5-fbo">
                                             <rect key="frame" x="8" y="55" width="197" height="22"/>
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="Uuf-79-gtN"/>
                                                 <constraint firstAttribute="width" constant="197" id="bmW-fZ-23R"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -8685,6 +8686,9 @@ dalam keranjang belanja</string>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4Q-mF-4U2">
                                             <rect key="frame" x="8" y="165" width="31" height="17"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="17" id="RBR-3W-KzG"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -8798,6 +8802,7 @@ dalam keranjang belanja</string>
                                         <constraint firstItem="d1n-bt-wrd" firstAttribute="width" secondItem="qfv-4p-jj0" secondAttribute="width" id="tWd-R0-CYS"/>
                                         <constraint firstItem="QVA-FB-IKL" firstAttribute="leading" secondItem="qfv-4p-jj0" secondAttribute="trailing" constant="2" id="uI1-iv-KXh"/>
                                         <constraint firstItem="868-L5-fbo" firstAttribute="top" secondItem="gZy-qr-Cea" secondAttribute="top" constant="60" id="ug6-Wg-30n"/>
+                                        <constraint firstItem="FFq-6H-ixY" firstAttribute="top" secondItem="U4Q-mF-4U2" secondAttribute="bottom" constant="24" id="yN9-iJ-AeO"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">

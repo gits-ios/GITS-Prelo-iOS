@@ -75,7 +75,7 @@ class AppTools: NSObject {
     }
     
     // NOTE: Set true for demo/testing purpose only 
-    static var IsDemoMode : Bool = false
+    static var IsDemoMode : Bool = true
     
     static var IsPreloProduction : Bool {
         return (PreloBaseUrl == "https://prelo.co.id")
