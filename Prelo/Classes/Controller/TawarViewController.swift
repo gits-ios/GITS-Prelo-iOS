@@ -782,10 +782,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.tableView.reloadData()
         self.adjustButtons()
         
-        if (self.isAtBottom)
-        {
-            self.scrollToBottom()
-        }
+        self.scrollToBottom()
     }
     
     func userLoggedIn() {
