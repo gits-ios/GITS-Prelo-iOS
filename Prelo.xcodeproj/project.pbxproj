@@ -447,6 +447,7 @@
 		5800FFA51C88530900492DB2 /* NotifAnggiConversation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
+		5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */; };
 		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
 		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -1096,6 +1097,7 @@
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
+		5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AddProductPlaceholder.plist; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
@@ -2016,6 +2018,7 @@
 			isa = PBXGroup;
 			children = (
 				217874621B98516900D355A8 /* merk.json */,
+				5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -2615,6 +2618,7 @@
 				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
+				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
 				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,

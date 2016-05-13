@@ -587,14 +587,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         p.blockDone = { data in
             let children = JSON(data["child"]!)
             
-            if let name = children["name"].string
-            {
-                self.captionKategori.text = name
-            }
-            
             if let id = children["_id"].string
             {
                 self.productCategoryId = id
+            }
+            
+            if let name = children["name"].string
+            {
+                self.captionKategori.text = name
             }
             
             let dataJson = JSON(data)
@@ -606,6 +606,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             self.getSizes()
+            
+            if let catLv2Name = dataJson["category_level2_name"].string {
+                // Set placeholder for item name and description
+                guard let filePath = NSBundle.mainBundle().pathForResource("AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
+                    print("Couldn't load .plist as a dictionary")
+                    return
+                }
+                //print("placehodlersDict = \(placeholdersDict)")
+                
+                let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercaseString)")
+                let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluateWithObject($0) }
+                if let placeholderDict = placeholdersDict.dictionaryWithValuesForKeys(matchingKeys as! [String]).first?.1 {
+                    //print("placehodlerDict = \(placeholderDict)")
+                    if let itemNamePlaceholder = placeholderDict.objectForKey("name") {
+                        self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
+                    }
+                    if let descPlaceholder = placeholderDict.objectForKey("desc") {
+                        self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
+                    }
+                }
+            }
         }
         p.root = self
         self.navigationController?.pushViewController(p, animated: true)

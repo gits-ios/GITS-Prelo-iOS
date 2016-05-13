@@ -154,6 +154,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var searchMode = false
     
     var categoryImageName : String = ""
+    var categoryLv2Name : String = ""
     
     @IBOutlet var tableView : UITableView!
     
@@ -213,6 +214,13 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var backTreshold = 1
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        let categs = categories[indexPath.row]
+        if let lv = categs["level"].int {
+            if (lv == 2) {
+                self.categoryLv2Name = categs["name"].stringValue
+            }
+        }
+        
         selectedCategory = categories[indexPath.row]
         var x = 0
         let c = selectedCategory!["children"].arrayObject
@@ -229,10 +237,11 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.searchMode = self.searchMode
             p.root = root
             p.categoryImageName = self.categoryImageName
+            p.categoryLv2Name = self.categoryLv2Name
             self.navigationController?.pushViewController(p, animated: true)
         } else
         {
-            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue, "category_image_name":self.categoryImageName]
+            let data = ["parent":parent.rawValue, "child":selectedCategory!.rawValue, "category_image_name":self.categoryImageName, "category_level2_name":self.categoryLv2Name]
             if (searchMode)
             {
                 let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
