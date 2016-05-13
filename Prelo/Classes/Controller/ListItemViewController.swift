@@ -306,11 +306,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                         self.storeHeader?.captionDesc.text = desc
                         descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
                     }
-                    height = 280 + descHeight
+                    height = 338 + descHeight
                 } else {
                     self.storeHeader?.captionDesc.text = "Belum ada deskripsi."
                     self.storeHeader?.captionDesc.textColor = UIColor.lightGrayColor()
-                    height = 280 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-14).height)
+                    height = 338 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-14).height)
                 }
                 self.storeHeader?.width = UIScreen.mainScreen().bounds.width
                 self.storeHeader?.height = CGFloat(height)
@@ -320,7 +320,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     if let completeDesc = self.storeHeader?.completeDesc {
                         self.storeHeader?.captionDesc.text = completeDesc
                         let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height
-                        let newHeight : CGFloat = descHeight + 280.0
+                        let newHeight : CGFloat = descHeight + 338.0
                         self.storeHeader?.height = newHeight
                         self.storeHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
@@ -758,6 +758,8 @@ class StoreHeader : UIView
     @IBOutlet var avatar : UIImageView!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var captionTotal : UILabel!
+    @IBOutlet var captionLastActive: UILabel!
+    @IBOutlet var captionChatPercentage: UILabel!
     
     var completeDesc : String = ""
     
