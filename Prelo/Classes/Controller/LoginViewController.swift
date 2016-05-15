@@ -239,6 +239,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)
                     Crashlytics.sharedInstance().setUserEmail(user.email)
                     Crashlytics.sharedInstance().setUserName(user.fullname!)
+                    
+                    // MoEngage
+                    MoEngage.sharedInstance().setUserAttribute(user.id, forKey: "user_id")
+                    MoEngage.sharedInstance().setUserAttribute(user.username, forKey: "username")
+                    MoEngage.sharedInstance().setUserAttribute(user.fullname, forKey: "user_fullname")
+                    MoEngage.sharedInstance().setUserAttribute(user.email, forKey: "user_email")
+                    MoEngage.sharedInstance().setUserAttribute(user.profiles.phone!, forKey: "phone")
                 } else {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)

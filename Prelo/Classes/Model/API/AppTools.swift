@@ -63,11 +63,27 @@ extension UILabel {
 }
 
 class AppTools: NSObject {
-    static var PreloBaseUrl = "http://dev.prelo.id" // Development
-//    static var PreloBaseUrl = "https://prelo.co.id" // Production
+    
+    static let isDev = true
+    private static var devURL = "http://dev.prelo.id"
+    private static var prodURL = "https://prelo.co.id"
+    
+    private static var _PreloBaseUrl = isDev ? devURL : prodURL // Development
+//    private static var _PreloBaseUrl = "https://prelo.co.id" // Production
+    static var PreloBaseUrl : String {
+        set {
+            _PreloBaseUrl = newValue
+        }
+        get {
+            return _PreloBaseUrl
+        }
+    }
+    
+    // NOTE: Set true for demo/testing purpose only 
+    static var IsDemoMode : Bool = false
     
     static var IsPreloProduction : Bool {
-        return (AppTools.PreloBaseUrl == "https://prelo.co.id")
+        return (PreloBaseUrl == "https://prelo.co.id")
     }
     
     static var isIPad : Bool {

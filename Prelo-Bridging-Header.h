@@ -39,5 +39,6 @@
 #import "BranchLinkProperties.h"
 #import "NotifyManager.h"
 #import "AppsFlyerTracker.h"
+#import "MoEngage.h"
 
 #endif

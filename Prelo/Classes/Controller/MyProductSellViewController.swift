@@ -167,8 +167,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
             cell.lblOrderStatus.text = status.uppercaseString
-            if (status == "Aktif") {
+            if (status.lowercaseString == "aktif") {
                 cell.lblOrderStatus.textColor = Theme.PrimaryColor
+            } else if (status.lowercaseString == "direview admin") {
+                cell.lblOrderStatus.textColor = Theme.ThemeOrange
             } else {
                 cell.lblOrderStatus.textColor = UIColor.redColor()
             }

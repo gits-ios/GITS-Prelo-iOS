@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Sepatu &amp; Sandal Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Sepatu Wedges</string>
+		<key>desc</key>
+		<string>Hak 7 cm, sol tebal, dll.</string>
+	</dict>
+	<key>Atasan Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Kemeja Burberry</string>
+		<key>desc</key>
+		<string>Warna biru, bahan katun, lbr bahu, dll.</string>
+	</dict>
+	<key>Bawahan Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Jeans Beige</string>
+		<key>desc</key>
+		<string>Lingkar pinggang, warna beige, dll.</string>
+	</dict>
+	<key>Terusan Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Maxi dress</string>
+		<key>desc</key>
+		<string>Panjang, lingkar dada, bahan denim, dll.</string>
+	</dict>
+	<key>Tas &amp; Dompet Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Dompet Kate Spade</string>
+		<key>desc</key>
+        <string>Ukuran dompet, bahan dompet, dll.</string>
+	</dict>
+	<key>Aksesoris Wanita</key>
+	<dict>
+		<key>name</key>
+		<string>Jepitan Rambut Anak</string>
+		<key>desc</key>
+		<string>Impor dari Korea, sisa stok, dll.</string>
+	</dict>
+	<key>Fashion Wanita Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Scarf panjang</string>
+		<key>desc</key>
+		<string>Panjang, warna hijau toska, bahan, dll.</string>
+	</dict>
+    <key>Sepatu &amp; Sandal Pria</key>
+    <dict>
+        <key>name</key>
+        <string>Sepatu Wedges</string>
+        <key>desc</key>
+        <string>Hak 7 cm, sol tebal, dll.</string>
+    </dict>
+    <key>Atasan Pria</key>
+    <dict>
+        <key>name</key>
+        <string>Kemeja Burberry</string>
+        <key>desc</key>
+        <string>Warna, bahan, lebar bahu, dll.</string>
+    </dict>
+    <key>Bawahan Pria</key>
+    <dict>
+        <key>name</key>
+        <string>Jeans Beige</string>
+        <key>desc</key>
+        <string>Lingkar pinggang, warna, bahan, dll.</string>
+    </dict>
+    <key>Tas &amp; Dompet Pria</key>
+    <dict>
+        <key>name</key>
+        <string>Dompet Kate Spade</string>
+        <key>desc</key>
+        <string>Ukuran dompet, warna, bahan, dll.</string>
+    </dict>
+    <key>Aksesoris Pria</key>
+    <dict>
+        <key>name</key>
+        <string>Bucket hat</string>
+        <key>desc</key>
+        <string>Lebar topi, warna coklat, dll.</string>
+    </dict>
+    <key>Fashion Pria Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Sarung tangan motor</string>
+		<key>desc</key>
+		<string>Warna hitam, panjang 20 cm, dll.</string>
+	</dict>
+	<key>Riasan Mata</key>
+	<dict>
+		<key>name</key>
+		<string>Maybelline Smoky Eyes Palette</string>
+		<key>desc</key>
+		<string>Kadaluarsa, warna, natural, dll.</string>
+	</dict>
+	<key>Riasan Bibir</key>
+	<dict>
+		<key>name</key>
+		<string>Lip Gloss No. 87</string>
+		<key>desc</key>
+		<string>Tgl kadaluarsa, warna, dll.</string>
+	</dict>
+	<key>Riasan Wajah</key>
+	<dict>
+		<key>name</key>
+		<string>Liquid Foundation No. 07</string>
+		<key>desc</key>
+		<string>Kadaluarsa, warna, pemakaian, dll.</string>
+	</dict>
+	<key>Kuku</key>
+	<dict>
+		<key>name</key>
+		<string>Nail Polish</string>
+		<key>desc</key>
+		<string>Kadaluarsa, warna, pemakaian, dll.</string>
+	</dict>
+	<key>Rambut</key>
+	<dict>
+		<key>name</key>
+		<string>Hair straightener</string>
+		<key>desc</key>
+		<string>Bisa ngeritingin, pengatur suhu, dll.</string>
+	</dict>
+	<key>Perawatan Wajah</key>
+	<dict>
+		<key>name</key>
+		<string>Wardah Day and Night Cream</string>
+		<key>desc</key>
+		<string>Tgl kadaluarsa, anti wrinkle, dll.</string>
+	</dict>
+	<key>Perawatan Tubuh</key>
+	<dict>
+		<key>name</key>
+		<string>Body Shop Hand Wash</string>
+		<key>desc</key>
+		<string>Tanggal kadaluarsa, aroma, dll.</string>
+	</dict>
+	<key>Parfum</key>
+	<dict>
+		<key>name</key>
+		<string>Anna Sui Secret Wish</string>
+		<key>desc</key>
+		<string>Volume, wangi feminin sandalwood, dll.</string>
+	</dict>
+	<key>Grooming</key>
+	<dict>
+		<key>name</key>
+		<string>Honey Waxing Kit</string>
+		<key>desc</key>
+		<string>Tak pernah dipakai, tanggal beli, dll.</string>
+	</dict>
+	<key>Beauty Tools</key>
+	<dict>
+		<key>name</key>
+		<string>L&apos;Occitane Cosmetics Bags</string>
+		<key>desc</key>
+		<string>Panjang 20 cm, muat 500 mL, dll.</string>
+	</dict>
+	<key>Ponsel</key>
+	<dict>
+		<key>name</key>
+		<string>iPhone 6S 64GB</string>
+		<key>desc</key>
+		<string>Beli Jan 16, bonus anti gores, dll.</string>
+	</dict>
+	<key>Tablet</key>
+	<dict>
+		<key>name</key>
+		<string>Samsung Tab S</string>
+		<key>desc</key>
+		<string>Beli Aug 15, kamera bagus, garansi, dll.</string>
+	</dict>
+	<key>Laptop</key>
+	<dict>
+		<key>name</key>
+		<string>Alienware 13</string>
+		<key>desc</key>
+		<string>Intel Core i7, 4MB Cache, 3.1GHz, dll.</string>
+	</dict>
+	<key>Aksesoris Gadget</key>
+	<dict>
+		<key>name</key>
+		<string>iPhone 5S case</string>
+		<key>desc</key>
+		<string>Belum pernah dipakai, warna, dll.</string>
+	</dict>
+	<key>Gadget Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Xiao Mi Power Bank 10000 mAh</string>
+		<key>desc</key>
+		<string>Ukuran, port USB 1 buah, ada kabel, dll.</string>
+	</dict>
+	<key>Musik</key>
+	<dict>
+		<key>name</key>
+		<string>Gitar Bas Ibanez BX150</string>
+		<key>desc</key>
+		<string>Tgl pembelian, bonus kabel &amp; case, dll.</string>
+	</dict>
+	<key>Action Figures</key>
+	<dict>
+		<key>name</key>
+		<string>Masked Rider Action Figures</string>
+		<key>desc</key>
+		<string>Tanggal &amp; tempat beli, kondisi, dll.</string>
+	</dict>
+	<key>Artbook</key>
+	<dict>
+		<key>name</key>
+		<string>Kumpulan Gambar Asli Sailor Moon Vol. 3</string>
+		<key>desc</key>
+		<string>Rare item, bahan sampul, penerbit, dll.</string>
+	</dict>
+	<key>Games</key>
+	<dict>
+		<key>name</key>
+		<string>PS2 FAT HDD 40 GB</string>
+		<key>desc</key>
+		<string>Kabel AV TV, Kabel Power, garansi, dll.</string>
+	</dict>
+	<key>Koleksi</key>
+	<dict>
+		<key>name</key>
+		<string>Tumblr Starbucks Edisi China</string>
+		<key>desc</key>
+		<string>Beli tahun 2015, jarang dipakai, dll.</string>
+	</dict>
+	<key>Hobi Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>VCD The Graduate</string>
+		<key>desc</key>
+		<string>Bonus poster, masih lancar diputar, dll.</string>
+	</dict>
+	<key>Alat Olahraga</key>
+	<dict>
+		<key>name</key>
+		<string>Bola Sepak Globall</string>
+		<key>desc</key>
+		<string>Ukuran, kulit masih mulus, dll.</string>
+	</dict>
+	<key>Perlengkapan Olahraga</key>
+	<dict>
+		<key>name</key>
+		<string>Sarung Tangan Gym Fitness</string>
+		<key>desc</key>
+		<string>Ukuran M, warna hitam, dll.</string>
+	</dict>
+	<key>Sepatu Olahraga</key>
+	<dict>
+		<key>name</key>
+		<string>Reebok Runing</string>
+		<key>desc</key>
+		<string>Euro 40 fit like 41 (25,5 cm), dll.</string>
+	</dict>
+	<key>Outdoors</key>
+	<dict>
+		<key>name</key>
+		<string>Adhoc Parka Jacket</string>
+		<key>desc</key>
+		<string>Size L, panjang 50 cm, dll.</string>
+	</dict>
+	<key>Sports &amp; Outdoors Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Sepatu Boots Khaki</string>
+		<key>desc</key>
+		<string>Size 8.5, kondisi bagus dan mulus, dll.</string>
+	</dict>
+	<key>Akademis</key>
+	<dict>
+		<key>name</key>
+		<string>TOEFL Practice Drills</string>
+		<key>desc</key>
+		<string>Edisi bahasa Inggris, full color, dll.</string>
+	</dict>
+	<key>Fiksi</key>
+	<dict>
+		<key>name</key>
+		<string>Harry Potter dan Relikui Kematian</string>
+		<key>desc</key>
+		<string>Halaman menguning, hard cover, dll.</string>
+	</dict>
+	<key>Non-Fiksi</key>
+	<dict>
+		<key>name</key>
+		<string>How To Win Friends and Influence People</string>
+		<key>desc</key>
+		<string>Paperback, disampul plastik, dll.</string>
+	</dict>
+	<key>Komik</key>
+	<dict>
+		<key>name</key>
+		<string>Detektif Conan 70</string>
+		<key>desc</key>
+		<string>Sampul plastik, kertas masih bagus, dll.</string>
+	</dict>
+	<key>Buku Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Harvard Business Review April 2016</string>
+		<key>desc</key>
+		<string>Kondisi mulus, kertas majalah, dll.</string>
+	</dict>
+	<key>Pakaian Bayi &amp; Anak</key>
+	<dict>
+		<key>name</key>
+		<string>Legging Anak</string>
+		<key>desc</key>
+		<string>Panjang 90 cm, ada saku, dll.</string>
+	</dict>
+    <key>Aksesoris Bayi &amp; Anak</key>
+    <dict>
+        <key>name</key>
+        <string>Jepitan Rambut Anak</string>
+        <key>desc</key>
+        <string>Impor dari Korea, sisa stok, dll.</string>
+    </dict>
+    <key>Perlengkapan Bayi &amp; Anak</key>
+	<dict>
+		<key>name</key>
+		<string>Stroller Aprica Laura Quatro</string>
+		<key>desc</key>
+		<string>Baru dipakai 2x, dapat dilipat, dll.</string>
+	</dict>
+	<key>Sepatu Bayi &amp; Anak</key>
+	<dict>
+		<key>name</key>
+		<string>Sepatu Bayi Osh Kosh</string>
+		<key>desc</key>
+		<string>Masih sangat baru, ada strapnya, dll.</string>
+	</dict>
+	<key>Barang Baby &amp; Kid Lainnya</key>
+	<dict>
+		<key>name</key>
+		<string>Play Doh Barbeque Playset</string>
+		<key>desc</key>
+		<string>Malam agak rusak, fungsi baik, dll.</string>
+	</dict>
+</dict>
+</plist>

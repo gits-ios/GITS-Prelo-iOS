@@ -58,6 +58,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
             super.viewDidAppear(animated)
             var m = self.navigationController?.viewControllers
             m?.removeAtIndex((m?.count)!-2)
+            m?.removeAtIndex((m?.count)!-2)
             self.navigationController?.viewControllers = m!
         }
     }

@@ -39,6 +39,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var txtOldPrice : UITextField!
     @IBOutlet var txtNewPrice : UITextField!
     @IBOutlet var txtWeight : UITextField!
+    @IBOutlet var txtCommission: UITextField!
     
     @IBOutlet var captionKondisi : UILabel!
     @IBOutlet var captionMerek : UILabel!
@@ -77,11 +78,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (AppTools.isDev)
+        {
+            txtName.text = "qwerty"
+            txtSpesial.text = "asdf"
+            txtNewPrice.text = "1000"
+            txtOldPrice.text = "1500"
+            txtAlasanJual.text = "zxcvbnm"
+            txtDescription.text = "asdkalskfas"
+        }
 
         // Do any additional setup after loading the view.
 //        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
         conHeightSize.constant = 0
         sizePicker.superview?.hidden = true
+        
+        fakeScrollView.backgroundColor = .whiteColor()
+        if (editMode)
+        {
+            fakeScrollView.hidden = true
+        }
         
         sizePicker.dataSource = self
         sizePicker.delegate = self
@@ -181,6 +198,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let oldPrice = editProduct?.json["_data"]["price"].int
             {
                 txtNewPrice.text = String(oldPrice)
+            }
+            
+            if let commission = editProduct?.json["_data"]["commission"].int
+            {
+                txtCommission.text = "\(String(commission)) %"
             }
             
             if let category_breadcrumbs = editProduct?.json["_data"]["category_breadcrumbs"].array
@@ -375,6 +397,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func imageFullScreenDidDelete(controller: AddProductImageFullScreen) {
         self.imageViews[controller.index].image = nil
+        self.images[controller.index] = NSNull()
         switch (controller.index)
         {
         case 0:rm_image1 = 1
@@ -387,7 +410,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     func imageFullScreenDidReplace(controller: AddProductImageFullScreen, image: APImage) {
-        /** fix untuk : https://trello.com/c/ByNrWwTL 
+        /** fix untuk : https://trello.com/c/ByNrWwTL
         ternyata walau masih ngirim multipart image, tapi kalo rm_imageN nya di isi 1, tetep di hapus si gambar nya.
         makadariitu, rm_imageN di kasih nilai kalaw bener2 di delete aja.
         */
@@ -401,8 +424,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        case 4:rm_image5 = 1
 //        default:print("")
 //        }
-        imageViews[controller.index].image = image.image
-        fakeImageViews[controller.index].image = image.image
+        if let i = image.image
+        {
+            imageViews[controller.index].image = i
+            fakeImageViews[controller.index].image = i
+            images[controller.index] = i
+        } else {
+            UIAlertView.SimpleShow("Perhatian", message: "Terjadi kesalahan saat memuat gambar")
+        }
     }
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -609,14 +638,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         p.blockDone = { data in
             let children = JSON(data["child"]!)
             
-            if let name = children["name"].string
-            {
-                self.captionKategori.text = name
-            }
-            
             if let id = children["_id"].string
             {
                 self.productCategoryId = id
+            }
+            
+            if let name = children["name"].string
+            {
+                self.captionKategori.text = name
             }
             
             let dataJson = JSON(data)
@@ -628,6 +657,27 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             self.getSizes()
+            
+            if let catLv2Name = dataJson["category_level2_name"].string {
+                // Set placeholder for item name and description
+                guard let filePath = NSBundle.mainBundle().pathForResource("AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
+                    print("Couldn't load .plist as a dictionary")
+                    return
+                }
+                //print("placehodlersDict = \(placeholdersDict)")
+                
+                let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercaseString)")
+                let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluateWithObject($0) }
+                if let placeholderDict = placeholdersDict.dictionaryWithValuesForKeys(matchingKeys as! [String]).first?.1 {
+                    //print("placehodlerDict = \(placeholderDict)")
+                    if let itemNamePlaceholder = placeholderDict.objectForKey("name") {
+                        self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
+                    }
+                    if let descPlaceholder = placeholderDict.objectForKey("desc") {
+                        self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
+                    }
+                }
+            }
         }
         p.root = self
         self.navigationController?.pushViewController(p, animated: true)
@@ -967,6 +1017,24 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+
+        if (editMode == false)
+        {
+            self.btnSubmit.enabled = true
+            let share = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            share.sendProductParam = param
+            share.sendProductImages = images
+            share.basePrice = (newPrice?.int)!
+            share.productName = name!
+            share.productImgImage = images.first as? UIImage
+            share.sendProductBeforeScreen = self.screenBeforeAddProduct
+            share.sendProductKondisi = self.kodindisiId
+            share.shouldSkipBack = false
+            
+            self.navigationController?.pushViewController(share, animated: true)
+            return
+        }
+        
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
             print(res)
@@ -1068,7 +1136,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func validateString(text : String?, message : String) -> Bool
     {
-        if (text != nil || text == "")
+        if (text == nil || text == "")
         {
             if (message != "")
             {

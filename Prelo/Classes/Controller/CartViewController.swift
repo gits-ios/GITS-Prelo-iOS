@@ -294,7 +294,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     {
                         self.bonusValue = bonus
                         self.bonusAvailable = true
-                        let b2 = BaseCartData.instance("Prelo Bonus", placeHolder: nil, enable : false)
+                        let b2 = BaseCartData.instance("Referral Bonus", placeHolder: nil, enable : false)
                         if (json["_data"]["bonus_available"].int?.asPrice != nil)
                         {
                             var totalOngkir = 0
@@ -509,8 +509,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //                    }
 //                    UIApplication.appDelegate.saveContext()
                     
-                    // Mixpanel and Answers
+                    // Send tracking data
                     if (self.checkoutResult != nil) {
+                        // Mixpanel
                         var pName : String? = ""
                         var rName : String? = ""
                         if let u = CDUser.getOne()
@@ -552,8 +553,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             totalCommissionPrice += cPrice
                         }
                         
+                        let orderId = self.checkoutResult!["order_id"].stringValue
                         let pt = [
-                            "Order ID" : self.checkoutResult!["order_id"].stringValue,
+                            "Order ID" : orderId,
                             "Items" : items,
                             "Items Category" : itemsCategory,
                             "Items Seller" : itemsSeller,
@@ -568,12 +570,59 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
                         
+                        // Answers
                         if (AppTools.IsPreloProduction) {
                             Answers.logStartCheckoutWithPrice(NSDecimalNumber(integer: totalPrice), currency: "IDR", itemCount: NSNumber(integer: items.count), customAttributes: nil)
                             for j in 0...items.count-1 {
                                 Answers.logPurchaseWithPrice(NSDecimalNumber(integer: itemsPrice[j]), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
                             }
                         }
+                        
+                        // Google Analytics Ecommerce Tracking
+                        if (AppTools.IsPreloProduction) {
+                            let gaTracker = GAI.sharedInstance().defaultTracker
+                            let trxDict = GAIDictionaryBuilder.createTransactionWithId(orderId, affiliation: "iOS Checkout", revenue: totalPrice, tax: totalCommissionPrice, shipping: self.totalOngkir, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                            gaTracker.send(trxDict)
+                            for i in 0...self.arrayItem.count - 1 {
+                                let json = self.arrayItem[i]
+                                var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+                                if (cName == nil) {
+                                    cName = json["category_id"].stringValue
+                                }
+                                let trxItemDict = GAIDictionaryBuilder.createItemWithTransactionId(orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue, quantity: 1, currencyCode: "IDR").build() as [NSObject : AnyObject]
+                                gaTracker.send(trxItemDict)
+                            }
+                        }
+                        
+                        // MoEngage
+                        let moeDict = NSMutableDictionary()
+                        moeDict.setObject(orderId, forKey: "Order ID")
+                        moeDict.setObject(items, forKey: "Items")
+                        moeDict.setObject(itemsCategory, forKey: "Items Category")
+                        moeDict.setObject(itemsSeller, forKey: "Items Seller")
+                        moeDict.setObject(itemsPrice, forKey: "Items Price")
+                        moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage")
+                        moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price")
+                        moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price")
+                        moeDict.setObject(self.totalOngkir, forKey: "Shipping Price")
+                        moeDict.setObject(totalPrice, forKey: "Total Price")
+                        moeDict.setObject(rName!, forKey: "Shipping Region")
+                        moeDict.setObject(pName!, forKey: "Shipping Province")
+                        let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
+                        moeEventTracker.setTimeStamp(NSDate.timeIntervalSinceReferenceDate(), forKey: "startTime")
+                        moeEventTracker.setDate(NSDate(), forKey: "startDate")
+                        let locManager = CLLocationManager()
+                        locManager.requestWhenInUseAuthorization()
+                        var currentLocation : CLLocation!
+                        var currentLat : Double = 0
+                        var currentLng : Double = 0
+                        if (CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == .AuthorizedAlways) {
+                            currentLocation = locManager.location
+                            currentLat = currentLocation.coordinate.latitude
+                            currentLng = currentLocation.coordinate.longitude
+                        }
+                        moeEventTracker.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                        MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                     }
                     
                     o.clearCart = true
@@ -661,7 +710,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (s == 0) {
             if ((self.bonusAvailable && r == arrayItem.count + 1) || (!self.bonusAvailable && r == arrayItem.count)) { // Total
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
-            } else if (self.bonusAvailable && r == arrayItem.count) { // Prelo Bonus
+            } else if (self.bonusAvailable && r == arrayItem.count) { // Referral Bonus
                 cell = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             } else {
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item2") as! CartCellItem

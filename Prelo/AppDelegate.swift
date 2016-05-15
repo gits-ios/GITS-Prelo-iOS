@@ -81,6 +81,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
             Crashlytics.sharedInstance().setUserEmail(c.email)
             Crashlytics.sharedInstance().setUserName(c.fullname!)
+            
+            // MoEngage
+            MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
+            MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
+            MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
+            MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
+            MoEngage.sharedInstance().setUserAttribute(c.profiles.phone!, forKey: "phone")
         }/* else {
             Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
             Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
@@ -112,6 +119,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // AppsFlyer Tracker
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
         AppsFlyerTracker.sharedTracker().appleAppID = "1027248488"
+        
+        // MoEngage
+        MoEngage.sharedInstance().initializeWithApiKey("N4VL0T0CGHRODQUOGRKZVWFH", inApplication: application, withLaunchOptions: launchOptions)
         
         // Uninstall.io (disabled)
         /*NotifyManager.sharedManager().processLaunchOptions(launchOptions)
@@ -256,6 +266,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
+        
+        // MoEngage
+        MoEngage.sharedInstance().didRegisterForUserNotificationSettings(notificationSettings)
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
@@ -294,10 +307,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         print("ERROR : \(error)")
+        
+        // MoEngage
+        MoEngage.sharedInstance().didFailToRegisterForPush()
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("userInfo = \(userInfo)")
+        
+        // MoEngage
+        MoEngage.sharedInstance().didReceieveNotificationinApplication(application, withInfo: userInfo)
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
@@ -318,6 +337,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
+        // MoEngage
+        MoEngage.sharedInstance().stop(application)
+        
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
     }
@@ -336,14 +358,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // Remove app badge if any
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
+        // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        
+        // MoEngage
+        MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
     }
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        
+        // MoEngage
+        MoEngage.sharedInstance().applicationTerminated(application)
     }
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
@@ -441,34 +470,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                 let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 var rootViewController : UINavigationController?
                 
-                // Tunggu sampai UINavigationController terbentuk, dalam background process
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    var wait = true
-                    var waitCount = self.RedirWaitAmount
-                    while (wait) {
-                        if let childVCs = self.window!.rootViewController?.childViewControllers {
-                            if (childVCs.count > 0) {
-                                if let rootVC = childVCs[0] as? UINavigationController {
-                                    rootViewController = rootVC
-                                }
-                                wait = false
+                // Tunggu sampai UINavigationController terbentuk
+                var wait = true
+                var waitCount = self.RedirWaitAmount
+                while (wait) {
+                    if let childVCs = self.window!.rootViewController?.childViewControllers {
+                        if (childVCs.count > 0) {
+                            if let rootVC = childVCs[0] as? UINavigationController {
+                                rootViewController = rootVC
                             }
-                        }
-                        waitCount -= 1
-                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                             wait = false
                         }
                     }
-                    
-                    // Redirect setelah selesai menunggu
-                    if (rootViewController != nil) {
-                        let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                        productDetailVC.product = p!
-                        rootViewController!.pushViewController(productDetailVC, animated: true)
-                    } else {
-                        self.showFailedRedirAlert()
+                    waitCount -= 1
+                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                        wait = false
                     }
-                })
+                }
+                
+                // Redirect setelah selesai menunggu
+                if (rootViewController != nil) {
+                    let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    rootViewController!.pushViewController(productDetailVC, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
             } else {
                 self.showFailedRedirAlert()
             }
@@ -483,8 +510,156 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                 
                 var rootViewController : UINavigationController?
                 
-                // Tunggu sampai UINavigationController terbentuk, dalam background process
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                // Tunggu sampai UINavigationController terbentuk
+                var wait = true
+                var waitCount = self.RedirWaitAmount
+                while (wait) {
+                    if let childVCs = self.window!.rootViewController?.childViewControllers {
+                        if (childVCs.count > 0) {
+                            if let rootVC = childVCs[0] as? UINavigationController {
+                                rootViewController = rootVC
+                            }
+                            wait = false
+                        }
+                    }
+                    waitCount -= 1
+                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                        wait = false
+                    }
+                }
+                
+                // Redirect setelah selesai menunggu
+                if (rootViewController != nil) {
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                    p.pDetail = pDetail
+                    rootViewController!.pushViewController(p, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
+        }
+    }
+    
+    func redirectShopPage(userId : String) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            shopPage.storeMode = true
+            shopPage.storeId = userId
+            rootViewController!.pushViewController(shopPage, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectInbox(inboxId : String?) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let inbox = Inbox(jsn: data)
+                    
+                    let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+                    tawarVC.tawarItem = inbox
+                    rootViewController!.pushViewController(tawarVC, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            }
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectNotification() {
+        // Tunggu sampai UINavigationController terbentuk
+        var rootViewController : UINavigationController?
+        
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
+            rootViewController!.pushViewController(notifPageVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
+    }
+    
+    func redirectConfirmPayment(transactionId : String) {
+        if (transactionId != "") {
+            // API Migrasi
+            request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON {resp in
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let progress = data["progress"].intValue
+                    
+                    var rootViewController : UINavigationController?
+                    
+                    // Tunggu sampai UINavigationController terbentuk
                     var wait = true
                     var waitCount = self.RedirWaitAmount
                     while (wait) {
@@ -504,189 +679,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     
                     // Redirect setelah selesai menunggu
                     if (rootViewController != nil) {
-                        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
-                        p.pDetail = pDetail
-                        rootViewController!.pushViewController(p, animated: true)
-                    } else {
-                        self.showFailedRedirAlert()
-                    }
-                })
-            } else {
-                self.showFailedRedirAlert()
-            }
-        }
-    }
-    
-    func redirectShopPage(userId : String) {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        var rootViewController : UINavigationController?
-        
-        // Tunggu sampai UINavigationController terbentuk, dalam background process
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            var wait = true
-            var waitCount = self.RedirWaitAmount
-            while (wait) {
-                if let childVCs = self.window!.rootViewController?.childViewControllers {
-                    if (childVCs.count > 0) {
-                        if let rootVC = childVCs[0] as? UINavigationController {
-                            rootViewController = rootVC
-                        }
-                        wait = false
-                    }
-                }
-                waitCount -= 1
-                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                    wait = false
-                }
-            }
-            
-            // Redirect setelah selesai menunggu
-            if (rootViewController != nil) {
-                let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                shopPage.storeMode = true
-                shopPage.storeId = userId
-                rootViewController!.pushViewController(shopPage, animated: true)
-            } else {
-                self.showFailedRedirAlert()
-            }
-        })
-    }
-    
-    func redirectInbox(inboxId : String?) {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        var rootViewController : UINavigationController?
-        
-        // Tunggu sampai UINavigationController terbentuk, dalam background process
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            var wait = true
-            var waitCount = self.RedirWaitAmount
-            while (wait) {
-                if let childVCs = self.window!.rootViewController?.childViewControllers {
-                    if (childVCs.count > 0) {
-                        if let rootVC = childVCs[0] as? UINavigationController {
-                            rootViewController = rootVC
-                        }
-                        wait = false
-                    }
-                }
-                waitCount -= 1
-                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                    wait = false
-                }
-            }
-            
-            // Redirect setelah selesai menunggu
-            if (rootViewController != nil) {
-                // API Migrasi
-        request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON {resp in
-                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"]
-                        let inbox = Inbox(jsn: data)
-                        
-                        let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
-                        tawarVC.tawarItem = inbox
-                        rootViewController!.pushViewController(tawarVC, animated: true)
-                    } else {
-                        self.showFailedRedirAlert()
-                    }
-                }
-            } else {
-                self.showFailedRedirAlert()
-            }
-        })
-    }
-    
-    func redirectNotification() {
-        // Tunggu sampai UINavigationController terbentuk, dalam background process
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            var rootViewController : UINavigationController?
-            
-            var wait = true
-            var waitCount = self.RedirWaitAmount
-            while (wait) {
-                if let childVCs = self.window!.rootViewController?.childViewControllers {
-                    if (childVCs.count > 0) {
-                        if let rootVC = childVCs[0] as? UINavigationController {
-                            rootViewController = rootVC
-                        }
-                        wait = false
-                    }
-                }
-                waitCount -= 1
-                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                    wait = false
-                }
-            }
-            
-            // Redirect setelah selesai menunggu
-            if (rootViewController != nil) {
-                let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
-                rootViewController!.pushViewController(notifPageVC, animated: true)
-            } else {
-                self.showFailedRedirAlert()
-            }
-        })
-    }
-    
-    func redirectConfirmPayment(transactionId : String) {
-        if (transactionId != "") {
-            // API Migrasi
-        request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON {resp in
-                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
-                    let json = JSON(resp.result.value!)
-                    let data = json["_data"]
-                    let progress = data["progress"].intValue
-                    
-                    var rootViewController : UINavigationController?
-                    
-                    // Tunggu sampai UINavigationController terbentuk, dalam background process
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        var wait = true
-                        var waitCount = self.RedirWaitAmount
-                        while (wait) {
-                            if let childVCs = self.window!.rootViewController?.childViewControllers {
-                                if (childVCs.count > 0) {
-                                    if let rootVC = childVCs[0] as? UINavigationController {
-                                        rootViewController = rootVC
-                                    }
-                                    wait = false
-                                }
-                            }
-                            waitCount -= 1
-                            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                                wait = false
-                            }
-                        }
-                        
-                        // Redirect setelah selesai menunggu
-                        if (rootViewController != nil) {
-                            if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
-                                self.redirAlert?.title = "Perhatian"
-                                self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
-                                self.hideRedirAlertWithDelay(3.0)
-                            } else {
-                                let products = data["products"]
-                                var imgs : [NSURL] = []
-                                for i in 0 ..< products.count {
-                                    if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
-                                        imgs.append(c.productImageURL!)
-                                    }
-                                }
-                                
-                                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                                let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
-                                orderConfirmVC.transactionId = transactionId
-                                orderConfirmVC.orderID = data["order_id"].stringValue
-                                orderConfirmVC.total = data["total_price"].intValue
-                                orderConfirmVC.images = imgs
-                                orderConfirmVC.fromCheckout = false
-                                rootViewController!.pushViewController(orderConfirmVC, animated: true)
-                            }
+                        if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
+                            self.redirAlert?.title = "Perhatian"
+                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+                            self.hideRedirAlertWithDelay(3.0)
                         } else {
-                            self.showFailedRedirAlert()
+                            let products = data["products"]
+                            var imgs : [NSURL] = []
+                            for i in 0 ..< products.count {
+                                if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
+                                    imgs.append(c.productImageURL!)
+                                }
+                            }
+                            
+                            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+                            orderConfirmVC.transactionId = transactionId
+                            orderConfirmVC.orderID = data["order_id"].stringValue
+                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.images = imgs
+                            orderConfirmVC.fromCheckout = false
+                            rootViewController!.pushViewController(orderConfirmVC, animated: true)
                         }
-                    })
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
                 } else {
                     self.showFailedRedirAlert()
                 }
@@ -695,39 +712,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     }
     
     func redirectTransaction(trxId : String?, trxProductId : String?, isSeller : Bool) {
-        // Tunggu sampai UINavigationController terbentuk, dalam background process
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            var rootViewController : UINavigationController?
-            
-            var wait = true
-            var waitCount = self.RedirWaitAmount
-            while (wait) {
-                if let childVCs = self.window!.rootViewController?.childViewControllers {
-                    if (childVCs.count > 0) {
-                        if let rootVC = childVCs[0] as? UINavigationController {
-                            rootViewController = rootVC
-                        }
-                        wait = false
+        // Tunggu sampai UINavigationController terbentuk
+        var rootViewController : UINavigationController?
+        
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
                     }
-                }
-                waitCount -= 1
-                if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
                     wait = false
                 }
             }
-            
-            // Redirect setelah selesai menunggu
-            if (rootViewController != nil) {
-                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
-                transactionDetailVC.trxId = trxId
-                transactionDetailVC.trxProductId = trxProductId
-                transactionDetailVC.isSeller = isSeller
-                rootViewController!.pushViewController(transactionDetailVC, animated: true)
-            } else {
-                self.showFailedRedirAlert()
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
             }
-        })
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+            transactionDetailVC.trxId = trxId
+            transactionDetailVC.trxProductId = trxProductId
+            transactionDetailVC.isSeller = isSeller
+            rootViewController!.pushViewController(transactionDetailVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
     }
     
     // MARK: - UIAlertViewDelegate functions
@@ -812,11 +827,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                     self.loadAppDataDelegate?.updateProgress(self.loadAppDataProgress)
                 }
                 
+                // Check if app is installed for the first time
+                if (CDVersion.getOne() == nil) {
+                    // MoEngage
+                    MoEngage.sharedInstance().appStatus(INSTALL)
+                }
+                
+                // Check if app is just updated
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                    if let lastInstalledVer = CDVersion.getOne()?.appVersion {
+                        if (installedVer.compare(lastInstalledVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
+                            // MoEngage
+                            MoEngage.sharedInstance().appStatus(UPDATE)
+                        }
+                    }
+                }
+                
+                // Save version to core data
                 CDVersion.saveVersions(data)
+                
                 // Check if app need to be updated
-                if let installedVer = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
-                        if (installedVer != newVer) {
+                        if (newVer.compare(installedVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
                             let a = UIAlertView()
                             a.title = "New Version Available"
                             a.message = "Prelo \(newVer) is available on App Store"
@@ -829,6 +862,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
                                 a.addButtonWithTitle("Cancel")
                             }
                             a.delegate = self
+
                             a.show()
                         }
                     }

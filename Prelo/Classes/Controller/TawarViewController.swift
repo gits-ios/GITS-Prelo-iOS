@@ -677,6 +677,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.avatar.setImageWithUrl(tawarItem.theirImage, placeHolderImage: nil)
         }
         
+        cell.toShopPage = {
+            self.gotoShopPage(0)
+        }
+        
         return cell
     }
     
@@ -778,10 +782,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.tableView.reloadData()
         self.adjustButtons()
         
-        if (self.isAtBottom)
-        {
-            self.scrollToBottom()
-        }
+        self.scrollToBottom()
     }
     
     func userLoggedIn() {
@@ -812,6 +813,30 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let i = s.startIndex.advancedBy(n)
         return s[i]
     }
+    
+    @IBAction func gotoProduct(sender: AnyObject) {
+        if (tawarItem.itemId != "") {
+            request(Products.Detail(productId: tawarItem.itemId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let p = Product.instance(data)
+                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                }
+            }
+        }
+    }
+    
+    @IBAction func gotoShopPage(sender: AnyObject) {
+        if (tawarItem.theirId != "") {
+            let shopPage = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            shopPage.storeMode = true
+            shopPage.storeId = tawarItem.theirId
+            self.navigationController?.pushViewController(shopPage, animated: true)
+        }
+    }
 }
 
 class TawarCell : UITableViewCell
@@ -830,6 +855,9 @@ class TawarCell : UITableViewCell
     var formattedLongTime : String?
     
     var decorated = false
+    
+    var toShopPage : () -> () = {}
+    
     func decor()
     {
         if (decorated == false)
@@ -905,6 +933,10 @@ class TawarCell : UITableViewCell
             m.resend()
             self.decor()
         }
+    }
+    
+    @IBAction func gotoShopPage(sender: AnyObject) {
+        self.toShopPage()
     }
 }
 

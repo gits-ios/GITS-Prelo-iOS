@@ -858,21 +858,26 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         let m = UIApplication.appDelegate.managedObjectContext
         
         // Fetch and edit data
-        let user : CDUser = CDUser.getOne()!
-        user.fullname = profile.fullname
-        
-        let userProfile : CDUserProfile = CDUserProfile.getOne()!
-        userProfile.address = profile.address
-        userProfile.desc = profile.desc
-        userProfile.gender = profile.gender
-        userProfile.phone = profile.phone
-        if (profile.profPictURL != nil) {
-            userProfile.pict = "\(profile.profPictURL!)"
+        if let user = CDUser.getOne() {
+            user.fullname = profile.fullname
         }
-        userProfile.postalCode = profile.postalCode
-        userProfile.regionID = profile.regionId
-        userProfile.provinceID = profile.provinceId
-        user.profiles = userProfile
+        
+        if let userProfile = CDUserProfile.getOne() {
+            userProfile.address = profile.address
+            userProfile.desc = profile.desc
+            userProfile.gender = profile.gender
+            userProfile.phone = profile.phone
+            if (profile.profPictURL != nil) {
+                userProfile.pict = "\(profile.profPictURL!)"
+            }
+            userProfile.postalCode = profile.postalCode
+            userProfile.regionID = profile.regionId
+            userProfile.provinceID = profile.provinceId
+        }
+        
+        if let userOther = CDUserOther.getOne() {
+            userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(profile.shippingIds)
+        }
         
         // Save data
         if (m.saveSave() == false) {

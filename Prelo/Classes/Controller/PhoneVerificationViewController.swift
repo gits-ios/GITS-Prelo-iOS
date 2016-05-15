@@ -214,6 +214,13 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             Crashlytics.sharedInstance().setUserEmail(user.email)
                             Crashlytics.sharedInstance().setUserName(user.fullname!)
                             
+                            // MoEngage
+                            MoEngage.sharedInstance().setUserAttribute(user.id, forKey: "user_id")
+                            MoEngage.sharedInstance().setUserAttribute(user.username, forKey: "username")
+                            MoEngage.sharedInstance().setUserAttribute(user.fullname, forKey: "user_fullname")
+                            MoEngage.sharedInstance().setUserAttribute(user.email, forKey: "user_email")
+                            MoEngage.sharedInstance().setUserAttribute(user.profiles.phone!, forKey: "phone")
+                            
                             // Send deviceRegId before finish
                             LoginViewController.SendDeviceRegId({
                                 self.phoneVerificationSucceed()
