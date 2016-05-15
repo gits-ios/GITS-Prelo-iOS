@@ -29,7 +29,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var conHeightSize : NSLayoutConstraint!
     
     @IBOutlet var scrollView : UIScrollView!
+    @IBOutlet var fakeScrollView : UIScrollView!
+    @IBOutlet var dummyTitles : [UIView] = []
     @IBOutlet var imageViews : [UIImageView] = []
+    @IBOutlet var fakeImageViews : [UIImageView] = []
     @IBOutlet var weightViews : [BorderedView] = []
     @IBOutlet var ongkirViews : [BorderedView] = []
     
@@ -42,6 +45,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionKategori : UILabel!
     
     @IBOutlet var btnSubmit : UIButton!
+    @IBOutlet var fakeBtnSubmit : UIButton!
     
     @IBOutlet var sizePicker : AKPickerView!
     @IBOutlet var txtSize : UITextField!
@@ -119,10 +123,29 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             i.addGestureRecognizer(tap)
         }
         
+        index = 0
+        for i in fakeImageViews
+        {
+            i.tag = index
+            i.contentMode = UIViewContentMode.ScaleAspectFill
+            i.clipsToBounds = true
+            index += 1
+            i.userInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.imageTapped(_:)))
+            i.addGestureRecognizer(tap)
+        }
+        
+        for v in dummyTitles
+        {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.hideFakeScrollView))
+            v.addGestureRecognizer(tap)
+        }
+        
         if (editMode)
         {
             self.title = PageName.EditProduct
             self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
+            self.fakeBtnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
             
             txtName.text = editProduct?.name
             txtDescription.text = editProduct?.json["_data"]["description"].string
@@ -212,9 +235,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             self.title = PageName.AddProduct
             self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
+            self.fakeBtnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
         }
         
         self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
+        self.fakeBtnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
         self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
         
         txtName.autocapitalizationType = .Words
@@ -377,6 +402,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        default:print("")
 //        }
         imageViews[controller.index].image = image.image
+        fakeImageViews[controller.index].image = image.image
     }
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -395,6 +421,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else if (buttonIndex == 3)
         {
             self.imageViews[actionSheet.tag].image = nil
+            self.fakeImageViews[actionSheet.tag].image = nil
             switch (actionSheet.tag)
             {
             case 0:rm_image1 = 1
@@ -428,6 +455,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     if let i = img
                     {
                         self.imageViews[index].image = i
+                        self.fakeImageViews[index].image = i
                         self.images[index] = i
                     }
                 })
@@ -777,6 +805,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.navigationController?.pushViewController(p, animated: true)
     }
     
+    func hideFakeScrollView()
+    {
+        fakeScrollView.hidden = true
+        scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
+    }
+    
     func sendProduct()
     {
         let name = txtName.text
@@ -787,6 +821,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let special = txtSpesial.text
         let deflect = txtDeskripsiCacat.text
         let alasan = txtAlasanJual.text
+        
+        if (fakeScrollView.hidden == false)
+        {
+            hideFakeScrollView()
+        }
         
         var imgs : [AnyObject] = []
         for v in imageViews
@@ -1029,7 +1068,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func validateString(text : String?, message : String) -> Bool
     {
-        guard text != nil || text == "" else
+        if (text != nil || text == "")
         {
             if (message != "")
             {
