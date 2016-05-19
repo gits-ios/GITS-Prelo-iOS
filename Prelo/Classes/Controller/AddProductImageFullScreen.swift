@@ -14,7 +14,7 @@ protocol AddProductImageFullScreenDelegate
     func imageFullScreenDidReplace(controller : AddProductImageFullScreen, image : APImage)
 }
 
-class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
+class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate /* AVIARY IS DISABLED , AdobeUXImageEditorViewControllerDelegate*/
 {
 
     @IBOutlet var btnDelete : UIBarButtonItem!
@@ -78,19 +78,42 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate/* AVIA
     
     @IBAction func replace(sender : UIView?)
     {
-        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, doneBlock: { imgs in
-            if (imgs.count > 0)
-            {
-                let a = imgs[0]
-                a.getImage({ img in
-                    if let i = img
-                    {
-                        self.apImage.image = i
-                        self.imageView.image = i
-                    }
-                })
-            }
-        })
+        let i = UIImagePickerController()
+        i.sourceType = .PhotoLibrary
+        i.delegate = self
+        self.presentViewController(i, animated: true, completion: nil)
+        
+//        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, doneBlock: { imgs in
+//            if (imgs.count > 0)
+//            {
+//                let a = imgs[0]
+//                a.getImage({ img in
+//                    if let i = img
+//                    {
+//                        self.apImage.image = i
+//                        self.imageView.image = i
+//                    }
+//                })
+//            }
+//        })
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            self.apImage.image = img
+            self.imageView.image = img
+        }
+        
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        navigationController.navigationBar.tintColor = UIColor.whiteColor()
     }
     
     @IBAction func edit(sender : UIView?)

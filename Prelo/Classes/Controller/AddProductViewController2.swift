@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -476,34 +476,73 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func pickImage(index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
     {
-        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, diretToCamera : directToCamera, doneBlock: { imgs in
-            if (imgs.count > 0)
-            {
-                let a = imgs[0]
-                a.getImage({ img in
-                    if let i = img
-                    {
-                        self.imageViews[index].image = i
-                        self.fakeImageViews[index].image = i
-                        self.images[index] = i
-                    }
-                })
-                
-                switch (index)
-                {
-                case 0:self.rm_image1=0
-                case 1:self.rm_image2=0
-                case 2:self.rm_image3=0
-                case 3:self.rm_image4=0
-                case 4:self.rm_image5=0
-                default:print()
-                }
-                
-            } else if (forceBackOnCancel)
-            {
-                self.navigationController?.popViewControllerAnimated(true)
-            }
+        let i = UIImagePickerController()
+        i.sourceType = .PhotoLibrary
+        i.delegate = self
+        self.presentViewController(i, animated: true, completion: {
+            i.view.tag = index
         })
+        
+//        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, diretToCamera : directToCamera, doneBlock: { imgs in
+//            if (imgs.count > 0)
+//            {
+//                let a = imgs[0]
+//                a.getImage({ img in
+//                    if let i = img
+//                    {
+//                        self.imageViews[index].image = i
+//                        self.fakeImageViews[index].image = i
+//                        self.images[index] = i
+//                    }
+//                })
+//                
+//                switch (index)
+//                {
+//                case 0:self.rm_image1=0
+//                case 1:self.rm_image2=0
+//                case 2:self.rm_image3=0
+//                case 3:self.rm_image4=0
+//                case 4:self.rm_image5=0
+//                default:print()
+//                }
+//
+//            } else if (forceBackOnCancel)
+//            {
+//                self.navigationController?.popViewControllerAnimated(true)
+//            }
+//        })
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+//            print(img)
+            let index = picker.view.tag
+            self.imageViews[index].image = img
+            self.fakeImageViews[index].image = img
+            self.images[index] = img
+
+            switch (index)
+            {
+            case 0:self.rm_image1=0
+            case 1:self.rm_image2=0
+            case 2:self.rm_image3=0
+            case 3:self.rm_image4=0
+            case 4:self.rm_image5=0
+            default:print()
+            }
+
+        }
+        
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        navigationController.navigationBar.tintColor = UIColor.whiteColor()
     }
     
     var activeTextview : UITextView?
