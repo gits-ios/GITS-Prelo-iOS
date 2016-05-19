@@ -34,7 +34,7 @@ extension NSMutableURLRequest
     {
         let r = NSMutableURLRequest(URL: url)
         
-        if (User.IsLoggedIn) {
+        if (User.Token != nil) {
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
             print("User token = \(t)")   

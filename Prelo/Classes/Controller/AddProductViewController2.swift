@@ -81,12 +81,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (AppTools.isDev)
         {
-            txtName.text = "qwerty"
+            /*txtName.text = "qwerty"
             txtSpesial.text = "asdf"
             txtNewPrice.text = "1000"
             txtOldPrice.text = "1500"
             txtAlasanJual.text = "zxcvbnm"
-            txtDescription.text = "asdkalskfas"
+            txtDescription.text = "asdkalskfas"*/
         }
 
         // Do any additional setup after loading the view.

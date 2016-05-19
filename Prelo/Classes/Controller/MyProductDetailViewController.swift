@@ -221,7 +221,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
         lblNamaPengiriman.text = transactionDetail?.shippingRecipientName
-        lblNoTelpPengiriman.text = "0222503593"//transactionDetail?.shippingRecipientPhone
+        lblNoTelpPengiriman.text = transactionDetail?.shippingRecipientPhone
         lblAlamatPengiriman.text = transactionDetail?.shippingAddress
         let provName : String? = CDProvince.getProvinceNameWithID((transactionDetail?.shippingProvinceId)!)
         lblProvinsiPengiriman.text = ((provName != nil) ? provName! : "-")
