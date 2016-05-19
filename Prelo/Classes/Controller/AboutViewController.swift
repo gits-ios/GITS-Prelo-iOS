@@ -37,7 +37,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
-        if (AppTools.IsDemoMode) {
+        if (AppTools.isDev) {
             let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue, NSForegroundColorAttributeName: UIColor.whiteColor()]
             if (AppTools.IsPreloProduction) {
                 let attrString = NSAttributedString(string: "switch to dev", attributes: attr)
@@ -65,7 +65,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     @IBAction func openPreloSite(sender: AnyObject) {
-        if (AppTools.IsDemoMode) {
+        if (AppTools.isDev) {
             self.logout()
             if (AppTools.IsPreloProduction) {
                 // switch to dev
