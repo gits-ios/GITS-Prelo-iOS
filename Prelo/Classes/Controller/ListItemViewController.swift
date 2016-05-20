@@ -355,8 +355,16 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
                 
                 // Total products and sold products
-                if let productCount = json["total_product"].int, let soldProductCount = json["total_product_sold"].int {
-                    self.storeHeader?.captionTotal.text = "\(productCount) BARANG, \(soldProductCount) TERJUAL"
+                if let productCount = json["total_product"].int {
+                    if let soldProductCount = json["total_product_sold"].int {
+                        self.storeHeader?.captionTotal.text = "\(productCount) BARANG, \(soldProductCount) TERJUAL"
+                    } else {
+                        self.storeHeader?.captionTotal.text = "\(productCount) BARANG"
+                    }
+                } else {
+                    if let count = self.products?.count {
+                        self.storeHeader?.captionTotal.text = String(count) + " BARANG"
+                    }
                 }
                 
                 self.storeHeader?.captionLocation.text = "Unknown"

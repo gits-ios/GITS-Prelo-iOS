@@ -823,17 +823,24 @@ enum APIAuth : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
+    var URLRequest : NSMutableURLRequest {
+        
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        // Selain logout jangan pake token
+        switch self {
+        case .Logout : break
+        default :
+            req.setValue("", forHTTPHeaderField: "Authorization")
+        }
+        
+        print("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
     }
 }
 

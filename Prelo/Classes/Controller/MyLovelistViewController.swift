@@ -247,7 +247,7 @@ class MyLovelistCell : UITableViewCell {
             }
         }
         // Delete cell after add to cart
-        self.deletePressed(nil)
+        //self.deletePressed(nil)
     }
     
     @IBAction func deletePressed(sender: AnyObject?) {
