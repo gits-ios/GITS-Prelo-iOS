@@ -33,12 +33,10 @@ public class User : NSObject
     
     static var IsLoggedIn : Bool
     {
-        let s = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey)
-        if (s == nil) {
+        guard let _ = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
             return false
-        } else {
-            return true
         }
+        return true
     }
     
     static var Id : String?
