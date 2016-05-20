@@ -9,7 +9,7 @@
 import UIKit
 import Crashlytics
 
-class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate {
+class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextFieldDelegate, CartItemCellDelegate, UserRelatedDelegate, PreloBalanceInputCellDelegate {
 
     @IBOutlet var tableView : UITableView!
     @IBOutlet var txtVoucher : UITextField!
@@ -20,6 +20,21 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     @IBOutlet var consOffsetPaymentDesc : NSLayoutConstraint?
     @IBOutlet var sectionPaymentDesc: UIView!
+    
+    var balanceAvailable = 0
+    var totalPreloBalanceDiscount = 0
+    struct PreloBalanceItem {
+        var title = ""
+        var value = 0
+    }
+    var preloBalanceItems : [PreloBalanceItem] = []
+    
+    var totalPriceWithoutPreloBalance = 0
+    
+    let sectionProducts = 0
+    let sectionPreloBalance = 1
+    let sectionDataUser = 2
+    let sectionAlamatUser = 3
     
     let titleNama = "Nama"
     let titleTelepon = "Telepon"
@@ -158,10 +173,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         self.cells = [
-            NSIndexPath(forRow: 0, inSection: 1):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
-            NSIndexPath(forRow: 1, inSection: 1):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
-            NSIndexPath(forRow: 0, inSection: 2):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
-            NSIndexPath(forRow: 1, inSection: 2):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
+            NSIndexPath(forRow: 0, inSection: sectionDataUser):BaseCartData.instance(titleNama, placeHolder: "Nama Lengkap Kamu", value : fullname),
+            NSIndexPath(forRow: 1, inSection: sectionDataUser):BaseCartData.instance(titleTelepon, placeHolder: "Nomor Telepon Kamu", value : phone),
+            NSIndexPath(forRow: 0, inSection: sectionAlamatUser):BaseCartData.instance(titleAlamat, placeHolder: "Alamat Lengkap Kamu", value : address),
+            NSIndexPath(forRow: 1, inSection: sectionAlamatUser):BaseCartData.instance(titleProvinsi, placeHolder: nil, value: pID, pickerPrepBlock: { picker in
                 
                 picker.items = CDProvince.getProvincePickerItems()
                 picker.textTitle = "Pilih Provinsi"
@@ -174,7 +189,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     user.profiles.provinceID = self.selectedProvinsiID
                 }
             }),
-            NSIndexPath(forRow: 2, inSection: 2):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
+            NSIndexPath(forRow: 2, inSection: sectionAlamatUser):BaseCartData.instance(titleKota, placeHolder: nil, value: rID, pickerPrepBlock: { picker in
                 
                 picker.items = CDRegion.getRegionPickerItems(self.selectedProvinsiID)
                 picker.textTitle = "Pilih Kota/Kabupaten"
@@ -188,7 +203,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
             }),
-            NSIndexPath(forRow: 3, inSection: 2):c
+            NSIndexPath(forRow: 3, inSection: sectionAlamatUser):c
         ]
     }
     
@@ -236,7 +251,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             
         }
         
-        let b = cells[NSIndexPath(forRow: products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)]
+        let b = cells[NSIndexPath(forRow: products.count + (self.bonusAvailable == true ? 1 : 0), inSection: sectionProducts)]
         if let total = self.currentCart?["_data"]["total_price"].int, let d = b
         {
             var p = totalOngkir + total - self.bonusValue
@@ -244,9 +259,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             {
                 p = 0
             }
+            
+            self.totalPriceWithoutPreloBalance = p
             d.value = p.asPrice
             
-            if let c = cellViews[NSIndexPath(forRow: products.count, inSection: 0)] as? CartCellInput
+            if let c = cellViews[NSIndexPath(forRow: products.count, inSection: sectionProducts)] as? CartCellInput
             {
                 c.txtField.text = d.value
             }
@@ -284,6 +301,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
                 let json = JSON(resp.result.value!)
                 self.currentCart = json
+                
+                self.balanceAvailable = json["_data"]["balance_available"].intValue
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
                 print(self.arrayItem)
@@ -347,7 +366,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
                         }
                         b2.enable = false
-                        let i2 = NSIndexPath(forRow: self.products.count, inSection: 0)
+                        let i2 = NSIndexPath(forRow: self.products.count, inSection: self.sectionProducts)
                         self.cells[i2] = b2
                         
                     } else {
@@ -357,7 +376,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     }
                 }
                 
-                let i = NSIndexPath(forRow: self.products.count + (self.bonusAvailable == true ? 1 : 0), inSection: 0)
+                let i = NSIndexPath(forRow: self.products.count + (self.bonusAvailable == true ? 1 : 0), inSection: self.sectionProducts)
                 let b = BaseCartData.instance("Total", placeHolder: nil, enable : false)
                 if let price = json["_data"]["total_price"].int?.asPrice
                 {
@@ -682,15 +701,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (section == 2) {
+        if (section == 3) {
             return 4
         } else if (section == 0) {
             return arrayItem.count+1+((self.bonusAvailable) ? 1 : 0)
-        } else if (section == 1) {
+        } else if (section == 1) { // section prelo balance
+            return 1 + preloBalanceItems.count + 1
+        } else if (section == 2) {
             return 2
         } else {
             return 3
@@ -732,6 +753,37 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 cell = i
             }
         } else if (s == 1) {
+            if (r == 0)
+            {
+                let identifier = usingPreloBalance ? "pbcellInput2" : "pbcellInput1"
+                let c = tableView.dequeueReusableCellWithIdentifier(identifier) as! PreloBalanceInputCell
+                c.captionTotalBalance.text = "Prelo Balance kamu \(balanceAvailable.asPrice)"
+                c.delegate = self
+                
+                c.switchBalance.setOn(usingPreloBalance, animated: false)
+                
+                return c
+            }
+            
+            if (r - preloBalanceItems.count == 1)
+            {
+                let totalCell = tableView.dequeueReusableCellWithIdentifier("pbcellTotal") as! PreloBalanceTotalCell
+                let p = (totalPriceWithoutPreloBalance - totalPreloBalanceDiscount)
+                totalCell.captionValue.text = (p < 0 ? 0 : p).asPrice
+                return totalCell
+            }
+            
+            let item = preloBalanceItems[r-1]
+            let itemCell = tableView.dequeueReusableCellWithIdentifier("pbcellItem") as! PreloBalanceItemCell
+            itemCell.captionTitle.text = item.title
+            itemCell.captionValue.text = "-\(item.value.asPrice)"
+            return itemCell
+            
+//            let c = tableView.dequeueReusableCellWithIdentifier("pbcellInput1") as! PreloBalanceInputCell
+//            c.captionTotalBalance.text = "Prelo Balance kamu \(balanceAvailable.asPrice)"
+//            c.delegate = self
+//            return c
+        } else if (s == 2) {
             if (r == 2) {
                 cell = tableView.dequeueReusableCellWithIdentifier("cell_edit")!
             } else {
@@ -800,7 +852,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let s = indexPath.section
         let r = indexPath.row
-        if (s == 0) {
+        if (s == sectionProducts) {
             if (r >= arrayItem.count) {
                 if (self.bonusAvailable && r == arrayItem.count)
                 {
@@ -817,7 +869,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 return 94
             }
-        } else if (s == 1) {
+        } else if (s == sectionPreloBalance) {
+            if (r == 0)
+            {
+                return usingPreloBalance ? 115 : 60
+            }
+            return 44
+        } else if (s == sectionDataUser) {
             if (r == 2) {
                 return 20
             } else {
@@ -836,10 +894,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == sectionPreloBalance)
+        {
+            return 0
+        }
         return 44
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if (section == sectionPreloBalance)
+        {
+            return nil
+        }
         let v = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
         
         v.backgroundColor = UIColor.whiteColor()
@@ -1088,6 +1154,38 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         {
             self.navigationController?.popViewControllerAnimated(true)
         }
+    }
+    
+    var usingPreloBalance = false
+    func preloBalanceInputCellNeedrefresh(isON: Bool) {
+        if (!isON)
+        {
+            totalPreloBalanceDiscount = 0
+            if (preloBalanceItems.count > 0)
+            {
+                preloBalanceItems.removeAtIndex(0)
+                tableView.deleteRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
+            }
+        } else {
+            var pbitem = PreloBalanceItem(title: "Prelo Balance", value: 0)
+            preloBalanceItems.insert(pbitem, atIndex: 0)
+            tableView.insertRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
+        }
+        usingPreloBalance = isON
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
+    }
+    
+    func preloBalanceInputCellBalanceSubmitted(balance: Int) {
+        if (balance > balanceAvailable)
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Prelo balance yang tersedia tidak mencukupi")
+            return
+        }
+        var item = preloBalanceItems[0]
+        item.value = balance
+        preloBalanceItems[0] = item
+        totalPreloBalanceDiscount = balance
+        tableView.reloadData()
     }
     
     // MARK: - Navigation
@@ -1483,6 +1581,84 @@ class CartAddressCell : ACEExpandableTextCell
     }
 }
 
+protocol PreloBalanceInputCellDelegate
+{
+    func preloBalanceInputCellNeedrefresh(isON : Bool)
+    func preloBalanceInputCellBalanceSubmitted(balance : Int)
+}
+
+class PreloBalanceInputCell : UITableViewCell, UITextFieldDelegate
+{
+    @IBOutlet var txtInput : UITextField?
+    @IBOutlet var captionTotalBalance : UILabel!
+    @IBOutlet var switchBalance : UISwitch!
+    
+    var delegate : PreloBalanceInputCellDelegate?
+    var first = true
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.selectionStyle = .None
+        
+        self.txtInput?.superview?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.txtInput?.superview?.layer.borderWidth = 1
+        self.txtInput?.superview?.layer.cornerRadius = 2
+        
+        if (first)
+        {
+            let toolbar = UIToolbar(frame: CGRectMake(0, 0, /*UIScreen.mainScreen().bounds.width*/200, 44))
+            toolbar.translucent = true
+            toolbar.tintColor = Theme.PrimaryColor
+            
+            let doneBtn = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: #selector(PreloBalanceInputCell.processPreloInput))
+            
+            let space = UIBarButtonItem(barButtonSpaceType: .FlexibleSpace)
+            
+            toolbar.items = [space, doneBtn]
+            self.txtInput?.inputAccessoryView = toolbar
+            first = false
+        }
+    }
+    
+    @IBAction func switched()
+    {
+        delegate?.preloBalanceInputCellNeedrefresh(switchBalance.on)
+    }
+    
+    func processPreloInput()
+    {
+        if let s = txtInput?.text
+        {
+            if let _ = s.rangeOfCharacterFromSet(NSCharacterSet(charactersInString: "0987654321").invertedSet)
+            {
+                UIAlertView.SimpleShow("Perhatian", message: "Jumlah prelo balance yang digunakan tidak valid")
+            } else
+            {
+                let i = s.int
+                self.delegate?.preloBalanceInputCellBalanceSubmitted(i)
+            }
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.processPreloInput()
+        
+        textField.resignFirstResponder()
+        return false
+    }
+}
+
+class PreloBalanceItemCell : UITableViewCell
+{
+    @IBOutlet var captionTitle : UILabel!
+    @IBOutlet var captionValue : UILabel!
+}
+
+class PreloBalanceTotalCell : UITableViewCell
+{
+    @IBOutlet var captionValue : UILabel!
+}
+
 extension BorderedView
 {
     func cartSelectAsPayment(select : Bool)
@@ -1510,4 +1686,19 @@ extension BorderedView
             }
         }
     }
+}
+
+@IBDesignable
+class PreloBalanceTextfield: UITextField {
+    
+    @IBInspectable var inset: CGFloat = 0
+    
+    override func textRectForBounds(bounds: CGRect) -> CGRect {
+        return CGRectInset(bounds, inset, inset)
+    }
+    
+    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+        return textRectForBounds(bounds)
+    }
+    
 }
