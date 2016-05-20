@@ -21,6 +21,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     @IBOutlet var consOffsetPaymentDesc : NSLayoutConstraint?
     @IBOutlet var sectionPaymentDesc: UIView!
     
+    @IBOutlet var captionRingkasanTotalBelanja: UILabel!
+    @IBOutlet var captionRingkasanKodeTransfer: UILabel!
+    @IBOutlet var captionRingkasanGrandTotal: UILabel!
+    
+    var banktransfer_digit = 0
     var balanceAvailable = 0
     var totalPreloBalanceDiscount = 0
     struct PreloBalanceItem {
@@ -207,6 +212,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         ]
     }
     
+    func adjustRingkasan()
+    {
+        var p = totalPriceWithoutPreloBalance
+        for i in self.preloBalanceItems
+        {
+            p = p - i.value
+        }
+        captionRingkasanTotalBelanja.text = p.asPrice
+        captionRingkasanKodeTransfer.text = banktransfer_digit.asPrice
+        captionRingkasanGrandTotal.text = (p + banktransfer_digit).asPrice
+    }
+    
     func adjustTotal()
     {
         totalOngkir = 0
@@ -269,6 +286,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
+        adjustRingkasan()
         self.tableView.reloadData()
     }
     
@@ -303,76 +321,88 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.currentCart = json
                 
                 self.balanceAvailable = json["_data"]["balance_available"].intValue
+                self.banktransfer_digit = json["_data"]["banktransfer_digit"].intValue
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
                 print(self.arrayItem)
                 
-                if let bonus = json["_data"]["bonus_available"].int
+                var bonus = json["_data"]["bonus_available"].intValue
+//                bonus = 11 // debug
+                if (bonus > 0)
                 {
-                    if (bonus != 0)
-                    {
-                        self.bonusValue = bonus
-                        self.bonusAvailable = true
-                        let b2 = BaseCartData.instance("Referral Bonus", placeHolder: nil, enable : false)
-                        if (json["_data"]["bonus_available"].int?.asPrice != nil)
-                        {
-                            var totalOngkir = 0
-                            if (self.products.count > 0) {
-                                for i in 0...self.products.count-1
-                                {
-                                    let cp = self.products[i]
-                                    print("Cart product : \(cp.toDictionary)")
-                                    
-                                    let json = self.arrayItem[i]
-                                    if let free = json["free_ongkir"].bool
-                                    {
-                                        if (free)
-                                        {
-                                            continue
-                                        }
-                                    }
-                                    
-                                    if let arr = json["shipping_packages"].array
-                                    {
-                                        if (arr.count > 0)
-                                        {
-                                            var sh = arr[0]
-                                            if (cp.packageId != "")
-                                            {
-                                                for x in 0...arr.count-1
-                                                {
-                                                    let shipping = arr[x]
-                                                    if let id = shipping["_id"].string
-                                                    {
-                                                        if (id == cp.packageId)
-                                                        {
-                                                            sh = shipping
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            if let price = sh["price"].int
-                                            {
-                                                totalOngkir += price
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            let preloBonus = json["_data"]["bonus_available"].intValue
-                            let totalPrice = json["_data"]["total_price"].intValue
-                            
-                            b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
-                        }
-                        b2.enable = false
-                        let i2 = NSIndexPath(forRow: self.products.count, inSection: self.sectionProducts)
-                        self.cells[i2] = b2
-                        
-                    } else {
-                        if let modalText = json["_data"]["modal_verify_text"].string {
-                            Constant.showDialog("Perhatian", message: modalText)
-                        }
+                    self.bonusValue = bonus
+                    self.bonusAvailable = true
+                    
+                    let item = PreloBalanceItem(title: "Referal Bonus", value: bonus)
+                    self.preloBalanceItems.append(item)
+                }
+                
+                if (bonus < 1000000) // gak di pake
+                {
+//                    let b2 = BaseCartData.instance("Referral Bonus", placeHolder: nil, enable : false)
+                    // what for ?
+//                    if (json["_data"]["bonus_available"].int?.asPrice != nil)
+//                    {
+//                        
+//                    }
+                    
+//                    var totalOngkir = 0
+//                    if (self.products.count > 0) {
+//                        for i in 0...self.products.count-1
+//                        {
+//                            let cp = self.products[i]
+//                            print("Cart product : \(cp.toDictionary)")
+//                            
+//                            let json = self.arrayItem[i]
+//                            if let free = json["free_ongkir"].bool
+//                            {
+//                                if (free)
+//                                {
+//                                    continue
+//                                }
+//                            }
+//                            
+//                            if let arr = json["shipping_packages"].array
+//                            {
+//                                if (arr.count > 0)
+//                                {
+//                                    var sh = arr[0]
+//                                    if (cp.packageId != "")
+//                                    {
+//                                        for x in 0...arr.count-1
+//                                        {
+//                                            let shipping = arr[x]
+//                                            if let id = shipping["_id"].string
+//                                            {
+//                                                if (id == cp.packageId)
+//                                                {
+//                                                    sh = shipping
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    if let price = sh["price"].int
+//                                    {
+//                                        totalOngkir += price
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+//                    let preloBonus = json["_data"]["bonus_available"].intValue
+//                    let preloBonus = bonus
+//                    let totalPrice = json["_data"]["total_price"].intValue
+                    
+//                    b2.value = (preloBonus < totalPrice+totalOngkir) ? ("-" + preloBonus.asPrice) : ("-" + (totalPrice + totalOngkir).asPrice)
+                    
+//                    b2.enable = false
+//                    let i2 = NSIndexPath(forRow: self.products.count, inSection: self.sectionProducts)
+//                    self.cells[i2] = b2
+                    
+                } else {
+                    if let modalText = json["_data"]["modal_verify_text"].string {
+                        Constant.showDialog("Perhatian", message: modalText)
                     }
                 }
                 
@@ -397,7 +427,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
             }
         }
-        
     }
     
     @IBAction override func confirm()
@@ -463,7 +492,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         self.btnSend.enabled = false
         // API Migrasi
-        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment)).responseJSON {resp in
+        
+        var usedBalance = 0
+        if usingPreloBalance
+        {
+            let i = preloBalanceItems[0]
+            usedBalance = i.value
+        }
+        
+        request(APICart.Checkout(cart: p, address: a, voucher: voucher, payment: selectedPayment, usedPreloBalance: usedBalance, kodeTransfer: banktransfer_digit)).responseJSON {resp in
 //            print(res)
             self.btnSend.enabled = true
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
@@ -760,6 +797,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 c.captionTotalBalance.text = "Prelo Balance kamu \(balanceAvailable.asPrice)"
                 c.delegate = self
                 
+                c.txtInput?.text = nil
                 c.switchBalance.setOn(usingPreloBalance, animated: false)
                 
                 return c
@@ -768,7 +806,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             if (r - preloBalanceItems.count == 1)
             {
                 let totalCell = tableView.dequeueReusableCellWithIdentifier("pbcellTotal") as! PreloBalanceTotalCell
-                let p = (totalPriceWithoutPreloBalance - totalPreloBalanceDiscount)
+//                let p = (totalPriceWithoutPreloBalance - totalPreloBalanceDiscount)
+                var p = totalPriceWithoutPreloBalance
+                for i in self.preloBalanceItems
+                {
+                    p = p - i.value
+                }
                 totalCell.captionValue.text = (p < 0 ? 0 : p).asPrice
                 return totalCell
             }
@@ -1172,7 +1215,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             tableView.insertRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
         }
         usingPreloBalance = isON
-        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: sectionPreloBalance), NSIndexPath(forItem: self.preloBalanceItems.count + 1, inSection: sectionPreloBalance)], withRowAnimation: .Fade)
+        
+        adjustRingkasan()
     }
     
     func preloBalanceInputCellBalanceSubmitted(balance: Int) {
@@ -1186,6 +1231,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         preloBalanceItems[0] = item
         totalPreloBalanceDiscount = balance
         tableView.reloadData()
+        
+        adjustRingkasan()
     }
     
     // MARK: - Navigation

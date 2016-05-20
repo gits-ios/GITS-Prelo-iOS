@@ -72,6 +72,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Pesanan Saya")) {
                 let json = JSON(resp.result.value!)
+                print(json)
                 let data = json["_data"]
                 
                 // Store data into variable
