@@ -283,6 +283,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
                 let json = JSON(resp.result.value!)
+                print(json)
                 self.currentCart = json
                 
                 self.arrayItem = json["_data"]["cart_details"].array!
@@ -457,6 +458,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //                    print(res)
                     let json = JSON(resp.result.value!)
                     self.checkoutResult = json["_data"]
+                    
+                    let _have_error = self.checkoutResult?["_have_error"].intValue
                     
                     if (json["_data"]["_have_error"].intValue == 1)
                     {
@@ -716,6 +719,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item2") as! CartCellItem
                 let cp = products[indexPath.row]
                 i.selectedPaymentId = cp.packageId
+//                i.selectedPaymentId = "" // debug
                 i.adapt(arrayItem[indexPath.row])
                 i.cartItemCellDelegate = self
                 

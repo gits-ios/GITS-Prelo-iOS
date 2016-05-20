@@ -250,6 +250,7 @@
 		21983BF21BE262CB00F0C24E /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */; };
 		219F2D431BC75F5100C14C1F /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F2D421BC75F5100C14C1F /* InboxViewController.swift */; };
 		21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
+		21A6C40E1CEF461100966B42 /* dummyCart.json in Resources */ = {isa = PBXBuildFile; fileRef = 21A6C40D1CEF461100966B42 /* dummyCart.json */; };
 		21ADD3621BB2553700DFCF57 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
 		21AE38DF1BABBF27007CD36B /* ListBrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */; };
 		21AE67B31B4A5AF600D2CF63 /* ListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */; };
@@ -866,6 +867,7 @@
 		219F2D421BC75F5100C14C1F /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		21A574A41B70D70600246CEB /* AppToolsObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppToolsObjC.h; sourceTree = "<group>"; };
 		21A574A51B70D70600246CEB /* AppToolsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppToolsObjC.m; sourceTree = "<group>"; };
+		21A6C40D1CEF461100966B42 /* dummyCart.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dummyCart.json; sourceTree = "<group>"; };
 		21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyGridViewController.swift; sourceTree = "<group>"; };
 		21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController.swift; sourceTree = "<group>"; };
 		21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemViewController.swift; sourceTree = "<group>"; };
@@ -1383,6 +1385,7 @@
 			isa = PBXGroup;
 			children = (
 				2115E6CC1B4A27E500509D2A /* Info.plist */,
+				21A6C40D1CEF461100966B42 /* dummyCart.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2691,6 +2694,7 @@
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
+				21A6C40E1CEF461100966B42 /* dummyCart.json in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
