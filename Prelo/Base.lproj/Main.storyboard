@@ -8905,8 +8905,8 @@ dalam keranjang belanja</string>
                                                 <action selector="sendConfirm" destination="6tP-aK-I3q" eventType="touchUpInside" id="WCI-7x-tOr"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byr-4Z-F8i">
-                                            <rect key="frame" x="8" y="88" width="55" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byr-4Z-F8i">
+                                            <rect key="frame" x="8" y="89" width="55" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -13752,8 +13752,8 @@ Label / Merek</string>
     <inferredMetricsTieBreakers>
         <segue reference="MUV-Ui-6Bn"/>
         <segue reference="2Zk-mt-sgU"/>
+        <segue reference="pME-IT-gHt"/>
         <segue reference="gv4-pa-FxU"/>
         <segue reference="gU7-9Q-bxr"/>
-        <segue reference="pME-IT-gHt"/>
     </inferredMetricsTieBreakers>
 </document>

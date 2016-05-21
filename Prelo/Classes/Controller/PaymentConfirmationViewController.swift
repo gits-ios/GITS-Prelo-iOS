@@ -145,6 +145,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             orderConfirmVC.total = u.totalPrice
             orderConfirmVC.images = imgs
             orderConfirmVC.fromCheckout = false
+            orderConfirmVC.kodeTransfer = u.banktransferDigit
             self.navigationController?.pushViewController(orderConfirmVC, animated: true)
         }
     }

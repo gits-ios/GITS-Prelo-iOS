@@ -33,6 +33,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     var transactionId : String = ""
     var images : [NSURL] = []
     var total : Int = 0
+    var kodeTransfer = 0
     
     let titleOrderID = "Order ID"
     let titleBankTujuan = "Bank Tujuan"
@@ -149,7 +150,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         captionOrderID.text = orderID
-        captionOrderTotal.text = total.asPrice
+        captionOrderTotal.text = (total + kodeTransfer).asPrice
     }
     
     override func viewWillAppear(animated: Bool) {
