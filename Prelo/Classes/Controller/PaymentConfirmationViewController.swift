@@ -177,7 +177,7 @@ class PaymentConfirmationCell : UITableViewCell {
             lblPrice.text = "Pembayaran diproses"
             lblPrice.textColor = Theme.PrimaryColor
         } else {
-            lblPrice.text = "\(userCheckout.totalPrice.asPrice)"
+            lblPrice.text = "\((userCheckout.totalPrice + userCheckout.banktransferDigit).asPrice)"
             lblPrice.textColor = Theme.GrayDark
         }
         let pCount : Int = userCheckout.transactionProducts.count
