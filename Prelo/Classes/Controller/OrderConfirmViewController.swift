@@ -280,11 +280,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as? PickerViewController
         p?.items = []
         p?.pickerDelegate = self
-        p?.textTitle = "Bank Pilihan"
         p?.prepDataBlock = { picker in
             
             picker.items = ["Bank BCA", "Bank Mandiri", "Bank BNI"]
             picker.tableView.reloadData()
+            picker.textTitle = "Bank Pilihan"
+            picker.doneLoading()
             
         }
         self.view.endEditing(true)
