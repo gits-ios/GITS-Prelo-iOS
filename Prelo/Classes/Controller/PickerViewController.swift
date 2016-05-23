@@ -220,14 +220,18 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                     if (data.count < self.pagingLimit) {
                         self.isPagingEnded = true
                     }
+                    var isShowAddNewBrandCell = true
                     if (data.count > 0) {
                         for i in 0...(data.count - 1) {
                             if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
                                 self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                                if (merkName.lowercaseString == name.lowercaseString) { // Jika ada merk yg sama dengan query search, tidak perlu memunculkan 'Tambahkan merek..'
+                                    isShowAddNewBrandCell = false
+                                }
                             }
                         }
                     }
-                    if (self.isFiltering()) {
+                    if (self.isFiltering() && isShowAddNewBrandCell) {
                         self.items?.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
                     }
                     self.tableView.reloadData()
