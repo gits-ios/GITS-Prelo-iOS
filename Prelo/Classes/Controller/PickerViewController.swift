@@ -28,7 +28,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     var pagingCurrent = 0
     var pagingLimit = 10
     var isPagingEnded = true
-    var isPagingLoading = false
+    var isGettingData = false
     
     @IBOutlet var searchBar : UISearchBar!
     
@@ -77,31 +77,11 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         
         set {
             _items = newValue
-            let v = ""
-            let x = v as NSString
-            if (x.rangeOfString("").location != NSNotFound)
-            {
-                
-            }
-            
-            let k = ""
-            if let arr = newValue
-            {
-                usedItems = arr.filter({
-                    let s = $0 as NSString
-                    if (s.rangeOfString("").location != NSNotFound || k == "")
-                    {
-                        return true
-                    }
-                    return false
-                })
-            }
         }
     }
     
     var subtitles : Array<String> = []
     
-    var usedItems : Array<String> = []
     var pickerDelegate : PickerViewDelegate?
     
     var prepDataBlock : PrepDataBlock?
@@ -144,13 +124,19 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (self.isPagingEnded) {
-            return usedItems.count
+        var n = items!.count
+        if (!self.isPagingEnded || n == 0) { // Jika paging belum selesai, atau jika sedang loading filter
+            // Additional cell for loading indicator
+            n += 1
         }
-        return usedItems.count + 1
+        return n
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let usedItems = items else {
+            return UITableViewCell()
+        }
+        
         if (indexPath.row >= usedItems.count) { // Make this loading cell (for pagination)
             let cell = tableView.dequeueReusableCellWithIdentifier("PickerVCCell") as! PickerVCCell
             
@@ -188,6 +174,11 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let usedItems = items else {
+            self.navigationController?.popViewControllerAnimated(true)
+            return
+        }
+        
         if (selectBlock != nil) {
             selectBlock!(item: (usedItems.objectAtCircleIndex(indexPath.row)))
         }
@@ -210,32 +201,38 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (self.pagingMode && !self.isPagingEnded && !self.isPagingLoading) {
-                self.isPagingLoading = true
-                request(APISearch.Brands(name: self.searchBar.text!, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"]
-                        
-                        if (data.count < self.pagingLimit) {
-                            self.isPagingEnded = true
-                        }
-                        if (data.count > 0) {
-                            for i in 0...(data.count - 1) {
-                                if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
-                                    self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
-                                }
-                            }
-                            if let searchText = self.searchBar.text {
-                                if (!searchText.isEmpty) {
-                                    self.usedItems.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
-                                }
-                            }
-                            self.tableView.reloadData()
-                        }
-                        self.pagingCurrent += self.pagingLimit
-                        self.isPagingLoading = false
+            if (self.pagingMode && !self.isPagingEnded && !self.isGettingData) {
+                if (self.merkMode) {
+                    self.getBrands(self.searchBar.text!)
+                }
+            }
+        }
+    }
+    
+    func getBrands(name: String) {
+        self.isGettingData = true
+        request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+                if (name == self.searchBar.text) { // Jika belum ada rikues lain karena perubahan search text
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    
+                    if (data.count < self.pagingLimit) {
+                        self.isPagingEnded = true
                     }
+                    if (data.count > 0) {
+                        for i in 0...(data.count - 1) {
+                            if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                                self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                            }
+                        }
+                    }
+                    if (self.isFiltering()) {
+                        self.items?.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
+                    }
+                    self.tableView.reloadData()
+                    self.pagingCurrent += self.pagingLimit
+                    self.isGettingData = false
                 }
             }
         }
@@ -269,29 +266,23 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     func filter(k : String)
     {
         self.items?.removeAll()
-        self.isPagingEnded = false
-        self.pagingCurrent = 0
-        request(APISearch.Brands(name: k, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                
-                if (data.count < self.pagingLimit) {
-                    self.isPagingEnded = true
-                }
-                if (data.count > 0) {
-                    for i in 0...(data.count - 1) {
-                        if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
-                            self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
-                        }
-                    }
-                    self.tableView.reloadData()
-                }
-                self.pagingCurrent += self.pagingLimit
-                self.isPagingLoading = false
-            }
-            self.usedItems.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
+        tableView.reloadData()
+        if (self.isFiltering()) {
+            // Jika sedang memfilter/mencari, tidak usah pakai paging
+            self.isPagingEnded = true
+        } else {
+            // Jika tidak sedang memfilter/mencari, pakai paging
+            self.isPagingEnded = false
         }
+        self.pagingCurrent = 0
+        
+        if (self.merkMode) {
+            self.getBrands(k)
+        }
+    }
+    
+    func isFiltering() -> Bool {
+        return (self.searchBar.text?.length > 0)
     }
 }
 
