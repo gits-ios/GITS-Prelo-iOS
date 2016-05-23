@@ -79,15 +79,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (AppTools.isDev)
+        // For testing
+        /*if (AppTools.isDev)
         {
-            /*txtName.text = "qwerty"
+            txtName.text = "qwerty"
             txtSpesial.text = "asdf"
             txtNewPrice.text = "1000"
             txtOldPrice.text = "1500"
             txtAlasanJual.text = "zxcvbnm"
-            txtDescription.text = "asdkalskfas"*/
-        }
+            txtDescription.text = "asdkalskfas"
+        }*/
 
         // Do any additional setup after loading the view.
 //        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
@@ -520,7 +521,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-//            print(img)
+            //print(img)
             let index = picker.view.tag
             self.imageViews[index].image = img
             self.fakeImageViews[index].image = img
@@ -878,20 +879,47 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Merk"
         
-        let names : [String] = CDBrand.getBrandPickerItems()
-        
-        p.merkMode = true
-        p.items = names
-        p.selectBlock = { s in
-            self.merekId = PickerViewController.RevealHiddenString(s)
-            var x : String = PickerViewController.HideHiddenString(s)
-            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
-            self.captionMerek.text = x
+        let cur = 0
+        let lim = 10
+        var names : [String] = []
+        request(APISearch.Brands(name: "", current: cur, limit: lim)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                if (data.count > 0) {
+                    for i in 0...(data.count - 1) {
+                        if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                            names.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                        }
+                    }
+                    p.merkMode = true
+                    p.pagingMode = true
+                    p.pagingCurrent = cur + lim
+                    p.pagingLimit = lim
+                    if (data.count < lim) {
+                        p.isPagingEnded = true
+                    } else {
+                        p.isPagingEnded = false
+                    }
+                    p.items = names
+                    p.selectBlock = { s in
+                        self.merekId = PickerViewController.RevealHiddenString(s)
+                        var x : String = PickerViewController.HideHiddenString(s)
+                        x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+                        x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+                        self.captionMerek.text = x
+                    }
+                    p.showSearch = true
+                    
+                    self.navigationController?.pushViewController(p, animated: true)
+                } else {
+                    Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                }
+            } else {
+                Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+            }
         }
-        p.showSearch = true
-        
-        self.navigationController?.pushViewController(p, animated: true)
     }
     
     func hideFakeScrollView()

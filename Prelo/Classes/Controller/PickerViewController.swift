@@ -24,6 +24,12 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     var merkMode = false
     
+    var pagingMode = false
+    var pagingCurrent = 0
+    var pagingLimit = 10
+    var isPagingEnded = true
+    var isPagingLoading = false
+    
     @IBOutlet var searchBar : UISearchBar!
     
     var showSearch : Bool
@@ -138,34 +144,47 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usedItems.count
+        if (self.isPagingEnded) {
+            return usedItems.count
+        }
+        return usedItems.count + 1
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
-        if (cell == nil) {
+        if (indexPath.row >= usedItems.count) { // Make this loading cell (for pagination)
+            let cell = tableView.dequeueReusableCellWithIdentifier("PickerVCCell") as! PickerVCCell
+            
+            cell.isBottomCell = true
+            cell.adapt()
+            
+            return cell
+        } else {
+            var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+            
+            if (cell == nil) {
+                if (subtitles.count != 0 && subtitles.count == usedItems.count)
+                {
+                    cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+                } else
+                {
+                    cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+                }
+            }
+            
+            let raw = usedItems.objectAtCircleIndex(indexPath.row)
+            let s = PickerViewController.HideHiddenString(raw)
+            
+            cell?.textLabel?.text = s
+            
             if (subtitles.count != 0 && subtitles.count == usedItems.count)
             {
-                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
-            } else
-            {
-                cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+                cell?.detailTextLabel?.minimumScaleFactor = 0.5
+                cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
+                cell?.detailTextLabel?.text = subtitles[indexPath.row]
             }
+            
+            return cell!
         }
-        
-        let raw = usedItems.objectAtCircleIndex(indexPath.row)
-        let s = PickerViewController.HideHiddenString(raw)
-        
-        cell?.textLabel?.text = s
-        
-        if (subtitles.count != 0 && subtitles.count == usedItems.count)
-        {
-            cell?.detailTextLabel?.minimumScaleFactor = 0.5
-            cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
-            cell?.detailTextLabel?.text = subtitles[indexPath.row]
-        }
-        
-        return cell!
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -173,12 +192,53 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             selectBlock!(item: (usedItems.objectAtCircleIndex(indexPath.row)))
         }
         
-        
         if (pickerDelegate != nil) {
             pickerDelegate?.pickerDidSelect!((usedItems.objectAtCircleIndex(indexPath.row)))
         }
         
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset : CGPoint = scrollView.contentOffset
+        let bounds : CGRect = scrollView.bounds
+        let size : CGSize = scrollView.contentSize
+        let inset : UIEdgeInsets = scrollView.contentInset
+        let y : CGFloat = offset.y + bounds.size.height - inset.bottom
+        let h : CGFloat = size.height
+        
+        let reloadDistance : CGFloat = 0
+        if (y > h + reloadDistance) {
+            // Load next items only if all items not loaded yet and if its not currently loading items
+            if (self.pagingMode && !self.isPagingEnded && !self.isPagingLoading) {
+                self.isPagingLoading = true
+                request(APISearch.Brands(name: self.searchBar.text!, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"]
+                        
+                        if (data.count < self.pagingLimit) {
+                            self.isPagingEnded = true
+                        }
+                        if (data.count > 0) {
+                            for i in 0...(data.count - 1) {
+                                if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                                    self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                                }
+                            }
+                            if let searchText = self.searchBar.text {
+                                if (!searchText.isEmpty) {
+                                    self.usedItems.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
+                                }
+                            }
+                            self.tableView.reloadData()
+                        }
+                        self.pagingCurrent += self.pagingLimit
+                        self.isPagingLoading = false
+                    }
+                }
+            }
+        }
     }
     
     func startLoading()
@@ -208,30 +268,46 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     func filter(k : String)
     {
-        let key = k.lowercaseString
-        if let arr = self.items
-        {
-            usedItems = arr.filter({
-                let s = $0.lowercaseString as NSString
-                if (s.rangeOfString(key).location != NSNotFound || k == "")
-                {
-                    return true
+        self.items?.removeAll()
+        self.isPagingEnded = false
+        self.pagingCurrent = 0
+        request(APISearch.Brands(name: k, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                if (data.count < self.pagingLimit) {
+                    self.isPagingEnded = true
                 }
-                return false
-            })
-            
-            usedItems.insert("Tambahkan merek '" + (searchBar.text == nil ? "" : searchBar.text!) + "'", atIndex: 0)
+                if (data.count > 0) {
+                    for i in 0...(data.count - 1) {
+                        if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                            self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                        }
+                    }
+                    self.tableView.reloadData()
+                }
+                self.pagingCurrent += self.pagingLimit
+                self.isPagingLoading = false
+            }
+            self.usedItems.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
         }
     }
+}
+
+class PickerVCCell: UITableViewCell {
+
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    /*
-    // MARK: - Navigation
+    var isBottomCell : Bool = false
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    override func prepareForReuse() {
+        loading.hidden = true
     }
-    */
     
+    func adapt() {
+        if (isBottomCell) {
+            loading.hidden = false
+        }
+    }
 }

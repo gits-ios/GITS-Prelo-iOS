@@ -1251,6 +1251,7 @@ enum APISearch : URLRequestConvertible
     case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case GetTopSearch(limit : String)
     case InsertTopSearch(search : String)
+    case Brands(name : String, current : Int, limit : Int)
     
     var method : Method
         {
@@ -1261,6 +1262,7 @@ enum APISearch : URLRequestConvertible
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
             case .InsertTopSearch(_): return .POST
+            case .Brands(_, _, _) : return .GET
             }
     }
     
@@ -1273,6 +1275,7 @@ enum APISearch : URLRequestConvertible
             case .GetTopSearch(_): return "top"
             case .Find(_, _, _, _, _, _, _, _) : return "products"
             case .InsertTopSearch(_):return "top"
+            case .Brands(_, _, _) : return "brands"
             }
     }
     
@@ -1305,6 +1308,12 @@ enum APISearch : URLRequestConvertible
                     "prelo":"true"
                 ]
             case .InsertTopSearch(let s):return ["name":s]
+            case .Brands(let name, let current, let limit):
+                return [
+                    "name": name,
+                    "current": current,
+                    "limit": limit
+                ]
             }
     }
     
@@ -1528,6 +1537,9 @@ class APIPrelo
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
         Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
+        if let resJson = (res as? JSON) {
+            Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
+        }
         
         print("\(reqAlias) req = \(req)")
         
