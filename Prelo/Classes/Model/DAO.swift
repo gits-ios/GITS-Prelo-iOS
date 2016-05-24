@@ -490,6 +490,10 @@ public class ProductDetail : NSObject, TawarItem
         json["_data"]["status"] = JSON(newStatus)
     }
     
+    var rejectionText : String {
+        return json["_data"]["rejection_text"].stringValue
+    }
+    
     var transactionProgress : Int {
         return json["_data"]["transaction_progress"].intValue
     }

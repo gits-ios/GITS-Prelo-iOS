@@ -350,7 +350,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let labels = detail?.imageLabels

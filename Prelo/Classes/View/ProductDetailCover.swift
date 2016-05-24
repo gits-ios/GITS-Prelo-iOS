@@ -22,6 +22,8 @@ class ProductDetailCover: UIView {
     
     var banner : UIImageView?
     
+    var topBannerText : String?
+    
     private func setup(images : Array<String>)
     {
         imageURLS = images
@@ -52,7 +54,30 @@ class ProductDetailCover: UIView {
             iv?.setImageWithUrl(NSURL(string: images.objectAtCircleIndex(i))!, placeHolderImage: nil)
         }
         
+        self.setupTopBanner()
         self.setupBanner()
+    }
+    
+    func setupTopBanner() {
+        if let tbText = self.topBannerText {
+            if (status != nil && !tbText.isEmpty) {
+                let screenSize: CGRect = UIScreen.mainScreen().bounds
+                let screenWidth = screenSize.width
+                let topBannerHeight : CGFloat = 30.0
+                let topLabelMargin : CGFloat = 8.0
+                let topBanner : UIView = UIView(frame: CGRectMake(0, 0, screenWidth, topBannerHeight), backgroundColor: Theme.ThemeOrange)
+                let topLabel : UILabel = UILabel(frame: CGRectMake(topLabelMargin, 0, screenWidth - (topLabelMargin * 2), topBannerHeight))
+                topLabel.textColor = UIColor.whiteColor()
+                topLabel.font = UIFont.systemFontOfSize(11)
+                topLabel.lineBreakMode = .ByWordWrapping
+                topLabel.numberOfLines = 0
+                topBanner.addSubview(topLabel)
+                if (status == 5) {
+                    topLabel.text = "Alasan tidak lolos: \(tbText)"
+                    self.addSubview(topBanner)
+                }
+            }
+        }
     }
     
     func updateStatus(newStat : Int) {
@@ -106,7 +131,7 @@ class ProductDetailCover: UIView {
     }
     */
     
-    class func instance(images : Array<String>, status: Int)->ProductDetailCover?
+    class func instance(images : Array<String>, status: Int, topBannerText : String?)->ProductDetailCover?
     {
         var p : ProductDetailCover?
         if (images.count == 1) {
@@ -122,6 +147,8 @@ class ProductDetailCover: UIView {
         }
         
         p?.status = status
+        
+        p?.topBannerText = topBannerText
         
         p?.setup(images)
         
