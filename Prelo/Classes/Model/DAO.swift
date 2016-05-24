@@ -2105,6 +2105,11 @@ class UserCheckout : NSObject {
         }
         return ""
     }
+    
+    var banktransferDigit : Int
+        {
+        return json["banktransfer_digit"].intValue
+    }
 }
 
 class UserCheckoutProduct : TransactionProductDetail {

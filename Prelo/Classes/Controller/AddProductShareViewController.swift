@@ -365,8 +365,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         // Dispose of any resources that can be recreated.
     }
     
-    func sendProduct()
+    func sendProduct(instagram : String = "0", facebook : String = "0", twitter : String = "0")
     {
+        self.sendProductParam["instagram"] = instagram
+        self.sendProductParam["facebook"] = facebook
+        self.sendProductParam["twitter"] = twitter
+        
         let url = "\(AppTools.PreloBaseUrl)/api/product"
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         
@@ -424,7 +428,11 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
             
             self.productID = (json["_data"]["_id"].string)!
-            self.sendShare()
+//            self.sendShare()
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
+            let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+            self.navigationController?.pushViewController(b!, animated: true)
             
             }, failure: { op, err in
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
@@ -445,8 +453,55 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         })
     }
     
-    func sendShare()
+//    func sendShare()
+//    {
+//        var i = "0", p = "0", f = "0", t = "0"
+//        
+//        for x in 0...3
+//        {
+//            let arr = arrayRows[x]
+//            for b in arr
+//            {
+//                if (b.titleLabel?.text == "")
+//                {
+//                    if (x == 0)
+//                    {
+//                        i = "1"
+//                    }
+//                    
+//                    if (x == 1)
+//                    {
+//                        p = "1"
+//                    }
+//                    
+//                    if (x == 2)
+//                    {
+//                        f = "1"
+//                    }
+//                    
+//                    if (x == 3)
+//                    {
+//                        t = "1"
+//                    }
+//                }
+//            }
+//        }
+//        
+//        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
+//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
+//                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
+//                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+//                self.navigationController?.pushViewController(b!, animated: true)
+//            } else {
+//                self.btnSend.enabled = true
+//            }
+//        }
+//    }
+    
+    @IBAction func shareDone()
     {
+        btnSend.enabled = false
+        
         var i = "0", p = "0", f = "0", t = "0"
         
         for x in 0...3
@@ -479,21 +534,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             }
         }
         
-        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
-                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
-                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
-                self.navigationController?.pushViewController(b!, animated: true)
-            } else {
-                self.btnSend.enabled = true
-            }
-        }
-    }
-    
-    @IBAction func shareDone()
-    {
-        btnSend.enabled = false
-        sendProduct()
+        sendProduct(i, facebook: f, twitter: t)
     }
     
 

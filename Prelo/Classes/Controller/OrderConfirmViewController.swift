@@ -8,9 +8,25 @@
 
 import UIKit
 
-class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextFieldDelegate {
+class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITextFieldDelegate, PickerViewDelegate {
 
-    @IBOutlet var tableView : UITableView?
+    @IBOutlet var scrollView : UIScrollView!
+    
+    @IBOutlet var txtBankFrom : UITextField?
+    @IBOutlet var txtAtasNama : UITextField?
+    @IBOutlet var txtNominal : UITextField?
+    @IBOutlet var captionOrderID2 : UILabel?
+    @IBOutlet var captionSelectedBank : UILabel?
+    
+    @IBOutlet var captionBankInfoBankName : UILabel?
+    @IBOutlet var captionBankInfoBankNumber : UILabel?
+    @IBOutlet var captionBankInfoBankCabang : UILabel?
+    @IBOutlet var captionBankInfoBankAtasNama : UILabel?
+    
+    @IBOutlet var sectionOptions : [BorderedView] = []
+    @IBOutlet var firstTap : UITapGestureRecognizer!
+    
+//    @IBOutlet var tableView : UITableView?
     @IBOutlet var captionOrderID : UILabel!
     @IBOutlet var captionOrderTotal : UILabel!
     @IBOutlet var captionMore : UILabel!
@@ -33,6 +49,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     var transactionId : String = ""
     var images : [NSURL] = []
     var total : Int = 0
+    var kodeTransfer = 0
     
     let titleOrderID = "Order ID"
     let titleBankTujuan = "Bank Tujuan"
@@ -45,8 +62,19 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     
     var clearCart = false
     
+    var rekenings = [
+        ["name":"Fransiska PutriWinaHadiwidjana", "no":"06-404-72-677", "cabang":"Pucang Anom", "bank_name":"Bank BCA"],
+        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"131-007-304-1990", "cabang":"Cab. Bandung Dago", "bank_name":"Bank Mandiri"],
+        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"037-351-4488", "cabang":"Cab. Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.delegate = self
+        
+        txtAtasNama?.delegate = self
+        txtBankFrom?.delegate = self
+        txtNominal?.delegate = self
         
         // clearCart = true kalaw dari Cart
         if (clearCart)
@@ -60,30 +88,8 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         free = total == 0
-//        free = true
         
         self.titleText = self.title
-        
-//        if var f = captionTitle.superview?.frame
-//        {
-//            f.size.height -= CGFloat(10)
-//            captionTitle.superview?.frame = f
-//        }
-        
-        // Do any additional setup after loading the view.
-        
-        cellData[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instance(titleOrderID, placeHolder: "", value: orderID, enable : false)
-        cellData[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance(titleBankTujuan, placeHolder: "", value: "", pickerPrepBlock: { picker in
-            
-            picker.items = ["Bank BCA", "Bank Mandiri", "Bank BNI"]
-            picker.tableView.reloadData()
-            
-        })
-        cellData[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance(titleBankKamu, placeHolder: "Nama Bank Kamu")
-        cellData[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance(titleRekening, placeHolder: "Nama Rekening Kamu")
-        let b = BaseCartData.instance(titleNominal, placeHolder: "Nominal Transfer")
-        b.keyboardType = UIKeyboardType.NumberPad
-        cellData[NSIndexPath(forRow: 4, inSection: 0)] = b
         
         if (fromCheckout == false)
         {
@@ -104,27 +110,25 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             for v in unneededViewsIfFree
             {
                 v.hidden = true
+                v.removeFromSuperview()
             }
-            
-            if let f = captionTitle.superview?.frame
-            {
-//                f.size.height = CGFloat(260)
-                captionTitle.superview?.frame = f
-            }
-            
-//            captionTitle.superview?.backgroundColor = .redColor()
             
             captionDesc.text = "Kami segera memproses dan mengirim barang pesanan kamu. Silakan tunggu notifikasi Konfirmasi Pengiriman maximal 3 x 24 jam."
             cellData = [:]
             
             btnBack2.hidden = false
-            self.tableView?.tableFooterView = UIView()
+            
+            self.btnBack2.superview?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[btn]-20-|", options: .AlignAllBaseline, metrics: nil, views: ["btn" : self.btnBack2]))
+        } else
+        {
+            let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
+            let mtext = NSMutableAttributedString(string: text)
+            mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGrayColor()], range: NSMakeRange(0, text.length))
+            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("TEPAT"))
+            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("3 digit terakhir"))
+            captionDesc.attributedText = mtext
+            
         }
-        
-        createCells()
-        
-        tableView?.dataSource = self
-        tableView?.delegate = self
         
         for v in imgs
         {
@@ -149,7 +153,21 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         }
         
         captionOrderID.text = orderID
-        captionOrderTotal.text = total.asPrice
+        captionOrderTotal.text = (total + kodeTransfer).asPrice
+        
+        captionOrderID2?.text = orderID
+        captionSelectedBank?.text = nil
+        
+        self.tapped(firstTap)
+        
+        let toolBar = UIToolbar(frame: CGRectMake(0, 0, 100, 44))
+        toolBar.translucent = true
+        toolBar.tintColor = Theme.PrimaryColor
+        
+        let done = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: #selector(OrderConfirmViewController.nominalDone))
+        let space = UIBarButtonItem(barButtonSpaceType: .FlexibleSpace)
+        toolBar.items = [space, done]
+        txtNominal?.inputAccessoryView = toolBar
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -185,9 +203,9 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
             
             if (o) {
-                self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
             } else {
-                self.tableView?.contentInset = UIEdgeInsetsZero
+                self.scrollView.contentInset = UIEdgeInsetsZero
             }
             
         }, completion: nil)
@@ -202,82 +220,85 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
+    func nominalDone()
+    {
+        txtNominal?.resignFirstResponder()
+    }
+    
+    @IBAction func copyPrice()
+    {
+        let s = String((total + kodeTransfer))
+        UIPasteboard.generalPasteboard().string = s
+        let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .Alert)
+        a.addAction(UIAlertAction(title: "OK", style: .Default, handler: { act in }))
+        self.presentViewController(a, animated: true, completion: nil)
+    }
+    
+    @IBAction func tapped(sender : UITapGestureRecognizer)
+    {
+        let b = sender.view as! BorderedView
+        
+        for x in sectionOptions
+        {
+            x.borderColor = Theme.GrayLight
+            for v in x.subviews
+            {
+                if (v.isKindOfClass(TintedImageView.classForCoder()))
+                {
+                    let t = v as! TintedImageView
+                    t.tint = true
+                    t.tintColor = Theme.GrayLight
+                }
+            }
+        }
+        
+        b.borderColor = Theme.PrimaryColor
+        for v in b.subviews
+        {
+            if (v.isKindOfClass(TintedImageView.classForCoder()))
+            {
+                let t = v as! TintedImageView
+                t.tint = false
+            }
+        }
+        
+        setupViewRekeing(rekenings[b.tag])
+    }
+    
+    func setupViewRekeing(data : [String : String])
+    {
+        captionBankInfoBankAtasNama?.text = data["name"]
+        captionBankInfoBankCabang?.text = data["cabang"]
+//        captionBankInfoBankCabang?.text = "alskjdalksjdlajsdlajd asldkjalsdkja sd lakdjsalks djalskdj alsdj alksdj alsdkj alksdjalk sjdalskdja"
+        captionBankInfoBankName?.text = "Transfer melalui " + data["bank_name"]!
+        captionBankInfoBankNumber?.text = data["no"]
+    }
+    
+    @IBAction func selectBank()
+    {
+        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = []
+        p?.pickerDelegate = self
+        p?.prepDataBlock = { picker in
+            
+            picker.items = ["Bank BCA", "Bank Mandiri", "Bank BNI"]
+            picker.tableView.reloadData()
+            picker.textTitle = "Bank Pilihan"
+            picker.doneLoading()
+            
+        }
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
+    }
+    
+    func pickerDidSelect(item: String) {
+        captionSelectedBank?.text = item
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return cellData.keys.array.count
-        return cellData.keys.count
-    }
-    
-    var rawCells : [UITableViewCell] = []
-    func createCells()
-    {
-        if (!free) {
-            for i in 0...cellData.keys.count-1
-            {
-                var c : UITableViewCell?
-                var b : BaseCartCell
-                let r = i
-                if (r == 1) {
-                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
-                } else {
-                    b = tableView!.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
-                }
-                
-    //            if (b.lastIndex != nil) {
-    //                cellData[b.lastIndex!] = b.obtainValue()
-    //            }
-                
-                b.parent = self
-                
-                c = b
-                rawCells.append(c!)
-            }
-        }
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cachedCell = cellViews[indexPath]
-        if (cachedCell != nil) {
-            return cachedCell!
-        }
-        
-        var c : UITableViewCell?
-//        var b : BaseCartCell
-        let r = indexPath.row
-//        if (r == 1) {
-//            b = tableView.dequeueReusableCellWithIdentifier("cell_input_2") as! CartCellInput2
-//        } else {
-//            b = tableView.dequeueReusableCellWithIdentifier("cell_input") as! CartCellInput
-//        }
-        
-        let b = rawCells[r] as! BaseCartCell
-        
-        if (b.lastIndex != nil) {
-            cellData[b.lastIndex!] = b.obtainValue()
-        }
-        
-        b.lastIndex = indexPath
-        b.adapt(cellData[indexPath])
-        b.parent = self
-        
-        c = b
-        
-        cellViews[indexPath] = c!
-        
-        return c!
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let c = tableView.cellForRowAtIndexPath(indexPath)
-        if ((c?.canBecomeFirstResponder())!) {
-            c?.becomeFirstResponder()
-        }
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -287,35 +308,15 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
-            // This will be crash on iOS 7.1
-            let i = tableView!.indexPathForCell((textField.superview?.superview!) as! UITableViewCell)
-            var s = (i?.section)!
-            var r = (i?.row)!
-            
-            var cell : UITableViewCell?
-            
-            var con = true
-            while (con) {
-                let newIndex = NSIndexPath(forRow: r+1, inSection: s)
-                cell = tableView!.cellForRowAtIndexPath(newIndex)
-                if (cell == nil) {
-                    s += 1
-                    r = -1
-                    if (s == tableView!.numberOfSections) { // finish, last cell
-                        con = false
-                    }
-                } else {
-                    if ((cell?.canBecomeFirstResponder())!) {
-                        cell?.becomeFirstResponder()
-                        con = false
-                    } else {
-                        r+=1
-                    }
-                }
-            }
+        if (textField == txtBankFrom)
+        {
+            txtAtasNama?.becomeFirstResponder()
+        } else if (textField == txtAtasNama)
+        {
+            txtNominal?.becomeFirstResponder()
         }
-        return true
+        
+        return false
     }
     
     override func backPressed(sender: UIBarButtonItem) {
@@ -346,23 +347,13 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             return
         }
         
-        for k in cellViews.keys
-        {
-            let c = cellViews[k]!
-            let same = c.isKindOfClass(BaseCartCell.classForCoder())
-            if (same == true) {
-                let b = c as! BaseCartCell
-                cellData[b.lastIndex!] = b.obtainValue()
-            }
-        }
-        
         let orderId = transactionId
-        let bankTo = cellData[NSIndexPath(forRow: 1, inSection: 0)]
-        let bankFrom = cellData[NSIndexPath(forRow: 2, inSection: 0)]
-        let name = cellData[NSIndexPath(forRow: 3, inSection: 0)]
-        let nominal = cellData[NSIndexPath(forRow: 4, inSection: 0)]
+        let bankTo = captionSelectedBank?.text
+        let bankFrom = txtBankFrom?.text
+        let name = txtAtasNama?.text
+        let nominal = txtNominal?.text
         
-        if let f = bankFrom?.value, let t = bankTo?.value, let n = name?.value, let nom = nominal?.value
+        if let f = bankFrom, let t = bankTo, let n = name, let nom = nominal
         {
             // Mixpanel
             let pt = [
@@ -380,7 +371,7 @@ class OrderConfirmViewController: BaseViewController, UITableViewDataSource, UIT
             }
             let x = (nom as NSString).integerValue
             // API Migrasi
-        request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON {resp in
+            request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
                     Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                     self.navigationController?.popToRootViewControllerAnimated(true)

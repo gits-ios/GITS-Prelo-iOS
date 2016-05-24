@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480137626.708848"
+            timestampString = "485453978.719268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "683"
-            endingLineNumber = "683"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
+            startingLineNumber = "739"
+            endingLineNumber = "739"
+            landmarkName = "CartViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480137626.708848"
+            timestampString = "485453978.719268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "628"
-            endingLineNumber = "628"
-            landmarkName = "viewWillDisappear(_:)"
+            startingLineNumber = "684"
+            endingLineNumber = "684"
+            landmarkName = "confirm()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,13 +58,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "460631316.306505"
+            timestampString = "485452865.709503"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "synch()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.CartViewController.synch () -&gt; ()"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/CartViewController.swift"
+                  timestampString = "485446992.156137"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "300"
+                  endingLineNumber = "300"
+                  offsetFromSymbolStart = "1981">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.CartViewController.(synch () -&gt; ()).(closure #1)"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/CartViewController.swift"
+                  timestampString = "485446992.156991"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "192">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -86,7 +118,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
@@ -100,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480137626.708848"
+            timestampString = "485453258.162373"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "439"
-            endingLineNumber = "439"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "confirm()"
             landmarkType = "5">
          </BreakpointContent>
@@ -116,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480137626.708848"
+            timestampString = "485453258.162373"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
             landmarkName = "confirm()"
             landmarkType = "5">
          </BreakpointContent>
@@ -132,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480137626.708848"
+            timestampString = "485453258.162373"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "445"
-            endingLineNumber = "445"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
             landmarkName = "confirm()"
             landmarkType = "5">
          </BreakpointContent>
@@ -644,13 +676,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480673032.934228"
+            timestampString = "485453978.719268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1308"
-            endingLineNumber = "1308"
-            landmarkName = "CartCellItem"
-            landmarkType = "3">
+            startingLineNumber = "1453"
+            endingLineNumber = "1453"
+            landmarkName = "becomeFirstResponder()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -660,13 +692,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "480673033.839156"
+            timestampString = "485453978.719268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1309"
-            endingLineNumber = "1309"
-            landmarkName = "CartCellItem"
-            landmarkType = "3">
+            startingLineNumber = "1454"
+            endingLineNumber = "1454"
+            landmarkName = "becomeFirstResponder()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1108,13 +1140,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Model/API/PreloEndpoints.swift"
-            timestampString = "483290592.394602"
+            timestampString = "485456450.973388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1517"
-            endingLineNumber = "1517"
-            landmarkName = "validate(_:req:resp:res:err:reqAlias:)"
-            landmarkType = "5">
+            startingLineNumber = "1528"
+            endingLineNumber = "1528"
+            landmarkName = "APIPrelo"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1124,11 +1156,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Model/API/PreloEndpoints.swift"
-            timestampString = "483290593.356396"
+            timestampString = "485456450.973388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1519"
-            endingLineNumber = "1519"
+            startingLineNumber = "1530"
+            endingLineNumber = "1530"
             landmarkName = "validate(_:req:resp:res:err:reqAlias:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1307,6 +1339,230 @@
             endingLineNumber = "525"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/CartViewController.swift"
+            timestampString = "485453978.719268"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
+            landmarkName = "confirm()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/CartViewController.swift"
+            timestampString = "485453978.719268"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
+            landmarkName = "confirm()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.CartViewController.confirm () -&gt; ()"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/CartViewController.swift"
+                  timestampString = "485446915.491398"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "466"
+                  endingLineNumber = "466"
+                  offsetFromSymbolStart = "13508">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.CartViewController.(confirm () -&gt; ()).(closure #1)"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/CartViewController.swift"
+                  timestampString = "485446915.49171"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
+                  offsetFromSymbolStart = "199">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/CartViewController.swift"
+            timestampString = "485452865.709503"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "synch()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/PaymentConfirmationViewController.swift"
+            timestampString = "485455810.264031"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "getUserCheckouts()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/PaymentConfirmationViewController.swift"
+            timestampString = "485455812.162996"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "getUserCheckouts()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/CartViewController.swift"
+            timestampString = "485456353.209119"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
+            landmarkName = "confirm()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/OrderConfirmViewController.swift"
+            timestampString = "485504301.815149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "sendConfirm()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/OrderConfirmViewController.swift"
+            timestampString = "485504301.815149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
+            landmarkName = "sendConfirm()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/AddProductShareViewController.swift"
+            timestampString = "485504052.334426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
+            landmarkName = "sendProduct(_:facebook:twitter:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/AddProductShareViewController.swift"
+            timestampString = "485504507.868934"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
+            landmarkName = "sendProduct(_:facebook:twitter:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.AddProductShareViewController.sendProduct (Swift.String, facebook : Swift.String, twitter : Swift.String) -&gt; ()"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/AddProductShareViewController.swift"
+                  timestampString = "485504507.87986"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "2142">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Prelo.AddProductShareViewController.(sendProduct (Swift.String, facebook : Swift.String, twitter : Swift.String) -&gt; ()).(closure #1)"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rahadiankumang/Codes/GITS/ios_prelo/Prelo/Classes/Controller/AddProductShareViewController.swift"
+                  timestampString = "485504507.880126"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "378"
+                  endingLineNumber = "378"
+                  offsetFromSymbolStart = "39">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
