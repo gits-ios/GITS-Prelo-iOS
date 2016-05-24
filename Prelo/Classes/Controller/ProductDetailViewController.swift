@@ -265,11 +265,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
+            guard let pDetail = detail else {
+                return
+            }
+            var username = "Your beloved user"
+            if let u = CDUser.getOne() {
+                username = u.username
+            }
+            
             // report
+            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+            
             let m = MFMailComposeViewController()
             if (MFMailComposeViewController.canSendMail()) {
                 m.setToRecipients(["contact@prelo.id"])
-                m.setSubject("Product Report [" + (detail?.productID)! + "]")
+                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
+                m.setMessageBody(msgBody, isHTML: true)
                 m.mailComposeDelegate = self
                 self.presentViewController(m, animated: true, completion: nil)
             } else {
