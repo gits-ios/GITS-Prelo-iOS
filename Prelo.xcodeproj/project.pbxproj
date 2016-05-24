@@ -528,6 +528,7 @@
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
 		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
+		58F91B191CF313CB00943A7A /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1224,6 +1225,7 @@
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
+		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController2.swift; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -1835,6 +1837,7 @@
 				2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */,
 				2119FE381BA2D8B1006EF0CB /* ImagePickerViewController2.swift */,
 				21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */,
+				58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */,
 				21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
@@ -2997,6 +3000,7 @@
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,
 				21679A201B901C5300F18F90 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				58F91B191CF313CB00943A7A /* ListBrandViewController2.swift in Sources */,
 				21A574A61B70D70600246CEB /* AppToolsObjC.m in Sources */,
 				21EEB45A1B87036000CAD5C9 /* PaymentConfirmationViewController.swift in Sources */,
 				216344FE1CC3A855005CBA37 /* MKColor.swift in Sources */,

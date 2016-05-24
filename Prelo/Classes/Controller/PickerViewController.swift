@@ -137,7 +137,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             return UITableViewCell()
         }
         
-        if (indexPath.row >= usedItems.count) { // Make this loading cell (for pagination)
+        if (indexPath.row >= usedItems.count) { // Make this loading cell
             let cell = tableView.dequeueReusableCellWithIdentifier("PickerVCCell") as! PickerVCCell
             
             cell.isBottomCell = true

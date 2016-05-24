@@ -4913,10 +4913,10 @@ Keuntungan</string>
             </objects>
             <point key="canvasLocation" x="256" y="-5289"/>
         </scene>
-        <!--List Brand View Controller-->
+        <!--List Brand View Controller2-->
         <scene sceneID="jgf-jR-l5z">
             <objects>
-                <viewController id="7lE-jW-UD2" customClass="ListBrandViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="7lE-jW-UD2" customClass="ListBrandViewController2" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Fqj-AC-sf6"/>
                         <viewControllerLayoutGuide type="bottom" id="fkJ-69-npK"/>
@@ -4928,6 +4928,29 @@ Keuntungan</string>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dCD-bc-NH1">
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListBrandVC2Cell" id="Zqo-bg-bRX" customClass="ListBrandVC2Cell" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="22" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-ij-ge2" userLabel="loadingbottom">
+                                                    <rect key="frame" x="290" y="12" width="20" height="20"/>
+                                                    <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="9mv-ij-ge2" firstAttribute="centerX" secondItem="VJ0-RV-Lr6" secondAttribute="centerX" id="REy-zb-bpk"/>
+                                                <constraint firstItem="9mv-ij-ge2" firstAttribute="centerY" secondItem="VJ0-RV-Lr6" secondAttribute="centerY" id="ahk-eG-w0j"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="loading" destination="9mv-ij-ge2" id="LCL-YK-4CK"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <searchBar contentMode="redraw" placeholder="Cari Merek" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chi-bI-Shf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -4937,7 +4960,7 @@ Keuntungan</string>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <outlet property="delegate" destination="7lE-jW-UD2" id="Xvc-v5-lpY"/>
+                                    <outlet property="delegate" destination="7lE-jW-UD2" id="kie-dp-yFg"/>
                                 </connections>
                             </searchBar>
                         </subviews>
@@ -4960,8 +4983,8 @@ Keuntungan</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
-                        <outlet property="searchBar" destination="chi-bI-Shf" id="jgN-9b-k0C"/>
-                        <outlet property="tableView" destination="dCD-bc-NH1" id="fPd-TM-q6u"/>
+                        <outlet property="searchBar" destination="chi-bI-Shf" id="3Ql-wq-zVf"/>
+                        <outlet property="tableView" destination="dCD-bc-NH1" id="azS-lG-P8R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWo-hl-jax" userLabel="First Responder" sceneMemberID="firstResponder"/>
