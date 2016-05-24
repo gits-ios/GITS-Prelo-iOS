@@ -420,13 +420,15 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Only track if scrollView did finish the left/right scroll
         if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
-            if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
-                let pt = [
-                    "Category" : categoriesFix[i]["name"].string!
-                ]
-                Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
-                Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
-                isPageTracked = true
+            if (scrollView.width > 0) {
+                if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
+                    let pt = [
+                        "Category" : categoriesFix[i]["name"].string!
+                    ]
+                    Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+                    Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
+                    isPageTracked = true
+                }
             }
         }
         
