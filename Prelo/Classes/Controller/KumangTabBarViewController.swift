@@ -64,6 +64,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
+        if (User.Token != nil && CDUser.getOne() != nil)
+        {
+            AppDelegate.Instance.produkUploader.start()
+        }
+        
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let v = UIView()
         v.frame = CGRectMake(0, 0, 10, 10)

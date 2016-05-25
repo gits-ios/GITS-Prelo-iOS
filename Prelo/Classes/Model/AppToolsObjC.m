@@ -170,6 +170,47 @@ static UIDocumentInteractionController *staticDocController = NULL;
     }];
 }
 
++ (AFHTTPRequestOperationManager *)sendMultipart2:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+    
+    manager.requestSerializer.timeoutInterval = 600;
+    
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if (images.count == 1) {
+            NSString *name = [NSString stringWithFormat:@"image"];
+            if ([images[0] isKindOfClass:[UIImage class]])
+            {
+                NSData *data = UIImageJPEGRepresentation(images[0], 0.1);
+                [formData appendPartWithFileData:data name:name fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            }
+        } else if (images.count > 0) {
+            for (int i = 0; i < images.count; i++)
+            {
+                NSString *name = [NSString stringWithFormat:@"image%@", @(i+1)];
+                if ([images[i] isKindOfClass:[UIImage class]])
+                {
+                    NSData *data = UIImageJPEGRepresentation(images[i], 0.1);
+                    [formData appendPartWithFileData:data name:name fileName:@"wat.jpeg" mimeType:@"image/jpeg"];
+                }
+            }
+        }
+        
+        NSLog(@"");
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+    
+    return manager;
+}
+
 + (NSString *)jsonStringFrom:(id)json
 {
     NSError *err;

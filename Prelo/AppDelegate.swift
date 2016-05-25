@@ -50,6 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
     
+    var produkUploader : ProdukUploader!
+    
+    static var Instance : AppDelegate {
+        return UIApplication.sharedApplication().delegate as! AppDelegate
+    }
+    
     // Uninstall.io (disabled)
     /*// TODO: isi apptoken dan appsecret
     let UninstallIOAppToken = ""
@@ -58,6 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     // MARK: - Application delegate functions
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        produkUploader = ProdukUploader()
         
         preloNotifListener = PreloNotificationListener()
         
@@ -340,6 +348,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         // MoEngage
         MoEngage.sharedInstance().stop(application)
         
+//        produkUploader.stop()
+        
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().didLoseFocus()
     }
@@ -349,6 +359,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
+        
+//        produkUploader.start()
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
