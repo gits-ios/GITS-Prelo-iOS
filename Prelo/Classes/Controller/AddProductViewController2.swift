@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -55,6 +55,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionSize2 : UILabel!
     @IBOutlet var captionSize3 : UILabel!
     
+    @IBOutlet var captionImagesMakeSure : UILabel!
+    @IBOutlet var captionImagesMakeSureFake : UILabel!
+    
+    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var conHeightBtnDelete : NSLayoutConstraint!
+    @IBOutlet var conMarginBtnDelete : NSLayoutConstraint!
+    
     @IBOutlet weak var ivImage: UIImageView!
     
     var sizes : Array<String> = []
@@ -79,6 +86,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        captionImagesMakeSure.numberOfLines = 0
+        captionImagesMakeSureFake.numberOfLines = 0
+        
+        let makeSureText = "Pastikan orientasi preview foto diatas sudah tegak"
+        let attMakeSureText = NSMutableAttributedString(string: makeSureText)
+        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFontOfSize(14)], range: (makeSureText as NSString).rangeOfString("preview"))
+        
+        captionImagesMakeSure.attributedText = attMakeSureText
+        captionImagesMakeSureFake.attributedText = attMakeSureText
+        
         if (AppTools.isDev)
         {
             txtName.text = "qwerty"
@@ -98,6 +115,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (editMode)
         {
             fakeScrollView.hidden = true
+            btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), forControlEvents: .TouchUpInside)
+        } else
+        {
+            btnDelete.hidden = true
+            conHeightBtnDelete.constant = 0
+            conMarginBtnDelete.constant = 0
         }
         
         sizePicker.dataSource = self
@@ -898,6 +921,78 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     {
         fakeScrollView.hidden = true
         scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
+    }
+    
+//    var loadingDelete = UIAlertController(title: "Menghapus barang...", message: nil, preferredStyle: .Alert)
+//    var loadingDeleteOS7 = UIAlertView(title: "Menghapus barang...", message: nil, delegate: nil, cancelButtonTitle: nil)
+    func askDeleteProduct()
+    {
+        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
+        {
+            askDeleteOS8()
+        } else
+        {
+            askDeleteOS7()
+        }
+    }
+    
+    func askDeleteOS8()
+    {
+        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
+        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
+            self.deleteProduct()
+        }))
+        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
+        self.presentViewController(a, animated: true, completion: nil)
+    }
+    
+    func askDeleteOS7()
+    {
+        let a = UIAlertView()
+        a.title = "Hapus"
+        a.message = "Hapus Barang?"
+        a.addButtonWithTitle("Ya")
+        a.addButtonWithTitle("Tidak")
+        a.delegate = self
+        a.tag = 123
+        a.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if (alertView.tag == 123)
+        {
+            if (buttonIndex == 0)
+            {
+                self.deleteProduct()
+            }
+        }
+    }
+    
+    func deleteProduct()
+    {
+        if let prodId = editProduct?.productID
+        {
+            btnSubmit.enabled = false
+            btnDelete.setTitle("Menghapus barang...", forState: UIControlState.Disabled)
+            btnDelete.enabled = false
+            
+            request(Products.Delete(productID: prodId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
+                {
+                    if var v = self.navigationController?.viewControllers
+                    {
+                        v.removeLast()
+                        v.removeLast()
+                        self.navigationController?.setViewControllers(v, animated: true)
+                    }
+                    
+//                    self.navigationController?.popViewControllerAnimated(true)
+                } else {
+                    self.btnSubmit.enabled = true
+                    self.btnDelete.enabled = true
+                }
+            }
+        }
     }
     
     func sendProduct()
