@@ -30,8 +30,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : BorderedButton!
-    @IBOutlet var btnActivate : UIButton!
-    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var btnUp: BorderedButton!
+    @IBOutlet var btnSold: UIButton!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var vwCoachmark: UIView!
     @IBOutlet var vwCoachmarkReserve: UIView!
@@ -59,8 +59,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
         self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        btnDelete.addTarget(self, action: #selector(ProductDetailViewController.deleteProduct), forControlEvents: .TouchUpInside)
         
         btnBuy.hidden = true
         btnTawar.hidden = true
@@ -141,120 +139,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    var processingActivation = false
-    @IBAction func setProductActive()
-    {
-        if (processingActivation)
-        {
-            return
-        }
-        processingActivation = true
-        btnActivate.setTitle("LOADING..", forState: .Disabled)
-        btnActivate.enabled = false
-        
-        if (activated)
-        {
-            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {resp in
-                self.processingActivation = false
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deaktivasi Barang"))
-                {
-                    self.activated = false
-                    self.adjustButtonActivation()
-                } else {
-                    
-                }
-            }
-        } else
-        {
-            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {resp in
-                self.processingActivation = false
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Aktivasi Barang"))
-                {
-                    self.activated = true
-                    self.adjustButtonActivation()
-                } else {
-                    
-                }
-            }
-        }
-    }
-    
-    func adjustButtonActivation()
-    {
-        btnActivate.enabled = true
-        if (activated)
-        {
-            btnActivate.setTitle(" DEACTIVATE", forState: .Normal)
-        } else
-        {
-            btnActivate.setTitle(" ACTIVATE", forState: .Normal)
-        }
-    }
-    
-    var deleting = false
-    func deleteProduct()
-    {
-        if (deleting)
-        {
-            return
-        }
-        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
-        {
-            askDeleteOS8()
-        } else
-        {
-            askDeleteOS7()
-        }
-    }
-    
-    func askDeleteOS8()
-    {
-        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
-        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
-            self.confirmDeleteProduct()
-        }))
-        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
-        self.presentViewController(a, animated: true, completion: nil)
-    }
-    
-    func askDeleteOS7()
-    {
-        let a = UIAlertView()
-        a.title = "Hapus"
-        a.message = "Hapus Barang?"
-        a.addButtonWithTitle("Ya")
-        a.addButtonWithTitle("Tidak")
-        a.delegate = self
-        a.show()
-    }
-    
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            print("DELETE")
-            self.confirmDeleteProduct()
-        } else
-        {
-            print("NO DELETE")
-        }
-    }
-    
-    func confirmDeleteProduct()
-    {
-        deleting = true
-        self.btnDelete.setTitle("LOADING..", forState: .Disabled)
-        self.btnDelete.enabled = false
-        request(Products.Delete(productID: (detail?.productID)!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
-            {
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
-                self.deleting = false
-                self.btnDelete.enabled = true
-            }
-        }
-    }
-    
     func option()
     {
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
@@ -302,7 +186,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
-                    self.adjustButtonActivation()
                     self.adjustButtonIfBoughtOrDeleted()
                     print(self.detail?.json)
                     self.tableView?.dataSource = self
@@ -324,9 +207,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.btnTawar.userInteractionEnabled = false
             
             self.disableButton(self.btnBuy)
-            self.disableButton(self.btnActivate)
-            self.disableButton(self.btnDelete)
-            self.disableButton(self.btnEdit)
+            self.disableMyProductBtnSet()
             
             if (self.detail?.status == 4) {
                 if (self.detail?.boughtByMe == true) {
@@ -342,6 +223,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+    }
+    
+    func disableMyProductBtnSet() {
+        self.disableButton(self.btnUp)
+        self.disableButton(self.btnSold)
+        self.disableButton(self.btnEdit)
     }
     
     func disableButton(btn : UIButton) {
@@ -432,9 +319,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.btnBuy.hidden = true
                 self.btnTawar.hidden = true
                 btnEdit.hidden = false
-                btnActivate.hidden = false
-                btnDelete.hidden = false
-                btnDelete.superview?.hidden = false
+                btnUp.hidden = false
+                btnSold.hidden = false
+                btnSold.superview?.hidden = false
             }
             else
             {
@@ -600,32 +487,76 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        if ((detail?.isMyProduct)! == true) // Edit product
-        {
-            let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
-            a.editMode = true
-            a.editDoneBlock = {
-                self.tableView?.hidden = true
-                self.getDetail()
+        if (alreadyInCart) {
+            self.performSegueWithIdentifier("segCart", sender: nil)
+            return
+        }
+        
+        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+            Constant.showDialog("Failed", message: "Gagal Menyimpan")
+        } else {
+            setupView()
+            self.performSegueWithIdentifier("segCart", sender: nil)
+        }
+    }
+    
+    @IBAction func upPressed(sender: AnyObject) {
+        // TODO: munculin loading
+        if let productId = detail?.productID {
+            request(APIProduct.Push(productId: productId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    if (isSuccess) {
+                        Constant.showDialog("Success", message: message)
+                    } else {
+                        Constant.showDialog("Failed", message: message)
+                    }
+                }
+                // TODO: hilangin loading
             }
-            // API Migrasi
-        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
-                    a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
-                    self.navigationController?.pushViewController(a, animated: true)
+        }
+    }
+    
+    @IBAction func soldPressed(sender: AnyObject) {
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual di tempat lain? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+            // TODO: munculin loading
+            if let productId = self.detail?.productID {
+                request(APIProduct.MarkAsSold(productId: productId)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"].boolValue
+                        if (isSuccess) {
+                            self.disableMyProductBtnSet()
+                            self.pDetailCover?.addSoldBanner()
+                            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                        } else {
+                            Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
+                            // TODO: hilangin loading
+                        }
+                    }
+                    // TODO: hilangin loading
                 }
             }
-        } else { // Add to cart
-            if (alreadyInCart) {
-                self.performSegueWithIdentifier("segCart", sender: nil)
-                return
-            }
-            
-            if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-                Constant.showDialog("Failed", message: "Gagal Menyimpan")
-            } else {
-                setupView()
-                self.performSegueWithIdentifier("segCart", sender: nil)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func editPressed(sender: AnyObject) {
+        let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        a.editMode = true
+        a.editDoneBlock = {
+            self.tableView?.hidden = true
+            self.getDetail()
+        }
+        // API Migrasi
+        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                self.navigationController?.pushViewController(a, animated: true)
             }
         }
     }
@@ -821,6 +752,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     @IBOutlet var captionPrice : UILabel?
     @IBOutlet var captionCountLove : UILabel?
     @IBOutlet var captionCountComment : UILabel?
+    @IBOutlet var captionTotalViews: UILabel!
     
     @IBOutlet var sectionLove : UIView?
     @IBOutlet var sectionComment : UIView?
@@ -844,7 +776,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         var product = (obj?.json)!["_data"]
         
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-16.0)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-74.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool
@@ -1014,6 +946,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
         
         captionTitle?.text = obj?.name
+        if let tViews = obj?.totalViews {
+            if (tViews < 1000) {
+                captionTotalViews.text = " \(tViews)"
+            } else if (tViews < 10000) {
+                captionTotalViews.text = " \((tViews / 1000)),\((tViews % 1000) / 10)K"
+            } else {
+                captionTotalViews.text = " \((tViews / 1000))K+"
+            }
+        }
         if let oldPrice = product["price_original"].int?.asPrice
         {
             captionOldPrice?.text = oldPrice

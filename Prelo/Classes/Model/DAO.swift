@@ -551,6 +551,10 @@ public class ProductDetail : NSObject, TawarItem
         return (json["_data"]["name"].string)!.escapedHTML
     }
     
+    var totalViews : Int {
+        return json["_data"]["total_views"].intValue
+    }
+    
     var permalink : String
     {
         return (json["_data"]["permalink"].string)!

@@ -96,11 +96,7 @@ class ProductDetailCover: UIView {
                     self.addSubview(banner!)
                 }
             } else if (status == 4) { // sold
-                banner = UIImageView(image: UIImage(named: "banner_sold.png"))
-                if (banner != nil) {
-                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
-                    self.addSubview(banner!)
-                }
+                self.addSoldBanner()
             } else if (status == 7) { // reserved
                 banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
                 if (banner != nil) {
@@ -110,6 +106,16 @@ class ProductDetailCover: UIView {
             } else {
                 banner?.removeFromSuperview()
             }
+        }
+    }
+    
+    func addSoldBanner() {
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth = screenSize.width
+        banner = UIImageView(image: UIImage(named: "banner_sold.png"))
+        if (banner != nil) {
+            banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 148)
+            self.addSubview(banner!)
         }
     }
     

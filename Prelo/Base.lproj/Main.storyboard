@@ -116,6 +116,10 @@
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
             <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
+            <string>PreloAwesome</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -4670,7 +4674,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PgG-YS-5KH" id="TeM-b3-Wiv">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="meF-ae-zwd">
@@ -4823,7 +4827,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xpO-TC-Vlf" id="Y9T-DP-R2C">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VMa-W1-3db">
@@ -4879,7 +4883,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="132" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKE-nj-Tal" id="pBN-YL-gaJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-j8-zmN">
@@ -4934,7 +4938,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-ij-ge2" userLabel="loadingbottom">
@@ -5449,7 +5453,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtg-rL-NXh" id="y94-VI-cym">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVj-eY-b2b">
@@ -5493,7 +5497,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="76" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="188-aR-rkL" id="o6v-Qm-Guh">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-GL-On4">
@@ -5556,7 +5560,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="130" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sFi-da-Ewt" id="7ce-O6-5gy">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -5940,7 +5944,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCS-lr-we3" id="EtJ-ny-W2Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of6-1G-2VK">
@@ -6035,7 +6039,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="86" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v3S-zN-g1B" id="dwI-0B-P2v">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-hi-dDS">
@@ -6301,9 +6305,19 @@ Keuntungan</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9R-tO-jK6">
-                                                    <rect key="frame" x="8" y="16" width="584" height="20"/>
+                                                    <rect key="frame" x="8" y="16" width="526" height="20"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text=" 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4NI-e0-sss">
+                                                    <rect key="frame" x="542" y="19" width="50" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="EPs-bL-7Kc"/>
+                                                        <constraint firstAttribute="height" constant="15" id="Zhw-W7-mj7"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="11"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbL-V6-9xo">
@@ -6478,17 +6492,19 @@ Keuntungan</string>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="qOD-rj-IOp" firstAttribute="top" secondItem="D7T-35-vmf" secondAttribute="bottom" constant="8" id="0DS-f0-CZf"/>
+                                                <constraint firstItem="4NI-e0-sss" firstAttribute="centerY" secondItem="X9R-tO-jK6" secondAttribute="centerY" id="1w3-6W-2AB"/>
                                                 <constraint firstItem="X9R-tO-jK6" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="24k-VA-YpM"/>
                                                 <constraint firstAttribute="trailing" secondItem="usI-Kb-5mM" secondAttribute="trailing" constant="8" id="3Z9-Kh-Zr1"/>
                                                 <constraint firstItem="DbL-V6-9xo" firstAttribute="trailing" secondItem="c1K-c6-c7j" secondAttribute="trailing" id="9AM-da-r5y"/>
                                                 <constraint firstItem="2BA-Bc-9aL" firstAttribute="top" secondItem="zQx-xW-4yS" secondAttribute="top" id="BSb-Ok-y3u"/>
                                                 <constraint firstAttribute="trailing" secondItem="eGh-A1-Y1X" secondAttribute="trailing" constant="8" id="CE2-SL-had"/>
+                                                <constraint firstItem="4NI-e0-sss" firstAttribute="leading" secondItem="X9R-tO-jK6" secondAttribute="trailing" constant="8" id="DGi-N0-ZAr"/>
                                                 <constraint firstItem="DbL-V6-9xo" firstAttribute="centerY" secondItem="usI-Kb-5mM" secondAttribute="centerY" constant="1" id="I5d-fa-Gxb"/>
                                                 <constraint firstItem="2BA-Bc-9aL" firstAttribute="height" secondItem="zQx-xW-4yS" secondAttribute="height" id="Jd4-VM-m8N"/>
-                                                <constraint firstItem="X9R-tO-jK6" firstAttribute="trailing" secondItem="gIK-IM-Dyc" secondAttribute="trailingMargin" id="JdB-eZ-vFd"/>
                                                 <constraint firstItem="qOD-rj-IOp" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="KYo-1H-kRL"/>
                                                 <constraint firstItem="cXE-2G-oIp" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="MTZ-bM-7mG"/>
                                                 <constraint firstItem="X9R-tO-jK6" firstAttribute="top" secondItem="gIK-IM-Dyc" secondAttribute="top" constant="16" id="Meb-eW-IXk"/>
+                                                <constraint firstItem="4NI-e0-sss" firstAttribute="top" secondItem="gIK-IM-Dyc" secondAttribute="top" constant="19" id="Prv-QD-eQ6"/>
                                                 <constraint firstItem="DbL-V6-9xo" firstAttribute="leading" secondItem="D7T-35-vmf" secondAttribute="trailing" constant="8" id="Qfl-bL-z5x"/>
                                                 <constraint firstAttribute="trailing" secondItem="zQx-xW-4yS" secondAttribute="trailing" constant="8" id="WOw-pC-Qh9"/>
                                                 <constraint firstItem="DbL-V6-9xo" firstAttribute="bottom" secondItem="D7T-35-vmf" secondAttribute="bottom" id="XdQ-yF-brr"/>
@@ -6500,6 +6516,7 @@ Keuntungan</string>
                                                 <constraint firstItem="D7T-35-vmf" firstAttribute="top" secondItem="X9R-tO-jK6" secondAttribute="bottom" constant="8" id="lve-K8-5q0"/>
                                                 <constraint firstItem="DbL-V6-9xo" firstAttribute="leading" secondItem="c1K-c6-c7j" secondAttribute="leading" id="prl-sW-eTs"/>
                                                 <constraint firstItem="eGh-A1-Y1X" firstAttribute="top" secondItem="cXE-2G-oIp" secondAttribute="bottom" constant="4" id="tNM-vP-yQs"/>
+                                                <constraint firstAttribute="trailing" secondItem="4NI-e0-sss" secondAttribute="trailing" constant="8" id="wSq-MY-0jf"/>
                                                 <constraint firstItem="2BA-Bc-9aL" firstAttribute="leading" secondItem="qOD-rj-IOp" secondAttribute="trailing" constant="12" id="xQa-DZ-u6i"/>
                                                 <constraint firstItem="eGh-A1-Y1X" firstAttribute="leading" secondItem="gIK-IM-Dyc" secondAttribute="leading" constant="8" id="zBS-Oh-yx2"/>
                                             </constraints>
@@ -6511,6 +6528,7 @@ Keuntungan</string>
                                             <outlet property="captionOldPrice" destination="DbL-V6-9xo" id="7a5-Q3-foj"/>
                                             <outlet property="captionPrice" destination="D7T-35-vmf" id="9CJ-7I-wRf"/>
                                             <outlet property="captionTitle" destination="X9R-tO-jK6" id="ceu-iN-FPb"/>
+                                            <outlet property="captionTotalViews" destination="4NI-e0-sss" id="Pl3-Oe-rON"/>
                                             <outlet property="conMarginOngkir" destination="3Z9-Kh-Zr1" id="p5i-0h-kfA"/>
                                             <outlet property="conWidthOngkir" destination="sTl-gR-68x" id="B2x-GE-dac"/>
                                             <outlet property="sectionBrandReview" destination="cXE-2G-oIp" id="2aG-YP-4kT"/>
@@ -7024,6 +7042,83 @@ Keuntungan</string>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrn-F1-tkW" userLabel="(unused) btnSet Edit Deact Hapus">
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGt-93-f4i">
+                                        <rect key="frame" x="523" y="8" width="69" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" EDIT" backgroundImage="basic_orange.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndv-p8-Mab" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="123" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" DEACTIVATE">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                <color key="value" red="1" green="0.54901963470000004" blue="0.270588249" alpha="1" colorSpace="deviceRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McL-gO-R6v" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="139" y="8" width="376" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="13"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" HAPUS">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                <color key="value" red="1" green="0.54901963470000004" blue="0.270588249" alpha="1" colorSpace="deviceRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.13725490200000001" green="0.59607843140000005" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="McL-gO-R6v" firstAttribute="leading" secondItem="ndv-p8-Mab" secondAttribute="trailing" constant="8" id="0qF-us-Xmj"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="McL-gO-R6v" secondAttribute="trailing" constant="8" id="GN3-wM-pTk"/>
+                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="LQf-J6-bFP"/>
+                                    <constraint firstAttribute="bottom" secondItem="McL-gO-R6v" secondAttribute="bottom" constant="8" id="M3Z-ji-jPH"/>
+                                    <constraint firstAttribute="bottom" secondItem="SGt-93-f4i" secondAttribute="bottom" constant="8" id="OoT-rz-SDz"/>
+                                    <constraint firstAttribute="bottom" secondItem="ndv-p8-Mab" secondAttribute="bottom" constant="8" id="RMh-Ld-r5m"/>
+                                    <constraint firstAttribute="height" constant="44" id="TL9-Yw-FNJ"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="V6Q-gB-af1"/>
+                                    <constraint firstItem="McL-gO-R6v" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="X2C-ge-mc2"/>
+                                    <constraint firstAttribute="trailing" secondItem="SGt-93-f4i" secondAttribute="trailing" constant="8" id="XeR-rJ-Gf0"/>
+                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="Yg9-qC-AOf"/>
+                                    <constraint firstItem="SGt-93-f4i" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="tnH-yb-8Ng"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V6Q-gB-af1"/>
+                                    </mask>
+                                </variation>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hx6-gT-uZY" userLabel="btnSet Beli Chat">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
@@ -7110,25 +7205,17 @@ Keuntungan</string>
                                     <constraint firstAttribute="width" secondItem="FhL-rB-wD0" secondAttribute="width" multiplier="2" id="vTE-zw-ERg"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrn-F1-tkW" userLabel="btnSet Edit Deact Hapus">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YWi-vh-OJe" userLabel="btnSet Up Sold Edit">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGt-93-f4i">
-                                        <rect key="frame" x="523" y="8" width="69" height="28"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5z-1B-4Hq" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="98" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="98" id="Mrg-Nl-xYi"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
                                         <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal" title=" EDIT" backgroundImage="basic_orange.png">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="addToCart:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="xEU-wa-E3k"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndv-p8-Mab" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="8" width="123" height="28"/>
-                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
-                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal" title=" DEACTIVATE">
+                                        <state key="normal" title=" UP">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -7146,14 +7233,28 @@ Keuntungan</string>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="setProductActive" destination="Q2W-RH-rbB" eventType="touchUpInside" id="vLT-NO-Ord"/>
+                                            <action selector="upPressed:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="IkL-nk-jsj"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McL-gO-R6v" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="139" y="8" width="376" height="28"/>
+                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebw-w6-hyW">
+                                        <rect key="frame" x="114" y="8" width="372" height="28"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                        <state key="normal" title=" SOLD" backgroundImage="basic_orange.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="soldPressed:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="enW-ox-BZH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tG9-P5-IWA" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="494" y="8" width="98" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="98" id="zJy-WB-KmE"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="13"/>
                                         <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                        <state key="normal" title=" HAPUS">
+                                        <state key="normal" title=" EDIT">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -7170,28 +7271,25 @@ Keuntungan</string>
                                                 <real key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="editPressed:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="9Ze-0G-fHm"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.13725490200000001" green="0.59607843140000005" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="McL-gO-R6v" firstAttribute="leading" secondItem="ndv-p8-Mab" secondAttribute="trailing" constant="8" id="0qF-us-Xmj"/>
-                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="McL-gO-R6v" secondAttribute="trailing" constant="8" id="GN3-wM-pTk"/>
-                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="LQf-J6-bFP"/>
-                                    <constraint firstAttribute="bottom" secondItem="McL-gO-R6v" secondAttribute="bottom" constant="8" id="M3Z-ji-jPH"/>
-                                    <constraint firstAttribute="bottom" secondItem="SGt-93-f4i" secondAttribute="bottom" constant="8" id="OoT-rz-SDz"/>
-                                    <constraint firstAttribute="bottom" secondItem="ndv-p8-Mab" secondAttribute="bottom" constant="8" id="RMh-Ld-r5m"/>
-                                    <constraint firstAttribute="height" constant="44" id="TL9-Yw-FNJ"/>
-                                    <constraint firstItem="SGt-93-f4i" firstAttribute="leading" secondItem="yrn-F1-tkW" secondAttribute="leading" constant="8" id="V6Q-gB-af1"/>
-                                    <constraint firstItem="McL-gO-R6v" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="X2C-ge-mc2"/>
-                                    <constraint firstAttribute="trailing" secondItem="SGt-93-f4i" secondAttribute="trailing" constant="8" id="XeR-rJ-Gf0"/>
-                                    <constraint firstItem="ndv-p8-Mab" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="Yg9-qC-AOf"/>
-                                    <constraint firstItem="SGt-93-f4i" firstAttribute="top" secondItem="yrn-F1-tkW" secondAttribute="top" constant="8" id="tnH-yb-8Ng"/>
+                                    <constraint firstItem="Ebw-w6-hyW" firstAttribute="top" secondItem="YWi-vh-OJe" secondAttribute="top" constant="8" id="5FM-9Y-gHq"/>
+                                    <constraint firstItem="tG9-P5-IWA" firstAttribute="top" secondItem="YWi-vh-OJe" secondAttribute="top" constant="8" id="GKO-TP-zSX"/>
+                                    <constraint firstAttribute="height" constant="44" id="Goh-hz-LeR"/>
+                                    <constraint firstItem="tG9-P5-IWA" firstAttribute="leading" secondItem="Ebw-w6-hyW" secondAttribute="trailing" constant="8" id="SzY-el-rp5"/>
+                                    <constraint firstItem="Ebw-w6-hyW" firstAttribute="leading" secondItem="j5z-1B-4Hq" secondAttribute="trailing" constant="8" id="Ve2-wG-bPj"/>
+                                    <constraint firstAttribute="bottom" secondItem="tG9-P5-IWA" secondAttribute="bottom" constant="8" id="bap-Cu-tIL"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ebw-w6-hyW" secondAttribute="bottom" constant="8" id="hmD-uI-Euv"/>
+                                    <constraint firstItem="j5z-1B-4Hq" firstAttribute="top" secondItem="YWi-vh-OJe" secondAttribute="top" constant="8" id="lOc-aw-wSB"/>
+                                    <constraint firstItem="j5z-1B-4Hq" firstAttribute="leading" secondItem="YWi-vh-OJe" secondAttribute="leading" constant="8" id="vIZ-UO-Zbr"/>
+                                    <constraint firstAttribute="trailing" secondItem="tG9-P5-IWA" secondAttribute="trailing" constant="8" id="vM3-j7-qaM"/>
+                                    <constraint firstAttribute="bottom" secondItem="j5z-1B-4Hq" secondAttribute="bottom" constant="8" id="z8V-cO-Q5H"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="V6Q-gB-af1"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQI-8a-Ibj" userLabel="btnSet KonfBayar">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
@@ -7383,6 +7481,7 @@ Keuntungan</string>
                             <constraint firstItem="Aaa-Fg-Hix" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="Iqg-Tw-hz4"/>
                             <constraint firstItem="ncW-HY-m8c" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="QcR-5k-F02"/>
                             <constraint firstAttribute="trailing" secondItem="hx6-gT-uZY" secondAttribute="trailing" id="Spx-O4-ROg"/>
+                            <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="YWi-vh-OJe" secondAttribute="bottom" id="Ta9-Sr-TXO"/>
                             <constraint firstItem="PUa-EJ-ozm" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="WcT-QQ-5j4"/>
                             <constraint firstItem="OAi-W6-KbN" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="XIM-Zb-866"/>
                             <constraint firstAttribute="trailing" secondItem="ncW-HY-m8c" secondAttribute="trailing" id="Y91-QQ-8QB"/>
@@ -7391,12 +7490,14 @@ Keuntungan</string>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="ncW-HY-m8c" secondAttribute="bottom" id="eXV-0W-7n4"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="hx6-gT-uZY" secondAttribute="bottom" id="he3-sf-nYD"/>
                             <constraint firstAttribute="trailing" secondItem="QQz-Ri-j5T" secondAttribute="trailing" id="ieN-xt-PZx"/>
+                            <constraint firstItem="YWi-vh-OJe" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="inU-lv-jiU"/>
                             <constraint firstAttribute="trailing" secondItem="yQI-8a-Ibj" secondAttribute="trailing" id="jEo-Hx-SS4"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="yQI-8a-Ibj" secondAttribute="bottom" id="kCW-hi-HNm"/>
                             <constraint firstItem="PUa-EJ-ozm" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="kRs-nz-hV8"/>
                             <constraint firstAttribute="trailing" secondItem="OAi-W6-KbN" secondAttribute="trailing" id="pU1-y9-n6y"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="PUa-EJ-ozm" secondAttribute="bottom" id="qzk-5g-LUw"/>
                             <constraint firstItem="3WJ-ld-3G9" firstAttribute="centerX" secondItem="JD8-tm-3hN" secondAttribute="centerX" constant="45" id="xT5-89-nMe"/>
+                            <constraint firstAttribute="trailing" secondItem="YWi-vh-OJe" secondAttribute="trailing" id="xX3-ow-UE1"/>
                             <constraint firstAttribute="trailing" secondItem="yrn-F1-tkW" secondAttribute="trailing" id="yLM-69-hGW"/>
                             <constraint firstAttribute="trailing" secondItem="Aaa-Fg-Hix" secondAttribute="trailing" id="zGg-dl-okv"/>
                         </constraints>
@@ -7406,13 +7507,13 @@ Keuntungan</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="WeF-0j-HkD"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="btnActivate" destination="ndv-p8-Mab" id="M1X-GQ-S0I"/>
                         <outlet property="btnAddDiscussion" destination="mX0-pM-sZV" id="cES-GZ-I2Y"/>
                         <outlet property="btnBuy" destination="3WJ-ld-3G9" id="jiU-qw-rlg"/>
-                        <outlet property="btnDelete" destination="McL-gO-R6v" id="iU3-J4-F53"/>
-                        <outlet property="btnEdit" destination="SGt-93-f4i" id="XPH-UP-5Ad"/>
+                        <outlet property="btnEdit" destination="tG9-P5-IWA" id="hiK-li-6tt"/>
                         <outlet property="btnReservation" destination="HuQ-n2-sb6" id="RsX-jO-TGs"/>
+                        <outlet property="btnSold" destination="Ebw-w6-hyW" id="2fb-JD-l7w"/>
                         <outlet property="btnTawar" destination="z2y-Ag-gm1" id="JSa-as-zxP"/>
+                        <outlet property="btnUp" destination="j5z-1B-4Hq" id="B1X-aL-j9D"/>
                         <outlet property="konfirmasiBayarBtnSet" destination="yQI-8a-Ibj" id="KWh-aD-z7z"/>
                         <outlet property="reservationBtnSet" destination="QQz-Ri-j5T" id="Vd6-hV-rPj"/>
                         <outlet property="tableView" destination="Aaa-Fg-Hix" id="zNe-MN-dj3"/>
@@ -9616,7 +9717,7 @@ dalam keranjang belanja</string>
                                 <rect key="frame" x="0.0" y="66" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W4-VT-LDM" id="KvA-hb-KVS">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="UWe-uJ-oiA" userLabel="loadingbottom">
@@ -12408,7 +12509,7 @@ Label / Merek</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qKf-wf-xKf" id="gBT-5a-aKJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="73.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qXw-UR-PD3">
@@ -13259,7 +13360,7 @@ Label / Merek</string>
                                                             <rect key="frame" x="0.0" y="22" width="600" height="109"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qjV-Hg-rOC" id="XnC-7F-kQD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="108.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="109"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-FK-AEw" userLabel="Product Image">
@@ -13390,7 +13491,7 @@ Label / Merek</string>
                                                             <rect key="frame" x="0.0" y="131" width="600" height="21"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pt8-m5-iXa" id="ewn-Tz-Uto">
-                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="20.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="21"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Hp-k7-zb4">
@@ -14140,9 +14241,9 @@ Label / Merek</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MUV-Ui-6Bn"/>
-        <segue reference="pME-IT-gHt"/>
-        <segue reference="gv4-pa-FxU"/>
         <segue reference="gU7-9Q-bxr"/>
+        <segue reference="5pQ-qG-4MR"/>
+        <segue reference="dW2-MQ-HC6"/>
+        <segue reference="gv4-pa-FxU"/>
     </inferredMetricsTieBreakers>
 </document>
