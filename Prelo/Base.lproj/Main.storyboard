@@ -12783,7 +12783,6 @@ Label / Merek</string>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="aD6-IG-h2w" secondAttribute="centerY" constant="58.5" id="Dky-sc-UH1"/>
-                            <constraint firstItem="aD6-IG-h2w" firstAttribute="top" secondItem="vZo-BE-T3d" secondAttribute="bottom" constant="68" id="NSR-gl-TEx"/>
                             <constraint firstAttribute="centerX" secondItem="aD6-IG-h2w" secondAttribute="centerX" id="tqe-t0-XhI"/>
                         </constraints>
                     </view>
