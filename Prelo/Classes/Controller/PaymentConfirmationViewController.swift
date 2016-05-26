@@ -45,7 +45,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         lblEmpty.hidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
+        //Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.UnpaidTransaction)

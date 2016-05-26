@@ -20,7 +20,7 @@ class CheckoutTourViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.CheckoutTutorial)
+        //Mixpanel.trackPageVisit(PageName.CheckoutTutorial)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.CheckoutTutorial)

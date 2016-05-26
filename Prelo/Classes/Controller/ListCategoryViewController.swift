@@ -39,7 +39,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
+        //Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
         Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
         
         // Google Analytics
@@ -425,7 +425,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     let pt = [
                         "Category" : categoriesFix[i]["name"].string!
                     ]
-                    Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+                    //Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
                     Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                     isPageTracked = true
                 }

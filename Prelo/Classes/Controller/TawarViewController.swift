@@ -484,7 +484,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         // Mixpanel
-        self.sendMixpanelEvent(MixpanelEvent.Bargain)
+        //self.sendMixpanelEvent(MixpanelEvent.Bargain)
     }
     
     func rejectTawar(sender : UIView?)
@@ -521,7 +521,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         textViewGrowHandler.setText("", withAnimation: true)
         
         // Mixpanel
-        self.sendMixpanelEvent(MixpanelEvent.ChatSent)
+        //self.sendMixpanelEvent(MixpanelEvent.ChatSent)
         textViewDidChange(textView)
     }
     
