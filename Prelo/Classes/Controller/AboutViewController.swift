@@ -158,6 +158,9 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         // MoEngage reset
         MoEngage.sharedInstance().resetUser()
         
+        AppDelegate.Instance.produkUploader.stop()
+        AppDelegate.Instance.produkUploader.clearQueue()
+        
         // Back to previous page
         self.navigationController?.popViewControllerAnimated(true)
     }

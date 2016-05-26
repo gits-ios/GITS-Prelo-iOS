@@ -95,6 +95,7 @@ class ProdukUploader: NSObject {
     
     func start(onLoop : Bool = false)
     {
+        let t = NSDate()
         if (!onLoop) // onLoop == false artinya fungsi start() dipanggil dari code lain, buka recursive
         {
             stop()
@@ -106,12 +107,12 @@ class ProdukUploader: NSObject {
             let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
             
             currentStatus = .Uploading
+            print("starting produk upload took \(NSDate().timeIntervalSinceDate(t)) seconds")
             currentUploadManager = AppToolsObjC.sendMultipart2(p.param, images: p.images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
                 
                 print("queue upload success :")
                 print(res)
                 self.currentRetryCount = 0
-                NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS, object: res)
                 
                 var queue = self.getQueue()
                 if (queue.count > 1)
@@ -126,6 +127,10 @@ class ProdukUploader: NSObject {
                     print("Queue finished!")
                 }
                 
+                dispatch_async(dispatch_get_main_queue(), {
+                    NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_SUCCESS, object: res)
+                })
+                
             }, failure: { op, err in
                 print(err)
                 if (self.autoRetry && self.currentRetryCount < self.maxRetry)
@@ -135,7 +140,9 @@ class ProdukUploader: NSObject {
                 } else
                 {
                     self.currentRetryCount = 0
-                    NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: err)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: err)
+                    })
                 }
             })
         } else
@@ -157,18 +164,24 @@ class ProdukUploader: NSObject {
     
     func addToQueue(produk : ProdukLokal)
     {
+        let t = NSDate()
         var rawQueue = getRawQueue()
         rawQueue.append(produk.toDictionary)
         saveRawQueue(rawQueue)
         
-        if (rawQueue.count == 1)
+        print("adding queue took \(NSDate().timeIntervalSinceDate(t)) seconds")
+        
+        if (rawQueue.count >= 1)
         {
-//            start()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.start()
+            })
         }
     }
     
     func getQueue() -> [ProdukLokal]
     {
+        let t = NSDate()
         var queue : [ProdukLokal] = []
         let rawQueue = getRawQueue()
         for raw in rawQueue
@@ -179,6 +192,8 @@ class ProdukUploader: NSObject {
                 queue.append(p)
             }
         }
+        
+        print("getting queue took \(NSDate().timeIntervalSinceDate(t)) seconds")
         return queue
     }
     

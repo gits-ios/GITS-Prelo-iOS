@@ -205,6 +205,13 @@ static UIDocumentInteractionController *staticDocController = NULL;
     } failure:^(AFHTTPRequestOperation *op, NSError *err) {
         NSLog(@"REQUEST %@", op.responseString);
         NSLog(@"ERROR : %@", err);
+        NSLog(@"Response : %@", op.response);
+        NSLog(@"Response Status Code : %@", @(op.response.statusCode));
+        if (op.response == nil && err.code == 999) // cancelling
+        {
+            return;
+        }
+            
         failure(op, err);
     }];
     

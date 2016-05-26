@@ -985,9 +985,18 @@ public class Product : NSObject
     
     var price : String
     {
+        print(json)
         if let p = json["price"].int
         {
             return p.asPrice
+        }
+        
+        if (isLokal)
+        {
+            if let p = json["price"].string?.int
+            {
+                return p.asPrice
+            }
         }
         
         return ""

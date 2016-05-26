@@ -37,8 +37,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.loading.hidden = false
 //        getProducts()
         
-        self.addUploadingProducts()
-        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -100,11 +98,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func addUploadingProducts()
     {
         let uploadingProducts = AppDelegate.Instance.produkUploader.getQueue()
-        for p in uploadingProducts
+        for p in uploadingProducts.reversedArray()
         {
             if let prod = p.toProduct
             {
-                products.append(prod)
+                products.insert(prod, atIndex: 0)
             }
         }
     }
@@ -150,6 +148,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
+            
+            self.addUploadingProducts()
             
             if (self.products.count > 0) {
                 self.lblEmpty.hidden = true

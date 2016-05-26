@@ -371,9 +371,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
-        AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages))
-        let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
-        self.navigationController?.pushViewController(b!, animated: true)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages))
+            dispatch_async(dispatch_get_main_queue(), {
+                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+                self.navigationController?.pushViewController(b!, animated: true)
+            })
+        })
         return
         
 //        let url = "\(AppTools.PreloBaseUrl)/api/product"

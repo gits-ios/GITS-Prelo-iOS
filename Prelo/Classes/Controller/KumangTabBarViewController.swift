@@ -66,7 +66,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         if (User.Token != nil && CDUser.getOne() != nil)
         {
-            AppDelegate.Instance.produkUploader.start()
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                AppDelegate.Instance.produkUploader.start()
+            })
         }
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
