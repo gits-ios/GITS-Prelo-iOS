@@ -555,6 +555,10 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["total_views"].intValue
     }
     
+    var lastSeenSeller : String {
+        return json["_data"]["seller"]["last_seen"].stringValue
+    }
+    
     var permalink : String
     {
         return (json["_data"]["permalink"].string)!
@@ -884,6 +888,27 @@ public class ProductDetail : NSObject, TawarItem
     
     var isGarageSale : Bool {
         if let j = json["_data"]["is_garage_sale"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var sharedViaInstagram : Bool {
+        if let j = json["_data"]["share_status"]["INSTAGRAM"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var sharedViaFacebook : Bool {
+        if let j = json["_data"]["share_status"]["FACEBOOK"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var sharedViaTwitter : Bool {
+        if let j = json["_data"]["share_status"]["TWITTER"].bool {
             return j
         }
         return false

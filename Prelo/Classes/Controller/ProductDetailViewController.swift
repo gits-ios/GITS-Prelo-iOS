@@ -11,6 +11,7 @@ import CoreData
 //import FMMosaicLayout
 //import ZSWTappableLabel
 import MessageUI
+import Social
 
 protocol ProductCellDelegate
 {
@@ -48,10 +49,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
     
+    @IBOutlet var loadingPanel: UIView!
+    
     var activated = true
     
     let ProductStatusActive = 1
     let ProductStatusReserved = 7
+    
+    var mgInstagram : MGInstagram?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +80,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -179,6 +186,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func getDetail()
     {
+        self.loadingPanel.hidden = false
         // API Migrasi
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON {resp in
@@ -196,6 +204,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     
                 }
+                self.loadingPanel.hidden = true
         }
     }
     
@@ -356,7 +365,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         dismissViewControllerAnimated(YES, completion: nil)
     }
     
-    // tableview
+    // MARK: - Instagram
+    
+    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
+    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+        print("DidEndPreview")
+    }
+    
+    // MARK: - Tableview
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
@@ -380,6 +399,114 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.parent = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
+                
+                // Share socmed
+                var textToShare1 = ""
+                var textToShare2 = ""
+                if let dtl = detail {
+                    textToShare1 = "Temukan barang bekas berkualitas-ku, \(dtl.name) di Prelo hanya dengan harga \(dtl.price). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+                    textToShare2 = "Dapatkan barang bekas berkualitas-ku, \(dtl.name) seharga \(dtl.price) #PreloID"
+                }
+                cellTitle?.shareInstagram = {
+                    self.loadingPanel.hidden = false
+                    if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+                        UIPasteboard.generalPasteboard().string = textToShare1
+                        Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                        self.mgInstagram = MGInstagram()
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            self.mgInstagram?.postImage(img, withCaption: textToShare1, inView: self.view, delegate: self)
+                            request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
+                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                    self.cellTitle?.sharedViaInstagram()
+                                }
+                                self.loadingPanel.hidden = true
+                            }
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+                        self.loadingPanel.hidden = true
+                    }
+                }
+                cellTitle?.shareFacebook = {
+                    self.loadingPanel.hidden = false
+                    if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
+                        let url = NSURL(string:AppTools.PreloBaseUrl)
+                        let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                        composer.addURL(url!)
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            composer.addImage(img)
+                            composer.setInitialText(textToShare1)
+                            composer.completionHandler = { result -> Void in
+                                let getResult = result as SLComposeViewControllerResult
+                                switch(getResult.rawValue) {
+                                case SLComposeViewControllerResult.Cancelled.rawValue:
+                                    print("Cancelled")
+                                case SLComposeViewControllerResult.Done.rawValue:
+                                    print("Done")
+                                    request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
+                                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                            self.cellTitle?.sharedViaFacebook()
+                                        }
+                                        self.loadingPanel.hidden = true
+                                    }
+                                default:
+                                    print("Error")
+                                }
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                            }
+                            self.presentViewController(composer, animated: true, completion: nil)
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+                        self.loadingPanel.hidden = true
+                    }
+                }
+                cellTitle?.shareTwitter = {
+                    self.loadingPanel.hidden = false
+                    if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
+                        let url = NSURL(string:AppTools.PreloBaseUrl)
+                        let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                        composer.addURL(url!)
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            composer.addImage(img)
+                            composer.setInitialText(textToShare2)
+                            composer.completionHandler = { result -> Void in
+                                let getResult = result as SLComposeViewControllerResult
+                                switch(getResult.rawValue) {
+                                case SLComposeViewControllerResult.Cancelled.rawValue:
+                                    print("Cancelled")
+                                case SLComposeViewControllerResult.Done.rawValue:
+                                    print("Done")
+                                    request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
+                                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                            self.cellTitle?.sharedViaTwitter()
+                                        }
+                                        self.loadingPanel.hidden = true
+                                    }
+                                default:
+                                    print("Error")
+                                }
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                            }
+                            self.presentViewController(composer, animated: true, completion: nil)
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+                        self.loadingPanel.hidden = true
+                    }
+                }
                 return cellTitle!
             } else if (indexPath.row == 1) {
                 if (cellSeller == nil) {
@@ -501,7 +628,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func upPressed(sender: AnyObject) {
-        // TODO: munculin loading
+        self.loadingPanel.hidden = false
         if let productId = detail?.productID {
             request(APIProduct.Push(productId: productId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Up Barang")) {
@@ -514,7 +641,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         Constant.showDialog("Failed", message: message)
                     }
                 }
-                // TODO: hilangin loading
+                self.loadingPanel.hidden = true
             }
         }
     }
@@ -523,7 +650,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual di tempat lain? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
-            // TODO: munculin loading
+            self.loadingPanel.hidden = false
             if let productId = self.detail?.productID {
                 request(APIProduct.MarkAsSold(productId: productId)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
@@ -535,10 +662,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
                         } else {
                             Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
-                            // TODO: hilangin loading
                         }
                     }
-                    // TODO: hilangin loading
+                    self.loadingPanel.hidden = true
                 }
             }
         }))
@@ -546,6 +672,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func editPressed(sender: AnyObject) {
+        self.loadingPanel.hidden = false
         let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         a.editMode = true
         a.editDoneBlock = {
@@ -556,6 +683,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                 a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                self.loadingPanel.hidden = true
                 self.navigationController?.pushViewController(a, animated: true)
             }
         }
@@ -763,6 +891,19 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     @IBOutlet var conWidthOngkir : NSLayoutConstraint!
     @IBOutlet var conMarginOngkir : NSLayoutConstraint!
     
+    @IBOutlet var socmedBtnSet: UIView!
+    @IBOutlet var lblsBtnInstagram: [UILabel]!
+    @IBOutlet var btnInstagram: BorderedButton!
+    @IBOutlet var lblsBtnFacebook: [UILabel]!
+    @IBOutlet var btnFacebook: BorderedButton!
+    @IBOutlet var lblsBtnTwitter: [UILabel]!
+    @IBOutlet var btnTwitter: BorderedButton!
+    @IBOutlet var consWidthSocmedBtns: [NSLayoutConstraint]!
+    var shareInstagram : () -> () = {}
+    var shareFacebook : () -> () = {}
+    var shareTwitter : () -> () = {}
+    var productProfit : Int = 90
+    
     var parent : UIViewController?
     
     var product : Product?
@@ -813,9 +954,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         
         let tapcomment = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.comment))
         sectionComment?.addGestureRecognizer(tapcomment)
+        
+        let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+        for i in 0...consWidthSocmedBtns.count - 1 {
+            consWidthSocmedBtns[i].constant = (screenWidth - 32) / 3
+        }
     }
     
     func userLoggedIn() {
+        // TODO: handle tombol socmed
         if (loving == true)
         {
             callApiLove()
@@ -985,6 +1132,52 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 sectionBrandReview?.hidden = true
             }
         }
+        
+        // Socmed buttons
+        if (detail!.isMyProduct) {
+            self.sectionLove?.hidden = true
+            self.sectionComment?.hidden = true
+            self.btnShare?.hidden = true
+            self.socmedBtnSet.hidden = false
+            
+            self.productProfit = 90
+            if (detail!.sharedViaInstagram) {
+                self.sharedViaInstagram()
+            }
+            if (detail!.sharedViaFacebook) {
+                self.sharedViaFacebook()
+            }
+            if (detail!.sharedViaTwitter) {
+                self.sharedViaTwitter()
+            }
+        }
+    }
+    
+    func sharedViaInstagram() {
+        btnInstagram.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnInstagram.count - 1 {
+            lblsBtnInstagram[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 3
+        // TODO: set label keuntungan %
+    }
+    
+    func sharedViaFacebook() {
+        btnFacebook.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnFacebook.count - 1 {
+            lblsBtnFacebook[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 4
+        // TODO: set label keuntungan %
+    }
+    
+    func sharedViaTwitter() {
+        btnTwitter.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnTwitter.count - 1 {
+            lblsBtnTwitter[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 3
+        // TODO: set label keuntungan %
     }
     
     func setupLoveView()
@@ -1031,12 +1224,26 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         
         PreloShareController.Share(item, inView: (parent?.navigationController?.view)!, detail : self.detail)
     }
+    
+    // Socmed functions
+    @IBAction func btnInstagramPressed(sender: AnyObject) {
+        self.shareInstagram()
+    }
+    
+    @IBAction func btnFacebookPressed(sender: AnyObject) {
+        self.shareFacebook()
+    }
+    
+    @IBAction func btnTwitterPressed(sender: AnyObject) {
+        self.shareTwitter()
+    }
 }
 
 class ProductCellSeller : UITableViewCell
 {
     @IBOutlet var captionSellerName : UILabel?
     @IBOutlet var captionSellerRating : UILabel?
+    @IBOutlet var captionLastSeen: UILabel!
     @IBOutlet var ivSellerAvatar : UIImageView?
     
     static func heightFor(obj : JSON?)->CGFloat
@@ -1065,6 +1272,15 @@ class ProductCellSeller : UITableViewCell
             }
         }
         captionSellerRating?.text = stars
+        let lastSeenSeller = obj!.lastSeenSeller
+        if (lastSeenSeller != "") {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let lastSeenDate = formatter.dateFromString(lastSeenSeller) {
+                captionLastSeen.text = "Terakhir aktif: \(lastSeenDate.relativeDescription)"
+            }
+        }
+
         ivSellerAvatar?.setImageWithUrl((obj?.shopAvatarURL)!, placeHolderImage: nil)
     }
     
