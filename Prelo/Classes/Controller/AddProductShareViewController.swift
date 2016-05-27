@@ -85,12 +85,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     UIPasteboard.generalPasteboard().string = self.textToShare1
                     Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                     mgInstagram = MGInstagram()
-                    let pimg = self.productImg == nil ? "" : self.productImg!
-                    let imgUrl = NSURL(string: pimg)
-                    let imgData = NSData(contentsOfURL: imgUrl!)
-                    let img = UIImage(data: imgData!)
-                    mgInstagram?.postImage(img, withCaption: self.textToShare1, inView: self.view, delegate: self)
-                    self.updateButtons(sender)
+                    if let img = productImgImage {
+                        mgInstagram?.postImage(img, withCaption: self.textToShare1, inView: self.view, delegate: self)
+                        self.updateButtons(sender)
+                    } else {
+                        Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
+                    }
                 } else {
                     Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
                 }

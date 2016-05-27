@@ -453,12 +453,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                             self.cellTitle?.sharedViaFacebook()
                                         }
-                                        self.loadingPanel.hidden = true
                                     }
                                 default:
                                     print("Error")
                                 }
                                 self.dismissViewControllerAnimated(true, completion: nil)
+                                self.loadingPanel.hidden = true
                             }
                             self.presentViewController(composer, animated: true, completion: nil)
                         } else {
@@ -491,12 +491,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                             self.cellTitle?.sharedViaTwitter()
                                         }
-                                        self.loadingPanel.hidden = true
                                     }
                                 default:
                                     print("Error")
                                 }
                                 self.dismissViewControllerAnimated(true, completion: nil)
+                                self.loadingPanel.hidden = true
                             }
                             self.presentViewController(composer, animated: true, completion: nil)
                         } else {
