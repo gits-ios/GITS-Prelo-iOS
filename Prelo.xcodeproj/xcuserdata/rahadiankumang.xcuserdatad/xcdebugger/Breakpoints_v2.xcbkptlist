@@ -921,7 +921,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "register()"
+            landmarkName = "stop()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1097,7 +1097,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "731"
             endingLineNumber = "731"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1113,7 +1113,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "728"
             endingLineNumber = "728"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1129,7 +1129,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
             endingLineNumber = "729"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
