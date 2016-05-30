@@ -67,6 +67,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         if (!isVersionChecked) {
             self.versionCheck()
+        } else {
+            self.versionChecked()
         }
         
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)

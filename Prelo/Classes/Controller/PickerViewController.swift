@@ -11,6 +11,7 @@ import UIKit
 @objc protocol PickerViewDelegate
 {
     optional func pickerDidSelect(item : String)
+    optional func pickerCancelled()
 }
 
 typealias PrepDataBlock = (picker : PickerViewController) -> ()
@@ -255,6 +256,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     
     func dismiss()
     {
+        if (pickerDelegate != nil) {
+            pickerDelegate!.pickerCancelled!()
+        }
         if (self.navigationController != nil) {
             self.navigationController?.popViewControllerAnimated(true)
         } else {

@@ -37,6 +37,19 @@ class CDShipping: NSManagedObject {
         }
     }
     
+    static func getAll() -> [CDShipping] {
+        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        
+        do {
+            if let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDShipping] {
+                return r
+            }
+            return []
+        } catch {
+            return []
+        }
+    }
+    
     static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]
@@ -103,13 +116,13 @@ class CDShipping: NSManagedObject {
     
     static func getShippingCompleteNameWithId(id : String) -> String? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let predicate = NSPredicate(format: "packageId like[c] %@", id)
+        let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
         fetchReq.predicate = predicate
         guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return nil
         }
         let s = r.first as! CDShipping
-        return "\(s.name) \(s.packageName)"
+        return "\(s.name)"
     }
 }

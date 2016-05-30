@@ -524,6 +524,7 @@
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
+		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
@@ -1223,6 +1224,7 @@
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
@@ -2330,6 +2332,7 @@
 				5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */,
 				58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */,
 				58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */,
+				58EADB961CFBE47800410330 /* ShippingCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2706,6 +2709,7 @@
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
+				58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,

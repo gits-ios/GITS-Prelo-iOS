@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShippingCell" id="Hyu-1r-9WA" userLabel="ShippingCell" customClass="ShippingCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hyu-1r-9WA" id="Nfd-aF-79n">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="39.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yuf-up-MG6">
+                        <rect key="frame" x="0.0" y="10" width="21" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="21" id="LrJ-DU-b4k"/>
+                            <constraint firstAttribute="height" constant="21" id="t6l-Ee-bMo"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="24"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shipping Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaV-Ft-iK7">
+                        <rect key="frame" x="29" y="0.0" width="291" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="rc6-LY-WIN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="MaV-Ft-iK7" firstAttribute="leading" secondItem="Yuf-up-MG6" secondAttribute="trailing" constant="8" id="P9H-uj-MZj"/>
+                    <constraint firstAttribute="trailing" secondItem="MaV-Ft-iK7" secondAttribute="trailing" id="UE1-j7-ui6"/>
+                    <constraint firstItem="Yuf-up-MG6" firstAttribute="leading" secondItem="Nfd-aF-79n" secondAttribute="leading" id="V4q-dw-pQ4"/>
+                    <constraint firstItem="Yuf-up-MG6" firstAttribute="centerY" secondItem="Nfd-aF-79n" secondAttribute="centerY" id="kEh-d7-Lwc"/>
+                    <constraint firstItem="MaV-Ft-iK7" firstAttribute="top" secondItem="Nfd-aF-79n" secondAttribute="top" id="q1L-Gc-Gbq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblCheckbox" destination="Yuf-up-MG6" id="jqM-6r-Arm"/>
+                <outlet property="lblName" destination="MaV-Ft-iK7" id="NC3-Fa-Ycn"/>
+            </connections>
+            <point key="canvasLocation" x="265" y="93"/>
+        </tableViewCell>
+    </objects>
+</document>
