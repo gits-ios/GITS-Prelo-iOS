@@ -53,14 +53,11 @@ class CDShipping: NSManagedObject {
     static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]
-            for j in 0 ..< shipJson["shipping_packages"].count {
-                let packJson = shipJson["shipping_packages"][j]
-                let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
-                r.id = shipJson["_id"].string!
-                r.name = shipJson["name"].string!
-                r.packageId = packJson["_id"].string!
-                r.packageName = packJson["name"].string!
-            }
+            let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            r.id = shipJson["_id"].stringValue
+            r.name = shipJson["name"].stringValue
+            r.packageId = ""
+            r.packageName = ""
         }
         if (m.saveSave() == false) {
             print("saveShippings failed")
