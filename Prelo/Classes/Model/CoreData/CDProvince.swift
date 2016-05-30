@@ -100,7 +100,7 @@ class CDProvince : NSManagedObject {
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
                 r.id = regJson["_id"].stringValue
                 r.name = regJson["name"].stringValue
-                r.provinceId = regJson["province_id"].stringValue
+                r.provinceId = provJson["_id"].stringValue
                 r.idRajaOngkir = regJson["id_rajaongkir"].stringValue
                 r.postalCode = regJson["postal_code"].stringValue
                 p.regions.addObject(r)
