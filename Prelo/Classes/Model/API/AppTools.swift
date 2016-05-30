@@ -312,7 +312,6 @@ extension Mixpanel
 
 class UserDefaultsKey : NSObject
 {
-    static let AppDataSaved = "appdatasaved"
     static let CategorySaved = "categorysaved"
     static let CategoryPref1 = "categorypref1"
     static let CategoryPref2 = "categorypref2"

@@ -82,7 +82,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     @IBAction func reloadAppData(sender: AnyObject) {
         // Tampilkan pop up untuk prompt
         let a = UIAlertView()
-        a.message = "Reload App Data membutuhkan waktu beberapa menit. Lanjutkan?"
+        a.message = "Reload App Data membutuhkan waktu beberapa saat. Lanjutkan?"
         a.addButtonWithTitle("Batal")
         a.addButtonWithTitle("Reload App Data")
         a.delegate = self
@@ -205,9 +205,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     }
     
     func reloadingAppData() {
-        // Set appdatasaved to false in case the reload is not finished (the app is closed before finish) and need to be repeated on next app launch
-        NSUserDefaults.setObjectAndSync(false, forKey: UserDefaultsKey.AppDataSaved)
-        
         // Tampilkan pop up untuk loading
         let a = UIAlertView()
         let pView : UIProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
@@ -220,7 +217,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.show()
 
         // API Migrasi
-        request(APIApp.Metadata(brands: "1", categories: "1", categorySizes: "1", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
+        request(APIApp.Metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Reload App Data")) {
                 let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]
@@ -238,7 +235,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                     if (CDCategory.deleteAll(moc)) {
                         if (CDCategory.saveCategories(metadata["categories"], m: moc)) {
                             dispatch_async(dispatch_get_main_queue(), {
-                                pView.setProgress(pView.progress + 0.05, animated: true)
+                                pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
                             isSuccess = false
@@ -247,40 +244,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 })
                 queue.addOperation(opCategories)
                 
-                let opBrands : NSOperation = NSBlockOperation(block: {
-                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
-                    moc.persistentStoreCoordinator = psc
-                    
-                    // Update brands
-                    print("Updating brands..")
-                    if (CDBrand.deleteAll(moc)) {
-                        if (CDBrand.saveBrands(metadata["brands"], m: moc, pView : pView, p : 0.72)) {
-                        } else {
-                            isSuccess = false
-                        }
-                    }
-                })
-                queue.addOperation(opBrands)
-                
-                let opCategorySizes : NSOperation = NSBlockOperation(block: {
-                    let psc = UIApplication.appDelegate.persistentStoreCoordinator
-                    let moc = NSManagedObjectContext()
-                    moc.persistentStoreCoordinator = psc
-                    
-                    // Update category sizes
-                    print("Updating category sizes..")
-                    if (CDCategorySize.deleteAll(moc)) {
-                        if (CDCategorySize.saveCategorySizes(metadata["category_sizes"], m: moc)) {
-                            dispatch_async(dispatch_get_main_queue(), {
-                                pView.setProgress(pView.progress + 0.05, animated: true)
-                            })
-                        } else {
-                            isSuccess = false
-                        }
-                    }
-                })
-                queue.addOperation(opCategorySizes)
                 
                 let opShippings : NSOperation = NSBlockOperation(block: {
                     let psc = UIApplication.appDelegate.persistentStoreCoordinator
@@ -292,7 +255,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                     if (CDShipping.deleteAll(moc)) {
                         if (CDShipping.saveShippings(metadata["shippings"], m: moc)) {
                             dispatch_async(dispatch_get_main_queue(), {
-                                pView.setProgress(pView.progress + 0.05, animated: true)
+                                pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
                             isSuccess = false
@@ -311,7 +274,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                     if (CDProductCondition.deleteAll(moc)) {
                         if (CDProductCondition.saveProductConditions(metadata["product_conditions"], m: moc)) {
                             dispatch_async(dispatch_get_main_queue(), {
-                                pView.setProgress(pView.progress + 0.05, animated: true)
+                                pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
                             isSuccess = false
@@ -330,7 +293,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                     if (CDProvince.deleteAll(moc) && CDRegion.deleteAll(moc)) {
                         if (CDProvince.saveProvinceRegions(metadata["provinces_regions"], m: moc)) {
                             dispatch_async(dispatch_get_main_queue(), {
-                                pView.setProgress(pView.progress + 0.05, animated: true)
+                                pView.setProgress(pView.progress + 0.25, animated: true)
                             })
                         } else {
                             isSuccess = false
@@ -345,8 +308,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Reload App Data berhasil")
                         })
-                        // Set appdatasaved to true
-                        NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.AppDataSaved)
                     } else {
                         dispatch_async(dispatch_get_main_queue(), {
                             Constant.showDialog("Reload App Data", message: "Oops, terjadi kesalahan saat Reload App Data")
@@ -354,8 +315,6 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                     }
                 })
                 opFinish.addDependency(opCategories)
-                opFinish.addDependency(opBrands)
-                opFinish.addDependency(opCategorySizes)
                 opFinish.addDependency(opShippings)
                 opFinish.addDependency(opProductConditions)
                 opFinish.addDependency(opProvincesRegions)

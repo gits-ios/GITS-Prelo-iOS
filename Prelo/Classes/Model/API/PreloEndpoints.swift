@@ -58,6 +58,10 @@ enum APIApp : URLRequestConvertible
     
     case Version
     case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
+    case MetadataCategories(currentVer : Int)
+    case MetadataProductConditions
+    case MetadataProvincesRegions(currentVer : Int)
+    case MetadataShippings
     
     var method : Method
     {
@@ -65,6 +69,10 @@ enum APIApp : URLRequestConvertible
         {
         case .Version : return .GET
         case .Metadata(_, _, _, _, _, _) : return .GET
+        case .MetadataCategories(_) : return .GET
+        case .MetadataProductConditions : return .GET
+        case .MetadataProvincesRegions(_) : return .GET
+        case .MetadataShippings : return .GET
         }
     }
     
@@ -74,6 +82,10 @@ enum APIApp : URLRequestConvertible
         {
         case .Version : return "version"
         case .Metadata(_, _, _, _, _, _) : return "metadata"
+        case .MetadataCategories(_) : return "metadata/categories"
+        case .MetadataProductConditions : return "metadata/product_condition"
+        case .MetadataProvincesRegions(_) : return "metadata/provinces_regions"
+        case .MetadataShippings : return "metadata/shippings"
         }
     }
     
@@ -96,6 +108,20 @@ enum APIApp : URLRequestConvertible
                 "provinces_regions" : provincesRegions
             ]
             return p
+        case .MetadataCategories(let currentVer) :
+            let p = [
+                "current_version" : currentVer
+            ]
+            return p
+        case .MetadataProductConditions :
+            return [:]
+        case .MetadataProvincesRegions(let currentVer) :
+            let p = [
+                "current_version" : currentVer
+            ]
+            return p
+        case .MetadataShippings :
+            return [:]
         }
     }
     

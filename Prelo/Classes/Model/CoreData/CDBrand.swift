@@ -51,8 +51,10 @@ class CDBrand: NSManagedObject {
                             pView!.setProgress(pView!.progress + progressPerBrand!, animated: true)
                         })
                     } else {
+                        /* TO BE DELETED, untuk load app data cara lama
                         UIApplication.appDelegate.increaseLoadAppDataProgressBy(progressPerBrand!)
                         UIApplication.appDelegate.loadAppDataDelegate?.updateProgress(UIApplication.appDelegate.loadAppDataProgress)
+                         */
                     }
                 }
             }

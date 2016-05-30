@@ -516,6 +516,7 @@
 		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
 		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
+		58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 58C431B11CF8138300EB99AE /* InitialMetadata.json */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */; };
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
@@ -1208,6 +1209,8 @@
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
 		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
+		58C431B11CF8138300EB99AE /* InitialMetadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = InitialMetadata.json; sourceTree = "<group>"; };
+		58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 5.xcdatamodel"; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMoEngageSDK.a; sourceTree = "<group>"; };
 		58D125241CDC4D1F002BC78A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -2022,6 +2025,7 @@
 			children = (
 				217874621B98516900D355A8 /* merk.json */,
 				5830A42E1CE3443000FB1577 /* AddProductPlaceholder.plist */,
+				58C431B11CF8138300EB99AE /* InitialMetadata.json */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -2724,6 +2728,7 @@
 				211BC9921B96AC9100FDB1DC /* category_placeholder@2x.png in Resources */,
 				21104AD31BAA8F1200947E7F /* MyPurchaseProcessing.xib in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
+				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
@@ -3356,11 +3361,12 @@
 		2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */,
 				FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */,
 				2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */,
 				2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */,
 			);
-			currentVersion = FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */;
+			currentVersion = 58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -17,6 +17,26 @@ class CDProductCondition: NSManagedObject {
     @NSManaged var detail : String
     @NSManaged var order : NSNumber
     
+    static func saveProductConditionsFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
+            let prodCond = arr[i]
+            n.id = prodCond["_id"].stringValue
+            n.name = prodCond["name"].stringValue
+            n.detail = prodCond["description"].stringValue
+            n.order = prodCond["order"].numberValue
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveProductConditionsFromArrayJson failed")
+            return false
+        } else {
+            print("saveProductConditionsFromArrayJson success")
+            return true
+        }
+    }
+    
     static func saveProductConditions(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let condJson = json[i]

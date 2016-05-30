@@ -16,6 +16,78 @@ class CDProvince : NSManagedObject {
     @NSManaged var name : String
     @NSManaged var regions : NSMutableSet
     
+    static func saveProvincesFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
+            let prov = arr[i]
+            n.id = prov["_id"].stringValue
+            n.name = prov["name"].stringValue
+            n.regions = NSMutableSet()
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveProvincesFromArrayJson failed")
+            return false
+        } else {
+            print("saveProvincesFromArrayJson success")
+            return true
+        }
+    }
+    
+    static func updateProvincesFromArrayJson(arr: [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDProvince")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [CDProvince] {
+                    for result in results {
+                        result.name = arr[i]["name"].stringValue
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        if (m.saveSave() == true) {
+            print("updateProvincesFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("updateProvincesFromArrayJson failed")
+        }
+        return isSuccess
+    }
+    
+    static func deleteProvincesFromArrayJson(arr: [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDProvince")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [NSManagedObject] {
+                    for result in results {
+                        m.deleteObject(result)
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        
+        if (m.saveSave() == true) {
+            print("deleteProvincesFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("deleteProvincesFromArrayJson failed")
+        }
+        return isSuccess
+    }
+    
     static func saveProvinceRegions(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let provJson = json[i]
@@ -26,9 +98,11 @@ class CDProvince : NSManagedObject {
             for j in 0 ..< provJson["regions"].count {
                 let regJson = provJson["regions"][j]
                 let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
-                r.id = regJson["_id"].string!
-                r.name = regJson["name"].string!
-                r.province = p
+                r.id = regJson["_id"].stringValue
+                r.name = regJson["name"].stringValue
+                r.provinceId = regJson["province_id"].stringValue
+                r.idRajaOngkir = regJson["id_rajaongkir"].stringValue
+                r.postalCode = regJson["postal_code"].stringValue
                 p.regions.addObject(r)
                 //print("Region: \(r.name) added to province: \(p.name)")
             }
@@ -62,8 +136,6 @@ class CDProvince : NSManagedObject {
         } catch {
             return false
         }
-        
-        
         return true
     }
     

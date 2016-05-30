@@ -294,9 +294,24 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbz-pt-Y4w" userLabel="loadingPanel">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fl9-Xb-d3k" userLabel="loading">
+                                        <rect key="frame" x="290" y="268" width="20" height="20"/>
+                                        <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="fl9-Xb-d3k" firstAttribute="centerX" secondItem="bbz-pt-Y4w" secondAttribute="centerX" id="1l9-WY-QkG"/>
+                                    <constraint firstItem="fl9-Xb-d3k" firstAttribute="centerY" secondItem="bbz-pt-Y4w" secondAttribute="centerY" id="g2O-Qm-vli"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="CZj-C8-kqA" firstAttribute="top" secondItem="bbz-pt-Y4w" secondAttribute="bottom" id="2TM-dL-yX7"/>
                             <constraint firstItem="8Au-9S-hGK" firstAttribute="bottom" secondItem="IUr-MR-pQm" secondAttribute="bottom" constant="-12" id="604-XN-zmp"/>
                             <constraint firstItem="IUr-MR-pQm" firstAttribute="top" secondItem="rui-jE-9fQ" secondAttribute="bottom" id="8Er-LA-Hbm"/>
                             <constraint firstItem="rui-jE-9fQ" firstAttribute="top" secondItem="xeF-fX-AVO" secondAttribute="bottom" id="8e8-Ln-i1E"/>
@@ -305,7 +320,10 @@
                             <constraint firstItem="CZj-C8-kqA" firstAttribute="top" secondItem="8Au-9S-hGK" secondAttribute="bottom" constant="12" id="Wqy-Ch-RVW"/>
                             <constraint firstItem="CZj-C8-kqA" firstAttribute="top" secondItem="IUr-MR-pQm" secondAttribute="bottom" id="f1n-xz-W6k"/>
                             <constraint firstItem="rui-jE-9fQ" firstAttribute="top" secondItem="uBv-3W-dZM" secondAttribute="top" id="gBD-Ld-H0Z"/>
+                            <constraint firstAttribute="trailing" secondItem="bbz-pt-Y4w" secondAttribute="trailing" id="hvz-v0-7Mm"/>
+                            <constraint firstItem="bbz-pt-Y4w" firstAttribute="leading" secondItem="uBv-3W-dZM" secondAttribute="leading" id="kH7-cL-cTC"/>
                             <constraint firstItem="rui-jE-9fQ" firstAttribute="leading" secondItem="uBv-3W-dZM" secondAttribute="leading" id="r7b-vW-Lx7"/>
+                            <constraint firstItem="bbz-pt-Y4w" firstAttribute="top" secondItem="xeF-fX-AVO" secondAttribute="bottom" id="tLr-2u-Kgr"/>
                             <constraint firstAttribute="trailing" secondItem="IUr-MR-pQm" secondAttribute="trailing" id="vyq-xv-m1z"/>
                             <constraint firstItem="IUr-MR-pQm" firstAttribute="leading" secondItem="uBv-3W-dZM" secondAttribute="leading" id="ylf-L0-IgH"/>
                         </constraints>
@@ -329,6 +347,7 @@
                         <outlet property="btnBrowse" destination="wTa-Mx-Cia" id="JkZ-X8-6cR"/>
                         <outlet property="btnDashboard" destination="ZhR-y5-Nps" id="Vho-0g-08d"/>
                         <outlet property="consMarginBottomBar" destination="f1n-xz-W6k" id="ThF-NM-p2u"/>
+                        <outlet property="loadingPanel" destination="bbz-pt-Y4w" id="ewq-uB-DJp"/>
                         <outlet property="sectionBar" destination="IUr-MR-pQm" id="zJf-Vt-A5K"/>
                         <outlet property="sectionContent" destination="rui-jE-9fQ" id="fE6-TI-tzi"/>
                         <segue destination="6Oe-4z-yhz" kind="presentation" identifier="segTour" id="xXr-i3-icS"/>
@@ -10416,22 +10435,22 @@ dalam keranjang belanja</string>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TUk-fb-6G7">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1190"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3yp-Ph-599">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3yp-Ph-599">
                                                 <rect key="frame" x="0.0" y="256" width="600" height="382"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Barang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Barang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2Z-Sg-xSh">
                                                         <rect key="frame" x="32" y="7" width="109" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-UW-yHv">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RU-UW-yHv">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bau-hr-3PB">
                                                         <rect key="frame" x="8" y="37" width="584" height="70"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="category_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ghp-VO-iUz">
@@ -10448,7 +10467,7 @@ dalam keranjang belanja</string>
                                                                     <constraint firstAttribute="height" constant="1" id="98l-G5-CnZ"/>
                                                                 </constraints>
                                                             </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mux-6s-h8t">
                                                                 <rect key="frame" x="568" y="22" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -10538,7 +10557,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             </mask>
                                                         </variation>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-Uf-qri">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-Uf-qri">
                                                         <rect key="frame" x="8" y="239" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Kondisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fam-24-aea">
@@ -10547,13 +10566,13 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXk-WN-r6G">
                                                                 <rect key="frame" x="568" y="14" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-x0-KFg">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-x0-KFg">
                                                                 <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10594,7 +10613,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstAttribute="bottom" secondItem="5Ny-ro-6cN" secondAttribute="bottom" id="uy6-Iv-vmM"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m5j-aA-Rx4">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m5j-aA-Rx4">
                                                         <rect key="frame" x="8" y="107" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Nama Barang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wK2-DW-WGD">
@@ -10636,7 +10655,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstAttribute="height" constant="44" id="rxo-5C-bDI"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-eo-JaJ">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mcv-eo-JaJ">
                                                         <rect key="frame" x="8" y="151" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: Hadiah ulang tahun (Opsional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SE3-lR-N6e">
@@ -10678,7 +10697,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstAttribute="trailing" secondItem="SE3-lR-N6e" secondAttribute="trailing" id="ujn-pm-bb4"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-7D-1Bw">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AzP-7D-1Bw">
                                                         <rect key="frame" x="8" y="195" width="584" height="44"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: Sudah tak terpakai" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wW1-Ei-3h2">
@@ -10720,7 +10739,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstAttribute="trailing" secondItem="GFB-1O-aa6" secondAttribute="trailing" id="ogx-l9-PTp"/>
                                                         </constraints>
                                                     </view>
-                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lBx-Fq-PLS">
+                                                    <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBx-Fq-PLS">
                                                         <rect key="frame" x="8" y="283" width="584" height="0.0"/>
                                                         <subviews>
                                                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Deskripsi Cacat" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8qc-Gb-dWv">
@@ -10762,7 +10781,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstAttribute="trailing" secondItem="8qc-Gb-dWv" secondAttribute="trailing" id="v5o-Ze-WpZ"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-D2-lLx">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-D2-lLx">
                                                         <rect key="frame" x="8" y="283" width="584" height="44"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Merek" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOl-Vo-Sby">
@@ -10771,13 +10790,13 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzT-w5-dNj">
                                                                 <rect key="frame" x="568" y="14" width="16" height="16"/>
                                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVD-Aq-2ph">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVD-Aq-2ph">
                                                                 <rect key="frame" x="560" y="22" width="0.0" height="0.0"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -10869,13 +10888,13 @@ mis: 32 GB, dark blue, lightning charger</string>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wp6-P0-qTY">
                                                 <rect key="frame" x="0.0" y="943" width="600" height="118"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tm-iW-iXJ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tm-iW-iXJ">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iU-TP-6Re">
                                                         <rect key="frame" x="33" y="8" width="44" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11065,16 +11084,16 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                     <constraint firstAttribute="trailing" secondItem="IAE-zW-iXW" secondAttribute="trailing" constant="8" id="z3K-5L-cP6"/>
                                                 </constraints>
                                             </view>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xtY-vt-c7n">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtY-vt-c7n">
                                                 <rect key="frame" x="8" y="646" width="584" height="146"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGP-CC-TvA">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGP-CC-TvA">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ukuran" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nJ-Cm-eq0">
                                                         <rect key="frame" x="24" y="0.0" width="59" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11173,7 +11192,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sqq-ri-s9Q">
                                                 <rect key="frame" x="0.0" y="794" width="600" height="149"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONB-9m-hhm">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONB-9m-hhm">
                                                         <rect key="frame" x="9" y="1" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11185,7 +11204,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUi-2O-pXU">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OUi-2O-pXU">
                                                         <rect key="frame" x="8" y="29" width="584" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vlO-ht-DaJ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
@@ -11302,7 +11321,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                             <constraint firstItem="BJh-1W-NI6" firstAttribute="leading" secondItem="vlO-ht-DaJ" secondAttribute="trailing" constant="4" id="kdC-Rx-tD7"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ4-Qu-tlC">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ4-Qu-tlC">
                                                         <rect key="frame" x="8" y="115" width="584" height="14"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Ongkos kirim sesuai dengan kurir yang tersimpan di sistem">
@@ -11364,7 +11383,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xaC-RP-CkD">
                                                 <rect key="frame" x="0.0" y="952" width="600" height="170"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYx-ZX-cDd">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYx-ZX-cDd">
                                                         <rect key="frame" x="9" y="9" width="18" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11860,13 +11879,13 @@ Label / Merek</string>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBf-Wa-pPY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="1600"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gXa-9f-hiS">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gXa-9f-hiS">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="459"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fg-J4-g02">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fg-J4-g02">
                                                 <rect key="frame" x="0.0" y="256" width="600" height="40"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Barang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hso-eD-bXf">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Barang" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hso-eD-bXf">
                                                         <rect key="frame" x="32" y="7" width="109" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11878,13 +11897,13 @@ Label / Merek</string>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCT-4c-L7H">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCT-4c-L7H">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xn0-CU-95J">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xn0-CU-95J">
                                                         <rect key="frame" x="8" y="39" width="584" height="1"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -11916,10 +11935,10 @@ Label / Merek</string>
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UU5-ke-iBm">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UU5-ke-iBm">
                                                 <rect key="frame" x="0.0" y="299" width="600" height="40"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdY-j0-knq">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ongkos Kirim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdY-j0-knq">
                                                         <rect key="frame" x="32" y="7" width="109" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -11931,13 +11950,13 @@ Label / Merek</string>
                                                         <color key="textColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwV-s7-GiY">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwV-s7-GiY">
                                                         <rect key="frame" x="9" y="9" width="16" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="97d-18-kLs">
+                                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="97d-18-kLs">
                                                         <rect key="frame" x="8" y="39" width="584" height="1"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -11967,16 +11986,16 @@ Label / Merek</string>
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0z-zU-8JX">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c0z-zU-8JX">
                                                 <rect key="frame" x="0.0" y="342" width="600" height="37"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zer-k3-ErC">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Harga" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zer-k3-ErC">
                                                         <rect key="frame" x="34" y="7" width="49" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNR-aF-rrS">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNR-aF-rrS">
                                                         <rect key="frame" x="9" y="9" width="18" height="16"/>
                                                         <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -12006,7 +12025,7 @@ Label / Merek</string>
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pku-dY-D2r">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pku-dY-D2r">
                                                 <rect key="frame" x="8" y="399" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="vCb-87-8VF"/>
@@ -12974,7 +12993,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="trailing" secondItem="qXl-6u-CPr" secondAttribute="trailing" constant="8" id="pgd-c7-lqx"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rx7-Ue-UrE">
                                                     <rect key="frame" x="59" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -13059,7 +13078,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="trailing" secondItem="bG5-Pj-7NV" secondAttribute="trailing" constant="8" id="da1-dd-sSi"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jY-TW-TqZ">
                                                     <rect key="frame" x="586" y="8" width="7" height="18"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -13078,7 +13097,7 @@ Label / Merek</string>
                                                         <constraint firstAttribute="height" constant="2" id="tGJ-So-lnZ"/>
                                                     </constraints>
                                                 </view>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zf-NP-G3P">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Zf-NP-G3P">
                                                     <rect key="frame" x="497" y="7" width="30" height="34"/>
                                                     <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="22"/>
                                                     <state key="normal" title="">
@@ -13217,7 +13236,7 @@ Label / Merek</string>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="io0-UJ-6Dp">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="io0-UJ-6Dp">
                                                 <rect key="frame" x="8" y="79" width="288" height="27"/>
                                                 <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
@@ -13226,7 +13245,7 @@ Label / Merek</string>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2F-Hi-FU7" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d2F-Hi-FU7" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="80" width="288" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TOLAK">
@@ -13248,7 +13267,7 @@ Label / Merek</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VlH-gP-zx0">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VlH-gP-zx0">
                                                 <rect key="frame" x="8" y="80" width="584" height="27"/>
                                                 <color key="backgroundColor" red="0.97254902124404907" green="0.50980395078659058" blue="0.094117648899555206" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
@@ -13257,7 +13276,7 @@ Label / Merek</string>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-Qr-U4K" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ES-Qr-U4K" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="80" width="584" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
@@ -13279,7 +13298,7 @@ Label / Merek</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaP-Dy-kBc">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HaP-Dy-kBc">
                                                 <rect key="frame" x="304" y="79" width="288" height="27"/>
                                                 <color key="backgroundColor" red="0.048671051859855652" green="0.38238313794136047" blue="0.4102916419506073" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
@@ -13291,7 +13310,7 @@ Label / Merek</string>
                                                     <action selector="beli:" destination="OOH-zx-AlT" eventType="touchUpInside" id="qQa-Vq-INg"/>
                                                 </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbz-gn-gbP" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbz-gn-gbP" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
                                                 <rect key="frame" x="8" y="80" width="288" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
@@ -13313,7 +13332,7 @@ Label / Merek</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ru-or-cxO">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ru-or-cxO">
                                                 <rect key="frame" x="304" y="80" width="288" height="27"/>
                                                 <color key="backgroundColor" red="0.048671051860000002" green="0.3823831379" blue="0.41029164200000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>

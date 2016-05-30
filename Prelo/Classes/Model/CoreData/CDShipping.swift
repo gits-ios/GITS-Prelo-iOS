@@ -17,6 +17,26 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageId : String
     @NSManaged var packageName : String
     
+    static func saveShippingsFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            let ship = arr[i]
+            n.id = ship["_id"].stringValue
+            n.name = ship["name"].stringValue
+            n.packageId = ""
+            n.packageName = ""
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveShippingsFromArrayJson failed")
+            return false
+        } else {
+            print("saveShippingsFromArrayJson success")
+            return true
+        }
+    }
+    
     static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]

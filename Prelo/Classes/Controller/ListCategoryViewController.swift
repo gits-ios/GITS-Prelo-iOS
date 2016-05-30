@@ -483,6 +483,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     self.setupCategory()
+                    
+                    if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                        kumangTabBarVC.isAlreadyGetCategory = true
+                        if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                            kumangTabBarVC.hideLoading()
+                        }
+                    }
                 }
         }
     }
