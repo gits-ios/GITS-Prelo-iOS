@@ -2408,10 +2408,10 @@ class InboxMessage : NSObject
     static var formatter : NSDateFormatter = NSDateFormatter()
     
     var sending : Bool = false
-    var id : String!
-    var senderId : String!
+    var id : String = ""
+    var senderId : String = ""
     var messageType : Int = 0
-    var message : String!
+    var message : String = ""
     var bargainPrice = ""
     var dynamicMessage : String {
         
@@ -2514,7 +2514,11 @@ class InboxMessage : NSObject
     {
         let i = InboxMessage()
         
-        i.senderId = CDUser.getOne()?.id
+        if let id = CDUser.getOne()?.id
+        {
+            i.senderId = id
+        }
+//        i.senderId = CDUser.getOne()?.id
         i.id = String(localIndex)
         i.messageType = type
         i.message = message

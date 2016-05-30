@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
 
     static let StatusBarTapNotificationName = "statusbartapped"
     
-    var messagePool : MessagePool!
+    var messagePool : MessagePool?
     
     var preloNotifListener : PreloNotificationListener!
     
@@ -62,7 +62,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
         preloNotifListener = PreloNotificationListener()
         
         messagePool = MessagePool()
-        messagePool.start()
+        messagePool?.start()
+        
+        if (messagePool == nil)
+        {
+            let error = NSError(domain: "Failed to create MessagePool", code: 0, userInfo: nil)
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: nil)
+        }
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
         
@@ -1146,7 +1152,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
     
     func userLoggedIn()
     {
-        messagePool.start()
+        messagePool?.start()
     }
     
     // MARK: - Other functions

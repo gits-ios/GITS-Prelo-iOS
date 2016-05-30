@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Crashlytics
 
 class AboutViewController: BaseViewController, UIAlertViewDelegate {
 
@@ -138,8 +139,14 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             d.userLoggedOut!()
         }
         
-        let del = UIApplication.sharedApplication().delegate as! AppDelegate
-        del.messagePool.stop()
+        if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+        {
+            del.messagePool?.stop()
+        } else
+        {
+            let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"logout"])
+        }
         
         // Disconnect socket
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate

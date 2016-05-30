@@ -729,7 +729,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "731"
             endingLineNumber = "731"
-            landmarkName = "sendDummy(_:message:delay:)"
+            landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -855,22 +855,6 @@
             timestampString = "481464948.867134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "start()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/MessagePool.swift"
-            timestampString = "481464948.867134"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
             endingLineNumber = "116"
             landmarkName = "register()"
@@ -889,7 +873,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "register()"
+            landmarkName = "stop()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1065,7 +1049,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "731"
             endingLineNumber = "731"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1081,7 +1065,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "728"
             endingLineNumber = "728"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1097,7 +1081,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
             endingLineNumber = "729"
-            landmarkName = "versionCheck()"
+            landmarkName = "redirectTransaction(_:trxProductId:isSeller:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1178,6 +1162,22 @@
             startingLineNumber = "111"
             endingLineNumber = "111"
             landmarkName = "CheckProfileSetup(_:token:isSocmedAccount:loginMethod:screenBeforeLogin:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/AppDelegate.swift"
+            timestampString = "486309091.220959"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
