@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIAlertViewDelegate {
             // Set crashlytics user information
             Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
             Crashlytics.sharedInstance().setUserEmail(c.email)
-            Crashlytics.sharedInstance().setUserName(c.fullname!)
+            Crashlytics.sharedInstance().setUserName(c.fullname)
             
             // MoEngage
             MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")

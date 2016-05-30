@@ -405,7 +405,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var isPageTracked = false
     func scrollViewDidScroll(scrollView: UIScrollView) {
         var i = 0
-        let width = scrollView.width
+        let width = scrollView.bounds.width
         let contentOffsetX = scrollView.contentOffset.x
         
         if (width > 0) {
@@ -424,7 +424,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Only track if scrollView did finish the left/right scroll
         if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
-            if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
+            let i1 = Int(contentOffsetX)
+            let i2 = Int(width)
+            if (i2 > 0 && (i1 % i2) == 0) {
                 let pt = [
                     "Category" : categoriesFix[i]["name"].string!
                 ]
