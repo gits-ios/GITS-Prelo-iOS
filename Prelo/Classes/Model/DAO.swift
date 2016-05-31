@@ -913,6 +913,18 @@ public class ProductDetail : NSObject, TawarItem
         }
         return false
     }
+    
+    func setSharedViaInstagram() {
+        json["_data"]["share_status"]["INSTAGRAM"] = JSON(true)
+    }
+    
+    func setSharedViaFacebook() {
+        json["_data"]["share_status"]["FACEBOOK"] = JSON(true)
+    }
+    
+    func setSharedViaTwitter() {
+        json["_data"]["share_status"]["TWITTER"] = JSON(true)
+    }
 }
 
 public class Product : NSObject

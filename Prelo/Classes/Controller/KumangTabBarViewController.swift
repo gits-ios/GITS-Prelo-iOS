@@ -458,7 +458,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             
             if (isFirstInstall) {
                 if (isInitialMetadataSaveSuccess) {
-                    Constant.showDialog("Success", message: "Load App Data Success")
+                    //Constant.showDialog("Success", message: "Load App Data Success")
                 } else {
                     Constant.showDialog("Load App Data Failed", message: "Oops, terdapat kesalahan saat memproses data. Prelo mungkin akan tidak berjalan dengan baik. Untuk memperbaiki, silahkan ke menu About > Reload App Data")
                 }

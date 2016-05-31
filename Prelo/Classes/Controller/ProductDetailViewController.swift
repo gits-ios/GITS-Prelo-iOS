@@ -420,6 +420,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                     self.cellTitle?.sharedViaInstagram()
+                                    self.detail?.setSharedViaInstagram()
                                 }
                                 self.loadingPanel.hidden = true
                             }
@@ -452,6 +453,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
                                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                             self.cellTitle?.sharedViaFacebook()
+                                            self.detail?.setSharedViaFacebook()
                                         }
                                     }
                                 default:
@@ -490,6 +492,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
                                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                             self.cellTitle?.sharedViaTwitter()
+                                            self.detail?.setSharedViaTwitter()
                                         }
                                     }
                                 default:
@@ -891,6 +894,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     @IBOutlet var conWidthOngkir : NSLayoutConstraint!
     @IBOutlet var conMarginOngkir : NSLayoutConstraint!
     
+    @IBOutlet var lblShareSocmed: UILabel!
+    @IBOutlet var consHeightLblShareSocmed: NSLayoutConstraint!
+    
     @IBOutlet var socmedBtnSet: UIView!
     @IBOutlet var lblsBtnInstagram: [UILabel]!
     @IBOutlet var btnInstagram: BorderedButton!
@@ -928,7 +934,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             }
         }
         
-        return CGFloat(90.0) + s.height + reviewHeight
+        var lblShareHeight : CGFloat = 0
+        if (obj!.isMyProduct) {
+            lblShareHeight = 22
+        }
+        
+        return CGFloat(99.0) + s.height + reviewHeight + lblShareHeight
     }
     
     override func awakeFromNib() {
@@ -1135,12 +1146,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         
         // Socmed buttons
         if (detail!.isMyProduct) {
+            self.consHeightLblShareSocmed.constant = 22
+            
             self.sectionLove?.hidden = true
             self.sectionComment?.hidden = true
             self.btnShare?.hidden = true
             self.socmedBtnSet.hidden = false
             
             self.productProfit = 90
+            self.setShareText()
             if (detail!.sharedViaInstagram) {
                 self.sharedViaInstagram()
             }
@@ -1150,7 +1164,16 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             if (detail!.sharedViaTwitter) {
                 self.sharedViaTwitter()
             }
+        } else {
+            self.consHeightLblShareSocmed.constant = 0
         }
+    }
+    
+    func setShareText() {
+        let txt = "Share utk keuntungan lebih, keuntungan sekarang: \(productProfit)%"
+        let attTxt = NSMutableAttributedString(string: txt)
+        attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).rangeOfString("\(productProfit)%"))
+        self.lblShareSocmed.attributedText = attTxt
     }
     
     func sharedViaInstagram() {
@@ -1159,7 +1182,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             lblsBtnInstagram[i].textColor = Theme.PrimaryColor
         }
         productProfit += 3
-        // TODO: set label keuntungan %
+        
+        self.setShareText()
     }
     
     func sharedViaFacebook() {
@@ -1168,7 +1192,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             lblsBtnFacebook[i].textColor = Theme.PrimaryColor
         }
         productProfit += 4
-        // TODO: set label keuntungan %
+        
+        self.setShareText()
     }
     
     func sharedViaTwitter() {
@@ -1177,7 +1202,8 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             lblsBtnTwitter[i].textColor = Theme.PrimaryColor
         }
         productProfit += 3
-        // TODO: set label keuntungan %
+        
+        self.setShareText()
     }
     
     func setupLoveView()
