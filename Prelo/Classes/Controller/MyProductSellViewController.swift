@@ -64,6 +64,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
+        
+        self.refresh(0)
     }
     
     func getProducts()
