@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let StatusBarTapNotificationName = "statusbartapped"
     
-    var messagePool : MessagePool!
+    var messagePool : MessagePool?
     
     var preloNotifListener : PreloNotificationListener!
     
@@ -53,7 +53,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         preloNotifListener = PreloNotificationListener()
         
         messagePool = MessagePool()
-        messagePool.start()
+        messagePool?.start()
+        
+        if (messagePool == nil)
+        {
+            let error = NSError(domain: "Failed to create MessagePool", code: 0, userInfo: nil)
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: nil)
+        }
         
         Fabric.with([Crashlytics.self(), Twitter.self()])
         
@@ -71,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Set crashlytics user information
             Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
             Crashlytics.sharedInstance().setUserEmail(c.email)
-            Crashlytics.sharedInstance().setUserName(c.fullname!)
+            Crashlytics.sharedInstance().setUserName(c.fullname)
             
             // MoEngage
             MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
@@ -805,7 +811,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func userLoggedIn()
     {
-        messagePool.start()
+        messagePool?.start()
     }
     
     // MARK: - Other functions

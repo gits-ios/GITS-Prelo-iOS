@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import CarbonKit
+import Crashlytics
 
 class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UIScrollViewDelegate
 {
@@ -19,7 +19,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var pinchIn : UIPinchGestureRecognizer!
     
     @IBOutlet var scrollCategoryName: UIScrollView!
-    @IBOutlet var scrollView : UIScrollView!
+    @IBOutlet var scroll_View : UIScrollView!
     
     var categoriesFix : [JSON] = []
     
@@ -45,7 +45,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         // Google Analytics
         GAI.trackPageVisit(PageName.Home)
         
-        scrollView.delegate = self
+        scroll_View.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListCategoryViewController.grandRefresh), name: "refreshHome", object: nil)
 //        setupScroll()
         // Do any additional setup after loading the view, typically from a nib.
@@ -118,21 +118,21 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var listItemViews : [UIView] = []
     func addChilds(count : Int)
     {
-        var d = ["scroll":scrollView, "master":self.view]
+        var d = ["scroll":scroll_View, "master":self.view]
         if contentView == nil
         {
-            scrollView.showsHorizontalScrollIndicator = false
-            scrollView.pagingEnabled = true
+            scroll_View.showsHorizontalScrollIndicator = false
+            scroll_View.pagingEnabled = true
             let pContentView = UIView()
             pContentView.backgroundColor = UIColor.redColor()
-            scrollView.addSubview(pContentView)
+            scroll_View.addSubview(pContentView)
             
             pContentView.translatesAutoresizingMaskIntoConstraints = false
             
             d["content"] = pContentView
-            scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[content]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            scroll_View.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[content]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
             // .AlignAllBaseline asalnya nil suggested by kumang
-            scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[content]-0-|", options: .AlignAllBaseline, metrics: nil, views: d))
+            scroll_View.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[content]-0-|", options: .AlignAllBaseline, metrics: nil, views: d))
             self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[content(==scroll)]", options: .AlignAllBaseline, metrics: nil, views: d))
             contentView = pContentView
         }
@@ -178,7 +178,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             listItemViews.append(v)
         }
         
-        scrollView.layoutIfNeeded()
+        scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         
         addCategoryNames(count)
@@ -340,7 +340,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         let x = listItemViews[index].x
         let p = CGPointMake(x, 0)
         
-        scrollView.setContentOffset(p, animated: true)
+        scroll_View.setContentOffset(p, animated: true)
         
         adjustIndicator(index)
     }
@@ -405,8 +405,12 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var isPageTracked = false
     func scrollViewDidScroll(scrollView: UIScrollView) {
         var i = 0
-        if (scrollView.width > 0) {
-            i = Int(scrollView.contentOffset.x / scrollView.width)
+        let width = scrollView.bounds.width
+        let contentOffsetX = scrollView.contentOffset.x
+        
+        if (width > 0) {
+            Crashlytics.sharedInstance().setObjectValue("width \(width) | offsetX \(contentOffsetX)", forKey: "ListCategoryViewController.scrollViewDidScroll")
+            i = Int(contentOffsetX / width)
         }
         currentTabIndex = i
         centerCategoryView(currentTabIndex)
@@ -420,15 +424,15 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Only track if scrollView did finish the left/right scroll
         if (lastContentOffset.y == scrollView.contentOffset.y && lastContentOffset.x != scrollView.contentOffset.x) {
-            if (scrollView.width > 0) {
-                if (Int(scrollView.contentOffset.x) % Int(scrollView.width) == 0) {
-                    let pt = [
-                        "Category" : categoriesFix[i]["name"].string!
-                    ]
-                    //Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
-                    Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
-                    isPageTracked = true
-                }
+            let i1 = Int(contentOffsetX)
+            let i2 = Int(width)
+            if (i2 > 0 && (i1 % i2) == 0) {
+                let pt = [
+                    "Category" : categoriesFix[i]["name"].string!
+                ]
+                //Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+                Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
+                isPageTracked = true
             }
         }
         
