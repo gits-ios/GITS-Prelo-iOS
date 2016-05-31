@@ -78,11 +78,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         first = false
         
         ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
+        ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         ProdukUploader.RemoveObserverForUploadSuccess(self)
+        ProdukUploader.RemoveObserverForUploadFailed(self)
     }
     
     func uploadProdukSukses(notif : NSNotification)
@@ -92,7 +94,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func uploadProdukGagal(notif : NSNotification)
     {
-        
+        refresh(0)
+        Constant.showDialog("Upload gagal", message: "Oops, upload produk gagal")
     }
     
     func addUploadingProducts()

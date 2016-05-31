@@ -139,6 +139,19 @@ class ProdukUploader: NSObject {
                     self.start(true)
                 } else
                 {
+                    var queue = self.getQueue()
+                    if (queue.count > 1)
+                    {
+                        queue.removeFirst()
+                        self.saveQueue(queue)
+                        print("queue : move to next product!")
+                        self.start(true)
+                    } else
+                    {
+                        self.saveQueue([])
+                        print("Queue finished!")
+                    }
+                    
                     self.currentRetryCount = 0
                     dispatch_async(dispatch_get_main_queue(), {
                         NSNotificationCenter.defaultCenter().postNotificationName(ProdukUploader.ProdukUploader_NOTIFICATION_UPLOAD_FAILED, object: err)
