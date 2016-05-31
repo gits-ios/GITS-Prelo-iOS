@@ -929,10 +929,18 @@ public class ProductDetail : NSObject, TawarItem
 
 public class Product : NSObject
 {
+    static let StatusUploading = 999
+    
     var json : JSON!
+    var placeHolderImage : UIImage?
+    var isLokal = false
     
     var id : String
     {
+        if (isLokal)
+        {
+            return ""
+        }
         return (json["_id"].string)!
     }
     
@@ -954,6 +962,11 @@ public class Product : NSObject
     
     var coverImageURL : NSURL?
     {
+        if (isLokal)
+        {
+            return nil
+        }
+        
         if json["display_picts"][0].error != nil
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
@@ -1015,9 +1028,18 @@ public class Product : NSObject
     
     var price : String
     {
+        print(json)
         if let p = json["price"].int
         {
             return p.asPrice
+        }
+        
+        if (isLokal)
+        {
+            if let p = json["price"].string?.int
+            {
+                return p.asPrice
+            }
         }
         
         return ""
@@ -1053,6 +1075,10 @@ public class Product : NSObject
     }
     
     var status : Int? {
+        if (isLokal)
+        {
+            return Product.StatusUploading
+        }
         if let s = json["status"].int {
             return s
         }

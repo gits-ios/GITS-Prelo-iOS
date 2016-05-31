@@ -371,86 +371,95 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
-        let url = "\(AppTools.PreloBaseUrl)/api/product"
-        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
-        
-        AppToolsObjC.sendMultipart(self.sendProductParam, images: self.sendProductImages, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
-            print(res)
-            
-            let json = JSON(res)
-            
-            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            
-            // Mixpanel
-            let data = json["_data"]
-            
-            var mixpImageCount = 0
-            var mixpImgs : [UIImage?] = []
-            for i in 0...self.sendProductImages.count - 1 {
-                mixpImgs.append(self.sendProductImages[i] as? UIImage)
-                if (mixpImgs[i] != nil) {
-                    mixpImageCount += 1
-                }
-            }
-            let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
-            let isFacebook = ((data["share_status"]["shared"]["FACEBOOK"].intValue == 0) ? false : true)
-            let isTwitter = ((data["share_status"]["shared"]["TWITTER"].intValue == 0) ? false : true)
-            let isInstagram = ((data["share_status"]["shared"]["INSTAGRAM"].intValue == 0) ? false : true)
-            let pt = [
-                "Previous Screen" : self.sendProductBeforeScreen,
-                "Name" : data["name"].stringValue,
-                "Category 1" : "",
-                "Category 2" : "",
-                "Category 3" : "",
-                "Number of Picture Uploaded" : mixpImageCount,
-                "Is Main Picture Uploaded" : ((mixpImgs[0] != nil) ? true : false),
-                "Is Back Picture Uploaded" : ((mixpImgs[1] != nil) ? true : false),
-                "Is Label Picture Uploaded" : ((mixpImgs[2] != nil) ? true : false),
-                "Is Wear Picture Uploaded" : ((mixpImgs[3] != nil) ? true : false),
-                "Is Defect Picture Uploaded" : ((mixpImgs[4] != nil) ? true : false),
-                "Condition" : self.sendProductKondisi,
-                "Brand" : ((proposedBrand != nil) ? proposedBrand! : data["brand_id"].stringValue),
-                "Is New Brand" : ((proposedBrand != nil) ? true : false),
-                "Is Free Ongkir" : ((data["free_ongkir"].intValue == 0) ? false : true),
-                "Weight" : data["weight"].intValue,
-                "Price Original" : data["price_original"].intValue,
-                "Price" : data["price"].intValue,
-                "Commission Percentage" : data["commission"].intValue,
-                "Commission Price" : data["price"].intValue * data["commission"].intValue / 100,
-                "Is Facebook Shared" : isFacebook,
-                "Facebook Username" : "",
-                "Is Twitter Shared" : isTwitter,
-                "Twitter Username" : "",
-                "Is Instagram Shared" : isInstagram,
-                "Instagram Username" : "",
-                "Time" : NSDate().isoFormatted
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
-            
-            self.productID = (json["_data"]["_id"].string)!
-//            self.sendShare()
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
-            let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
-            self.navigationController?.pushViewController(b!, animated: true)
-            
-            }, failure: { op, err in
-                //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
-//                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
-                self.btnSend.enabled = true
-                var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
-                if let msg = op.responseString {
-                    if let range1 = msg.rangeOfString("{\"_message\":\"") {
-                        //print(range1)
-                        let msg1 = msg.substringFromIndex(range1.endIndex)
-                        if let range2 = msg1.rangeOfString("\"}") {
-                            //print(range2)
-                            msgContent = msg1.substringToIndex(range2.startIndex)
-                        }
-                    }
-                }
-                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages))
+            dispatch_async(dispatch_get_main_queue(), {
+                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+                self.navigationController?.pushViewController(b!, animated: true)
+            })
         })
+        return
+        
+//        let url = "\(AppTools.PreloBaseUrl)/api/product"
+//        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+//        
+//        AppToolsObjC.sendMultipart(self.sendProductParam, images: self.sendProductImages, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
+//            print(res)
+//            
+//            let json = JSON(res)
+//            
+//            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
+//            
+//            // Mixpanel
+//            let data = json["_data"]
+//            
+//            var mixpImageCount = 0
+//            var mixpImgs : [UIImage?] = []
+//            for i in 0...self.sendProductImages.count - 1 {
+//                mixpImgs.append(self.sendProductImages[i] as? UIImage)
+//                if (mixpImgs[i] != nil) {
+//                    mixpImageCount += 1
+//                }
+//            }
+//            let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
+//            let isFacebook = ((data["share_status"]["shared"]["FACEBOOK"].intValue == 0) ? false : true)
+//            let isTwitter = ((data["share_status"]["shared"]["TWITTER"].intValue == 0) ? false : true)
+//            let isInstagram = ((data["share_status"]["shared"]["INSTAGRAM"].intValue == 0) ? false : true)
+//            let pt = [
+//                "Previous Screen" : self.sendProductBeforeScreen,
+//                "Name" : data["name"].stringValue,
+//                "Category 1" : "",
+//                "Category 2" : "",
+//                "Category 3" : "",
+//                "Number of Picture Uploaded" : mixpImageCount,
+//                "Is Main Picture Uploaded" : ((mixpImgs[0] != nil) ? true : false),
+//                "Is Back Picture Uploaded" : ((mixpImgs[1] != nil) ? true : false),
+//                "Is Label Picture Uploaded" : ((mixpImgs[2] != nil) ? true : false),
+//                "Is Wear Picture Uploaded" : ((mixpImgs[3] != nil) ? true : false),
+//                "Is Defect Picture Uploaded" : ((mixpImgs[4] != nil) ? true : false),
+//                "Condition" : self.sendProductKondisi,
+//                "Brand" : ((proposedBrand != nil) ? proposedBrand! : data["brand_id"].stringValue),
+//                "Is New Brand" : ((proposedBrand != nil) ? true : false),
+//                "Is Free Ongkir" : ((data["free_ongkir"].intValue == 0) ? false : true),
+//                "Weight" : data["weight"].intValue,
+//                "Price Original" : data["price_original"].intValue,
+//                "Price" : data["price"].intValue,
+//                "Commission Percentage" : data["commission"].intValue,
+//                "Commission Price" : data["price"].intValue * data["commission"].intValue / 100,
+//                "Is Facebook Shared" : isFacebook,
+//                "Facebook Username" : "",
+//                "Is Twitter Shared" : isTwitter,
+//                "Twitter Username" : "",
+//                "Is Instagram Shared" : isInstagram,
+//                "Instagram Username" : "",
+//                "Time" : NSDate().isoFormatted
+//            ]
+//            Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
+//            
+//            self.productID = (json["_data"]["_id"].string)!
+////            self.sendShare()
+//            
+//            NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
+//            let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+//            self.navigationController?.pushViewController(b!, animated: true)
+//            
+//            }, failure: { op, err in
+//                //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
+////                self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
+//                self.btnSend.enabled = true
+//                var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
+//                if let msg = op.responseString {
+//                    if let range1 = msg.rangeOfString("{\"_message\":\"") {
+//                        //print(range1)
+//                        let msg1 = msg.substringFromIndex(range1.endIndex)
+//                        if let range2 = msg1.rangeOfString("\"}") {
+//                            //print(range2)
+//                            msgContent = msg1.substringToIndex(range2.startIndex)
+//                        }
+//                    }
+//                }
+//                UIAlertView.SimpleShow("Upload Barang", message: msgContent)
+//        })
     }
     
 //    func sendShare()
