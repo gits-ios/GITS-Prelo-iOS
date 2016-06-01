@@ -225,7 +225,13 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                     if (data.count > 0) {
                         for i in 0...(data.count - 1) {
                             if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
-                                self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                                var strToHide = merkId
+                                var isLuxury = false
+                                if let isLux = data[i]["is_luxury"].bool {
+                                    isLuxury = isLux
+                                }
+                                strToHide += ";" + (isLuxury ? "1" : "0")
+                                self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
                                 if (merkName.lowercaseString == name.lowercaseString) { // Jika ada merk yg sama dengan query search, tidak perlu memunculkan 'Tambahkan merek..'
                                     isShowAddNewBrandCell = false
                                 }

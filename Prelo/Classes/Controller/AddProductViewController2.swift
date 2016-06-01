@@ -28,6 +28,23 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var conHeightCacat : NSLayoutConstraint!
     @IBOutlet var conHeightSize : NSLayoutConstraint!
     
+    // For luxury brand
+    @IBOutlet var conTopOngkirGroup: NSLayoutConstraint! // Set to 498 if isLuxury, 8 if not
+    @IBOutlet var groupVerifAuth: UIView!
+    @IBOutlet var groupKelengkapan: UIView!
+    @IBOutlet var txtLuxStyleName: UITextField!
+    @IBOutlet var txtLuxSerialNumber: UITextField!
+    @IBOutlet var txtLuxLokasiBeli: UITextField!
+    @IBOutlet var txtLuxTahunBeli: UITextField!
+    @IBOutlet var lblChkOriginalBox: UILabel!
+    @IBOutlet var lblChkOriginalDustbox: UILabel!
+    @IBOutlet var lblChkReceipt: UILabel!
+    @IBOutlet var lblChkAuthCard: UILabel!
+    var isOriginalBoxChecked = false
+    var isOriginalDustboxChecked = false
+    var isReceiptChecked = false
+    var isAuthCardChecked = false
+    
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var fakeScrollView : UIScrollView!
     @IBOutlet var dummyTitles : [UIView] = []
@@ -69,6 +86,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var productCategoryId = ""
     var kodindisiId = ""
     var merekId = ""
+    var merekIsLuxury = false
     var freeOngkir = 0
     
     var editProduct : ProductDetail?
@@ -281,6 +299,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.title = PageName.AddProduct
             self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
             self.fakeBtnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
+            
+            // Hide luxury fields
+            self.groupVerifAuth.hidden = true
+            self.groupKelengkapan.hidden = true
+            self.conTopOngkirGroup.constant = 8
         }
         
         self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
@@ -912,7 +935,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 if (data.count > 0) {
                     for i in 0...(data.count - 1) {
                         if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
-                            names.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                            var strToHide = merkId
+                            var isLuxury = false
+                            if let isLux = data[i]["is_luxury"].bool {
+                                isLuxury = isLux
+                            }
+                            strToHide += ";" + (isLuxury ? "1" : "0")
+                            names.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
                         }
                     }
                     p.merkMode = true
@@ -926,11 +955,26 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     }
                     p.items = names
                     p.selectBlock = { s in
-                        self.merekId = PickerViewController.RevealHiddenString(s)
+                        let hiddenStr = PickerViewController.RevealHiddenString(s).characters.split{$0 == ";"}.map(String.init)
+                        self.merekId = hiddenStr[0]
+                        self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
                         var x : String = PickerViewController.HideHiddenString(s)
+                        
+                        // Set chosen brand
                         x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
                         x = x.stringByReplacingOccurrencesOfString("'", withString: "")
                         self.captionMerek.text = x
+                        
+                        // Show luxury fields if isLuxury
+                        if (self.merekIsLuxury) {
+                            self.groupVerifAuth.hidden = false
+                            self.groupKelengkapan.hidden = false
+                            self.conTopOngkirGroup.constant = 498
+                        } else {
+                            self.groupVerifAuth.hidden = true
+                            self.groupKelengkapan.hidden = true
+                            self.conTopOngkirGroup.constant = 8
+                        }
                     }
                     p.showSearch = true
                     
@@ -941,6 +985,58 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             } else {
                 Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
             }
+        }
+    }
+    
+    @IBAction func btnChkOriginalBoxPressed(sender: AnyObject) {
+        self.isOriginalBoxChecked = !self.isOriginalBoxChecked
+        if (isOriginalBoxChecked) {
+            lblChkOriginalBox.text = "";
+            lblChkOriginalBox.font = AppFont.Prelo2.getFont(19)!
+            lblChkOriginalBox.textColor = Theme.PrimaryColor
+        } else {
+            lblChkOriginalBox.text = "";
+            lblChkOriginalBox.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkOriginalBox.textColor = Theme.GrayLight
+        }
+    }
+    
+    @IBAction func btnChkOriginalDustboxPressed(sender: AnyObject) {
+        self.isOriginalDustboxChecked = !self.isOriginalDustboxChecked
+        if (isOriginalDustboxChecked) {
+            lblChkOriginalDustbox.text = "";
+            lblChkOriginalDustbox.font = AppFont.Prelo2.getFont(19)!
+            lblChkOriginalDustbox.textColor = Theme.PrimaryColor
+        } else {
+            lblChkOriginalDustbox.text = "";
+            lblChkOriginalDustbox.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkOriginalDustbox.textColor = Theme.GrayLight
+        }
+    }
+    
+    @IBAction func btnChkReceipt(sender: AnyObject) {
+        self.isReceiptChecked = !self.isReceiptChecked
+        if (isReceiptChecked) {
+            lblChkReceipt.text = "";
+            lblChkReceipt.font = AppFont.Prelo2.getFont(19)!
+            lblChkReceipt.textColor = Theme.PrimaryColor
+        } else {
+            lblChkReceipt.text = "";
+            lblChkReceipt.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkReceipt.textColor = Theme.GrayLight
+        }
+    }
+    
+    @IBAction func btnChkAuthCard(sender: AnyObject) {
+        self.isAuthCardChecked = !self.isAuthCardChecked
+        if (isAuthCardChecked) {
+            lblChkAuthCard.text = "";
+            lblChkAuthCard.font = AppFont.Prelo2.getFont(19)!
+            lblChkAuthCard.textColor = Theme.PrimaryColor
+        } else {
+            lblChkAuthCard.text = "";
+            lblChkAuthCard.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkAuthCard.textColor = Theme.GrayLight
         }
     }
     
@@ -1134,7 +1230,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "defect_description":deflect,
             "special_story":special,
             "brand_id":merekId,
-            "size":txtSize.text]
+            "size":txtSize.text,
+            "is_luxury":merekIsLuxury ? "1" : "0",
+            "style_name":txtLuxStyleName.text,
+            "serial_number":txtLuxSerialNumber.text,
+            "purchase_location":txtLuxLokasiBeli.text,
+            "purchase_year":txtLuxTahunBeli.text,
+            "original_box":isOriginalBoxChecked ? "1" : "0",
+            "original_dustbox":isOriginalDustboxChecked ? "1" : "0",
+            "receipt":isReceiptChecked ? "1" : "0",
+            "authenticity_card":isAuthCardChecked ? "1" : "0"]
         
         if (desc == "")
         {
