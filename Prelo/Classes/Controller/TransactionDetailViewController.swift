@@ -1091,7 +1091,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
                         // API Migrasi
-        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
+                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                                 let json = JSON(resp.result.value!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat

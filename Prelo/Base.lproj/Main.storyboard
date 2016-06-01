@@ -10446,20 +10446,20 @@ dalam keranjang belanja</string>
                         <viewControllerLayoutGuide type="bottom" id="Kj9-p6-9Us"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="V1j-I8-P95">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="1867"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zWY-wC-rl5">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1867"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1900"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TUk-fb-6G7">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1867"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1880"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kFh-mw-HQB" userLabel="Photos">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="248"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moR-ae-6ms">
-                                                        <rect key="frame" x="2" y="2" width="299" height="244"/>
+                                                        <rect key="frame" x="2" y="2" width="298.5" height="244"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_take_photo.png" translatesAutoresizingMaskIntoConstraints="NO" id="vAy-4m-1xm" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="126" y="98" width="48" height="48"/>
@@ -10482,7 +10482,7 @@ Gambar Utama</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Fx-Hx-amw">
-                                                                <rect key="frame" x="0.0" y="0.0" width="299" height="244"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="298.5" height="244"/>
                                                             </imageView>
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
@@ -10506,10 +10506,10 @@ Gambar Utama</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COP-EF-EKR">
-                                                        <rect key="frame" x="303" y="2" width="295" height="244"/>
+                                                        <rect key="frame" x="303" y="2" width="296" height="244"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xHZ-Ve-2Cz">
-                                                                <rect key="frame" x="2" y="0.0" width="148" height="122"/>
+                                                                <rect key="frame" x="4" y="0.0" width="148" height="122"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_backarrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zgw-qN-lmF" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="58" y="25" width="32" height="32"/>
@@ -10528,14 +10528,14 @@ Belakang</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o79-FN-lMk">
-                                                                        <rect key="frame" x="0.0" y="61" width="148" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="61" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="AyB-Ne-wDF"/>
                                                                         </constraints>
                                                                     </view>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wLd-lb-Naq">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="148" height="122"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="147.5" height="121.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
@@ -10555,7 +10555,7 @@ Belakang</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="byz-T2-L6n">
-                                                                <rect key="frame" x="150" y="0.0" width="147" height="122"/>
+                                                                <rect key="frame" x="152" y="0.0" width="147" height="122"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" misplaced="YES" image="ic_hanger.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yfo-5i-icj" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="53" y="18" width="40" height="40"/>
@@ -10601,7 +10601,7 @@ Dipakai</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qAq-Kj-g4Z">
-                                                                <rect key="frame" x="2" y="123" width="148" height="121"/>
+                                                                <rect key="frame" x="4" y="123" width="148" height="121"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_tag.png" translatesAutoresizingMaskIntoConstraints="NO" id="iYR-k1-998" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="58" y="25" width="32" height="32"/>
@@ -10620,7 +10620,7 @@ Label / Merek</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ew-Xe-Ekx">
-                                                                        <rect key="frame" x="0.0" y="61" width="148" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="61" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="MWZ-9R-LUz"/>
@@ -10647,7 +10647,7 @@ Label / Merek</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pl-uy-2oC">
-                                                                <rect key="frame" x="150" y="123" width="147" height="121"/>
+                                                                <rect key="frame" x="152" y="123" width="147" height="121"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" misplaced="YES" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="2ST-uy-rgO" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                         <rect key="frame" x="57" y="26" width="32" height="32"/>
@@ -11809,8 +11809,8 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                         <variation key="default">
                                                             <mask key="constraints">
-                                                                <exclude reference="zNu-Nh-tWF"/>
                                                                 <exclude reference="pEy-3Q-1xj"/>
+                                                                <exclude reference="zNu-Nh-tWF"/>
                                                             </mask>
                                                         </variation>
                                                     </view>
@@ -12083,7 +12083,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         <rect key="frame" x="8" y="38" width="584" height="80"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ocb-FZ-r1o" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="194" height="80"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="193.5" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt; 1 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfl-bX-doC">
                                                                         <rect key="frame" x="71" y="29" width="51" height="21"/>
@@ -12092,7 +12092,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ss5-rm-MS3">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="194" height="80"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="193.5" height="80"/>
                                                                         <state key="normal">
                                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
@@ -12120,16 +12120,16 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0He-1I-uf8" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                                                <rect key="frame" x="391" y="0.0" width="193" height="80"/>
+                                                                <rect key="frame" x="391" y="0.0" width="194" height="80"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&gt; 2 Kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgs-Sy-imD">
-                                                                        <rect key="frame" x="74" y="29" width="51" height="21"/>
+                                                                        <rect key="frame" x="76" y="29" width="51" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JI0-fd-HuX">
-                                                                        <rect key="frame" x="2" y="0.0" width="194" height="80"/>
+                                                                        <rect key="frame" x="4" y="0.0" width="194" height="80"/>
                                                                         <state key="normal">
                                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </state>
@@ -12409,18 +12409,48 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                     </mask>
                                                 </variation>
                                             </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GZ-uo-i0X">
+                                                <rect key="frame" x="8" y="1755" width="584" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14" id="kN2-Vk-LlH"/>
+                                                </constraints>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Barang akan kembali di-">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="review">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue-Italic"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content=" oleh admin">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XO8-Qi-UqI">
-                                                <rect key="frame" x="8" y="1759" width="584" height="40"/>
+                                                <rect key="frame" x="8" y="1777" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="Pmv-0X-Xlx"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="UPLOAD BARANG" backgroundImage="basic_green.png">
+                                                <state key="normal" title="LANJUTKAN" backgroundImage="basic_green.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnQ-dt-WJw" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="1807" width="584" height="40"/>
+                                                <rect key="frame" x="8" y="1825" width="584" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="i8U-kI-QKy"/>
                                                 </constraints>
@@ -12454,11 +12484,13 @@ mis: 32 GB, dark blue, lightning charger</string>
                                             <constraint firstAttribute="trailing" secondItem="xaC-RP-CkD" secondAttribute="trailing" id="9mC-l2-7YE"/>
                                             <constraint firstItem="lIu-9O-3Pa" firstAttribute="top" secondItem="cth-Jn-da4" secondAttribute="bottom" constant="16" id="AG6-Bm-JA0"/>
                                             <constraint firstAttribute="trailing" secondItem="QtH-pe-m2w" secondAttribute="trailing" constant="8" id="AYI-x9-rbc"/>
+                                            <constraint firstAttribute="trailing" secondItem="9GZ-uo-i0X" secondAttribute="trailing" constant="8" id="BIe-WD-6dI"/>
                                             <constraint firstItem="QtH-pe-m2w" firstAttribute="top" secondItem="kFh-mw-HQB" secondAttribute="bottom" constant="8" id="DYW-TO-5RC"/>
                                             <constraint firstAttribute="trailing" secondItem="3yp-Ph-599" secondAttribute="trailing" id="EQy-FF-E4m"/>
                                             <constraint firstItem="hnQ-dt-WJw" firstAttribute="top" secondItem="XO8-Qi-UqI" secondAttribute="bottom" constant="8" id="Fmp-Xg-SRT"/>
                                             <constraint firstAttribute="trailing" secondItem="xtY-vt-c7n" secondAttribute="trailing" constant="8" id="G8O-pp-2BE"/>
                                             <constraint firstAttribute="trailing" secondItem="hnQ-dt-WJw" secondAttribute="trailing" constant="8" id="HAP-52-Vwa"/>
+                                            <constraint firstAttribute="bottom" secondItem="hnQ-dt-WJw" secondAttribute="bottom" constant="15" id="Hl4-Zn-COb"/>
                                             <constraint firstAttribute="bottom" secondItem="hnQ-dt-WJw" secondAttribute="bottom" constant="20" id="I37-Wp-qWX"/>
                                             <constraint firstItem="kFh-mw-HQB" firstAttribute="top" secondItem="TUk-fb-6G7" secondAttribute="top" id="Kzh-QH-Ty3"/>
                                             <constraint firstAttribute="trailing" secondItem="XO8-Qi-UqI" secondAttribute="trailing" constant="8" id="Md7-lH-qEA"/>
@@ -12467,11 +12499,13 @@ mis: 32 GB, dark blue, lightning charger</string>
                                             <constraint firstAttribute="trailing" secondItem="Wp6-P0-qTY" secondAttribute="trailing" id="RNJ-YC-9X4"/>
                                             <constraint firstAttribute="trailing" secondItem="sqq-ri-s9Q" secondAttribute="trailing" id="TST-Ka-ia9"/>
                                             <constraint firstItem="3yp-Ph-599" firstAttribute="top" secondItem="kFh-mw-HQB" secondAttribute="bottom" constant="36" id="Uew-0r-szG"/>
-                                            <constraint firstItem="XO8-Qi-UqI" firstAttribute="top" secondItem="xaC-RP-CkD" secondAttribute="bottom" constant="8" id="Vel-0r-r9q"/>
+                                            <constraint firstItem="XO8-Qi-UqI" firstAttribute="top" secondItem="xaC-RP-CkD" secondAttribute="bottom" constant="26" id="Vel-0r-r9q"/>
                                             <constraint firstItem="Wp6-P0-qTY" firstAttribute="leading" secondItem="TUk-fb-6G7" secondAttribute="leading" id="Wnt-Ib-nqN"/>
                                             <constraint firstItem="xtY-vt-c7n" firstAttribute="top" secondItem="3yp-Ph-599" secondAttribute="bottom" constant="8" id="Zb9-3K-KZ5"/>
                                             <constraint firstItem="sqq-ri-s9Q" firstAttribute="top" secondItem="xtY-vt-c7n" secondAttribute="bottom" constant="498" id="b0X-T8-DyX"/>
                                             <constraint firstAttribute="trailing" secondItem="lIu-9O-3Pa" secondAttribute="trailing" id="f32-7T-sWz"/>
+                                            <constraint firstItem="9GZ-uo-i0X" firstAttribute="leading" secondItem="TUk-fb-6G7" secondAttribute="leading" constant="8" id="gAh-ho-0O4"/>
+                                            <constraint firstItem="9GZ-uo-i0X" firstAttribute="top" secondItem="xaC-RP-CkD" secondAttribute="bottom" constant="4" id="gX0-4b-vBc"/>
                                             <constraint firstItem="3yp-Ph-599" firstAttribute="leading" secondItem="TUk-fb-6G7" secondAttribute="leading" id="gi9-pZ-OhF"/>
                                             <constraint firstItem="xtY-vt-c7n" firstAttribute="leading" secondItem="TUk-fb-6G7" secondAttribute="leading" constant="8" id="hOd-PU-YFq"/>
                                             <constraint firstItem="xaC-RP-CkD" firstAttribute="top" secondItem="Wp6-P0-qTY" secondAttribute="bottom" id="jgf-n2-YjO"/>
@@ -12492,6 +12526,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                 <exclude reference="4jX-Jc-WXr"/>
                                                 <exclude reference="lXp-cI-cFm"/>
                                                 <exclude reference="6J5-Y7-cwI"/>
+                                                <exclude reference="I37-Wp-qWX"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -12507,7 +12542,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                 </connections>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBf-Wa-pPY">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1867"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1900"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gXa-9f-hiS">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
@@ -12669,7 +12704,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="248"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vou-bL-RDG">
-                                                        <rect key="frame" x="2" y="2" width="299" height="244"/>
+                                                        <rect key="frame" x="2" y="2" width="298.5" height="244"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_take_photo.png" translatesAutoresizingMaskIntoConstraints="NO" id="PiN-m0-z2T" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                                                                 <rect key="frame" x="126" y="98" width="48" height="48"/>
@@ -12692,7 +12727,7 @@ Gambar Utama</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FFm-6m-79O">
-                                                                <rect key="frame" x="0.0" y="0.0" width="299" height="244"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="298.5" height="244"/>
                                                             </imageView>
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -12716,13 +12751,13 @@ Gambar Utama</string>
                                                         </variation>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eS4-IB-HF6">
-                                                        <rect key="frame" x="303" y="2" width="295" height="244"/>
+                                                        <rect key="frame" x="303" y="2" width="296" height="244"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yag-GM-UbX">
-                                                                <rect key="frame" x="0.0" y="0.0" width="148" height="122"/>
+                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yag-GM-UbX">
+                                                                <rect key="frame" x="1" y="0.0" width="148" height="122"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_backarrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="8Z8-MC-CNU" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="58" y="25" width="32" height="32"/>
+                                                                        <rect key="frame" x="57.5" y="25" width="32" height="32"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="8Z8-MC-CNU" secondAttribute="height" multiplier="1:1" id="S8D-rf-iha"/>
@@ -12730,7 +12765,7 @@ Gambar Utama</string>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0l1-VB-HfZ">
-                                                                        <rect key="frame" x="4" y="65" width="140" height="29"/>
+                                                                        <rect key="frame" x="4" y="65" width="139.5" height="29"/>
                                                                         <string key="text">Tampak
 Belakang</string>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -12738,14 +12773,14 @@ Belakang</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Agn-s0-xF5">
-                                                                        <rect key="frame" x="0.0" y="61" width="148" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="61" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="JT4-Cm-li3"/>
                                                                         </constraints>
                                                                     </view>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nh0-Oq-EEn">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="148" height="122"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="147.5" height="121.5"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -12810,11 +12845,11 @@ Dipakai</string>
                                                                     <constraint firstAttribute="centerX" secondItem="OyQ-ri-fae" secondAttribute="centerX" id="yY3-hR-xqQ"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uap-wg-kiC">
-                                                                <rect key="frame" x="0.0" y="124" width="148" height="120"/>
+                                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uap-wg-kiC">
+                                                                <rect key="frame" x="1" y="123" width="148" height="121"/>
                                                                 <subviews>
                                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_tag.png" translatesAutoresizingMaskIntoConstraints="NO" id="7gn-Pt-xdR" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="58" y="25" width="32" height="32"/>
+                                                                        <rect key="frame" x="57.5" y="24.5" width="32" height="32"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="32" id="Ong-Qw-PAC"/>
@@ -12830,7 +12865,7 @@ Label / Merek</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LWf-d7-6z5">
-                                                                        <rect key="frame" x="0.0" y="61" width="148" height="0.0"/>
+                                                                        <rect key="frame" x="0.0" y="60.5" width="147.5" height="0.0"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" id="zqt-sw-Jsh"/>
@@ -12857,10 +12892,10 @@ Label / Merek</string>
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h4q-R4-8Qe">
-                                                                <rect key="frame" x="150" y="124" width="146" height="120"/>
+                                                                <rect key="frame" x="150" y="123" width="146" height="121"/>
                                                                 <subviews>
-                                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-Es-fFB" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                                                        <rect key="frame" x="57" y="25" width="32" height="32"/>
+                                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" misplaced="YES" image="ic_cacat.png" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-Es-fFB" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                                                        <rect key="frame" x="57" y="24.5" width="32" height="32"/>
                                                                         <color key="tintColor" red="0.0" green="0.65557110919999995" blue="0.59516014689999996" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="32" id="EUZ-n8-RpT"/>
@@ -13011,7 +13046,7 @@ Label / Merek</string>
                         <barButtonItem key="backBarButtonItem" title=" " id="Ez1-G3-gBZ"/>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="1867"/>
+                    <size key="freeformSize" width="600" height="1900"/>
                     <connections>
                         <outlet property="btnDelete" destination="hnQ-dt-WJw" id="Ggd-82-bkY"/>
                         <outlet property="btnSubmit" destination="XO8-Qi-UqI" id="Kra-CS-GPi"/>
@@ -13039,6 +13074,7 @@ Label / Merek</string>
                         <outlet property="lblChkOriginalBox" destination="UOa-zd-uEA" id="nhO-VW-7Ed"/>
                         <outlet property="lblChkOriginalDustbox" destination="p12-Fs-KmA" id="8K9-qE-hYW"/>
                         <outlet property="lblChkReceipt" destination="bGz-Bb-qr1" id="3qV-7r-4ut"/>
+                        <outlet property="lblSubmit" destination="9GZ-uo-i0X" id="IvV-14-tO7"/>
                         <outlet property="scrollView" destination="zWY-wC-rl5" id="mA2-ZI-UoH"/>
                         <outlet property="sizePicker" destination="ESa-2z-iuw" id="9Z6-eW-8jD"/>
                         <outlet property="txtAlasanJual" destination="wW1-Ei-3h2" id="LlR-4J-He0"/>
@@ -13077,7 +13113,7 @@ Label / Merek</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXp-0r-Poi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1691" y="-3073.5"/>
+            <point key="canvasLocation" x="1691" y="-3074"/>
         </scene>
         <!--Prelo Web View Controller-->
         <scene sceneID="qAS-0W-mKA">

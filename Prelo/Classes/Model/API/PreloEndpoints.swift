@@ -425,7 +425,7 @@ enum APIInbox : URLRequestConvertible
             switch self
             {
             case .GetInboxByProductID(let prodId) : return "product/"+prodId
-            case .GetInboxByProductIDSeller(let prodId, _) : return "product/seller/"+prodId
+            case .GetInboxByProductIDSeller(let prodId, _) : return "product/buyer/"+prodId
             case .GetInboxes : return ""
             case .GetInboxMessage(let inboxId) : return inboxId
             case .SendTo (let inboxId, _, _) : return inboxId

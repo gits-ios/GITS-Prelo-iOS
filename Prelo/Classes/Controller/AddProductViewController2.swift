@@ -62,6 +62,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionMerek : UILabel!
     @IBOutlet var captionKategori : UILabel!
     
+    @IBOutlet var lblSubmit: UILabel!
     @IBOutlet var btnSubmit : UIButton!
     @IBOutlet var fakeBtnSubmit : UIButton!
     
@@ -136,6 +137,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), forControlEvents: .TouchUpInside)
         } else
         {
+            lblSubmit.hidden = true
             btnDelete.hidden = true
             conHeightBtnDelete.constant = 0
             conMarginBtnDelete.constant = 0
@@ -202,8 +204,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (editMode)
         {
             self.title = PageName.EditProduct
-            self.btnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
-            self.fakeBtnSubmit.setTitle("Simpan", forState: UIControlState.Normal)
+            self.btnSubmit.setTitle("SIMPAN", forState: UIControlState.Normal)
+            self.fakeBtnSubmit.setTitle("SIMPAN", forState: UIControlState.Normal)
             
             txtName.text = editProduct?.name
             txtDescription.text = editProduct?.json["_data"]["description"].string
@@ -294,11 +296,40 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //            self.txtDeskripsiCacat.text = editProduct?.defectDescription
             self.txtSpesial.text = editProduct?.specialStory
             self.getSizes()
-        } else
+            
+            // Luxury fields
+            if let luxData = editProduct?.json["_data"]["luxury_data"] {
+                // Show luxury fields
+                self.groupVerifAuth.hidden = false
+                self.groupKelengkapan.hidden = false
+                self.conTopOngkirGroup.constant = 498
+                
+                // Set texts
+                txtLuxStyleName.text = luxData["style_name"].stringValue
+                txtLuxSerialNumber.text = luxData["serial_number"].stringValue
+                txtLuxLokasiBeli.text = luxData["purchase_location"].stringValue
+                txtLuxTahunBeli.text = luxData["purchase_year"].stringValue
+                
+                // Set checkboxes
+                if (luxData["original_box"].bool == true) {
+                    btnChkOriginalBoxPressed("")
+                }
+                if (luxData["original_dustbox"].bool == true) {
+                    btnChkOriginalDustboxPressed("")
+                }
+                if (luxData["receipt"].bool == true) {
+                    btnChkReceipt("")
+                }
+                if (luxData["authenticity_card"].bool == true) {
+                    btnChkAuthCard("")
+                }
+            }
+        }
+        else
         {
             self.title = PageName.AddProduct
-            self.btnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
-            self.fakeBtnSubmit.setTitle("Upload Barang", forState: UIControlState.Normal)
+            self.btnSubmit.setTitle("LANJUTKAN", forState: UIControlState.Normal)
+            self.fakeBtnSubmit.setTitle("LANJUTKAN", forState: UIControlState.Normal)
             
             // Hide luxury fields
             self.groupVerifAuth.hidden = true

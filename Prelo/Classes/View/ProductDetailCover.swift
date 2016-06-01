@@ -73,7 +73,7 @@ class ProductDetailCover: UIView {
                 topLabel.numberOfLines = 0
                 topBanner.addSubview(topLabel)
                 if (status == 5) {
-                    topLabel.text = "Alasan tidak lolos: \(tbText)"
+                    topLabel.text = tbText
                     self.addSubview(topBanner)
                 }
             }
