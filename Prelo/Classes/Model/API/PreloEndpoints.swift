@@ -761,6 +761,17 @@ enum APICart : URLRequestConvertible
     
     var URLRequest : NSMutableURLRequest
     {
+//        switch self
+//        {
+//            case .Refresh(_, _, _) :
+//                let url = NSBundle.mainBundle().URLForResource("dummyCart", withExtension: ".json")
+//                let req = NSMutableURLRequest.defaultURLRequest(url!)
+//                return req
+//            default :
+//                print("")
+//            
+//        }
+        
         let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APICart.basePath).URLByAppendingPathComponent(path)
         let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
         req.HTTPMethod = method.rawValue

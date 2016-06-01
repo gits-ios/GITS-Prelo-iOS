@@ -263,7 +263,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     func dismiss()
     {
         if (pickerDelegate != nil) {
-            pickerDelegate!.pickerCancelled!()
+            pickerDelegate!.pickerCancelled?()
         }
         if (self.navigationController != nil) {
             self.navigationController?.popViewControllerAnimated(true)

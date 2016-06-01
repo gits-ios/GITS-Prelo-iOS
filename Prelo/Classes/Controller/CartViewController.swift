@@ -318,6 +318,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         request(APICart.Refresh(cart: p, address: a, voucher: voucher)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
                 let json = JSON(resp.result.value!)
+                print(json)
                 self.currentCart = json
                 
                 self.balanceAvailable = json["_data"]["balance_available"].intValue
@@ -513,6 +514,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
 //                    print(res)
                     let json = JSON(resp.result.value!)
                     self.checkoutResult = json["_data"]
+                    
+                    let _have_error = self.checkoutResult?["_have_error"].intValue
                     
                     if (json["_data"]["_have_error"].intValue == 1)
                     {
@@ -774,6 +777,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let i = tableView.dequeueReusableCellWithIdentifier("cell_item2") as! CartCellItem
                 let cp = products[indexPath.row]
                 i.selectedPaymentId = cp.packageId
+//                i.selectedPaymentId = "" // debug
                 i.adapt(arrayItem[indexPath.row])
                 i.cartItemCellDelegate = self
                 
@@ -1517,6 +1521,7 @@ class CartCellItem : UITableViewCell
         print(json)
         captionName?.text = json["name"].stringValue
         captionLocation?.text = ""
+        captionFrom?.text = ""
         
         if let raw : Array<AnyObject> = json["display_picts"].arrayObject
         {
@@ -1546,6 +1551,18 @@ class CartCellItem : UITableViewCell
             captionPrice?.attributedText = attString
             captionPrice?.numberOfLines = 0
             shade?.hidden = false
+            
+            self.btnShippment?.hidden = true
+            
+            let sellerLocationID = json["seller_region"].stringValue
+            if let regionName = CDRegion.getRegionNameWithID(sellerLocationID)
+            {
+                self.captionFrom?.text = "Dikirim dari " + regionName
+            } else
+            {
+                self.captionFrom?.text = ""
+            }
+            
         } else {
             let sh = json["shipping_packages"].array!
             var first = sh.first
@@ -1567,6 +1584,10 @@ class CartCellItem : UITableViewCell
             if let name = first?["name"].string
             {
                 self.btnShippment?.setTitle(name, forState: UIControlState.Normal)
+                self.btnShippment?.hidden = false
+            } else
+            {
+                self.btnShippment?.hidden = true
             }
             
             let ongkirString = ongkir == 0 ? "(FREE ONGKIR)" : " (+ONGKIR " + ongkir!.asPrice + ")"
