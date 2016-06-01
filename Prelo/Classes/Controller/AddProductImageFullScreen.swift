@@ -78,10 +78,36 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
     
     @IBAction func replace(sender : UIView?)
     {
+//        let i = UIImagePickerController()
+//        i.sourceType = .PhotoLibrary
+//        i.delegate = self
+//        self.presentViewController(i, animated: true, completion: nil)
         let i = UIImagePickerController()
         i.sourceType = .PhotoLibrary
         i.delegate = self
-        self.presentViewController(i, animated: true, completion: nil)
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.Camera))
+        {
+            let a = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            a.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { act in
+                i.sourceType = .Camera
+                self.presentViewController(i, animated: true, completion: {
+                    
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
+                self.presentViewController(i, animated: true, completion: {
+                    
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
+            self.presentViewController(a, animated: true, completion: nil)
+        } else
+        {
+            self.presentViewController(i, animated: true, completion: {
+                
+            })
+        }
         
 //        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, doneBlock: { imgs in
 //            if (imgs.count > 0)

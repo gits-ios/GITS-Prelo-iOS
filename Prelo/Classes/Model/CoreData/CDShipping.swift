@@ -17,17 +17,47 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageId : String
     @NSManaged var packageName : String
     
+    static func saveShippingsFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            let ship = arr[i]
+            n.id = ship["_id"].stringValue
+            n.name = ship["name"].stringValue
+            n.packageId = ""
+            n.packageName = ""
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveShippingsFromArrayJson failed")
+            return false
+        } else {
+            print("saveShippingsFromArrayJson success")
+            return true
+        }
+    }
+    
+    static func getAll() -> [CDShipping] {
+        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        
+        do {
+            if let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDShipping] {
+                return r
+            }
+            return []
+        } catch {
+            return []
+        }
+    }
+    
     static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]
-            for j in 0 ..< shipJson["shipping_packages"].count {
-                let packJson = shipJson["shipping_packages"][j]
-                let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
-                r.id = shipJson["_id"].string!
-                r.name = shipJson["name"].string!
-                r.packageId = packJson["_id"].string!
-                r.packageName = packJson["name"].string!
-            }
+            let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            r.id = shipJson["_id"].stringValue
+            r.name = shipJson["name"].stringValue
+            r.packageId = ""
+            r.packageName = ""
         }
         if (m.saveSave() == false) {
             print("saveShippings failed")
@@ -83,13 +113,13 @@ class CDShipping: NSManagedObject {
     
     static func getShippingCompleteNameWithId(id : String) -> String? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let predicate = NSPredicate(format: "packageId like[c] %@", id)
+        let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
         fetchReq.predicate = predicate
         guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return nil
         }
         let s = r.first as! CDShipping
-        return "\(s.name) \(s.packageName)"
+        return "\(s.name)"
     }
 }

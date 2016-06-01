@@ -64,7 +64,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         // Only track if scrollView did finish the scroll
         if (Int(p.x) % Int(scrollView.width) == 0) {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " \(pager.currentPage + 1)")
+            //Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " \(pager.currentPage + 1)")
             
             // Google Analytics
             GAI.trackPageVisit(PageName.FirstTimeTutorial + " \(pager.currentPage + 1)")
@@ -75,7 +75,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " 1")
+        //Mixpanel.trackPageVisit(PageName.FirstTimeTutorial + " 1")
         
         // Google Analytics
         GAI.trackPageVisit(PageName.FirstTimeTutorial + " 1")
@@ -93,27 +93,11 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     {
         if (pager.currentPage == 4)
         {
-            if (!NSUserDefaults.isCategorySaved()) {
-                // Wait until category is saved
-                Constant.showDialog("Loading Category...", message: "tekan 'OK' kemudian tunggu beberapa saat")
-            } else {
-                let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
-                catPrefVC.parent = parent
-                self.navigationController?.pushViewController(catPrefVC, animated: true)
-            }
+            let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
+            catPrefVC.parent = parent
+            self.navigationController?.pushViewController(catPrefVC, animated: true)
         } else {
             scrollView.setContentOffset(CGPointMake(CGFloat(CGFloat(pager.currentPage+1) * UIScreen.mainScreen().bounds.width), CGFloat(0)), animated: true)
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

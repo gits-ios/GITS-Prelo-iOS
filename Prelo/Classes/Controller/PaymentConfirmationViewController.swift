@@ -45,7 +45,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         lblEmpty.hidden = true
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
+        //Mixpanel.trackPageVisit(PageName.UnpaidTransaction)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.UnpaidTransaction)
@@ -72,6 +72,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
         request(APITransaction.CheckoutList(current: "", limit: "")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Pesanan Saya")) {
                 let json = JSON(resp.result.value!)
+                print(json)
                 let data = json["_data"]
                 
                 // Store data into variable
@@ -144,6 +145,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
             orderConfirmVC.total = u.totalPrice
             orderConfirmVC.images = imgs
             orderConfirmVC.fromCheckout = false
+            orderConfirmVC.kodeTransfer = u.banktransferDigit
             self.navigationController?.pushViewController(orderConfirmVC, animated: true)
         }
     }
@@ -175,7 +177,7 @@ class PaymentConfirmationCell : UITableViewCell {
             lblPrice.text = "Pembayaran diproses"
             lblPrice.textColor = Theme.PrimaryColor
         } else {
-            lblPrice.text = "\(userCheckout.totalPrice.asPrice)"
+            lblPrice.text = "\((userCheckout.totalPrice + userCheckout.banktransferDigit).asPrice)"
             lblPrice.textColor = Theme.GrayDark
         }
         let pCount : Int = userCheckout.transactionProducts.count

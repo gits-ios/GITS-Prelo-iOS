@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -51,6 +51,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var consTopApply: NSLayoutConstraint!
     var consTopGroups: [NSLayoutConstraint] = []
     
+    @IBOutlet var consHeightShippingOptions: NSLayoutConstraint!
+    @IBOutlet var tableShipping: UITableView!
+    var shippingList : [CDShipping] = []
+    var shippingCellHeight : CGFloat = 40
+    
     @IBOutlet weak var btnUserImage: UIButton!
     
     @IBOutlet weak var lblFullname: UILabel!
@@ -68,17 +73,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var lblProvinsi: UILabel!
     @IBOutlet weak var lblKabKota: UILabel!
     
-    @IBOutlet weak var lblJneCheckbox: UILabel!
-    @IBOutlet weak var lblTikiCheckbox: UILabel!
-    
     @IBOutlet weak var fieldKodeReferral: UITextField!
     
     @IBOutlet weak var btnApply: UIButton!
-    
-    var jneSelected : Bool = false
-    var tikiSelected : Bool = false
-    let JNE_REGULAR_ID = "54087faabaede1be0b000001"
-    let TIKI_REGULAR_ID = "5405c038ace83c4304ec0caf"
     
     var selectedProvinsiID = ""
     var selectedKabKotaID = ""
@@ -197,6 +194,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     }
     
     func setupContent() {
+        // Shipping table setup
+        self.shippingList = CDShipping.getAll()
+        self.tableShipping.tableFooterView = UIView()
+        self.tableShipping.delegate = self
+        self.tableShipping.dataSource = self
+        self.tableShipping.registerNib(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
+        
         // Set header alert
         if (!isFromRegister) {
             self.lblHeaderAlert.text = "Kamu perlu menyelesaikan Setelan Akun"
@@ -259,7 +263,13 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     deltaX += wideSpace
                 }
                 consTopGroups[i].constant = deltaX
-                deltaX += groups[i].frame.size.height
+                if (i == 7) { // Special case, because shipping group have its own table
+                    let groupHeight = 44 + (self.shippingCellHeight * CGFloat(self.shippingList.count))
+                    consHeightShippingOptions.constant = groupHeight
+                    deltaX += groupHeight
+                } else {
+                    deltaX += groups[i].frame.size.height
+                }
             } else {
                 groups[i].hidden = true
             }
@@ -300,6 +310,38 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             isPickingKabKota = false
         }
     }
+    
+    func pickerCancelled() {
+        isPickingJenKel = false
+        isPickingProvinsi = false
+        isPickingKabKota = false
+    }
+    
+    // MARK: - UITableView functions
+    // Used for shipping table
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.shippingList.count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return self.shippingCellHeight
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell : ShippingCell = self.tableShipping.dequeueReusableCellWithIdentifier("ShippingCell") as! ShippingCell
+        cell.selectionStyle = .None
+        cell.lblName.text = shippingList[indexPath.row].name
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ShippingCell {
+            cell.cellTapped()
+        }
+    }
+    
+    // MARK: - IBActions
     
     @IBAction func userImagePressed(sender: AnyObject) {
         ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
@@ -399,32 +441,6 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
     }
     
-    @IBAction func jneRegulerPressed(sender: UIButton) {
-        jneSelected = !jneSelected
-        if (jneSelected) {
-            lblJneCheckbox.text = "";
-            lblJneCheckbox.font = AppFont.Prelo2.getFont(19)!
-            lblJneCheckbox.textColor = Theme.ThemeOrange
-        } else {
-            lblJneCheckbox.text = "";
-            lblJneCheckbox.font = AppFont.PreloAwesome.getFont(24)!
-            lblJneCheckbox.textColor = Theme.GrayLight
-        }
-    }
-    
-    @IBAction func tikiRegulerPressed(sender: UIButton) {
-        tikiSelected = !tikiSelected
-        if (tikiSelected) {
-            lblTikiCheckbox.text = "";
-            lblTikiCheckbox.font = AppFont.Prelo2.getFont(19)!
-            lblTikiCheckbox.textColor = Theme.ThemeOrange
-        } else {
-            lblTikiCheckbox.text = "";
-            lblTikiCheckbox.font = AppFont.PreloAwesome.getFont(24)!
-            lblTikiCheckbox.textColor = Theme.GrayLight
-        }
-    }
-    
     func fieldsVerified() -> Bool {
         if (isSocmedAccount == true) { // fieldFullname menjadi fieldUsername
             if (fieldFullname.text == "") {
@@ -453,7 +469,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             Constant.showDialog("Warning", message: "Kota/Kabupaten harus diisi")
             return false
         }
-        if (!jneSelected && !tikiSelected) {
+        var isShippingVerified = false
+        for i in 0...self.shippingList.count - 1 {
+            if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+                if (cell.isShippingSelected) {
+                    isShippingVerified = true
+                }
+            }
+        }
+        if (!isShippingVerified) {
             Constant.showDialog("Warning", message: "Pilihan Kurir harus diisi")
             return false
         }
@@ -476,7 +500,17 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             _ = fieldFullname?.text
             let userGender = (lblJenisKelamin?.text == "Pria") ? 0 : 1
             let userPhone = fieldNoHP?.text
-            let userShipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            var userShipping : String = ""
+            for i in 0...self.shippingList.count - 1 {
+                if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+                    if (cell.isShippingSelected) {
+                        if (userShipping != "") {
+                            userShipping += ","
+                        }
+                        userShipping += shippingList[i].id
+                    }
+                }
+            }
             let userReferral = fieldKodeReferral.text!
             let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
             
@@ -571,5 +605,41 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         }
+    }
+}
+
+class ShippingCell : UITableViewCell {
+    
+    @IBOutlet var lblCheckbox: UILabel!
+    @IBOutlet var lblName: UILabel!
+    
+    var isShippingSelected : Bool = false
+    
+    override func prepareForReuse() {
+        setShippingDeselected()
+        lblName.text = ""
+    }
+    
+    func cellTapped() {
+        isShippingSelected = !isShippingSelected
+        if (isShippingSelected) {
+            setShippingSelected()
+        } else {
+            setShippingDeselected()
+        }
+    }
+    
+    func setShippingSelected() {
+        isShippingSelected = true
+        lblCheckbox.text = "";
+        lblCheckbox.font = AppFont.Prelo2.getFont(19)!
+        lblCheckbox.textColor = Theme.ThemeOrange
+    }
+    
+    func setShippingDeselected() {
+        isShippingSelected = false
+        lblCheckbox.text = "";
+        lblCheckbox.font = AppFont.PreloAwesome.getFont(24)!
+        lblCheckbox.textColor = Theme.GrayLight
     }
 }

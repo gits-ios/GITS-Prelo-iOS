@@ -287,6 +287,20 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 let numReview = json["num_reviewer"].intValue
                 self.storeHeader?.captionReview.text = "(\(numReview) Review)"
                 
+                // Last seen
+                if let lastSeenDateString = json["others"]["last_seen"].string {
+                    let formatter = NSDateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    if let lastSeenDate = formatter.dateFromString(lastSeenDateString) {
+                        self.storeHeader?.captionLastActive.text = lastSeenDate.relativeDescription
+                    }
+                }
+                
+                // Chat percentage
+                if let chatPercentage = json["others"]["replied_chat_percentage"].int {
+                    self.storeHeader?.captionChatPercentage.text = "\(chatPercentage)%"
+                }
+                
                 var height = 0
                 
                 if let desc = json["profile"]["description"].string
@@ -340,9 +354,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
                 
-                if let count = self.products?.count
-                {
-                    self.storeHeader?.captionTotal.text = String(count) + " BARANG"
+                // Total products and sold products
+                if let productCount = json["total_product"].int {
+                    if let soldProductCount = json["total_product_sold"].int {
+                        self.storeHeader?.captionTotal.text = "\(productCount) BARANG, \(soldProductCount) TERJUAL"
+                    } else {
+                        self.storeHeader?.captionTotal.text = "\(productCount) BARANG"
+                    }
+                } else {
+                    if let count = self.products?.count {
+                        self.storeHeader?.captionTotal.text = String(count) + " BARANG"
+                    }
                 }
                 
                 self.storeHeader?.captionLocation.text = "Unknown"

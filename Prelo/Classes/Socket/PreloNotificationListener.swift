@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Crashlytics
 
 protocol PreloNotifListenerDelegate {
     func showNewNotifCount(count : Int)
@@ -46,8 +47,13 @@ class PreloNotificationListener {
     }
     
     func setupSocket() {
-        let del = UIApplication.sharedApplication().delegate as! AppDelegate
-        self.socket = del.messagePool.socket
+        if let del = UIApplication.sharedApplication().delegate as? AppDelegate {
+        self.socket = del.messagePool?.socket
+        } else
+        {
+            let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"PreloNotificationListener"])
+        }
     }
         
     func handleNotification(json : JSON) {

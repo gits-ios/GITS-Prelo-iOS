@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import TwitterKit
 
-class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, UIAlertViewDelegate {
+class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var scrollView : UIScrollView?
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
@@ -36,16 +36,16 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBOutlet weak var fieldTentangShop: UITextView!
     @IBOutlet weak var fieldTentangShopHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var lblJneCheckbox: UILabel!
-    @IBOutlet weak var lblTikiCheckbox: UILabel!
-    
     @IBOutlet weak var btnSimpanData: UIButton!
     
     @IBOutlet weak var loadingPanel: UIView!
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
-    var jneSelected : Bool = false
-    var tikiSelected : Bool = false
+    @IBOutlet var consHeightShippingOptions: NSLayoutConstraint!
+    @IBOutlet var tableShipping: UITableView!
+    var shippingList : [CDShipping] = []
+    var userShippingIdList : [String] = []
+    var shippingCellHeight : CGFloat = 40
     let JNE_REGULAR_ID = "54087faabaede1be0b000001"
     let TIKI_REGULAR_ID = "5405c038ace83c4304ec0caf"
     
@@ -185,24 +185,17 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.selectedProvinsiID = userProfile.provinceID
         self.selectedKabKotaID = userProfile.regionID
         
-        // Shipping
-        let shippingIds : [String] = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
-        //print("shippingIds = \(shippingIds)")
-        for i in 0 ..< shippingIds.count {
-            let shipId : String = shippingIds[i]
-            let shipName : String = CDShipping.getShippingCompleteNameWithId(shipId)!
-            if (shipName == "JNE Reguler") {
-                jneSelected = true
-                lblJneCheckbox.text = "";
-                lblJneCheckbox.font = AppFont.Prelo2.getFont(19)!
-                lblJneCheckbox.textColor = Theme.ThemeOrange
-            } else if (shipName == "TIKI Reguler") {
-                tikiSelected = true
-                lblTikiCheckbox.text = "";
-                lblTikiCheckbox.font = AppFont.Prelo2.getFont(19)!
-                lblTikiCheckbox.textColor = Theme.ThemeOrange
-            }
-        }
+        // Shipping table setup
+        self.shippingList = CDShipping.getAll()
+        self.userShippingIdList = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
+        self.tableShipping.tableFooterView = UIView()
+        self.tableShipping.delegate = self
+        self.tableShipping.dataSource = self
+        self.tableShipping.registerNib(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
+        self.tableShipping.reloadData()
+        let tableShippingHeight = self.shippingCellHeight * CGFloat(self.shippingList.count)
+        self.contentViewHeightConstraint.constant = 1048 + tableShippingHeight
+        self.consHeightShippingOptions.constant = 44 + tableShippingHeight
         
         // Socmed
         if (self.checkFbLogin(userOther)) { // Sudah login
@@ -272,6 +265,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             lblKabKota?.text = PickerViewController.HideHiddenString(item)
             isPickingKabKota = false
         }
+    }
+    
+    func pickerCancelled() {
+        isPickingJenKel = false
+        isPickingProvinsi = false
+        isPickingKabKota = false
     }
     
     @IBAction func pilihFotoPressed(sender: UIButton) {
@@ -615,6 +614,38 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
+    // MARK: - UITableView functions
+    // Used for shipping table
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.shippingList.count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return self.shippingCellHeight
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell : ShippingCell = self.tableShipping.dequeueReusableCellWithIdentifier("ShippingCell") as! ShippingCell
+        cell.selectionStyle = .None
+        cell.lblName.text = shippingList[indexPath.row].name
+        if (self.userShippingIdList.contains(self.shippingList[indexPath.row].id)) {
+            cell.setShippingSelected()
+        }
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ShippingCell {
+            cell.cellTapped()
+            if (cell.isShippingSelected) {
+                self.userShippingIdList.append(self.shippingList[indexPath.row].id)
+            } else {
+                self.userShippingIdList.removeAtIndex(self.userShippingIdList.indexOf(self.shippingList[indexPath.row].id)!)
+            }
+        }
+    }
+    
     // MARK: - UIAlertView Delegate Functions
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
@@ -755,32 +786,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    @IBAction func JneRegulerPressed(sender: UIButton) {
-        jneSelected = !jneSelected
-        if (jneSelected) {
-            lblJneCheckbox.text = "";
-            lblJneCheckbox.font = AppFont.Prelo2.getFont(19)!
-            lblJneCheckbox.textColor = Theme.ThemeOrange
-        } else {
-            lblJneCheckbox.text = "";
-            lblJneCheckbox.font = AppFont.PreloAwesome.getFont(24)!
-            lblJneCheckbox.textColor = Theme.GrayLight
-        }
-    }
-    
-    @IBAction func TikiRegulerPressed(sender: UIButton) {
-        tikiSelected = !tikiSelected
-        if (tikiSelected) {
-            lblTikiCheckbox.text = "";
-            lblTikiCheckbox.font = AppFont.Prelo2.getFont(19)!
-            lblTikiCheckbox.textColor = Theme.ThemeOrange
-        } else {
-            lblTikiCheckbox.text = "";
-            lblTikiCheckbox.font = AppFont.PreloAwesome.getFont(24)!
-            lblTikiCheckbox.textColor = Theme.GrayLight
-        }
-    }
-    
     func fieldsVerified() -> Bool {
         if (fieldNama.text == nil || fieldNama.text == "") {
             Constant.showDialog("Warning", message: "Nama harus diisi")
@@ -794,7 +799,15 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             Constant.showDialog("Warning", message: "Kota/Kabupaten harus diisi")
             return false
         }
-        if (!jneSelected && !tikiSelected) {
+        var isShippingVerified = false
+        for i in 0...self.shippingList.count - 1 {
+            if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+                if (cell.isShippingSelected) {
+                    isShippingVerified = true
+                }
+            }
+        }
+        if (!isShippingVerified) {
             Constant.showDialog("Warning", message: "Pilihan Kurir harus diisi")
             return false
         }
@@ -807,7 +820,13 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             loadingPanel.hidden = false
             loading.startAnimating()
             
-            let shipping : String = (jneSelected ? JNE_REGULAR_ID : "") + (tikiSelected ? (jneSelected ? "," : "") + TIKI_REGULAR_ID : "")
+            var shipping : String = ""
+            for i in 0...self.userShippingIdList.count - 1 {
+                if (i > 0) {
+                    shipping += ","
+                }
+                shipping += self.userShippingIdList[i]
+            }
             let tentangShop : String = (fieldTentangShop.text != FldTentangShopPlaceholder) ? fieldTentangShop.text : ""
             
             if (!self.isUserPictUpdated) {
@@ -890,5 +909,4 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
-    
 }

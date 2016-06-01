@@ -33,12 +33,10 @@ public class User : NSObject
     
     static var IsLoggedIn : Bool
     {
-        let s = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey)
-        if (s == nil) {
+        guard let _ = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
             return false
-        } else {
-            return true
         }
+        return true
     }
     
     static var Id : String?
@@ -492,6 +490,10 @@ public class ProductDetail : NSObject, TawarItem
         json["_data"]["status"] = JSON(newStatus)
     }
     
+    var rejectionText : String {
+        return json["_data"]["rejection_text"].stringValue
+    }
+    
     var transactionProgress : Int {
         return json["_data"]["transaction_progress"].intValue
     }
@@ -547,6 +549,14 @@ public class ProductDetail : NSObject, TawarItem
     var name : String
     {
         return (json["_data"]["name"].string)!.escapedHTML
+    }
+    
+    var totalViews : Int {
+        return json["_data"]["total_views"].intValue
+    }
+    
+    var lastSeenSeller : String {
+        return json["_data"]["seller"]["last_seen"].stringValue
     }
     
     var permalink : String
@@ -882,14 +892,55 @@ public class ProductDetail : NSObject, TawarItem
         }
         return false
     }
+    
+    var sharedViaInstagram : Bool {
+        if let j = json["_data"]["share_status"]["INSTAGRAM"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var sharedViaFacebook : Bool {
+        if let j = json["_data"]["share_status"]["FACEBOOK"].bool {
+            return j
+        }
+        return false
+    }
+    
+    var sharedViaTwitter : Bool {
+        if let j = json["_data"]["share_status"]["TWITTER"].bool {
+            return j
+        }
+        return false
+    }
+    
+    func setSharedViaInstagram() {
+        json["_data"]["share_status"]["INSTAGRAM"] = JSON(true)
+    }
+    
+    func setSharedViaFacebook() {
+        json["_data"]["share_status"]["FACEBOOK"] = JSON(true)
+    }
+    
+    func setSharedViaTwitter() {
+        json["_data"]["share_status"]["TWITTER"] = JSON(true)
+    }
 }
 
 public class Product : NSObject
 {
+    static let StatusUploading = 999
+    
     var json : JSON!
+    var placeHolderImage : UIImage?
+    var isLokal = false
     
     var id : String
     {
+        if (isLokal)
+        {
+            return ""
+        }
         return (json["_id"].string)!
     }
     
@@ -911,6 +962,11 @@ public class Product : NSObject
     
     var coverImageURL : NSURL?
     {
+        if (isLokal)
+        {
+            return nil
+        }
+        
         if json["display_picts"][0].error != nil
         {
             return NSURL(string: "http://dev.kleora.com/images/products/")
@@ -972,9 +1028,18 @@ public class Product : NSObject
     
     var price : String
     {
+        print(json)
         if let p = json["price"].int
         {
             return p.asPrice
+        }
+        
+        if (isLokal)
+        {
+            if let p = json["price"].string?.int
+            {
+                return p.asPrice
+            }
         }
         
         return ""
@@ -1010,6 +1075,10 @@ public class Product : NSObject
     }
     
     var status : Int? {
+        if (isLokal)
+        {
+            return Product.StatusUploading
+        }
         if let s = json["status"].int {
             return s
         }
@@ -2103,6 +2172,11 @@ class UserCheckout : NSObject {
         }
         return ""
     }
+    
+    var banktransferDigit : Int
+        {
+        return json["banktransfer_digit"].intValue
+    }
 }
 
 class UserCheckoutProduct : TransactionProductDetail {
@@ -2410,10 +2484,10 @@ class InboxMessage : NSObject
     static var formatter : NSDateFormatter = NSDateFormatter()
     
     var sending : Bool = false
-    var id : String!
-    var senderId : String!
+    var id : String = ""
+    var senderId : String = ""
     var messageType : Int = 0
-    var message : String!
+    var message : String = ""
     var bargainPrice = ""
     var dynamicMessage : String {
         
@@ -2516,7 +2590,11 @@ class InboxMessage : NSObject
     {
         let i = InboxMessage()
         
-        i.senderId = CDUser.getOne()?.id
+        if let id = CDUser.getOne()?.id
+        {
+            i.senderId = id
+        }
+//        i.senderId = CDUser.getOne()?.id
         i.id = String(localIndex)
         i.messageType = type
         i.message = message

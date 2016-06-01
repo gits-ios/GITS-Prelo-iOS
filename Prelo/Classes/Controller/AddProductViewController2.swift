@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -55,6 +55,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var captionSize2 : UILabel!
     @IBOutlet var captionSize3 : UILabel!
     
+    @IBOutlet var captionImagesMakeSure : UILabel!
+    @IBOutlet var captionImagesMakeSureFake : UILabel!
+    
+    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var conHeightBtnDelete : NSLayoutConstraint!
+    @IBOutlet var conMarginBtnDelete : NSLayoutConstraint!
+    
     @IBOutlet weak var ivImage: UIImageView!
     
     var sizes : Array<String> = []
@@ -79,7 +86,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (AppTools.isDev)
+        captionImagesMakeSure.numberOfLines = 0
+        captionImagesMakeSureFake.numberOfLines = 0
+        
+        let makeSureText = "Pastikan orientasi preview foto diatas sudah tegak"
+        let attMakeSureText = NSMutableAttributedString(string: makeSureText)
+        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFontOfSize(14)], range: (makeSureText as NSString).rangeOfString("preview"))
+        
+        captionImagesMakeSure.attributedText = attMakeSureText
+        captionImagesMakeSureFake.attributedText = attMakeSureText
+        
+        /*if (AppTools.isDev)
         {
             txtName.text = "qwerty"
             txtSpesial.text = "asdf"
@@ -87,7 +104,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             txtOldPrice.text = "1500"
             txtAlasanJual.text = "zxcvbnm"
             txtDescription.text = "asdkalskfas"
-        }
+        }*/
 
         // Do any additional setup after loading the view.
 //        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
@@ -98,6 +115,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (editMode)
         {
             fakeScrollView.hidden = true
+            btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), forControlEvents: .TouchUpInside)
+        } else
+        {
+            btnDelete.hidden = true
+            conHeightBtnDelete.constant = 0
+            conMarginBtnDelete.constant = 0
         }
         
         sizePicker.dataSource = self
@@ -277,13 +300,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (self.editMode) {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.EditProduct)
+            //Mixpanel.trackPageVisit(PageName.EditProduct)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.EditProduct)
         } else {
             // Mixpanel
-            Mixpanel.trackPageVisit(PageName.AddProduct)
+            //Mixpanel.trackPageVisit(PageName.AddProduct)
             
             // Google Analytics
             GAI.trackPageVisit(PageName.AddProduct)
@@ -479,9 +502,29 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let i = UIImagePickerController()
         i.sourceType = .PhotoLibrary
         i.delegate = self
-        self.presentViewController(i, animated: true, completion: {
-            i.view.tag = index
-        })
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.Camera))
+        {
+            let a = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            a.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { act in
+                i.sourceType = .Camera
+                self.presentViewController(i, animated: true, completion: {
+                    i.view.tag = index
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
+                self.presentViewController(i, animated: true, completion: {
+                    i.view.tag = index
+                })
+            }))
+            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
+            self.presentViewController(a, animated: true, completion: nil)
+        } else
+        {
+            self.presentViewController(i, animated: true, completion: {
+                i.view.tag = index
+            })
+        }
         
 //        ImagePickerViewController.ShowFrom(self, maxSelect: 1, useAviary:true, diretToCamera : directToCamera, doneBlock: { imgs in
 //            if (imgs.count > 0)
@@ -520,7 +563,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-//            print(img)
+            //print(img)
             let index = picker.view.tag
             self.imageViews[index].image = img
             self.fakeImageViews[index].image = img
@@ -878,26 +921,125 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         p.title = "Pilih Merk"
         
-        let names : [String] = CDBrand.getBrandPickerItems()
-        
-        p.merkMode = true
-        p.items = names
-        p.selectBlock = { s in
-            self.merekId = PickerViewController.RevealHiddenString(s)
-            var x : String = PickerViewController.HideHiddenString(s)
-            x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-            x = x.stringByReplacingOccurrencesOfString("'", withString: "")
-            self.captionMerek.text = x
+        let cur = 0
+        let lim = 10
+        var names : [String] = []
+        request(APISearch.Brands(name: "", current: cur, limit: lim)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                if (data.count > 0) {
+                    for i in 0...(data.count - 1) {
+                        if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                            names.append(merkName + PickerViewController.TAG_START_HIDDEN + merkId + PickerViewController.TAG_END_HIDDEN)
+                        }
+                    }
+                    p.merkMode = true
+                    p.pagingMode = true
+                    p.pagingCurrent = cur + lim
+                    p.pagingLimit = lim
+                    if (data.count < lim) {
+                        p.isPagingEnded = true
+                    } else {
+                        p.isPagingEnded = false
+                    }
+                    p.items = names
+                    p.selectBlock = { s in
+                        self.merekId = PickerViewController.RevealHiddenString(s)
+                        var x : String = PickerViewController.HideHiddenString(s)
+                        x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
+                        x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+                        self.captionMerek.text = x
+                    }
+                    p.showSearch = true
+                    
+                    self.navigationController?.pushViewController(p, animated: true)
+                } else {
+                    Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                }
+            } else {
+                Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+            }
         }
-        p.showSearch = true
-        
-        self.navigationController?.pushViewController(p, animated: true)
     }
     
     func hideFakeScrollView()
     {
         fakeScrollView.hidden = true
         scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
+    }
+    
+//    var loadingDelete = UIAlertController(title: "Menghapus barang...", message: nil, preferredStyle: .Alert)
+//    var loadingDeleteOS7 = UIAlertView(title: "Menghapus barang...", message: nil, delegate: nil, cancelButtonTitle: nil)
+    func askDeleteProduct()
+    {
+        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
+        {
+            askDeleteOS8()
+        } else
+        {
+            askDeleteOS7()
+        }
+    }
+    
+    func askDeleteOS8()
+    {
+        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
+        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
+            self.deleteProduct()
+        }))
+        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
+        self.presentViewController(a, animated: true, completion: nil)
+    }
+    
+    func askDeleteOS7()
+    {
+        let a = UIAlertView()
+        a.title = "Hapus"
+        a.message = "Hapus Barang?"
+        a.addButtonWithTitle("Ya")
+        a.addButtonWithTitle("Tidak")
+        a.delegate = self
+        a.tag = 123
+        a.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if (alertView.tag == 123)
+        {
+            if (buttonIndex == 0)
+            {
+                self.deleteProduct()
+            }
+        }
+    }
+    
+    func deleteProduct()
+    {
+        if let prodId = editProduct?.productID
+        {
+            btnSubmit.enabled = false
+            btnDelete.setTitle("Menghapus barang...", forState: UIControlState.Disabled)
+            btnDelete.enabled = false
+            
+            request(Products.Delete(productID: prodId)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
+                {
+                    if var v = self.navigationController?.viewControllers
+                    {
+                        v.removeLast()
+                        v.removeLast()
+                        self.navigationController?.setViewControllers(v, animated: true)
+                    }
+                    
+//                    self.navigationController?.popViewControllerAnimated(true)
+                } else {
+                    self.btnSubmit.enabled = true
+                    self.btnDelete.enabled = true
+                }
+            }
+        }
     }
     
     func sendProduct()

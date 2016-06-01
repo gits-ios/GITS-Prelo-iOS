@@ -8,7 +8,9 @@
 
 import UIKit
 
-class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate, LoadAppDataDelegate {
+class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate {
+    
+    @IBOutlet var loadingPanel: UIView!
     
     var numberOfControllers : Int = 0
     
@@ -21,9 +23,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var btnBrowse : UIButton!
     
     @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
-    
-    var loadAppDataAlert : UIAlertView?
-    var loadAppDataProgressView : UIProgressView?
     
     var menuPopUp : MenuPopUp?
     
@@ -55,6 +54,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     @IBOutlet var controllerLogin : LoginViewController?
     @IBOutlet var controllerContactPrelo : BaseViewController?
     
+    var isVersionChecked = false
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.Default
     }
@@ -62,7 +63,22 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        
+        if (!isVersionChecked) {
+            self.versionCheck()
+        } else {
+            self.versionChecked()
+        }
+        
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        
+        if (User.Token != nil && CDUser.getOne() != nil)
+        {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                AppDelegate.Instance.produkUploader.start()
+            })
+        }
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let v = UIView()
@@ -151,98 +167,18 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             menuPopUp?.setupView(self.navigationController!)
         }
         
-        // Show tour and/or loadAppData pop up
+        // Show tour pop up
         if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
         } else {
-            if (AppTools.IsDemoMode || (userDidLoggedIn == false && User.IsLoggedIn)) { // Jika user baru saja log in, atau dalam demo mode
+            if (AppTools.isDev || (userDidLoggedIn == false && User.IsLoggedIn)) { // Jika user baru saja log in, atau dalam dev mode
                 (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
             } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
-                isAlreadyGetCategory = true
-                
-                // Set self as LoadAppDataDelegate
-                UIApplication.appDelegate.loadAppDataDelegate = self
-                
-                // Check if app is currently loading app data
-                let appDataSaved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                if (appDataSaved == nil) { // Proses pengecekan di AppDelegate bahkan belum berjalan, tunggu pengecekan selesai
-                    // Tampilkan pop up untuk loading
-                    self.loadAppDataAlert = UIAlertView()
-                    self.loadAppDataAlert!.title = "Checking App Data..."
-                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.loadAppDataAlert!.show()
-                    })
-                } else if (appDataSaved == false) { // App data belum selesai diload
-                    // Tampilkan pop up untuk loading
-                    self.loadAppDataAlert = UIAlertView()
-                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
-                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
-                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
-                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
-                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
-                    self.loadAppDataAlert!.title = "Loading App Data..."
-                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.loadAppDataAlert!.show()
-                    })
-                }
             }
         }
         userDidLoggedIn = User.IsLoggedIn
-    }
-    
-    func updateProgress(progress: Float) {
-        if (loadAppDataAlert != nil) {
-            if (loadAppDataAlert!.title == "Checking App Data...") {
-                // Hilangkan pop up ini dan jika (NSUserDefaultl AppDataSaved = false) kemudian munculkan pop up dengan progressView
-                loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
-                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                if (appDataSaved == false) {
-                    self.loadAppDataAlert = UIAlertView()
-                    self.loadAppDataProgressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Bar)
-                    self.loadAppDataProgressView!.progress = UIApplication.appDelegate.loadAppDataProgress
-                    self.loadAppDataProgressView!.backgroundColor = Theme.GrayLight
-                    self.loadAppDataProgressView!.progressTintColor = Theme.ThemeOrange
-                    self.loadAppDataAlert!.setValue(self.loadAppDataProgressView!, forKey: "accessoryView")
-                    self.loadAppDataAlert!.title = "Loading App Data..."
-                    self.loadAppDataAlert!.message = "Harap untuk tidak menutup aplikasi selama proses berjalan"
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.loadAppDataAlert!.show()
-                    })
-                }
-            } else if (loadAppDataAlert!.title == "Loading App Data...") {
-                // Update progressView, jika sudah full (cek NSUSerDefault AppDataSaved) maka hilangkan pop up ini dan munculkan pop up berhasil/gagal
-                if (loadAppDataProgressView != nil) {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.loadAppDataProgressView!.setProgress(UIApplication.appDelegate.loadAppDataProgress, animated: true)
-                    })
-                }
-                let appDataSaved = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.AppDataSaved) as? Bool
-                if (appDataSaved == true) {
-                    loadAppDataAlert!.dismissWithClickedButtonIndex(-1, animated: true)
-                    if (UIApplication.appDelegate.isLoadAppDataSuccess) {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            let a = UIAlertView()
-                            a.title = "Load App Data"
-                            a.message = "Load App Data berhasil"
-                            a.addButtonWithTitle("OK")
-                            a.show()
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            let a = UIAlertView()
-                            a.title = "Load App Data"
-                            a.message = "Oops, terjadi kesalahan saat Load App Data"
-                            a.addButtonWithTitle("OK")
-                            a.show()
-                        })
-                    }
-                }
-            }
-        }
     }
     
     func pushNew(sender : AnyObject)
@@ -373,6 +309,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
 //        self.navigationController?.pushViewController(add, animated: true)
     }
     
+    func hideLoading() {
+        self.loadingPanel.hidden = true
+    }
+    
+    func showLoading() {
+        self.loadingPanel.hidden = false
+    }
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -384,5 +328,263 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             t.parent = sender as? BaseViewController
         }
     }
-
+    
+    // MARK: - Version check and load/update metadata
+    
+    func versionCheck() {
+        // API Migrasi
+        request(APIApp.Version).responseJSON { resp in
+            var isFirstInstall = false
+            var isInitialMetadataSaveSuccess : Bool = true
+            
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Version Check")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let ver : CDVersion? = CDVersion.getOne()
+                
+                if (ver == nil) { // App is installed for the first time
+                    isFirstInstall = true
+                    
+                    // MoEngage
+                    MoEngage.sharedInstance().appStatus(INSTALL)
+                    
+                    // Save category for the first time, from local json file
+                    if let metadataPath = NSBundle.mainBundle().pathForResource("InitialMetadata", ofType: "json") {
+                        do {
+                            let metadataData = try NSData(contentsOfURL: NSURL(fileURLWithPath: metadataPath), options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                            let metadataJson = JSON(data: metadataData)
+                            
+                            // Save categories
+                            if let categArr = metadataJson["_data"]["categories"].array {
+                                //print("categArr = \(categArr)")
+                                if (!CDCategory.saveCategoriesFromArrayJson(categArr)) {
+                                    isInitialMetadataSaveSuccess = false
+                                }
+                            } else {
+                                isInitialMetadataSaveSuccess = false
+                            }
+                            
+                            // Save product conditions
+                            if let prodCondArr = metadataJson["_data"]["product_conditions"].array {
+                                //print("prodCondArr = \(prodCondArr)")
+                                if (!CDProductCondition.saveProductConditionsFromArrayJson(prodCondArr)) {
+                                    isInitialMetadataSaveSuccess = false
+                                }
+                            } else {
+                                isInitialMetadataSaveSuccess = false
+                            }
+                            
+                            // Save provinces
+                            if let provArr = metadataJson["_data"]["provinces"].array {
+                                print("provArr = \(provArr)")
+                                if (!CDProvince.saveProvincesFromArrayJson(provArr)) {
+                                    isInitialMetadataSaveSuccess = false
+                                }
+                            } else {
+                                isInitialMetadataSaveSuccess = false
+                            }
+                            
+                            // Save regions
+                            if let regArr = metadataJson["_data"]["regions"].array {
+                                print("regArr = \(regArr)")
+                                if (!CDRegion.saveRegionsFromArrayJson(regArr)) {
+                                    isInitialMetadataSaveSuccess = false
+                                }
+                            } else {
+                                isInitialMetadataSaveSuccess = false
+                            }
+                            
+                            // Save shippings
+                            if let shipArr = metadataJson["_data"]["shippings"].array {
+                                print("shipArr = \(shipArr)")
+                                if (!CDShipping.saveShippingsFromArrayJson(shipArr)) {
+                                    isInitialMetadataSaveSuccess = false
+                                }
+                            } else {
+                                isInitialMetadataSaveSuccess = false
+                            }
+                        } catch {
+                            isInitialMetadataSaveSuccess = false
+                        }
+                    } else {
+                        isInitialMetadataSaveSuccess = false
+                    }
+                } else { // App is updated from older version
+                    // Jika versi metadata baru, load dan save kembali di coredata
+                    // Karena ada proses request bersifat paralel dan managed object context beresiko jika diakses berbarengan, proses update ini harus dilakukan secara bergantian, jadi dipilih mana yg dilakukan duluan dari ke-4 jenis metadata, jika satu metadata telah selesai diupdate, baru dilanjutkan yg lainnya
+                    // Urutannya: Categories - ProductConditions - ProvinceRegions - Shippings
+                    let updateVer = data["metadata_versions"]
+                    if (ver!.categoriesVersion.integerValue < updateVer["categories"].numberValue.integerValue) {
+                        self.updateMetaCategories(ver!, updateVer: updateVer)
+                    } else if (ver!.productConditionsVersion.integerValue < updateVer["product_conditions"].numberValue.integerValue) {
+                        self.updateMetaProductConditions(ver!, updateVer: updateVer)
+                    } else if (ver!.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+                        self.updateMetaProvinceRegions(ver!, updateVer: updateVer)
+                    } else if (ver!.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+                        self.updateMetaShippings()
+                    } else {
+                        // Version check is done
+                        self.versionChecked()
+                    }
+                }
+                
+                // Check if app is just updated
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                    if let lastInstalledVer = CDVersion.getOne()?.appVersion {
+                        if (installedVer.compare(lastInstalledVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
+                            // MoEngage
+                            MoEngage.sharedInstance().appStatus(UPDATE)
+                        }
+                    }
+                }
+                
+                // Save version to core data
+                CDVersion.saveVersions(data)
+                
+                // Check if app need to be updated
+                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                    if let newVer = CDVersion.getOne()?.appVersion {
+                        if (newVer.compare(installedVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
+                            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Update", style: .Default, handler: { action in
+                                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+                            }))
+                            if let isForceUpdate = data["is_force_update"].bool {
+                                if (!isForceUpdate) {
+                                    alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+                                }
+                            } else {
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+                            }
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+            
+            if (isFirstInstall) {
+                if (isInitialMetadataSaveSuccess) {
+                    //Constant.showDialog("Success", message: "Load App Data Success")
+                } else {
+                    Constant.showDialog("Load App Data Failed", message: "Oops, terdapat kesalahan saat memproses data. Prelo mungkin akan tidak berjalan dengan baik. Untuk memperbaiki, silahkan ke menu About > Reload App Data")
+                }
+                
+                // Di titik ini, version check telah selesai jika first install, yaitu yg dilakukan adalah save metadata for the first time, kalo update from older version, belum tentu udah selesai
+                self.versionChecked()
+            }
+        }
+    }
+    
+    func versionChecked() {
+        self.isVersionChecked = true
+        
+        if (self.isAlreadyGetCategory) { // Only hide loading if category is already loaded and version already checked
+            self.hideLoading()
+        }
+    }
+    
+    func updateMetaCategories(ver : CDVersion, updateVer : JSON) {
+        request(APIApp.MetadataCategories(currentVer: ver.categoriesVersion.integerValue)).responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Categories")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let deleteData = data["delete"].array {
+                    CDCategory.deleteCategoriesFromArrayJson(deleteData)
+                }
+                if let addData = data["add"].array {
+                    CDCategory.saveCategoriesFromArrayJson(addData)
+                }
+                if let updateData = data["update"].array {
+                    CDCategory.updateCategoriesFromArrayJson(updateData)
+                }
+            }
+            
+            // Continue updating metadata
+            if (ver.productConditionsVersion.integerValue < updateVer["product_conditions"].numberValue.integerValue) {
+                self.updateMetaProductConditions(ver, updateVer: updateVer)
+            } else if (ver.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+                self.updateMetaProvinceRegions(ver, updateVer: updateVer)
+            } else if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+                self.updateMetaShippings()
+            } else {
+                // Version check is done
+                self.versionChecked()
+            }
+        }
+    }
+    
+    func updateMetaProductConditions(ver : CDVersion, updateVer : JSON) {
+        request(APIApp.MetadataProductConditions).responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Product Conditions")) {
+                let json = JSON(resp.result.value!)
+                if let arr = json["_data"].array {
+                    if (CDProductCondition.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
+                        CDProductCondition.saveProductConditionsFromArrayJson(arr)
+                    }
+                }
+            }
+            
+            // Continue updating metadata
+            if (ver.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+                self.updateMetaProvinceRegions(ver, updateVer: updateVer)
+            } else if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+                self.updateMetaShippings()
+            } else {
+                // Version check is done
+                self.versionChecked()
+            }
+        }
+    }
+    
+    func updateMetaProvinceRegions(ver : CDVersion, updateVer : JSON) {
+        request(APIApp.MetadataProvincesRegions(currentVer: ver.provincesRegionsVersion.integerValue)).responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Province Regions")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let deleteDataProv = data["provinces"]["delete"].array {
+                    CDProvince.deleteProvincesFromArrayJson(deleteDataProv)
+                }
+                if let addDataProv = data["provinces"]["add"].array {
+                    CDProvince.saveProvincesFromArrayJson(addDataProv)
+                }
+                if let updateDataProv = data["provinces"]["update"].array {
+                    CDProvince.updateProvincesFromArrayJson(updateDataProv)
+                }
+                if let deleteDataReg = data["regions"]["delete"].array {
+                    CDRegion.deleteRegionsFromArrayJson(deleteDataReg)
+                }
+                if let addDataReg = data["regions"]["add"].array {
+                    CDRegion.saveRegionsFromArrayJson(addDataReg)
+                }
+                if let updateDataReg = data["regions"]["update"].array {
+                    CDRegion.updateRegionsFromArrayJson(updateDataReg)
+                }
+            }
+            
+            // Continue updating metadata
+            if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+                self.updateMetaShippings()
+            } else {
+                // Version check is done
+                self.versionChecked()
+            }
+        }
+    }
+    
+    func updateMetaShippings() {
+        request(APIApp.MetadataShippings).responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Shipping")) {
+                let json = JSON(resp.result.value!)
+                if let arr = json["_data"].array {
+                    if (CDShipping.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
+                        CDShipping.saveShippingsFromArrayJson(arr)
+                    }
+                }
+            }
+            
+            // Version check is done
+            self.versionChecked()
+        }
+    }
 }

@@ -14,14 +14,93 @@ class CDRegion : NSManagedObject {
     
     @NSManaged var id : String
     @NSManaged var name : String
-    @NSManaged var province : CDProvince
+    @NSManaged var provinceId : String
+    @NSManaged var idRajaOngkir : String
+    @NSManaged var postalCode : String
+    
+    static func saveRegionsFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
+            let reg = arr[i]
+            n.id = reg["_id"].stringValue
+            n.name = reg["name"].stringValue
+            n.provinceId = reg["province_id"].stringValue
+            n.idRajaOngkir = reg["id_rajaongkir"].stringValue
+            n.postalCode = reg["postal_code"].stringValue
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveRegionsFromArrayJson failed")
+            return false
+        } else {
+            print("saveRegionsFromArrayJson success")
+            return true
+        }
+    }
+    
+    static func updateRegionsFromArrayJson(arr : [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDRegion")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [CDRegion] {
+                    for result in results {
+                        result.name = arr[i]["name"].stringValue
+                        result.provinceId = arr[i]["province_id"].stringValue
+                        result.idRajaOngkir = arr[i]["id_rajaongkir"].stringValue
+                        result.postalCode = arr[i]["postal_code"].stringValue
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        if (m.saveSave() == true) {
+            print("updateRegionsFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("updateRegionsFromArrayJson failed")
+        }
+        return isSuccess
+    }
+    
+    static func deleteRegionsFromArrayJson(arr : [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDRegion")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [NSManagedObject] {
+                    for result in results {
+                        m.deleteObject(result)
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        
+        if (m.saveSave() == true) {
+            print("deleteRegionsFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("deleteRegionsFromArrayJson failed")
+        }
+        return isSuccess
+    }
     
     static func newOne(id : String, name : String, province : CDProvince) -> CDRegion? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
         r.id = id
         r.name = name
-        r.province = province
+        //r.province = province
         if (m.saveSave() == false) {
             return nil
         } else {
@@ -62,7 +141,7 @@ class CDRegion : NSManagedObject {
         do {
             regions = try (m.executeFetchRequest(fetchReq) as? [CDRegion])!
             for region in regions {
-                if (region.province.id == provID) {
+                if (region.provinceId == provID) {
                     arr.append(region.name + PickerViewController.TAG_START_HIDDEN + region.id + PickerViewController.TAG_END_HIDDEN)
                 }
             }

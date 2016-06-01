@@ -35,10 +35,14 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.btnRefresh.hidden = true
         self.loading.startAnimating()
         self.loading.hidden = false
-        getProducts()
+//        getProducts()
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        
+        self.getProducts()
         
         // Register custom cell
         let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
@@ -56,6 +60,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.tableView.addSubview(refreshControl)
     }
     
+    var first = true
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -64,6 +69,42 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
+        
+        if (!first)
+        {
+            self.refresh(0)
+        }
+        
+        first = false
+        
+        ProdukUploader.AddObserverForUploadSuccess(self, selector: #selector(MyProductSellViewController.uploadProdukSukses(_:)))
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        ProdukUploader.RemoveObserverForUploadSuccess(self)
+    }
+    
+    func uploadProdukSukses(notif : NSNotification)
+    {
+        refresh(0)
+    }
+    
+    func uploadProdukGagal(notif : NSNotification)
+    {
+        
+    }
+    
+    func addUploadingProducts()
+    {
+        let uploadingProducts = AppDelegate.Instance.produkUploader.getQueue()
+        for p in uploadingProducts.reversedArray()
+        {
+            if let prod = p.toProduct
+            {
+                products.insert(prod, atIndex: 0)
+            }
+        }
     }
     
     func getProducts()
@@ -108,6 +149,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             // Hide refreshControl (for refreshing)
             self.refreshControl.endRefreshing()
             
+            self.addUploadingProducts()
+            
             if (self.products.count > 0) {
                 self.lblEmpty.hidden = true
                 self.tableView.hidden = false
@@ -123,6 +166,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func refresh(sender: AnyObject) {
         // Reset data
         self.products = []
+        self.addUploadingProducts()
         self.nextIdx = 0
         self.isAllItemLoaded = false
         self.tableView.hidden = true
@@ -163,10 +207,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             cell.imgProduct.image = nil
             if let url = p.coverImageURL {
                 cell.imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+            } else if let img = p.placeHolderImage
+            {
+                cell.imgProduct.image = img
             }
             
             let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
             cell.lblOrderStatus.text = status.uppercaseString
+            if (p.isLokal)
+            {
+                cell.lblOrderStatus.text = "Uploading"
+            }
+            
             if (status.lowercaseString == "aktif") {
                 cell.lblOrderStatus.textColor = Theme.PrimaryColor
             } else if (status.lowercaseString == "direview admin") {
@@ -214,14 +266,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     var selectedProduct : Product?
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         selectedProduct = products[indexPath.row]
+        if (selectedProduct!.isLokal)
+        {
+            return
+        }
         
         let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         d.product = selectedProduct!
         
         self.previousController?.navigationController?.pushViewController(d, animated: true)
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {

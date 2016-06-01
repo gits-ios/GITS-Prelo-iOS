@@ -34,7 +34,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         super.viewWillAppear(animated)
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Withdraw)
+        //Mixpanel.trackPageVisit(PageName.Withdraw)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Withdraw)
@@ -174,7 +174,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                         "Destination Bank" : namaBank,
                         "Amount" : i
                     ]
-                    Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
+                    //Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
                     
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }

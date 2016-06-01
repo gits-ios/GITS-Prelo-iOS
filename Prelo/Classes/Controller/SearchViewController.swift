@@ -184,7 +184,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     override func viewWillAppear(animated: Bool) {
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Search)
+        //Mixpanel.trackPageVisit(PageName.Search)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Search)

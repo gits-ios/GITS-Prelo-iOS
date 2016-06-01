@@ -27,7 +27,7 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         }
         
         // Mixpanel
-        Mixpanel.trackPageVisit(PageName.Contact)
+        //Mixpanel.trackPageVisit(PageName.Contact)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Contact)

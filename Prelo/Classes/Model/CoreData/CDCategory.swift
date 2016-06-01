@@ -23,6 +23,89 @@ class CDCategory: NSManagedObject {
     @NSManaged var parent : CDCategory?
     @NSManaged var children : NSMutableSet
     
+    static func saveCategoriesFromArrayJson(arr: [JSON]) -> Bool {
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let n = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m) as! CDCategory
+            let categ = arr[i]
+            n.id = categ["_id"].stringValue
+            n.name = categ["name"].stringValue
+            n.permalink = categ["permalink"].stringValue
+            n.order = categ["order"].numberValue
+            n.level = categ["level"].numberValue
+            n.isParent = categ["is_parent"].boolValue
+            n.imageName = categ["image_name"].stringValue
+            n.categorySizeId = categ["category_size_id"].string
+        }
+        
+        if (m.saveSave() == false) {
+            print("saveCategoriesFromArrayJson failed")
+            return false
+        } else {
+            print("saveCategoriesFromArrayJson success")
+            return true
+        }
+    }
+    
+    static func updateCategoriesFromArrayJson(arr : [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDCategory")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [CDCategory] {
+                    for result in results {
+                        result.name = arr[i]["name"].stringValue
+                        result.permalink = arr[i]["permalink"].stringValue
+                        result.order = arr[i]["order"].numberValue
+                        result.level = arr[i]["level"].numberValue
+                        result.isParent = arr[i]["is_parent"].boolValue
+                        result.imageName = arr[i]["image_name"].stringValue
+                        result.categorySizeId = arr[i]["category_size_id"].string
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        if (m.saveSave() == true) {
+            print("updateCategoriesFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("updateCategoriesFromArrayJson failed")
+        }
+        return isSuccess
+    }
+    
+    static func deleteCategoriesFromArrayJson(arr : [JSON]) -> Bool {
+        var isSuccess = true
+        let m = UIApplication.appDelegate.managedObjectContext
+        for i in 0...arr.count - 1 {
+            let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
+            let fetchReq = NSFetchRequest(entityName: "CDCategory")
+            fetchReq.predicate = predicate
+            do {
+                if let results = try m.executeFetchRequest(fetchReq) as? [NSManagedObject] {
+                    for result in results {
+                        m.deleteObject(result)
+                    }
+                }
+            } catch {
+                isSuccess = false
+            }
+        }
+        
+        if (m.saveSave() == true) {
+            print("deleteCategoriesFromArrayJson success")
+        } else {
+            isSuccess = false
+            print("deleteCategoriesFromArrayJson failed")
+        }
+        return isSuccess
+    }
+    
     static func saveCategories(json : JSON, m : NSManagedObjectContext) -> Bool {
         // Mulai dari category all, tidak perlu loop
         let allJson = json[0]

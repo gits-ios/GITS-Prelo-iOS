@@ -56,7 +56,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             "Seller" : self.sellerName,
             "Seller ID" : self.sellerId
         ]
-        Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
+        //Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopReviews)

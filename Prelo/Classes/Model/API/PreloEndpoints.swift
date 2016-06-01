@@ -34,7 +34,7 @@ extension NSMutableURLRequest
     {
         let r = NSMutableURLRequest(URL: url)
         
-        if (User.IsLoggedIn) {
+        if (User.Token != nil) {
             let t = User.Token!
             r.setValue("Token " + t, forHTTPHeaderField: "Authorization")
             print("User token = \(t)")   
@@ -58,6 +58,10 @@ enum APIApp : URLRequestConvertible
     
     case Version
     case Metadata(brands : String, categories : String, categorySizes : String, shippings : String, productConditions : String, provincesRegions : String)
+    case MetadataCategories(currentVer : Int)
+    case MetadataProductConditions
+    case MetadataProvincesRegions(currentVer : Int)
+    case MetadataShippings
     
     var method : Method
     {
@@ -65,6 +69,10 @@ enum APIApp : URLRequestConvertible
         {
         case .Version : return .GET
         case .Metadata(_, _, _, _, _, _) : return .GET
+        case .MetadataCategories(_) : return .GET
+        case .MetadataProductConditions : return .GET
+        case .MetadataProvincesRegions(_) : return .GET
+        case .MetadataShippings : return .GET
         }
     }
     
@@ -74,6 +82,10 @@ enum APIApp : URLRequestConvertible
         {
         case .Version : return "version"
         case .Metadata(_, _, _, _, _, _) : return "metadata"
+        case .MetadataCategories(_) : return "metadata/categories"
+        case .MetadataProductConditions : return "metadata/product_condition"
+        case .MetadataProvincesRegions(_) : return "metadata/provinces_regions"
+        case .MetadataShippings : return "metadata/shippings"
         }
     }
     
@@ -96,6 +108,20 @@ enum APIApp : URLRequestConvertible
                 "provinces_regions" : provincesRegions
             ]
             return p
+        case .MetadataCategories(let currentVer) :
+            let p = [
+                "current_version" : currentVer
+            ]
+            return p
+        case .MetadataProductConditions :
+            return [:]
+        case .MetadataProvincesRegions(let currentVer) :
+            let p = [
+                "current_version" : currentVer
+            ]
+            return p
+        case .MetadataShippings :
+            return [:]
         }
     }
     
@@ -680,14 +706,14 @@ enum APICart : URLRequestConvertible
     static let basePath = "cart/"
     
     case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, payment : String)
+    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, kodeTransfer : Int)
     
     var method : Method
     {
         switch self
         {
         case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _) : return .POST
+        case .Checkout(_, _, _, _, _, _) : return .POST
         }
     }
     
@@ -696,7 +722,7 @@ enum APICart : URLRequestConvertible
         switch self
         {
         case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _) : return "checkout"
+        case .Checkout(_, _, _, _, _, _) : return "checkout"
         }
     }
     
@@ -711,13 +737,24 @@ enum APICart : URLRequestConvertible
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
-        case .Checkout(let cart, let address, let voucher, let payment) :
-            let p = [
+        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let kodeTransfer) :
+            var p = [
                 "cart_products":cart,
                 "shipping_address":address,
+                "banktransfer_digit":NSNumber(integer: 1),
                 "voucher_serial":(voucher == nil) ? "" : voucher!,
                 "payment_method":payment
             ]
+            if usedBalance != 0
+            {
+                p["prelobalance_used"] = NSNumber(integer: usedBalance)
+            }
+            
+            if kodeTransfer != 0
+            {
+                p["banktransfer_digit"] = NSNumber(integer: kodeTransfer)
+            }
+            
             return p
         }
     }
@@ -834,17 +871,24 @@ enum APIAuth : URLRequestConvertible
             }
     }
     
-    var URLRequest : NSMutableURLRequest
-        {
-            let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
-            let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-            req.HTTPMethod = method.rawValue
-            
-            print("\(req.allHTTPHeaderFields)")
-            
-            let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-            
-            return r
+    var URLRequest : NSMutableURLRequest {
+        
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIAuth.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        
+        // Selain logout jangan pake token
+        switch self {
+        case .Logout : break
+        default :
+            req.setValue("", forHTTPHeaderField: "Authorization")
+        }
+        
+        print("\(req.allHTTPHeaderFields)")
+        
+        let r = ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+        
+        return r
     }
 }
 
@@ -1172,6 +1216,8 @@ enum APIProduct : URLRequestConvertible
     case GetComment(productID : String)
     case PostComment(productID : String, message : String, mentions : String)
     case MyProduct(current : Int, limit : Int)
+    case Push(productId : String)
+    case MarkAsSold(productId : String)
     
     var method : Method
         {
@@ -1185,6 +1231,8 @@ enum APIProduct : URLRequestConvertible
             case .PostComment(_, _, _) : return .POST
             case .GetComment(_) :return .GET
             case .MyProduct(_, _): return .GET
+            case .Push(_) : return .POST
+            case .MarkAsSold(_) : return .POST
             }
     }
     
@@ -1200,6 +1248,8 @@ enum APIProduct : URLRequestConvertible
             case .PostComment(let pId, _, _):return pId + "/comments"
             case .GetComment(let pId) :return pId + "/comments"
             case .MyProduct(_, _): return ""
+            case .Push(let pId) : return "push/\(pId)"
+            case .MarkAsSold(let pId) : return "sold/\(pId)"
             }
     }
     
@@ -1232,6 +1282,8 @@ enum APIProduct : URLRequestConvertible
             case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
             case .GetComment(_) :return [:]
             case .MyProduct(let c, let l): return ["current":c, "limit":l]
+            case .Push(_) : return [:]
+            case .MarkAsSold(_) : return [:]
             }
     }
     
@@ -1255,6 +1307,7 @@ enum APISearch : URLRequestConvertible
     case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
     case GetTopSearch(limit : String)
     case InsertTopSearch(search : String)
+    case Brands(name : String, current : Int, limit : Int)
     
     var method : Method
         {
@@ -1265,6 +1318,7 @@ enum APISearch : URLRequestConvertible
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
             case .InsertTopSearch(_): return .POST
+            case .Brands(_, _, _) : return .GET
             }
     }
     
@@ -1277,6 +1331,7 @@ enum APISearch : URLRequestConvertible
             case .GetTopSearch(_): return "top"
             case .Find(_, _, _, _, _, _, _, _) : return "products"
             case .InsertTopSearch(_):return "top"
+            case .Brands(_, _, _) : return "brands"
             }
     }
     
@@ -1309,6 +1364,12 @@ enum APISearch : URLRequestConvertible
                     "prelo":"true"
                 ]
             case .InsertTopSearch(let s):return ["name":s]
+            case .Brands(let name, let current, let limit):
+                return [
+                    "name": name,
+                    "current": current,
+                    "limit": limit
+                ]
             }
     }
     
@@ -1532,6 +1593,9 @@ class APIPrelo
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(reqAlias, forKey: "last_req_alias")
         Crashlytics.sharedInstance().setObjectValue(res, forKey: "last_api_result")
+        if let resJson = (res as? JSON) {
+            Crashlytics.sharedInstance().setObjectValue(resJson.stringValue, forKey: "last_api_result_string")
+        }
         
         print("\(reqAlias) req = \(req)")
         
@@ -1562,6 +1626,7 @@ class APIPrelo
                         }
                     }
                 } else if (res == nil && showErrorDialog) {
+                    let status = response.statusCode
                     if (response.statusCode > 500) {
                         UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
                     } else {

@@ -34,6 +34,8 @@ typedef void(^AssetFromAlbumFailed)(NSString *message);
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 + (void) sendMultipart:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
++ (AFHTTPRequestOperationManager *) sendMultipart2:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 + (NSString *) stringWithData:(NSData *)data;
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 protocol  TawarItem
 {
@@ -329,8 +330,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        let del = UIApplication.sharedApplication().delegate as! AppDelegate
-        del.messagePool.removeDelegate(tawarItem.threadId)
+        if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+        {
+            del.messagePool?.removeDelegate(tawarItem.threadId)
+        } else
+        {
+            let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"TawarScreen"])
+        }
+//        del.messagePool?.removeDelegate(tawarItem.threadId)
         self.an_unsubscribeKeyboard()
     }
     
@@ -391,8 +399,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     self.scroll()
                 }
                 
-                let del = UIApplication.sharedApplication().delegate as! AppDelegate
-                del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
+                if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+                {
+                    del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
+                } else
+                {
+                    let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                    Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 2"])
+                }
+                
                 
 //                if (AppTools.IsPreloProduction == false)
 //                {
@@ -484,7 +499,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         // Mixpanel
-        self.sendMixpanelEvent(MixpanelEvent.Bargain)
+        //self.sendMixpanelEvent(MixpanelEvent.Bargain)
     }
     
     func rejectTawar(sender : UIView?)
@@ -521,7 +536,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         textViewGrowHandler.setText("", withAnimation: true)
         
         // Mixpanel
-        self.sendMixpanelEvent(MixpanelEvent.ChatSent)
+        //self.sendMixpanelEvent(MixpanelEvent.ChatSent)
         textViewDidChange(textView)
     }
     
@@ -627,8 +642,14 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.tableView.reloadData()
                 self.scrollToBottom()
                 
-                let del = UIApplication.sharedApplication().delegate as! AppDelegate
-                del.messagePool.registerDelegate(self.tawarItem.threadId, d: self)
+                if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+                {
+                    del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
+                } else
+                {
+                    let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
+                    Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["from":"MessagePool 3"])
+                }
             } else
             {
                 print(resp.result.error)

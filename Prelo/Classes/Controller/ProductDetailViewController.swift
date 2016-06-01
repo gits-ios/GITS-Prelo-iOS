@@ -11,6 +11,7 @@ import CoreData
 //import FMMosaicLayout
 //import ZSWTappableLabel
 import MessageUI
+import Social
 
 protocol ProductCellDelegate
 {
@@ -30,8 +31,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : BorderedButton!
-    @IBOutlet var btnActivate : UIButton!
-    @IBOutlet var btnDelete : UIButton!
+    @IBOutlet var btnUp: BorderedButton!
+    @IBOutlet var btnSold: UIButton!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var vwCoachmark: UIView!
     @IBOutlet var vwCoachmarkReserve: UIView!
@@ -48,10 +49,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     var cellSeller : ProductCellSeller?
     var cellDesc : ProductCellDescription?
     
+    @IBOutlet var loadingPanel: UIView!
+    
     var activated = true
     
     let ProductStatusActive = 1
     let ProductStatusReserved = 7
+    
+    var mgInstagram : MGInstagram?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +64,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
         self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        btnDelete.addTarget(self, action: #selector(ProductDetailViewController.deleteProduct), forControlEvents: .TouchUpInside)
         
         btnBuy.hidden = true
         btnTawar.hidden = true
@@ -77,6 +80,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         let btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
         btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -141,120 +146,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    var processingActivation = false
-    @IBAction func setProductActive()
-    {
-        if (processingActivation)
-        {
-            return
-        }
-        processingActivation = true
-        btnActivate.setTitle("LOADING..", forState: .Disabled)
-        btnActivate.enabled = false
-        
-        if (activated)
-        {
-            request(Products.Deactivate(productID: (detail?.productID)!)).responseJSON {resp in
-                self.processingActivation = false
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deaktivasi Barang"))
-                {
-                    self.activated = false
-                    self.adjustButtonActivation()
-                } else {
-                    
-                }
-            }
-        } else
-        {
-            request(Products.Activate(productID: (detail?.productID)!)).responseJSON {resp in
-                self.processingActivation = false
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Aktivasi Barang"))
-                {
-                    self.activated = true
-                    self.adjustButtonActivation()
-                } else {
-                    
-                }
-            }
-        }
-    }
-    
-    func adjustButtonActivation()
-    {
-        btnActivate.enabled = true
-        if (activated)
-        {
-            btnActivate.setTitle(" DEACTIVATE", forState: .Normal)
-        } else
-        {
-            btnActivate.setTitle(" ACTIVATE", forState: .Normal)
-        }
-    }
-    
-    var deleting = false
-    func deleteProduct()
-    {
-        if (deleting)
-        {
-            return
-        }
-        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
-        {
-            askDeleteOS8()
-        } else
-        {
-            askDeleteOS7()
-        }
-    }
-    
-    func askDeleteOS8()
-    {
-        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
-        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
-            self.confirmDeleteProduct()
-        }))
-        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
-        self.presentViewController(a, animated: true, completion: nil)
-    }
-    
-    func askDeleteOS7()
-    {
-        let a = UIAlertView()
-        a.title = "Hapus"
-        a.message = "Hapus Barang?"
-        a.addButtonWithTitle("Ya")
-        a.addButtonWithTitle("Tidak")
-        a.delegate = self
-        a.show()
-    }
-    
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 0)
-        {
-            print("DELETE")
-            self.confirmDeleteProduct()
-        } else
-        {
-            print("NO DELETE")
-        }
-    }
-    
-    func confirmDeleteProduct()
-    {
-        deleting = true
-        self.btnDelete.setTitle("LOADING..", forState: .Disabled)
-        self.btnDelete.enabled = false
-        request(Products.Delete(productID: (detail?.productID)!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
-            {
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
-                self.deleting = false
-                self.btnDelete.enabled = true
-            }
-        }
-    }
-    
     func option()
     {
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
@@ -265,11 +156,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
+            guard let pDetail = detail else {
+                return
+            }
+            var username = "Your beloved user"
+            if let u = CDUser.getOne() {
+                username = u.username
+            }
+            
             // report
+            let msgBody = "Dear Prelo,<br/><br/>Saya ingin melaporkan barang \(pDetail.name) dari penjual \(pDetail.theirName)<br/><br/>Alasan pelaporan: <br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+            
             let m = MFMailComposeViewController()
             if (MFMailComposeViewController.canSendMail()) {
                 m.setToRecipients(["contact@prelo.id"])
-                m.setSubject("Product Report [" + (detail?.productID)! + "]")
+                m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
+                m.setMessageBody(msgBody, isHTML: true)
                 m.mailComposeDelegate = self
                 self.presentViewController(m, animated: true, completion: nil)
             } else {
@@ -284,6 +186,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func getDetail()
     {
+        self.loadingPanel.hidden = false
         // API Migrasi
         request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON {resp in
@@ -291,7 +194,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
-                    self.adjustButtonActivation()
                     self.adjustButtonIfBoughtOrDeleted()
                     print(self.detail?.json)
                     self.tableView?.dataSource = self
@@ -302,6 +204,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 } else {
                     
                 }
+                self.loadingPanel.hidden = true
         }
     }
     
@@ -313,9 +216,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.btnTawar.userInteractionEnabled = false
             
             self.disableButton(self.btnBuy)
-            self.disableButton(self.btnActivate)
-            self.disableButton(self.btnDelete)
-            self.disableButton(self.btnEdit)
+            self.disableMyProductBtnSet()
             
             if (self.detail?.status == 4) {
                 if (self.detail?.boughtByMe == true) {
@@ -331,6 +232,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+    }
+    
+    func disableMyProductBtnSet() {
+        self.disableButton(self.btnUp)
+        self.disableButton(self.btnSold)
+        self.disableButton(self.btnEdit)
     }
     
     func disableButton(btn : UIButton) {
@@ -350,7 +257,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!)
+        pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
         if let labels = detail?.imageLabels
@@ -421,9 +328,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.btnBuy.hidden = true
                 self.btnTawar.hidden = true
                 btnEdit.hidden = false
-                btnActivate.hidden = false
-                btnDelete.hidden = false
-                btnDelete.superview?.hidden = false
+                btnUp.hidden = false
+                btnSold.hidden = false
+                btnSold.superview?.hidden = false
             }
             else
             {
@@ -458,7 +365,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         dismissViewControllerAnimated(YES, completion: nil)
     }
     
-    // tableview
+    // MARK: - Instagram
+    
+    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
+    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+        print("DidEndPreview")
+    }
+    
+    // MARK: - Tableview
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
@@ -482,6 +399,117 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.parent = self
                 cellTitle?.product = self.product
                 cellTitle?.adapt(detail)
+                
+                // Share socmed
+                var textToShare1 = ""
+                var textToShare2 = ""
+                if let dtl = detail {
+                    textToShare1 = "Temukan barang bekas berkualitas-ku, \(dtl.name) di Prelo hanya dengan harga \(dtl.price). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+                    textToShare2 = "Dapatkan barang bekas berkualitas-ku, \(dtl.name) seharga \(dtl.price) #PreloID"
+                }
+                cellTitle?.shareInstagram = {
+                    self.loadingPanel.hidden = false
+                    if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+                        UIPasteboard.generalPasteboard().string = textToShare1
+                        Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
+                        self.mgInstagram = MGInstagram()
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            self.mgInstagram?.postImage(img, withCaption: textToShare1, inView: self.view, delegate: self)
+                            request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
+                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                    self.cellTitle?.sharedViaInstagram()
+                                    self.detail?.setSharedViaInstagram()
+                                }
+                                self.loadingPanel.hidden = true
+                            }
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+                        self.loadingPanel.hidden = true
+                    }
+                }
+                cellTitle?.shareFacebook = {
+                    self.loadingPanel.hidden = false
+                    if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
+                        let url = NSURL(string:AppTools.PreloBaseUrl)
+                        let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                        composer.addURL(url!)
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            composer.addImage(img)
+                            composer.setInitialText(textToShare1)
+                            composer.completionHandler = { result -> Void in
+                                let getResult = result as SLComposeViewControllerResult
+                                switch(getResult.rawValue) {
+                                case SLComposeViewControllerResult.Cancelled.rawValue:
+                                    print("Cancelled")
+                                case SLComposeViewControllerResult.Done.rawValue:
+                                    print("Done")
+                                    request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
+                                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                            self.cellTitle?.sharedViaFacebook()
+                                            self.detail?.setSharedViaFacebook()
+                                        }
+                                    }
+                                default:
+                                    print("Error")
+                                }
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                                self.loadingPanel.hidden = true
+                            }
+                            self.presentViewController(composer, animated: true, completion: nil)
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+                        self.loadingPanel.hidden = true
+                    }
+                }
+                cellTitle?.shareTwitter = {
+                    self.loadingPanel.hidden = false
+                    if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
+                        let url = NSURL(string:AppTools.PreloBaseUrl)
+                        let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                        composer.addURL(url!)
+                        if let imgUrl = self.detail?.productImage {
+                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let img = UIImage(data: imgData!)
+                            composer.addImage(img)
+                            composer.setInitialText(textToShare2)
+                            composer.completionHandler = { result -> Void in
+                                let getResult = result as SLComposeViewControllerResult
+                                switch(getResult.rawValue) {
+                                case SLComposeViewControllerResult.Cancelled.rawValue:
+                                    print("Cancelled")
+                                case SLComposeViewControllerResult.Done.rawValue:
+                                    print("Done")
+                                    request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
+                                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                            self.cellTitle?.sharedViaTwitter()
+                                            self.detail?.setSharedViaTwitter()
+                                        }
+                                    }
+                                default:
+                                    print("Error")
+                                }
+                                self.dismissViewControllerAnimated(true, completion: nil)
+                                self.loadingPanel.hidden = true
+                            }
+                            self.presentViewController(composer, animated: true, completion: nil)
+                        } else {
+                            self.loadingPanel.hidden = true
+                        }
+                    } else {
+                        Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+                        self.loadingPanel.hidden = true
+                    }
+                }
                 return cellTitle!
             } else if (indexPath.row == 1) {
                 if (cellSeller == nil) {
@@ -589,32 +617,77 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func addToCart(sender: UIButton) {
-        if ((detail?.isMyProduct)! == true) // Edit product
-        {
-            let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
-            a.editMode = true
-            a.editDoneBlock = {
-                self.tableView?.hidden = true
-                self.getDetail()
+        if (alreadyInCart) {
+            self.performSegueWithIdentifier("segCart", sender: nil)
+            return
+        }
+        
+        if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+            Constant.showDialog("Failed", message: "Gagal Menyimpan")
+        } else {
+            setupView()
+            self.performSegueWithIdentifier("segCart", sender: nil)
+        }
+    }
+    
+    @IBAction func upPressed(sender: AnyObject) {
+        self.loadingPanel.hidden = false
+        if let productId = detail?.productID {
+            request(APIProduct.Push(productId: productId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Up Barang")) {
+                    let json = JSON(resp.result.value!)
+                    let isSuccess = json["_data"]["result"].boolValue
+                    let message = json["_data"]["message"].stringValue
+                    if (isSuccess) {
+                        Constant.showDialog("Success", message: message)
+                    } else {
+                        Constant.showDialog("Failed", message: message)
+                    }
+                }
+                self.loadingPanel.hidden = true
             }
-            // API Migrasi
-        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
-                    a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
-                    self.navigationController?.pushViewController(a, animated: true)
+        }
+    }
+    
+    @IBAction func soldPressed(sender: AnyObject) {
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual di tempat lain? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+            self.loadingPanel.hidden = false
+            if let productId = self.detail?.productID {
+                request(APIProduct.MarkAsSold(productId: productId)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"].boolValue
+                        if (isSuccess) {
+                            self.disableMyProductBtnSet()
+                            self.pDetailCover?.addSoldBanner()
+                            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+                        } else {
+                            Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
+                        }
+                    }
+                    self.loadingPanel.hidden = true
                 }
             }
-        } else { // Add to cart
-            if (alreadyInCart) {
-                self.performSegueWithIdentifier("segCart", sender: nil)
-                return
-            }
-            
-            if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-                Constant.showDialog("Failed", message: "Gagal Menyimpan")
-            } else {
-                setupView()
-                self.performSegueWithIdentifier("segCart", sender: nil)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func editPressed(sender: AnyObject) {
+        self.loadingPanel.hidden = false
+        let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        a.editMode = true
+        a.editDoneBlock = {
+            self.tableView?.hidden = true
+            self.getDetail()
+        }
+        // API Migrasi
+        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+                a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                self.loadingPanel.hidden = true
+                self.navigationController?.pushViewController(a, animated: true)
             }
         }
     }
@@ -810,6 +883,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     @IBOutlet var captionPrice : UILabel?
     @IBOutlet var captionCountLove : UILabel?
     @IBOutlet var captionCountComment : UILabel?
+    @IBOutlet var captionTotalViews: UILabel!
     
     @IBOutlet var sectionLove : UIView?
     @IBOutlet var sectionComment : UIView?
@@ -819,6 +893,22 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     @IBOutlet var conWidthOngkir : NSLayoutConstraint!
     @IBOutlet var conMarginOngkir : NSLayoutConstraint!
+    
+    @IBOutlet var lblShareSocmed: UILabel!
+    @IBOutlet var consHeightLblShareSocmed: NSLayoutConstraint!
+    
+    @IBOutlet var socmedBtnSet: UIView!
+    @IBOutlet var lblsBtnInstagram: [UILabel]!
+    @IBOutlet var btnInstagram: BorderedButton!
+    @IBOutlet var lblsBtnFacebook: [UILabel]!
+    @IBOutlet var btnFacebook: BorderedButton!
+    @IBOutlet var lblsBtnTwitter: [UILabel]!
+    @IBOutlet var btnTwitter: BorderedButton!
+    @IBOutlet var consWidthSocmedBtns: [NSLayoutConstraint]!
+    var shareInstagram : () -> () = {}
+    var shareFacebook : () -> () = {}
+    var shareTwitter : () -> () = {}
+    var productProfit : Int = 90
     
     var parent : UIViewController?
     
@@ -833,7 +923,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         var product = (obj?.json)!["_data"]
         
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-16.0)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-74.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool
@@ -844,7 +934,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             }
         }
         
-        return CGFloat(90.0) + s.height + reviewHeight
+        var lblShareHeight : CGFloat = 0
+        if (obj!.isMyProduct) {
+            lblShareHeight = 22
+        }
+        
+        return CGFloat(99.0) + s.height + reviewHeight + lblShareHeight
     }
     
     override func awakeFromNib() {
@@ -870,9 +965,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         
         let tapcomment = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.comment))
         sectionComment?.addGestureRecognizer(tapcomment)
+        
+        let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+        for i in 0...consWidthSocmedBtns.count - 1 {
+            consWidthSocmedBtns[i].constant = (screenWidth - 32) / 3
+        }
     }
     
     func userLoggedIn() {
+        // TODO: handle tombol socmed
         if (loving == true)
         {
             callApiLove()
@@ -1003,6 +1104,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
         
         captionTitle?.text = obj?.name
+        if let tViews = obj?.totalViews {
+            if (tViews < 1000) {
+                captionTotalViews.text = " \(tViews)"
+            } else if (tViews < 10000) {
+                captionTotalViews.text = " \((tViews / 1000)),\((tViews % 1000) / 10)K"
+            } else {
+                captionTotalViews.text = " \((tViews / 1000))K+"
+            }
+        }
         if let oldPrice = product["price_original"].int?.asPrice
         {
             captionOldPrice?.text = oldPrice
@@ -1033,6 +1143,67 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
                 sectionBrandReview?.hidden = true
             }
         }
+        
+        // Socmed buttons
+        if (detail!.isMyProduct) {
+            self.consHeightLblShareSocmed.constant = 22
+            
+            self.sectionLove?.hidden = true
+            self.sectionComment?.hidden = true
+            self.btnShare?.hidden = true
+            self.socmedBtnSet.hidden = false
+            
+            self.productProfit = 90
+            self.setShareText()
+            if (detail!.sharedViaInstagram) {
+                self.sharedViaInstagram()
+            }
+            if (detail!.sharedViaFacebook) {
+                self.sharedViaFacebook()
+            }
+            if (detail!.sharedViaTwitter) {
+                self.sharedViaTwitter()
+            }
+        } else {
+            self.consHeightLblShareSocmed.constant = 0
+        }
+    }
+    
+    func setShareText() {
+        let txt = "Share utk keuntungan lebih, keuntungan sekarang: \(productProfit)%"
+        let attTxt = NSMutableAttributedString(string: txt)
+        attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).rangeOfString("\(productProfit)%"))
+        self.lblShareSocmed.attributedText = attTxt
+    }
+    
+    func sharedViaInstagram() {
+        btnInstagram.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnInstagram.count - 1 {
+            lblsBtnInstagram[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 3
+        
+        self.setShareText()
+    }
+    
+    func sharedViaFacebook() {
+        btnFacebook.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnFacebook.count - 1 {
+            lblsBtnFacebook[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 4
+        
+        self.setShareText()
+    }
+    
+    func sharedViaTwitter() {
+        btnTwitter.borderColor = Theme.PrimaryColor
+        for i in 0...lblsBtnTwitter.count - 1 {
+            lblsBtnTwitter[i].textColor = Theme.PrimaryColor
+        }
+        productProfit += 3
+        
+        self.setShareText()
     }
     
     func setupLoveView()
@@ -1079,12 +1250,26 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         
         PreloShareController.Share(item, inView: (parent?.navigationController?.view)!, detail : self.detail)
     }
+    
+    // Socmed functions
+    @IBAction func btnInstagramPressed(sender: AnyObject) {
+        self.shareInstagram()
+    }
+    
+    @IBAction func btnFacebookPressed(sender: AnyObject) {
+        self.shareFacebook()
+    }
+    
+    @IBAction func btnTwitterPressed(sender: AnyObject) {
+        self.shareTwitter()
+    }
 }
 
 class ProductCellSeller : UITableViewCell
 {
     @IBOutlet var captionSellerName : UILabel?
     @IBOutlet var captionSellerRating : UILabel?
+    @IBOutlet var captionLastSeen: UILabel!
     @IBOutlet var ivSellerAvatar : UIImageView?
     
     static func heightFor(obj : JSON?)->CGFloat
@@ -1113,6 +1298,15 @@ class ProductCellSeller : UITableViewCell
             }
         }
         captionSellerRating?.text = stars
+        let lastSeenSeller = obj!.lastSeenSeller
+        if (lastSeenSeller != "") {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let lastSeenDate = formatter.dateFromString(lastSeenSeller) {
+                captionLastSeen.text = "Terakhir aktif: \(lastSeenDate.relativeDescription)"
+            }
+        }
+
         ivSellerAvatar?.setImageWithUrl((obj?.shopAvatarURL)!, placeHolderImage: nil)
     }
     

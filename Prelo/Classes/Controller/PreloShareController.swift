@@ -74,7 +74,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             "Category 3" : ((detail != nil && detail?.categoryBreadcrumbs.count > 3) ? (detail!.categoryBreadcrumbs[3]["name"].string!) : ""),
             "Seller" : ((detail != nil) ? (detail!.theirName) : "")
         ]
-        Mixpanel.trackPageVisit(PageName.ProductDetailShare, otherParam: p)
+        //Mixpanel.trackPageVisit(PageName.ProductDetailShare, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailShare)
