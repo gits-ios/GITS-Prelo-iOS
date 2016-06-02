@@ -1341,18 +1341,25 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 
         if (editMode == false)
         {
-            self.btnSubmit.enabled = true
-            let share = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
-            share.sendProductParam = param
-            share.sendProductImages = images
-            share.basePrice = (newPrice?.int)!
-            share.productName = name!
-            share.productImgImage = images.first as? UIImage
-            share.sendProductBeforeScreen = self.screenBeforeAddProduct
-            share.sendProductKondisi = self.kodindisiId
-            share.shouldSkipBack = false
-            
-            self.navigationController?.pushViewController(share, animated: true)
+            let alert : UIAlertController = UIAlertController(title: "Upload Barang", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+                self.btnSubmit.enabled = true
+                let share = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+                share.sendProductParam = param
+                share.sendProductImages = self.images
+                share.basePrice = (newPrice?.int)!
+                share.productName = name!
+                share.productImgImage = self.images.first as? UIImage
+                share.sendProductBeforeScreen = self.screenBeforeAddProduct
+                share.sendProductKondisi = self.kodindisiId
+                share.shouldSkipBack = false
+                
+                self.navigationController?.pushViewController(share, animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: { action in
+                self.btnSubmit.enabled = true
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
             return
         }
         
