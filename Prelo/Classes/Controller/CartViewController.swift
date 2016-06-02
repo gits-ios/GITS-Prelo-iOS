@@ -334,7 +334,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.bonusValue = bonus
                     self.bonusAvailable = true
                     
-                    let item = PreloBalanceItem(title: "Referal Bonus", value: bonus)
+                    let item = PreloBalanceItem(title: "Referral Bonus", value: bonus)
                     self.preloBalanceItems.append(item)
                 }
                 
