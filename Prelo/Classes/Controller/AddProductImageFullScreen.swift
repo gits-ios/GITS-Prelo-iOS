@@ -23,6 +23,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
     @IBOutlet var toolBar : UIToolbar!
     @IBOutlet var imageView : UIImageView!
     @IBOutlet var buttonItemsWithoutDelete : Array<UIBarButtonItem> = []
+    @IBOutlet var popOverSourceView: UIView!
     var index = 0
     var apImage : APImage!
     
@@ -88,8 +89,10 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
         
         if (UIImagePickerController.isSourceTypeAvailable(.Camera))
         {
-            let a = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            a.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { act in
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+            a.popoverPresentationController?.sourceView = popOverSourceView
+            a.popoverPresentationController?.sourceRect = popOverSourceView.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
                 i.sourceType = .Camera
                 self.presentViewController(i, animated: true, completion: {
                     
@@ -100,7 +103,7 @@ class AddProductImageFullScreen: BaseViewController, UIScrollViewDelegate, UIIma
                     
                 })
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
+            a.addAction(UIAlertAction(title: "Batal", style: .Cancel, handler: { act in }))
             self.presentViewController(a, animated: true, completion: nil)
         } else
         {

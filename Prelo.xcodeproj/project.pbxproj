@@ -3304,7 +3304,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e3d4d3e-4389-4707-aeef-e502fc600568";
+				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Debug;
@@ -3341,7 +3341,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e3d4d3e-4389-4707-aeef-e502fc600568";
+				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 			};
 			name = Release;

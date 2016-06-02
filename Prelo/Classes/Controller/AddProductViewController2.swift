@@ -80,6 +80,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBOutlet var conHeightBtnDelete : NSLayoutConstraint!
     @IBOutlet var conMarginBtnDelete : NSLayoutConstraint!
     
+    @IBOutlet var photosGroupView: UIView!
+    
     @IBOutlet weak var ivImage: UIImageView!
     
     var sizes : Array<String> = []
@@ -264,10 +266,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 captionKondisi.text = kondisi
             }
             
-            if let kondisi = editProduct?.json["_data"]["brand"].string, let kondisiId = editProduct?.json["_data"]["brand_id"].string
+            if let brnd = editProduct?.json["_data"]["brand"].string, let brndId = editProduct?.json["_data"]["brand_id"].string
             {
-                merekId = kondisiId
-                captionMerek.text = kondisi
+                merekId = brndId
+                captionMerek.text = brnd
             }
             
             if let arr = editProduct?.json["_data"]["original_picts"].arrayObject
@@ -559,8 +561,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (UIImagePickerController.isSourceTypeAvailable(.Camera))
         {
-            let a = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-            a.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { act in
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+            a.popoverPresentationController?.sourceView = self.photosGroupView
+            a.popoverPresentationController?.sourceRect = self.photosGroupView.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
                 i.sourceType = .Camera
                 self.presentViewController(i, animated: true, completion: {
                     i.view.tag = index
