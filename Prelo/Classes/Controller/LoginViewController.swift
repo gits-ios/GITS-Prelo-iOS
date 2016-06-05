@@ -303,93 +303,147 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
-    static func LoginWithFacebook(sender : BaseViewController, screenBeforeLogin : String) {
+    // Required param: "sender"
+    static func LoginWithFacebook(param : [String : AnyObject], onFinish : (NSMutableDictionary) -> ()) {
+        guard let sender = param["sender"] as? BaseViewController else {
+            return
+        }
+        
         // Log in and get permission from facebook
         let fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+        
+        // Ask for publish permissions
+        fbLoginManager.logInWithPublishPermissions(["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if (error != nil) { // Process error
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
             } else if result.isCancelled { // User cancellation
                 LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
             } else { // Success
-                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
-                    // Continue work
-                    if FBSDKAccessToken.currentAccessToken() != nil {
-                        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
-                        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-                            
-                            if ((error) != nil) {
-                                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat mengakses data Facebook")
-                            } else {
-                                if let resultDict = result as? NSDictionary {
-                                    let userId =  resultDict["id"] as? String
-                                    let name = resultDict["name"] as? String
-                                    let email = resultDict["email"] as? String
-                                    
-                                    // userId & name is required
-                                    if (userId != nil && name != nil) {
-                                        let emailToSend : String = (email != nil) ? email! : ""
-                                        _ = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
-                                        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                                        
-                                        //print("result = \(result)")
-                                        //print("profilePictureUrl = \(profilePictureUrl)")
-                                        //print("accessToken = \(accessToken)")
-                                        
-                                        // API Migrasi
-                                        request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
-                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
-                                                let json = JSON(resp.result.value!)
-                                                let data = json["_data"]
-                                                // Save in core data
-                                                let m = UIApplication.appDelegate.managedObjectContext
-                                                var user : CDUser? = CDUser.getOne()
-                                                if (user == nil) {
-                                                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
-                                                }
-                                                user!.id = data["_id"].stringValue
-                                                user!.username = data["username"].stringValue
-                                                user!.email = data["email"].stringValue
-                                                user!.fullname = data["fullname"].stringValue
-                                                
-                                                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
-                                                let pr = data["profile"]
-                                                p.pict = pr["pict"].string!
-                                                
-                                                user!.profiles = p
-                                                UIApplication.appDelegate.saveContext()
-                                                
-                                                // Check if user have set his account
-                                                //self.checkProfileSetup(data["token"].string!)
-                                                LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin)
-                                            } else {
-                                                LoginViewController.LoginFacebookCancelled(sender, reason: nil)
-                                            }
-                                        }
-                                    } else { // If there's no userId or name
-                                        LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan data saat login Facebook")
-                                    }
+                var permissions = FBSDKAccessToken.currentAccessToken().permissions
+                if permissions.contains("publish_actions") {
+                    if (permissions.contains("email")) {
+                        // Continue work
+                        LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
+                    } else {
+                        // Ask for read permissions
+                        fbLoginManager.logInWithReadPermissions(["email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+                            if (error != nil) { // Process error
+                                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
+                            } else if result.isCancelled { // User cancellation
+                                LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
+                            } else { // Success
+                                permissions = FBSDKAccessToken.currentAccessToken().permissions
+                                if permissions.contains("email") {
+                                    // Continue work
+                                    LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
                                 } else {
-                                    LoginViewController.LoginFacebookCancelled(sender, reason: "Format data Facebook salah")
+                                    // Handle not getting permission
+                                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat data yang tidak dapat diakses")
                                 }
                             }
                         })
-                    } else {
-                        LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook, token tidak ditemukan")
                     }
                 } else {
                     // Handle not getting permission
-                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena tidak dapat mengakses profil")
+                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat akses yg diblokir")
                 }
             }
         })
     }
     
+    static func ContinueLoginWithFacebook(param : [String : AnyObject], onFinish : (NSMutableDictionary) -> ()) {
+        guard let sender = param["sender"] as? BaseViewController else {
+            return
+        }
+        var screenBeforeLogin : String = ""
+        if let scrBfrLogin = param["screenBeforeLogin"] as? String {
+            screenBeforeLogin = scrBfrLogin
+        }
+        
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
+            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                if ((error) != nil) {
+                    LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat mengakses data Facebook")
+                } else {
+                    if let res = result as? NSDictionary {
+                        let resultDict = NSMutableDictionary(dictionary: res)
+                        resultDict.setValue(sender, forKey: "sender")
+                        resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
+                        onFinish(resultDict)
+                    } else {
+                        LoginViewController.LoginFacebookCancelled(sender, reason: "Format data Facebook salah")
+                    }
+                }
+            })
+        } else {
+            LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook, token tidak ditemukan")
+        }
+    }
+    
+    // Required dict key: "sender", "screenBeforeLogin"
+    static func AfterLoginFacebook(resultDict : NSMutableDictionary) {
+        guard let sender = resultDict.objectForKey("sender") as? BaseViewController, let screenBeforeLogin = resultDict.objectForKey("screenBeforeLogin") as? String else {
+            return
+        }
+        
+        let userId = resultDict["id"] as? String
+        let name = resultDict["name"] as? String
+        let email = resultDict["email"] as? String
+        
+        // userId & name is required
+        if (userId != nil && name != nil) {
+            let emailToSend : String = (email != nil) ? email! : ""
+            _ = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
+            let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+            
+            //print("result = \(result)")
+            //print("profilePictureUrl = \(profilePictureUrl)")
+            //print("accessToken = \(accessToken)")
+            
+            // API Migrasi
+            request(APIAuth.LoginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    var user : CDUser? = CDUser.getOne()
+                    if (user == nil) {
+                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+                    }
+                    user!.id = data["_id"].stringValue
+                    user!.username = data["username"].stringValue
+                    user!.email = data["email"].stringValue
+                    user!.fullname = data["fullname"].stringValue
+                    
+                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                    let pr = data["profile"]
+                    p.pict = pr["pict"].string!
+                    
+                    user!.profiles = p
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Check if user have set his account
+                    //self.checkProfileSetup(data["token"].string!)
+                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin)
+                } else {
+                    LoginViewController.LoginFacebookCancelled(sender, reason: nil)
+                }
+            }
+        } else { // If there's no userId or name
+            LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan data saat login Facebook")
+        }
+    }
+    
     static func LoginFacebookCancelled(sender : BaseViewController, reason : String?) {
-        User.Logout()
+        User.LogoutFacebook()
         
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
+        let vcProductDetail = sender as? ProductDetailViewController
+        let vcAddProductShare = sender as? AddProductShareViewController
         
         // Hide loading
         if (vcLogin != nil) {
@@ -397,6 +451,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcRegister != nil) {
             vcRegister!.hideLoading()
+        }
+        if (vcProductDetail != nil) {
+            vcProductDetail!.hideLoading()
+        }
+        if (vcAddProductShare != nil) {
+            vcAddProductShare!.hideLoading()
         }
         
         // Show alert if there's reason
@@ -763,7 +823,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         loadingPanel?.hidden = false
         loading?.startAnimating()
         
-        LoginViewController.LoginWithFacebook(self, screenBeforeLogin: self.screenBeforeLogin)
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
+        LoginViewController.LoginWithFacebook(p, onFinish: { resultDict in
+            LoginViewController.AfterLoginFacebook(resultDict)
+        })
     }
     
     // MARK: - Twitter Login

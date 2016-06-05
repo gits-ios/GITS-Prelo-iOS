@@ -31,6 +31,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     @IBOutlet var captionChargePercent : UILabel!
     @IBOutlet var btnSend : UIButton!
     
+    @IBOutlet var loadingPanel: UIView!
+    
     var chargePercent : Double = 10
     var basePrice = 925000
     
@@ -95,36 +97,45 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
                 }
             } else if (tag == 2) { // Facebook
-                if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
-                    let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-                    if let url = NSURL(string:self.linkToShare) {
-                        composer.addURL(url)
-                    }
-                    let pimg = self.productImg == nil ? "" : self.productImg!
-                    if let imgUrl = NSURL(string: pimg) {
-                        if let imgData = NSData(contentsOfURL: imgUrl) {
-                            if let img = UIImage(data: imgData) {
-                                composer.addImage(img)
-                            }
-                        }
-                    }
-                    composer.setInitialText("Temukan barang bekas berkualitas-ku, download aplikasinya sekarang juga di http://prelo.co.id #PreloID")
-                    composer.completionHandler = { result -> Void in
-                        let getResult = result as SLComposeViewControllerResult
-                        switch(getResult.rawValue) {
-                        case SLComposeViewControllerResult.Cancelled.rawValue:
-                            print("Cancelled")
-                        case SLComposeViewControllerResult.Done.rawValue:
-                            print("Done")
-                            self.updateButtons(sender)
-                        default:
-                            print("Error")
-                        }
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                    self.presentViewController(composer, animated: true, completion: nil)
+                self.showLoading()
+                
+                if (FBSDKAccessToken.currentAccessToken() != nil && FBSDKAccessToken.currentAccessToken().permissions.contains("publish_actions")) {
+                    self.updateButtons(sender)
+                    self.hideLoading()
                 } else {
-                    Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
+                    let p = ["sender" : self]
+                    LoginViewController.LoginWithFacebook(p, onFinish: { result in
+                        // Handle Profile Photo URL String
+                        let userId =  result["id"] as? String
+                        let name = result["name"] as? String
+                        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                        
+                        print("result = \(result)")
+                        print("accessToken = \(accessToken)")
+                        
+                        // userId & name is required
+                        if (userId != nil && name != nil) {
+                            // API Migrasi
+                            request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                                    
+                                    // Save in core data
+                                    let userOther : CDUserOther = CDUserOther.getOne()!
+                                    userOther.fbID = userId
+                                    userOther.fbUsername = name
+                                    userOther.fbAccessToken = accessToken
+                                    UIApplication.appDelegate.saveContext()
+                                    
+                                    self.updateButtons(sender)
+                                    self.hideLoading()
+                                } else {
+                                    LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Facebook")
+                                }
+                            }
+                        } else {
+                            LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan data saat login Facebook")
+                        }
+                    })
                 }
             } else if (tag == 3) { // Twitter
                 if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
@@ -217,59 +228,6 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         }
     }
     
-    func loginFacebook() {
-        // Log in and get permission from facebook
-        let fbLoginManager = FBSDKLoginManager()
-        fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            if (error != nil) { // Process error
-                print("Process error")
-                User.LogoutFacebook()
-            } else if result.isCancelled { // User cancellation
-                print("User cancel")
-                User.LogoutFacebook()
-            } else { // Success
-                if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
-                    // Do work
-                    self.fbLogin()
-                } else {
-                    // Handle not getting permission
-                }
-            }
-        })
-    }
-    
-    func fbLogin()
-    {
-        // Show loading
-        
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
-            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                if ((error) != nil) {
-                    // Handle error
-                    print("Error fetching facebook profile")
-                } else {
-                    // Handle Profile Photo URL String
-                    let userId =  result["id"] as! String
-                    let name = result["name"] as! String
-                    let email = result["email"] as! String
-                    //let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large" // FIXME: harusnya dipasang di profile kan?
-                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                    
-                    // API Migrasi
-        request(APIAuth.LoginFacebook(email: email, fullname: name, fbId: userId, fbUsername: name, fbAccessToken: accessToken)).responseJSON {resp in
-                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
-                            self.me?.others.fbAccessToken = accessToken
-                            UIApplication.appDelegate.saveContext()
-                        }
-                    }
-                }
-            })
-        }
-    }
-
-    
     func pathLoginSuccess(userData : JSON, token : String) {
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
@@ -287,8 +245,12 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         }
     }
     
+    func showLoading() {
+        self.loadingPanel.hidden = false
+    }
+    
     func hideLoading() {
-        
+        self.loadingPanel.hidden = true
     }
     
     override func viewDidLoad() {
@@ -297,6 +259,8 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.title = "Share"
 
         // Do any additional setup after loading the view.
+        
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         
         if (arrayRows.count == 0)
         {

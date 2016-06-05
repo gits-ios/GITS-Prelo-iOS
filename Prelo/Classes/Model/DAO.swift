@@ -111,19 +111,9 @@ public class User : NSObject
         Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
         Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])*/
         
-        if let u = CDUser.getOne()
-        {
-            UIApplication.appDelegate.managedObjectContext.deleteObject(u)
-        }
-        if let uProfile = CDUserProfile.getOne()
-        {
-            UIApplication.appDelegate.managedObjectContext.deleteObject(uProfile)
-        }
-        if let uOther = CDUserOther.getOne()
-        {
-            UIApplication.appDelegate.managedObjectContext.deleteObject(uOther)
-        }
-        UIApplication.appDelegate.saveContext()
+        CDUser.deleteAll()
+        CDUserProfile.deleteAll()
+        CDUserOther.deleteAll()
         
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
         NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)

@@ -188,6 +188,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Setelan akun belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Keluar", style: .Default, handler: { action in
+            User.Logout()
             self.dismissViewControllerAnimated(true, completion: nil)
         }))
         self.presentViewController(alert, animated: true, completion: nil)
