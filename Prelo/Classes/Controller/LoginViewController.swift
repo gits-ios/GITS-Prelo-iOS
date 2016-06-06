@@ -438,12 +438,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     static func LoginFacebookCancelled(sender : BaseViewController, reason : String?) {
-        User.LogoutFacebook()
-        
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
+        let vcUserProfile = sender as? UserProfileViewController
+        
+        if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
+            User.Logout()
+        } else {
+            User.LogoutFacebook()
+        }
         
         // Hide loading
         if (vcLogin != nil) {
@@ -458,6 +463,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (vcAddProductShare != nil) {
             vcAddProductShare!.hideLoading()
         }
+        if (vcUserProfile != nil) {
+            vcUserProfile!.hideLoading()
+        }
         
         // Show alert if there's reason
         if (reason != nil) {
@@ -465,9 +473,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
-    static func LoginWithTwitter(sender : BaseViewController, screenBeforeLogin : String) {
-        let vcLogin = sender as? LoginViewController
-        let vcRegister = sender as? RegisterViewController
+    // Required param: "sender"
+    static func LoginWithTwitter(param : [String : AnyObject], onFinish : (NSMutableDictionary) -> ()) {
+        guard let sender = param["sender"] as? BaseViewController else {
+            return
+        }
+        var screenBeforeLogin : String = ""
+        if let scrBfrLogin = param["screenBeforeLogin"] as? String {
+            screenBeforeLogin = scrBfrLogin
+        }
         
         Twitter.sharedInstance().logInWithCompletion { session, error in
             if (session != nil) {
@@ -494,19 +508,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         let twReq = Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: twShowUserEndpoint, parameters: twParams, error: &twErr)
                         
                         if (twErr != nil) { // Error
-                            Constant.showDialog("Warning", message: "Error getting twitter data")//: \(twErr)")
-                            sender.dismiss()
+                            LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
                         } else {
                             twClient.sendTwitterRequest(twReq, completion: { (resp, res, err) -> Void in
-                                if (err != nil)
-                                { // Error
-                                    Constant.showDialog("Warning", message: "Error getting twitter data")//: \(err)")
-                                    if (vcLogin != nil) {
-                                        vcLogin!.hideLoading()
-                                    }
-                                    if (vcRegister != nil) {
-                                        vcRegister!.hideLoading()
-                                    }
+                                if (err != nil) { // Error
+                                    LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
                                 } else { // Succes
                                     do {
                                         let json : AnyObject? = try NSJSONSerialization.JSONObjectWithData(res!, options: .AllowFragments)
@@ -515,90 +521,122 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                         
                                         twFullname = data["name"].string!
                                         
-                                        request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
-                                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
-                                                let json = JSON(resp.result.value!)
-                                                let data = json["_data"]
-                                                if (data == nil || data == []) { // Data kembalian kosong
-                                                    if (json["_message"] != nil) {
-                                                        Constant.showDialog("Warning", message: json["_message"].string!)
-                                                        if (vcLogin != nil) {
-                                                            vcLogin!.hideLoading()
-                                                        }
-                                                        if (vcRegister != nil) {
-                                                            vcRegister!.hideLoading()
-                                                        }
-                                                    }
-                                                } else { // Berhasil
-                                                    print("Twitter login data: \(data)")
-                                                    
-                                                    // Save in core data
-                                                    let m = UIApplication.appDelegate.managedObjectContext
-                                                    var user : CDUser? = CDUser.getOne()
-                                                    if (user == nil) {
-                                                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
-                                                    }
-                                                    user!.id = data["_id"].string!
-                                                    user!.username = data["username"].string!
-                                                    user!.email = data["email"].string!
-                                                    user!.fullname = data["fullname"].string!
-                                                    
-                                                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
-                                                    let pr = data["profile"]
-                                                    p.pict = pr["pict"].string!
-                                                    
-                                                    user!.profiles = p
-                                                    UIApplication.appDelegate.saveContext()
-                                                    
-                                                    // Save in NSUserDefaults
-                                                    NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                                                    NSUserDefaults.standardUserDefaults().synchronize()
-                                                    
-                                                    // Check if user have set his account
-                                                    LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
-                                                }
-                                            } else {
-                                                if (vcLogin != nil) {
-                                                    vcLogin!.hideLoading()
-                                                }
-                                                if (vcRegister != nil) {
-                                                    vcRegister!.hideLoading()
-                                                }
-                                            }
-                                        }
+                                        let resultDict = NSMutableDictionary()
+                                        resultDict.setValue(sender, forKey: "sender")
+                                        resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
+                                        resultDict.setValue(twEmail, forKey: "twEmail")
+                                        resultDict.setValue(twFullname, forKey: "twFullname")
+                                        resultDict.setValue(twUsername, forKey: "twUsername")
+                                        resultDict.setValue(twId, forKey: "twId")
+                                        resultDict.setValue(twToken, forKey: "twToken")
+                                        resultDict.setValue(twSecret, forKey: "twSecret")
+                                        onFinish(resultDict)
                                     } catch {
-                                        Constant.showDialog("Warning", message: "Error login twitter")//: \(err)")
-                                        if (vcLogin != nil) {
-                                            vcLogin!.hideLoading()
-                                        }
-                                        if (vcRegister != nil) {
-                                            vcRegister!.hideLoading()
-                                        }
+                                        LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
                                     }
                                 }
                             })
                         }
                     } else {
-                        Constant.showDialog("Warning", message: "Error getting Twitter e-mail")
-                        if (vcLogin != nil) {
-                            vcLogin!.hideLoading()
-                        }
-                        if (vcRegister != nil) {
-                            vcRegister!.hideLoading()
-                        }
+                        LoginViewController.LoginTwitterCancelled(sender, reason: "Error: E-mail gagal didapatkan karena e-mail akun twitter belum diverifikasi, atau gagal diakses oleh Prelo")
                     }
                 }
                 sender.presentViewController(twShareEmailVC, animated: true, completion: nil)
                 
             } else {
-                Constant.showDialog("Info", message: "Twitter login canceled")
-                if (vcLogin != nil) {
-                    vcLogin!.hideLoading()
-                }
-                if (vcRegister != nil) {
-                    vcRegister!.hideLoading()
-                }
+                LoginViewController.LoginTwitterCancelled(sender, reason: "Twitter login cancelled")
             }
+        }
+    }
+    
+    static func AfterLoginTwitter(resultDict : NSMutableDictionary) {
+        guard let sender = resultDict.objectForKey("sender") as? BaseViewController,
+            let screenBeforeLogin = resultDict.objectForKey("screenBeforeLogin") as? String,
+            let twEmail = resultDict.objectForKey("twEmail") as? String,
+            let twFullname = resultDict.objectForKey("twFullname") as? String,
+            let twUsername = resultDict.objectForKey("twUsername") as? String,
+            let twId = resultDict.objectForKey("twId") as? String,
+            let twToken = resultDict.objectForKey("twToken") as? String,
+            let twSecret = resultDict.objectForKey("twSecret") as? String else {
+            return
+        }
+        
+        request(APIAuth.LoginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if (data == nil || data == []) { // Data kembalian kosong
+                    if (json["_message"] != nil) {
+                        LoginViewController.LoginTwitterCancelled(sender, reason: json["_message"].string!)
+                    }
+                } else { // Berhasil
+                    print("Twitter login data: \(data)")
+                    
+                    // Save in core data
+                    let m = UIApplication.appDelegate.managedObjectContext
+                    var user : CDUser? = CDUser.getOne()
+                    if (user == nil) {
+                        user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+                    }
+                    user!.id = data["_id"].string!
+                    user!.username = data["username"].string!
+                    user!.email = data["email"].string!
+                    user!.fullname = data["fullname"].string!
+                    
+                    let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                    let pr = data["profile"]
+                    p.pict = pr["pict"].string!
+                    
+                    user!.profiles = p
+                    UIApplication.appDelegate.saveContext()
+                    
+                    // Save in NSUserDefaults
+                    NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                    // Check if user have set his account
+                    LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)
+                }
+            } else {
+                LoginViewController.LoginTwitterCancelled(sender, reason: nil)
+            }
+        }
+    }
+    
+    static func LoginTwitterCancelled(sender : BaseViewController, reason : String?) {
+        
+        let vcLogin = sender as? LoginViewController
+        let vcRegister = sender as? RegisterViewController
+        let vcProductDetail = sender as? ProductDetailViewController
+        let vcAddProductShare = sender as? AddProductShareViewController
+        let vcUserProfile = sender as? UserProfileViewController
+        
+        if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
+            User.Logout()
+        } else {
+            User.LogoutTwitter()
+        }
+        
+        // Hide loading
+        if (vcLogin != nil) {
+            vcLogin!.hideLoading()
+        }
+        if (vcRegister != nil) {
+            vcRegister!.hideLoading()
+        }
+        if (vcProductDetail != nil) {
+            vcProductDetail!.hideLoading()
+        }
+        if (vcAddProductShare != nil) {
+            vcAddProductShare!.hideLoading()
+        }
+        if (vcUserProfile != nil) {
+            vcUserProfile!.hideLoading()
+        }
+        
+        // Show alert if there's reason
+        if (reason != nil) {
+            Constant.showDialog("Login Twitter", message: reason!)
         }
     }
     
@@ -623,8 +661,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         // Hide loading
         loadingPanel?.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel?.hidden = true
-        loading?.stopAnimating()
+        self.hideLoading()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -734,8 +771,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         txtPassword?.resignFirstResponder()
         
         // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
+        self.showLoading()
         
         let email = txtEmail?.text
         let pwd = txtPassword?.text
@@ -820,8 +856,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
+        self.showLoading()
         
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
         LoginViewController.LoginWithFacebook(p, onFinish: { resultDict in
@@ -833,18 +868,19 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     
     @IBAction func loginTwitterPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
+        self.showLoading()
         
-        LoginViewController.LoginWithTwitter(self, screenBeforeLogin: self.screenBeforeLogin)
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
+        LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
+            LoginViewController.AfterLoginTwitter(resultDict)
+        })
     }
     
     // MARK: - Path Login
     
     @IBAction func loginPathPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
+        self.showLoading()
         
         let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
         pathLoginVC.delegate = self
@@ -892,6 +928,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 LoginViewController.CheckProfileSetup(self, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Path", screenBeforeLogin: self.screenBeforeLogin)
             }
         }
+    }
+    
+    func showLoading() {
+        loadingPanel?.hidden = false
+        loading?.startAnimating()
+        loading?.hidden = false
     }
     
     func hideLoading() {

@@ -276,7 +276,10 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         loadingPanel.hidden = false
         loading.startAnimating()
         
-        LoginViewController.LoginWithTwitter(self, screenBeforeLogin: self.screenBeforeLogin)
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
+        LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
+            LoginViewController.AfterLoginTwitter(resultDict)
+        })
     }
     
     // MARK: - Path Login

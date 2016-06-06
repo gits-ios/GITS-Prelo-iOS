@@ -387,6 +387,17 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    // MARK: - Twitter
+    func postShareCommissionTwitter() {
+        request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Twitter")) {
+                self.cellTitle?.sharedViaTwitter()
+                self.detail?.setSharedViaTwitter()
+            }
+            self.hideLoading()
+        }
+    }
+    
     // MARK: - Tableview
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -413,22 +424,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.adapt(detail)
                 
                 // Share socmed
-                var textToShare1 = ""
-                var textToShare2 = ""
+                var textToShare = ""
                 if let dtl = detail {
-                    textToShare1 = "Temukan barang bekas berkualitas-ku, \(dtl.name) di Prelo hanya dengan harga \(dtl.price). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
-                    textToShare2 = "Dapatkan barang bekas berkualitas-ku, \(dtl.name) seharga \(dtl.price) #PreloID"
+                    textToShare = "Temukan barang bekas berkualitas-ku, \(dtl.name) di Prelo hanya dengan harga \(dtl.price). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
                 }
                 cellTitle?.shareInstagram = {
                     self.showLoading()
                     if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
-                        UIPasteboard.generalPasteboard().string = textToShare1
+                        UIPasteboard.generalPasteboard().string = textToShare
                         Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                         self.mgInstagram = MGInstagram()
                         if let imgUrl = self.detail?.productImage {
                             let imgData = NSData(contentsOfURL: imgUrl)
                             let img = UIImage(data: imgData!)
-                            self.mgInstagram?.postImage(img, withCaption: textToShare1, inView: self.view, delegate: self)
+                            self.mgInstagram?.postImage(img, withCaption: textToShare, inView: self.view, delegate: self)
                             request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                     self.cellTitle?.sharedViaInstagram()
@@ -453,7 +462,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         let p = ["sender" : self]
                         LoginViewController.LoginWithFacebook(p, onFinish: { result in
                             // Handle Profile Photo URL String
-                            let userId =  result["id"] as? String
+                            let userId = result["id"] as? String
                             let name = result["name"] as? String
                             let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                             
@@ -463,15 +472,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             // userId & name is required
                             if (userId != nil && name != nil) {
                                 // API Migrasi
-                                request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                                request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
                                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                         
                                         // Save in core data
-                                        let userOther : CDUserOther = CDUserOther.getOne()!
-                                        userOther.fbID = userId
-                                        userOther.fbUsername = name
-                                        userOther.fbAccessToken = accessToken
-                                        UIApplication.appDelegate.saveContext()
+                                        if let userOther : CDUserOther = CDUserOther.getOne() {
+                                            userOther.fbID = userId
+                                            userOther.fbUsername = name
+                                            userOther.fbAccessToken = accessToken
+                                            UIApplication.appDelegate.saveContext()
+                                        }
                                         
                                         self.postShareCommissionFacebook()
                                     } else {
@@ -486,41 +496,38 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 cellTitle?.shareTwitter = {
                     self.showLoading()
-                    if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
-                        let url = NSURL(string:AppTools.PreloBaseUrl)
-                        let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-                        composer.addURL(url!)
-                        if let imgUrl = self.detail?.productImage {
-                            let imgData = NSData(contentsOfURL: imgUrl)
-                            let img = UIImage(data: imgData!)
-                            composer.addImage(img)
-                            composer.setInitialText(textToShare2)
-                            composer.completionHandler = { result -> Void in
-                                let getResult = result as SLComposeViewControllerResult
-                                switch(getResult.rawValue) {
-                                case SLComposeViewControllerResult.Cancelled.rawValue:
-                                    print("Cancelled")
-                                case SLComposeViewControllerResult.Done.rawValue:
-                                    print("Done")
-                                    request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
-                                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
-                                            self.cellTitle?.sharedViaTwitter()
-                                            self.detail?.setSharedViaTwitter()
-                                        }
-                                    }
-                                default:
-                                    print("Error")
-                                }
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                                self.hideLoading()
-                            }
-                            self.presentViewController(composer, animated: true, completion: nil)
-                        } else {
-                            self.hideLoading()
-                        }
+                    
+                    if (User.IsLoggedInTwitter) {
+                        self.postShareCommissionTwitter()
                     } else {
-                        Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
-                        self.hideLoading()
+                        let p = ["sender" : self]
+                        LoginViewController.LoginWithTwitter(p, onFinish: { result in
+                            guard let twId = result["twId"] as? String,
+                                let twUsername = result["twUsername"] as? String,
+                                let twToken = result["twToken"] as? String,
+                                let twSecret = result["twSecret"] as? String else {
+                                    LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
+                                    return
+                            }
+                            
+                            request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                                    
+                                    // Save in core data
+                                    if let userOther : CDUserOther = CDUserOther.getOne() {
+                                        userOther.twitterID = twId
+                                        userOther.twitterUsername = twUsername
+                                        userOther.twitterAccessToken = twToken
+                                        userOther.twitterTokenSecret = twSecret
+                                        UIApplication.appDelegate.saveContext()
+                                    }
+                                    
+                                    self.postShareCommissionTwitter()
+                                } else {
+                                    LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
+                                }
+                            }
+                        })
                     }
                 }
                 return cellTitle!

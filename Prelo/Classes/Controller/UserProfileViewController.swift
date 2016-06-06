@@ -235,14 +235,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     func checkTwitterLogin(userOther : CDUserOther) -> Bool {
-        return (userOther.twitterAccessToken != nil) &&
-            (userOther.twitterAccessToken != "") &&
-            (userOther.twitterID != nil) &&
-            (userOther.twitterID != "") &&
-            (userOther.twitterUsername != nil) &&
-            (userOther.twitterUsername != "") &&
-            (userOther.twitterTokenSecret != nil) &&
-            (userOther.twitterTokenSecret != "")
+        return User.IsLoggedInTwitter
     }
     
     func checkPathLogin(userOther : CDUserOther) -> Bool {
@@ -314,8 +307,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBAction func loginInstagramPressed(sender: UIButton) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         if (!isLoggedInInstagram) { // Then login
             let instaLogin = InstagramLoginViewController()
@@ -369,24 +361,44 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBAction func loginFacebookPressed(sender: UIButton) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         if (!isLoggedInFacebook) { // Then login
-            // Log in and get permission from facebook
-            let fbLoginManager = FBSDKLoginManager()
-            fbLoginManager.logInWithReadPermissions(["public_profile"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-                if (error != nil) { // Process error
-                    self.LoginFacebookCancelled("Terdapat kesalahan saat login Facebook")
-                } else if result.isCancelled { // User cancellation
-                    self.LoginFacebookCancelled("Login Facebook dibatalkan")
-                } else { // Success
-                    if result.grantedPermissions.contains("public_profile") {
-                        // Do work
-                        self.fbLogin()
-                    } else {
-                        self.LoginFacebookCancelled("Login Facebook dibatalkan karena tidak dapat mengakses profil")
+            let p = ["sender" : self]
+            LoginViewController.LoginWithFacebook(p, onFinish: { result in
+                // Handle Profile Photo URL String
+                let userId =  result["id"] as? String
+                let name = result["name"] as? String
+                let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                
+                print("result = \(result)")
+                print("accessToken = \(accessToken)")
+                
+                // userId & name is required
+                if (userId != nil && name != nil) {
+                    // API Migrasi
+                    request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                            
+                            // Save in core data
+                            let userOther : CDUserOther = CDUserOther.getOne()!
+                            userOther.fbID = userId
+                            userOther.fbUsername = name
+                            userOther.fbAccessToken = accessToken
+                            UIApplication.appDelegate.saveContext()
+                            
+                            // Adjust fb button
+                            self.lblLoginFacebook.text = name
+                            self.isLoggedInFacebook = true
+                            
+                            // Hide loading
+                            self.hideLoading()
+                        } else {
+                            LoginViewController.LoginFacebookCancelled(self, reason: nil)
+                        }
                     }
+                } else {
+                    LoginViewController.LoginFacebookCancelled(self, reason: "Terdapat kesalahan data saat login Facebook")
                 }
             })
         } else { // Then logout
@@ -396,118 +408,48 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    func fbLogin()
-    {
-        // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
-        
-        if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "email, name"], tokenString: FBSDKAccessToken.currentAccessToken().tokenString, version: nil, HTTPMethod: "GET")
-            graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                if ((error) != nil) {
-                    self.LoginFacebookCancelled("Terdapat kesalahan saat mengakses data Facebook")
-                } else {
-                    if let _ = result as? NSDictionary {
-                        // Handle Profile Photo URL String
-                        let userId =  result["id"] as? String
-                        let name = result["name"] as? String
-                        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                        
-                        print("result = \(result)")
-                        print("accessToken = \(accessToken)")
-                        
-                        // userId & name is required
-                        if (userId != nil && name != nil) {
-                            // API Migrasi
-                            request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
-                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
-
-                                    // Save in core data
-                                    let userOther : CDUserOther = CDUserOther.getOne()!
-                                    userOther.fbID = userId
-                                    userOther.fbUsername = name
-                                    userOther.fbAccessToken = accessToken
-                                    UIApplication.appDelegate.saveContext()
-                                    
-                                    // Adjust fb button
-                                    self.lblLoginFacebook.text = name
-                                    self.isLoggedInFacebook = true
-                                    
-                                    // Hide loading
-                                    self.hideLoading()
-                                } else {
-                                    self.LoginFacebookCancelled(nil)
-                                }
-                            }
-                        } else {
-                            self.LoginFacebookCancelled("Terdapat kesalahan data saat login Facebook")
-                        }
-                    } else {
-                        self.LoginFacebookCancelled("Format data Facebook salah")
-                    }
-                }
-            })
-        } else {
-            self.LoginFacebookCancelled("Terdapat kesalahan saat login Facebook, token tidak ditemukan")
-        }
-    }
-    
-    func LoginFacebookCancelled(reason : String?) {
-        User.LogoutFacebook()
-        
-        self.hideLoading()
-        
-        // Show alert if there's reason
-        if (reason != nil) {
-            Constant.showDialog("Login Facebook", message: reason!)
-        }
-    }
-    
     @IBAction func loginTwitterPressed(sender: UIButton) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         if (!isLoggedInTwitter) { // Then login
-            Twitter.sharedInstance().logInWithCompletion { session, error in
-                if (session != nil) {
-                    let twId = session!.userID
-                    let twUsername = session!.userName
-                    let twToken = session!.authToken
-                    let twSecret = session!.authTokenSecret
-                    
-                    // API Migrasi
-        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON {resp in
-                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
-
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
+            let p = ["sender" : self]
+            LoginViewController.LoginWithTwitter(p, onFinish: { result in
+                guard let twId = result["twId"] as? String,
+                    let twUsername = result["twUsername"] as? String,
+                    let twToken = result["twToken"] as? String,
+                    let twSecret = result["twSecret"] as? String else {
+                        LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
+                        return
+                }
+                
+                request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                        
+                        // Save in core data
+                        if let userOther : CDUserOther = CDUserOther.getOne() {
                             userOther.twitterID = twId
                             userOther.twitterUsername = twUsername
                             userOther.twitterAccessToken = twToken
                             userOther.twitterTokenSecret = twSecret
                             UIApplication.appDelegate.saveContext()
-                            
-                            // Save in NSUserDefaults
-                            NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            
-                            // Adjust twitter button
-                            self.lblLoginTwitter.text = "@\(twUsername)"
-                            self.isLoggedInTwitter = true
-                            
-                            // Hide loading
-                            self.hideLoading()
-                        } else {
-                            self.hideLoading()
                         }
+                        
+                        // Save in NSUserDefaults
+                        NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        
+                        // Adjust twitter button
+                        self.lblLoginTwitter.text = "@\(twUsername)"
+                        self.isLoggedInTwitter = true
+                        
+                        // Hide loading
+                        self.hideLoading()
+                    } else {
+                        LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
                     }
-                } else {
-                    self.hideLoading()
                 }
-            }
+            })
         } else { // Then logout
             let logoutAlert = UIAlertView(title: "Twitter Logout", message: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", delegate: self, cancelButtonTitle: "No")
             logoutAlert.addButtonWithTitle("Yes")
@@ -517,8 +459,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     @IBAction func loginPathPressed(sender: UIButton) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         if (!isLoggedInPath) { // Then login
             let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
@@ -555,6 +496,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 self.hideLoading()
             }
         }
+    }
+    
+    func showLoading() {
+        loadingPanel.hidden = false
+        loading.startAnimating()
     }
     
     func hideLoading() {
@@ -655,7 +601,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
                 // API Migrasi
-        request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
 
                         // Save in core data
@@ -674,7 +620,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Facebook Logout") {
                 // API Migrasi
-        request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
 
                         // End session
@@ -696,7 +642,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Twitter Logout") {
                 // API Migrasi
-        request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
 
                         // End session
@@ -719,7 +665,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Path Logout") {
                 // API Migrasi
-        request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
 
                         // Save in core data
@@ -817,8 +763,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     @IBAction func simpanDataPressed(sender: UIButton) {
         if (fieldsVerified()) {
             btnSimpanData.enabled = false
-            loadingPanel.hidden = false
-            loading.startAnimating()
+            self.showLoading()
             
             var shipping : String = ""
             for i in 0...self.userShippingIdList.count - 1 {

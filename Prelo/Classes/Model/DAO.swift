@@ -39,6 +39,17 @@ public class User : NSObject
         return true
     }
     
+    static var IsLoggedInTwitter : Bool
+    {
+        var loggedIn = false
+        if let uOther = CDUserOther.getOne() {
+            if (uOther.twitterID != nil && uOther.twitterID != "" && uOther.twitterUsername != nil && uOther.twitterUsername != "" && uOther.twitterAccessToken != nil && uOther.twitterAccessToken != "" && uOther.twitterTokenSecret != nil && uOther.twitterTokenSecret != "") {
+                loggedIn = true
+            }
+        }
+        return loggedIn
+    }
+    
     static var Id : String?
     {
         let i = NSUserDefaults.standardUserDefaults().stringForKey(User.IdKey)
@@ -125,6 +136,7 @@ public class User : NSObject
         NSUserDefaults.setTourDone(false)
         
         self.LogoutFacebook()
+        self.LogoutTwitter()
     }
     
     static func LogoutFacebook()
@@ -137,7 +149,7 @@ public class User : NSObject
     static func LogoutTwitter()
     {
         let store = Twitter.sharedInstance().sessionStore
-        if let userID = store.session()!.userID {
+        if let userID = store.session()?.userID {
             store.logOutUserID(userID)
         }
     }

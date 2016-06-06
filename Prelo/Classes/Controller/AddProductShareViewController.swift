@@ -44,8 +44,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     var productName : String!
     var permalink : String!
     var linkToShare = AppTools.PreloBaseUrl
-    var textToShare1 = ""
-    var textToShare2 = ""
+    var textToShare = ""
     
     var mgInstagram : MGInstagram?
     
@@ -84,11 +83,11 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         if (!sender.active) { // Akan mengaktifkan tombol share
             if (tag == 0) { // Instagram
                 if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
-                    UIPasteboard.generalPasteboard().string = self.textToShare1
+                    UIPasteboard.generalPasteboard().string = self.textToShare
                     Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                     mgInstagram = MGInstagram()
                     if let img = productImgImage {
-                        mgInstagram?.postImage(img, withCaption: self.textToShare1, inView: self.view, delegate: self)
+                        mgInstagram?.postImage(img, withCaption: self.textToShare, inView: self.view, delegate: self)
                         self.updateButtons(sender)
                     } else {
                         Constant.showDialog("Instagram Share", message: "Oops, terdapat kesalahan saat pemrosesan")
@@ -138,36 +137,41 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     })
                 }
             } else if (tag == 3) { // Twitter
-                if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
-                    let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-                    if let url = NSURL(string:self.linkToShare) {
-                        composer.addURL(url)
-                    }
-                    let pimg = self.productImg == nil ? "" : self.productImg!
-                    if let imgUrl = NSURL(string: pimg) {
-                        if let imgData = NSData(contentsOfURL: imgUrl) {
-                            if let img = UIImage(data: imgData) {
-                                composer.addImage(img)
+                self.showLoading()
+                
+                if (User.IsLoggedInTwitter) {
+                    self.updateButtons(sender)
+                    self.hideLoading()
+                } else {
+                    let p = ["sender" : self]
+                    LoginViewController.LoginWithTwitter(p, onFinish: { result in
+                        guard let twId = result["twId"] as? String,
+                            let twUsername = result["twUsername"] as? String,
+                            let twToken = result["twToken"] as? String,
+                            let twSecret = result["twSecret"] as? String else {
+                                LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat memproses data Twitter")
+                                return
+                        }
+                        
+                        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                                
+                                // Save in core data
+                                if let userOther : CDUserOther = CDUserOther.getOne() {
+                                    userOther.twitterID = twId
+                                    userOther.twitterUsername = twUsername
+                                    userOther.twitterAccessToken = twToken
+                                    userOther.twitterTokenSecret = twSecret
+                                    UIApplication.appDelegate.saveContext()
+                                }
+                                
+                                self.updateButtons(sender)
+                                self.hideLoading()
+                            } else {
+                                LoginViewController.LoginTwitterCancelled(self, reason: "Terdapat kesalahan saat menyimpan data Twitter")
                             }
                         }
-                    }
-                    composer.setInitialText(self.textToShare2)
-                    composer.completionHandler = { result -> Void in
-                        let getResult = result as SLComposeViewControllerResult
-                        switch(getResult.rawValue) {
-                        case SLComposeViewControllerResult.Cancelled.rawValue:
-                            print("Cancelled")
-                        case SLComposeViewControllerResult.Done.rawValue:
-                            print("Done")
-                            self.updateButtons(sender)
-                        default:
-                            print("Error")
-                        }
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                    self.presentViewController(composer, animated: true, completion: nil)
-                } else {
-                    Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
+                    })
                 }
             }
         } else { // Akan menonaktifkan tombol share
@@ -190,40 +194,6 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                 
             } else {
                 self.select(self.pathSender!)
-            }
-        }
-    }
-    
-    func loginTwitter() {
-        Twitter.sharedInstance().logInWithCompletion { session, error in
-            if (session != nil) {
-                let twId = session!.userID
-                let twUsername = session!.userName
-                let twToken = session!.authToken
-                let twSecret = session!.authTokenSecret
-                
-                // API Migrasi
-        request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON {resp in
-                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Post Twitter Data")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"].bool
-                        if (data != nil && data == true) { // Berhasil
-                            // Save in core data
-                            let userOther : CDUserOther = CDUserOther.getOne()!
-                            userOther.twitterID = twId
-                            userOther.twitterUsername = twUsername
-                            userOther.twitterAccessToken = twToken
-                            userOther.twitterTokenSecret = twSecret
-                            UIApplication.appDelegate.saveContext()
-                            
-                            // Save in NSUserDefaults
-                            NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                        }
-                    }
-                }
-            } else {
-                self.hideLoading()
             }
         }
     }
@@ -300,8 +270,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         }
         
         self.linkToShare = "\(AppTools.PreloBaseUrl)/p/\(self.permalink)"
-        self.textToShare1 = "Temukan barang bekas berkualitas-ku, \(self.productName) di Prelo hanya dengan harga \(self.basePrice.asPrice). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
-        self.textToShare2 = "Dapatkan barang bekas berkualitas-ku, \(self.productName) seharga \(self.basePrice.asPrice) #PreloID"
+        self.textToShare = "Temukan barang bekas berkualitas-ku, \(self.productName) di Prelo hanya dengan harga \(self.basePrice.asPrice). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
     }
     
     func adaptCharge()
