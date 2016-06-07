@@ -11,7 +11,7 @@ import CoreData
 
 typealias EditDoneBlock = () -> ()
 
-class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate
+class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, /* AVIARY IS DISABLED AdobeUXImageEditorViewControllerDelegate,*/ UserRelatedDelegate, AKPickerViewDataSource, AKPickerViewDelegate, AddProductImageFullScreenDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate
 {
 
     @IBOutlet var txtName : UITextField!
@@ -132,6 +132,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         conHeightSize.constant = 0
         sizePicker.superview?.hidden = true
         
+        lblSubmit.hidden = true
+        
         fakeScrollView.backgroundColor = .whiteColor()
         if (editMode)
         {
@@ -139,7 +141,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), forControlEvents: .TouchUpInside)
         } else
         {
-            lblSubmit.hidden = true
             btnDelete.hidden = true
             conHeightBtnDelete.constant = 0
             conMarginBtnDelete.constant = 0
@@ -158,6 +159,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         txtWeight.hidden = true
         
+        txtName.delegate = self
         txtName.placeholder = "mis: iPod 5th Gen"
         txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: 32 GB, dark blue, lightning charger"
         
@@ -511,6 +513,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         } else {
             UIAlertView.SimpleShow("Perhatian", message: "Terjadi kesalahan saat memuat gambar")
         }
+        
+        if (self.editMode) {
+            self.lblSubmit.hidden = false
+        }
     }
     
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -636,7 +642,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             case 4:self.rm_image5=0
             default:print()
             }
-
+            
+            if (self.editMode) {
+                self.lblSubmit.hidden = false
+            }
         }
         
         picker.dismissViewControllerAnimated(true, completion: nil)
@@ -644,6 +653,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         navigationController.navigationBar.tintColor = UIColor.whiteColor()
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        if (textField.isEqual(self.txtName)) {
+            if (editMode) {
+                self.lblSubmit.hidden = false
+            }
+        }
     }
     
     var activeTextview : UITextView?
@@ -1029,6 +1046,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             self.groupVerifAuth.hidden = true
                             self.groupKelengkapan.hidden = true
                             self.conTopOngkirGroup.constant = 8
+                        }
+                        
+                        // Show submit label
+                        if (self.editMode) {
+                            self.lblSubmit.hidden = false
                         }
                     }
                     p.showSearch = true
