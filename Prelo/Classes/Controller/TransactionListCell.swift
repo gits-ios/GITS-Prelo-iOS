@@ -18,6 +18,12 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet weak var consWidthLblOrderStatus: NSLayoutConstraint!
     @IBOutlet weak var lblOrderTime: UILabel!
     
+    @IBOutlet var vwShareStatus: UIView!
+    @IBOutlet var lblInstagram: UILabel!
+    @IBOutlet var lblFacebook: UILabel!
+    @IBOutlet var lblTwitter: UILabel!
+    @IBOutlet var lblPercentage: UILabel!
+    
     @IBOutlet var imgProduct2 : UIImageView!
     @IBOutlet var imgProduct3 : UIImageView!
     @IBOutlet var captionMore : UILabel!
@@ -25,6 +31,11 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet var imgs : [UIView] = []
     
     override func prepareForReuse() {
+        vwShareStatus.hidden = true
+        lblInstagram.textColor = UIColor.lightGrayColor()
+        lblFacebook.textColor = UIColor.lightGrayColor()
+        lblTwitter.textColor = UIColor.lightGrayColor()
+        lblPercentage.text = "-"
         imgProduct.image = nil
         lblProductName.text = "Nama Barang"
         lblPrice.text = "Rp -"

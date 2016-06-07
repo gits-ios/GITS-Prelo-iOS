@@ -234,6 +234,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
             //print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
             cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
+            
+            // Socmed share status
+            cell.vwShareStatus.hidden = false
+            if (p.isSharedInstagram) {
+                cell.lblInstagram.textColor = Theme.PrimaryColor
+            }
+            if (p.isSharedFacebook) {
+                cell.lblFacebook.textColor = Theme.PrimaryColor
+            }
+            if (p.isSharedTwitter) {
+                cell.lblTwitter.textColor = Theme.PrimaryColor
+            }
+            cell.lblPercentage.text = "\(100 - p.commission) %"
         }
         
         return cell

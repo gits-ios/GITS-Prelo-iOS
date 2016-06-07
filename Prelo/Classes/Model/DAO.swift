@@ -1086,6 +1086,40 @@ public class Product : NSObject
         }
         return nil
     }
+    
+    var isSharedInstagram : Bool {
+        if let j = json["share_status"]["INSTAGRAM"].int {
+            if (j == 1) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    var isSharedFacebook : Bool {
+        if let j = json["share_status"]["FACEBOOK"].int {
+            if (j == 1) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    var isSharedTwitter : Bool {
+        if let j = json["share_status"]["TWITTER"].int {
+            if (j == 1) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    var commission : Int {
+        if let j = json["commission"].int {
+            return j
+        }
+        return 10
+    }
 }
 
 class MyProductItem : Product {
