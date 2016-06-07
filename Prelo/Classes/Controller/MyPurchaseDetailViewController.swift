@@ -107,6 +107,9 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint!
     let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
     
+    @IBOutlet var lblChkRvwAgreement: UILabel!
+    var isRvwAgreed = false
+    
     var transactionId : String?
     var transactionDetail : TransactionProductDetail?
     
@@ -149,7 +152,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             if (o) {
                 self.consTopVwReviewSeller.constant = 10
             } else {
-                self.consTopVwReviewSeller.constant = 150
+                self.consTopVwReviewSeller.constant = 100
             }
         }, completion: nil)
     }
@@ -397,12 +400,30 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }
     }
     
+    @IBAction func rvwAgreementPressed(sender: AnyObject) {
+        isRvwAgreed = !isRvwAgreed
+        if (isRvwAgreed) {
+            lblChkRvwAgreement.text = "";
+            lblChkRvwAgreement.font = AppFont.Prelo2.getFont(19)!
+            lblChkRvwAgreement.textColor = Theme.ThemeOrange
+        } else {
+            lblChkRvwAgreement.text = "";
+            lblChkRvwAgreement.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkRvwAgreement.textColor = Theme.GrayLight
+        }
+    }
+    
     @IBAction func rvwBatalPressed(sender: AnyObject) {
         vwShadow.hidden = true
         vwReviewSeller.hidden = true
     }
     
     @IBAction func rvwKirimPressed(sender: AnyObject) {
+        if (!isRvwAgreed) {
+            Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
+            return
+        }
+        
         self.sendMode(true)
         request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {

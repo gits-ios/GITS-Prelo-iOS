@@ -235,7 +235,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         let sizeThatShouldFitTheContent = lblAlamatPengiriman.sizeThatFits(lblAlamatPengiriman.frame.size)
         //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
         consHeightGroupPengiriman.constant = consHeightGroupPengiriman.constant + sizeThatShouldFitTheContent.height - lblAlamatPengirimanHeight
-        consHeightAlamatPengiriman.constant = sizeThatShouldFitTheContent.height
+        consHeightAlamatPengiriman.constant = (sizeThatShouldFitTheContent.height < 21) ? 21 : sizeThatShouldFitTheContent.height
         var groupPengirimanFrame : CGRect = groupPengiriman.frame
         groupPengirimanFrame.size.height = consHeightGroupPengiriman.constant
         groupPengiriman.frame = groupPengirimanFrame
