@@ -247,6 +247,11 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             let expireText = ((transactionDetail?.expireTime != nil) ? (transactionDetail?.expireTime)! : "-")
             lblDescription.text = "Transaksi ini belum dibayar dan akan expired pada \(expireText). Ingatkan Pembeli untuk segera membayar"
         }
+        let sizeFitDescription = lblDescription.sizeThatFits(lblDescription.frame.size)
+        consHeightGroupDescription.constant = sizeFitDescription.height
+        var groupDescFrame : CGRect = groupDescription.frame
+        groupDescFrame.size.height = consHeightGroupDescription.constant
+        groupDescription.frame = groupDescFrame
         
         // Nama dan gambar reviewer
         lblReviewerName.text = transactionDetail?.reviewerName
