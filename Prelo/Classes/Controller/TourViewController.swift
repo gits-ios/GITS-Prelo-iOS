@@ -81,11 +81,11 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         GAI.trackPageVisit(PageName.FirstTimeTutorial + " 1")
         
         // Track first time user
-        let pt = [
+        /*let pt = [
             "Category" : "All",
             "First Time" : false
         ]
-        Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt as [NSObject : AnyObject])
+        Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt as [NSObject : AnyObject])*/
     }
     
     var fromButton = false

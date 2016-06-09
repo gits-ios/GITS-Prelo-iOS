@@ -130,6 +130,10 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             }
         }
         
+        // Mixpanel event
+        let p = ["User ID" : ((User.Id != nil) ? User.Id! : "")]
+        Mixpanel.trackEvent(MixpanelEvent.Logout, properties: p)
+        
         // Clear local data
         User.Logout()
         

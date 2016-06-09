@@ -20,6 +20,7 @@ class CDCategory: NSManagedObject {
     @NSManaged var isParent : Bool
     @NSManaged var imageName : String
     @NSManaged var categorySizeId : String?
+    @NSManaged var parentId : String?
     @NSManaged var parent : CDCategory?
     @NSManaged var children : NSMutableSet
     
@@ -36,6 +37,7 @@ class CDCategory: NSManagedObject {
             n.isParent = categ["is_parent"].boolValue
             n.imageName = categ["image_name"].stringValue
             n.categorySizeId = categ["category_size_id"].string
+            n.parentId = categ["parent"].string
         }
         
         if (m.saveSave() == false) {
@@ -64,6 +66,7 @@ class CDCategory: NSManagedObject {
                         result.isParent = arr[i]["is_parent"].boolValue
                         result.imageName = arr[i]["image_name"].stringValue
                         result.categorySizeId = arr[i]["category_size_id"].string
+                        result.parentId = arr[i]["parent"].string
                     }
                 }
             } catch {
@@ -193,6 +196,19 @@ class CDCategory: NSManagedObject {
             return r as! [CDCategory]
         } catch {
             return []
+        }
+    }
+    
+    static func getCategoryWithID(id : String) -> CDCategory? {
+        let predicate = NSPredicate(format: "id == %@", id)
+        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDCategory)
+        } catch {
+            return nil
         }
     }
     

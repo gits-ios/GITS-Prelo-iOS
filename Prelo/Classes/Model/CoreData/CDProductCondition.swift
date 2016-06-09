@@ -54,6 +54,19 @@ class CDProductCondition: NSManagedObject {
         return true
     }
     
+    static func getProductConditionWithID(id : String) -> CDProductCondition? {
+        let predicate = NSPredicate(format: "id == %@", id)
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDProductCondition)
+        } catch {
+            return nil
+        }
+    }
+    
     static func newOne(id : String, name : String, detail : String, order : NSNumber) -> CDProductCondition? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition

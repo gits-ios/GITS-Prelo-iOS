@@ -195,9 +195,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     func setupContent() {
         // Mixpanel
         let param = [
-            "Product" : ((self.transactionDetail != nil) ? self.transactionDetail!.productName : ""),
-            "Product ID" : ((self.transactionDetail != nil) ? self.transactionDetail!.productId : ""),
-            "Seller" : ((self.transactionDetail != nil) ? self.transactionDetail!.sellerName : "")
+            "ID" : ((self.transactionId != nil) ? self.transactionId! : ""),
+            "Progress" : ((self.transactionDetail != nil) ? "\(self.transactionDetail!.progress)" : "")
         ]
         Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
         

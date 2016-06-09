@@ -304,6 +304,77 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["facebook"] = facebook
         self.sendProductParam["twitter"] = twitter
         
+        // Mixpanel
+        var categ1 = "", categ2 = "", categ3 = ""
+        if let categ3Id = sendProductParam["category_id"] {
+            if let categ3Obj = CDCategory.getCategoryWithID(categ3Id) {
+                categ3 = categ3Obj.name
+                if let categ2Id = categ3Obj.parentId {
+                    if let categ2Obj = CDCategory.getCategoryWithID(categ2Id) {
+                        categ2 = categ2Obj.name
+                        if let categ1Id = categ2Obj.parentId {
+                            if let categ1Name = CDCategory.getCategoryNameWithID(categ1Id) {
+                                categ1 = categ1Name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var mixpImageCount = 0
+        var mixpImgs : [UIImage?] = []
+        for i in 0...self.sendProductImages.count - 1 {
+            mixpImgs.append(self.sendProductImages[i] as? UIImage)
+            if (mixpImgs[i] != nil) {
+                mixpImageCount += 1
+            }
+        }
+        var kondisiName = ""
+        if let kondisi = CDProductCondition.getProductConditionWithID(sendProductKondisi) {
+            kondisiName = kondisi.name
+        }
+        let weightInt : Int? = Int(sendProductParam["weight"]!)
+        let priceOriInt : Int? = Int(sendProductParam["price_original"]!)
+        let priceInt : Int? = Int(sendProductParam["price"]!)
+        let chargePercentInt : Int = Int(self.chargePercent)
+        var fbUsername = "", twUsername = "", igUsername = ""
+        if let uOther = CDUserOther.getOne() {
+            fbUsername = uOther.fbUsername != nil ? uOther.fbUsername! : ""
+            twUsername = uOther.twitterUsername != nil ? uOther.twitterUsername! : ""
+            igUsername = uOther.instagramUsername != nil ? uOther.instagramUsername! : ""
+        }
+        let pt = [
+            "Previous Screen" : self.sendProductBeforeScreen,
+            "Name" : self.productName,
+            "Category 1" : categ1,
+            "Category 2" : categ2,
+            "Category 3" : categ3,
+            "Number of Picture Uploaded" : mixpImageCount,
+            "Is Main Picture Uploaded" : mixpImgs[0] != nil ? true : false,
+            "Is Back Picture Uploaded" : mixpImgs[1] != nil ? true : false,
+            "Is Label Picture Uploaded" : mixpImgs[2] != nil ? true : false,
+            "Is Wear Picture Uploaded" : mixpImgs[3] != nil ? true : false,
+            "Is Defect Picture Uploaded" : mixpImgs[4] != nil ? true : false,
+            "Condition" : kondisiName,
+            "Brand" : sendProductParam["brand_name"]!,
+            "Is New Brand" : sendProductParam["proposed_brand"]! == "" ? false : true,
+            "Is Free Ongkir" : sendProductParam["free_ongkir"]! == "0" ? false : true,
+            "Weight" : weightInt != nil ? weightInt! : 0,
+            "Price Original" : priceOriInt != nil ? priceOriInt! : 0,
+            "Price" : priceInt != nil ? priceInt! : 0,
+            "Commission Percentage" : chargePercentInt,
+            "Commission Price" : priceInt != nil ? priceInt! * chargePercentInt / 100 : 0,
+            "Is Facebook Shared" : facebook == "1" ? true : false,
+            "Facebook Username" : fbUsername,
+            "Is Twitter Shared" : twitter == "1" ? true : false,
+            "Twitter Username" : twUsername,
+            "Is Instagram Shared" : instagram == "1" ? true : false,
+            "Instagram Username" : igUsername,
+            "Time" : NSDate().isoFormatted
+        ]
+        Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
+        
+        // Add product to product uploader
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages))
             dispatch_async(dispatch_get_main_queue(), {

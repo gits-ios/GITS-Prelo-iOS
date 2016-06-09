@@ -212,17 +212,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             "Province Input" : ((provinceName != nil) ? provinceName! : ""),
                             "City Input" : ((regionName != nil) ? regionName! : ""),
                             "Referral Code Used" : userProfileData!.json["others"]["referral_code_used"].stringValue,
-                            "Login Method" : loginMethod,
-                            "Orders Purchased Count" : 0,
-                            "Items Purchased Count" : 0,
-                            "Items Purchased Categories 1" : [],
-                            "Items Purchased Categories 2" : [],
-                            "Items Purchased Categories 3" : [],
-                            "Items Sold Count" : 0,
-                            "Lifetime Value Purchased" : 0,
-                            "Lifetime Value Commission" : 0,
-                            "Lifetime Value Sold" : 0,
-                            "Items in Cart Count" : 0
+                            "Login Method" : loginMethod
                         ]
                         Mixpanel.sharedInstance().registerSuperProperties(sp)
                         

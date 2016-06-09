@@ -176,6 +176,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         self.progress = self.trxProductDetail?.progress
                     }
                     
+                    // Mixpanel
+                    let param = [
+                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
+                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
+                    ]
+                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+                    
                     self.setupTable()
                     self.setupPopUpContent()
                     self.hideLoading()
@@ -1158,7 +1165,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 productId = self.trxProductDetail!.productId
             }
             // API Migrasi
-        request(APIGarageSale.CancelReservation(productId: productId)).responseJSON {resp in
+            request(APIGarageSale.CancelReservation(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
                     let json = JSON(resp.result.value!)
                     if let success = json["_data"].bool {

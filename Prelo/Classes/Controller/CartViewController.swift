@@ -600,10 +600,10 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             itemsId.append(json["product_id"].stringValue)
                             var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
                             if (cName == nil) {
-                                cName = json["category_id"].stringValue
+                                cName = ""
                             }
                             itemsCategory.append(cName!)
-                            itemsSeller.append(json["seller_id"].stringValue)
+                            itemsSeller.append(json["seller_username"].stringValue)
                             itemsPrice.append(json["price"].intValue)
                             totalPrice += json["price"].intValue
                             itemsCommissionPercentage.append(json["commission"].intValue)
@@ -625,7 +625,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                             "Shipping Price" : self.totalOngkir,
                             "Total Price" : totalPrice,
                             "Shipping Region" : rName!,
-                            "Shipping Province" : pName!
+                            "Shipping Province" : pName!,
+                            "Bonus Used" : 0,
+                            "Balance Used" : 0
                         ]
                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [NSObject : AnyObject])
                         

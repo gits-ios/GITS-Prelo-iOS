@@ -558,6 +558,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "User ID" : userProfileData.id,
                         "Username" : userProfileData.username,
                         "Gender" : userProfileData.gender,
+                        "Email" : userProfileData.email,
                         "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
                         "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
                         "Referral Code Used" : userReferral
@@ -567,6 +568,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     let p = [
                         "User ID" : userProfileData.id,
                         "$username" : userProfileData.username,
+                        "$email" : userProfileData.email,
                         "Gender" : userProfileData.gender,
                         "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
                         "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,

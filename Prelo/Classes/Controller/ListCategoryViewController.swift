@@ -40,7 +40,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Mixpanel
         //Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
-        Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
+        //Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.Home)
@@ -431,6 +431,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     "Category" : categoriesFix[i]["name"].string!
                 ]
                 //Mixpanel.trackPageVisit(PageName.Home, otherParam: pt)
+                Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
                 Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                 isPageTracked = true
             }

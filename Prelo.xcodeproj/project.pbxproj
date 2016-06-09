@@ -1210,6 +1210,7 @@
 		58AB578C1CB273190081094B /* libNotifyManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotifyManager.a; sourceTree = "<group>"; };
 		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
+		58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 6.xcdatamodel"; sourceTree = "<group>"; };
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
 		58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShippingCell.xib; sourceTree = "<group>"; };
@@ -3373,12 +3374,13 @@
 		2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */,
 				58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */,
 				FDE300CD1BF6464C005FA321 /* Prelo 4.xcdatamodel */,
 				2199A17B1BE07036000E0D85 /* Prelo 3.xcdatamodel */,
 				2115E6D01B4A27E500509D2A /* Prelo.xcdatamodel */,
 			);
-			currentVersion = 58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */;
+			currentVersion = 58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -253,17 +253,6 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         let sp = [
             "Phone" : noHp,
             "Login Method" : self.loginMethod,
-            "Orders Purchased Count" : 0,
-            "Initial Value Count" : 0,
-            "Items Purchased Count" : 0,
-            "Items Purchased Categories 1" : [],
-            "Items Purchased Categories 2" : [],
-            "Items Purchased Categories 3" : [],
-            "Items Sold Count" : 0,
-            "Lifetime Value Purchased" : 0,
-            "Lifetime Value Commission" : 0,
-            "Lifetime Value Sold" : 0,
-            "Items in Cart Count" : 0
         ]
         Mixpanel.sharedInstance().registerSuperProperties(sp as [NSObject : AnyObject])
         let p = [

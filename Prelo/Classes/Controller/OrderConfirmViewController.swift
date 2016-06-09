@@ -177,7 +177,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         let p = [
             "ID" : self.orderID,
             "Items" : "\(self.images.count)",
-            "Price" : "\(self.total)"
+            "Price" : "\(self.total + self.kodeTransfer)"
         ]
         Mixpanel.trackPageVisit(PageName.PaymentConfirmation, otherParam: p)
         

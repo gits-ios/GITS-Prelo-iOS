@@ -1307,6 +1307,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             "defect_description":deflect,
             "special_story":special,
             "brand_id":merekId,
+            "brand_name":captionMerek.text,
+            "proposed_brand":"",
             "size":txtSize.text,
             "is_luxury":merekIsLuxury ? "1" : "0",
             "style_name":txtLuxStyleName.text,
@@ -1398,55 +1400,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             let json = JSON(res)
-            
-            //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
-            
-            // Mixpanel
-            let data = json["_data"]
-            
-            var mixpImageCount = 0
-            var mixpImgs : [UIImage?] = []
-            for i in 0...self.images.count - 1 {
-                mixpImgs.append(self.images[i] as? UIImage)
-                if (mixpImgs[i] != nil) {
-                    mixpImageCount += 1
-                }
-            }
-            let proposedBrand : String? = ((data["proposed_brand"] != nil) ? data["proposed_brand"].stringValue : nil)
-            let isFacebook = ((data["share_status"]["shared"]["FACEBOOK"].intValue == 0) ? false : true)
-            let isTwitter = ((data["share_status"]["shared"]["TWITTER"].intValue == 0) ? false : true)
-            let isInstagram = ((data["share_status"]["shared"]["INSTAGRAM"].intValue == 0) ? false : true)
-            let pt = [
-                "Previous Screen" : self.screenBeforeAddProduct,
-                "Name" : data["name"].stringValue,
-                "Category 1" : "",
-                "Category 2" : "",
-                "Category 3" : "",
-                "Number of Picture Uploaded" : mixpImageCount,
-                "Is Main Picture Uploaded" : ((mixpImgs[0] != nil) ? true : false),
-                "Is Back Picture Uploaded" : ((mixpImgs[1] != nil) ? true : false),
-                "Is Label Picture Uploaded" : ((mixpImgs[2] != nil) ? true : false),
-                "Is Wear Picture Uploaded" : ((mixpImgs[3] != nil) ? true : false),
-                "Is Defect Picture Uploaded" : ((mixpImgs[4] != nil) ? true : false),
-                "Condition" : self.kodindisiId,
-                "Brand" : ((proposedBrand != nil) ? proposedBrand! : data["brand_id"].stringValue),
-                "Is New Brand" : ((proposedBrand != nil) ? true : false),
-                "Is Free Ongkir" : ((data["free_ongkir"].intValue == 0) ? false : true),
-                "Weight" : data["weight"].intValue,
-                "Price Original" : data["price_original"].intValue,
-                "Price" : data["price"].intValue,
-                "Commission Percentage" : data["commission"].intValue,
-                "Commission Price" : data["price"].intValue * data["commission"].intValue / 100,
-                "Is Facebook Shared" : isFacebook,
-                "Facebook Username" : "",
-                "Is Twitter Shared" : isTwitter,
-                "Twitter Username" : "",
-                "Is Instagram Shared" : isInstagram,
-                "Instagram Username" : "",
-                "Time" : NSDate().isoFormatted
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
-            
             
             let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
