@@ -6,15 +6,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487136813.201429"
+            timestampString = "487155150.747108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "477"
-            endingLineNumber = "477"
+            startingLineNumber = "491"
+            endingLineNumber = "491"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -22,15 +22,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487136813.201429"
+            timestampString = "487155150.747108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -38,15 +38,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487136813.201429"
+            timestampString = "487155150.747108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "518"
+            endingLineNumber = "518"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -54,15 +54,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487136813.201429"
+            timestampString = "487155150.747108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -70,46 +70,46 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487136813.201429"
+            timestampString = "487155150.747108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "476"
-            endingLineNumber = "476"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "static Prelo.LoginViewController.LoginWithTwitter (Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;, onFinish : (__ObjC.NSMutableDictionary) -&gt; ()) -&gt; ()"
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "487150194.20777"
+                  timestampString = "487155514.770078"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "476"
-                  endingLineNumber = "476"
+                  startingLineNumber = "490"
+                  endingLineNumber = "490"
                   offsetFromSymbolStart = "1076">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "static Prelo.LoginViewController.(LoginWithTwitter (Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;, onFinish : (__ObjC.NSMutableDictionary) -&gt; ()) -&gt; ()).(closure #1)"
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "487150194.207952"
+                  timestampString = "487155514.770304"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "471"
-                  endingLineNumber = "471"
+                  startingLineNumber = "485"
+                  endingLineNumber = "485"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>
@@ -134,7 +134,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Framework/Mixpanel/Mixpanel.m"
@@ -150,7 +150,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Framework/Mixpanel/Mixpanel.m"
@@ -176,6 +176,182 @@
             startingLineNumber = "414"
             endingLineNumber = "414"
             landmarkName = "-track:properties:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155150.747108"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "427"
+            endingLineNumber = "427"
+            landmarkName = "AfterLoginFacebook(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155166.737358"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "611"
+            endingLineNumber = "611"
+            landmarkName = "AfterLoginTwitter(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155167.328877"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
+            landmarkName = "AfterLoginTwitter(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155185.672783"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "429"
+            endingLineNumber = "429"
+            landmarkName = "AfterLoginFacebook(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155599.089881"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "537"
+            endingLineNumber = "537"
+            landmarkName = "LoginWithTwitter(_:onFinish:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155651.120205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "894"
+            endingLineNumber = "894"
+            landmarkName = "loginTwitterPressed(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155697.472266"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
+            landmarkName = "AfterLoginTwitter(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Prelo.LoginViewController.AfterLoginTwitter (__ObjC.NSMutableDictionary) -&gt; ()"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
+                  timestampString = "487155697.476659"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "568"
+                  endingLineNumber = "568"
+                  offsetFromSymbolStart = "5392">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Prelo.LoginViewController.(AfterLoginTwitter (__ObjC.NSMutableDictionary) -&gt; ()).(closure #1)"
+                  moduleName = "Prelo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/prelo/Documents/Algo&apos;s%20Files/Prelo%20Project/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
+                  timestampString = "487155697.47698"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "569"
+                  endingLineNumber = "569"
+                  offsetFromSymbolStart = "425">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155700.109083"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "565"
+            endingLineNumber = "565"
+            landmarkName = "AfterLoginTwitter(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Prelo/Classes/Controller/LoginViewController.swift"
+            timestampString = "487155718.006651"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "569"
+            endingLineNumber = "569"
+            landmarkName = "AfterLoginTwitter(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

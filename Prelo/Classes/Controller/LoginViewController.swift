@@ -415,6 +415,20 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     user!.profiles = p
                     UIApplication.appDelegate.saveContext()
                     
+                    // Mixpanel event for login/register with facebook
+                    var pMixpanel = [
+                        "Previous Screen" : screenBeforeLogin,
+                        "Facebook ID" : userId!,
+                        "Facebook Username" : name!,
+                        "Facebook Access Token" : accessToken
+                    ]
+                    if let _ = sender as? LoginViewController {
+                        pMixpanel["Login Method"] = "Facebook"
+                        Mixpanel.trackEvent(MixpanelEvent.Login, properties: pMixpanel)
+                    } else if let _ = sender as? RegisterViewController {
+                        Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
+                    }
+                    
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
                     LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin)
@@ -583,6 +597,21 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // Save in NSUserDefaults
                     NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
                     NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                    // Mixpanel event for login/register with facebook
+                    var pMixpanel = [
+                        "Previous Screen" : screenBeforeLogin,
+                        "Twitter ID" : twId,
+                        "Twitter Username" : twUsername,
+                        "Twitter Access Token" : twToken,
+                        "Twitter Token Secret" : twSecret
+                    ]
+                    if let _ = sender as? LoginViewController {
+                        pMixpanel["Login Method"] = "Twitter"
+                        Mixpanel.trackEvent(MixpanelEvent.Login, properties: pMixpanel)
+                    } else if let _ = sender as? RegisterViewController {
+                        Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
+                    }
                     
                     // Check if user have set his account
                     LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Twitter", screenBeforeLogin: screenBeforeLogin)

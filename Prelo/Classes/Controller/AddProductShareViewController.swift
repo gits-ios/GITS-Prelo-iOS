@@ -305,20 +305,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         self.sendProductParam["twitter"] = twitter
         
         // Mixpanel
-        var categ1 = "", categ2 = "", categ3 = ""
-        if let categ3Id = sendProductParam["category_id"] {
-            if let categ3Obj = CDCategory.getCategoryWithID(categ3Id) {
-                categ3 = categ3Obj.name
-                if let categ2Id = categ3Obj.parentId {
-                    if let categ2Obj = CDCategory.getCategoryWithID(categ2Id) {
-                        categ2 = categ2Obj.name
-                        if let categ1Id = categ2Obj.parentId {
-                            if let categ1Name = CDCategory.getCategoryNameWithID(categ1Id) {
-                                categ1 = categ1Name
-                            }
-                        }
-                    }
-                }
+        var categ = ""
+        if let categId = sendProductParam["category_id"] {
+            if let categObj = CDCategory.getCategoryWithID(categId) {
+                categ = categObj.name
             }
         }
         var mixpImageCount = 0
@@ -346,9 +336,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         let pt = [
             "Previous Screen" : self.sendProductBeforeScreen,
             "Name" : self.productName,
-            "Category 1" : categ1,
-            "Category 2" : categ2,
-            "Category 3" : categ3,
+            "Category" : categ,
             "Number of Picture Uploaded" : mixpImageCount,
             "Is Main Picture Uploaded" : mixpImgs[0] != nil ? true : false,
             "Is Back Picture Uploaded" : mixpImgs[1] != nil ? true : false,
