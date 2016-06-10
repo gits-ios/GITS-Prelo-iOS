@@ -271,7 +271,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let b = cells[NSIndexPath(forRow: products.count + (self.bonusAvailable == true ? 1 : 0), inSection: sectionProducts)]
         if let total = self.currentCart?["_data"]["total_price"].int, let d = b
         {
-            var p = totalOngkir + total - self.bonusValue
+//            var p = totalOngkir + total - self.bonusValue
+            var p = totalOngkir + total
             if (p < 0)
             {
                 p = 0
