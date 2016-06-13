@@ -344,7 +344,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Is Wear Picture Uploaded" : mixpImgs[3] != nil ? true : false,
             "Is Defect Picture Uploaded" : mixpImgs[4] != nil ? true : false,
             "Condition" : kondisiName,
-            "Brand" : sendProductParam["brand_name"]!,
+            "Product Brand" : sendProductParam["brand_name"]!,
             "Is New Brand" : sendProductParam["proposed_brand"]! == "" ? false : true,
             "Is Free Ongkir" : sendProductParam["free_ongkir"]! == "0" ? false : true,
             "Weight" : weightInt != nil ? weightInt! : 0,

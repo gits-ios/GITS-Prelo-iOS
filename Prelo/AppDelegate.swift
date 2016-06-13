@@ -77,26 +77,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
         }
         
-        if let c = CDUser.getOne()
-        {
-            Mixpanel.sharedInstance().identify(c.id)
-            //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-            
-            // Set crashlytics user information
-            Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
-            Crashlytics.sharedInstance().setUserEmail(c.email)
-            Crashlytics.sharedInstance().setUserName(c.fullname)
-            
-            // MoEngage
-            MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
-            MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
-            MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
-            MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
-            MoEngage.sharedInstance().setUserAttribute(c.profiles.phone!, forKey: "phone")
-        }/* else {
-            Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-            Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-        }*/
+        if (User.IsLoggedIn) {
+            if let c = CDUser.getOne()
+            {
+                Mixpanel.sharedInstance().identify(c.id)
+                //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                
+                // Set crashlytics user information
+                Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
+                Crashlytics.sharedInstance().setUserEmail(c.email)
+                Crashlytics.sharedInstance().setUserName(c.fullname)
+                
+                // MoEngage
+                MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
+                MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
+                MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
+                MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
+                MoEngage.sharedInstance().setUserAttribute(c.profiles.phone!, forKey: "phone")
+            }/* else {
+                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+            }*/
+        }
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.SplashScreen)

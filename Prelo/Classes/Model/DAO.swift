@@ -1490,8 +1490,29 @@ class TransactionDetail : NSObject {
         return 0
     }
     
+    var preloBalanceUsed : Int {
+        if let j = json["prelobalance_used"].int {
+            return j
+        }
+        return 0
+    }
+    
     var totalPrice : Int {
         if let j = json["total_price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var totalPriceTotall : Int {
+        if let j = json["total_price_totall"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var bankTransferDigit : Int {
+        if let j = json["banktransfer_digit"].int {
             return j
         }
         return 0
