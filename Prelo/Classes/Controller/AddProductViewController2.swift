@@ -101,6 +101,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var rm_image3 = 0
     var rm_image4 = 0
     var rm_image5 = 0
+    var updt_image1 = 0
+    var updt_image2 = 0
+    var updt_image3 = 0
+    var updt_image4 = 0
+    var updt_image5 = 0
     
     var screenBeforeAddProduct = ""
     
@@ -505,6 +510,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        case 4:rm_image5 = 1
 //        default:print("")
 //        }
+        switch (controller.index)
+        {
+        case 0:updt_image1 = 1
+        case 1:updt_image2 = 1
+        case 2:updt_image3 = 1
+        case 3:updt_image4 = 1
+        case 4:updt_image5 = 1
+        default:print("")
+        }
         if let i = image.image
         {
             imageViews[controller.index].image = i
@@ -1028,8 +1042,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     p.items = names
                     p.selectBlock = { s in
                         let hiddenStr = PickerViewController.RevealHiddenString(s).characters.split{$0 == ";"}.map(String.init)
-                        self.merekId = hiddenStr[0]
-                        self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
+                        if (hiddenStr.count >= 2) {
+                            self.merekId = hiddenStr[0]
+                            self.merekIsLuxury = (hiddenStr[1] == "1") ? true : false
+                        }
                         var x : String = PickerViewController.HideHiddenString(s)
                         
                         // Set chosen brand
@@ -1229,11 +1245,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
-        if (imageViews[3].image == nil)
-        {
-            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
-            return
-        }
+//        if (imageViews[3].image == nil)
+//        {
+//            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
+//            return
+//        }
         
         //validasi
         if (validateString(name, message: "Nama barang masih kosong") == false)
@@ -1350,6 +1366,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             param["rm_image3"] = String(rm_image3)
             param["rm_image4"] = String(rm_image4)
             param["rm_image5"] = String(rm_image5)
+            param["update_image1"] = String(updt_image1)
+            param["update_image2"] = String(updt_image2)
+            param["update_image3"] = String(updt_image3)
+            param["update_image4"] = String(updt_image4)
+            param["update_image5"] = String(updt_image5)
             url = url + "/" + (editProduct?.productID)!
         } else
         {
