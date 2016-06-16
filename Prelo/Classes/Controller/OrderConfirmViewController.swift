@@ -63,9 +63,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var clearCart = false
     
     var rekenings = [
-        ["name":"Fransiska PutriWinaHadiwidjana", "no":"06-404-72-677", "cabang":"Pucang Anom", "bank_name":"Bank BCA"],
-        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"131-007-304-1990", "cabang":"Cab. Bandung Dago", "bank_name":"Bank Mandiri"],
-        ["name":"Fransiska Putri Wina Hadiwidjana", "no":"037-351-4488", "cabang":"Cab. Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
+        ["name":"KLEO APPARA INDONESIA PT", "no":"777-16-13-113", "cabang":"KCU Dago", "bank_name":"Bank BCA"],
+        ["name":"PT KLEO APPARA INDONESIA", "no":"131-0050-313-131", "cabang":"KCP Bandung Dago", "bank_name":"Bank Mandiri"],
+        ["name":"PT KLEO APPARA INDONESIA", "no":"042-390-6140", "cabang":"Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()

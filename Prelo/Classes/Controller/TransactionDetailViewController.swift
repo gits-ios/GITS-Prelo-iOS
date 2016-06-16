@@ -2154,7 +2154,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = trxDetail!.totalPrice.asPrice
+                        content = (trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed).asPrice
                     }
                     content += "              \u{200c}"
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .Right, url: nil, textToCopy: nil)
@@ -2177,7 +2177,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice - trxDetail!.bonusUsed - trxDetail!.preloBalanceUsed
+                        let p = trxDetail!.totalPrice
                         content = p.asPrice
                     }
                     content += "              \u{200c}"
@@ -2195,7 +2195,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     var content = ""
                     var textToCopy = ""
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit - trxDetail!.bonusUsed - trxDetail!.preloBalanceUsed
+                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         textToCopy = "\(p)"
                         content = p.asPrice
                     }
