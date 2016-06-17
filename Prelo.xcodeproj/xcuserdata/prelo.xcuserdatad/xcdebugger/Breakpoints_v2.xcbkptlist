@@ -506,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "487795028.340455"
+            timestampString = "487841673.345931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2157"
-            endingLineNumber = "2157"
+            startingLineNumber = "2166"
+            endingLineNumber = "2166"
             landmarkName = "adapt(_:)"
             landmarkType = "5">
          </BreakpointContent>

@@ -1595,8 +1595,17 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func preloBalanceInputCellBalanceSubmitted(balance: Int) {
         var balanceFix = balance
+        var warning = ""
         if (balanceFix > self.subtotalPrice) {
             balanceFix = self.subtotalPrice
+            warning += "Prelo balance yang digunakan disesuaikan karena melebihi subtotal."
+        }
+        if (balanceFix % 1000 != 0) {
+            balanceFix -= balanceFix % 1000
+            warning += " Prelo balance yang digunakan harus kelipatan 1000."
+        }
+        if (warning != "") {
+            Constant.showDialog("Prelo Balance", message: warning)
         }
         if (balanceFix > balanceAvailable)
         {

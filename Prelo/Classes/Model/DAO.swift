@@ -1734,6 +1734,13 @@ class TransactionProductDetail : NSObject {
         return t
     }
     
+    var commissionPrice : Int {
+        if let p = json["commission_price"].int {
+            return p
+        }
+        return 0
+    }
+    
     var totalPriceTotall : Int {
         if let j = json["total_price_totall"].int {
             return j

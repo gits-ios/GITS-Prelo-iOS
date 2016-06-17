@@ -2545,17 +2545,17 @@ class TransactionDetailProductCell : UITableViewCell {
         lblOrderId.text = "Order " + trxProductDetail.orderId
         lblTime.text = "| " + trxProductDetail.time
         lblProductName.text = trxProductDetail.productName
-        lblPrice2?.text = "\(trxProductDetail.totalPrice)"
-        lblHasilPenjualan?.text = "\(trxProductDetail.productPrice)"
-        lblOngkosKirim?.text = "\(trxProductDetail.shippingPrice)"
+        lblPrice2?.text = "\(trxProductDetail.totalPrice - trxProductDetail.commissionPrice)"
+        lblHasilPenjualan?.text = "\(trxProductDetail.productPrice - trxProductDetail.commissionPrice)"
+        lblOngkosKirim?.text = "\(trxProductDetail.totalPrice - trxProductDetail.productPrice)"
         lblTransactionStatus.text = trxProductDetail.progressText.uppercaseString
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
-                lblPrice.text = trxProductDetail.totalPrice.asPrice
+                lblPrice.text = trxProductDetail.productPrice.asPrice
                 lblUsername.text = "| " + trxProductDetail.sellerUsername
             } else {
                 lblPrice.text = trxProductDetail.productPrice.asPrice
-                lblUsername.text = "(+Ongkir Rp\(trxProductDetail.shippingPrice))"
+                lblUsername.text = "(+Ongkir Rp\(trxProductDetail.totalPrice - trxProductDetail.productPrice))"
             }
         }
         
