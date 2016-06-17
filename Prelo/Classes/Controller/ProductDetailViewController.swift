@@ -35,6 +35,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var btnSold: UIButton!
     @IBOutlet var btnEdit : UIButton!
     @IBOutlet var vwCoachmark: UIView!
+    @IBOutlet var vwCoachmarkMine: UIView!
     @IBOutlet var vwCoachmarkReserve: UIView!
     
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
@@ -194,6 +195,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
+                    self.adjustButtonIfUnderReview()
                     self.adjustButtonIfBoughtOrDeleted()
                     print(self.detail?.json)
                     self.tableView?.dataSource = self
@@ -205,6 +207,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     
                 }
                 self.hideLoading()
+        }
+    }
+    
+    func adjustButtonIfUnderReview() {
+        if (self.detail?.status == 2) {
+            self.disableButton(self.btnUp)
+            self.disableButton(self.btnSold)
         }
     }
     
@@ -351,11 +360,20 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 vwCoachmarkReserve.hidden = false
             }
         } else {
-            let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
-            if (coachmarkDone != true) {
-                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
-                vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-                vwCoachmark.hidden = false
+            if (detail!.isMyProduct) {
+                let coachmarkMineDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailMineDone) as! Bool?
+                if (coachmarkMineDone != true) {
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailMineDone)
+                    vwCoachmarkMine.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                    vwCoachmarkMine.hidden = false
+                }
+            } else {
+                let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+                if (coachmarkDone != true) {
+                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+                    vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+                    vwCoachmark.hidden = false
+                }
             }
         }
     }
@@ -756,6 +774,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func coachmarkTapped(sender: AnyObject) {
         self.vwCoachmark.hidden = true
+        self.vwCoachmarkMine.hidden = true
         self.vwCoachmarkReserve.hidden = true
     }
     
