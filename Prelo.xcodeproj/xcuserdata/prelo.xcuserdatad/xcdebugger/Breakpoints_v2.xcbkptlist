@@ -570,12 +570,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/TransactionDetailViewController.swift"
-            timestampString = "487797634.556094"
+            timestampString = "487835802.653117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2157"
-            endingLineNumber = "2157"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            startingLineNumber = "2840"
+            endingLineNumber = "2840"
+            landmarkName = "heightFor(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

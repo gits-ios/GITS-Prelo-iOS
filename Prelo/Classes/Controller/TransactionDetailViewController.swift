@@ -1411,7 +1411,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func createSeparatorCell() -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 9))
         let line = UIView(frame: CGRectMake(0, 8, cell.bounds.width, 1))
-        line.backgroundColor = UIColor.lightGrayColor()
+        line.backgroundColor = UIColor(hexString: "#E8E8E8")
         cell.addSubview(line)
         return cell
     }
@@ -1769,12 +1769,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         var height : CGFloat = 0
 
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-            height += TransactionDetailTitleContentCell.heightFor(trxDetail.totalPrice.asPrice)
+            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bonusUsed + trxDetail.preloBalanceUsed + trxDetail.voucherAmount).asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bonusUsed.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.preloBalanceUsed.asPrice)
-            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice - trxDetail.bonusUsed - trxDetail.preloBalanceUsed).asPrice)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.voucherAmount.asPrice)
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.totalPrice.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bankTransferDigit.asPrice)
-            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit - trxDetail.bonusUsed - trxDetail.preloBalanceUsed).asPrice)
+            height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit).asPrice)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
@@ -1892,7 +1893,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             return trxProducts.count
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 6
+                return 7
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
                 return 6
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
@@ -1924,7 +1925,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
+                        let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
+                        return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
                 } else if (idx == 1) {
                     if (isTrxDetail()) {
@@ -1936,16 +1938,19 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                 } else if (idx == 3) {
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice - trxDetail!.bonusUsed - trxDetail!.preloBalanceUsed
-                        return TransactionDetailTitleContentCell.heightFor(p.asPrice)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
                     }
                 } else if (idx == 4) {
                     if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
                     }
                 } else if (idx == 5) {
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit - trxDetail!.bonusUsed - trxDetail!.preloBalanceUsed
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
+                    }
+                } else if (idx == 6) {
+                    if (isTrxDetail()) {
+                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
                 }
@@ -2141,6 +2146,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             
             // Adapt cell
             cell.adapt(trxProducts[indexPath.row])
+            if (indexPath.row == trxProducts.count - 1) {
+                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+            }
             
             // Configure actions
             cell.switchDetail = {
@@ -2154,7 +2162,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {
-                        content = (trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed).asPrice
+                        let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
+                        content = p.asPrice
                     }
                     content += "              \u{200c}"
                     return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .Right, url: nil, textToCopy: nil)
@@ -2172,17 +2181,24 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     }
                     content += "              \u{200c}"
                     let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .Right, url: nil, textToCopy: nil)
-                    cell.showVwLine()
                     return cell
                 } else if (idx == 3) {
                     var content = ""
                     if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice
-                        content = p.asPrice
+                        content = "-" + trxDetail!.voucherAmount.asPrice
+                    }
+                    content += "              \u{200c}"
+                    let cell = self.createTitleContentCell("Voucher", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    cell.showVwLine()
+                    return cell
+                } else if (idx == 4) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.totalPrice.asPrice
                     }
                     content += "              \u{200c}"
                     return self.createTitleContentCell("Harga belanjaan", content: content, alignment: .Right, url: nil, textToCopy: nil)
-                } else if (idx == 4) {
+                } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.bankTransferDigit.asPrice
@@ -2191,7 +2207,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .Right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
-                } else if (idx == 5) {
+                } else if (idx == 6) {
                     var content = ""
                     var textToCopy = ""
                     if (isTrxDetail()) {

@@ -132,6 +132,23 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     
     @IBAction func withdraw()
     {
+        if (txtNamaBank.text == "Pilih Bank") {
+            Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
+            return
+        }
+        if (txtNomerRekening.text == nil || txtNomerRekening.text!.isEmpty) {
+            Constant.showDialog("Form belum lengkap", message: "Harap isi Nomor Rekening")
+            return
+        }
+        if (txtNamaRekening.text == nil || txtNamaRekening.text!.isEmpty) {
+            Constant.showDialog("Form belum lengkap", message: "Harap isi Atas Nama Rekening")
+            return
+        }
+        if (txtJumlah.text == nil || txtJumlah.text!.isEmpty) {
+            Constant.showDialog("Form belum lengkap", message: "Harap isi Jumlah Penarikan")
+            return
+        }
+        
         let amount = txtJumlah.text == nil ? "" : txtJumlah.text!
         let i = (amount as NSString).integerValue
         
