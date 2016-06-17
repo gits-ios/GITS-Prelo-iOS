@@ -499,15 +499,49 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
     }
     
+    func getIndexInArrayJSON(arr : [JSON], withId id : String) -> Int? {
+        for i in 0...arr.count - 1 {
+            if (arr[i]["_id"].string == id) {
+                return i
+            }
+        }
+        return nil
+    }
+    
+    func getAllCategoryIndexInArrayJSON(arr : [JSON]) -> Int? {
+        for i in 0...arr.count - 1 {
+            if (arr[i]["name"].stringValue.lowercaseString == "all") {
+                return i
+            }
+        }
+        return nil
+    }
+    
     func setupCategory()
     {
         let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
         categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
+        categoriesFix = categories!["_data"].arrayValue
+        if (!User.IsLoggedIn) {
+            if let idxAllCateg = getAllCategoryIndexInArrayJSON(categoriesFix) {
+                if let idxC1 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref1()) {
+                    categoriesFix.insert(categoriesFix.removeAtIndex(idxC1), atIndex: idxAllCateg + 1)
+                    if let idxC2 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref2()) {
+                        categoriesFix.insert(categoriesFix.removeAtIndex(idxC2), atIndex: idxAllCateg + 2)
+                        if let idxC3 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref3()) {
+                            categoriesFix.insert(categoriesFix.removeAtIndex(idxC3), atIndex: idxAllCateg + 3)
+                        }
+                    }
+                }
+            }
+        }
+        addChilds(categoriesFix.count)
+        
         // FIXME: kondisi kalo user ga login, harusnya categorypref ditaro depan
 //        if (User.IsLoggedIn) {
-            categoriesFix = categories!["_data"].arrayValue
-            addChilds(categoriesFix.count)
+//            categoriesFix = categories!["_data"].arrayValue
+//            addChilds(categoriesFix.count)
 //        } else {
 //            let categoriesData = categories!["_data"].arrayValue
 //            
