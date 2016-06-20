@@ -87,6 +87,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var asset : ALAssetsLibrary?
     
+    var isShowGender : Bool = true
+    
     // Variable from previous scene
     var userId : String = ""
     var userToken : String = ""
@@ -229,12 +231,21 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         consTopGroups.append(self.consTopReferral)
         consTopGroups.append(self.consTopApply)
         
+        // Pengecekan versi, jika versi yg diinstall melebihi versi server, jangan munculkan field gender
+        if let installedVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let serverVersion = CDVersion.getOne()?.appVersion {
+                if (serverVersion.compare(installedVersion, options: .NumericSearch, range: nil, locale: nil) == .OrderedAscending) {
+                    self.isShowGender = false
+                }
+            }
+        }
+        
         // Arrange groups
         var p : [Bool]!
         if (self.isSocmedAccount == true) {
-            p = [false, true, (self.userEmail == ""), true, true, false, true, true, false, true]
+            p = [false, true, (self.userEmail == ""), isShowGender, true, false, true, true, false, true]
         } else {
-            p = [false, false, (self.userEmail == ""), true, true, false, true, true, false, true]
+            p = [false, false, (self.userEmail == ""), isShowGender, true, false, true, true, false, true]
         }
         arrangeGroups(p)
         
@@ -524,7 +535,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             User.SetToken(self.userToken)
             
             // API Migrasi
-            request(APIUser.SetupAccount(username: username, email: email,gender: userGender, phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
+            request(APIUser.SetupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)

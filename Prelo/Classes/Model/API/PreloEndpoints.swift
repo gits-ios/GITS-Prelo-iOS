@@ -1022,10 +1022,9 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
         case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
-            return [
+            var p : [String : AnyObject] = [
                 "username":username,
                 "email":email,
-                "gender":gender,
                 "phone":phone,
                 "province":province,
                 "region":region,
@@ -1035,6 +1034,10 @@ enum APIUser : URLRequestConvertible
                 "device_registration_id":deviceRegId,
                 "device_type":"APNS"
             ]
+            if (gender == 0 || gender == 1) {
+                p["gender"] = gender
+            }
+            return p
         case .SetProfile(let fullname, let address, let province, let region, let postalCode, let description, let shipping):
             return [
                 "fullname":fullname,
