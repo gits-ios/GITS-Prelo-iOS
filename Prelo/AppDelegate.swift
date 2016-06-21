@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
                 MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
                 MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
-                MoEngage.sharedInstance().setUserAttribute(c.profiles.phone!, forKey: "phone")
+                MoEngage.sharedInstance().setUserAttribute((c.profiles.phone != nil) ? c.profiles.phone! : "undefined", forKey: "phone")
             }/* else {
                 Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                 Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])

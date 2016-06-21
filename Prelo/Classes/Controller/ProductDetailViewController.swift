@@ -400,6 +400,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Facebook")) {
                 self.cellTitle?.sharedViaFacebook()
                 self.detail?.setSharedViaFacebook()
+                if let fbUsername = CDUserOther.getOne()?.fbUsername {
+                    Constant.showDialog("Share to Facebook", message: "Barang berhasil di-share di akun Facebook \(fbUsername)")
+                }
             }
             self.hideLoading()
         }
@@ -411,6 +414,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Twitter")) {
                 self.cellTitle?.sharedViaTwitter()
                 self.detail?.setSharedViaTwitter()
+                if let twUsername = CDUserOther.getOne()?.twitterUsername {
+                    Constant.showDialog("Share to Twitter", message: "Barang berhasil di-share di akun Twitter \(twUsername)")
+                }
             }
             self.hideLoading()
         }
