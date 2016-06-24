@@ -124,7 +124,9 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as! NotifAnggiConversationCell
+        guard let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as? NotifAnggiConversationCell else {
+            return UITableViewCell()
+        }
         cell.selectionStyle = .None
         let n = notifications?[indexPath.item]
         cell.adapt(n!)

@@ -193,7 +193,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
+        guard let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as? TransactionListCell else {
+            return UITableViewCell()
+        }
+        
         if (!refreshControl.refreshing) {
             let p = products[indexPath.row]
             

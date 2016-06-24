@@ -136,7 +136,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         // API Migrasi
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 12, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.done = false
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
@@ -214,7 +214,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         // API Migrasi
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
+        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 12, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
@@ -228,7 +228,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         requesting = true
         
         // API Migrasi
-        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 20, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
+        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 12, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product"))
             {
