@@ -137,7 +137,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         conHeightSize.constant = 0
         sizePicker.superview?.hidden = true
         
-        lblSubmit.hidden = true
+        if (self.editMode) {
+            lblSubmit.hidden = true
+        } else {
+            lblSubmit.text = "Klik lanjutkan untuk menentukan komisi Prelo yang kamu mau"
+        }
         
         fakeScrollView.backgroundColor = .whiteColor()
         if (editMode)

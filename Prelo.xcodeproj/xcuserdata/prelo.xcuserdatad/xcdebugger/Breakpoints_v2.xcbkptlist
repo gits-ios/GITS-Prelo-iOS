@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/AddProductViewController2.swift"
-            timestampString = "487501259.726665"
+            timestampString = "488706562.981505"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1412"
-            endingLineNumber = "1412"
+            startingLineNumber = "1416"
+            endingLineNumber = "1416"
             landmarkName = "sendProduct()"
             landmarkType = "5">
             <Locations>
@@ -478,22 +478,6 @@
             startingLineNumber = "103"
             endingLineNumber = "103"
             landmarkName = "getAllAsDictionary(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/TransactionDetailViewController.swift"
-            timestampString = "487835802.653117"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2840"
-            endingLineNumber = "2840"
-            landmarkName = "heightFor(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -350,7 +350,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Urutan index bergantung pada progres transaksi
         let idx = indexPath.row
         let DefaultHeight : CGFloat = 56
-        let SeparatorHeight : CGFloat = 9
+        let SeparatorHeight : CGFloat = 1
+        let ContactPreloHeight : CGFloat = 72
         
         if (hideableCell[idx] != nil) {
             if let hid = hideableCell[idx]! {
@@ -367,7 +368,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 1) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                 } else if (idx == 2) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -377,7 +378,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return DefaultHeight
                 } else if (idx == 3) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
@@ -395,7 +396,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 4) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                 } else if (idx == 5) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -419,7 +420,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 7) {
                     return DefaultHeight
                 } else if (idx == 8) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -433,7 +434,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 3) {
                     return 30
                 } else if (idx == 4) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -451,7 +452,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 5) {
                     return DefaultHeight
                 } else if (idx == 6) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
@@ -469,7 +470,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         return TransactionDetailTableCell.heightForTitleContents(trxDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranSeller)
                     }
                 } else if (idx == 5) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -493,7 +494,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 7) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                 } else if (idx == 8) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
@@ -523,7 +524,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 9) {
                     return DefaultHeight
                 } else if (idx == 10) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -549,7 +550,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 8) {
                     return DefaultHeight
                 } else if (idx == 9) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
@@ -581,7 +582,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return DefaultHeight
                 } else if (idx == 11) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -611,7 +612,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 10) {
                     return DefaultHeight
                 } else if (idx == 11) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressReviewed) {
@@ -643,7 +644,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                     }
                 } else if (idx == 10) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             } else {
                 if (idx == 0) {
@@ -673,7 +674,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                     }
                 } else if (idx == 10) {
-                    return DefaultHeight
+                    return ContactPreloHeight
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
@@ -694,7 +695,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 6) {
                 return DefaultHeight
             } else if (idx == 7) {
-                return DefaultHeight
+                return ContactPreloHeight
             }
         } else if (progress == TransactionDetailTools.ProgressReserveDone) {
             if (idx == 0) {
@@ -710,7 +711,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 4) {
                 return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
             } else if (idx == 5) {
-                return DefaultHeight
+                return ContactPreloHeight
             }
         } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
             if (idx == 0) {
@@ -718,7 +719,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 1) {
                 return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
             } else if (idx == 2) {
-                return DefaultHeight
+                return ContactPreloHeight
             }
         }
         
@@ -1409,10 +1410,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func createSeparatorCell() -> UITableViewCell {
-        let cell = UITableViewCell(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 9))
-        let line = UIView(frame: CGRectMake(0, 8, cell.bounds.width, 1))
-        line.backgroundColor = UIColor(hexString: "#E8E8E8")
-        cell.addSubview(line)
+        let cell = UITableViewCell(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 1))
+        cell.backgroundColor = UIColor(hexString: "#E8E8E8")
         return cell
     }
     
@@ -1766,7 +1765,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     }
 
     static func heightForTitleContents(trxDetail : TransactionDetail, titleContentType : String) -> CGFloat {
-        var height : CGFloat = 0
+        var height : CGFloat = 8
 
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
             height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bonusUsed + trxDetail.preloBalanceUsed + trxDetail.voucherAmount).asPrice)
@@ -1808,7 +1807,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     }
     
     static func heightForTitleContents2(trxProductDetail : TransactionProductDetail, titleContentType : String) -> CGFloat {
-        var height : CGFloat = 0
+        var height : CGFloat = 8
         
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
@@ -2147,7 +2146,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             // Adapt cell
             cell.adapt(trxProducts[indexPath.row])
             if (indexPath.row == trxProducts.count - 1) {
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width)
+                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGFloat.max)
             }
             
             // Configure actions
@@ -2665,7 +2664,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
                 let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyer)
-                textRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                textRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin) - 8) // Dikurangin 8 lagi karna ada galat perhitungan
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller! == true) {
                     textRect = TransactionDetailTools.TextClaimedPaidSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
