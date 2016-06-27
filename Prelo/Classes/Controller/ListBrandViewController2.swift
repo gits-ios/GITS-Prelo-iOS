@@ -46,7 +46,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             name = searchText
         }
         self.isGettingData = true
-        request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: self.pagingLimit)).responseJSON { resp in
+        request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
                 if (name == self.searchBar.text) { // Jika belum ada rikues lain karena perubahan search text
                     let json = JSON(resp.result.value!)
@@ -67,8 +67,11 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
                         }
                     }
                     self.sortedBrandKeys = self.sortCaseInsensitive(Array(self.brands.keys))
+                    if let noBrandIdx = self.sortedBrandKeys.indexOf("Tanpa Merek") {
+                        self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(noBrandIdx), atIndex: 0)
+                    }
                     self.tableView.reloadData()
-                    self.pagingCurrent += self.pagingLimit
+                    self.pagingCurrent += self.pagingCurrent == 0 ? 25 : self.pagingLimit
                     self.isGettingData = false
                 }
             }

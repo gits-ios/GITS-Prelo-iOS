@@ -42,6 +42,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (AppTools.isIPad) {
+            listStage = 1
+        }
+        
         // Do any additional setup after loading the view.
         if (standalone) {
             self.titleText = standaloneCategoryName

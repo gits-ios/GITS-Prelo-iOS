@@ -1011,7 +1011,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         p.title = "Pilih Merk"
         
         let cur = 0
-        let lim = 10
+        let lim = 25
         var names : [String] = []
         request(APISearch.Brands(name: "", current: cur, limit: lim)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
