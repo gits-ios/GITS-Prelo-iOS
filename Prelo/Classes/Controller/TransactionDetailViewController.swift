@@ -1267,6 +1267,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwTolakPesanan.hidden = false
         }
         cell.contactBuyer = {
+            self.showLoading()
+            
             var productId = ""
             var buyerId = ""
             if (self.trxDetail != nil) {
@@ -1317,9 +1319,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         }
                     }
                 }
+                self.hideLoading()
             }
         }
         cell.contactSeller = {
+            self.showLoading()
+            
             // Get product detail from API
             var productId = ""
             if (self.trxDetail != nil) {
@@ -1340,6 +1345,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         self.navigationController?.pushViewController(t, animated: true)
                     }
                 }
+                self.hideLoading()
             }
         }
         cell.cancelReservation = {
@@ -1396,14 +1402,18 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (trxDetail != nil) {
                 if (trxDetail!.isBuyer(userId)) {
                     cell.lblKeterangan.hidden = true
+                    cell.consTopLblContact.constant = 8
                 } else {
                     cell.lblKeterangan.hidden = false
+                    cell.consTopLblContact.constant = 48
                 }
             } else if (trxProductDetail != nil) {
                 if (trxProductDetail!.isSeller(userId)) {
                     cell.lblKeterangan.hidden = false
+                    cell.consTopLblContact.constant = 48
                 } else {
                     cell.lblKeterangan.hidden = true
+                    cell.consTopLblContact.constant = 8
                 }
             }
         }
@@ -3128,6 +3138,7 @@ class TransactionDetailReviewCell : UITableViewCell {
 
 class TransactionDetailContactPreloCell : UITableViewCell {
     @IBOutlet var lblKeterangan: UILabel!
+    @IBOutlet var consTopLblContact: NSLayoutConstraint!
     
     var showContactPrelo : () -> () = {}
     
