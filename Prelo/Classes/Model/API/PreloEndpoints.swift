@@ -656,6 +656,7 @@ enum APITransactionAnggi : URLRequestConvertible
     case GetSellerTransaction(id : String)
     case GetBuyerTransaction(id : String)
     case GetTransactionProduct(id : String)
+    case DelayShipping(arrTpId : String)
     
     var method : Method
     {
@@ -664,6 +665,7 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(_) : return .GET
         case .GetBuyerTransaction(_) : return .GET
         case .GetTransactionProduct(_) : return .GET
+        case .DelayShipping(_) : return .POST
         }
     }
     
@@ -674,6 +676,7 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(let id) : return "transaction/seller/\(id)"
         case .GetBuyerTransaction(let id) : return "transaction/\(id)"
         case .GetTransactionProduct(let id) : return "transaction_product/\(id)"
+        case .DelayShipping(_) : return "transaction/delay/shipping"
         }
     }
     
@@ -684,6 +687,11 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(_) : return [:]
         case .GetBuyerTransaction(_) : return [:]
         case .GetTransactionProduct(_) : return [:]
+        case .DelayShipping(let arrTpId) :
+            let p = [
+                "arr_tp_id" : arrTpId
+            ]
+            return p
         }
     }
     

@@ -86,6 +86,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet var lblChkRvwAgreement: UILabel!
     var isRvwAgreed = false
     
+    // TundaPengiriman pop up
+    @IBOutlet var vwTundaPengiriman: UIView!
+    @IBOutlet var consTopVwTundaPengiriman: NSLayoutConstraint!
+    @IBOutlet var lblChkTundaAgreement: UILabel!
+    var isTundaAgreed = false
+    @IBOutlet var btnTundaBatal: UIButton!
+    @IBOutlet var btnTundaKirim: UIButton!
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -97,6 +105,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Hide pop up
         self.vwTolakPesanan.hidden = true
         self.vwReviewSeller.hidden = true
+        self.vwTundaPengiriman.hidden = true
         
         // Transparent panel
         vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.2)
@@ -106,9 +115,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (o) {
                 self.consTopVwTolakPesanan.constant = 10
                 self.consTopVwReviewSeller.constant = 10
+                self.consTopVwTundaPengiriman.constant = 10
             } else {
                 self.consTopVwTolakPesanan.constant = 100
                 self.consTopVwReviewSeller.constant = 100
+                self.consTopVwTundaPengiriman.constant = 100
             }
         }, completion: nil)
         
@@ -320,7 +331,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (userIsSeller()) {
-                return 11
+                return 12
             } else {
                 return 10
             }
@@ -350,6 +361,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Urutan index bergantung pada progres transaksi
         let idx = indexPath.row
         let DefaultHeight : CGFloat = 56
+        let BorderlessBtnHeight : CGFloat = 30
         let SeparatorHeight : CGFloat = 1
         let ContactPreloHeight : CGFloat = 72
         
@@ -432,7 +444,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return DefaultHeight
                 } else if (idx == 3) {
-                    return 30
+                    return BorderlessBtnHeight
                 } else if (idx == 4) {
                     return ContactPreloHeight
                 }
@@ -524,6 +536,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 9) {
                     return DefaultHeight
                 } else if (idx == 10) {
+                    return BorderlessBtnHeight
+                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             } else {
@@ -875,6 +889,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 9) {
                     return self.createBorderedButtonCell(1)
                 } else if (idx == 10) {
+                    return self.createBorderedButtonCell(2)
+                } else if (idx == 11) {
                     return self.createContactPreloCell()
                 }
             } else {
@@ -1356,6 +1372,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }
         }
+        cell.delayShipping = {
+            self.vwShadow.hidden = false
+            self.vwTundaPengiriman.hidden = false
+        }
         
         return cell
     }
@@ -1567,7 +1587,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
                     let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
@@ -1587,6 +1607,57 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     // Reload content
                     self.getTransactionDetail()
                 }
+            }
+        }
+    }
+    
+    // MARK: - Tunda Pengiriman Pop Up
+    
+    @IBAction func tundaAgreementPressed(sender: AnyObject) {
+        isTundaAgreed = !isTundaAgreed
+        if (isTundaAgreed) {
+            lblChkTundaAgreement.text = "";
+            lblChkTundaAgreement.font = AppFont.Prelo2.getFont(19)!
+            lblChkTundaAgreement.textColor = Theme.ThemeOrange
+        } else {
+            lblChkTundaAgreement.text = "";
+            lblChkTundaAgreement.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkTundaAgreement.textColor = Theme.GrayLight
+        }
+    }
+    
+    @IBAction func tundaBatalPressed(sender: AnyObject) {
+        self.vwShadow.hidden = true
+        self.vwTundaPengiriman.hidden = true
+    }
+    
+    @IBAction func tundaKirimPressed(sender: AnyObject) {
+        if (!isTundaAgreed) {
+            Constant.showDialog("Tunda Pengiriman", message: "Isi checkbox sebagai tanda persetujuan")
+            return
+        }
+        
+        self.sendMode(true)
+        if (self.trxDetail != nil) {
+            var arrId : String = "["
+            for i in 0...trxDetail!.transactionProducts.count - 1 {
+                arrId += "\"" + trxDetail!.transactionProducts[i].id + "\""
+                if (i < trxDetail!.transactionProducts.count - 1) {
+                    arrId += ","
+                }
+            }
+            arrId += "]"
+            request(APITransactionAnggi.DelayShipping(arrTpId: arrId)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tunda Pengiriman")) {
+                    let json = JSON(resp.result.value!)
+                    let msg = json["_data"].stringValue
+                    Constant.showDialog("Tunda Pengiriman", message: msg)
+                    
+                    // Hide pop up
+                    self.vwShadow.hidden = true
+                    self.vwTundaPengiriman.hidden = true
+                }
+                self.sendMode(false)
             }
         }
     }
@@ -1611,6 +1682,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.btnRvwBatal.userInteractionEnabled = false
             self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
             self.btnRvwKirim.userInteractionEnabled = false
+            
+            // Disable tunda pengiriman content
+            self.btnTundaBatal.userInteractionEnabled = false
+            self.btnTundaKirim.setTitle("MENGIRIM...", forState: .Normal)
+            self.btnTundaKirim.userInteractionEnabled = false
         } else {
             // Enable tolak pesanan content
             txtvwAlasanTolak.userInteractionEnabled = true
@@ -1626,9 +1702,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
             self.txtvwReview.userInteractionEnabled = true
             self.btnRvwBatal.userInteractionEnabled = true
-            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
+            self.btnRvwKirim.setTitle("KONFIRMASI PENERIMAAN", forState: .Normal)
             self.btnRvwKirim.userInteractionEnabled = true
-
+            
+            // Enable tunda pengiriman content
+            self.btnTundaBatal.userInteractionEnabled = true
+            self.btnTundaKirim.setTitle("TUNDA", forState: .Normal)
+            self.btnTundaKirim.userInteractionEnabled = true
         }
     }
     
@@ -1704,7 +1784,7 @@ class TransactionDetailTools : NSObject {
     static let TextClaimedPaidSeller = "Pembayaran pembeli sedang diproses."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
-    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli. Hubungi Prelo apabila kamu perlu tambahan waktu untuk mengirim."
+    static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
     static let TextConfirmedPaidBuyer1 = "Pesanan kamu belum dikirim dan akan expired pada "
     static let TextConfirmedPaidBuyer2 = "Ingatkan penjual untuk mengirim pesanan."
     static let TextSentSeller = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
@@ -2930,12 +3010,14 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var contactBuyer : () -> () = {}
     var contactSeller : () -> () = {}
     var cancelReservation : () -> () = {}
+    var delayShipping : () -> () = {}
     
     let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
     let TitleHubungiSeller = "HUBUNGI PENJUAL"
     let TitleTolakPesanan = "Tolak Pesanan"
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
+    let TitleTundaPengiriman = "Tunda Pengiriman"
     
     func adapt(progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
@@ -2958,7 +3040,15 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
-                    btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
+                    if (order == 1) {
+                        btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
+                    } else if (order == 2) {
+                        btn.setTitle(TitleTundaPengiriman, forState: UIControlState.Normal)
+                        btn.titleLabel!.font = UIFont.systemFontOfSize(13)
+                        btn.borderColor = UIColor.clearColor()
+                        btn.borderColorHighlight = UIColor.clearColor()
+                        btn.contentHorizontalAlignment = .Right
+                    }
                 } else {
                     btn.setTitle(TitleHubungiSeller, forState: UIControlState.Normal)
                 }
@@ -2982,7 +3072,11 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
-                    self.contactBuyer()
+                    if (order == 1) {
+                        self.contactBuyer()
+                    } else {
+                        self.delayShipping()
+                    }
                 } else {
                     self.contactSeller()
                 }
