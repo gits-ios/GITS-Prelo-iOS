@@ -5,7 +5,8 @@
 //  Created by PreloBook on 3/11/16.
 //  Copyright (c) 2016 GITS Indonesia. All rights reserved.
 //
-//  I made this as neat as possible, if you find some code structure/algorithm that's not efficient, it's because the bloody alteration every single time
+//  I made this as neat as possible, if you find some code structure/algorithm that's not efficient, it's because the bloody changes every single time
+//  Please keep this code neat =)
 
 import Foundation
 
@@ -319,7 +320,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (userIsSeller()) {
-                return 5
+                return 4
             } else {
                 return 7
             }
@@ -444,8 +445,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return DefaultHeight
                 } else if (idx == 3) {
-                    return BorderlessBtnHeight
-                } else if (idx == 4) {
                     return ContactPreloHeight
                 }
             } else {
@@ -809,8 +808,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createBorderedButtonCell(1)
                 } else if (idx == 3) {
-                    return self.createBorderedButtonCell(2)
-                } else if (idx == 4) {
                     return self.createContactPreloCell()
                 }
             } else {
