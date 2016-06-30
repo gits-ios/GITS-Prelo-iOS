@@ -1315,7 +1315,7 @@ enum APISearch : URLRequestConvertible
     
     case User(keyword : String)
     case Find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int, segment: String)
     case GetTopSearch(limit : String)
     case InsertTopSearch(search : String)
     case Brands(name : String, current : Int, limit : Int)
@@ -1325,7 +1325,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(_) : return .GET
-            case .ProductByCategory(_, _, _, _, _, _): return .GET
+            case .ProductByCategory(_, _, _, _, _, _, _): return .GET
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
             case .InsertTopSearch(_): return .POST
@@ -1338,7 +1338,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(_) : return "users"
-            case .ProductByCategory(_, _, _, _, _, _): return "products"
+            case .ProductByCategory(_, _, _, _, _, _, _): return "products"
             case .GetTopSearch(_): return "top"
             case .Find(_, _, _, _, _, _, _, _) : return "products"
             case .InsertTopSearch(_):return "top"
@@ -1351,7 +1351,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(let key) : return ["name":key]
-            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax):
+            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax, let segment):
                 return [
                     "category_id":catId,
                     "sort":sort,
@@ -1359,7 +1359,8 @@ enum APISearch : URLRequestConvertible
                     "limit":limit,
                     "price_min":priceMin,
                     "price_max":priceMax,
-                    "prelo":"true"
+                    "prelo":"true",
+                    "segment":segment
                 ]
             case .GetTopSearch(let limit):return ["limit":limit]
             case .Find(let key, let catId, let brandId, let condition, let current, let limit, let priceMin, let priceMax):
