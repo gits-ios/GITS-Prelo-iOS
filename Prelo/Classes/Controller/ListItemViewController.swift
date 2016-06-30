@@ -63,7 +63,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var refresher : UIRefreshControl?
     
     // Segment view
-    var segmentMode : Bool = false
+    var segmentMode : Bool = false // Bernilai true jika sedang menampilkan pilihan segment
     var segments : [SegmentItem] = []
     var selectedSegment : String = ""
     
@@ -172,7 +172,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             return
         }
         
-        if (searchMode) { // No refresh for searchMode
+        if (searchMode || segmentMode) {
+            refresher?.endRefreshing()
             return
         }
         
@@ -670,6 +671,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (!segmentMode) {
             setDefaultTopHeaderWomen()
             segmentMode = true
+            gridView.contentInset = UIEdgeInsetsZero
             gridView.reloadData()
         }
     }
@@ -715,14 +717,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (dragging)
         {
-            if (!storeMode && !segmentMode) {
+            if (!storeMode) {
                 if (currScrollPoint.y < scrollView.contentOffset.y)
                 {
                     if ((self.navigationController?.navigationBarHidden)! == false)
                     {
-                        NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
-                        self.navigationController?.setNavigationBarHidden(true, animated: true)
-                        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                        if (!segmentMode)
+                        {
+                            NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
+                            self.navigationController?.setNavigationBarHidden(true, animated: true)
+                            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                        }
                     }
                 } else
                 {
