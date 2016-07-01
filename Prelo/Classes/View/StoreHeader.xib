@@ -219,17 +219,17 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXT-UR-966">
-                            <rect key="frame" x="0.0" y="36" width="600" height="59"/>
+                            <rect key="frame" x="0.0" y="36" width="600" height="50"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMJ-eR-wS7">
-                                    <rect key="frame" x="299" y="0.0" width="1" height="59"/>
+                                    <rect key="frame" x="299" y="0.0" width="1" height="50"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="1" id="3CO-QI-EOg"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhe-qT-BsY">
-                                    <rect key="frame" x="0.0" y="0.0" width="301" height="59"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="301" height="50"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terakhir aktif" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiX-yI-dGa">
                                             <rect key="frame" x="0.0" y="0.0" width="289" height="21"/>
@@ -260,7 +260,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zC-Ux-BAc">
-                                    <rect key="frame" x="298" y="0.0" width="302" height="59"/>
+                                    <rect key="frame" x="298" y="0.0" width="302" height="50"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat dibalas" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Dl-d5-kSS">
                                             <rect key="frame" x="12" y="0.0" width="290" height="21"/>
@@ -298,7 +298,7 @@
                                 <constraint firstAttribute="bottom" secondItem="Hhe-qT-BsY" secondAttribute="bottom" id="649-pw-S0U"/>
                                 <constraint firstItem="Hhe-qT-BsY" firstAttribute="top" secondItem="hXT-UR-966" secondAttribute="top" id="8UM-Oe-gg8"/>
                                 <constraint firstItem="ZMJ-eR-wS7" firstAttribute="centerX" secondItem="hXT-UR-966" secondAttribute="centerX" id="GGI-3s-ZLj"/>
-                                <constraint firstAttribute="height" constant="59" id="Y5Q-rs-pP3"/>
+                                <constraint firstAttribute="height" constant="50" id="Y5Q-rs-pP3"/>
                                 <constraint firstAttribute="bottom" secondItem="6zC-Ux-BAc" secondAttribute="bottom" id="bSM-V1-9NG"/>
                                 <constraint firstAttribute="bottom" secondItem="ZMJ-eR-wS7" secondAttribute="bottom" id="o7p-tW-kEz"/>
                                 <constraint firstItem="6zC-Ux-BAc" firstAttribute="leading" secondItem="ZMJ-eR-wS7" secondAttribute="trailing" constant="-2" id="q6A-QK-jJE"/>
