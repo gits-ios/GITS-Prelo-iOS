@@ -530,7 +530,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         gridView.reloadData()
-        gridView.contentInset = UIEdgeInsetsMake(-10, 0, 24, 0)
+        gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         gridView.hidden = false
     }
     
@@ -585,9 +585,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (segmentMode) {
             return UIEdgeInsetsMake(4, 0, 0, 0)
         } else if (isBannerExist()) {
-            return UIEdgeInsetsMake(4, s, 4, s)
+            return UIEdgeInsetsMake(4, s, 0, s)
         } else {
-            return UIEdgeInsetsMake(20, s, 4, s)
+            return UIEdgeInsetsMake(0, s, 0, s)
         }
         
     }
@@ -640,7 +640,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if let bannerImageUrl = NSURL(string: self.bannerImageUrl) {
                 if let imgData = NSData.init(contentsOfURL: bannerImageUrl) {
                     if let img = UIImage.init(data: imgData) {
-                        headerHeight = ((headerWidth / img.size.width) * img.size.height) + 14
+                        headerHeight = ((headerWidth / img.size.width) * img.size.height)
                     }
                 }
             }
@@ -671,7 +671,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (!segmentMode) {
             setDefaultTopHeaderWomen()
             segmentMode = true
-            gridView.contentInset = UIEdgeInsetsZero
+//            gridView.contentInset = UIEdgeInsetsZero
             gridView.reloadData()
         }
     }
