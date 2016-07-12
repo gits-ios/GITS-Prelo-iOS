@@ -124,7 +124,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             scroll_View.showsHorizontalScrollIndicator = false
             scroll_View.pagingEnabled = true
             let pContentView = UIView()
-            pContentView.backgroundColor = UIColor.redColor()
+            pContentView.backgroundColor = UIColor(hexString: "#E8ECEE")
             scroll_View.addSubview(pContentView)
             
             pContentView.translatesAutoresizingMaskIntoConstraints = false

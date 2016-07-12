@@ -656,6 +656,7 @@ enum APITransactionAnggi : URLRequestConvertible
     case GetSellerTransaction(id : String)
     case GetBuyerTransaction(id : String)
     case GetTransactionProduct(id : String)
+    case DelayShipping(arrTpId : String)
     
     var method : Method
     {
@@ -664,6 +665,7 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(_) : return .GET
         case .GetBuyerTransaction(_) : return .GET
         case .GetTransactionProduct(_) : return .GET
+        case .DelayShipping(_) : return .POST
         }
     }
     
@@ -674,6 +676,7 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(let id) : return "transaction/seller/\(id)"
         case .GetBuyerTransaction(let id) : return "transaction/\(id)"
         case .GetTransactionProduct(let id) : return "transaction_product/\(id)"
+        case .DelayShipping(_) : return "transaction/delay/shipping"
         }
     }
     
@@ -684,6 +687,11 @@ enum APITransactionAnggi : URLRequestConvertible
         case .GetSellerTransaction(_) : return [:]
         case .GetBuyerTransaction(_) : return [:]
         case .GetTransactionProduct(_) : return [:]
+        case .DelayShipping(let arrTpId) :
+            let p = [
+                "arr_tp_id" : arrTpId
+            ]
+            return p
         }
     }
     
@@ -1307,7 +1315,7 @@ enum APISearch : URLRequestConvertible
     
     case User(keyword : String)
     case Find(keyword : String, categoryId : String, brandId : String, condition : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
+    case ProductByCategory(categoryId : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int, segment: String)
     case GetTopSearch(limit : String)
     case InsertTopSearch(search : String)
     case Brands(name : String, current : Int, limit : Int)
@@ -1317,7 +1325,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(_) : return .GET
-            case .ProductByCategory(_, _, _, _, _, _): return .GET
+            case .ProductByCategory(_, _, _, _, _, _, _): return .GET
             case .GetTopSearch(_): return .GET
             case .Find(_, _, _, _, _, _, _, _) : return .GET
             case .InsertTopSearch(_): return .POST
@@ -1330,7 +1338,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(_) : return "users"
-            case .ProductByCategory(_, _, _, _, _, _): return "products"
+            case .ProductByCategory(_, _, _, _, _, _, _): return "products"
             case .GetTopSearch(_): return "top"
             case .Find(_, _, _, _, _, _, _, _) : return "products"
             case .InsertTopSearch(_):return "top"
@@ -1343,7 +1351,7 @@ enum APISearch : URLRequestConvertible
             switch self
             {
             case .User(let key) : return ["name":key]
-            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax):
+            case .ProductByCategory(let catId, let sort, let current, let limit, let priceMin, let priceMax, let segment):
                 return [
                     "category_id":catId,
                     "sort":sort,
@@ -1351,7 +1359,8 @@ enum APISearch : URLRequestConvertible
                     "limit":limit,
                     "price_min":priceMin,
                     "price_max":priceMax,
-                    "prelo":"true"
+                    "prelo":"true",
+                    "segment":segment
                 ]
             case .GetTopSearch(let limit):return ["limit":limit]
             case .Find(let key, let catId, let brandId, let condition, let current, let limit, let priceMin, let priceMax):
