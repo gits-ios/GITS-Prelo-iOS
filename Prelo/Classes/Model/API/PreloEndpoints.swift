@@ -1119,6 +1119,7 @@ enum Products : URLRequestConvertible
     case Activate(productID : String)
     case Deactivate(productID : String)
     case Delete(productID : String)
+    case GetAllFeaturedProducts()
     
     var method : Method
     {
@@ -1137,6 +1138,7 @@ enum Products : URLRequestConvertible
         case .Activate(_) : return .POST
         case .Deactivate(_) : return .POST
         case .Delete(_) : return .POST
+        case .GetAllFeaturedProducts() : return .GET
         }
     }
     
@@ -1157,6 +1159,7 @@ enum Products : URLRequestConvertible
         case .Activate(let pId) : return pId + "/activate"
         case .Deactivate(let pId) : return pId + "/deactivate"
         case .Delete(let pId) : return pId + "/delete"
+        case .GetAllFeaturedProducts() : return "editorspick/all"
         }
     }
     

@@ -536,6 +536,7 @@
 		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
 		58F91B191CF313CB00943A7A /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
+		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1242,6 +1243,7 @@
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController2.swift; sourceTree = "<group>"; };
+		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -1948,6 +1950,7 @@
 				58A4F9731CB5146B00E717AF /* ic_trx_reservation_cancelled.png */,
 				58A4F9741CB5146B00E717AF /* ic_trx_reservation_done.png */,
 				58A4F9751CB5146B00E717AF /* ic_trx_reserved.png */,
+				58FE766E1D34FB9B00D90F27 /* banner_featured.png */,
 				58A4F9711CB4F5DB00E717AF /* banner_reserved.png */,
 				58A387491C7DBABC00281B85 /* banner_review.png */,
 				58F0A4151C7C634A002A488F /* cchmrk_buy.png */,
@@ -2689,6 +2692,7 @@
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
+				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,

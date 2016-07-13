@@ -1087,6 +1087,13 @@ public class Product : NSObject
         return nil
     }
     
+    var isFeatured : Bool {
+        if let j = json["is_catalogue"].bool {
+            return j
+        }
+        return false
+    }
+    
     var isSharedInstagram : Bool {
         if let j = json["share_status"]["INSTAGRAM"].int {
             if (j == 1) {

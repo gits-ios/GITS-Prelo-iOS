@@ -232,7 +232,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             button.setTitleColor(Theme.GrayDark)
             button.titleLabel?.font = UIFont.systemFontOfSize(15)
             if let name = categoriesFix[i]["name"].string {
-                button.setTitle(name, forState: UIControlState.Normal)
+                var nameFix = name
+                if (nameFix.lowercaseString == "all") {
+                    if let ftrd = categoriesFix[i]["is_featured"].bool where ftrd == true {
+                        nameFix = "Editor's Pick"
+                    }
+                }
+                button.setTitle(nameFix, forState: UIControlState.Normal)
             }
             
             button.sizeToFit()
@@ -321,7 +327,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
         let name = categoriesFix[1]["name"].string
-        if (name?.lowercaseString == "all") {
+        if (name?.lowercaseString == "all" || name?.lowercaseString == "editor's pick") {
             setCurrentTab(1)
         } else {
             setCurrentTab(0)
