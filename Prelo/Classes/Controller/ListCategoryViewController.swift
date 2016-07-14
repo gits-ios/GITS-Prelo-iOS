@@ -235,7 +235,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 var nameFix = name
                 if (nameFix.lowercaseString == "all") {
                     if let ftrd = categoriesFix[i]["is_featured"].bool where ftrd == true {
-                        nameFix = "Editor's Pick"
+                        nameFix = "Featured"
                     }
                 }
                 button.setTitle(nameFix, forState: UIControlState.Normal)
@@ -327,7 +327,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
         let name = categoriesFix[1]["name"].string
-        if (name?.lowercaseString == "all" || name?.lowercaseString == "editor's pick") {
+        if (name?.lowercaseString == "all" || name?.lowercaseString == "featured") {
             setCurrentTab(1)
         } else {
             setCurrentTab(0)

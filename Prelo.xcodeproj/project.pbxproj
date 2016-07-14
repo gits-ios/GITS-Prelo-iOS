@@ -472,6 +472,9 @@
 		58A4F9761CB5146B00E717AF /* ic_trx_reservation_cancelled.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A4F9731CB5146B00E717AF /* ic_trx_reservation_cancelled.png */; };
 		58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A4F9741CB5146B00E717AF /* ic_trx_reservation_done.png */; };
 		58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A4F9751CB5146B00E717AF /* ic_trx_reserved.png */; };
+		58A7C4451D3625F400405CEC /* BalanceMutationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */; };
+		58A7C4471D36263E00405CEC /* BalanceMutation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A7C4461D36263E00405CEC /* BalanceMutation.xib */; };
+		58A7C4491D362ED800405CEC /* BalanceMutationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A7C4481D362ED800405CEC /* BalanceMutationCell.xib */; };
 		58A99A2A1C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A999E21C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m */; };
 		58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A999E41C6D864E00E3E7D7 /* BNCEncodingUtils.m */; };
 		58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A999E61C6D864E00E3E7D7 /* BNCError.m */; };
@@ -1131,6 +1134,9 @@
 		58A4F9731CB5146B00E717AF /* ic_trx_reservation_cancelled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reservation_cancelled.png; sourceTree = "<group>"; };
 		58A4F9741CB5146B00E717AF /* ic_trx_reservation_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reservation_done.png; sourceTree = "<group>"; };
 		58A4F9751CB5146B00E717AF /* ic_trx_reserved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reserved.png; sourceTree = "<group>"; };
+		58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceMutationViewController.swift; sourceTree = "<group>"; };
+		58A7C4461D36263E00405CEC /* BalanceMutation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BalanceMutation.xib; sourceTree = "<group>"; };
+		58A7C4481D362ED800405CEC /* BalanceMutationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BalanceMutationCell.xib; sourceTree = "<group>"; };
 		58A999E01C6D864E00E3E7D7 /* BNCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCConfig.h; sourceTree = "<group>"; };
 		58A999E11C6D864E00E3E7D7 /* BNCContentDiscoveryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNCContentDiscoveryManager.h; sourceTree = "<group>"; };
 		58A999E21C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNCContentDiscoveryManager.m; sourceTree = "<group>"; };
@@ -1803,6 +1809,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */,
 				58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */,
 				58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */,
 				5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */,
@@ -2320,6 +2327,8 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				58A7C4481D362ED800405CEC /* BalanceMutationCell.xib */,
+				58A7C4461D36263E00405CEC /* BalanceMutation.xib */,
 				58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */,
 				58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */,
 				5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */,
@@ -2632,6 +2641,7 @@
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
+				58A7C4491D362ED800405CEC /* BalanceMutationCell.xib in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */,
@@ -2732,6 +2742,7 @@
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
+				58A7C4471D36263E00405CEC /* BalanceMutation.xib in Resources */,
 				58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */,
@@ -2830,6 +2841,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58A7C4451D3625F400405CEC /* BalanceMutationViewController.swift in Sources */,
 				21679A431B901C5300F18F90 /* MPSurveyQuestionViewController.m in Sources */,
 				2141BBAD1B54BE4C00787F5D /* Upload.swift in Sources */,
 				21B467E91CCE5EDB00E145ED /* BFKit.swift in Sources */,
@@ -3292,8 +3304,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3321,7 +3333,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2fbc9029-31f5-4f11-80f7-3cde351f0167";
+				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3333,7 +3345,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kleora Pte. Ltd. (FA5P8G36Y9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3358,7 +3370,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2fbc9029-31f5-4f11-80f7-3cde351f0167";
+				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

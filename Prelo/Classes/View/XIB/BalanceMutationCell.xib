@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BalanceMutationCell" rowHeight="80" id="SlX-29-To2" customClass="BalanceMutationCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SlX-29-To2" id="vlr-Dc-tBO">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGK-Gd-hJc">
+                        <rect key="frame" x="8" y="6" width="16" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="AJB-7j-wBW"/>
+                            <constraint firstAttribute="height" constant="17" id="F6y-0F-Bnc"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp xx.xxx.xxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrJ-9M-bun">
+                        <rect key="frame" x="24" y="4" width="103" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="g6B-cZ-KyZ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp xx.xxx.xxx" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSP-gG-hia">
+                        <rect key="frame" x="135" y="4" width="177" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="VXx-mc-xJP"/>
+                            <constraint firstAttribute="width" constant="177" id="oaD-Ir-uzz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance mutation description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ya9-5f-S2c">
+                        <rect key="frame" x="8" y="27" width="304" height="11"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="11" id="8Al-Ch-QPQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date and time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzB-7C-2OX">
+                        <rect key="frame" x="8" y="43" width="304" height="11"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="11" id="6Qi-sP-zYv"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="pzB-7C-2OX" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="3Dk-nY-SE3"/>
+                    <constraint firstItem="VSP-gG-hia" firstAttribute="leading" secondItem="nrJ-9M-bun" secondAttribute="trailing" constant="8" id="40L-h0-jdA"/>
+                    <constraint firstItem="VSP-gG-hia" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="4" id="4HF-2u-hxI"/>
+                    <constraint firstItem="UGK-Gd-hJc" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="6" id="A30-4g-L5q"/>
+                    <constraint firstItem="nrJ-9M-bun" firstAttribute="leading" secondItem="UGK-Gd-hJc" secondAttribute="trailing" id="JaQ-jT-fIp"/>
+                    <constraint firstAttribute="trailing" secondItem="VSP-gG-hia" secondAttribute="trailing" constant="8" id="Jc2-Xr-KBi"/>
+                    <constraint firstAttribute="trailing" secondItem="Ya9-5f-S2c" secondAttribute="trailing" constant="8" id="Kxg-Dx-hAw"/>
+                    <constraint firstItem="Ya9-5f-S2c" firstAttribute="top" secondItem="VSP-gG-hia" secondAttribute="bottom" constant="2" id="awb-2w-7jh"/>
+                    <constraint firstAttribute="trailing" secondItem="pzB-7C-2OX" secondAttribute="trailing" constant="8" id="bzF-s0-qAV"/>
+                    <constraint firstItem="UGK-Gd-hJc" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="kbf-cm-ijp"/>
+                    <constraint firstItem="pzB-7C-2OX" firstAttribute="top" secondItem="Ya9-5f-S2c" secondAttribute="bottom" constant="5" id="lt3-ki-6C3"/>
+                    <constraint firstItem="nrJ-9M-bun" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="4" id="oLb-IK-FPX"/>
+                    <constraint firstItem="Ya9-5f-S2c" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="rru-yB-84W"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblBalance" destination="VSP-gG-hia" id="q9E-nd-wWt"/>
+                <outlet property="lblDescription" destination="Ya9-5f-S2c" id="fuh-dJ-DJ2"/>
+                <outlet property="lblMutation" destination="nrJ-9M-bun" id="LN9-AE-qbK"/>
+                <outlet property="lblPlusMinus" destination="UGK-Gd-hJc" id="3er-Tk-cQb"/>
+                <outlet property="lblTime" destination="pzB-7C-2OX" id="qfo-CH-3kc"/>
+            </connections>
+            <point key="canvasLocation" x="240" y="377"/>
+        </tableViewCell>
+    </objects>
+</document>

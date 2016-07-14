@@ -2854,3 +2854,74 @@ class Notification : NSObject
         json["read"] = JSON(true)
     }
 }
+
+class BalanceMutationItem : NSObject {
+    
+    var json : JSON = JSON([:])
+    
+    static func instance(json : JSON?) -> BalanceMutationItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = BalanceMutationItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var reasonId : String {
+        if let j = json["reason_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var reason : String {
+        if let j = json["reason"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var amount : String {
+        if let j = json["amount"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var entryType : Int {
+        if let j = json["entry_type"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var totalAmount : String {
+        if let j = json["total_amount"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var reasonDetail : String {
+        if let j = json["reason_detail"].string {
+            return j
+        }
+        return ""
+    }
+}

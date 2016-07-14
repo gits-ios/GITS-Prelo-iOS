@@ -957,6 +957,7 @@ enum APIUser : URLRequestConvertible
     case SetUserPreferencedCategories(categ1 : String, categ2 : String, categ3 : String)
     case CheckPassword
     case ResendVerificationEmail
+    case GetBalanceMutations(current : Int, limit : Int)
     
     var method : Method
     {
@@ -979,6 +980,7 @@ enum APIUser : URLRequestConvertible
         case .SetUserPreferencedCategories(_, _, _) : return .POST
         case .CheckPassword : return .GET
         case .ResendVerificationEmail : return .POST
+        case .GetBalanceMutations(_, _) : return .GET
         }
     }
     
@@ -1003,6 +1005,7 @@ enum APIUser : URLRequestConvertible
         case .SetUserPreferencedCategories(_, _, _) : return "category_preference"
         case .CheckPassword : return "checkpassword"
         case .ResendVerificationEmail : return "verify/resend_email"
+        case .GetBalanceMutations(_, _) : return "getprelobalances"
         }
     }
     
@@ -1090,6 +1093,12 @@ enum APIUser : URLRequestConvertible
             return [:]
         case .ResendVerificationEmail :
             return [:]
+        case .GetBalanceMutations(let current, let limit) :
+            let p = [
+                "current" : current,
+                "limit" : limit
+            ]
+            return p
         }
     }
     

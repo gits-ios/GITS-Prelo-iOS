@@ -267,8 +267,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     // MARK: - Navigation functions
     
     func launchTarikUang() {
-        let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
-        self.previousController?.navigationController?.pushViewController(t, animated: true)
+        let balanceMutationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil).first as! BalanceMutationViewController
+        self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)
     }
     
     func launchMyPage() {

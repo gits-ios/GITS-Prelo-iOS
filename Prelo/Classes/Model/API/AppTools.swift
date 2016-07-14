@@ -172,6 +172,7 @@ class Tags : NSObject
     static let XibNameNotifAnggiTransaction = "NotifAnggiTransaction"
     static let XibNameNotifAnggiConversation = "NotifAnggiConversation"
     static let XibNameConfirmShipping = "ConfirmShipping"
+    static let XibNameBalanceMutation = "BalanceMutation"
 }
 
 class OrderStatus : NSObject
@@ -242,6 +243,7 @@ class PageName
     static let TransactionDetail = "Transaction Detail"
     static let TermsAndConditions = "Terms and Conditions"
     static let CheckoutTutorial = "Checkout Tutorial"
+    static let Mutation = "Mutasi"
 }
 
 
