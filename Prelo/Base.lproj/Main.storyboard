@@ -1980,7 +1980,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="UPx-w4-lNz"/>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="sDQ-B6-dE8"/>
                                                 </constraints>
-                                                <state key="normal" title="TARIK UANG" backgroundImage="basic_green.png">
+                                                <state key="normal" title="TARIK UANG SEKARANG" backgroundImage="basic_green.png">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
