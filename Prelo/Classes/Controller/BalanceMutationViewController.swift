@@ -132,11 +132,31 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCellWithIdentifier("BalanceMutationCell") as! BalanceMutationCell
         let b = balanceMutationItems?[indexPath.item]
         cell.adapt(b!)
+        cell.selectionStyle = .None
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // Do nothing
+        if let b = balanceMutationItems?[indexPath.row] {
+            if (b.type != "" && b.isSeller != nil) {
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                
+                if (b.type.lowercaseString == "transaction") {
+                    transactionDetailVC.trxId = b.reasonId
+                } else if (b.type.lowercaseString == "transaction_product") {
+                    transactionDetailVC.trxProductId = b.reasonId
+                }
+                
+                if (b.isSeller!) {
+                    transactionDetailVC.isSeller = true
+                } else {
+                    transactionDetailVC.isSeller = false
+                }
+                
+                self.navigationController?.pushViewController(transactionDetailVC, animated: true)
+            }
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -194,7 +214,10 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         if (self.balanceMutationItems?.count <= 0) {
             self.lblEmpty.hidden = false
             self.btnRefresh.hidden = false
+            self.tblMutation.hidden = true
         } else {
+            self.lblEmpty.hidden = true
+            self.btnRefresh.hidden = true
             self.tblMutation.hidden = false
             self.setupTable()
         }

@@ -2924,4 +2924,18 @@ class BalanceMutationItem : NSObject {
         }
         return ""
     }
+    
+    var type : String {
+        if let j = json["type"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var isSeller : Bool? {
+        if let j = json["is_seller"].bool {
+            return j
+        }
+        return nil
+    }
 }
