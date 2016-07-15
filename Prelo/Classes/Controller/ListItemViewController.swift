@@ -109,6 +109,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         // Initiate refresh control
         refresher = UIRefreshControl()
+        refresher!.tintColor = Theme.PrimaryColor
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
     }
@@ -738,7 +739,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // MARK: - Banner and TopHeader
     
     func isBannerExist() -> Bool {
-        return (self.bannerImageUrl != "")
+        // Jika is_featured adl true, banner dianggap tidak exist
+        return (self.bannerImageUrl != "" && self.category?["is_featured"].boolValue == false)
     }
     
     func setDefaultTopHeaderWomen() {
@@ -749,6 +751,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     @IBAction func topHeaderPressed(sender: AnyObject) {
         if (!segmentMode) {
             setDefaultTopHeaderWomen()
+            selectedSegment = ""
             segmentMode = true
 //            gridView.contentInset = UIEdgeInsetsZero
             gridView.reloadData()
@@ -806,6 +809,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                             NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
                             self.navigationController?.setNavigationBarHidden(true, animated: true)
                             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                            if (selectedSegment != "") {
+                                consTopVwTopHeader.constant = 0
+                                UIView.animateWithDuration(0.2) {
+                                    self.view.layoutIfNeeded()
+                                }
+                            }
                         }
                     }
                 } else
@@ -813,6 +822,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                    if (selectedSegment != "") {
+                        consTopVwTopHeader.constant = 40
+                        UIView.animateWithDuration(0.2) {
+                            self.view.layoutIfNeeded()
+                        }
+                    }
                 }
             }
         }
@@ -977,6 +992,24 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate
     @IBOutlet var pageCtrlCarousel: UIPageControl!
     @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
     var carouselItems : [CarouselItem] = []
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        vwBanner.hidden = true
+        vwTextOnly.hidden = true
+        vwCarousel.hidden = true
+        
+        var carouselRect = scrlVwCarousel.frame
+        carouselRect.size.width = UIScreen.mainScreen().bounds.width - 8
+        scrlVwCarousel.frame = carouselRect
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        vwBanner.hidden = true
+        vwTextOnly.hidden = true
+        vwCarousel.hidden = true
+    }
     
     func adaptBanner(imgStr : String, targetUrl : String) {
         vwBanner.hidden = false

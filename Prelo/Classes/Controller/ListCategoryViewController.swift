@@ -440,6 +440,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 Mixpanel.sharedInstance().timeEvent(MixpanelEvent.CategoryBrowsed)
                 Mixpanel.trackEvent(MixpanelEvent.CategoryBrowsed, properties: pt)
                 isPageTracked = true
+                
+                // Jika masuk ke kategori 'Women', munculkan navbar dkk karena kemungkinan scroll atas-bawah mati karena konten tidak panjang
+                if (categoriesFix[i]["name"].stringValue.lowercaseString == "women") {
+                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                }
             }
         }
         
