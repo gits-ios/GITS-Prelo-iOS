@@ -75,6 +75,8 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 // switch to production
                 AppTools.PreloBaseUrl = "https://prelo.co.id"
             }
+            NSUserDefaults.standardUserDefaults().setObject(true, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
+            NSUserDefaults.standardUserDefaults().synchronize()
         } else {
             UIApplication.sharedApplication().openURL(NSURL(string: AppTools.PreloBaseUrl)!)
         }

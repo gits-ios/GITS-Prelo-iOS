@@ -328,6 +328,7 @@ class UserDefaultsKey : NSObject
     static let CoachmarkReserveDone = "coachmarkreservedone"
     static let UninstallIOIdentified = "uninstallioidentified"
     static let LastPromoTitle = "lastpromotitle"
+    static let PreloBaseUrlJustChanged = "prelobaseurljustchanged"
 }
 
 extension NSUserDefaults

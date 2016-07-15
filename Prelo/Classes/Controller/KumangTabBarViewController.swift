@@ -172,7 +172,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
         } else {
-            if (AppTools.isDev || (userDidLoggedIn == false && User.IsLoggedIn)) { // Jika user baru saja log in, atau dalam dev mode
+            let preloBaseUrlJustChanged : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
+            if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn)) { // Jika user baru saja log in, atau baru saja switch base url dalam dev mode
+                NSUserDefaults.standardUserDefaults().setObject(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
+                NSUserDefaults.standardUserDefaults().synchronize()
                 (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
             } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
