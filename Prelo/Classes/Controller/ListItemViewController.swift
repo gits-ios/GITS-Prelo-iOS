@@ -1041,8 +1041,15 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate
         self.pageCtrlCarousel.numberOfPages = carouselItems.count
         self.pageCtrlCarousel.currentPage = 0
         self.consWidthContentVwCarousel.constant = scrlVwCarousel.width * CGFloat(carouselItems.count)
+        var rectHeightFix : CGFloat = 0
         for i in 0...carouselItems.count - 1 {
-            let rect = CGRectMake(CGFloat(i * Int(scrlVwCarousel.width)), 0, scrlVwCarousel.width, scrlVwCarousel.height)
+            let height = ((scrlVwCarousel.width / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+            if (height > rectHeightFix) {
+                rectHeightFix = height
+            }
+        }
+        for i in 0...carouselItems.count - 1 {
+            let rect = CGRectMake(CGFloat(i * Int(scrlVwCarousel.width)), 0, scrlVwCarousel.width, rectHeightFix)
             let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
             let uiBtn = UIButton(frame: rect)
             uiBtn.addTarget(self, action: #selector(ListHeader.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
