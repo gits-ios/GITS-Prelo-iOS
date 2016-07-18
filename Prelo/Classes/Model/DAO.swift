@@ -2859,15 +2859,18 @@ class BalanceMutationItem : NSObject {
     
     var json : JSON = JSON([:])
     
-    static func instance(json : JSON?) -> BalanceMutationItem? {
+    static func instance(json : JSON?, totalAmount : Int) -> BalanceMutationItem? {
         if (json == nil) {
             return nil
         } else {
             let n = BalanceMutationItem()
             n.json = json!
+            n.totalAmount = totalAmount
             return n
         }
     }
+    
+    var totalAmount : Int = 0
     
     var id : String {
         if let j = json["_id"].string {
@@ -2897,11 +2900,11 @@ class BalanceMutationItem : NSObject {
         return ""
     }
     
-    var amount : String {
-        if let j = json["amount"].string {
+    var amount : Int {
+        if let j = json["amount"].int {
             return j
         }
-        return ""
+        return 0
     }
     
     var entryType : Int {
@@ -2909,13 +2912,6 @@ class BalanceMutationItem : NSObject {
             return j
         }
         return 0
-    }
-    
-    var totalAmount : String {
-        if let j = json["total_amount"].string {
-            return j
-        }
-        return ""
     }
     
     var reasonDetail : String {

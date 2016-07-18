@@ -26,6 +26,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var balanceMutationItems : [BalanceMutationItem]?
     
+    var totalPreloBalance : Int = 0
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -78,17 +80,33 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 let dataCount = data.count
                 
                 // Set Prelo Balance text
+                self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
                 let f = NSNumberFormatter()
                 f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
                 f.currencySymbol = ""
                 f.locale = NSLocale(localeIdentifier: "id_ID")
-                self.lblBalanceAmount.text = f.stringFromNumber(NSNumber(integer: json["_data"]["total_prelo_balance"].intValue))
+                self.lblBalanceAmount.text = f.stringFromNumber(NSNumber(integer: self.totalPreloBalance))
                 
                 // Store data into variable
+                var nextTotalAmount = self.totalPreloBalance
+                if (self.balanceMutationItems?.count > 0) {
+                    if let b = self.balanceMutationItems?[self.balanceMutationItems!.count - 1] {
+                        if (b.entryType == 0) { // Kredit
+                            nextTotalAmount = b.totalAmount + b.amount
+                        } else if (b.entryType == 1) { // Debit
+                            nextTotalAmount = b.totalAmount - b.amount
+                        }
+                    }
+                }
                 for (_, item) in data {
-                    let b = BalanceMutationItem.instance(item)
+                    let b = BalanceMutationItem.instance(item, totalAmount: nextTotalAmount)
                     if (b != nil) {
                         self.balanceMutationItems?.append(b!)
+                        if (b!.entryType == 0) { // Kredit 
+                            nextTotalAmount += b!.amount
+                        } else if (b!.entryType == 1) { // Debit
+                            nextTotalAmount -= b!.amount
+                        }
                     }
                 }
                 
@@ -130,8 +148,9 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCellWithIdentifier("BalanceMutationCell") as! BalanceMutationCell
-        let b = balanceMutationItems?[indexPath.item]
-        cell.adapt(b!)
+        if let b = balanceMutationItems?[indexPath.item] {
+            cell.adapt(b)
+        }
         cell.selectionStyle = .None
         return cell
     }
@@ -253,8 +272,8 @@ class BalanceMutationCell : UITableViewCell {
             lblPlusMinus.textColor = Theme.PrimaryColor
             lblMutation.textColor = Theme.PrimaryColor
         }
-        lblMutation.text = mutation.amount
-        lblBalance.text = mutation.totalAmount
+        lblMutation.text = mutation.amount.asPrice
+        lblBalance.text = mutation.totalAmount.asPrice
         lblDescription.text = mutation.reasonDetail
         lblTime.text = mutation.time
     }
