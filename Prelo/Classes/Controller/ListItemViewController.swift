@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - Class
+
 class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     // MARK: - Struct
@@ -20,75 +22,79 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Properties
     
-    // Top buttton view, used for segment
+    // Top buttton view, used for segment mode
     @IBOutlet var consTopVwTopHeader: NSLayoutConstraint!
     @IBOutlet var lblTopHeader: UILabel!
-    
-    // Grid view and loading
-    @IBOutlet var gridView: UICollectionView!
-    @IBOutlet var loading : UIActivityIndicatorView?
-    
-    // Data container
-    var width: CGFloat? = 200
-    var category : JSON?
-    var products : Array <Product>?
-    var selectedProduct : Product?
-    var requesting : Bool = false
-    
-    // Standalone
-    var standalone : Bool = false
-    var standaloneCategoryName : String = ""
-    var standaloneCategoryID : String = ""
-    
-    // For search result
-    var searchMode = false
-    var searchKey = ""
-    var searchBrand = false
-    var searchBrandId = ""
-    
-    // For shop page
-    var storeMode = false
-    var storeId = ""
-    var storeName = ""
-    var storePictPath = ""
     
     // Banner header
     var bannerImageUrl = ""
     var bannerTargetUrl = ""
     
-    // For column partition in collectionview
-    var listStage = 2 // 1 = gallery / very small, 2 = normal, 3 = instagram like
-    
-    // Refresh control
+    // Gridview and layout
+    @IBOutlet var gridView: UICollectionView!
+    var footerLoading : UIActivityIndicatorView?
     var refresher : UIRefreshControl?
+    var itemCellWidth: CGFloat? = 200
+    var listStage = 2 // Column amount in list: 1 = 3 column, 2 = 2 column, 3 = 1 column
+    var currScrollPoint : CGPoint = CGPointZero
+    var itemsPerReq = 12 // Amount of items per request
     
-    // Segment view
+    // Store header
+    var storeHeader : StoreHeader?
+    
+    // Data container
+    var categoryJson : JSON? // Set from previous screen
+    var products : Array <Product>? // From API response
+    var selectedProduct : Product? // For navigating to product detail
+    
+    // Flags
+    var requesting : Bool = false
+    var done : Bool = false
+    var draggingScrollView : Bool = false
+    
+    // For standalone mode, used for category-filtered product list
+    var standaloneMode : Bool = false
+    var standaloneCategoryName : String = ""
+    var standaloneCategoryID : String = ""
+    
+    // For search result mode
+    var searchMode = false
+    var searchKey = ""
+    var searchBrand = false
+    var searchBrandId = ""
+    
+    // For shop page mode
+    var storeMode = false
+    var storeId = ""
+    var storeName = ""
+    var storePictPath = ""
+    
+    // For segment mode
     var segmentMode : Bool = false // Bernilai true jika sedang menampilkan pilihan segment
     var segments : [SegmentItem] = []
     var selectedSegment : String = ""
     
-    // Featured products
+    // For featured products mode
     var featuredProductsMode : Bool = false
     var carouselItems : [CarouselItem] = []
     var isCarouselTimerSet : Bool = false
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // listStage initiation for iPad
+        // listStage initiation
         if (AppTools.isIPad) {
             listStage = 1
+        } else {
+            listStage = 2
         }
         
         // Set title
-        if (standalone) {
+        if (standaloneMode) {
             self.titleText = standaloneCategoryName
-        } else {
-            if let name = category?["name"].string {
-                self.title = name
-            }
-        }
-        if (searchMode) {
+        } else if (searchMode) {
             if (searchBrand) {
                 self.title = searchKey
             } else {
@@ -96,9 +102,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
         } else if (storeMode) {
             self.title = storeName
+        } else {
+            if let name = categoryJson?["name"].string {
+                self.title = name
+            }
         }
         
-        // Send top search input for searchMode
+        // Send top search API for searchMode
         if (searchMode) {
             request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
@@ -112,18 +122,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         refresher!.tintColor = Theme.PrimaryColor
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
-        if (self.category?["name"].stringValue == "Women") { // Special case for 'Women' category
+        // Set content based on current mode
+        if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
             consTopVwTopHeader.constant = 40
             self.setDefaultTopHeaderWomen()
             segmentMode = true
-            if let segmentsJson = self.category?["segments"].array where segmentsJson.count > 0 {
+            if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
                 for i in 0...segmentsJson.count - 1 {
                     var img : UIImage = UIImage()
                     if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
@@ -139,16 +144,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             gridView.dataSource = self
             gridView.delegate = self
             gridView.reloadData()
-        } else if (self.category?["name"].stringValue == "All" && self.category?["is_featured"].boolValue == true) { // Special case for 'All' category
+        } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
+            self.featuredProductsMode = true
             consTopVwTopHeader.constant = 0
             
             // Get featured products
-            if (products?.count == 0 || products == nil) {
-                if (products == nil) {
-                    products = []
-                }
-                getFeaturedProducts()
-            }
+            getFeaturedProducts()
         } else {
             consTopVwTopHeader.constant = 0
             
@@ -162,86 +163,37 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Status bar style
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        
+        // Add status bar tap observer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        print("viewWillDisappear x")
+        //print("viewWillDisappear x")
         
+        // Remove status bar tap observer
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Remove redirect alert if any
         if (storeMode) {
-            // Remove redirect alert if any
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             if let redirAlert = appDelegate.redirAlert {
                 redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
             }
         }
-    }
-    
-    func refresh() {
+        
+        // Mixpanel for store mode
         if (storeMode) {
-            getStoreProduct()
-            return
-        }
-        
-        if (searchMode || segmentMode) {
-            refresher?.endRefreshing()
-            return
-        }
-        
-        requesting = true
-        
-        var catId : String?
-        
-        if (standalone) {
-            catId = standaloneCategoryID
-        } else {
-            catId = category!["_id"].string
-        }
-        
-        // API Migrasi
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: 12, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON {resp in
-            self.done = false
-            self.requesting = false
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
-                self.products = []
-                var obj = JSON(resp.result.value!)
-                for (_, item) in obj["_data"] {
-                    let p = Product.instance(item)
-                    if (p != nil) {
-                        self.products?.append(p!)
-                    }
-                }
-                self.refresher?.endRefreshing()
-                self.setupGrid()
-            }
-        }
-    }
-    
-    func statusBarTapped()
-    {
-        gridView.setContentOffset(CGPointMake(0, 10), animated: true)
-        NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    var done = false
-    func getProducts()
-    {
-        if (searchMode)
-        {
-            self.searchProduct()
-            return
-        } else if (storeMode)
-        {
             if (User.IsLoggedIn && self.storeId == User.Id!) {
                 // Mixpanel
                 Mixpanel.trackPageVisit(PageName.ShopMine)
@@ -259,33 +211,80 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
-
-            self.getStoreProduct()
-            return
         }
-        
-        if (category == nil && standalone == false) {
-            return
-        }
-        
-        requesting = true
-        
-        var catId : String?
-        
-        if (standalone) {
-            catId = standaloneCategoryID
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func refresh() {
+        if (searchMode || segmentMode) {
+            // No refresh
+            refresher?.endRefreshing()
+        } else if (storeMode) {
+            getStoreProduct()
+        } else if (featuredProductsMode) {
+            getFeaturedProducts()
         } else {
-            print(category)
-            catId = category!["_id"].string
+            requesting = true
+            
+            var catId : String?
+            if (standaloneMode) {
+                catId = standaloneCategoryID
+            } else {
+                catId = categoryJson!["_id"].string
+            }
+            
+            // API Migrasi
+            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON {resp in
+                self.done = false
+                self.requesting = false
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
+                    self.products = []
+                    var obj = JSON(resp.result.value!)
+                    for (_, item) in obj["_data"] {
+                        let p = Product.instance(item)
+                        if (p != nil) {
+                            self.products?.append(p!)
+                        }
+                    }
+                    self.refresher?.endRefreshing()
+                    self.setupGrid()
+                }
+            }
+        }
+    }
+    
+    func getProducts() {
+        if (categoryJson == nil && !standaloneMode && !searchMode && !storeMode) {
+            return
         }
         
-        // API Migrasi
-        request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: 12, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON {resp in
-            self.requesting = false
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
-                self.setupData(resp.result.value)
+        if (searchMode) {
+            self.getSearchProduct()
+        } else if (storeMode) {
+            self.getStoreProduct()
+        } else {
+            requesting = true
+            
+            var catId : String?
+            if (standaloneMode) {
+                catId = standaloneCategoryID
+            } else {
+                //print(categoryJson)
+                catId = categoryJson!["_id"].string
             }
-            self.setupGrid()
+            
+            // API Migrasi
+            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON { resp in
+                self.requesting = false
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
+                    self.setupData(resp.result.value)
+                }
+                self.setupGrid()
+            }
         }
     }
     
@@ -296,6 +295,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         request(Products.GetAllFeaturedProducts()).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Featured Products")) {
+                self.products = []
+                
                 self.setupData(resp.result.value)
                 
                 // Init carousel data
@@ -315,41 +316,33 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
             }
-            self.featuredProductsMode = true
             self.setupGrid()
         }
     }
     
-    func searchProduct()
-    {
+    func getSearchProduct() {
         requesting = true
         
         // API Migrasi
-        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: 12, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
+        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product"))
-            {
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product")) {
                 self.setupData(resp.result.value)
-            } else {
-                
             }
             self.setupGrid()
         }
     }
     
-    var storeHeader : StoreHeader?
-    func getStoreProduct()
-    {
+    func getStoreProduct() {
         self.requesting = true
+        
         // API Migrasi
-        request(APIPeople.GetShopPage(id: storeId)).responseJSON {resp in
+        request(APIPeople.GetShopPage(id: storeId)).responseJSON { resp in
             self.requesting = false
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna"))
-            {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
                 
-                if (self.storeHeader == nil)
-                {
+                if (self.storeHeader == nil) {
                     self.storeHeader = NSBundle.mainBundle().loadNibNamed("StoreHeader", owner: nil, options: nil).first as? StoreHeader
                     self.gridView.addSubview(self.storeHeader!)
                 }
@@ -496,46 +489,32 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
-            } else
-            {
-                
             }
         }
     }
     
-    func setupData(res : AnyObject?)
-    {
-        guard res != nil else
-        {
+    func setupData(res : AnyObject?) {
+        guard res != nil else {
             return
         }
-        print(res)
         var obj = JSON(res!)
-        print(obj)
-        if let arr = obj["_data"].array
-        {
-            if arr.count == 0
-            {
+        if let arr = obj["_data"].array {
+            if arr.count == 0 {
                 self.done = true
-                self.loading?.hidden = true
-            } else
-            {
-                for (_, item) in obj["_data"]
-                {
+                self.footerLoading?.hidden = true
+            } else {
+                for (_, item) in obj["_data"] {
                     let p = Product.instance(item)
                     if (p != nil) {
                         self.products?.append(p!)
                     }
                 }
             }
-        }
-        else if let arr = obj["_data"]["products"].array
-        {
-            if arr.count == 0
-            {
+        } else if let arr = obj["_data"]["products"].array {
+            if arr.count == 0 {
                 self.done = true
-            } else
-            {
+                self.footerLoading?.hidden = true
+            } else {
                 for item in arr
                 {
                     let p = Product.instance(item)
@@ -546,33 +525,29 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
         }
         
-        if let x = self.products?.count where x < 10
-        {
+        if let x = self.products?.count where x < itemsPerReq {
             self.done = true
-            self.loading?.hidden = true
+            self.footerLoading?.hidden = true
+        }
+        
+        if (storeMode) {
+            self.done = true
+            self.footerLoading?.hidden = true
         }
     }
     
-    var first = true
-    func setupGrid()
-    {
-        if (first)
-        {
-            first = false
+    func setupGrid() {
+        if (gridView.dataSource == nil || gridView.delegate == nil) {
             gridView.dataSource = self
             gridView.delegate = self
         }
         
-        width = ((UIScreen.mainScreen().bounds.size.width-12)/2)
-        
-        if (listStage == 1)
-        {
-            width = ((UIScreen.mainScreen().bounds.size.width-12)/3)
-        }
-        
-        if (listStage == 3)
-        {
-            width = ((UIScreen.mainScreen().bounds.size.width-16)/1)
+        if (listStage == 1) {
+            itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 12) / 3)
+        } else if (listStage == 2) {
+            itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 12) / 2)
+        } else if (listStage == 3) {
+            itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 16) / 1)
         }
         
         gridView.reloadData()
@@ -618,7 +593,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             let segHeight = segWidth * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
             return CGSize(width: viewWidth, height: segHeight)
         } else {
-            return CGSize(width: width!, height: width!+46)
+            return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
         }
     }
     
@@ -630,7 +605,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         let s : CGFloat = (listStage == 1 ? 1 : 4)
         if (segmentMode) {
             return UIEdgeInsetsMake(4, 0, 0, 0)
-        } else if (isBannerExist() || standalone || featuredProductsMode) {
+        } else if (isBannerExist() || standaloneMode || featuredProductsMode) {
             return UIEdgeInsetsMake(4, s, 0, s)
         } else {
             return UIEdgeInsetsMake(0, s, 0, s)
@@ -654,7 +629,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             refresh()
         } else {
             selectedProduct = products?[indexPath.item]
-//            performSegueWithIdentifier("segDetail", sender: nil)
             launchDetail()
         }
     }
@@ -674,12 +648,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             return h
         } else if (kind == UICollectionElementKindSectionFooter) { // Footer
             let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
-            self.loading = f.loading
+            self.footerLoading = f.loading
             if (self.done)
             {
-                self.loading?.hidden = true
+                self.footerLoading?.hidden = true
             }
-            if (featuredProductsMode) {
+            if (featuredProductsMode && carouselItems.count > 0) { // If featured products is loaded
                 f.btnFooter.hidden = false
                 f.btnFooterAction = {
                     NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
@@ -687,7 +661,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                     
                     let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                    p.standalone = true
+                    p.standaloneMode = true
                     p.standaloneCategoryName = "All"
                     p.standaloneCategoryID = "55de6d4e9ffd40362ae310a7"
                     self.navigationController?.pushViewController(p, animated: true)
@@ -705,10 +679,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (featuredProductsMode) {
             let headerWidth : CGFloat = collectionView.frame.size.width - 8
             var headerHeight : CGFloat = 0
-            for i in 0...self.carouselItems.count - 1 {
-                let height = ((headerWidth / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-                if (height > headerHeight) {
-                    headerHeight = height
+            if (carouselItems.count > 0) {
+                for i in 0...self.carouselItems.count - 1 {
+                    let height = ((headerWidth / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+                    if (height > headerHeight) {
+                        headerHeight = height
+                    }
                 }
             }
             return CGSizeMake(headerWidth, headerHeight)
@@ -736,76 +712,23 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         return CGSizeMake(collectionView.width, 50)
     }
     
-    // MARK: - Banner and TopHeader
+    // MARK: - Scrollview functions
     
-    func isBannerExist() -> Bool {
-        // Jika is_featured adl true, banner dianggap tidak exist
-        return (self.bannerImageUrl != "" && self.category?["is_featured"].boolValue == false)
-    }
-    
-    func setDefaultTopHeaderWomen() {
-        lblTopHeader.text = "Barang apa yang ingin kamu lihat hari ini?"
-        lblTopHeader.font = UIFont.systemFontOfSize(12)
-    }
-    
-    @IBAction func topHeaderPressed(sender: AnyObject) {
-        if (!segmentMode) {
-            setDefaultTopHeaderWomen()
-            selectedSegment = ""
-            segmentMode = true
-//            gridView.contentInset = UIEdgeInsetsZero
-            gridView.reloadData()
-        }
-    }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if (segue.identifier == "segDetail") {
-
-        }
-        
-        let c = segue.destinationViewController
-        if (c.isKindOfClass(BaseViewController.classForCoder()))
-        {
-            let b = c as! BaseViewController
-            b.previousController = self
-        }
-    }
-    
-    func launchDetail()
-    {
-//        self.navigationController?.pushViewController(d, animated: true)
-//        self.presentViewController(nav, animated: YES, completion: nil)
-//        self.previousController?.navigationController?.setNavigationBarHidden(false, animated: true)
-        NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
-    }
-    
-    var currScrollPoint : CGPoint = CGPointZero
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         currScrollPoint = scrollView.contentOffset
-        dragging = true
+        draggingScrollView = true
     }
     
-    var dragging = false
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        dragging = false
+        draggingScrollView = false
     }
     
-    var reloaded = false
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (dragging)
-        {
+        if (draggingScrollView) {
             if (!storeMode) {
-                if (currScrollPoint.y < scrollView.contentOffset.y)
-                {
-                    if ((self.navigationController?.navigationBarHidden)! == false)
-                    {
-                        if (!segmentMode)
-                        {
+                if (currScrollPoint.y < scrollView.contentOffset.y) {
+                    if ((self.navigationController?.navigationBarHidden)! == false) {
+                        if (!segmentMode) {
                             NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
                             self.navigationController?.setNavigationBarHidden(true, animated: true)
                             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
@@ -817,8 +740,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                             }
                         }
                     }
-                } else
-                {
+                } else {
                     NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
@@ -833,31 +755,72 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func pinch(pinchedIn : Bool)
-    {
-        print("current stage : \(listStage)")
+    // MARK: - Banner and TopHeader
+    
+    func isBannerExist() -> Bool {
+        // Jika is_featured adl true, banner dianggap tidak exist
+        return (self.bannerImageUrl != "" && self.categoryJson?["is_featured"].boolValue == false)
+    }
+    
+    func setDefaultTopHeaderWomen() {
+        lblTopHeader.text = "Barang apa yang ingin kamu lihat hari ini?"
+        lblTopHeader.font = UIFont.systemFontOfSize(12)
+    }
+    
+    @IBAction func topHeaderPressed(sender: AnyObject) {
+        if (!segmentMode) {
+            setDefaultTopHeaderWomen()
+            selectedSegment = ""
+            segmentMode = true
+            gridView.reloadData()
+        }
+    }
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let c = segue.destinationViewController
+        if (c.isKindOfClass(BaseViewController.classForCoder())) {
+            let b = c as! BaseViewController
+            b.previousController = self
+        }
+    }
+    
+    func launchDetail() {
+        NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
+    }
+    
+    // MARK: - Other functions
+    
+    func statusBarTapped() {
+        gridView.setContentOffset(CGPointMake(0, 10), animated: true)
+        NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func pinch(pinchedIn : Bool) {
+        //print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
-        if (listStage > 3)
-        {
+        if (listStage > 3) {
             listStage = 1
         }
-        if (listStage < 1)
-        {
+        if (listStage < 1) {
             listStage = 3
         }
-        
-        print("next stage : \(listStage)")
+        //print("next stage : \(listStage)")
         
         setupGrid()
         
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseOut, animations: {
-            
             self.gridView.reloadData()
-            
-            }, completion: nil)
+        }, completion: nil)
     }
-
 }
+
+// MARK: - Class
 
 class ListItemSegmentCell : UICollectionViewCell {
     @IBOutlet var imgSegment: UIImageView!
@@ -866,6 +829,8 @@ class ListItemSegmentCell : UICollectionViewCell {
         imgSegment.image = nil
     }
 }
+
+// MARK: - Class
 
 class ListItemCell : UICollectionViewCell
 {
@@ -897,8 +862,7 @@ class ListItemCell : UICollectionViewCell
         imgFeatured.hidden = true
     }
     
-    func adapt(product : Product)
-    {
+    func adapt(product : Product) {
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
@@ -911,28 +875,22 @@ class ListItemCell : UICollectionViewCell
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         
-        if (product.specialStory == nil || product.specialStory == "")
-        {
+        if (product.specialStory == nil || product.specialStory == "") {
             sectionSpecialStory.hidden = true
-        } else
-        {
+        } else {
             sectionSpecialStory.hidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
-            if let url = product.avatar
-            {
+            if let url = product.avatar {
                 avatar.setImageWithUrl(url, placeHolderImage: UIImage(named : "raisa.jpg"))
-            } else
-            {
+            } else {
                 avatar.image = nil
             }
         }
         
         let loved = obj["is_preloved"].bool
-        if (loved == true)
-        {
+        if (loved == true) {
             captionMyLove.text = ""
-        } else
-        {
+        } else {
             captionMyLove.text = ""
         }
         
@@ -940,8 +898,7 @@ class ListItemCell : UICollectionViewCell
         ivCover.image = nil
         ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
         
-        if let op = product.json["price_original"].int
-        {
+        if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
             let s = captionOldPrice.text! as NSString
             let attString = NSMutableAttributedString(string: s as String)
@@ -961,6 +918,8 @@ class ListItemCell : UICollectionViewCell
     }
 }
 
+// MARK: - Class
+
 class CarouselItem {
     var name : String = ""
     var img : UIImage = UIImage()
@@ -973,8 +932,9 @@ class CarouselItem {
     }
 }
 
-class ListHeader : UICollectionReusableView, UIScrollViewDelegate
-{
+// MARK: - Class
+
+class ListHeader : UICollectionReusableView, UIScrollViewDelegate {
     // Banner
     @IBOutlet var vwBanner: UIView!
     @IBOutlet var banner : UIImageView!
@@ -1093,8 +1053,9 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate
     }
 }
 
-class ListFooter : UICollectionReusableView
-{
+// MARK: - Class
+
+class ListFooter : UICollectionReusableView {
     @IBOutlet var loading : UIActivityIndicatorView!
     @IBOutlet var btnFooter: UIButton!
     
@@ -1105,8 +1066,9 @@ class ListFooter : UICollectionReusableView
     }
 }
 
-class StoreHeader : UIView
-{
+// MARK: - Class
+
+class StoreHeader : UIView {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionLocation : UILabel!
     @IBOutlet var captionDesc : UILabel!
@@ -1127,8 +1089,7 @@ class StoreHeader : UIView
     
     var avatarUrls : [String] = []
     
-    @IBAction func edit()
-    {
+    @IBAction func edit() {
         self.editBlock()
     }
     

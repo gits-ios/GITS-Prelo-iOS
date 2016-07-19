@@ -645,7 +645,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func cellTappedCategory(categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.standalone = true
+        l.standaloneMode = true
         l.standaloneCategoryName = categoryName
         l.standaloneCategoryID = categoryID
         self.navigationController?.pushViewController(l, animated: true)

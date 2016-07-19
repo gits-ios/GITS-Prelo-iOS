@@ -245,7 +245,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             if (searchMode)
             {
                 let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                p.category = selectedCategory
+                p.categoryJson = selectedCategory
                 self.navigationController?.pushViewController(p, animated: true)
             } else
             {

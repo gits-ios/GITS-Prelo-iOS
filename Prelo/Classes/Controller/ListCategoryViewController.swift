@@ -145,7 +145,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             let li:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             li.previousController = self.previousController
             
-            li.category = categoriesFix[i]
+            li.categoryJson = categoriesFix[i]
             
             li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
             li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
@@ -662,7 +662,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         v.previousController = self.previousController
         let i = Int(index)
         
-        v.category = categoriesFix[i]
+        v.categoryJson = categoriesFix[i]
         
         return v
     }
