@@ -269,6 +269,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
+        if let isFeatured = self.product?.isFeatured where isFeatured {
+            pDetailCover?.isFeaturedProduct = isFeatured
+            pDetailCover?.setupBanner()
+        }
         if let labels = detail?.imageLabels
         {
             pDetailCover?.labels = labels

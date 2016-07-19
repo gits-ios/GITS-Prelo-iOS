@@ -933,7 +933,7 @@ public class Product : NSObject
 {
     static let StatusUploading = 999
     
-    var json : JSON!
+    var json : JSON! = JSON([:])
     var placeHolderImage : UIImage?
     var isLokal = false
     
@@ -1092,6 +1092,10 @@ public class Product : NSObject
             return j
         }
         return false
+    }
+    
+    func setToFeatured() {
+        json["is_catalogue"] = JSON(true)
     }
     
     var isSharedInstagram : Bool {

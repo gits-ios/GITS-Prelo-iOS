@@ -24,6 +24,8 @@ class ProductDetailCover: UIView {
     
     var topBannerText : String?
     
+    var isFeaturedProduct : Bool = false
+    
     private func setup(images : Array<String>)
     {
         imageURLS = images
@@ -99,6 +101,12 @@ class ProductDetailCover: UIView {
                 self.addSoldBanner()
             } else if (status == 7) { // reserved
                 banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 150)
+                    self.addSubview(banner!)
+                }
+            } else if (isFeaturedProduct) {
+                banner = UIImageView(image: UIImage(named: "banner_featured.png"))
                 if (banner != nil) {
                     banner!.frame = CGRect(x: screenWidth - 150, y: 0, width: 150, height: 150)
                     self.addSubview(banner!)

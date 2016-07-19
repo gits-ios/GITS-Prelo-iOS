@@ -581,6 +581,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             
             let p = products?[indexPath.item]
             cell.adapt(p!)
+            if (featuredProductsMode) {
+                // Hide featured ribbon
+                cell.imgFeatured.hidden = true
+            }
             
             return cell
         }
@@ -629,6 +633,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             refresh()
         } else {
             selectedProduct = products?[indexPath.item]
+            if (featuredProductsMode) {
+                selectedProduct?.setToFeatured()
+            }
             launchDetail()
         }
     }
@@ -911,7 +918,7 @@ class ListItemCell : UICollectionViewCell
                 self.imgSold.hidden = false
             } else if (status == 7) { // reserved
                 self.imgReserved.hidden = false
-            } else if (product.isFeatured) {
+            } else if (product.isFeatured) { // featured
                 self.imgFeatured.hidden = false
             }
         }
