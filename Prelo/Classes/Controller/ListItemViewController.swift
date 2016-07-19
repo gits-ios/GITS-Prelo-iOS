@@ -620,8 +620,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     {
         if (segmentMode) {
             self.selectedSegment = self.segments[indexPath.item].type
-            var txt = " Kamu sedang melihat Women bagian \(self.segments[indexPath.item].name)"
-            if (self.segments[indexPath.item].name.length > 10) {
+            var txt = " Kamu sedang melihat \(self.segments[indexPath.item].name)"
+            if (self.segments[indexPath.item].name.length > 23) {
                 txt = txt.stringByReplacingOccurrencesOfString("sedang ", withString: "")
             }
             let attTxt = NSMutableAttributedString(string: txt)
