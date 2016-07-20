@@ -168,6 +168,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                                 user.profiles = userProfile
                                 userProfile.regionID = self.userProfileData!.regionId
                                 userProfile.provinceID = self.userProfileData!.provinceId
+                                userProfile.subdistrictID = self.userProfileData!.subdistrictId
+                                userProfile.subdistrictName = self.userProfileData!.subdistrictName
                                 userProfile.gender = self.userProfileData!.gender
                                 userProfile.phone = self.fldNoHp.text!
                                 userProfile.pict = self.userProfileData!.profPictURL!.absoluteString

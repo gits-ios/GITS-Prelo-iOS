@@ -20,6 +20,8 @@ class CDUserProfile: NSManagedObject {
     @NSManaged var postalCode: String?
     @NSManaged var regionID: String
     @NSManaged var provinceID: String
+    @NSManaged var subdistrictID: String
+    @NSManaged var subdistrictName: String
 
     static func getOne() -> CDUserProfile?
     {

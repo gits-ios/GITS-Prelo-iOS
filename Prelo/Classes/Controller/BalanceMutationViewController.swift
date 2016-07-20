@@ -80,7 +80,9 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 let dataCount = data.count
                 
                 // Set Prelo Balance text
-                self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
+                if (self.nextIdx == 0) { // First request
+                    self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
+                }
                 let f = NSNumberFormatter()
                 f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
                 f.currencySymbol = ""

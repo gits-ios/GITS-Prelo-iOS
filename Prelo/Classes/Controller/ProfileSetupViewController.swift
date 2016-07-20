@@ -11,6 +11,8 @@ import CoreData
 
 class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet var loadingPanel: UIView!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
     
@@ -70,8 +72,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var fieldVerifikasiNoHP: UITextField!
     @IBOutlet weak var fieldKodeVerifikasi: UITextField!
     
-    @IBOutlet weak var lblProvinsi: UILabel!
-    @IBOutlet weak var lblKabKota: UILabel!
+    @IBOutlet var lblProvinsi: UILabel!
+    @IBOutlet var lblKabKota: UILabel!
+    @IBOutlet var lblKecamatan: UILabel!
     
     @IBOutlet weak var fieldKodeReferral: UITextField!
     
@@ -79,8 +82,12 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     var selectedProvinsiID = ""
     var selectedKabKotaID = ""
+    var selectedKecamatanID = ""
+    var selectedKecamatanName = ""
+    var kecamatanPickerItems : [String] = []
     var isPickingProvinsi : Bool = false
     var isPickingKabKota : Bool = false
+    var isPickingKecamatan : Bool = false
     var isPickingJenKel : Bool = false
     
     var deltaHeight : CGFloat = 0
@@ -111,6 +118,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         super.viewDidLoad()
         
         self.title = "Setelan Akun"
+        
+        // Transparent panel
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -320,6 +330,11 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             lblKabKota?.text = PickerViewController.HideHiddenString(item)
             lblKabKota.textColor = Theme.GrayDark
             isPickingKabKota = false
+            kecamatanPickerItems = []
+        } else if (isPickingKecamatan) {
+            lblKecamatan?.text = PickerViewController.HideHiddenString(item)
+            lblKecamatan.textColor = Theme.GrayDark
+            isPickingKecamatan = false
         }
     }
     
@@ -327,6 +342,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         isPickingJenKel = false
         isPickingProvinsi = false
         isPickingKabKota = false
+        isPickingKecamatan = false
     }
     
     // MARK: - UITableView functions
@@ -429,6 +445,9 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         p?.selectBlock = { string in
             self.selectedProvinsiID = PickerViewController.RevealHiddenString(string)
             self.lblKabKota.text = "Pilih Kota/Kabupaten"
+            self.lblKecamatan.text = "Pilih Kecamatan"
+            self.lblKabKota.textColor = Theme.GrayLight
+            self.lblKecamatan.textColor = Theme.GrayLight
         }
         p?.title = "Provinsi"
         self.view.endEditing(true)
@@ -446,11 +465,59 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             p?.pickerDelegate = self
             p?.selectBlock = { string in
                 self.selectedKabKotaID = PickerViewController.RevealHiddenString(string)
+                self.lblKecamatan.text = "Pilih Kecamatan"
+                self.lblKecamatan.textColor = Theme.GrayLight
             }
             p?.title = "Kota/Kabupaten"
             self.view.endEditing(true)
             self.navigationController?.pushViewController(p!, animated: true)
         }
+    }
+    
+    @IBAction func kecamatanPressed(sender: AnyObject) {
+        if (selectedKabKotaID == "") {
+            Constant.showDialog("Warning", message: "Pilih kota/kabupaten terlebih dahulu")
+        } else {
+            if (kecamatanPickerItems.count <= 0) {
+                self.showLoading()
+                
+                // Retrieve kecamatanPickerItems
+                request(APIMisc.GetSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
+                        let json = JSON(resp.result.value!)
+                        let data = json["_data"].arrayValue
+                        
+                        if (data.count > 0) {
+                            for i in 0...data.count - 1 {
+                                self.kecamatanPickerItems.append(data[i]["name"].stringValue + PickerViewController.TAG_START_HIDDEN + data[i]["_id"].stringValue + PickerViewController.TAG_END_HIDDEN)
+                            }
+                            
+                            self.pickKecamatan()
+                        } else {
+                            Constant.showDialog("Warning", message: "Oops, kecamatan tidak ditemukan")
+                        }
+                    }
+                    self.hideLoading()
+                }
+            } else {
+                self.pickKecamatan()
+            }
+        }
+    }
+    
+    func pickKecamatan() {
+        self.isPickingKecamatan = true
+        
+        let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+        p?.items = kecamatanPickerItems
+        p?.pickerDelegate = self
+        p?.selectBlock = { string in
+            self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
+            self.selectedKecamatanName = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
+        }
+        p?.title = "Kecamatan"
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(p!, animated: true)
     }
     
     func fieldsVerified() -> Bool {
@@ -479,6 +546,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
         }
         if (lblKabKota.text == "Pilih Kota/Kabupaten") {
             Constant.showDialog("Warning", message: "Kota/Kabupaten harus diisi")
+            return false
+        }
+        if (lblKecamatan.text == "Pilih Kecamatan") {
+            Constant.showDialog("Warning", message: "Kecamatan harus diisi")
             return false
         }
         var isShippingVerified = false
@@ -535,7 +606,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             User.SetToken(self.userToken)
             
             // API Migrasi
-            request(APIUser.SetupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
+            request(APIUser.SetupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)
@@ -619,6 +690,14 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 }
             }
         }
+    }
+    
+    func showLoading() {
+        self.loadingPanel.hidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.hidden = true
     }
 }
 

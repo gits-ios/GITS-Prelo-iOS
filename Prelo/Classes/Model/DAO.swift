@@ -224,6 +224,20 @@ class UserProfile : NSObject {
         return ""
     }
     
+    var subdistrictId : String {
+        if let j = json["profile"]["subdistrict_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var subdistrictName : String {
+        if let j = json["profile"]["subdistrict_name"].string {
+            return j
+        }
+        return ""
+    }
+    
     var gender : String {
         if let j = json["profile"]["gender"].string {
             return j

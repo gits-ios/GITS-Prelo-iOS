@@ -947,7 +947,7 @@ enum APIUser : URLRequestConvertible
     case OrderList(status : String)
     case MyProductSell
     case MyLovelist
-    case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
+    case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, subdistrict : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
     case SetProfile(fullname : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
@@ -970,7 +970,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return .GET
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
-        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return .POST
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return .POST
         case .SetProfile(_, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
@@ -995,7 +995,7 @@ enum APIUser : URLRequestConvertible
         case .OrderList(_):return "buy_list"
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
-        case .SetupAccount(_, _, _, _, _, _, _, _, _, _) : return "setup"
+        case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return "setup"
         case .SetProfile(_, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
@@ -1032,13 +1032,14 @@ enum APIUser : URLRequestConvertible
             ]
         case .MyProductSell:return [:]
         case .MyLovelist : return [:]
-        case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let shipping, let referralCode, let deviceId, let deviceRegId):
+        case .SetupAccount(let username, let email, let gender, let phone, let province, let region, let subdistrict, let shipping, let referralCode, let deviceId, let deviceRegId):
             var p : [String : AnyObject] = [
                 "username":username,
                 "email":email,
                 "phone":phone,
                 "province":province,
                 "region":region,
+                "subdistrict":subdistrict,
                 "shipping":shipping,
                 "referral_code":referralCode,
                 "device_id":deviceId,
@@ -1536,6 +1537,38 @@ enum APIPeople : URLRequestConvertible
             let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
             req.HTTPMethod = method.rawValue
             return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
+    }
+}
+
+enum APIMisc : URLRequestConvertible {
+    static let basePath = ""
+    
+    case GetSubdistrictsByRegionID(id : String)
+    
+    var method : Method {
+        switch self {
+        case .GetSubdistrictsByRegionID(_) : return .GET
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .GetSubdistrictsByRegionID(let id) : return "subdistricts/region/\(id)"
+        }
+    }
+    
+    var param : [String : AnyObject]? {
+        switch self {
+        case .GetSubdistrictsByRegionID(_) :
+            return [:]
+        }
+    }
+    
+    var URLRequest : NSMutableURLRequest {
+        let baseURL = NSURL(string: prelloHost)?.URLByAppendingPathComponent(APIMisc.basePath).URLByAppendingPathComponent(path)
+        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
+        req.HTTPMethod = method.rawValue
+        return ParameterEncoding.URL.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
     }
 }
 
