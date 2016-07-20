@@ -948,7 +948,7 @@ enum APIUser : URLRequestConvertible
     case MyProductSell
     case MyLovelist
     case SetupAccount(username : String, email: String, gender : Int, phone : String, province : String, region : String, subdistrict : String, shipping : String, referralCode : String, deviceId : String, deviceRegId : String)
-    case SetProfile(fullname : String, address : String, province : String, region : String, postalCode : String, description : String, shipping : String)
+    case SetProfile(fullname : String, address : String, province : String, region : String, subdistrict : String, postalCode : String, description : String, shipping : String)
     case ResendVerificationSms(phone : String)
     case VerifyPhone(phone : String, phoneCode : String)
     case ReferralData
@@ -971,7 +971,7 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return .GET
         case .MyLovelist : return .GET
         case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return .POST
-        case .SetProfile(_, _, _, _, _, _, _) : return .POST
+        case .SetProfile(_, _, _, _, _, _, _, _) : return .POST
         case .ResendVerificationSms(_) : return .POST
         case .VerifyPhone(_, _) : return .POST
         case .ReferralData : return .GET
@@ -996,7 +996,7 @@ enum APIUser : URLRequestConvertible
         case .MyProductSell:return "products"
         case .MyLovelist : return "lovelist"
         case .SetupAccount(_, _, _, _, _, _, _, _, _, _, _) : return "setup"
-        case .SetProfile(_, _, _, _, _, _, _) : return "profile"
+        case .SetProfile(_, _, _, _, _, _, _, _) : return "profile"
         case .ResendVerificationSms(_) : return "verify/resend_phone"
         case .VerifyPhone(_, _) : return "verify/phone"
         case .ReferralData : return "referral_bonus"
@@ -1050,12 +1050,13 @@ enum APIUser : URLRequestConvertible
                 p["gender"] = gender
             }
             return p
-        case .SetProfile(let fullname, let address, let province, let region, let postalCode, let description, let shipping):
+        case .SetProfile(let fullname, let address, let province, let region, let subdistrict, let postalCode, let description, let shipping):
             return [
                 "fullname":fullname,
                 "address":address,
                 "province":province,
                 "region":region,
+                "subdistrict":subdistrict,
                 "postal_code":postalCode,
                 "description":description,
                 "shipping":shipping

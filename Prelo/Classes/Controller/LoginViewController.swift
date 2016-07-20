@@ -126,6 +126,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userProfileData!.phone != "" &&
                     userProfileData!.provinceId != "" &&
                     userProfileData!.regionId != "" &&
+                    userProfileData!.subdistrictId != "" &&
+                    userProfileData!.subdistrictName != "" &&
                     userProfileData!.shippingIds.count > 0 &&
                     userProfileData!.isPhoneVerified == true) {
                         isProfileSet = true
@@ -151,6 +153,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     user.profiles = userProfile
                     userProfile.regionID = userProfileData!.regionId
                     userProfile.provinceID = userProfileData!.provinceId
+                    userProfile.subdistrictID = userProfileData!.subdistrictId
+                    userProfile.subdistrictName = userProfileData!.subdistrictName
                     userProfile.gender = userProfileData!.gender
                     userProfile.phone = userProfileData!.phone
                     userProfile.pict = userProfileData!.profPictURL!.absoluteString
@@ -254,6 +258,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfileData!.phone != "" &&
                         userProfileData!.provinceId != "" &&
                         userProfileData!.regionId != "" &&
+                        userProfileData!.subdistrictId != "" &&
+                        userProfileData!.subdistrictName != "" &&
                         userProfileData!.shippingIds.count > 0) { // User has finished profile setup
                             // Goto PhoneVerificationVC
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
@@ -276,6 +282,19 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         profileSetupVC.loginMethod = loginMethod
                         profileSetupVC.screenBeforeLogin = screenBeforeLogin
                         profileSetupVC.isFromRegister = false
+                        if (userProfileData!.phone != "") {
+                            profileSetupVC.fieldNoHP.text = userProfileData!.phone
+                        }
+                        if (userProfileData!.provinceId != "") {
+                            profileSetupVC.selectedProvinsiID = userProfileData!.provinceId
+                            profileSetupVC.lblProvinsi.text = CDProvince.getProvinceNameWithID(userProfileData!.provinceId)
+                            profileSetupVC.lblProvinsi.textColor = Theme.GrayDark
+                        }
+                        if (userProfileData!.regionId != "") {
+                            profileSetupVC.selectedKabKotaID = userProfileData!.regionId
+                            profileSetupVC.lblKabKota.text = CDRegion.getRegionNameWithID(userProfileData!.regionId)
+                            profileSetupVC.lblKabKota.textColor = Theme.GrayDark
+                        }
                         sender.navigationController?.pushViewController(profileSetupVC, animated: true)
                     }
                 }
