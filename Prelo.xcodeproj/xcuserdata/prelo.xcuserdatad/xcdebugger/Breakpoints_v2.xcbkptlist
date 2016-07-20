@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/CartViewController.swift"
-            timestampString = "488456055.515655"
+            timestampString = "490714395.577275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1817"
-            endingLineNumber = "1817">
+            startingLineNumber = "1923"
+            endingLineNumber = "1923">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -468,7 +468,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/ProfileSetupViewController.swift"
@@ -484,7 +484,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
