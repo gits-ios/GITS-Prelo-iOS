@@ -141,7 +141,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
             return
         }
         if (txtNamaRekening.text == nil || txtNamaRekening.text!.isEmpty) {
-            Constant.showDialog("Form belum lengkap", message: "Harap isi Atas Nama Rekening")
+            Constant.showDialog("Form belum lengkap", message: "Harap isi Rekening Atas Nama")
             return
         }
         if (txtJumlah.text == nil || txtJumlah.text!.isEmpty) {
@@ -184,7 +184,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 } else
                 {
 //                    self.getBalance()
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima")
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan 3x24 jam hari kerja untuk BCA, Mandiri, serta BNI dan 5x24 jam hari kerja untuk rekening lain.")
                     
                     // Mixpanel
                     let pt = [

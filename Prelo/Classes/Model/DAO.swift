@@ -2939,6 +2939,13 @@ class BalanceMutationItem : NSObject {
         return ""
     }
     
+    var reasonAdmin : String {
+        if let j = json["reason_admin"].string {
+            return j
+        }
+        return ""
+    }
+    
     var type : String {
         if let j = json["type"].string {
             return j

@@ -145,7 +145,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 62
+        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCellWithIdentifier("BalanceMutationCell") as! BalanceMutationCell
+        if let b = balanceMutationItems?[indexPath.row] {
+            return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -262,7 +266,16 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet var lblMutation: UILabel!
     @IBOutlet var lblBalance: UILabel!
     @IBOutlet var lblDescription: UILabel!
+    @IBOutlet var lblReasonAdmin: UILabel!
     @IBOutlet var lblTime: UILabel!
+    
+    @IBOutlet var consHeightLblDescription: NSLayoutConstraint!
+    @IBOutlet var consHeightLblReasonAdmin: NSLayoutConstraint!
+    
+    static func heightFor(mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {lblDescription.text = mutation.reasonDetail
+        lblReasonAdmin.text = mutation.reasonAdmin
+        return 56 + lblDescription.sizeThatFits(lblDescription.frame.size).height + lblReasonAdmin.sizeThatFits(lblReasonAdmin.frame.size).height
+    }
     
     func adapt(mutation : BalanceMutationItem) {
         if (mutation.entryType == 0) { // Kredit
@@ -276,7 +289,25 @@ class BalanceMutationCell : UITableViewCell {
         }
         lblMutation.text = mutation.amount.asPrice
         lblBalance.text = mutation.totalAmount.asPrice
-        lblDescription.text = mutation.reasonDetail
+        lblReasonAdmin.text = mutation.reasonAdmin
         lblTime.text = mutation.time
+        
+        // lblDescription text
+        let trxIdStartIdx = mutation.reasonDetail.indexOfCharacter("#")
+        var trxIdLength = 0
+        if (trxIdStartIdx != -1) {
+            trxIdLength = mutation.reasonDetail.componentsSeparatedByString("#")[1].componentsSeparatedByString(" ")[0].length + 1
+        }
+        let attrStrDesc = NSMutableAttributedString(string: mutation.reasonDetail)
+        attrStrDesc.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: NSMakeRange(trxIdStartIdx, trxIdLength))
+        self.lblDescription.attributedText = attrStrDesc
+        
+        // lblDescription height fix
+        let sizeFixDesc = lblDescription.sizeThatFits(lblDescription.frame.size)
+        consHeightLblDescription.constant = sizeFixDesc.height
+        
+        // lblReasonAdmin height fix
+        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(lblReasonAdmin.frame.size)
+        consHeightLblReasonAdmin.constant = sizeFixReasonAdmin.height
     }
 }
