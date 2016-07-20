@@ -2414,13 +2414,13 @@ in Bandung</string>
                                 <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="tR1-Xa-K2b">
                                     <size key="itemSize" width="200" height="250"/>
-                                    <size key="headerReferenceSize" width="50" height="100"/>
+                                    <size key="headerReferenceSize" width="50" height="156"/>
                                     <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="4" minY="4" maxX="4" maxY="4"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="VJW-xa-4Ee" customClass="ListItemCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="200" y="104" width="200" height="250"/>
+                                        <rect key="frame" x="200" y="160" width="200" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
@@ -2630,7 +2630,7 @@ in Bandung</string>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="segment_cell" id="XjH-a6-UWz" customClass="ListItemSegmentCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="358" width="584" height="293"/>
+                                        <rect key="frame" x="8" y="414" width="584" height="293"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="584" height="293"/>
@@ -2655,11 +2655,11 @@ in Bandung</string>
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="ocD-EF-4Nm" userLabel="List Header" customClass="ListHeader" customModule="Prelo" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUm-6d-eSM" userLabel="TextOnly">
-                                            <rect key="frame" x="4" y="4" width="592" height="96"/>
+                                            <rect key="frame" x="4" y="4" width="592" height="152"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header text" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUx-NL-niY">
                                                     <rect key="frame" x="8" y="8" width="576" height="16"/>
@@ -2688,7 +2688,7 @@ in Bandung</string>
                                             <constraints>
                                                 <constraint firstItem="4rl-iz-UyG" firstAttribute="leading" secondItem="lUm-6d-eSM" secondAttribute="leading" id="2P4-t4-q7m"/>
                                                 <constraint firstItem="4rl-iz-UyG" firstAttribute="top" secondItem="lUm-6d-eSM" secondAttribute="top" id="SVx-Tr-Lih"/>
-                                                <constraint firstAttribute="bottom" secondItem="4rl-iz-UyG" secondAttribute="bottom" id="UAV-Ec-eOO"/>
+                                                <constraint firstAttribute="bottom" secondItem="4rl-iz-UyG" secondAttribute="bottom" constant="56" id="UAV-Ec-eOO"/>
                                                 <constraint firstAttribute="trailing" secondItem="4rl-iz-UyG" secondAttribute="trailing" id="Wp1-jt-Irc"/>
                                                 <constraint firstAttribute="trailing" secondItem="wUx-NL-niY" secondAttribute="trailing" constant="8" id="Y3O-fB-RfV"/>
                                                 <constraint firstItem="wUx-NL-niY" firstAttribute="leading" secondItem="lUm-6d-eSM" secondAttribute="leading" constant="8" id="cfz-Yv-6sj"/>
@@ -2702,7 +2702,7 @@ in Bandung</string>
                                             </variation>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tLO-4p-I9H" userLabel="Banner">
-                                            <rect key="frame" x="4" y="0.0" width="592" height="100"/>
+                                            <rect key="frame" x="4" y="0.0" width="592" height="156"/>
                                             <subviews>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-sw-Bod">
                                                     <rect key="frame" x="286" y="26" width="20" height="20"/>
@@ -2732,12 +2732,12 @@ in Bandung</string>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="2Eo-bk-DgP" secondAttribute="bottom" id="01P-Dq-wuA"/>
+                                                <constraint firstAttribute="bottom" secondItem="2Eo-bk-DgP" secondAttribute="bottom" constant="56" id="01P-Dq-wuA"/>
                                                 <constraint firstItem="2Eo-bk-DgP" firstAttribute="top" secondItem="tLO-4p-I9H" secondAttribute="top" id="0a7-K2-VgN"/>
                                                 <constraint firstItem="Tsf-fw-VBV" firstAttribute="leading" secondItem="tLO-4p-I9H" secondAttribute="leading" id="3aj-a8-1bp"/>
                                                 <constraint firstItem="mlK-sw-Bod" firstAttribute="top" secondItem="tLO-4p-I9H" secondAttribute="top" constant="26" id="98T-Kb-sP5"/>
                                                 <constraint firstItem="TMv-76-zaY" firstAttribute="centerX" secondItem="tLO-4p-I9H" secondAttribute="centerX" id="Izh-9U-Xrl"/>
-                                                <constraint firstAttribute="bottom" secondItem="Tsf-fw-VBV" secondAttribute="bottom" id="MNn-ez-FQa"/>
+                                                <constraint firstAttribute="bottom" secondItem="Tsf-fw-VBV" secondAttribute="bottom" constant="56" id="MNn-ez-FQa"/>
                                                 <constraint firstItem="2Eo-bk-DgP" firstAttribute="leading" secondItem="tLO-4p-I9H" secondAttribute="leading" id="OEP-xZ-0XK"/>
                                                 <constraint firstItem="TMv-76-zaY" firstAttribute="top" secondItem="mlK-sw-Bod" secondAttribute="bottom" constant="-3" id="TtR-bV-cia"/>
                                                 <constraint firstItem="Tsf-fw-VBV" firstAttribute="top" secondItem="tLO-4p-I9H" secondAttribute="top" id="gM9-NB-Ydd"/>
@@ -2747,7 +2747,7 @@ in Bandung</string>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7JM-l1-YXU" userLabel="Carousel">
-                                            <rect key="frame" x="4" y="0.0" width="592" height="100"/>
+                                            <rect key="frame" x="4" y="0.0" width="592" height="156"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbN-u8-Xez">
                                                     <rect key="frame" x="0.0" y="0.0" width="592" height="100"/>
@@ -2777,15 +2777,48 @@ in Bandung</string>
                                                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="keS-Q5-4B3">
                                                     <rect key="frame" x="276" y="75" width="39" height="37"/>
                                                 </pageControl>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tda-SP-YXy">
+                                                    <rect key="frame" x="0.0" y="108" width="592" height="40"/>
+                                                    <attributedString key="attributedText">
+                                                        <fragment content="EDITOR'S PICK ">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="18" name="HelveticaNeue-Bold"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment>
+                                                            <string key="content">
+</string>
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="17" name="LastResort"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                        <fragment content="List barang terbaik yang dipilih oleh tim Prelo">
+                                                            <attributes>
+                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="QbN-u8-Xez" firstAttribute="top" secondItem="7JM-l1-YXU" secondAttribute="top" id="HW4-Mv-yV2"/>
                                                 <constraint firstAttribute="trailing" secondItem="QbN-u8-Xez" secondAttribute="trailing" id="Sh3-pA-IaG"/>
+                                                <constraint firstItem="tda-SP-YXy" firstAttribute="top" secondItem="QbN-u8-Xez" secondAttribute="bottom" constant="8" id="T0z-DQ-7dv"/>
                                                 <constraint firstItem="keS-Q5-4B3" firstAttribute="centerX" secondItem="7JM-l1-YXU" secondAttribute="centerX" id="cGo-8e-R6K"/>
-                                                <constraint firstAttribute="bottom" secondItem="QbN-u8-Xez" secondAttribute="bottom" id="lUa-AM-V4W"/>
+                                                <constraint firstAttribute="bottom" secondItem="tda-SP-YXy" secondAttribute="bottom" constant="8" id="eL7-bH-aHG"/>
+                                                <constraint firstAttribute="bottom" secondItem="QbN-u8-Xez" secondAttribute="bottom" constant="56" id="lUa-AM-V4W"/>
+                                                <constraint firstItem="tda-SP-YXy" firstAttribute="leading" secondItem="7JM-l1-YXU" secondAttribute="leading" id="un8-IT-2Pb"/>
                                                 <constraint firstItem="QbN-u8-Xez" firstAttribute="leading" secondItem="7JM-l1-YXU" secondAttribute="leading" id="vl2-9p-AaG"/>
-                                                <constraint firstAttribute="bottom" secondItem="keS-Q5-4B3" secondAttribute="bottom" constant="-12" id="zDF-n6-48j"/>
+                                                <constraint firstAttribute="trailing" secondItem="tda-SP-YXy" secondAttribute="trailing" id="yMm-3Q-Wpm"/>
+                                                <constraint firstAttribute="bottom" secondItem="keS-Q5-4B3" secondAttribute="bottom" constant="44" id="zDF-n6-48j"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -2808,6 +2841,7 @@ in Bandung</string>
                                         <outlet property="btnBanner" destination="Tsf-fw-VBV" id="JSE-qA-LqB"/>
                                         <outlet property="consWidthContentVwCarousel" destination="adO-34-hoy" id="C5e-Vk-vqQ"/>
                                         <outlet property="contentVwCarousel" destination="IVZ-03-SxH" id="rDl-AI-fvh"/>
+                                        <outlet property="lblBottomCarousel" destination="tda-SP-YXy" id="H3N-em-9qo"/>
                                         <outlet property="lblTextOnly" destination="wUx-NL-niY" id="u4B-2f-CLq"/>
                                         <outlet property="pageCtrlCarousel" destination="keS-Q5-4B3" id="FqE-OB-7Aj"/>
                                         <outlet property="scrlVwCarousel" destination="QbN-u8-Xez" id="5ce-eC-Fog"/>
@@ -2817,7 +2851,7 @@ in Bandung</string>
                                     </connections>
                                 </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="7Gi-SV-y92" customClass="ListFooter" customModule="Prelo" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="655" width="600" height="50"/>
+                                    <rect key="frame" x="0.0" y="711" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-sn-DOi">

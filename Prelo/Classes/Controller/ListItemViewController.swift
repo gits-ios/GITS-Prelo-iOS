@@ -147,6 +147,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
             self.featuredProductsMode = true
             consTopVwTopHeader.constant = 0
+            self.gridView.backgroundColor = UIColor(hexString: "#D2EBE8")
+            self.view.backgroundColor = UIColor(hexString: "#D2EBE8")
             
             // Get featured products
             getFeaturedProducts()
@@ -644,7 +646,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (kind == UICollectionElementKindSectionHeader) { // Header
             let h = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! ListHeader
             if (featuredProductsMode) {
-                h.adaptCarousel(self.carouselItems)
+                if (self.carouselItems.count > 0) {
+                    h.adaptCarousel(self.carouselItems)
+                }
                 if (!isCarouselTimerSet) {
                     h.setCarouselTimer()
                     isCarouselTimerSet = true
@@ -694,6 +698,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
             }
+            headerHeight += 56 // Editor's pick title
             return CGSizeMake(headerWidth, headerHeight)
         } else if (isBannerExist()) {
             let headerWidth : CGFloat = collectionView.frame.size.width - 8
@@ -959,6 +964,7 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate {
     @IBOutlet var pageCtrlCarousel: UIPageControl!
     @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
     var carouselItems : [CarouselItem] = []
+    @IBOutlet var lblBottomCarousel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -969,6 +975,10 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate {
         var carouselRect = scrlVwCarousel.frame
         carouselRect.size.width = UIScreen.mainScreen().bounds.width - 8
         scrlVwCarousel.frame = carouselRect
+        
+        let attTxt = NSMutableAttributedString.init(attributedString: lblBottomCarousel.attributedText!)
+        attTxt.addAttributes([NSFontAttributeName:AppFont.PreloAwesome.getFont(14)!], range: (lblBottomCarousel.text! as NSString).rangeOfString(""))
+        lblBottomCarousel.attributedText = attTxt
     }
     
     override func prepareForReuse() {
