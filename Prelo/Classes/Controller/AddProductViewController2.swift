@@ -311,7 +311,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.getSizes()
             
             // Luxury fields
-            if let luxData = editProduct?.json["_data"]["luxury_data"] {
+            if let luxData = editProduct?.json["_data"]["luxury_data"] where luxData.count > 0 {
                 // Show luxury fields
                 self.groupVerifAuth.hidden = false
                 self.groupKelengkapan.hidden = false
@@ -336,6 +336,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 if (luxData["authenticity_card"].bool == true) {
                     btnChkAuthCard("")
                 }
+            } else {
+                // Hide luxury fields
+                self.groupVerifAuth.hidden = true
+                self.groupKelengkapan.hidden = true
+                self.conTopOngkirGroup.constant = 8
             }
         }
         else

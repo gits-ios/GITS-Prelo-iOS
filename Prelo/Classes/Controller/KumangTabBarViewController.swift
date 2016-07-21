@@ -192,7 +192,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func subdistrictProfileCheck() {
-        if (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "") {
+        if (User.IsLoggedIn && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
             let sdAlert = UIAlertController(title: "Perhatian", message: "Tambahkan kecamatan di profil Kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
             sdAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
                 let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController

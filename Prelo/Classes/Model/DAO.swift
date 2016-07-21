@@ -947,7 +947,7 @@ public class Product : NSObject
 {
     static let StatusUploading = 999
     
-    var json : JSON! = JSON([:])
+    var json : JSON = JSON([:])
     var placeHolderImage : UIImage?
     var isLokal = false
     
