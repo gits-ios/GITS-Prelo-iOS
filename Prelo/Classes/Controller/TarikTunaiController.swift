@@ -184,7 +184,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 } else
                 {
 //                    self.getBalance()
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan 3x24 jam hari kerja untuk BCA, Mandiri, serta BNI dan 5x24 jam hari kerja untuk rekening lain.")
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan 3x24 jam hari kerja.")
                     
                     // Mixpanel
                     let pt = [

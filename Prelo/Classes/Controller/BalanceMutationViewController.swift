@@ -272,9 +272,35 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet var consHeightLblDescription: NSLayoutConstraint!
     @IBOutlet var consHeightLblReasonAdmin: NSLayoutConstraint!
     
-    static func heightFor(mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {lblDescription.text = mutation.reasonDetail
+    static func heightFor(mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {
+        
+//        let maxLblWidth = UIScreen.mainScreen().bounds.size.width - 126
+//        let maxLblHeight = CGFloat.max
+//        
+//        var heightLblDesc : CGFloat = 0
+//        if let h = lblDescription.attributedText?.boundingRectWithSize(CGSizeMake(maxLblWidth, maxLblHeight), options: .UsesLineFragmentOrigin, context: nil).height {
+//            heightLblDesc = h
+//        }
+//        
+//        var heightLblReason : CGFloat = 0
+//        if let h = lblReasonAdmin.text?.boundsWithFontSize(UIFont.systemFontOfSize(12), width: maxLblWidth) {
+//            
+//        }
+//        if let h = lblReasonAdmin.text?.boundingRectWithSize(CGSizeMake(maxLblWidth, maxLblHeight), options: .UsesLineFragmentOrigin, context: nil).height {
+//            heightLblReason = h
+//        }
+//        
+//        return 56 + heightLblDesc + heightLblReason
+        
+        lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
-        return 56 + lblDescription.sizeThatFits(lblDescription.frame.size).height + lblReasonAdmin.sizeThatFits(lblReasonAdmin.frame.size).height
+        var rectDesc = lblDescription.frame.size
+        rectDesc.width = UIScreen.mainScreen().bounds.size.width - 111
+        var rectReason = lblReasonAdmin.frame.size
+        rectReason.width = UIScreen.mainScreen().bounds.size.width - 111
+        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
+        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
+        return 56 + sizeFixDesc.height + sizeFixReasonAdmin.height
     }
     
     func adapt(mutation : BalanceMutationItem) {
@@ -302,12 +328,14 @@ class BalanceMutationCell : UITableViewCell {
         attrStrDesc.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: NSMakeRange(trxIdStartIdx, trxIdLength))
         self.lblDescription.attributedText = attrStrDesc
         
-        // lblDescription height fix
-        let sizeFixDesc = lblDescription.sizeThatFits(lblDescription.frame.size)
+        // Label height fix
+        var rectDesc = lblDescription.frame.size
+        rectDesc.width = UIScreen.mainScreen().bounds.size.width - 111
+        var rectReason = lblReasonAdmin.frame.size
+        rectReason.width = UIScreen.mainScreen().bounds.size.width - 111
+        let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
         consHeightLblDescription.constant = sizeFixDesc.height
-        
-        // lblReasonAdmin height fix
-        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(lblReasonAdmin.frame.size)
+        let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
         consHeightLblReasonAdmin.constant = sizeFixReasonAdmin.height
     }
 }
