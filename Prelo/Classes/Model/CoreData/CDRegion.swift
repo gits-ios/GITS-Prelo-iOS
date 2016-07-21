@@ -19,6 +19,11 @@ class CDRegion : NSManagedObject {
     @NSManaged var postalCode : String
     
     static func saveRegionsFromArrayJson(arr: [JSON]) -> Bool {
+        
+        if (arr.count <= 0) {
+            return true
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let n = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
@@ -41,6 +46,11 @@ class CDRegion : NSManagedObject {
     
     static func updateRegionsFromArrayJson(arr : [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
@@ -70,6 +80,11 @@ class CDRegion : NSManagedObject {
     
     static func deleteRegionsFromArrayJson(arr : [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)

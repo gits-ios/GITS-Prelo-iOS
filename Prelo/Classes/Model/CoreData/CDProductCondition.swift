@@ -18,6 +18,11 @@ class CDProductCondition: NSManagedObject {
     @NSManaged var order : NSNumber
     
     static func saveProductConditionsFromArrayJson(arr: [JSON]) -> Bool {
+        
+        if (arr.count <= 0) {
+            return true
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let n = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition

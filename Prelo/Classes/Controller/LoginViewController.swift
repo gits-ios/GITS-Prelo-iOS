@@ -126,8 +126,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     userProfileData!.phone != "" &&
                     userProfileData!.provinceId != "" &&
                     userProfileData!.regionId != "" &&
-                    userProfileData!.subdistrictId != "" &&
-                    userProfileData!.subdistrictName != "" &&
                     userProfileData!.shippingIds.count > 0 &&
                     userProfileData!.isPhoneVerified == true) {
                         isProfileSet = true
@@ -258,8 +256,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfileData!.phone != "" &&
                         userProfileData!.provinceId != "" &&
                         userProfileData!.regionId != "" &&
-                        userProfileData!.subdistrictId != "" &&
-                        userProfileData!.subdistrictName != "" &&
                         userProfileData!.shippingIds.count > 0) { // User has finished profile setup
                             // Goto PhoneVerificationVC
                             let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController

@@ -73,12 +73,16 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
 //        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
+        // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil)
         {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 AppDelegate.Instance.produkUploader.start()
             })
         }
+        
+        // Subdistrict check
+        self.subdistrictProfileCheck()
         
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let v = UIView()
@@ -177,11 +181,25 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 NSUserDefaults.standardUserDefaults().setObject(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
+                
+                // Subdistrict check
+                self.subdistrictProfileCheck()
             } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
                 (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
             }
         }
         userDidLoggedIn = User.IsLoggedIn
+    }
+    
+    func subdistrictProfileCheck() {
+        if (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "") {
+            let sdAlert = UIAlertController(title: "Perhatian", message: "Tambahkan kecamatan di profil Kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
+            sdAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+                let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+                self.navigationController?.pushViewController(userProfileVC, animated: true)
+            }))
+            self.presentViewController(sdAlert, animated: true, completion: nil)
+        }
     }
     
     func pushNew(sender : AnyObject)

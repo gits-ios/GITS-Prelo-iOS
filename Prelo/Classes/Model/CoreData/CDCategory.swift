@@ -25,6 +25,11 @@ class CDCategory: NSManagedObject {
     @NSManaged var children : NSMutableSet
     
     static func saveCategoriesFromArrayJson(arr: [JSON]) -> Bool {
+        
+        if (arr.count <= 0) {
+            return true
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let n = NSEntityDescription.insertNewObjectForEntityForName("CDCategory", inManagedObjectContext: m) as! CDCategory
@@ -51,6 +56,11 @@ class CDCategory: NSManagedObject {
     
     static func updateCategoriesFromArrayJson(arr : [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
@@ -84,6 +94,11 @@ class CDCategory: NSManagedObject {
     
     static func deleteCategoriesFromArrayJson(arr : [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)

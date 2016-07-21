@@ -17,6 +17,11 @@ class CDProvince : NSManagedObject {
     @NSManaged var regions : NSMutableSet
     
     static func saveProvincesFromArrayJson(arr: [JSON]) -> Bool {
+        
+        if (arr.count <= 0) {
+            return true
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let n = NSEntityDescription.insertNewObjectForEntityForName("CDProvince", inManagedObjectContext: m) as! CDProvince
@@ -37,6 +42,11 @@ class CDProvince : NSManagedObject {
     
     static func updateProvincesFromArrayJson(arr: [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
@@ -63,6 +73,11 @@ class CDProvince : NSManagedObject {
     
     static func deleteProvincesFromArrayJson(arr: [JSON]) -> Bool {
         var isSuccess = true
+        
+        if (arr.count <= 0) {
+            return isSuccess
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)

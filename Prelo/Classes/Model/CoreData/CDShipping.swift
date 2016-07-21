@@ -18,6 +18,11 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageName : String
     
     static func saveShippingsFromArrayJson(arr: [JSON]) -> Bool {
+        
+        if (arr.count <= 0) {
+            return true
+        }
+        
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let n = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
