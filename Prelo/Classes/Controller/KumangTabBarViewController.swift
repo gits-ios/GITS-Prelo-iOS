@@ -192,8 +192,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func subdistrictProfileCheck() {
-        if (User.IsLoggedIn && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
-            let sdAlert = UIAlertController(title: "Perhatian", message: "Tambahkan kecamatan di profil Kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
+        if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
+            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
             sdAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
                 let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
