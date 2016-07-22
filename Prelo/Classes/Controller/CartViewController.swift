@@ -31,6 +31,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var selectedProvinsiID : String = ""
     var selectedKotaID : String = ""
     var selectedKecamatanID : String = ""
+    var selectedKecamatanName : String = ""
     var kecamatanPickerItems : [String] = []
     var shouldBack : Bool = false
     var refreshByLocationChange : Bool = false
@@ -281,6 +282,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 
                 selectedKecamatanID = profile.subdistrictID
+                selectedKecamatanName = profile.subdistrictName
                 sdID = (profile.subdistrictName != "") ? profile.subdistrictName : "Pilih Kecamatan"
             }
         }
@@ -304,6 +306,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     // Set picked address
                     self.selectedKotaID = ""
                     self.selectedKecamatanID = ""
+                    self.selectedKecamatanName = ""
                     let idxs = [NSIndexPath(forRow: 2, inSection: self.sectionAlamatUser), NSIndexPath(forRow: 3, inSection: self.sectionAlamatUser)]
                     self.cellsData[idxs[0]]?.value = "Pilih Kota/Kabupaten"
                     self.cellsData[idxs[1]]?.value = "Pilih Kecamatan"
@@ -325,13 +328,12 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     
                     // Set picked address value
                     self.selectedKecamatanID = ""
+                    self.selectedKecamatanName = ""
                     let idxs = [NSIndexPath(forRow: 1, inSection: self.sectionAlamatUser), NSIndexPath(forRow: 2, inSection: self.sectionAlamatUser), NSIndexPath(forRow: 3, inSection: self.sectionAlamatUser)]
                     self.cellsData[idxs[0]]?.value = CDProvince.getProvinceNameWithID(self.selectedProvinsiID)
                     self.cellsData[idxs[1]]?.value = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
                     self.cellsData[idxs[2]]?.value = "Pilih Kecamatan"
-                    self.tableView.reloadRowsAtIndexPaths(idxs, withRowAnimation: .Fade)
                 }
-                
             }),
             NSIndexPath(forRow: 3, inSection: sectionAlamatUser):BaseCartData.instance(titleKecamatan, placeHolder: nil, value: sdID, pickerPrepBlock: { picker in
                 
@@ -368,6 +370,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 picker.selectBlock = { string in
                     self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
+                    self.selectedKecamatanName = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
                     self.refreshByLocationChange = true
                     
                     self.synchCart()
@@ -377,7 +380,6 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.cellsData[idxs[0]]?.value = CDProvince.getProvinceNameWithID(self.selectedProvinsiID)
                     self.cellsData[idxs[1]]?.value = CDRegion.getRegionNameWithID(self.selectedKotaID)
                     self.cellsData[idxs[2]]?.value = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
-                    self.tableView.reloadRowsAtIndexPaths(idxs, withRowAnimation: .Fade)
                 }
             }),
             NSIndexPath(forRow: 4, inSection: sectionAlamatUser):c
@@ -880,6 +882,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             "province_id":selectedProvinsiID,
             "region_id":selectedKotaID,
             "subdistrict_id":selectedKecamatanID,
+            "subdistrict_name":selectedKecamatanName,
             "postal_code":postal,
             "recipient_name":name,
             "recipient_phone":phone,

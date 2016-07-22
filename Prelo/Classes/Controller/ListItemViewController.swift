@@ -147,8 +147,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
             self.featuredProductsMode = true
             consTopVwTopHeader.constant = 0
-            self.gridView.backgroundColor = UIColor(hexString: "#D2EBE8")
-            self.view.backgroundColor = UIColor(hexString: "#D2EBE8")
+            self.gridView.backgroundColor = UIColor(hexString: "363636")
+            self.view.backgroundColor = UIColor(hexString: "363636")
             
             // Get featured products
             getFeaturedProducts()

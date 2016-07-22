@@ -1480,6 +1480,13 @@ class TransactionDetail : NSObject {
         return 0
     }
     
+    var paymentRequestCourier : String {
+        if let j = json["courier"].string {
+            return j
+        }
+        return ""
+    }
+    
     var progress : Int {
         if let j = json["progress"].int {
             return j
@@ -1618,6 +1625,13 @@ class TransactionDetail : NSObject {
     
     var shippingRegionId : String {
         if let j = json["shipping_address"]["region_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var shippingSubdistrictName : String {
+        if let j = json["shipping_address"]["subdistrict_name"].string {
             return j
         }
         return ""
@@ -1851,6 +1865,13 @@ class TransactionProductDetail : NSObject {
         return 0
     }
     
+    var paymentRequestCourier : String {
+        if let j = json["courier"].string {
+            return j
+        }
+        return ""
+    }
+    
     var expireTime : String? {
         if (json["expire_time"] != nil) {
             return json["expire_time"].string
@@ -1942,6 +1963,13 @@ class TransactionProductDetail : NSObject {
         } else {
             return ""
         }
+    }
+    
+    var shippingSubdistrictName : String {
+        if let j = json["shipping_address"]["subdistrict_name"].string {
+            return j
+        }
+        return ""
     }
     
     var shippingRecipientPhone : String {

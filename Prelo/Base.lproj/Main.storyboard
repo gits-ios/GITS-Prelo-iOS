@@ -2780,25 +2780,26 @@ in Bandung</string>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tda-SP-YXy">
                                                     <rect key="frame" x="0.0" y="108" width="592" height="40"/>
                                                     <attributedString key="attributedText">
-                                                        <fragment content="EDITOR'S PICK ">
+                                                        <fragment content="EDITOR'S PICK">
                                                             <attributes>
-                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <font key="NSFont" size="18" name="HelveticaNeue-Bold"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
                                                         </fragment>
                                                         <fragment>
-                                                            <string key="content">
+                                                            <string key="content" base64-UTF8="YES">
+Cg
 </string>
                                                             <attributes>
-                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <font key="NSFont" size="17" name="LastResort"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
                                                         </fragment>
                                                         <fragment content="List barang terbaik yang dipilih oleh tim Prelo">
                                                             <attributes>
-                                                                <color key="NSColor" red="0.0" green="0.54478577488687785" blue="0.51421911020099775" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <font key="NSFont" size="12" name="HelveticaNeue"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
