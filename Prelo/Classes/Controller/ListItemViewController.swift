@@ -32,6 +32,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // Gridview and layout
     @IBOutlet var gridView: UICollectionView!
+    @IBOutlet var consTopTopHeader: NSLayoutConstraint!
     var footerLoading : UIActivityIndicatorView?
     var refresher : UIRefreshControl?
     var itemCellWidth: CGFloat? = 200
@@ -147,8 +148,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
             self.featuredProductsMode = true
             consTopVwTopHeader.constant = 0
-            self.gridView.backgroundColor = UIColor(hexString: "363636")
-            self.view.backgroundColor = UIColor(hexString: "363636")
+            self.gridView.backgroundColor = UIColor(hexString: "#363636")
             
             // Get featured products
             getFeaturedProducts()
@@ -162,6 +162,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
                 getProducts()
             }
+        }
+        
+        // Upper 4px padding handler
+        if (self.featuredProductsMode) {
+            self.consTopTopHeader.constant = 4
+            self.view.backgroundColor = UIColor(hexString: "#363636")
+        } else if (self.searchMode) {
+            self.consTopTopHeader.constant = 4
+            self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
+        } else if (self.storeMode || self.standaloneMode) {
+            self.consTopTopHeader.constant = 0
         }
     }
     
