@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Class
 
-class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
@@ -126,44 +126,43 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         // Do nothing
     }
     
+    // MARK: - UIImagePickerController functions
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.imgResi.image = img
+            self.isPictSelected = true
+        }
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: - Actions
     
     @IBAction func btnResiPressed(sender: AnyObject) {
-        ImagePickerViewController.ShowFrom(self, maxSelect: 1, doneBlock:
-            { imgs in
-                if (imgs.count > 0) {
-                    
-                    let img : APImage = imgs[0]
-                    
-                    if ((img.image) != nil)
-                    {
-                        self.imgResi.image = img.image
-                        self.isPictSelected = true
-                    } else if (imgs[0].usingAssets == true) {
-                        
-                        if (self.asset == nil) {
-                            self.asset = ALAssetsLibrary()
-                        }
-                        
-                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                            self.asset?.assetForURL((img.url)!, resultBlock: { asset in
-                                if let ast = asset {
-                                    let rep = ast.defaultRepresentation()
-                                    let ref = rep.fullScreenImage().takeUnretainedValue()
-                                    let i = UIImage(CGImage: ref)
-                                    dispatch_async(dispatch_get_main_queue(), {
-                                        self.imgResi.image = i
-                                        self.isPictSelected = true
-                                    })
-                                }
-                                }, failureBlock: { error in
-                                    // error
-                            })
-                        })
-                    }
-                }
-            }
-        )
+        let i = UIImagePickerController()
+        i.sourceType = .PhotoLibrary
+        i.delegate = self
+        
+        if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+            a.popoverPresentationController?.sourceView = self.imgResi
+            a.popoverPresentationController?.sourceRect = self.imgResi.bounds
+            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
+                i.sourceType = .Camera
+                self.presentViewController(i, animated: true, completion: nil)
+            }))
+            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
+                self.presentViewController(i, animated: true, completion: nil)
+            }))
+            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
+            self.presentViewController(a, animated: true, completion: nil)
+        } else {
+            self.presentViewController(i, animated: true, completion: nil)
+        }
     }
     
     @IBAction func btnKonfKirimPressed(sender: AnyObject) {
