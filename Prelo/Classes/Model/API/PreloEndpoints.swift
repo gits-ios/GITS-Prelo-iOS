@@ -1308,7 +1308,7 @@ enum APIProduct : URLRequestConvertible
             case .GetComment(_) :return [:]
             case .MyProduct(let c, let l): return ["current":c, "limit":l]
             case .Push(_) : return [:]
-            case .MarkAsSold(_) : return [:]
+            case .MarkAsSold(_) : return ["sold_from":"ios"]
             }
     }
     

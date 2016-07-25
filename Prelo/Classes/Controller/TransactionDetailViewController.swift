@@ -230,6 +230,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // Selain diatur di sini, hideable cell juga harus ditentukan saat memanggil createTitleCell(_:)
     func setupHideableCell() {
+        hideableCell = [:]
         if (progress == TransactionDetailTools.ProgressExpired) {
             if (userIsSeller()) {
                 // No hideable cell
@@ -293,6 +294,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func setupHideProductCell() {
+        hideProductCell = []
         if (self.trxDetail != nil) {
             for _ in 0...trxDetail!.transactionProducts.count - 1 {
                 hideProductCell.append(true)

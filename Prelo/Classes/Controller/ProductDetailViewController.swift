@@ -195,8 +195,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
-                    self.adjustButtonIfUnderReview()
-                    self.adjustButtonIfBoughtOrDeleted()
+                    self.adjustButtonByStatus()
                     print(self.detail?.json)
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
@@ -210,16 +209,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func adjustButtonIfUnderReview() {
-        if (self.detail?.status == 2) {
+    func adjustButtonByStatus() {
+        if (self.detail?.status == 0 || self.detail?.status == 2) { // Inactive or under review
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
-        }
-    }
-    
-    func adjustButtonIfBoughtOrDeleted()
-    {
-        if (self.detail?.status == 3 || self.detail?.status == 4) { // If product is sold or deleted
+        } else if (self.detail?.status == 3 || self.detail?.status == 4) { // sold or deleted
             self.btnTawar.borderColor = Theme.GrayLight
             self.btnTawar.titleLabel?.textColor = Theme.GrayLight
             self.btnTawar.userInteractionEnabled = false
