@@ -56,7 +56,7 @@ class PreloNotificationListener {
         }
     }
         
-    func handleNotification(json : JSON) {
+    func handleNotification() {
         self.getTotalUnreadNotifCount()
     }
     

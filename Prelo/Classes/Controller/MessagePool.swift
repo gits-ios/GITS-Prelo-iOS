@@ -119,7 +119,7 @@ class MessagePool: NSObject
                 socket.on("notification", callback: { data, ack in
                     if (!notifListener.willReconnect) {
                         print("Get notification from messagepool")
-                        notifListener.handleNotification(JSON(data)[0])
+                        notifListener.handleNotification()
                     }
                 })
                 if (notifListener.willReconnect) {
