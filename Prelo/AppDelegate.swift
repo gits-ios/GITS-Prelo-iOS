@@ -205,6 +205,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Deeplink handling using Branch
         let branch : Branch = Branch.getInstance()
+        branch.accountForFacebookSDKPreventingAppLaunch()
         branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
