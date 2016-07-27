@@ -314,6 +314,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Init carousel data
                 var res = JSON(resp.result.value!)
+                self.carouselItems = []
                 if let carouselData = res["_data"]["carousel"].array {
                     for i in 0...carouselData.count - 1 {
                         var img = UIImage()
@@ -329,6 +330,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
             }
+            self.refresher?.endRefreshing()
             self.setupGrid()
         }
     }
@@ -605,7 +607,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if (segmentMode) {
-            let viewWidth = self.view.width
+            let viewWidth = UIScreen.mainScreen().bounds.size.width
             let segWidth = viewWidth - 16
             let segHeight = segWidth * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
             return CGSize(width: viewWidth, height: segHeight)
@@ -748,7 +750,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (draggingScrollView) {
-            if (!storeMode) {
+            if (!storeMode && !standaloneMode) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.navigationBarHidden)! == false) {
                         if (!segmentMode) {
@@ -1028,16 +1030,17 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate {
         
         self.pageCtrlCarousel.numberOfPages = carouselItems.count
         self.pageCtrlCarousel.currentPage = 0
-        self.consWidthContentVwCarousel.constant = scrlVwCarousel.width * CGFloat(carouselItems.count)
         var rectHeightFix : CGFloat = 0
+        let rectWidthFix : CGFloat = UIScreen.mainScreen().bounds.size.width - 8
+        self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
         for i in 0...carouselItems.count - 1 {
-            let height = ((scrlVwCarousel.width / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
             if (height > rectHeightFix) {
                 rectHeightFix = height
             }
         }
         for i in 0...carouselItems.count - 1 {
-            let rect = CGRectMake(CGFloat(i * Int(scrlVwCarousel.width)), 0, scrlVwCarousel.width, rectHeightFix)
+            let rect = CGRectMake(CGFloat(i * Int(rectWidthFix)), 0, rectWidthFix, rectHeightFix)
             let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
             let uiBtn = UIButton(frame: rect)
             uiBtn.addTarget(self, action: #selector(ListHeader.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
