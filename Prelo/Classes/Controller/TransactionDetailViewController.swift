@@ -1400,25 +1400,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailContactPreloCellId) as! TransactionDetailContactPreloCell
         
         // Adapt cell
-        if let userId = User.Id {
-            if (trxDetail != nil) {
-                if (trxDetail!.isBuyer(userId)) {
-                    cell.lblKeterangan.hidden = true
-                    cell.consTopLblContact.constant = 8
-                } else {
-                    cell.lblKeterangan.hidden = false
-                    cell.consTopLblContact.constant = 48
-                }
-            } else if (trxProductDetail != nil) {
-                if (trxProductDetail!.isSeller(userId)) {
-                    cell.lblKeterangan.hidden = false
-                    cell.consTopLblContact.constant = 48
-                } else {
-                    cell.lblKeterangan.hidden = true
-                    cell.consTopLblContact.constant = 8
-                }
-            }
-        }
+        cell.lblKeterangan.hidden = true // Not used
+        cell.consTopLblContact.constant = 8 // Set to 48 if lblKeterangan is used
         cell.showContactPrelo = {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") 
@@ -1767,7 +1750,7 @@ class TransactionDetailTools : NSObject {
     // Layouting
     static let Margin : CGFloat = 8.0
     static let TransactionDetailProductCellHeight : CGFloat = 109
-    static let TransactionDetailDetailedProductCellHeight : CGFloat = 190
+    static let TransactionDetailDetailedProductCellHeight : CGFloat = 207
     
     // TitleContent type
     static let TitleContentPembayaranBuyer = "tcpembayaranbuyer"
