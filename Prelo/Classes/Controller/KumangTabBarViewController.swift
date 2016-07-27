@@ -222,10 +222,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
             btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnBrowse.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+            btnBrowse.setTitleColor(Theme.GrayGranite, forState: .Normal)
         } else if ("\(newController.dynamicType)" == "DashboardViewController") { // Login/Dashboard
             btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnDashboard.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+            btnDashboard.setTitleColor(Theme.GrayGranite, forState: .Normal)
             btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
             btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
         }

@@ -148,7 +148,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
             self.featuredProductsMode = true
             consTopVwTopHeader.constant = 0
-            self.gridView.backgroundColor = UIColor(hexString: "#363636")
+            self.gridView.backgroundColor = Theme.GrayGranite
             
             // Get featured products
             getFeaturedProducts()
@@ -167,7 +167,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Upper 4px padding handler
         if (self.featuredProductsMode) {
             self.consTopTopHeader.constant = 4
-            self.view.backgroundColor = UIColor(hexString: "#363636")
+            self.view.backgroundColor = Theme.GrayGranite
         } else if (self.searchMode) {
             self.consTopTopHeader.constant = 4
             self.view.backgroundColor = UIColor(hexString: "#E8ECEE")

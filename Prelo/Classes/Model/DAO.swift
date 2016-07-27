@@ -1480,7 +1480,7 @@ class TransactionDetail : NSObject {
         return 0
     }
     
-    var paymentRequestCourier : String {
+    var requestCourier : String {
         if let j = json["courier"].string {
             return j
         }
@@ -1865,7 +1865,7 @@ class TransactionProductDetail : NSObject {
         return 0
     }
     
-    var paymentRequestCourier : String {
+    var requestCourier : String {
         if let j = json["courier"].string {
             return j
         }

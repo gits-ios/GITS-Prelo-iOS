@@ -1790,7 +1790,7 @@ class TransactionDetailTools : NSObject {
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyer = "Segera konfirmasi pembayaran."
-    static let TextClaimedPaidSeller = "Pembayaran pembeli sedang diproses."
+    static let TextClaimedPaidSeller = "Pembayaran pembeli sedang dikonfirmasi oleh Prelo, mohon tunggu."
     static let TextClaimedPaidBuyer = "Hubungi Prelo apabila alamat pengiriman salah."
     static let TextConfirmedPaidSeller1 = "Kirim pesanan sebelum "
     static let TextConfirmedPaidSeller2 = "Jika kamu tidak mengirimkan sampai waktu tersebut, transaksi akan dibatalkan serta uang akan dikembalikan kepada pembeli."
@@ -1808,6 +1808,13 @@ class TransactionDetailTools : NSObject {
     // Icon
     static let IcDownArrow = ""
     static let IcUpArrow = ""
+    
+    // Courier image
+    static let ImgCouriers = [
+        "jne" : UIImage(named : "courier_jne"),
+        "tiki" : UIImage(named : "courier_tiki"),
+        "pos" : UIImage(named : "courier_pos")
+    ]
     
     // Functions
     static func isReservationProgress(progress : Int?) -> Bool {
@@ -1867,7 +1874,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
-            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentRequestCourier)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingAddress)
@@ -1893,6 +1899,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(p)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
+            var image = UIImage()
+            if let img = TransactionDetailTools.ImgCouriers[trxDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercaseString] {
+                image = img!
+            }
+            height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
         }
         
         return height
@@ -1908,11 +1919,9 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankSource)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankAccount)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentRequestCourier)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
-            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentRequestCourier)
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingAddress)
@@ -1938,6 +1947,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 height += TransactionDetailTitleContentCell.heightFor(p)
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingPostalCode)
+            var image = UIImage()
+            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercaseString] {
+                image = img!
+            }
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
         } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBalance.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBonus.asPrice)
@@ -1990,13 +2004,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 return 7
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
-                return 7
+                return 6
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
-                return 3
+                return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
                 return 8
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                return 7
+                return 8
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
@@ -2086,12 +2100,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
                     }
-                } else if (idx == 6) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentRequestCourier)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentRequestCourier)
-                    }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 if (idx == 0) {
@@ -2105,12 +2113,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentRequestCourier)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentRequestCourier)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
@@ -2222,6 +2224,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
                     }
+                } else if (idx == 7) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.requestCourier
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.requestCourier
+                    }
+                    var image = UIImage()
+                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercaseString] {
+                        image = img!
+                    }
+                    return TransactionDetailTitleContentCell.heightFor(content, image: image)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 if (idx == 0) {
@@ -2386,14 +2400,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentNominal.asPrice
                     }
                     return self.createTitleContentCell("Nominal", content: content)
-                } else if (idx == 6) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentRequestCourier
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentRequestCourier
-                    }
-                    return self.createTitleContentCell("Request Kurir", content: content)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 if (idx == 0) {
@@ -2412,14 +2418,6 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentDate
                     }
                     return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentRequestCourier
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentRequestCourier
-                    }
-                    return self.createTitleContentCell("Request Kurir", content: content)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
                 if (idx == 0) {
@@ -2560,6 +2558,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.shippingPostalCode
                     }
                     return self.createTitleContentCell("Kode Pos", content: content)
+                } else if (idx == 7) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.requestCourier
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.requestCourier
+                    }
+                    var image = UIImage()
+                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercaseString] {
+                        image = img!
+                    }
+                    return self.createTitleContentCell("Request Kurir", content: content, image: image)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 if (idx == 0) {
@@ -2631,8 +2641,17 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     func createTitleContentCell(title : String, content : String) -> TransactionDetailTitleContentCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
         
-        // Adapt call
+        // Adapt cell
         cell.adapt(title, content: content)
+        
+        return cell
+    }
+    
+    func createTitleContentCell(title : String, content : String, image : UIImage) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+        
+        // Adapt cell
+        cell.adapt(title, content: content, image: image)
         
         return cell
     }
@@ -2980,15 +2999,39 @@ class TransactionDetailTitleCell : UITableViewCell {
 class TransactionDetailTitleContentCell : UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
+    @IBOutlet var consLeadingLblContent: NSLayoutConstraint!
     @IBOutlet var vwLine: UIView!
+    var imgContent: UIImageView?
     
     var tapUrl : String = ""
     var textToCopy : String = ""
+    
+    override func prepareForReuse() {
+        consLeadingLblContent.constant = 8
+        imgContent?.removeFromSuperview()
+    }
     
     static func heightFor(text : String) -> CGFloat {
         let titleWidth : CGFloat = 130.0
         let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
         return textRect.height + 4
+    }
+    
+    static func heightFor(text : String, image : UIImage) -> CGFloat {
+        let titleWidth : CGFloat = 130.0
+        let imageWidth : CGFloat = image.size.width
+        let imageHeight : CGFloat = image.size.height
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth - (imageWidth + 4))
+        return (imageHeight >= textRect.height) ? imageHeight : (textRect.height + 4)
+    }
+    
+    func adapt(title : String, content : String) {
+        self.lblTitle.text = title
+        if (content.isEmpty) {
+            self.lblContent.text = "-"
+        } else {
+            self.lblContent.text = content
+        }
     }
     
     func adapt(title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) {
@@ -3016,17 +3059,21 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         }
     }
     
-    func showVwLine() {
-        vwLine.hidden = false
-    }
-    
-    func adapt(title : String, content : String) {
+    func adapt(title : String, content : String, image : UIImage) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
             self.lblContent.text = content
         }
+        let imgRect = CGRectMake(130.0 + 8 + 8, lblContent.y, image.size.width, image.size.height)
+        imgContent = UIImageView(frame: imgRect, image: image)
+        self.addSubview(imgContent!)
+        self.consLeadingLblContent.constant = 8 + 4 + imgRect.width
+    }
+    
+    func showVwLine() {
+        vwLine.hidden = false
     }
 }
 
