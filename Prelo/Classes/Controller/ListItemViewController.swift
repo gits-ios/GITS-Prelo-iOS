@@ -644,7 +644,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             attTxt.addAttributes([NSFontAttributeName : UIFont.systemFontOfSize(12)], range: NSRange.init(location: 1, length: txt.length - 1))
             self.lblTopHeader.attributedText = attTxt
             segmentMode = false
-            self.gridView.hidden = true
+            self.products?.removeAll()
+            self.setupGrid()
             refresh()
         } else {
             selectedProduct = products?[indexPath.item]
