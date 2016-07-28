@@ -1150,6 +1150,9 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             {
                 conWidthOngkir.constant = 0
 //                conMarginOngkir.constant = 0
+            } else
+            {
+                conWidthOngkir.constant = 82
             }
         } else
         {
