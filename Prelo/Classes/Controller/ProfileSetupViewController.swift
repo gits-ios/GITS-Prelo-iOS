@@ -642,8 +642,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "Gender" : userProfileData.gender,
                         "Email" : userProfileData.email,
                         "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
-                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
-                        "Referral Code Used" : userReferral
+                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!
                     ]
                     Mixpanel.sharedInstance().registerSuperProperties(sp)
                     Mixpanel.sharedInstance().identify(userProfileData.id)
@@ -653,8 +652,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         "$email" : userProfileData.email,
                         "Gender" : userProfileData.gender,
                         "Province Input" : CDProvince.getProvinceNameWithID(userProfileData.provinceId)!,
-                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!,
-                        "Referral Code Used" : userReferral
+                        "City Input" : CDRegion.getRegionNameWithID(userProfileData.regionId)!
                     ]
                     Mixpanel.sharedInstance().people.set(p)
                     var shippingArr : [String] = []

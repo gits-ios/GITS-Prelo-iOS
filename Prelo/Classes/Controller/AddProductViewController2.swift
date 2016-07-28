@@ -277,10 +277,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 captionKondisi.text = kondisi
             }
             
-            if let brnd = editProduct?.json["_data"]["brand"].string, let brndId = editProduct?.json["_data"]["brand_id"].string
+            if let brnd = editProduct?.json["_data"]["brand"].string
+            {
+                captionMerek.text = brnd
+            }
+            
+            if let brndId = editProduct?.json["_data"]["brand_id"].string
             {
                 merekId = brndId
-                captionMerek.text = brnd
             }
             
             if let arr = editProduct?.json["_data"]["original_picts"].arrayObject

@@ -216,7 +216,7 @@ class PageName
     static let PaymentConfirmation = "Payment Confirmation"
     static let EditProfile = "Edit Profile"
     static let ChangePhone = "Change Phone"
-    static let EditProduct = "Edit Product"
+    static let EditProduct = "Edit Barang"
     static let Home = "Home"
     static let Referral = "Referral"
     static let DashboardLoggedIn = "Dashboard Logged In"
