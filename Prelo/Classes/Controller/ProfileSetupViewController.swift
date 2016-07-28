@@ -612,6 +612,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
+                    /* CATEGPREF DISABLED
                     // Set user's preferenced categories by current stored categories
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
                     // API Migrasi
@@ -628,6 +629,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         // Delete token because user is considered not logged in
                         User.SetToken(nil)
                     }
+                    */
                     
                     guard let userProfileData = UserProfile.instance(data) else {
                         Constant.showDialog("Setelan Akun", message: "Oops, terdapat kesalahan saat memproses data")
@@ -686,6 +688,10 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 } else {
                     self.btnApply.enabled = true
                 }
+                
+                // Delete token because user is considered not logged in
+                // Kalo API setUserPreferencedCategories diaktifkan, baris ini perlu dihapus karna nanti settoken to nil dilakukan setelah API tsb
+                User.SetToken(nil)
             }
         }
     }

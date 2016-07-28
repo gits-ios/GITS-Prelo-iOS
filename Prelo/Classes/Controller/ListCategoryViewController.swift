@@ -536,6 +536,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
+        /* CATEGPREF DISABLED
         if (!User.IsLoggedIn) {
             if let idxAllCateg = getAllCategoryIndexInArrayJSON(categoriesFix) {
                 if let idxC1 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref1()) {
@@ -549,6 +550,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 }
             }
         }
+        */
         addChilds(categoriesFix.count)
         
         // FIXME: kondisi kalo user ga login, harusnya categorypref ditaro depan

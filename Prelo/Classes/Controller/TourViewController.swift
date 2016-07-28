@@ -93,9 +93,12 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     {
         if (pager.currentPage == 4)
         {
+            /* CATEGPREF DISABLED
             let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
             catPrefVC.parent = parent
             self.navigationController?.pushViewController(catPrefVC, animated: true)
+            */
+            self.dismissViewControllerAnimated(true, completion: nil)
         } else {
             scrollView.setContentOffset(CGPointMake(CGFloat(CGFloat(pager.currentPage+1) * UIScreen.mainScreen().bounds.width), CGFloat(0)), animated: true)
         }

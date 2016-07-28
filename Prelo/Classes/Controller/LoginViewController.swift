@@ -111,6 +111,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 
                 let userProfileData = UserProfile.instance(data)
                 
+                /* CATEGPREF DISABLED
                 // Update user preferenced categories in NSUserDefaults
                 let catPrefIds = userProfileData!.categoryPrefIds
                 if (catPrefIds.count >= 3) {
@@ -119,6 +120,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     NSUserDefaults.standardUserDefaults().setObject(catPrefIds[2], forKey: UserDefaultsKey.CategoryPref3)
                     NSUserDefaults.standardUserDefaults().synchronize()
                 }
+                */
                 
                 if (userProfileData != nil &&
                     userProfileData!.email != "" &&
