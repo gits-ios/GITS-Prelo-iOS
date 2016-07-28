@@ -339,7 +339,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         requesting = true
         
         // API Migrasi
-        request(APISearch.Find(keyword: (searchBrand == true) ? "" : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
+        request(APISearch.Find(keyword: (searchBrand == true) ? (searchBrandId == "" ? searchKey : "") : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product")) {
                 self.setupData(resp.result.value)

@@ -401,7 +401,16 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             break
         default: break
         }
-        easterEggAlert?.title = str
+        
+        if (AppTools.isIPad) {
+            easterEggAlert?.title = str
+        } else {
+            let attrStr = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName : Theme.PrimaryColor, NSFontAttributeName : UIFont.systemFontOfSize(14)])
+            easterEggAlert?.setValue(attrStr, forKey: "attributedTitle")
+            easterEggAlert?.addAction(UIAlertAction(title: "Close", style: .Default, handler: { act in
+                self.dismissEasterEgg()
+            }))
+        }
         
         self.presentViewController(easterEggAlert!, animated: true, completion: {
             let easterGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissEasterEgg))
