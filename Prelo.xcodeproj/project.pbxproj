@@ -519,6 +519,7 @@
 		58AB57801CB24CFB0081094B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB577F1CB24CFB0081094B /* Security.framework */; };
 		58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578C1CB273190081094B /* libNotifyManager.a */; };
 		58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578E1CB273D20081094B /* libAdIdAccess.a */; };
+		58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */ = {isa = PBXBuildFile; fileRef = 58AD00FE1D49DAA8002C7CCF /* preloteam.png */; };
 		58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
@@ -1226,6 +1227,7 @@
 		58AB578B1CB273190081094B /* NotifyServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyServiceManager.h; sourceTree = "<group>"; };
 		58AB578C1CB273190081094B /* libNotifyManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotifyManager.a; sourceTree = "<group>"; };
 		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
+		58AD00FE1D49DAA8002C7CCF /* preloteam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preloteam.png; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
@@ -1955,6 +1957,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
 				58BE535C1D479F5B00E358EB /* courier_jne.png */,
 				58BE535D1D479F5B00E358EB /* courier_pos.png */,
 				58BE535E1D479F5B00E358EB /* courier_tiki.png */,
@@ -2785,6 +2788,7 @@
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
+				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,

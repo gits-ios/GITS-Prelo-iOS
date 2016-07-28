@@ -17,8 +17,11 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
     @IBOutlet var btnClear2 : BorderedButton!
     @IBOutlet weak var lblVersion: UILabel!
     @IBOutlet weak var btnUrlPrelo: UIButton!
+    @IBOutlet var consHeightVwPreloTeam: NSLayoutConstraint! // Unused
     
     var isShowLogout : Bool = true
+    
+    var easterEggAlert : UIAlertController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +51,11 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
                 self.btnUrlPrelo.setAttributedTitle(attrString, forState: .Normal)
             }
         }
+        
+        // Remove 1px line at the bottom of navbar
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -341,14 +349,68 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func easterEggPressed(sender: UIButton) {
+        easterEggAlert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        easterEggAlert?.popoverPresentationController?.sourceView = sender
+        easterEggAlert?.popoverPresentationController?.sourceRect = sender.bounds
+        
+        var str = ""
+        let tag = sender.tag
+        switch tag {
+        case 1 : // Algo
+            str = "Thank you for using Prelo for iOS!"
+            easterEggAlert?.addAction(UIAlertAction(title: "Follow My Instagram", style: .Default, handler: { act in
+                UIApplication.sharedApplication().openURL(NSURL(string: "https://www.instagram.com/alghazalimr")!)
+            }))
+            break
+        case 2 : // Ope
+            str = "Kanadin Kanadin"
+            break
+        case 3 : // Nadin
+            str = "Terima kasih semuanya selamat duduk"
+            break
+        case 4 : // Anggi
+            str = "Cet Cet Cet Con Con Con"
+            break
+        case 5 : // Nanda
+            str = "Mha hart mah sole"
+            break
+        case 6 : // K PW
+            str = "Nyam nyam poy"
+            break
+        case 7 : // Riri
+            str = "Aku.. gajadi deh"
+            break
+        case 8 : // Yossy
+            str = "Wkwkwkw"
+            break
+        case 9 : // Rico
+            str = "Ku.. sadari.. akhirnya.."
+            break
+        case 10 : // Rido
+            str = "Gua punya satu pertanyaan"
+            break
+        case 11 : // K Set
+            str = "Seerius?"
+            break
+        case 12 : // Andew
+            str = "Yang yaaaaang"
+            break
+        case 13 : // Dea
+            str = "Atukepiilinibiiza"
+            break
+        default: break
+        }
+        easterEggAlert?.title = str
+        
+        self.presentViewController(easterEggAlert!, animated: true, completion: {
+            let easterGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissEasterEgg))
+            self.easterEggAlert!.view.superview?.userInteractionEnabled = true
+            self.easterEggAlert!.view.superview?.addGestureRecognizer(easterGestureRecognizer)
+        })
     }
-    */
-
+    
+    func dismissEasterEgg() {
+        easterEggAlert?.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
