@@ -618,12 +618,18 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             } else if (row == 1) { // Prelo balance switch
                 let cellId = isUsingPreloBalance ? "pbcellInput2" : "pbcellInput1"
                 let c = tableView.dequeueReusableCellWithIdentifier(cellId) as! PreloBalanceInputCell
-                if (isUsingPreloBalance) {
-                    c.captionTotalBalance.text = "Prelo Balance kamu \(balanceAvailable.asPrice)"
-                }
                 c.delegate = self
                 c.txtInput?.text = nil
                 c.switchBalance.setOn(isUsingPreloBalance, animated: false)
+                if (isUsingPreloBalance) {
+                    c.captionTotalBalance.text = "Prelo Balance kamu \(balanceAvailable.asPrice)"
+                    
+                    // Set textfield if used prelo balance is already set
+                    let discBalance = discountItems[0]
+                    if (discBalance.title == "Prelo Balance") { // Pengecekan #2
+                        c.txtInput?.text = String(discBalance.value)
+                    }
+                }
                 cell = c
             } else if (row == 2) { // Voucher switch
                 let cellId = isShowVoucher ? "vccellInput2" : "vccellInput1"
