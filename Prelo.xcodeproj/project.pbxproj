@@ -538,6 +538,7 @@
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
+		58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EF19D91D4F55FB00997828 /* ic_search_filter.png */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
@@ -1253,6 +1254,7 @@
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
+		58EF19D91D4F55FB00997828 /* ic_search_filter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_search_filter.png; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
 		58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_imgzoom.png; sourceTree = "<group>"; };
@@ -1957,6 +1959,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58EF19D91D4F55FB00997828 /* ic_search_filter.png */,
 				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
 				58BE535C1D479F5B00E358EB /* courier_jne.png */,
 				58BE535D1D479F5B00E358EB /* courier_pos.png */,
@@ -2735,6 +2738,7 @@
 				58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */,
 				58A4F9761CB5146B00E717AF /* ic_trx_reservation_cancelled.png in Resources */,
 				2190B4E01BBE39F500AC6145 /* StoreHeader.xib in Resources */,
+				58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */,
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,

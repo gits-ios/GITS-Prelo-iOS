@@ -177,7 +177,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             NSUserDefaults.setTourDone(true)
         } else {
             let preloBaseUrlJustChanged : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
-            if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn)) { // Jika user baru saja log in, atau baru saja switch base url dalam dev mode
+            if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn) || (userDidLoggedIn == true && !User.IsLoggedIn)) { // Jika user baru saja log in, baru saja log out, atau baru saja switch base url dalam dev mode
                 NSUserDefaults.standardUserDefaults().setObject(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
