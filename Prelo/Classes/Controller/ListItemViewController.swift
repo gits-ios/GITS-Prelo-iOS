@@ -20,6 +20,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         var image : UIImage = UIImage()
     }
     
+    struct SubcategoryItem {
+        var id : String = ""
+        var name : String = ""
+        var image : UIImage = UIImage()
+    }
+    
     // MARK: - Properties
     
     // Top buttton view, used for segment mode
@@ -80,6 +86,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var carouselItems : [CarouselItem] = []
     var isCarouselTimerSet : Bool = false
     
+    // For subcategory mode
+    var subcategoryMode : Bool = false
+    var subcategoryItems : [SubcategoryItem] = []
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -124,7 +134,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
         
-        // Set content based on current mode
+        // Identify current mode and set content based on the mode
         if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
             consTopVwTopHeader.constant = 40
             self.setDefaultTopHeaderWomen()
@@ -152,6 +162,32 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             
             // Get featured products
             getFeaturedProducts()
+        } else if (self.categoryJson?["name"].stringValue == "Book") { // Special case for 'Book' category
+            self.subcategoryMode = true
+            
+            if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
+                for i in 0...subcatJson.count - 1 {
+                    var img : UIImage = UIImage()
+                    if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
+                        if let data = NSData(contentsOfURL: url) {
+                            if let uiimg = UIImage(data: data) {
+                                img = uiimg
+                            }
+                        }
+                    }
+                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                }
+            }
+            
+            consTopVwTopHeader.constant = 0
+            
+            // Get initial products
+            if (products?.count == 0 || products == nil) {
+                if (products == nil) {
+                    products = []
+                }
+                getProducts()
+            }
         } else {
             consTopVwTopHeader.constant = 0
             
@@ -572,22 +608,37 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Collection view functions
     
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        if (subcategoryMode) {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if (segmentMode) {
+        if (segmentMode) { // Segment listing
             return segments.count
-        } else if let c = products?.count {
+        } else if (subcategoryMode && section == 0) { // Subcategory listing
+            return subcategoryItems.count
+        } else if let c = products?.count { // Product listing
             return c
         }
         return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if (segmentMode) {
+        if (segmentMode) { // Segment listing
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCellWithReuseIdentifier("segment_cell", forIndexPath: indexPath) as! ListItemSegmentCell
             cell.imgSegment.image = segments[indexPath.item].image
             
             return cell
-        } else {
+        } else if (subcategoryMode && indexPath.section == 0) { // Subcategory listing
+            let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("subcategory_cell", forIndexPath: indexPath) as! ListItemSubcategoryCell
+            cell.imgSubcategory.image = subcategoryItems[indexPath.item].image
+            cell.lblSubcategory.hidden = true // Unused label
+            return cell
+        } else { // Product listing
             if (indexPath.row == (products?.count)!-4 && requesting == false && done == false && storeMode == false && featuredProductsMode == false) {
                 getProducts()
             }
@@ -606,12 +657,15 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if (segmentMode) {
-            let viewWidth = UIScreen.mainScreen().bounds.size.width
+        let viewWidth = UIScreen.mainScreen().bounds.size.width
+        if (segmentMode) { // Segment listing
             let segWidth = viewWidth - 16
             let segHeight = segWidth * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
             return CGSize(width: viewWidth, height: segHeight)
-        } else {
+        } else if (subcategoryMode && indexPath.section == 0) { // Subcategory listing
+            let viewMinusMargin = viewWidth - 16
+            return CGSize(width: viewMinusMargin / 3, height: viewMinusMargin / 3)
+        } else { // Product listing
             return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
         }
     }
@@ -622,8 +676,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         let s : CGFloat = (listStage == 1 ? 1 : 4)
-        if (segmentMode) {
+        if (segmentMode) { // Segment listing
             return UIEdgeInsetsMake(4, 0, 0, 0)
+        } else if (subcategoryMode && section == 0) { // Subcategory listing
+            return UIEdgeInsetsMake(0, 4, 0, 4)
         } else if (isBannerExist() || standaloneMode || featuredProductsMode) {
             return UIEdgeInsetsMake(4, s, 0, s)
         } else {
@@ -633,7 +689,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
-        if (segmentMode) {
+        if (segmentMode) { // Segment listing
             self.selectedSegment = self.segments[indexPath.item].type
             var txt = " Kamu sedang melihat \(self.segments[indexPath.item].name)"
             if (self.segments[indexPath.item].name.length > 23) {
@@ -647,7 +703,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.products?.removeAll()
             self.setupGrid()
             refresh()
-        } else {
+        } else if (subcategoryMode && indexPath.section == 0) { // Subcategory listing
+            NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+            
+            let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            p.standaloneMode = true
+            p.standaloneCategoryName = subcategoryItems[indexPath.item].name
+            p.standaloneCategoryID = subcategoryItems[indexPath.item].id
+            self.navigationController?.pushViewController(p, animated: true)
+        } else { // Product listing
             selectedProduct = products?[indexPath.item]
             if (featuredProductsMode) {
                 selectedProduct?.setToFeatured()
@@ -673,12 +739,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             return h
         } else if (kind == UICollectionElementKindSectionFooter) { // Footer
             let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
+            
+            // Default value
+            f.btnFooter.hidden = true
+            f.lblFooter.hidden = true
+            f.loading.hidden = false
+            
+            // Loading handle
             self.footerLoading = f.loading
             if (self.done)
             {
                 self.footerLoading?.hidden = true
             }
-            if (featuredProductsMode && carouselItems.count > 0) { // If featured products is loaded
+            
+            // Adapt
+            if (featuredProductsMode && carouselItems.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
                 f.btnFooter.hidden = false
                 f.btnFooterAction = {
                     NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
@@ -691,7 +766,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     p.standaloneCategoryID = "55de6d4e9ffd40362ae310a7"
                     self.navigationController?.pushViewController(p, animated: true)
                 }
-            } else {
+            } else if (subcategoryMode && indexPath.section == 0) { // 'Header' for section idx 1, we use section 0's footer so it won't be floating
+                self.footerLoading?.hidden = true
+                f.lblFooter.hidden = false
+            } else { // Default loading footer
                 f.btnFooter.hidden = true
             }
             
@@ -734,6 +812,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             return CGSizeZero
         } else if (featuredProductsMode) {
             return CGSizeMake(collectionView.width, 66)
+        } else if (subcategoryMode && section == 0) { // 'Header' for section idx 1, we use section 0's footer so it won't be floating
+            return CGSizeMake(collectionView.width, 38)
         }
         return CGSizeMake(collectionView.width, 50)
     }
@@ -843,6 +923,18 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseOut, animations: {
             self.gridView.reloadData()
         }, completion: nil)
+    }
+}
+
+// MARK: - Class
+
+class ListItemSubcategoryCell : UICollectionViewCell {
+    
+    @IBOutlet var imgSubcategory: UIImageView!
+    @IBOutlet var lblSubcategory: UILabel!
+    
+    override func prepareForReuse() {
+        imgSubcategory.image = nil
     }
 }
 
@@ -1090,6 +1182,7 @@ class ListHeader : UICollectionReusableView, UIScrollViewDelegate {
 class ListFooter : UICollectionReusableView {
     @IBOutlet var loading : UIActivityIndicatorView!
     @IBOutlet var btnFooter: UIButton!
+    @IBOutlet var lblFooter: UILabel!
     
     var btnFooterAction : () -> () = {}
     

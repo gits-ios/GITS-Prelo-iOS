@@ -525,7 +525,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "342"
             endingLineNumber = "342"
-            landmarkName = "getSearchProduct()"
+            landmarkName = "getFeaturedProducts()"
             landmarkType = "5">
             <Locations>
                <Location
