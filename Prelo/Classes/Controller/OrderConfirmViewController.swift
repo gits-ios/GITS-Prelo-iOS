@@ -8,25 +8,15 @@
 
 import UIKit
 
+// MARK: - Class
+
 class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITextFieldDelegate, PickerViewDelegate {
 
+    // Main views
     @IBOutlet var scrollView : UIScrollView!
-    
-    @IBOutlet var txtBankFrom : UITextField?
-    @IBOutlet var txtAtasNama : UITextField?
-    @IBOutlet var txtNominal : UITextField?
-    @IBOutlet var captionOrderID2 : UILabel?
-    @IBOutlet var captionSelectedBank : UILabel?
-    
-    @IBOutlet var captionBankInfoBankName : UILabel?
-    @IBOutlet var captionBankInfoBankNumber : UILabel?
-    @IBOutlet var captionBankInfoBankCabang : UILabel?
-    @IBOutlet var captionBankInfoBankAtasNama : UILabel?
-    
-    @IBOutlet var sectionOptions : [BorderedView] = []
-    @IBOutlet var firstTap : UITapGestureRecognizer!
-    
-//    @IBOutlet var tableView : UITableView?
+    @IBOutlet var consHeightContentView: NSLayoutConstraint!
+    @IBOutlet var vwTrxSummary: UIView!
+    @IBOutlet var captionTitle : UILabel!
     @IBOutlet var captionOrderID : UILabel!
     @IBOutlet var captionOrderTotal : UILabel!
     @IBOutlet var captionMore : UILabel!
@@ -34,140 +24,119 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var img2 : UIImageView!
     @IBOutlet var img3 : UIImageView!
     @IBOutlet var imgs : [UIView] = []
-    @IBOutlet var unneededViewsIfFree : [UIView] = []
-    @IBOutlet var conMarginTitle : NSLayoutConstraint!
-    @IBOutlet var captionTitle : UILabel!
     @IBOutlet var captionDesc : UILabel!
-    @IBOutlet var btnBack2 : UIButton!
-    var fromCheckout = true
-    var free = false
+    @IBOutlet var btnFreeTrx : UIButton! // Back button (for free transaction)
+    @IBOutlet var vwUnpaidTrx: UIView! // Views for unfree transaction
+    @IBOutlet var sectionRekOptions : [BorderedView] = []
+    @IBOutlet var tapDefaultRek : UITapGestureRecognizer!
+    @IBOutlet var captionBankInfoBankName : UILabel?
+    @IBOutlet var captionBankInfoBankNumber : UILabel?
+    @IBOutlet var captionBankInfoBankCabang : UILabel?
+    @IBOutlet var captionBankInfoBankAtasNama : UILabel?
     
-    var cellData : [NSIndexPath : BaseCartData] = [:]
-    var cellViews : [NSIndexPath : UITableViewCell] = [:]
+    // Payment pop up
+    @IBOutlet var vwPaymentPopUp: UIView!
+    @IBOutlet var lblBankTujuan: UILabel!
+    @IBOutlet var fldNominalTrf: UITextField!
+    @IBOutlet var consTopPaymentPopUp: NSLayoutConstraint!
+    @IBOutlet var btnKirimPayment: UIButton!
     
+    // Flags
+    var isFromCheckout = true
+    var isFreeTransaction = false
+    var isBackTwice = false
+    var isNavCtrlsChecked = false
+    
+    // Data from previous page
     var orderID : String = ""
     var transactionId : String = ""
     var images : [NSURL] = []
     var total : Int = 0
     var kodeTransfer = 0
     
-    let titleOrderID = "Order ID"
-    let titleBankTujuan = "Bank Tujuan"
-    let titleBankKamu = "Bank Kamu"
-    let titleRekening = "Rekening Atas Nama"
-    let titleNominal = "Nominal Transfer"
-    
-    var overBack = false
-    var first = true
-    
-    var clearCart = false
-    
+    // Prelo account data
     var rekenings = [
         ["name":"KLEO APPARA INDONESIA PT", "no":"777-16-13-113", "cabang":"KCU Dago", "bank_name":"Bank BCA"],
         ["name":"PT KLEO APPARA INDONESIA", "no":"131-0050-313-131", "cabang":"KCP Bandung Dago", "bank_name":"Bank Mandiri"],
         ["name":"PT KLEO APPARA INDONESIA", "no":"042-390-6140", "cabang":"Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Title
+        self.titleText = self.title
+        
+        // Delegate set
         scrollView.delegate = self
         
-        txtAtasNama?.delegate = self
-        txtBankFrom?.delegate = self
-        txtNominal?.delegate = self
-        
-        // clearCart = true kalaw dari Cart
-        if (clearCart)
-        {
+        // After checkout check
+        if (isFromCheckout) {
+            // Clear cart right after checkout
             let products = CartProduct.getAll(User.EmailOrEmptyString)
-            for p in products
-            {
+            for p in products {
                 UIApplication.appDelegate.managedObjectContext.deleteObject(p)
             }
             UIApplication.appDelegate.saveContext()
-        }
-        
-        free = total == 0
-        
-        self.titleText = self.title
-        
-        if (fromCheckout == false)
-        {
-            conMarginTitle.constant = 0
+        } else {
+            // Hide unneeded caption title
             captionTitle.text = ""
-            if var f = captionTitle.superview?.frame
-            {
+            if var f = captionTitle.superview?.frame {
                 f.size.height -= CGFloat(44)
                 captionTitle.superview?.frame = f
             }
         }
         
-        btnBack2.hidden = true
-        if (free)
-        {
+        // Free transaction check
+        isFreeTransaction = total == 0
+        if (isFreeTransaction) {
+            // Arrange views
             captionTitle.text = "Selamat! Transaksi kamu berhasil"
-            
-            for v in unneededViewsIfFree
-            {
-                v.hidden = true
-                v.removeFromSuperview()
-            }
-            
             captionDesc.text = "Kami segera memproses dan mengirim barang pesanan kamu. Silakan tunggu notifikasi Konfirmasi Pengiriman maximal 3 x 24 jam."
-            cellData = [:]
-            
-            btnBack2.hidden = false
-            
-            self.btnBack2.superview?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[btn]-20-|", options: .AlignAllBaseline, metrics: nil, views: ["btn" : self.btnBack2]))
-        } else
-        {
+            self.vwUnpaidTrx.hidden = true
+            self.btnFreeTrx.hidden = false
+        } else {
+            // Arrange views
             let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
             mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGrayColor()], range: NSMakeRange(0, text.length))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("TEPAT"))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("3 digit terakhir"))
             captionDesc.attributedText = mtext
-            
+            self.vwUnpaidTrx.hidden = false
+            self.btnFreeTrx.hidden = true
         }
         
-        for v in imgs
-        {
+        // Arrange product images
+        for v in imgs {
             v.hidden = true
         }
         if (images.count > 0) {
-            for i in 0...images.count-1
-            {
+            for i in (0...images.count - 1) {
                 let v = imgs[i]
                 v.hidden = false
                 
-                if (i < 3)
-                {
+                if (i < 3) {
                     let im = v as! UIImageView
                     im.setImageWithUrl(images[i], placeHolderImage: nil)
-                } else if (i < 4)
-                {
-                    captionMore.text = String(images.count-3) + "+"
+                } else if (i < 4) {
+                    captionMore.text = String(images.count - 3) + "+"
                     break
                 }
             }
         }
         
+        // Order ID and Total price
         captionOrderID.text = orderID
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
-        captionOrderID2?.text = orderID
-        captionSelectedBank?.text = nil
+        // Default active bank option
+        self.rekOptTapped(tapDefaultRek)
         
-        self.tapped(firstTap)
-        
-        let toolBar = UIToolbar(frame: CGRectMake(0, 0, 100, 44))
-        toolBar.translucent = true
-        toolBar.tintColor = Theme.PrimaryColor
-        
-        let done = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: #selector(OrderConfirmViewController.nominalDone))
-        let space = UIBarButtonItem(barButtonSpaceType: .FlexibleSpace)
-        toolBar.items = [space, done]
-        txtNominal?.inputAccessoryView = toolBar
+        // Pop up init
+        self.vwPaymentPopUp.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.5)
+        self.vwPaymentPopUp.hidden = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -188,26 +157,29 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if (first && overBack)
-        {
+        // Content view height
+        self.consHeightContentView.constant = vwTrxSummary.height + (isFreeTransaction ? btnFreeTrx.height : vwUnpaidTrx.height) + 16
+        
+        // Back action handling
+        if (!isNavCtrlsChecked && isBackTwice) {
             var x = self.navigationController?.viewControllers
-            x?.removeAtIndex((x?.count)!-2)
-            if (x == nil)
-            {
+            x?.removeAtIndex((x?.count)! - 2)
+            if (x == nil) {
                 x = []
             }
             self.navigationController?.setViewControllers(x!, animated: false)
-            first = false
+            isNavCtrlsChecked = true
         }
         
+        // Keyboard handling
         self.an_subscribeKeyboardWithAnimations({ r, t, o in
-            
             if (o) {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                self.consTopPaymentPopUp.constant = 10
             } else {
                 self.scrollView.contentInset = UIEdgeInsetsZero
+                self.consTopPaymentPopUp.constant = 100
             }
-            
         }, completion: nil)
         
         // Remove redirect alert if any
@@ -217,17 +189,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
+    // MARK: - Actions
     
-    func nominalDone()
-    {
-        txtNominal?.resignFirstResponder()
-    }
-    
-    @IBAction func copyPrice()
-    {
+    @IBAction func copyPrice() {
         let s = String((total + kodeTransfer))
         UIPasteboard.generalPasteboard().string = s
         let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .Alert)
@@ -235,17 +199,13 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.presentViewController(a, animated: true, completion: nil)
     }
     
-    @IBAction func tapped(sender : UITapGestureRecognizer)
-    {
+    @IBAction func rekOptTapped(sender : UITapGestureRecognizer) {
         let b = sender.view as! BorderedView
         
-        for x in sectionOptions
-        {
+        for x in sectionRekOptions {
             x.borderColor = Theme.GrayLight
-            for v in x.subviews
-            {
-                if (v.isKindOfClass(TintedImageView.classForCoder()))
-                {
+            for v in x.subviews {
+                if (v.isKindOfClass(TintedImageView.classForCoder())) {
                     let t = v as! TintedImageView
                     t.tint = true
                     t.tintColor = Theme.GrayLight
@@ -254,143 +214,105 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         b.borderColor = Theme.PrimaryColor
-        for v in b.subviews
-        {
-            if (v.isKindOfClass(TintedImageView.classForCoder()))
-            {
+        for v in b.subviews {
+            if (v.isKindOfClass(TintedImageView.classForCoder())) {
                 let t = v as! TintedImageView
                 t.tint = false
             }
         }
         
-        setupViewRekeing(rekenings[b.tag])
+        setupViewRekening(rekenings[b.tag])
     }
     
-    func setupViewRekeing(data : [String : String])
-    {
+    func setupViewRekening(data : [String : String]) {
         captionBankInfoBankAtasNama?.text = data["name"]
         captionBankInfoBankCabang?.text = data["cabang"]
-//        captionBankInfoBankCabang?.text = "alskjdalksjdlajsdlajd asldkjalsdkja sd lakdjsalks djalskdj alsdj alksdj alsdkj alksdjalk sjdalskdja"
         captionBankInfoBankName?.text = "Transfer melalui " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
     }
     
-    @IBAction func selectBank()
-    {
-        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as? PickerViewController
-        p?.items = []
-        p?.pickerDelegate = self
-        p?.prepDataBlock = { picker in
-            
-            picker.items = ["Bank BCA", "Bank Mandiri", "Bank BNI"]
-            picker.tableView.reloadData()
-            picker.textTitle = "Bank Pilihan"
-            picker.doneLoading()
-            
-        }
-        self.view.endEditing(true)
-        self.navigationController?.pushViewController(p!, animated: true)
-    }
-    
-    func pickerDidSelect(item: String) {
-        captionSelectedBank?.text = item
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.view.endEditing(true)
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
-        if (textField == txtBankFrom)
-        {
-            txtAtasNama?.becomeFirstResponder()
-        } else if (textField == txtAtasNama)
-        {
-            txtNominal?.becomeFirstResponder()
-        }
-        
-        return false
-    }
-    
     override func backPressed(sender: UIBarButtonItem) {
-        if (free) {
+        if (isFreeTransaction) {
             // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
-            if (self.fromCheckout) {
+            if (self.isFromCheckout) {
                 NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         } else {
             // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
-            if (self.fromCheckout) {
+            if (self.isFromCheckout) {
                 //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         }
     }
     
-    @IBAction func sendConfirm()
-    {
-        if (free)
-        {
-            // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
-            if (self.fromCheckout) {
-                NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
-            }
-            self.navigationController?.popToRootViewControllerAnimated(true)
+    @IBAction func lihatBelanjaanSayaPressed(sender: AnyObject) {
+        NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    @IBAction func showPaymentPopUp(sender: AnyObject) {
+        self.vwPaymentPopUp.hidden = false
+    }
+    
+    // MARK: - Pop up actions
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    @IBAction func disableTextFields(sender : AnyObject) {
+        fldNominalTrf.resignFirstResponder()
+    }
+    
+    @IBAction func bankTujuanPressed(sender: AnyObject) {
+        let bankOpt = ["BCA", "Mandiri", "BNI"]
+        let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .ActionSheet)
+        bankAlert.popoverPresentationController?.sourceView = sender as? UIView
+        bankAlert.popoverPresentationController?.sourceRect = sender.bounds
+        for i in 0...bankOpt.count - 1 {
+            bankAlert.addAction(UIAlertAction(title: bankOpt[i], style: .Default, handler: { act in
+                self.lblBankTujuan.text = bankOpt[i]
+                bankAlert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+        }
+        self.presentViewController(bankAlert, animated: true, completion: nil)
+    }
+    
+    @IBAction func batalKonfPressed(sender: AnyObject) {
+        self.vwPaymentPopUp.hidden = true
+    }
+    
+    @IBAction func kirimKonfirmasiPressed(sender: AnyObject) {
+        if (fldNominalTrf.text == nil || fldNominalTrf.text == "") {
+            Constant.showDialog("Perhatian", message: "Nominal transfer harus diisi")
             return
         }
+        btnKirimPayment.setTitle("MENGIRIM...", forState: .Normal)
+        btnKirimPayment.userInteractionEnabled = false
         
-        let orderId = transactionId
-        let bankTo = captionSelectedBank?.text
-        let bankFrom = txtBankFrom?.text
-        let name = txtAtasNama?.text
-        let nominal = txtNominal?.text
-        
-        if let f = bankFrom, let t = bankTo, let n = name, let nom = nominal
-        {
-            // Mixpanel
-            let pt = [
-                "Order ID" : orderId,
-                "Destination Bank" : t,
-                "Origin Bank" : f,
-                "Amount" : nom
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
-            
-            if (f == "" || t == "" || n == "" || nom == "")
-            {
-                UIAlertView.SimpleShow("Perhatian", message: "Silakan isi semua data")
-                return
+        // API Migrasi
+        request(APITransaction2.ConfirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
+                // Mixpanel
+                let pt = [
+                    "Order ID" : self.orderID,
+                    "Destination Bank" : self.lblBankTujuan.text!,
+                    "Origin Bank" : "",
+                    "Amount" : self.fldNominalTrf.text!
+                ]
+                Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
+                
+                Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
+                self.navigationController?.popToRootViewControllerAnimated(true)
             }
-            let x = (nom as NSString).integerValue
-            // API Migrasi
-            request(APITransaction2.ConfirmPayment(bankFrom: f, bankTo: t, name: n, nominal: x, orderId: orderId)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
-                    Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
-                    self.navigationController?.popToRootViewControllerAnimated(true)
-                }
-            }
-        } else
-        {
-            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi semua data")
+            self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", forState: .Normal)
+            self.btnKirimPayment.userInteractionEnabled = true
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

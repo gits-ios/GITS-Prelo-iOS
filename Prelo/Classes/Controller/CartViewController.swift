@@ -937,7 +937,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 o.orderID = (self.checkoutResult?["order_id"].string)!
                 o.total = gTotal
                 o.transactionId = (self.checkoutResult?["transaction_id"].string)!
-                o.overBack = true
+                o.isBackTwice = true
                 
                 var imgs : [NSURL] = []
                 for i in 0...self.arrayItem.count - 1 {
@@ -1076,7 +1076,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     moeEventTracker.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
-                o.clearCart = true
+                o.isFromCheckout = true
                 self.navigateToVC(o)
             }
             self.btnSend.enabled = true

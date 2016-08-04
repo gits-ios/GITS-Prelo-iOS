@@ -708,7 +708,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             orderConfirmVC.orderID = data["order_id"].stringValue
                             orderConfirmVC.total = data["total_price"].intValue
                             orderConfirmVC.images = imgs
-                            orderConfirmVC.fromCheckout = false
+                            orderConfirmVC.isFromCheckout = false
                             rootViewController!.pushViewController(orderConfirmVC, animated: true)
                         }
                     } else {

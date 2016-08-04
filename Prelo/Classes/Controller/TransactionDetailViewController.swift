@@ -1218,7 +1218,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.orderID = self.trxDetail!.orderId
                 orderConfirmVC.total = self.trxDetail!.totalPrice
                 orderConfirmVC.images = imgs
-                orderConfirmVC.fromCheckout = false
+                orderConfirmVC.isFromCheckout = false
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }

@@ -358,10 +358,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         let tag = sender.tag
         switch tag {
         case 1 : // Algo
-            str = "Thank you for using Prelo for iOS!"
-            easterEggAlert?.addAction(UIAlertAction(title: "Follow My Instagram", style: .Default, handler: { act in
-                UIApplication.sharedApplication().openURL(NSURL(string: "https://www.instagram.com/alghazalimr")!)
-            }))
+            str = "Mobil2 apa yg bikin galau?"
             break
         case 2 : // Ope
             str = "Kanadin Kanadin"
