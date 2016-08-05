@@ -358,7 +358,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         let tag = sender.tag
         switch tag {
         case 1 : // Algo
-            str = "Mobil2 apa yg bikin galau?"
+            str = "Kucing paling takut sama siapa?"
             break
         case 2 : // Ope
             str = "Kanadin Kanadin"
