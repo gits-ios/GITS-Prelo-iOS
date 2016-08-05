@@ -1,5 +1,13 @@
 {
     "_data": {
+        "metadata_versions" : {
+            "brands": 3,
+            "categories": 3,
+            "category_sizes": 3,
+            "shippings": 1,
+            "product_conditions": 2,
+            "provinces_regions": 1
+        },
         "categories" :
         [
              {

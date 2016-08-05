@@ -360,7 +360,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Version Check")) {
                 let json = JSON(resp.result.value!)
-                let data = json["_data"]
+                var data = json["_data"]
                 
                 let ver : CDVersion? = CDVersion.getOne()
                 
@@ -375,6 +375,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                         do {
                             let metadataData = try NSData(contentsOfURL: NSURL(fileURLWithPath: metadataPath), options: NSDataReadingOptions.DataReadingMappedIfSafe)
                             let metadataJson = JSON(data: metadataData)
+                            
+                            data["metadata_versions"] = metadataJson["_data"]["metadata_versions"]
                             
                             // Save categories
                             if let categArr = metadataJson["_data"]["categories"].array {
