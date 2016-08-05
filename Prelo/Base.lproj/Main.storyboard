@@ -2844,7 +2844,7 @@ in Bandung</string>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="subcategory_cell" id="sBw-z9-eN1" customClass="ListItemSubcategoryCell" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="249.5" y="711" width="101" height="101"/>
+                                        <rect key="frame" x="250" y="711" width="101" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="101" height="101"/>
@@ -5226,7 +5226,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PgG-YS-5KH" id="TeM-b3-Wiv">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="meF-ae-zwd">
@@ -5379,7 +5379,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xpO-TC-Vlf" id="Y9T-DP-R2C">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VMa-W1-3db">
@@ -5435,7 +5435,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="132" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKE-nj-Tal" id="pBN-YL-gaJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-j8-zmN">
@@ -5490,7 +5490,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zqo-bg-bRX" id="VJ0-RV-Lr6">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-ij-ge2" userLabel="loadingbottom">
@@ -6015,7 +6015,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtg-rL-NXh" id="y94-VI-cym">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVj-eY-b2b">
@@ -6059,7 +6059,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="76" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="188-aR-rkL" id="o6v-Qm-Guh">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-GL-On4">
@@ -6122,7 +6122,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="130" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sFi-da-Ewt" id="7ce-O6-5gy">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -6506,7 +6506,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCS-lr-we3" id="EtJ-ny-W2Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Of6-1G-2VK">
@@ -6601,7 +6601,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="86" width="600" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v3S-zN-g1B" id="dwI-0B-P2v">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="63.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6N4-hi-dDS">
@@ -7457,8 +7457,8 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Kategori" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1td-y9-Zdz">
-                                                    <rect key="frame" x="8" y="53" width="77" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kategori" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1td-y9-Zdz">
+                                                    <rect key="frame" x="8" y="53" width="77" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="gw6-th-Aac"/>
                                                     </constraints>
@@ -7466,12 +7466,24 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Merek" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofg-1O-GKo">
-                                                    <rect key="frame" x="8" y="74" width="77" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pdo-pU-gpc" customClass="ZSWTappableLabel">
+                                                    <rect key="frame" x="93" y="53" width="499" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merek" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofg-1O-GKo">
+                                                    <rect key="frame" x="8" y="74" width="77" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="A2l-Di-B1A"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h33-IH-dwS" customClass="ZSWTappableLabel">
+                                                    <rect key="frame" x="93" y="74" width="499" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -7484,39 +7496,18 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Kondisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOv-jc-GqW">
-                                                    <rect key="frame" x="8" y="116" width="77" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trO-QQ-FvV">
+                                                    <rect key="frame" x="93" y="95" width="499" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kondisi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOv-jc-GqW">
+                                                    <rect key="frame" x="8" y="116" width="77" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="K6D-rz-UNx"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dikirim Dari" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UD6-8q-KMs">
-                                                    <rect key="frame" x="8" y="179" width="77" height="17"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="77" id="Uxp-u3-xbo"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pdo-pU-gpc" customClass="ZSWTappableLabel">
-                                                    <rect key="frame" x="93" y="53" width="499" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h33-IH-dwS" customClass="ZSWTappableLabel">
-                                                    <rect key="frame" x="93" y="74" width="499" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trO-QQ-FvV">
-                                                    <rect key="frame" x="93" y="95" width="499" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -7526,10 +7517,11 @@ Keuntungan</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Info Cacat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Ob-WFb">
-                                                    <rect key="frame" x="8" y="137" width="68" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info Cacat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bac-Ob-WFb">
+                                                    <rect key="frame" x="8" y="137" width="77" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="77" id="Sdh-PC-z7J"/>
+                                                        <constraint firstAttribute="width" constant="77" id="jw4-Uh-w62"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -7540,15 +7532,16 @@ Keuntungan</string>
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhF-J7-vAi">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhF-J7-vAi">
                                                     <rect key="frame" x="93" y="137" width="499" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Alasan Jual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqe-7P-HG8">
-                                                    <rect key="frame" x="8" y="158" width="76" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan Jual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqe-7P-HG8">
+                                                    <rect key="frame" x="8" y="158" width="77" height="16"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="77" id="0Hf-B7-koq"/>
                                                         <constraint firstAttribute="width" constant="77" id="PAh-0G-5DT"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -7560,9 +7553,18 @@ Keuntungan</string>
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxv-MQ-Nol">
-                                                    <rect key="frame" x="92" y="158" width="500" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxv-MQ-Nol">
+                                                    <rect key="frame" x="93" y="158" width="499" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dikirim Dari" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UD6-8q-KMs">
+                                                    <rect key="frame" x="8" y="179" width="77" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="77" id="Uxp-u3-xbo"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -7575,6 +7577,20 @@ Keuntungan</string>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQc-vW-jXb">
                                                     <rect key="frame" x="8" y="204" width="584" height="50"/>
                                                     <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOT-eL-VUW">
+                                                            <rect key="frame" x="8" y="8" width="32" height="34"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="YOT-eL-VUW" secondAttribute="height" id="agR-ew-cUR"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="32"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="agR-ew-cUR"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Belanja Bergaransi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uG-Fp-Lkx">
                                                             <rect key="frame" x="42" y="8" width="534" height="17"/>
                                                             <constraints>
@@ -7594,20 +7610,6 @@ Keuntungan</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOT-eL-VUW">
-                                                            <rect key="frame" x="8" y="8" width="32" height="34"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="YOT-eL-VUW" secondAttribute="height" id="agR-ew-cUR"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="32"/>
-                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                            <variation key="default">
-                                                                <mask key="constraints">
-                                                                    <exclude reference="agR-ew-cUR"/>
-                                                                </mask>
-                                                            </variation>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.9882352941176471" green="0.99215686274509807" blue="0.71764705882352942" alpha="1" colorSpace="calibratedRGB"/>
@@ -7670,18 +7672,19 @@ Keuntungan</string>
                                                 <constraint firstItem="Pdo-pU-gpc" firstAttribute="top" secondItem="AQX-IN-uxF" secondAttribute="bottom" constant="8" id="O5Q-Xq-QyF"/>
                                                 <constraint firstItem="Ofg-1O-GKo" firstAttribute="top" secondItem="1td-y9-Zdz" secondAttribute="bottom" constant="4" id="Qr1-Rr-uMf"/>
                                                 <constraint firstItem="LhF-J7-vAi" firstAttribute="leading" secondItem="2ge-bC-M8v" secondAttribute="leading" id="SyD-ya-fPo"/>
+                                                <constraint firstItem="h33-IH-dwS" firstAttribute="top" secondItem="Pdo-pU-gpc" secondAttribute="bottom" constant="4" id="TS6-4K-895"/>
                                                 <constraint firstItem="lQc-vW-jXb" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="U05-pw-anX"/>
                                                 <constraint firstItem="AQX-IN-uxF" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="U7g-Lv-q45"/>
                                                 <constraint firstItem="bac-Ob-WFb" firstAttribute="top" secondItem="LhF-J7-vAi" secondAttribute="top" id="UFP-fM-FGf"/>
-                                                <constraint firstItem="Pdo-pU-gpc" firstAttribute="leading" secondItem="1td-y9-Zdz" secondAttribute="trailing" constant="8" id="WJz-Ne-SAQ"/>
                                                 <constraint firstItem="UD6-8q-KMs" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="WOE-Xd-KgY"/>
                                                 <constraint firstItem="oxv-MQ-Nol" firstAttribute="leading" secondItem="oqe-7P-HG8" secondAttribute="trailing" constant="8" id="bCG-Yo-Rzu"/>
                                                 <constraint firstItem="1td-y9-Zdz" firstAttribute="top" secondItem="vcQ-qR-F2J" secondAttribute="bottom" constant="9" id="bjQ-M3-3IS"/>
-                                                <constraint firstItem="LhF-J7-vAi" firstAttribute="leading" secondItem="bac-Ob-WFb" secondAttribute="trailing" constant="17" id="cz5-J7-2tL"/>
+                                                <constraint firstItem="LhF-J7-vAi" firstAttribute="leading" secondItem="bac-Ob-WFb" secondAttribute="trailing" constant="8" id="cz5-J7-2tL"/>
                                                 <constraint firstItem="1td-y9-Zdz" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="e6f-h0-ugM"/>
                                                 <constraint firstItem="dOv-jc-GqW" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="ePB-eX-5Hb"/>
                                                 <constraint firstItem="trO-QQ-FvV" firstAttribute="top" secondItem="h33-IH-dwS" secondAttribute="bottom" constant="4" id="emt-r8-Gey"/>
                                                 <constraint firstItem="Wk0-I4-cjN" firstAttribute="top" secondItem="2ge-bC-M8v" secondAttribute="bottom" constant="56" id="erf-Lx-3Ra"/>
+                                                <constraint firstItem="Ofg-1O-GKo" firstAttribute="top" secondItem="1td-y9-Zdz" secondAttribute="bottom" constant="4" id="fon-RT-BZP"/>
                                                 <constraint firstItem="2ge-bC-M8v" firstAttribute="leading" secondItem="dOv-jc-GqW" secondAttribute="trailing" constant="8" id="g0y-T3-YKJ"/>
                                                 <constraint firstItem="LhF-J7-vAi" firstAttribute="top" secondItem="2ge-bC-M8v" secondAttribute="bottom" constant="4" id="gPn-1O-gIp"/>
                                                 <constraint firstItem="oqe-7P-HG8" firstAttribute="top" secondItem="oxv-MQ-Nol" secondAttribute="top" id="jNF-pM-TRw"/>
@@ -7691,31 +7694,46 @@ Keuntungan</string>
                                                 <constraint firstItem="lQc-vW-jXb" firstAttribute="top" secondItem="Wk0-I4-cjN" secondAttribute="bottom" constant="8" id="lKZ-RK-sRk"/>
                                                 <constraint firstItem="E9c-Mz-Cmr" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="lQb-n1-Ysz"/>
                                                 <constraint firstItem="vcQ-qR-F2J" firstAttribute="top" secondItem="AQX-IN-uxF" secondAttribute="bottom" constant="4" id="lSN-t5-Yga"/>
+                                                <constraint firstItem="trO-QQ-FvV" firstAttribute="top" secondItem="h33-IH-dwS" secondAttribute="bottom" constant="4" id="mSh-rS-ccd"/>
                                                 <constraint firstItem="Wk0-I4-cjN" firstAttribute="top" secondItem="oxv-MQ-Nol" secondAttribute="bottom" constant="4" id="nRj-dm-ATH"/>
                                                 <constraint firstItem="vcQ-qR-F2J" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="ob1-cE-Q5F"/>
                                                 <constraint firstAttribute="trailing" secondItem="Wk0-I4-cjN" secondAttribute="trailing" constant="8" id="pTZ-uU-bkc"/>
                                                 <constraint firstItem="Ofg-1O-GKo" firstAttribute="leading" secondItem="7a0-2a-3WJ" secondAttribute="leading" constant="8" id="rXA-Xf-yVU"/>
+                                                <constraint firstItem="oxv-MQ-Nol" firstAttribute="top" secondItem="LhF-J7-vAi" secondAttribute="bottom" constant="4" id="rzy-4M-307"/>
+                                                <constraint firstItem="UD6-8q-KMs" firstAttribute="top" secondItem="Wk0-I4-cjN" secondAttribute="top" id="sRm-gY-jBB"/>
                                                 <constraint firstItem="Wk0-I4-cjN" firstAttribute="leading" secondItem="UD6-8q-KMs" secondAttribute="trailing" constant="8" id="u19-wa-lba"/>
                                                 <constraint firstAttribute="trailing" secondItem="trO-QQ-FvV" secondAttribute="trailing" constant="8" id="umA-HK-2d2"/>
                                                 <constraint firstItem="E9c-Mz-Cmr" firstAttribute="top" secondItem="Ofg-1O-GKo" secondAttribute="bottom" constant="4" id="vGz-vK-4si"/>
                                                 <constraint firstItem="AQX-IN-uxF" firstAttribute="top" secondItem="7a0-2a-3WJ" secondAttribute="top" constant="8" id="wUp-cD-T5g"/>
                                                 <constraint firstAttribute="trailing" secondItem="Pdo-pU-gpc" secondAttribute="trailing" constant="8" id="wnz-73-BZA"/>
+                                                <constraint firstItem="1td-y9-Zdz" firstAttribute="top" secondItem="vcQ-qR-F2J" secondAttribute="bottom" constant="9" id="xFA-6k-XR8"/>
+                                                <constraint firstItem="Pdo-pU-gpc" firstAttribute="top" secondItem="vcQ-qR-F2J" secondAttribute="bottom" constant="9" id="xUN-u4-j4F"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="9Ze-5l-cDZ"/>
                                                     <exclude reference="bjQ-M3-3IS"/>
+                                                    <exclude reference="xFA-6k-XR8"/>
                                                     <exclude reference="Qr1-Rr-uMf"/>
+                                                    <exclude reference="fon-RT-BZP"/>
                                                     <exclude reference="vGz-vK-4si"/>
+                                                    <exclude reference="2qr-rh-UVr"/>
                                                     <exclude reference="O5Q-Xq-QyF"/>
                                                     <exclude reference="3Ec-ux-shP"/>
+                                                    <exclude reference="IOF-th-xcQ"/>
+                                                    <exclude reference="emt-r8-Gey"/>
+                                                    <exclude reference="jjJ-zd-pYy"/>
                                                     <exclude reference="MCp-A9-cYD"/>
+                                                    <exclude reference="SyD-ya-fPo"/>
                                                     <exclude reference="AdI-87-ZBV"/>
                                                     <exclude reference="Ivh-Ke-fXc"/>
+                                                    <exclude reference="NgL-PB-X3E"/>
+                                                    <exclude reference="3X5-eG-irk"/>
                                                     <exclude reference="erf-Lx-3Ra"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="captionAlasanJual" destination="oxv-MQ-Nol" id="avh-gi-uvf"/>
                                             <outlet property="captionCategory" destination="Pdo-pU-gpc" id="vQJ-jf-3GO"/>
@@ -8574,7 +8592,7 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="lK0-hi-8sa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="TzG-rY-mDA">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddI-AH-dG5">
@@ -8639,7 +8657,7 @@ Keuntungan</string>
                                 <color key="color" red="0.0" green="0.4549019608" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-98-DqM">
-                                <rect key="frame" x="8" y="0.0" width="584" height="600"/>
+                                <rect key="frame" x="8" y="0.0" width="584" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Mbg-tu-sJy">
                                     <rect key="frame" x="0.0" y="872" width="584" height="56"/>
@@ -9757,11 +9775,11 @@ Keuntungan</string>
                         <viewControllerLayoutGuide type="bottom" id="tGQ-6f-dmX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OBo-o7-ulS">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Pc-2l-HUC">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yy9-U0-vPP">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="401"/>
@@ -10687,7 +10705,7 @@ Keuntungan</string>
                                 <rect key="frame" x="0.0" y="66" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W4-VT-LDM" id="KvA-hb-KVS">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="UWe-uJ-oiA" userLabel="loadingbottom">
@@ -14158,7 +14176,7 @@ Label / Merek</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qKf-wf-xKf" id="gBT-5a-aKJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="73.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qXw-UR-PD3">
@@ -15009,7 +15027,7 @@ Label / Merek</string>
                                                             <rect key="frame" x="0.0" y="22" width="600" height="207"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qjV-Hg-rOC" id="XnC-7F-kQD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="206.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="207"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-FK-AEw" userLabel="Product Image">
@@ -15384,7 +15402,7 @@ Label / Merek</string>
                                                             <rect key="frame" x="0.0" y="229" width="600" height="21"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pt8-m5-iXa" id="ewn-Tz-Uto">
-                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="20.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="600" height="21"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Hp-k7-zb4">
@@ -16449,9 +16467,9 @@ Label / Merek</string>
         <image name="tour_5.jpg" width="720" height="1280"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5pQ-qG-4MR"/>
-        <segue reference="gv4-pa-FxU"/>
         <segue reference="gU7-9Q-bxr"/>
-        <segue reference="ksh-6D-t59"/>
+        <segue reference="gv4-pa-FxU"/>
+        <segue reference="dW2-MQ-HC6"/>
+        <segue reference="5pQ-qG-4MR"/>
     </inferredMetricsTieBreakers>
 </document>
