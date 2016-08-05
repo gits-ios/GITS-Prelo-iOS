@@ -45,18 +45,21 @@ class ProdukUploader: NSObject {
         
         static let KEY_PARAM = "param"
         static let KEY_IMAGES = "images"
+        static let KEY_MIXPANEL_PARAM = "mixpanelParam"
         
-        init(produkParam : [String : String!], produkImages : [AnyObject])
+        init(produkParam : [String : String!], produkImages : [AnyObject], mixpanelParam : [NSObject : AnyObject])
         {
             self.param = produkParam
             self.images = produkImages
+            self.mixpanelParam = mixpanelParam
         }
         
         var param : [String : String!] = [:]
         var images : [AnyObject] = []
+        var mixpanelParam : [NSObject : AnyObject] = [:]
         
         var toDictionary : [String : AnyObject] {
-            return ["param":param, "images":images]
+            return ["param":param, "images":images, "mixpanelParam":mixpanelParam]
         }
         
         var toProduct : Product?
@@ -113,6 +116,9 @@ class ProdukUploader: NSObject {
                 print("queue upload success :")
                 print(res)
                 self.currentRetryCount = 0
+                
+                // Mixpanel
+                Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: p.mixpanelParam)
                 
                 var queue = self.getQueue()
                 if (queue.count > 1)
@@ -199,9 +205,9 @@ class ProdukUploader: NSObject {
         let rawQueue = getRawQueue()
         for raw in rawQueue
         {
-            if let param = raw[ProdukLokal.KEY_PARAM] as? [String : String!], images = raw[ProdukLokal.KEY_IMAGES] as? [AnyObject]
+            if let param = raw[ProdukLokal.KEY_PARAM] as? [String : String!], images = raw[ProdukLokal.KEY_IMAGES] as? [AnyObject], mixpanelParam = raw[ProdukLokal.KEY_MIXPANEL_PARAM] as? [NSObject : AnyObject]
             {
-                let p = ProdukLokal(produkParam: param, produkImages: images)
+                let p = ProdukLokal(produkParam: param, produkImages: images, mixpanelParam: mixpanelParam)
                 queue.append(p)
             }
         }

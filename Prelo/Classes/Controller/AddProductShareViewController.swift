@@ -360,11 +360,10 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Instagram Username" : igUsername,
             "Time" : NSDate().isoFormatted
         ]
-        Mixpanel.trackEvent(MixpanelEvent.AddedProduct, properties: pt as [NSObject : AnyObject])
         
         // Add product to product uploader
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages))
+            AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [NSObject : AnyObject]))
             dispatch_async(dispatch_get_main_queue(), {
                 let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
                 self.navigationController?.pushViewController(b!, animated: true)
