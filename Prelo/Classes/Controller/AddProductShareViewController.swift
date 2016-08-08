@@ -9,6 +9,7 @@
 import UIKit
 import TwitterKit
 import Social
+import Crashlytics
 
 class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
     
@@ -369,6 +370,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                     let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
                     self.navigationController?.pushViewController(b!, animated: true)
                 } else {
+                    Crashlytics.sharedInstance().recordCustomExceptionName("ProdukUploader", reason: "Empty Queue", frameArray: [])
                     Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
                     self.btnSend.enabled = true
                 }
