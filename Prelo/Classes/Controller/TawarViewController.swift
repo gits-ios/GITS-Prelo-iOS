@@ -9,8 +9,9 @@
 import UIKit
 import Crashlytics
 
-protocol  TawarItem
-{
+// MARK: - Protocol
+
+protocol  TawarItem {
     var itemName : String {get}
     var itemId : String {get}
     var productImage : NSURL {get}
@@ -32,16 +33,19 @@ protocol  TawarItem
     func setBargainPrice(price : Int)
 }
 
-protocol TawarDelegate
-{
+// MARK: - Protocol
+
+protocol TawarDelegate {
     func tawarNeedReloadList()
 }
 
-class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate
-{
+// MARK: - Class
+
+class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate {
 
     var tawarDelegate : TawarDelegate?
     
+    // Views
     @IBOutlet var tableView : UITableView!
     @IBOutlet var header : TawarHeader!
     @IBOutlet var btnSend : UIButton!
@@ -50,9 +54,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet var conHeightTextView : NSLayoutConstraint!
     var textViewGrowHandler : GrowingTextViewHandler!
     
+    // Variables from previous screen
     var prodId : String = ""
     var loadInboxFirst = false
     var tawarItem : TawarItem!
+    
     var inboxMessages : [InboxMessage] = []
     var first = true
     var isAtBottom = false
