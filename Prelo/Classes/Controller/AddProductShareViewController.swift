@@ -365,8 +365,13 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             AppDelegate.Instance.produkUploader.addToQueue(ProdukUploader.ProdukLokal(produkParam: self.sendProductParam, produkImages: self.sendProductImages, mixpanelParam: pt as [NSObject : AnyObject]))
             dispatch_async(dispatch_get_main_queue(), {
-                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
-                self.navigationController?.pushViewController(b!, animated: true)
+                if (AppDelegate.Instance.produkUploader.getQueue().count > 0) {
+                    let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
+                    self.navigationController?.pushViewController(b!, animated: true)
+                } else {
+                    Constant.showDialog("Warning", message: "Oops, terdapat kesalahan saat mengupload barang kamu")
+                    self.btnSend.enabled = true
+                }
             })
         })
         return
