@@ -174,6 +174,7 @@ class Tags : NSObject
     static let XibNameNotifAnggiConversation = "NotifAnggiConversation"
     static let XibNameConfirmShipping = "ConfirmShipping"
     static let XibNameBalanceMutation = "BalanceMutation"
+    static let XibNameFilter = "Filter"
 }
 
 class OrderStatus : NSObject

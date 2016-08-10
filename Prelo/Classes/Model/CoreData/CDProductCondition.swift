@@ -166,4 +166,26 @@ class CDProductCondition: NSManagedObject {
         
         return arr
     }
+    
+    static func getProductConditionNames() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var productConditions = [CDProductCondition]()
+        
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        
+        var arr : [String] = []
+        
+        do {
+            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            for productCondition in productConditions {
+                arr.append(productCondition.name)
+            }
+        } catch {
+            
+        }
+        return arr
+    }
 }

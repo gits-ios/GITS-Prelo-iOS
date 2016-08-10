@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="m1J-vz-qn0" customClass="FilterViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="RBv-Td-vvw"/>
+                <viewControllerLayoutGuide type="bottom" id="1gd-xo-2J7"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="oBo-VT-wd2">
+                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8RC-dt-LDy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4x-Qa-Qaz">
+                        <rect key="frame" x="0.0" y="480" width="600" height="56"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vet-ON-m8T" userLabel="Separator">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="kJj-JO-9R1"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H4L-fY-nv6" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                <rect key="frame" x="8" y="8" width="288" height="40"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="RESET">
+                                    <color key="titleColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                        <color key="value" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="resetPressed:" destination="m1J-vz-qn0" eventType="touchUpInside" id="ZeF-8O-Dnf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEY-Wd-bgr">
+                                <rect key="frame" x="304" y="8" width="288" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="APPLY">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="applyPressed:" destination="m1J-vz-qn0" eventType="touchUpInside" id="KLA-fD-HjB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FEY-Wd-bgr" firstAttribute="leading" secondItem="H4L-fY-nv6" secondAttribute="trailing" constant="8" id="72g-3n-ozY"/>
+                            <constraint firstItem="vet-ON-m8T" firstAttribute="leading" secondItem="F4x-Qa-Qaz" secondAttribute="leading" id="B5T-gG-VfD"/>
+                            <constraint firstAttribute="height" constant="56" id="Iyv-v1-Xsy"/>
+                            <constraint firstItem="vet-ON-m8T" firstAttribute="top" secondItem="F4x-Qa-Qaz" secondAttribute="top" id="JDH-g7-TWh"/>
+                            <constraint firstItem="H4L-fY-nv6" firstAttribute="leading" secondItem="F4x-Qa-Qaz" secondAttribute="leading" constant="8" id="RjI-04-eDu"/>
+                            <constraint firstAttribute="trailing" secondItem="vet-ON-m8T" secondAttribute="trailing" id="bgV-fP-zRB"/>
+                            <constraint firstAttribute="bottom" secondItem="H4L-fY-nv6" secondAttribute="bottom" constant="8" id="dCh-hB-HW3"/>
+                            <constraint firstItem="FEY-Wd-bgr" firstAttribute="top" secondItem="vet-ON-m8T" secondAttribute="bottom" constant="7" id="eEz-eL-Mls"/>
+                            <constraint firstAttribute="trailing" secondItem="FEY-Wd-bgr" secondAttribute="trailing" constant="8" id="iMY-c1-TI3"/>
+                            <constraint firstAttribute="bottom" secondItem="FEY-Wd-bgr" secondAttribute="bottom" constant="8" id="kN6-gc-Q2Y"/>
+                            <constraint firstItem="H4L-fY-nv6" firstAttribute="top" secondItem="vet-ON-m8T" secondAttribute="bottom" constant="7" id="kWJ-MQ-FoG"/>
+                            <constraint firstAttribute="centerX" secondItem="H4L-fY-nv6" secondAttribute="trailing" constant="4" id="nq9-ja-NOZ"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FcN-61-WpM" userLabel="Loading Panel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8qy-xN-5Rq">
+                                <rect key="frame" x="290" y="258" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8qy-xN-5Rq" firstAttribute="centerY" secondItem="FcN-61-WpM" secondAttribute="centerY" id="DLj-iH-o0a"/>
+                            <constraint firstItem="8qy-xN-5Rq" firstAttribute="centerX" secondItem="FcN-61-WpM" secondAttribute="centerX" id="hRr-TV-R9C"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <gestureRecognizers/>
+                <constraints>
+                    <constraint firstItem="1gd-xo-2J7" firstAttribute="top" secondItem="F4x-Qa-Qaz" secondAttribute="bottom" id="1wL-q2-Wix"/>
+                    <constraint firstAttribute="trailing" secondItem="F4x-Qa-Qaz" secondAttribute="trailing" id="28R-SF-8MR"/>
+                    <constraint firstItem="8RC-dt-LDy" firstAttribute="leading" secondItem="oBo-VT-wd2" secondAttribute="leading" id="9PB-Ad-I9V"/>
+                    <constraint firstItem="1gd-xo-2J7" firstAttribute="top" secondItem="FcN-61-WpM" secondAttribute="bottom" id="AOe-2b-hJi"/>
+                    <constraint firstItem="FcN-61-WpM" firstAttribute="leading" secondItem="oBo-VT-wd2" secondAttribute="leading" id="AS8-Ry-hAd"/>
+                    <constraint firstAttribute="trailing" secondItem="FcN-61-WpM" secondAttribute="trailing" id="J9u-yz-qUN"/>
+                    <constraint firstItem="F4x-Qa-Qaz" firstAttribute="top" secondItem="8RC-dt-LDy" secondAttribute="bottom" id="LQy-O9-5rR"/>
+                    <constraint firstItem="8RC-dt-LDy" firstAttribute="top" secondItem="RBv-Td-vvw" secondAttribute="bottom" id="QUg-XY-0Jq"/>
+                    <constraint firstAttribute="trailing" secondItem="8RC-dt-LDy" secondAttribute="trailing" id="uJi-Xd-aHx"/>
+                    <constraint firstItem="FcN-61-WpM" firstAttribute="top" secondItem="RBv-Td-vvw" secondAttribute="bottom" id="w7z-jZ-PWS"/>
+                    <constraint firstItem="F4x-Qa-Qaz" firstAttribute="leading" secondItem="oBo-VT-wd2" secondAttribute="leading" id="xer-Fj-2oj"/>
+                </constraints>
+                <connections>
+                    <outletCollection property="gestureRecognizers" destination="5Oc-3R-5i6" appends="YES" id="ysA-XL-wW9"/>
+                </connections>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="600" height="600"/>
+            <connections>
+                <outlet property="consBottomVwButtons" destination="1wL-q2-Wix" id="8h9-XS-UI9"/>
+                <outlet property="loadingPanel" destination="FcN-61-WpM" id="qwY-is-g1j"/>
+                <outlet property="tableView" destination="8RC-dt-LDy" id="Aeh-ua-c4T"/>
+            </connections>
+            <point key="canvasLocation" x="229" y="442"/>
+        </viewController>
+        <tapGestureRecognizer cancelsTouchesInView="NO" id="5Oc-3R-5i6">
+            <connections>
+                <action selector="disableTextFields:" destination="m1J-vz-qn0" id="B92-Ji-Upn"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

@@ -587,6 +587,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
 
+    @IBAction func filterPressed(sender: AnyObject) {
+        let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+        self.navigationController?.pushViewController(filterVC, animated: true)
+    }
+    
 }
 
 class SearchUserCell : UITableViewCell

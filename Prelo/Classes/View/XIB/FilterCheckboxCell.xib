@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FilterCheckboxCell" id="7yI-Qd-FbE" customClass="FilterCheckboxCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="266" height="28"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="266" height="28"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVy-kc-rQx">
+                        <rect key="frame" x="6" y="4" width="20" height="20"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xus-W9-9SL">
+                                <rect key="frame" x="1" y="1" width="18" height="18"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YAR-84-FGg">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                <color key="backgroundColor" red="1" green="0.6588235294" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YAR-84-FGg" secondAttribute="trailing" id="1Hz-YD-gjq"/>
+                            <constraint firstAttribute="bottom" secondItem="Xus-W9-9SL" secondAttribute="bottom" constant="1" id="3t0-Gm-HFy"/>
+                            <constraint firstItem="Xus-W9-9SL" firstAttribute="leading" secondItem="RVy-kc-rQx" secondAttribute="leading" constant="1" id="D2W-bi-g9s"/>
+                            <constraint firstAttribute="bottom" secondItem="YAR-84-FGg" secondAttribute="bottom" id="Mp8-uK-fX2"/>
+                            <constraint firstItem="YAR-84-FGg" firstAttribute="top" secondItem="RVy-kc-rQx" secondAttribute="top" id="Ojq-Ne-GZY"/>
+                            <constraint firstItem="YAR-84-FGg" firstAttribute="leading" secondItem="RVy-kc-rQx" secondAttribute="leading" id="Q0S-P3-WD7"/>
+                            <constraint firstAttribute="width" constant="20" id="TQh-56-Kw8"/>
+                            <constraint firstItem="Xus-W9-9SL" firstAttribute="top" secondItem="RVy-kc-rQx" secondAttribute="top" constant="1" id="VqW-gf-V6H"/>
+                            <constraint firstAttribute="height" constant="20" id="s1H-O5-oix"/>
+                            <constraint firstAttribute="trailing" secondItem="Xus-W9-9SL" secondAttribute="trailing" constant="1" id="vBl-Nu-QBK"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba5-CS-KdP">
+                        <rect key="frame" x="34" y="0.0" width="232" height="28"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ba5-CS-KdP" secondAttribute="bottom" id="Dn4-fm-6Fh"/>
+                <constraint firstItem="RVy-kc-rQx" firstAttribute="leading" secondItem="7yI-Qd-FbE" secondAttribute="leading" constant="6" id="ESN-28-lyt"/>
+                <constraint firstItem="ba5-CS-KdP" firstAttribute="top" secondItem="7yI-Qd-FbE" secondAttribute="top" id="OXE-aW-2rc"/>
+                <constraint firstItem="RVy-kc-rQx" firstAttribute="centerY" secondItem="7yI-Qd-FbE" secondAttribute="centerY" id="jE5-CA-CnG"/>
+                <constraint firstItem="ba5-CS-KdP" firstAttribute="leading" secondItem="RVy-kc-rQx" secondAttribute="trailing" constant="8" id="jZz-at-y6d"/>
+                <constraint firstAttribute="trailing" secondItem="ba5-CS-KdP" secondAttribute="trailing" id="v66-Dz-EtP"/>
+            </constraints>
+            <size key="customSize" width="266" height="28"/>
+            <connections>
+                <outlet property="lblCheckbox" destination="YAR-84-FGg" id="zve-Hb-zcq"/>
+                <outlet property="lblTitle" destination="ba5-CS-KdP" id="P7I-oY-yRj"/>
+            </connections>
+            <point key="canvasLocation" x="304" y="262"/>
+        </collectionViewCell>
+    </objects>
+</document>
