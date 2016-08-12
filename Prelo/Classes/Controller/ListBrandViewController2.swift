@@ -5,32 +5,65 @@
 //  Created by PreloBook on 5/23/16.
 //  Copyright © 2016 GITS Indonesia. All rights reserved.
 //
+//  This class is used for brand filtering in search page
 
 import Foundation
 
+// MARK: - Class
+
 class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    @IBOutlet var tableView : UITableView!
-    @IBOutlet var searchBar : UISearchBar!
     
+    // MARK: - Properties
+    
+    // Views
+    @IBOutlet var tableView : UITableView!
+    var searchBar : UISearchBar!
+    
+    // Data containers
     var brands : [String : String] = [:]
     var sortedBrandKeys : [String] = []
     
+    // Flags
     var pagingCurrent = 0
     var pagingLimit = 10
     var isPagingEnded = false
     var isGettingData = false
     
-    var NotFoundPlaceholder = "(merk tidak ditemukan)"
+    // Placeholder
+    let NotFoundPlaceholder = "(merk tidak ditemukan)"
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Search bar setup
+        var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+        if (AppTools.isIPad) {
+            searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+        }
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
+        if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+            searchField.backgroundColor = Theme.PrimaryColorDark
+            searchField.textColor = UIColor.whiteColor()
+            let attrPlaceholder = NSAttributedString(string: "Cari Merek", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+            searchField.attributedPlaceholder = attrPlaceholder
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.lightGrayColor()
+            }
+            searchField.borderStyle = UITextBorderStyle.None
+        }
+        searchBar.delegate = self
         searchBar.placeholder = "Cari Merek"
+        self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
         
+        // Table setup
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
+        // Get initial brands
         getBrands()
     }
     
@@ -62,7 +95,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
                             }
                         }
                     } else {
-                        if (self.brands.count == 0) { // Which means no brand found after filter/search
+                        if (self.brands.count == 0) { // Which means no brand found after search
                             self.brands[self.NotFoundPlaceholder] = ""
                         }
                     }
@@ -95,7 +128,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         
         if (indexPath.row >= brands.count) { // Make this loading cell
             cell.isBottomCell = true
-            cell.adapt("")
+            cell.adapt("", isChecked: false)
         } else {
             cell.isBottomCell = false
             let name = self.sortedBrandKeys[indexPath.row]
@@ -104,7 +137,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             } else {
                 cell.isNotFoundCell = false
             }
-            cell.adapt(name)
+            cell.adapt(name, isChecked: false)
         }
         
         return cell
@@ -156,6 +189,32 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         self.getBrands()
     }
     
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.whiteColor()
+            }
+        }
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.lightGrayColor()
+            }
+        }
+    }
+    
+    @IBAction func disableFields(sender : AnyObject) {
+        searchBar.resignFirstResponder()
+    }
+    
+    
+    @IBAction func submitPressed(sender: AnyObject) {
+    }
+    
     // MARK: - Helper functions
     
     func sortCaseInsensitive(values:[String]) -> [String]{
@@ -174,29 +233,55 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     func isFiltering() -> Bool {
         return (self.searchBar.text?.length > 0)
     }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+            return false
+        } else {
+            return true
+        }
+    }
 }
+
+// MARK: - Class
 
 class ListBrandVC2Cell: UITableViewCell {
     
-    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var loading: UIActivityIndicatorView!
+    @IBOutlet var vwCheckbox: UIView!
+    @IBOutlet var lblCheck: UILabel!
     
     var isBottomCell : Bool = false
     var isNotFoundCell : Bool = false
     
     override func prepareForReuse() {
+        lblTitle.text = ""
+        lblTitle.textColor = UIColor.darkGrayColor()
         loading.hidden = true
-        self.textLabel?.textColor = UIColor.blackColor()
+        vwCheckbox.hidden = false
+        isBottomCell = false
+        isNotFoundCell = false
     }
     
-    func adapt(text : String) {
+    func adapt(text : String, isChecked : Bool) {
         if (isBottomCell) {
             loading.hidden = false
+            loading.startAnimating()
+            vwCheckbox.hidden = true
         } else {
             loading.hidden = true
+            loading.stopAnimating()
         }
-        self.textLabel?.text = text
+        lblTitle.text = text
         if (isNotFoundCell) {
-            self.textLabel?.textColor = UIColor.lightGrayColor()
+            lblTitle.textColor = UIColor.lightGrayColor()
+            vwCheckbox.hidden = true
+        }
+        if (isChecked) {
+            lblCheck.hidden = false
+        } else {
+            lblCheck.hidden = true
         }
     }
 }
