@@ -17,17 +17,20 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     // Views
     @IBOutlet var tableView : UITableView!
+    @IBOutlet var btnSubmit: UIButton!
     var searchBar : UISearchBar!
     
     // Data containers
     var brands : [String : String] = [:]
     var sortedBrandKeys : [String] = []
+    var selectedBrands : [String : String] = [:]
     
     // Flags
     var pagingCurrent = 0
     var pagingLimit = 10
     var isPagingEnded = false
     var isGettingData = false
+    var isSearchSelectedBrand = false
     
     // Placeholder
     let NotFoundPlaceholder = "(merk tidak ditemukan)"
@@ -91,7 +94,12 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
                     if (data.count > 0) {
                         for i in 0...(data.count - 1) {
                             if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
-                                self.brands[merkName] = merkId
+                                if (self.selectedBrands[merkName] == nil) { // If not already in selected brands
+                                    self.brands[merkName] = merkId
+                                } else {
+                                    // Set true, supaya ga perlu munculin loading di baris paling bawah, karena sebenarnya brand sudah ada di selectedBrand
+                                    self.isSearchSelectedBrand = true
+                                }
                             }
                         }
                     } else {
@@ -99,10 +107,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
                             self.brands[self.NotFoundPlaceholder] = ""
                         }
                     }
-                    self.sortedBrandKeys = self.sortCaseInsensitive(Array(self.brands.keys))
-                    if let noBrandIdx = self.sortedBrandKeys.indexOf("Tanpa Merek") {
-                        self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(noBrandIdx), atIndex: 0)
-                    }
+                    self.adaptSortedBrandKeys()
                     self.tableView.reloadData()
                     self.pagingCurrent += self.pagingCurrent == 0 ? 25 : self.pagingLimit
                     self.isGettingData = false
@@ -114,8 +119,8 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     // MARK: - UITableView functions
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var n = brands.count
-        if (!self.isPagingEnded || n == 0) { // Jika paging belum selesai, atau jika sedang loading filter
+        var n = brands.count + selectedBrands.count
+        if (!isSearchSelectedBrand && (!self.isPagingEnded || brands.count == 0)) { // Jika tidak sedang mencari brand yg sudah dipilih, dan (paging belum selesai atau jika sedang loading filter)
             // Additional cell for loading indicator or not found indicator
             n += 1
         }
@@ -126,10 +131,11 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         let cell = tableView.dequeueReusableCellWithIdentifier("ListBrandVC2Cell") as! ListBrandVC2Cell
         cell.selectionStyle = .None
         
-        if (indexPath.row >= brands.count) { // Make this loading cell
+        if (indexPath.row >= brands.count + selectedBrands.count) { // Make this loading cell
             cell.isBottomCell = true
             cell.adapt("", isChecked: false)
         } else {
+            // selectedBrands selalu dipasang di atas
             cell.isBottomCell = false
             let name = self.sortedBrandKeys[indexPath.row]
             if (name == self.NotFoundPlaceholder) {
@@ -137,23 +143,43 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             } else {
                 cell.isNotFoundCell = false
             }
-            cell.adapt(name, isChecked: false)
+            cell.adapt(name, isChecked: (indexPath.row < self.selectedBrands.count))
         }
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let brandId = self.brands[self.sortedBrandKeys[indexPath.row]] where self.sortedBrandKeys[indexPath.row] != self.NotFoundPlaceholder else {
+        if (indexPath.row >= (brands.count + selectedBrands.count) || self.sortedBrandKeys[indexPath.row] == self.NotFoundPlaceholder) { // Jika yg diklik adl loading atau 'merk tidak ditemukan'
             return
         }
-        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.searchMode = true
-        l.searchBrand = true
-        l.searchBrandId = brandId
-        l.searchKey = self.sortedBrandKeys[indexPath.row]
-        self.navigationController?.pushViewController(l, animated: true)
+        
+        if (indexPath.row >= self.selectedBrands.count) { // Which means select unselected brand
+            // Pindahkan elemen dictionary dari brand ke selectedBrand, kemudian pindahkan index pada sortedBrandKeys ke bagian atas
+            self.selectedBrands[self.sortedBrandKeys[indexPath.row]] = self.brands[self.sortedBrandKeys[indexPath.row]]
+            self.brands.removeValueForKey(self.sortedBrandKeys[indexPath.row])
+            self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(indexPath.row), atIndex: self.selectedBrands.count - 1)
+            self.isSearchSelectedBrand = true
+        } else { // Which means unselect selected brand
+            // Pindahkan elemen dictionary dari selectedBrand ke brand, kemudian pindahkan index pada sortedBrandKeys ke bukan bagian atas
+            self.brands[self.sortedBrandKeys[indexPath.row]] = self.selectedBrands[self.sortedBrandKeys[indexPath.row]]
+            self.selectedBrands.removeValueForKey(self.sortedBrandKeys[indexPath.row])
+            self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(indexPath.row), atIndex: selectedBrands.count)
+            self.adaptSortedBrandKeys()
+        }
+        
+        // Update button title
+        if (self.selectedBrands.count > 0) {
+            self.btnSubmit.setTitle("SUBMIT (\(self.selectedBrands.count))", forState: .Normal)
+        } else {
+            self.btnSubmit.setTitle("SUBMIT", forState: .Normal)
+        }
+        
+        // Reload table
+        tableView.reloadData()
     }
+    
+    // MARK: - Scroll view functions
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
@@ -176,6 +202,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         self.brands.removeAll()
+        self.isSearchSelectedBrand = false
         tableView.reloadData()
         if (self.isFiltering()) {
             // Jika sedang memfilter/mencari, tidak usah pakai paging
@@ -207,15 +234,39 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
+    // MARK: - Actions
+    
     @IBAction func disableFields(sender : AnyObject) {
         searchBar.resignFirstResponder()
     }
     
-    
     @IBAction func submitPressed(sender: AnyObject) {
+        if (selectedBrands.count <= 0) {
+            Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
+            return
+        }
+//        guard let brandId = self.brands[self.sortedBrandKeys[indexPath.row]] where self.sortedBrandKeys[indexPath.row] != self.NotFoundPlaceholder else {
+//            return
+//        }
+//        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+//        l.searchMode = true
+//        l.searchBrand = true
+//        l.searchBrandId = brandId
+//        l.searchKey = self.sortedBrandKeys[indexPath.row]
+//        self.navigationController?.pushViewController(l, animated: true)
     }
     
     // MARK: - Helper functions
+    
+    func adaptSortedBrandKeys() {
+        self.sortedBrandKeys.removeLast(self.sortedBrandKeys.count - self.selectedBrands.count)
+        self.sortedBrandKeys.appendContentsOf(self.sortCaseInsensitive(Array(self.brands.keys)))
+        if (self.selectedBrands["Tanpa Merek"] == nil) { // Which means 'tanpa merek' is unselected
+            if let noBrandIdx = self.sortedBrandKeys.indexOf("Tanpa Merek") {
+                self.sortedBrandKeys.insert(self.sortedBrandKeys.removeAtIndex(noBrandIdx), atIndex: self.selectedBrands.count)
+            }
+        }
+    }
     
     func sortCaseInsensitive(values:[String]) -> [String]{
         
