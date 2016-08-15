@@ -25,6 +25,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     var foundItems : [Product] = []
     var foundUsers : [SearchUser] = []
     
+    var currentCategoryId : String = "" // Category id terakhir yg dilihat di home
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
@@ -589,6 +591,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
 
     @IBAction func filterPressed(sender: AnyObject) {
         let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+        filterVC.categoryId = self.currentCategoryId
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     

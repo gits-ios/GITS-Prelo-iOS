@@ -1452,6 +1452,7 @@ enum References : URLRequestConvertible
     case CityList(provinceId : String)
     case BrandAndSizeByCategory(category : String)
     case HomeCategories
+    case FormattedSizesByCategory(category : String)
     
     var method : Method
     {
@@ -1462,6 +1463,7 @@ enum References : URLRequestConvertible
         case .CityList(_):return .GET
         case .BrandAndSizeByCategory(_) : return .GET
         case .HomeCategories : return .GET
+        case .FormattedSizesByCategory(_) : return .GET
         }
     }
     
@@ -1474,6 +1476,7 @@ enum References : URLRequestConvertible
         case .CityList(_):return "cities"
         case .BrandAndSizeByCategory(_) : return "brands_sizes"
         case .HomeCategories : return "categories/home"
+        case .FormattedSizesByCategory(_) : return "formatted_sizes"
         }
     }
     
@@ -1486,6 +1489,7 @@ enum References : URLRequestConvertible
         case .CityList(let pId):return ["province":pId, "prelo":"true"]
         case .BrandAndSizeByCategory(let catId) : return ["category_id":catId]
         case .HomeCategories : return[:]
+        case .FormattedSizesByCategory(let catId) : return ["category_id":catId]
         }
     }
     

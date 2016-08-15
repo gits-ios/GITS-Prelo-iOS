@@ -23,6 +23,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var categoriesFix : [JSON] = []
     
+    var currentCategoryId : String = ""
+    
     // Home promo
     var vwHomePromo : UIView?
     
@@ -447,6 +449,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                 }
+                
+                // Set current category id
+                self.currentCategoryId = categoriesFix[i]["_id"].stringValue
             }
         }
         

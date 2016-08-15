@@ -15,10 +15,13 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     // MARK: - Struct
     
     struct CategorySize {
+        var id : String = ""
         var name : String = ""
         var sizes : [String] = []
         var selecteds : [Bool] = []
+        var values : [String] = []
         var hidden : Bool = true
+        var nColumn : Int = 3
     }
     
     // MARK: - Properties
@@ -28,11 +31,12 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     @IBOutlet var loadingPanel: UIView!
     @IBOutlet var consBottomVwButtons: NSLayoutConstraint!
     
-    // Variable from previous page
+    // Predefined values
     var categoryId = ""
     
     // Data container
     let SortByData : [String] = ["Popular", "Recent", "Lowest Price", "Highest Price"]
+    let CategSizeCellHeight : CGFloat = 28
     var selectedIdxSortBy : Int = 0
     var productConditions : [String] = []
     var selectedProductConditions : [Bool] = []
@@ -84,18 +88,6 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 selectedProductConditions.append(false)
             }
         }
-        
-        // Init category sizes
-        categorySizes.append(CategorySize(name: "Sepatu & Sandal Wanita", sizes: ["abc", "def", "ghi", "klm", "nop"], selecteds: [false, false, false, false, false], hidden: true))
-        categorySizes.append(CategorySize(name: "Atasan & Terusan Wanita", sizes: ["qrs", "tuv", "wxy", "zab", "cde", "fgh"], selecteds: [false, false, false, false, false, false], hidden: true))
-        categorySizes.append(CategorySize(name: "Bawahan Wanita", sizes: ["ijk", "lmn", "opq", "rst", "uvw", "xyz", "abc"], selecteds: [false, false, false, false, false, false, false], hidden: true))
-        
-        // Setup table
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0)
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.reloadData()
-        self.hideLoading()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -108,6 +100,45 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 self.consBottomVwButtons.constant = 0
             }
         }, completion: nil)
+        
+        // Get sizes
+        request(References.FormattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Ukuran")) {
+                let json = JSON(resp.result.value!)
+                if let data = json["_data"].array where data.count > 0 {
+                    let collViewWidth = UIScreen.mainScreen().bounds.size.width - 16
+                    for i in 0...data.count - 1 {
+                        let id = data[i]["_id"].stringValue
+                        let name = data[i]["name"].stringValue
+                        var sizes : [String] = []
+                        var selecteds : [Bool] = []
+                        var values : [String] = []
+                        var nColumn : Int = 3
+                        if let fSizes = data[i]["formatted_sizes"].array where fSizes.count > 0 {
+                            for j in 0...fSizes.count - 1 {
+                                let sizeName = fSizes[j]["name"].stringValue
+                                sizes.append(sizeName)
+                                selecteds.append(false)
+                                values.append(fSizes[j]["value"].stringValue)
+                                
+                                let cellWidth = sizeName.widthWithConstrainedHeight(self.CategSizeCellHeight, font: UIFont.systemFontOfSize(11)) + 34
+                                let nColumnCell = (Int)(collViewWidth / cellWidth)
+                                if (nColumnCell < nColumn) {
+                                    nColumn = nColumnCell
+                                }
+                            }
+                        }
+                        self.categorySizes.append(CategorySize(id: id, name: name, sizes: sizes, selecteds: selecteds, values: values, hidden: true, nColumn: nColumn))
+                    }
+                }
+            }
+            // Setup table
+            self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0)
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.tableView.reloadData()
+            self.hideLoading()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -189,8 +220,10 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 if (categorySizes[indexPath.row].hidden) {
                     return 37
                 } else {
-                    let rows = categorySizes[indexPath.row].sizes.count
-                    return 45 + (CGFloat)(((rows + 1) / 2) * 28)
+                    let elmtCount = categorySizes[indexPath.row].sizes.count
+                    let colCount = categorySizes[indexPath.row].nColumn
+                    let rowCount = (elmtCount / colCount) + (elmtCount % colCount > 0 ? 1 : 0)
+                    return 45 + ((CGFloat)(rowCount) * self.CategSizeCellHeight)
                 }
             }
         } else if (section == SectionHarga) {
@@ -221,7 +254,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else if (section == SectionUkuran) {
             let cell : FilterCollectionCell = self.tableView.dequeueReusableCellWithIdentifier(IdFilterCollectionCell) as! FilterCollectionCell
             if (indexPath.row < categorySizes.count) {
-                cell.adapt(categorySizes[indexPath.row].name, sizes: categorySizes[indexPath.row].sizes, selecteds: categorySizes[indexPath.row].selecteds, hidden: categorySizes[indexPath.row].hidden)
+                cell.adapt(categorySizes[indexPath.row].name, sizes: categorySizes[indexPath.row].sizes, selecteds: categorySizes[indexPath.row].selecteds, hidden: categorySizes[indexPath.row].hidden, nColumn: categorySizes[indexPath.row].nColumn)
                 cell.checkboxTapped = { idx in
                     self.categorySizes[indexPath.row].selecteds[idx] = !self.categorySizes[indexPath.row].selecteds[idx]
                     self.tableView.reloadData()
@@ -381,14 +414,16 @@ class FilterCollectionCell : UITableViewCell, UICollectionViewDelegate, UICollec
     
     var sizes : [String] = []
     var selecteds : [Bool] = []
+    var nColumn : CGFloat = 3
     
     var checkboxTapped : (Int) -> () = { _ in }
     var headerTapped : () -> () = {}
     
-    func adapt(title : String, sizes : [String], selecteds : [Bool], hidden : Bool) {
+    func adapt(title : String, sizes : [String], selecteds : [Bool], hidden : Bool, nColumn : Int) {
         self.lblTitle.text = title
         self.sizes = sizes
         self.selecteds = selecteds
+        self.nColumn = CGFloat(nColumn)
         self.selectionStyle = .None
         
         if (hidden) {
@@ -410,7 +445,7 @@ class FilterCollectionCell : UITableViewCell, UICollectionViewDelegate, UICollec
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let viewWidth = UIScreen.mainScreen().bounds.size.width
-        return CGSize(width: (viewWidth - 16) / 2, height: 28)
+        return CGSize(width: (viewWidth - 16) / self.nColumn, height: 28)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
