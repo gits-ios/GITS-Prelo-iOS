@@ -9,6 +9,12 @@
 
 import Foundation
 
+// MARK: - Protocol
+
+protocol ListBrandDelegate {
+    func adjustBrand(fltrBrands : [String : String])
+}
+
 // MARK: - Class
 
 class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
@@ -21,9 +27,9 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     var searchBar : UISearchBar!
     
     // Data containers
-    var brands : [String : String] = [:]
-    var sortedBrandKeys : [String] = []
-    var selectedBrands : [String : String] = [:]
+    var brands : [String : String] = [:] // [<merkName> : <merkId>]
+    var sortedBrandKeys : [String] = [] // [<merkName>]
+    var selectedBrands : [String : String] = [:] // [<merkName> : <merkId>], might be predefined
     
     // Flags
     var pagingCurrent = 0
@@ -34,6 +40,9 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     // Placeholder
     let NotFoundPlaceholder = "(merk tidak ditemukan)"
+    
+    // Delegate
+    var delegate : ListBrandDelegate? = nil
     
     // MARK: - Init
     
@@ -65,7 +74,9 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         // Get initial brands
         getBrands()
     }
@@ -246,9 +257,16 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             return
         }
         
-        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.filterMode = true
-        self.navigationController?.pushViewController(l, animated: true)
+        if (self.previousController != nil) {
+            delegate?.adjustBrand(selectedBrands)
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
+            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            l.filterMode = true
+            l.fltrBrands = selectedBrands
+            l.fltrSortBy = "recent"
+            self.navigationController?.pushViewController(l, animated: true)
+        }
     }
     
     // MARK: - Helper functions

@@ -2565,6 +2565,49 @@ in Bandung</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fqr-NG-zBC">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGU-S5-LKP">
+                                        <rect key="frame" x="8" y="280" width="584" height="40"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="Y8C-Gx-qkz"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="REQUEST BARANG">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="reqBarangPressed:" destination="lgf-3L-dpB" eventType="touchUpInside" id="aST-xb-b33"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZFB-sW-zmt">
+                                        <rect key="frame" x="8" y="258" width="584" height="14"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="JZv-3l-Pt2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="JZv-3l-Pt2"/>
+                                            </mask>
+                                        </variation>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="FGU-S5-LKP" firstAttribute="centerY" secondItem="Fqr-NG-zBC" secondAttribute="centerY" id="9jg-dz-5O7"/>
+                                    <constraint firstItem="ZFB-sW-zmt" firstAttribute="leading" secondItem="Fqr-NG-zBC" secondAttribute="leading" constant="8" id="Lqc-gb-dto"/>
+                                    <constraint firstAttribute="trailing" secondItem="FGU-S5-LKP" secondAttribute="trailing" constant="8" id="bNg-Fk-v8d"/>
+                                    <constraint firstItem="FGU-S5-LKP" firstAttribute="leading" secondItem="Fqr-NG-zBC" secondAttribute="leading" constant="8" id="cHe-RI-54H"/>
+                                    <constraint firstItem="FGU-S5-LKP" firstAttribute="centerX" secondItem="Fqr-NG-zBC" secondAttribute="centerX" id="fLu-Zf-PFv"/>
+                                    <constraint firstItem="FGU-S5-LKP" firstAttribute="top" secondItem="ZFB-sW-zmt" secondAttribute="bottom" constant="8" id="gVm-Ya-LLK"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZFB-sW-zmt" secondAttribute="trailing" constant="8" id="pA6-eY-WRq"/>
+                                </constraints>
+                            </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uLm-zG-g5Y" userLabel="TopHeader">
                                 <rect key="frame" x="0.0" y="4" width="600" height="40"/>
                                 <subviews>
@@ -3331,18 +3374,22 @@ Cg
                             </collectionView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Fqr-NG-zBC" firstAttribute="leading" secondItem="0Ch-Vo-7PO" secondAttribute="leading" id="493-bS-uw9"/>
                             <constraint firstAttribute="trailing" secondItem="uLm-zG-g5Y" secondAttribute="trailing" id="D5d-XI-PUB"/>
                             <constraint firstItem="htf-RD-y2u" firstAttribute="top" secondItem="0Ch-Vo-7PO" secondAttribute="top" id="EGs-Bd-pqA"/>
                             <constraint firstItem="uJH-9X-bd2" firstAttribute="top" secondItem="tgA-tR-t0q" secondAttribute="bottom" id="J9f-Zz-hrg"/>
                             <constraint firstItem="htf-RD-y2u" firstAttribute="leading" secondItem="0Ch-Vo-7PO" secondAttribute="leading" id="KEg-Qr-TkU"/>
                             <constraint firstItem="tgA-tR-t0q" firstAttribute="leading" secondItem="0Ch-Vo-7PO" secondAttribute="leading" id="LPo-id-n20"/>
                             <constraint firstItem="tgA-tR-t0q" firstAttribute="top" secondItem="0Ch-Vo-7PO" secondAttribute="top" id="LnC-PE-vll"/>
+                            <constraint firstItem="uJH-9X-bd2" firstAttribute="top" secondItem="Fqr-NG-zBC" secondAttribute="bottom" id="Nhd-iq-fDG"/>
                             <constraint firstAttribute="trailing" secondItem="htf-RD-y2u" secondAttribute="trailing" id="Nso-Os-Ndp"/>
                             <constraint firstItem="tgA-tR-t0q" firstAttribute="top" secondItem="uLm-zG-g5Y" secondAttribute="bottom" id="YbZ-8B-1Yp"/>
+                            <constraint firstAttribute="trailing" secondItem="Fqr-NG-zBC" secondAttribute="trailing" id="ZQP-Dd-Tbs"/>
                             <constraint firstItem="uLm-zG-g5Y" firstAttribute="top" secondItem="0Ch-Vo-7PO" secondAttribute="top" constant="4" id="aNd-Dt-zgt"/>
                             <constraint firstAttribute="trailing" secondItem="tgA-tR-t0q" secondAttribute="trailing" id="mUX-su-X4J"/>
                             <constraint firstAttribute="trailing" secondItem="tgA-tR-t0q" secondAttribute="trailing" id="wHd-3Q-46k"/>
                             <constraint firstItem="uLm-zG-g5Y" firstAttribute="leading" secondItem="0Ch-Vo-7PO" secondAttribute="leading" id="y3y-yi-HIe"/>
+                            <constraint firstItem="Fqr-NG-zBC" firstAttribute="top" secondItem="0Ch-Vo-7PO" secondAttribute="top" id="z4O-Nm-wKM"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -3358,7 +3405,9 @@ Cg
                         <outlet property="lblFilterKategori" destination="mOi-mD-LwQ" id="bqE-ld-mMw"/>
                         <outlet property="lblFilterMerek" destination="K30-jy-Bee" id="ZUt-iV-ekh"/>
                         <outlet property="lblFilterSort" destination="pO2-Az-3PM" id="KKr-ca-bdT"/>
+                        <outlet property="lblFilterZeroResult" destination="ZFB-sW-zmt" id="kO6-I1-aod"/>
                         <outlet property="lblTopHeader" destination="34f-sO-b4S" id="bhM-Ts-63z"/>
+                        <outlet property="vwFilterZeroResult" destination="Fqr-NG-zBC" id="5j5-KR-ghR"/>
                         <outlet property="vwTopHeader" destination="uLm-zG-g5Y" id="WWP-6l-YEo"/>
                         <outlet property="vwTopHeaderFilter" destination="htf-RD-y2u" id="Kba-kV-Onx"/>
                         <segue destination="fom-l7-YmP" kind="presentation" identifier="segDetail" id="EVz-tI-xtl"/>
@@ -5676,7 +5725,7 @@ Keuntungan</string>
         <!--List Brand View Controller2-->
         <scene sceneID="jgf-jR-l5z">
             <objects>
-                <viewController id="7lE-jW-UD2" customClass="ListBrandViewController2" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ListBrand" id="7lE-jW-UD2" customClass="ListBrandViewController2" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Fqj-AC-sf6"/>
                         <viewControllerLayoutGuide type="bottom" id="fkJ-69-npK"/>

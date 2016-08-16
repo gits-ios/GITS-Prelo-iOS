@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Class
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate {
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
     
     // MARK: - Struct
     
@@ -96,7 +96,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var filterMode = false
     var fltrCategId : String = ""
     var fltrSegment : String = ""
-    var fltrBrandIds : [String] = []
+    var fltrBrands : [String : String] = [:]
     // Predefined values from filtervc
     var fltrProdCondIds : [String] = []
     var fltrPriceMin : NSNumber = 0
@@ -110,6 +110,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     @IBOutlet var lblFilterKategori: UILabel!
     @IBOutlet var lblFilterSort: UILabel!
     var searchBar : UISearchBar!
+    @IBOutlet var vwFilterZeroResult: UIView!
+    @IBOutlet var lblFilterZeroResult: UILabel!
     // Others
     let FltrValSortBy : [String : String] = ["recent" : "Recent", "lowest_price" : "Lowest Rp", "highest_price" : "Highest Rp", "popular" : "Popular"]
     
@@ -166,19 +168,19 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             vwTopHeaderFilter.hidden = false
             vwTopHeader.hidden = true
             consHeightVwTopHeader.constant = 52
-            if (fltrBrandIds.count > 0) {
-                
+            if (fltrBrands.count > 0) {
+                if (fltrBrands.count == 1) {
+                    lblFilterMerek.text = Array(fltrBrands.keys)[0]
+                } else {
+                    lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                }
             } else {
                 lblFilterMerek.text = "All"
             }
             if (fltrCategId == "") {
                 lblFilterKategori.text = "All"
             } else {
-                if let name = CDCategory.getCategoryNameWithID(fltrCategId) {
-                    lblFilterKategori.text = name
-                } else {
-                    lblFilterKategori.text = "-"
-                }
+                lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
             }
             lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
             if (lblFilterSort.text?.lowercaseString == "highest rp") {
@@ -473,7 +475,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        request(APISearch.ProductByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonStringFrom(fltrBrandIds), productConditionIds: AppToolsObjC.jsonStringFrom(fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonStringFrom(fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        request(APISearch.ProductByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonStringFrom(Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonStringFrom(fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonStringFrom(fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             if (fltrName == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Product")) {
@@ -714,6 +716,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func setupGrid() {
+        if (filterMode && products?.count <= 0 && self.searchBar.text != nil && self.searchBar.text != "") {
+            gridView.hidden = true
+            vwFilterZeroResult.hidden = false
+            lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(self.searchBar.text!)'"
+            return
+        }
+        
         if (gridView.dataSource == nil || gridView.delegate == nil) {
             gridView.dataSource = self
             gridView.delegate = self
@@ -730,6 +739,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         gridView.reloadData()
         gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         gridView.hidden = false
+        vwFilterZeroResult.hidden = true
     }
     
     // MARK: - Collection view functions
@@ -1043,6 +1053,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.setupGrid()
     }
     
+    // MARK: - List brand delegate function
+    
+    func adjustBrand(fltrBrands: [String : String]) {
+        self.fltrBrands = fltrBrands
+        if (fltrBrands.count > 0) {
+            if (fltrBrands.count == 1) {
+                lblFilterMerek.text = Array(fltrBrands.keys)[0]
+            } else {
+                lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+            }
+        }
+        self.refresh()
+        self.setupGrid()
+    }
+    
     // MARK: - Banner and TopHeader
     
     func isBannerExist() -> Bool {
@@ -1065,6 +1090,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func topHeaderFilterMerekPressed(sender: AnyObject) {
+        let listBrandVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdListBrand) as! ListBrandViewController2
+        listBrandVC.previousController = self
+        listBrandVC.delegate = self
+        listBrandVC.selectedBrands = self.fltrBrands
+        listBrandVC.sortedBrandKeys = Array(self.fltrBrands.keys)
+        self.navigationController?.pushViewController(listBrandVC, animated: true)
     }
     
     @IBAction func topHeaderFilterKategoriPressed(sender: AnyObject) {
@@ -1087,6 +1118,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
         self.navigationController?.pushViewController(filterVC, animated: true)
+    }
+    
+    @IBAction func reqBarangPressed(sender: AnyObject) {
     }
     
     // MARK: - Navigation

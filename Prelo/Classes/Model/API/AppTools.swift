@@ -144,6 +144,7 @@ class Tags : NSObject
     static let StoryBoardIdTawar = "Tawar"
     static let StoryBoardIdInbox = "Inbox"
     static let StoryBoardIdProductComments = "ProductComments"
+    static let StoryBoardIdListBrand = "ListBrand"
     
     static let Browse = "browse"
     static let Dashboard = "dashboard"
