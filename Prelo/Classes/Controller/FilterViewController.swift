@@ -8,6 +8,12 @@
 
 import Foundation
 
+// MARK: - Protocol
+
+protocol FilterDelegate {
+    func adjustFilter(fltrProdCondIds : [String], fltrPriceMin : NSNumber, fltrPriceMax : NSNumber, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String)
+}
+
 // MARK: - Class
 
 class FilterViewController : BaseViewController, UITableViewDelegate, UITableViewDataSource {
@@ -33,6 +39,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     
     // Predefined values
     var categoryId = ""
+    var initSelectedProdCondId : [String] = []
+    var initSelectedCategSizeVal : [String] = []
     
     // Data container
     let SortByData : [String] = ["Popular", "Recent", "Lowest Price", "Highest Price"]
@@ -60,6 +68,9 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     let IdFilterCollectionCell = "FilterCollectionCell"
     let IdFilterPriceCell = "FilterPriceCell"
     
+    // Delegate
+    var delegate : FilterDelegate? = nil
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -81,14 +92,6 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         tableView.registerNib(cell2, forCellReuseIdentifier: IdFilterSwitchCell)
         tableView.registerNib(cell3, forCellReuseIdentifier: IdFilterCollectionCell)
         tableView.registerNib(cell4, forCellReuseIdentifier: IdFilterPriceCell)
-        
-        // Init product conditions
-        self.productConditions = CDProductCondition.getProductConditionNames()
-        if (productConditions.count > 0) {
-            for _ in 0...productConditions.count - 1 {
-                selectedProductConditions.append(false)
-            }
-        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -101,6 +104,18 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                 self.consBottomVwButtons.constant = 0
             }
         }, completion: nil)
+        
+        // Init product conditions
+        self.productConditions = CDProductCondition.getProductConditionNames()
+        if (productConditions.count > 0) {
+            for i in 0...productConditions.count - 1 {
+                if (initSelectedProdCondId.indexOf(CDProductCondition.getProductConditionWithName(productConditions[i])!.id) != nil) {
+                    selectedProductConditions.append(true)
+                } else {
+                    selectedProductConditions.append(false)
+                }
+            }
+        }
         
         // Get sizes
         request(References.FormattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
@@ -119,7 +134,11 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
                             for j in 0...fSizes.count - 1 {
                                 let sizeName = fSizes[j]["name"].stringValue
                                 sizes.append(sizeName)
-                                selecteds.append(false)
+                                if (self.initSelectedCategSizeVal.indexOf(fSizes[j]["value"].stringValue) != nil) {
+                                    selecteds.append(true)
+                                } else {
+                                    selecteds.append(false)
+                                }
                                 values.append(fSizes[j]["value"].stringValue)
                                 
                                 let cellWidth = sizeName.widthWithConstrainedHeight(self.CategSizeCellHeight, font: UIFont.systemFontOfSize(11)) + 34
@@ -366,17 +385,22 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             fltrPriceMax = NSNumber(integer: Int(self.maxPrice)!)
         }
         
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.fltrCategId = self.categoryId
-        l.filterMode = true
-        l.fltrProdCondIds = fltrProdCondIds
-        l.fltrPriceMin = fltrPriceMin
-        l.fltrPriceMax = fltrPriceMax
-        l.fltrIsFreeOngkir = self.isFreeOngkir
-        l.fltrSizes = fltrSizes
-        l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
-        self.navigationController?.pushViewController(l, animated: true)
+        if (self.previousController != nil) {
+            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy])
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            l.fltrCategId = self.categoryId
+            l.filterMode = true
+            l.fltrProdCondIds = fltrProdCondIds
+            l.fltrPriceMin = fltrPriceMin
+            l.fltrPriceMax = fltrPriceMax
+            l.fltrIsFreeOngkir = self.isFreeOngkir
+            l.fltrSizes = fltrSizes
+            l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
+            self.navigationController?.pushViewController(l, animated: true)
+        }
     }
     
     func isCategorySizesAvailable() -> Bool {

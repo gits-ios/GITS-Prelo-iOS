@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Class
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate {
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate {
     
     // MARK: - Struct
     
@@ -1015,6 +1015,34 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // MARK: - Filter delegate function
+    
+    func adjustFilter(fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String) {
+        self.fltrProdCondIds = fltrProdCondIds
+        self.fltrPriceMin = fltrPriceMin
+        self.fltrPriceMax = fltrPriceMax
+        self.fltrIsFreeOngkir = fltrIsFreeOngkir
+        self.fltrSizes = fltrSizes
+        self.fltrSortBy = fltrSortBy
+        lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+        if (lblFilterSort.text?.lowercaseString == "highest rp") {
+            lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
+        } else {
+            lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
+        }
+        self.refresh()
+        self.setupGrid()
+    }
+    
+    // MARK: - Category picker delegate function
+    
+    func adjustCategory(categId: String) {
+        self.fltrCategId = categId
+        lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
+        self.refresh()
+        self.setupGrid()
+    }
+    
     // MARK: - Banner and TopHeader
     
     func isBannerExist() -> Bool {
@@ -1040,9 +1068,25 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func topHeaderFilterKategoriPressed(sender: AnyObject) {
+        let categPickerVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+        categPickerVC.previousController = self
+        categPickerVC.delegate = self
+        categPickerVC.searchMode = true
+        self.navigationController?.pushViewController(categPickerVC, animated: true)
     }
     
     @IBAction func topHeaderFilterSortPressed(sender: AnyObject) {
+        let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+        filterVC.previousController = self
+        filterVC.delegate = self
+        filterVC.categoryId = self.fltrCategId
+        filterVC.initSelectedProdCondId = self.fltrProdCondIds
+        filterVC.initSelectedCategSizeVal = self.fltrSizes
+        filterVC.selectedIdxSortBy = filterVC.SortByDataValue.indexOf(self.fltrSortBy)!
+        filterVC.isFreeOngkir = self.fltrIsFreeOngkir
+        filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
+        filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
+        self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
     // MARK: - Navigation

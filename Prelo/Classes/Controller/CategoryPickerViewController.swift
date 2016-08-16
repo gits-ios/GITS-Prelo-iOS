@@ -10,6 +10,12 @@ import UIKit
 
 typealias BlockCategorySelected = ([String : AnyObject]) -> ()
 
+// MARK: - Protocol
+
+protocol CategoryPickerDelegate {
+    func adjustCategory(categId : String)
+}
+
 // MARK: - Class
 
 class CategoryPickerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -29,6 +35,9 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     var categories : Array<JSON> = []
     var selectedCategory : JSON?
     let cellWidth = (UIScreen.mainScreen().bounds.size.width - 32) / 3
+    
+    // Delegate
+    var delegate : CategoryPickerDelegate? = nil
     
     // MARK: - Init
     
@@ -121,6 +130,20 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         // Set selected category
         selectedCategory = categories[indexPath.item]
         
+        if (searchMode && indexPath.row == 0) { // Memilih kategori 'All' (semua kategori)
+            if (self.previousController != nil) {
+                self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                l.filterMode = true
+                l.fltrCategId = selectedCategory!["_id"].stringValue
+                l.fltrSortBy = "recent"
+                self.navigationController?.pushViewController(l, animated: true)
+            }
+            return
+        }
+        
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
             self.performSegueWithIdentifier("segChild", sender: nil)
         } else {
@@ -131,6 +154,8 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             c.root = self.root
             c.searchMode = self.searchMode
             c.categoryImageName = categories[indexPath.item]["image_name"].stringValue
+            c.delegate = self.delegate
+            c.previousController = self.previousController
             self.navigationController?.pushViewController(c, animated: true)
         }
     }
@@ -148,6 +173,8 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.root = self.root
         c.searchMode = self.searchMode
         c.categoryImageName = selectedCategory!["image_name"].stringValue
+        c.delegate = self.delegate
+        c.previousController = self.previousController
     }
 
 }
@@ -180,6 +207,9 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var categories : Array<JSON> = []
     var categoryLv2Name : String = ""
     var selectedCategory : JSON?
+    
+    // Delegate
+    var delegate : CategoryPickerDelegate? = nil
     
     // MARK: - Init
     
@@ -253,7 +283,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         if (children != nil) {
             childCount = children!.count
         }
-        if (childCount > 0) {
+        if (!(searchMode && indexPath.row == 0) && childCount > 0) {
             let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
             p.parent = selectedCategory!
             p.blockDone = self.blockDone
@@ -262,6 +292,8 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.root = root
             p.categoryImageName = self.categoryImageName
             p.categoryLv2Name = self.categoryLv2Name
+            p.delegate = self.delegate
+            p.previousController = self.previousController
             self.navigationController?.pushViewController(p, animated: true)
         } else {
             let data = [
@@ -271,9 +303,16 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 "category_level2_name":self.categoryLv2Name
             ]
             if (searchMode) {
-                let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                p.categoryJson = selectedCategory
-                self.navigationController?.pushViewController(p, animated: true)
+                if (self.previousController != nil) {
+                    self.delegate?.adjustCategory(selectedCategory!["_id"].stringValue)
+                    self.navigationController?.popToViewController(self.previousController!, animated: true)
+                } else {
+                    let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                    l.filterMode = true
+                    l.fltrCategId = selectedCategory!["_id"].stringValue
+                    l.fltrSortBy = "recent"
+                    self.navigationController?.pushViewController(l, animated: true)
+                }
             } else {
                 self.blockDone!(data)
                 
