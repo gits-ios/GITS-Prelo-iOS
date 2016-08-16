@@ -36,6 +36,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     
     // Data container
     let SortByData : [String] = ["Popular", "Recent", "Lowest Price", "Highest Price"]
+    let SortByDataValue : [String] = ["popular", "recent", "lowest_price", "highest_price"]
     let CategSizeCellHeight : CGFloat = 28
     var selectedIdxSortBy : Int = 0
     var productConditions : [String] = []
@@ -335,7 +336,47 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     }
     
     @IBAction func applyPressed(sender: AnyObject) {
+        // Prepare product conditions param
+        var fltrProdCondIds : [String] = []
+        for i in 0...selectedProductConditions.count - 1 {
+            if (selectedProductConditions[i] == true) {
+                fltrProdCondIds.append(CDProductCondition.getProductConditionWithName(productConditions[i])!.id)
+            }
+        }
         
+        // Prepare category sizes param
+        var fltrSizes : [String] = []
+        if (categorySizes.count > 0) {
+            for i in 0...categorySizes.count - 1 {
+                for j in 0...categorySizes[i].sizes.count - 1 {
+                    if (categorySizes[i].selecteds[j] == true) {
+                        fltrSizes.append(categorySizes[i].values[j])
+                    }
+                }
+            }
+        }
+        
+        // Prepare price param
+        var fltrPriceMin : NSNumber = 0
+        var fltrPriceMax : NSNumber = 0
+        if (self.minPrice != "") {
+            fltrPriceMin = NSNumber(integer: Int(self.minPrice)!)
+        }
+        if (self.maxPrice != "") {
+            fltrPriceMax = NSNumber(integer: Int(self.maxPrice)!)
+        }
+        
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        l.fltrCategId = self.categoryId
+        l.filterMode = true
+        l.fltrProdCondIds = fltrProdCondIds
+        l.fltrPriceMin = fltrPriceMin
+        l.fltrPriceMax = fltrPriceMax
+        l.fltrIsFreeOngkir = self.isFreeOngkir
+        l.fltrSizes = fltrSizes
+        l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
+        self.navigationController?.pushViewController(l, animated: true)
     }
     
     func isCategorySizesAvailable() -> Bool {

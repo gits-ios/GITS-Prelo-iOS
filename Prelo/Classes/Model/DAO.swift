@@ -1145,6 +1145,13 @@ public class Product : NSObject
         }
         return 10
     }
+    
+    var updateTimeUuid : String {
+        if let j = json["update_time_uuid"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class MyProductItem : Product {

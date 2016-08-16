@@ -1333,6 +1333,7 @@ enum APISearch : URLRequestConvertible
     case GetTopSearch(limit : String)
     case InsertTopSearch(search : String)
     case Brands(name : String, current : Int, limit : Int)
+    case ProductByFilter(name : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : NSNumber, priceMax : NSNumber, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String)
     
     var method : Method
         {
@@ -1344,6 +1345,7 @@ enum APISearch : URLRequestConvertible
             case .Find(_, _, _, _, _, _, _, _) : return .GET
             case .InsertTopSearch(_): return .POST
             case .Brands(_, _, _) : return .GET
+            case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .GET
             }
     }
     
@@ -1357,6 +1359,7 @@ enum APISearch : URLRequestConvertible
             case .Find(_, _, _, _, _, _, _, _) : return "products"
             case .InsertTopSearch(_):return "top"
             case .Brands(_, _, _) : return "brands"
+            case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
             }
     }
     
@@ -1395,6 +1398,22 @@ enum APISearch : URLRequestConvertible
                     "name": name,
                     "current": current,
                     "limit": limit
+                ]
+            case .ProductByFilter(let name, let categoryId, let brandIds, let productConditionIds, let segment, let priceMin, let priceMax, let isFreeOngkir, let sizes, let sortBy, let current, let limit, let lastTimeUuid):
+                return [
+                    "name" : name,
+                    "category_id" : categoryId,
+                    "brand_ids" : brandIds,
+                    "product_condition_ids" : productConditionIds,
+                    "segment" : segment,
+                    "price_min" : priceMin,
+                    "price_max" : priceMax,
+                    "is_free_ongkir" : isFreeOngkir,
+                    "sizes" : sizes,
+                    "sort_by" : sortBy,
+                    "current" : current,
+                    "limit" : limit,
+                    "last_time_uuid" : lastTimeUuid
                 ]
             }
     }

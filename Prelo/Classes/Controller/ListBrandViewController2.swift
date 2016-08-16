@@ -84,7 +84,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         self.isGettingData = true
         request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
-                if (name == self.searchBar.text) { // Jika belum ada rikues lain karena perubahan search text
+                if (name == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
@@ -245,15 +245,10 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             Constant.showDialog("Perhatian", message: "Pilih satu atau lebih merek terlebih dahulu")
             return
         }
-//        guard let brandId = self.brands[self.sortedBrandKeys[indexPath.row]] where self.sortedBrandKeys[indexPath.row] != self.NotFoundPlaceholder else {
-//            return
-//        }
-//        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-//        l.searchMode = true
-//        l.searchBrand = true
-//        l.searchBrandId = brandId
-//        l.searchKey = self.sortedBrandKeys[indexPath.row]
-//        self.navigationController?.pushViewController(l, animated: true)
+        
+        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        l.filterMode = true
+        self.navigationController?.pushViewController(l, animated: true)
     }
     
     // MARK: - Helper functions

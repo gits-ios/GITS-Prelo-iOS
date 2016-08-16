@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Class
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate {
     
     // MARK: - Struct
     
@@ -29,7 +29,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // MARK: - Properties
     
     // Top buttton view, used for segment mode
-    @IBOutlet var consTopVwTopHeader: NSLayoutConstraint!
+    @IBOutlet var vwTopHeader: UIView!
+    @IBOutlet var consHeightVwTopHeader: NSLayoutConstraint!
     @IBOutlet var lblTopHeader: UILabel!
     
     // Banner header
@@ -90,6 +91,28 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var subcategoryMode : Bool = false
     var subcategoryItems : [SubcategoryItem] = []
     
+    // For filter/search result mode
+    // Predefined values
+    var filterMode = false
+    var fltrCategId : String = ""
+    var fltrSegment : String = ""
+    var fltrBrandIds : [String] = []
+    // Predefined values from filtervc
+    var fltrProdCondIds : [String] = []
+    var fltrPriceMin : NSNumber = 0
+    var fltrPriceMax : NSNumber = 0
+    var fltrIsFreeOngkir : Bool = false
+    var fltrSizes : [String] = []
+    var fltrSortBy : String = "" // "recent"/"lowest_price"/"highest_price"/"popular"
+    // Views
+    @IBOutlet var vwTopHeaderFilter: UIView!
+    @IBOutlet var lblFilterMerek: UILabel!
+    @IBOutlet var lblFilterKategori: UILabel!
+    @IBOutlet var lblFilterSort: UILabel!
+    var searchBar : UISearchBar!
+    // Others
+    let FltrValSortBy : [String : String] = ["recent" : "Recent", "lowest_price" : "Lowest Rp", "highest_price" : "Highest Rp", "popular" : "Popular"]
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -135,8 +158,65 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.gridView.addSubview(refresher!)
         
         // Identify current mode and set content based on the mode
-        if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
-            consTopVwTopHeader.constant = 40
+        if (filterMode) {
+            // Setup filter related views
+            for i in 0...vwTopHeaderFilter.subviews.count - 1 {
+                vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
+            }
+            vwTopHeaderFilter.hidden = false
+            vwTopHeader.hidden = true
+            consHeightVwTopHeader.constant = 52
+            if (fltrBrandIds.count > 0) {
+                
+            } else {
+                lblFilterMerek.text = "All"
+            }
+            if (fltrCategId == "") {
+                lblFilterKategori.text = "All"
+            } else {
+                if let name = CDCategory.getCategoryNameWithID(fltrCategId) {
+                    lblFilterKategori.text = name
+                } else {
+                    lblFilterKategori.text = "-"
+                }
+            }
+            lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+            if (lblFilterSort.text?.lowercaseString == "highest rp") {
+                lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
+            } else {
+                lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
+            }
+            // Search bar setup
+            var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+            if (AppTools.isIPad) {
+                searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+            }
+            searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
+            if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+                searchField.backgroundColor = Theme.PrimaryColorDark
+                searchField.textColor = UIColor.whiteColor()
+                let attrPlaceholder = NSAttributedString(string: "Cari Merek", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+                searchField.attributedPlaceholder = attrPlaceholder
+                if let icon = searchField.leftView as? UIImageView {
+                    icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                    icon.tintColor = UIColor.lightGrayColor()
+                }
+                searchField.borderStyle = UITextBorderStyle.None
+            }
+            searchBar.delegate = self
+            searchBar.placeholder = "Cari di Prelo"
+            self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
+            
+            // Get initial products
+            if (products?.count == 0 || products == nil) {
+                if (products == nil) {
+                    products = []
+                }
+                getProducts()
+            }
+            
+        } else if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
+            consHeightVwTopHeader.constant = 40
             self.setDefaultTopHeaderWomen()
             segmentMode = true
             if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
@@ -157,7 +237,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             gridView.reloadData()
         } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
             self.featuredProductsMode = true
-            consTopVwTopHeader.constant = 0
+            consHeightVwTopHeader.constant = 0
             self.gridView.backgroundColor = Theme.GrayGranite
             
             // Get featured products
@@ -179,7 +259,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
             }
             
-            consTopVwTopHeader.constant = 0
+            consHeightVwTopHeader.constant = 0
             
             // Get initial products
             if (products?.count == 0 || products == nil) {
@@ -189,7 +269,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 getProducts()
             }
         } else {
-            consTopVwTopHeader.constant = 0
+            consHeightVwTopHeader.constant = 0
             
             // Get initial products
             if (products?.count == 0 || products == nil) {
@@ -205,6 +285,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.consTopTopHeader.constant = 4
             self.view.backgroundColor = Theme.GrayGranite
         } else if (self.searchMode) {
+            self.consTopTopHeader.constant = 4
+            self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
+        } else if (self.filterMode) {
             self.consTopTopHeader.constant = 4
             self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
         } else if (self.storeMode || self.standaloneMode) {
@@ -263,19 +346,25 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func backPressed(sender: UIBarButtonItem) {
+        if (self.filterMode) {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     func refresh() {
         if (searchMode || segmentMode) {
             // No refresh
-            refresher?.endRefreshing()
-        } else if (storeMode) {
-            getStoreProduct()
+            self.refresher?.endRefreshing()
+        } else if (filterMode || storeMode) {
+            self.done = false
+            self.footerLoading?.hidden = false
+            self.products = []
+            self.getProducts()
         } else if (featuredProductsMode) {
-            getFeaturedProducts()
+            self.getFeaturedProducts()
         } else {
             requesting = true
             
@@ -289,6 +378,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             // API Migrasi
             request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON {resp in
                 self.done = false
+                self.footerLoading?.hidden = false
                 self.requesting = false
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                     self.products = []
@@ -307,11 +397,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func getProducts() {
-        if (categoryJson == nil && !standaloneMode && !searchMode && !storeMode) {
+        if (categoryJson == nil && !(standaloneMode || searchMode || storeMode || filterMode)) {
             return
         }
         
-        if (searchMode) {
+        if (filterMode) {
+            self.getFilteredProducts()
+        } else if (searchMode) {
             self.getSearchProduct()
         } else if (storeMode) {
             self.getStoreProduct()
@@ -368,6 +460,28 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
             self.refresher?.endRefreshing()
             self.setupGrid()
+        }
+    }
+    
+    func getFilteredProducts() {
+        requesting = true
+        var fltrName = ""
+        if let searchText = searchBar.text {
+            fltrName = searchText
+        }
+        var lastTimeUuid = ""
+        if (products != nil && products?.count > 0) {
+            lastTimeUuid = products![products!.count - 1].updateTimeUuid
+        }
+        request(APISearch.ProductByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonStringFrom(fltrBrandIds), productConditionIds: AppToolsObjC.jsonStringFrom(fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonStringFrom(fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+            if (fltrName == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                self.requesting = false
+                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Product")) {
+                    self.setupData(resp.result.value)
+                }
+                self.refresher?.endRefreshing()
+                self.setupGrid()
+            }
         }
     }
     
@@ -479,6 +593,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                         self.storeHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
                         self.gridView.setContentOffset(CGPointMake(0, -newHeight), animated: false)
+                        
+                        var refresherBound = self.refresher?.bounds
+                        if (refresherBound != nil) {
+                            refresherBound!.origin.y = CGFloat(newHeight)
+                            self.refresher?.bounds = refresherBound!
+                        }
                     }
                 }
                 
@@ -538,6 +658,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     self.navigationController?.presentViewController(c, animated: true, completion: nil)
                 }
                 
+                self.refresher?.endRefreshing()
+                var refresherBound = self.refresher?.bounds
+                if (refresherBound != nil) {
+                    refresherBound!.origin.y = CGFloat(height)
+                    self.refresher?.bounds = refresherBound!
+                }
                 self.setupGrid()
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
             }
@@ -839,7 +965,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                             self.navigationController?.setNavigationBarHidden(true, animated: true)
                             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
                             if (selectedSegment != "") {
-                                consTopVwTopHeader.constant = 0
+                                consHeightVwTopHeader.constant = 0
                                 UIView.animateWithDuration(0.2) {
                                     self.view.layoutIfNeeded()
                                 }
@@ -851,12 +977,40 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                     if (selectedSegment != "") {
-                        consTopVwTopHeader.constant = 40
+                        consHeightVwTopHeader.constant = 40
                         UIView.animateWithDuration(0.2) {
                             self.view.layoutIfNeeded()
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    // MARK: - Search bar functions
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.done = false
+        self.footerLoading?.hidden = false
+        self.products = []
+        self.setupGrid()
+        self.getProducts()
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.whiteColor()
+            }
+        }
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.lightGrayColor()
             }
         }
     }
@@ -880,6 +1034,15 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             segmentMode = true
             gridView.reloadData()
         }
+    }
+    
+    @IBAction func topHeaderFilterMerekPressed(sender: AnyObject) {
+    }
+    
+    @IBAction func topHeaderFilterKategoriPressed(sender: AnyObject) {
+    }
+    
+    @IBAction func topHeaderFilterSortPressed(sender: AnyObject) {
     }
     
     // MARK: - Navigation

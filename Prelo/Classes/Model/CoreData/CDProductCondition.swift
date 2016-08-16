@@ -72,6 +72,19 @@ class CDProductCondition: NSManagedObject {
         }
     }
     
+    static func getProductConditionWithName(name : String) -> CDProductCondition? {
+        let predicate = NSPredicate(format: "name == %@", name)
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        fetchReq.predicate = predicate
+        
+        do {
+            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            return r.count == 0 ? nil : (r.first as! CDProductCondition)
+        } catch {
+            return nil
+        }
+    }
+    
     static func newOne(id : String, name : String, detail : String, order : NSNumber) -> CDProductCondition? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
@@ -182,6 +195,28 @@ class CDProductCondition: NSManagedObject {
             productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
             for productCondition in productConditions {
                 arr.append(productCondition.name)
+            }
+        } catch {
+            
+        }
+        return arr
+    }
+    
+    static func getProductConditionIds() -> [String] {
+        let m = UIApplication.appDelegate.managedObjectContext
+        var productConditions = [CDProductCondition]()
+        
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
+        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let sortDescriptors = [sortDescriptor]
+        fetchReq.sortDescriptors = sortDescriptors
+        
+        var arr : [String] = []
+        
+        do {
+            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            for productCondition in productConditions {
+                arr.append(productCondition.id)
             }
         } catch {
             
