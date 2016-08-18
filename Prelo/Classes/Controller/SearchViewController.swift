@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate
+class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate
 {
     
     @IBOutlet var scrollView : UIScrollView!
@@ -26,6 +27,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     var foundUsers : [SearchUser] = []
     
     var currentCategoryId : String = "" // Category id terakhir yg dilihat di home
+    
+    var findingUser : Bool = false
+    var findingItem : Bool = false
+    
+    @IBOutlet var vwZeroResult: UIView!
+    @IBOutlet var lblZeroResult: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -460,6 +467,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
         }
         
+        self.findingItem = true
+        
         if let req = itemRequest
         {
             req.cancel()
@@ -491,11 +500,21 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         }
                     }
                 }
+                self.tableView.hidden = false
                 self.tableView.reloadData()
-            } else
-            {
-                
+                if (!self.findingUser && self.foundUsers.isEmpty && self.foundItems.isEmpty) {
+                    self.tableView.hidden = true
+                    self.vwZeroResult.hidden = false
+                    var txt = "Tidak ada hasil yang ditemukan"
+                    if let searchText = self.searchBar.text {
+                        txt += " untuk '\(searchText)'"
+                    }
+                    self.lblZeroResult.text = txt
+                } else {
+                    self.vwZeroResult.hidden = true
+                }
             }
+            self.findingItem = false
         }
     }
     
@@ -510,6 +529,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             ]
             Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
         }
+        
+        self.findingUser = true
         
         if let req = userRequest
         {
@@ -541,11 +562,21 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         }
                     }
                 }
+                self.tableView.hidden = false
                 self.tableView.reloadData()
-            } else
-            {
-                
+                if (!self.findingItem && self.foundUsers.isEmpty && self.foundItems.isEmpty) {
+                    self.tableView.hidden = true
+                    self.vwZeroResult.hidden = false
+                    var txt = "Tidak ada hasil yang ditemukan"
+                    if let searchText = self.searchBar.text {
+                        txt += " untuk '\(searchText)'"
+                    }
+                    self.lblZeroResult.text = txt
+                } else {
+                    self.vwZeroResult.hidden = true
+                }
             }
+            self.findingUser = false
         }
     }
     
@@ -574,6 +605,39 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
+    @IBAction func requestBarangPressed(sender: AnyObject) {
+        var username = "Your beloved user"
+        if let u = CDUser.getOne() {
+            username = u.username
+        }
+        var txt = ""
+        if let searchText = self.searchBar.text {
+            txt = searchText
+        }
+        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(txt)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+        
+        let m = MFMailComposeViewController()
+        if (MFMailComposeViewController.canSendMail()) {
+            m.setToRecipients(["contact@prelo.id"])
+            m.setSubject("Request Barang")
+            m.setMessageBody(msgBody, isHTML: true)
+            m.mailComposeDelegate = self
+            self.presentViewController(m, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+        }
+    }
+    
+    // MARK: - Mail compose delegate functions
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        if (result == MFMailComposeResultSent) {
+            Constant.showDialog("Request Barang", message: "E-mail terkirim")
+        } else if (result == MFMailComposeResultFailed) {
+            Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
+        }
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
 class SearchUserCell : UITableViewCell
