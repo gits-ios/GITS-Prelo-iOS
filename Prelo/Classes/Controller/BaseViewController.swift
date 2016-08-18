@@ -270,8 +270,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
     func createSearchButton()->UIButton
     {
-        return createButtonWithIcon(AppFont.Prelo2, icon: "")
-//        return createButtonWithIcon(UIImage(named: "ic_search_filter.png")!)
+        return createButtonWithIcon(UIImage(named: "ic_search_filter.png")!)
     }
     
     func createBellButton(num : Int)->UIButton

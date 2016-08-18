@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import MessageUI
 
 // MARK: - Class
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
+class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, MFMailComposeViewControllerDelegate {
     
     // MARK: - Struct
     
@@ -197,7 +198,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
                 searchField.backgroundColor = Theme.PrimaryColorDark
                 searchField.textColor = UIColor.whiteColor()
-                let attrPlaceholder = NSAttributedString(string: "Cari Merek", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+                let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
                 searchField.attributedPlaceholder = attrPlaceholder
                 if let icon = searchField.leftView as? UIImageView {
                     icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
@@ -716,7 +717,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func setupGrid() {
-        if (filterMode && products?.count <= 0 && self.searchBar.text != nil && self.searchBar.text != "") {
+        if (filterMode && products?.count <= 0 && !requesting && self.searchBar.text != nil && self.searchBar.text != "") {
             gridView.hidden = true
             vwFilterZeroResult.hidden = false
             lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(self.searchBar.text!)'"
@@ -1003,8 +1004,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.done = false
         self.footerLoading?.hidden = false
         self.products = []
-        self.setupGrid()
         self.getProducts()
+        self.setupGrid()
     }
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -1120,7 +1121,36 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
     
+    // MARK: - Filter zero result
+    
     @IBAction func reqBarangPressed(sender: AnyObject) {
+        var username = "Your beloved user"
+        if let u = CDUser.getOne() {
+            username = u.username
+        }
+        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(searchBar.text!)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+        
+        let m = MFMailComposeViewController()
+        if (MFMailComposeViewController.canSendMail()) {
+            m.setToRecipients(["contact@prelo.id"])
+            m.setSubject("Request Barang")
+            m.setMessageBody(msgBody, isHTML: true)
+            m.mailComposeDelegate = self
+            self.presentViewController(m, animated: true, completion: nil)
+        } else {
+            Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
+        }
+    }
+    
+    // MARK: - Mail compose delegate functions
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        if (result == MFMailComposeResultSent) {
+            Constant.showDialog("Request Barang", message: "E-mail terkirim")
+        } else if (result == MFMailComposeResultFailed) {
+            Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
+        }
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - Navigation

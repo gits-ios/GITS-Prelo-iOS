@@ -8,11 +8,9 @@
 
 import UIKit
 
-class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate
+class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate
 {
     
-    @IBOutlet var txtSearch : UITextField!
-    @IBOutlet var txtSearchWidth : NSLayoutConstraint!
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var tableView : UITableView!
     @IBOutlet var sectionTopSearch : UIView!
@@ -22,6 +20,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     @IBOutlet var conHeightSectionTopSearch : NSLayoutConstraint!
     @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
     
+    var searchBar : UISearchBar!
+    
     var foundItems : [Product] = []
     var foundUsers : [SearchUser] = []
     
@@ -30,34 +30,29 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
-
-//        let t = UITextField(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width-52, 30))
-//        print("\(self.navigationItem.lef)")
-        var w = UIScreen.mainScreen().bounds.size.width * 0.8375
-        if (AppTools.isIPad)
-        {
-            w = UIScreen.mainScreen().bounds.size.width - 68
-        }
-        let t = UITextField(frame: CGRectMake(0, 0, w, 30))
-        t.textColor = Theme.PrimaryColorDark
-        t.borderStyle = UITextBorderStyle.None
-        t.placeholder = "Cari"
-        t.clearButtonMode = UITextFieldViewMode.Always
-        t.returnKeyType = UIReturnKeyType.Done
         
         tableView.registerNib(UINib(nibName: "SearchResultHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "head")
         
-        txtSearch = t
-        
-        txtSearch.delegate = self
-        
-        self.navigationItem.rightBarButtonItem = t.toBarButton()
-        
-        // Do any additional setup after loading the view.
-        UIView.animateWithDuration(0.2, animations: {
-            self.navigationController?.navigationBar.tintColor = Theme.PrimaryColor
-            self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
-        })
+        // Search bar setup
+        var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+        if (AppTools.isIPad) {
+            searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+        }
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
+        if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+            searchField.backgroundColor = Theme.PrimaryColorDark
+            searchField.textColor = UIColor.whiteColor()
+            let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+            searchField.attributedPlaceholder = attrPlaceholder
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.lightGrayColor()
+            }
+            searchField.borderStyle = UITextBorderStyle.None
+        }
+        searchBar.delegate = self
+        searchBar.placeholder = "Cari di Prelo"
+        self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
         
         // API Migrasi
         request(APISearch.GetTopSearch(limit: "10")).responseJSON {resp in
@@ -191,22 +186,12 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         // Google Analytics
         GAI.trackPageVisit(PageName.Search)
         
-        NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: UIColor.whiteColor())
+
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
-        if (canAnimateBar)
-        {
-            // Do any additional setup after loading the view.
-            UIView.animateWithDuration(0.2, animations: {
-                self.navigationController?.navigationBar.tintColor = Theme.PrimaryColor
-                self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
-            })
-        }
     }
     
     override func viewDidAppear(animated: Bool) {
         setupHistory()
-        self.navigationController?.navigationBar.tintColor = Theme.PrimaryColor
-        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
         
         self.an_subscribeKeyboardWithAnimations({f, t, o in
             
@@ -227,47 +212,36 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         self.navigationController?.view.endEditing(true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        UIView.animateWithDuration(0.2, animations: {
-            self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-            self.navigationController?.navigationBar.barTintColor = Theme.PrimaryColor
-        })
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        if (string == "\n")
-        {
-            textField.resignFirstResponder()
-            return false
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText == "\n") {
+            searchBar.resignFirstResponder()
         }
-        var stringx = (textField.text == nil ? "" : textField.text!) as NSString
-        
-        stringx = stringx.stringByReplacingCharactersInRange(range, withString: string)
-        let keyword = stringx as String
-        if (keyword == "")
-        {
+       
+        if (searchText == "") {
             scrollView.hidden = false
-        } else
-        {
+        } else {
             scrollView.hidden = true
         }
         
-        find(keyword)
-        
-        return true
+        find(searchText)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-//        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-//        l.searchMode = true
-//        l.searchKey = currentKeyword
-//        self.navigationController?.pushViewController(l, animated: true)
-        return false
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.whiteColor()
+            }
+        }
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        scrollView.hidden = false
-        return true
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+            if let icon = searchField.leftView as? UIImageView {
+                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                icon.tintColor = UIColor.lightGrayColor()
+            }
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -400,24 +374,24 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 l.searchMode = true
                 l.searchKey = currentKeyword
                 // API Migrasi
-                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
+                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
-                        print("TOP")
-//                        print(res)
-                        print("TOPEND")
+                        //print("TOP")
+                        //print(resp.result.value)
+                        //print("TOPEND")
                     }
                 }
-                AppToolsObjC.insertNewSearch(txtSearch.text)
+                AppToolsObjC.insertNewSearch(searchBar.text)
                 setupHistory()
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
                 // API Migrasi
-                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!)).responseJSON {resp in
+                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
-                        print("TOP")
-//                        print(res)
-                        print("TOPEND")
+                        //print("TOP")
+                        //print(resp.result.value)
+                        //print("TOPEND")
                     }
                 }
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
@@ -429,9 +403,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (indexPath.row == foundUsers.count)
             {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
-                u.keyword = txtSearch.text == nil ? "" : txtSearch.text!
+                u.keyword = searchBar.text == nil ? "" : searchBar.text!
                 // API Migrasi
-                request(APISearch.InsertTopSearch(search: txtSearch.text == nil ? "" : txtSearch.text!))
+                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!))
                 self.navigationController?.pushViewController(u, animated: true)
                 
             } else
@@ -456,7 +430,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     func searchTopKey(sender : UITapGestureRecognizer)
     {
         let searchTag = sender.view as! SearchTag
-        txtSearch.text = searchTag.captionTitle.text
+        searchBar.text = searchTag.captionTitle.text
         scrollView.hidden = true
         find(searchTag.captionTitle.text!)
     }
