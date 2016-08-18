@@ -315,6 +315,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         // Remove status bar tap observer
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        
+        // Show navbar
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
     }
     
     override func viewDidAppear(animated: Bool) {
