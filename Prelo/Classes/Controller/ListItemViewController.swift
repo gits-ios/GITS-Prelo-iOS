@@ -114,6 +114,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     @IBOutlet var vwFilterZeroResult: UIView!
     @IBOutlet var lblFilterZeroResult: UILabel!
     // Others
+    var fltrName : String = ""
     let FltrValSortBy : [String : String] = ["recent" : "Recent", "lowest_price" : "Lowest Rp", "highest_price" : "Highest Rp", "popular" : "Popular"]
     
     // MARK: - Init
@@ -319,6 +320,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Default search text
+        if (filterMode) {
+            self.searchBar.text = self.fltrName
+        }
+        
         // Remove redirect alert if any
         if (storeMode) {
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -468,16 +474,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func getFilteredProducts() {
         requesting = true
-        var fltrName = ""
-        if let searchText = searchBar.text {
-            fltrName = searchText
-        }
+        var fltrNameReq = self.fltrName
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
         request(APISearch.ProductByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonStringFrom(Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonStringFrom(fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonStringFrom(fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
-            if (fltrName == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+            if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Product")) {
                     self.setupData(resp.result.value)
@@ -717,10 +720,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func setupGrid() {
-        if (filterMode && products?.count <= 0 && !requesting && self.searchBar.text != nil && self.searchBar.text != "") {
+        if (filterMode && products?.count <= 0 && !requesting && fltrName != "") {
             gridView.hidden = true
             vwFilterZeroResult.hidden = false
-            lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(self.searchBar.text!)'"
+            lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
             return
         }
         
@@ -1001,6 +1004,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // MARK: - Search bar functions
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.fltrName = searchText
         self.done = false
         self.footerLoading?.hidden = false
         self.products = []
@@ -1128,7 +1132,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if let u = CDUser.getOne() {
             username = u.username
         }
-        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(searchBar.text!)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
+        let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(fltrName)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
         
         let m = MFMailComposeViewController()
         if (MFMailComposeViewController.canSendMail()) {

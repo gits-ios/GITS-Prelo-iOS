@@ -370,9 +370,6 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         {
             if (indexPath.row == foundItems.count)
             {
-                let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                l.searchMode = true
-                l.searchKey = currentKeyword
                 // API Migrasi
                 request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
@@ -383,6 +380,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 }
                 AppToolsObjC.insertNewSearch(searchBar.text)
                 setupHistory()
+                
+                let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+                l.filterMode = true
+                l.fltrCategId = self.currentCategoryId
+                l.fltrSortBy = "recent"
+                if let searchText = self.searchBar.text {
+                    l.fltrName = searchText
+                }
                 self.navigationController?.pushViewController(l, animated: true)
             } else
             {
@@ -416,7 +421,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.storeName = u.username
                 
                 // API Migrasi
-        request(APISearch.InsertTopSearch(search: u.username))
+                request(APISearch.InsertTopSearch(search: u.username))
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
