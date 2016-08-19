@@ -1242,7 +1242,7 @@ enum APIProduct : URLRequestConvertible
     case PostComment(productID : String, message : String, mentions : String)
     case MyProduct(current : Int, limit : Int)
     case Push(productId : String)
-    case MarkAsSold(productId : String)
+    case MarkAsSold(productId : String, soldTo : String)
     
     var method : Method
         {
@@ -1257,7 +1257,7 @@ enum APIProduct : URLRequestConvertible
             case .GetComment(_) :return .GET
             case .MyProduct(_, _): return .GET
             case .Push(_) : return .POST
-            case .MarkAsSold(_) : return .POST
+            case .MarkAsSold(_, _) : return .POST
             }
     }
     
@@ -1274,7 +1274,7 @@ enum APIProduct : URLRequestConvertible
             case .GetComment(let pId) :return pId + "/comments"
             case .MyProduct(_, _): return ""
             case .Push(let pId) : return "push/\(pId)"
-            case .MarkAsSold(let pId) : return "sold/\(pId)"
+            case .MarkAsSold(let pId, _) : return "sold/\(pId)"
             }
     }
     
@@ -1308,7 +1308,7 @@ enum APIProduct : URLRequestConvertible
             case .GetComment(_) :return [:]
             case .MyProduct(let c, let l): return ["current":c, "limit":l]
             case .Push(_) : return [:]
-            case .MarkAsSold(_) : return ["sold_from":"ios"]
+            case .MarkAsSold(_, let soldTo) : return ["sold_from":"ios", "sold_to":soldTo]
             }
     }
     

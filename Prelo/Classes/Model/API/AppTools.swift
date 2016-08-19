@@ -60,6 +60,18 @@ extension UILabel {
             boldRange(r)
         }
     }
+    
+    func setSubstringColor(substr: String, color: UIColor) {
+        if let range = self.text?.rangeOfString(substr) {
+            if let text = self.attributedText {
+                let attr = NSMutableAttributedString(attributedString: text)
+                let start = text.string.startIndex.distanceTo(range.startIndex)
+                let length = range.startIndex.distanceTo(range.endIndex)
+                attr.addAttributes([NSForegroundColorAttributeName: color], range: NSMakeRange(start, length))
+                self.attributedText = attr
+            }
+        }
+    }
 }
 
 class AppTools: NSObject {

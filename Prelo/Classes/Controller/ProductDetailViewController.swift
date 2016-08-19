@@ -697,7 +697,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
-                request(APIProduct.MarkAsSold(productId: productId)).responseJSON { resp in
+                request(APIProduct.MarkAsSold(productId: productId, soldTo: "")).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"].boolValue

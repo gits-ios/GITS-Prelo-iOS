@@ -896,6 +896,10 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
+    var finalPrice : Int { // FIXME: 
+        return 0
+    }
+    
     var reveresed = false
     func reverse()
     {
@@ -2598,6 +2602,13 @@ class Inbox : NSObject, TawarItem
         if let p = json["product_status"].int
         {
             return p
+        }
+        return 0
+    }
+    
+    var finalPrice : Int {
+        if let j = json["final_price"].int {
+            return j
         }
         return 0
     }
