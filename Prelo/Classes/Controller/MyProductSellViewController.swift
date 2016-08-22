@@ -90,12 +90,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     func uploadProdukSukses(notif : NSNotification)
     {
         refresh(0)
+        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
     }
     
     func uploadProdukGagal(notif : NSNotification)
     {
         refresh(0)
-        Constant.showDialog("Upload gagal", message: "Oops, upload produk gagal")
+        Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
     }
     
     func addUploadingProducts()
