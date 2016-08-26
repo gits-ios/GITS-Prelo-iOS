@@ -289,20 +289,32 @@ extension Mixpanel
 {
     static func trackEvent(eventName : String)
     {
+        // Disable Category Browsed and Search Event
+        if (eventName == MixpanelEvent.CategoryBrowsed || eventName == MixpanelEvent.Search) {
+            return
+        }
+        
         Mixpanel.sharedInstance().track(eventName)
     }
     
     static func trackEvent(eventName : String, properties : [NSObject : AnyObject])
     {
+        // Disable Category Browsed and Search Event
+        if (eventName == MixpanelEvent.CategoryBrowsed || eventName == MixpanelEvent.Search) {
+            return
+        }
+        
         Mixpanel.sharedInstance().track(eventName, properties: properties)
     }
     
     static func trackPageVisit(pageName : String)
     {
+        /* Disable Page Visit
         let p = [
             "Page": pageName
         ]
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
+        */
     }
     
     static func trackPageVisit(pageName : String, otherParam : [String : String])

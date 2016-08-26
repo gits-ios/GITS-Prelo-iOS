@@ -340,7 +340,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func launchFAQ() {
         let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
-        helpVC.url = "https://prelo.co.id/faq"
+        helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
         helpVC.titleString = "FAQ"
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
