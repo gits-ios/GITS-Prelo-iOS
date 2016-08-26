@@ -1287,6 +1287,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
+        let weightRegex = "^[0-9]+$"
+        if (weight!.match(weightRegex) == false) {
+            Constant.showDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)")
+            return
+        }
+        
         if (validateString(oldPrice, message: "Harga Beli barang masih kosong") == false)
         {
             return

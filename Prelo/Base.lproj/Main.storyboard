@@ -13173,7 +13173,7 @@ mis: 32 GB, dark blue, lightning charger</string>
                                                         </constraints>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Berat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amd-qU-MCT">
                                                         <rect key="frame" x="8" y="91" width="40" height="19"/>
@@ -14300,7 +14300,7 @@ Label / Merek</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aD6-IG-h2w">
-                                <rect key="frame" x="180" y="88" width="240" height="307"/>
+                                <rect key="frame" x="180" y="66" width="240" height="351"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hubungi Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkm-N9-3wI">
                                         <rect key="frame" x="4" y="4" width="114" height="20"/>
@@ -14318,8 +14318,18 @@ Label / Merek</string>
                                             <constraint firstAttribute="height" constant="1" id="VU7-AM-AXq"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Office hour: Senin-Jum'at 09.00-18.00 WIB" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ze-QW-iJL">
+                                        <rect key="frame" x="4" y="37" width="232" height="37"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="37" id="XIx-Ml-U2j"/>
+                                            <constraint firstAttribute="width" constant="232" id="jTR-wr-d9I"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JGT-sh-BAZ" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="4" y="37" width="114" height="114"/>
+                                        <rect key="frame" x="4" y="82" width="114" height="114"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Via Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nsU-xw-LAE">
                                                 <rect key="frame" x="25" y="80" width="65" height="17"/>
@@ -14375,7 +14385,7 @@ Label / Merek</string>
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3x-cq-uzK" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="122" y="37" width="114" height="114"/>
+                                        <rect key="frame" x="122" y="82" width="114" height="114"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VEr-uw-BSQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="114" height="114"/>
@@ -14386,8 +14396,8 @@ Label / Merek</string>
                                                     <action selector="sms:" destination="J7J-Zy-z2D" eventType="touchUpInside" id="Y5u-cO-9rc"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Via SMS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AcZ-WI-ocz">
-                                                <rect key="frame" x="30" y="80" width="55" height="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Via SMS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AcZ-WI-ocz">
+                                                <rect key="frame" x="30" y="80" width="54" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -14434,7 +14444,7 @@ Label / Merek</string>
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdU-FR-LG0" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="4" y="155" width="114" height="114"/>
+                                        <rect key="frame" x="4" y="200" width="114" height="114"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIi-Yp-4Pe">
                                                 <rect key="frame" x="0.0" y="0.0" width="114" height="114"/>
@@ -14490,7 +14500,7 @@ Label / Merek</string>
                                         </variation>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NF5-sH-53b" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                                        <rect key="frame" x="122" y="155" width="114" height="114"/>
+                                        <rect key="frame" x="122" y="200" width="114" height="114"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rPb-a6-6ug">
                                                 <rect key="frame" x="0.0" y="0.0" width="114" height="114"/>
@@ -14550,7 +14560,7 @@ Label / Merek</string>
                                         </variation>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ym-8U-2TA">
-                                        <rect key="frame" x="0.0" y="277" width="240" height="30"/>
+                                        <rect key="frame" x="0.0" y="322" width="240" height="30"/>
                                         <color key="backgroundColor" red="0.076683476570000006" green="0.59757834669999998" blue="0.54617744680000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="QmT-rT-tvr"/>
@@ -14571,26 +14581,29 @@ Label / Merek</string>
                                     <constraint firstItem="JGT-sh-BAZ" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" constant="4" id="1zq-pS-rg0"/>
                                     <constraint firstAttribute="trailing" secondItem="z9o-BT-YaW" secondAttribute="trailing" constant="4" id="2Yg-f7-kjh"/>
                                     <constraint firstItem="NF5-sH-53b" firstAttribute="width" secondItem="NF5-sH-53b" secondAttribute="height" multiplier="1:1" id="3EA-SD-b7q"/>
-                                    <constraint firstItem="a3x-cq-uzK" firstAttribute="top" secondItem="z9o-BT-YaW" secondAttribute="bottom" constant="8" id="BlO-zH-OxC"/>
+                                    <constraint firstItem="a3x-cq-uzK" firstAttribute="top" secondItem="z9o-BT-YaW" secondAttribute="bottom" constant="53" id="BlO-zH-OxC"/>
                                     <constraint firstItem="JGT-sh-BAZ" firstAttribute="width" secondItem="BdU-FR-LG0" secondAttribute="width" id="E4k-on-bLK"/>
                                     <constraint firstItem="z9o-BT-YaW" firstAttribute="top" secondItem="Qkm-N9-3wI" secondAttribute="bottom" constant="4" id="GlO-dk-4RT"/>
                                     <constraint firstItem="a3x-cq-uzK" firstAttribute="width" secondItem="a3x-cq-uzK" secondAttribute="height" multiplier="1:1" id="JLS-Fz-AcZ"/>
+                                    <constraint firstItem="4Ze-QW-iJL" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" constant="4" id="Sj3-e2-eoh"/>
                                     <constraint firstItem="z9o-BT-YaW" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" constant="4" id="VST-Xn-I7k"/>
                                     <constraint firstAttribute="height" constant="440" id="Z8v-e5-OOK"/>
                                     <constraint firstAttribute="trailing" secondItem="a3x-cq-uzK" secondAttribute="trailing" constant="4" id="a8W-qa-cXk"/>
+                                    <constraint firstItem="4Ze-QW-iJL" firstAttribute="top" secondItem="z9o-BT-YaW" secondAttribute="bottom" constant="8" id="aPA-UK-FgH"/>
                                     <constraint firstAttribute="width" constant="240" id="axu-sm-FyT"/>
-                                    <constraint firstItem="JGT-sh-BAZ" firstAttribute="top" secondItem="z9o-BT-YaW" secondAttribute="bottom" constant="8" id="eMa-sv-10C"/>
+                                    <constraint firstItem="JGT-sh-BAZ" firstAttribute="top" secondItem="z9o-BT-YaW" secondAttribute="bottom" constant="53" id="eMa-sv-10C"/>
                                     <constraint firstItem="NF5-sH-53b" firstAttribute="width" secondItem="BdU-FR-LG0" secondAttribute="width" id="eVF-o4-QmL"/>
                                     <constraint firstItem="0Ym-8U-2TA" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" id="f0u-mO-iWv"/>
                                     <constraint firstItem="BdU-FR-LG0" firstAttribute="width" secondItem="BdU-FR-LG0" secondAttribute="height" multiplier="1:1" id="igT-LR-QML"/>
                                     <constraint firstItem="0Ym-8U-2TA" firstAttribute="top" secondItem="BdU-FR-LG0" secondAttribute="bottom" constant="8" symbolic="YES" id="mKW-IJ-A1E"/>
                                     <constraint firstItem="JGT-sh-BAZ" firstAttribute="width" secondItem="aD6-IG-h2w" secondAttribute="width" multiplier="0.5" constant="-6" id="n7j-Gu-TY7"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Ze-QW-iJL" secondAttribute="trailing" constant="4" id="nLZ-5p-Dy5"/>
                                     <constraint firstItem="Qkm-N9-3wI" firstAttribute="top" secondItem="aD6-IG-h2w" secondAttribute="top" constant="4" id="qlM-0Q-gJ3"/>
                                     <constraint firstAttribute="trailing" secondItem="NF5-sH-53b" secondAttribute="trailing" constant="4" id="rCU-GZ-Fox"/>
                                     <constraint firstItem="BdU-FR-LG0" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" constant="4" id="sJy-CK-FjC"/>
                                     <constraint firstItem="NF5-sH-53b" firstAttribute="top" secondItem="a3x-cq-uzK" secondAttribute="bottom" constant="4" id="uBt-aM-AAp"/>
                                     <constraint firstItem="Qkm-N9-3wI" firstAttribute="leading" secondItem="aD6-IG-h2w" secondAttribute="leading" constant="4" id="uS8-Qx-LeO"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Ym-8U-2TA" secondAttribute="bottom" id="zmN-Fo-zGR"/>
+                                    <constraint firstAttribute="bottom" secondItem="0Ym-8U-2TA" secondAttribute="bottom" constant="-1" id="zmN-Fo-zGR"/>
                                     <constraint firstAttribute="trailing" secondItem="0Ym-8U-2TA" secondAttribute="trailing" id="zyX-i2-KCa"/>
                                 </constraints>
                                 <variation key="default">
