@@ -36,6 +36,13 @@
                             <constraint firstAttribute="width" constant="64" id="Q3v-16-hKL"/>
                         </constraints>
                     </imageView>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_free_ongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="l8b-B9-Dp1">
+                        <rect key="frame" x="31" y="30" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="2Nc-Ry-ejb"/>
+                            <constraint firstAttribute="width" constant="30" id="crS-2r-hxO"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Very Very Long Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1y-wR-O66">
                         <rect key="frame" x="70" y="8" width="152" height="17"/>
                         <constraints>
@@ -223,6 +230,8 @@
                     <constraint firstItem="lia-XW-Wgr" firstAttribute="leading" secondItem="kne-rr-5Pc" secondAttribute="trailing" constant="8" id="Ozi-ml-IXM"/>
                     <constraint firstItem="vgL-71-vIf" firstAttribute="top" secondItem="Gn2-Ga-4F8" secondAttribute="bottom" constant="-2" id="P49-Lm-gU2"/>
                     <constraint firstAttribute="trailing" secondItem="Gn2-Ga-4F8" secondAttribute="trailing" constant="8" id="PuE-CR-VBb"/>
+                    <constraint firstItem="l8b-B9-Dp1" firstAttribute="leading" secondItem="S3H-5h-HB2" secondAttribute="leading" constant="31" id="QPv-HS-zgN"/>
+                    <constraint firstItem="l8b-B9-Dp1" firstAttribute="top" secondItem="S3H-5h-HB2" secondAttribute="top" constant="30" id="RmH-lD-K6g"/>
                     <constraint firstItem="lia-XW-Wgr" firstAttribute="leading" secondItem="Pne-2o-Vea" secondAttribute="leading" id="Sac-Bh-ieq"/>
                     <constraint firstItem="Pne-2o-Vea" firstAttribute="top" secondItem="lia-XW-Wgr" secondAttribute="bottom" constant="-2" id="Uno-Ia-rcI"/>
                     <constraint firstItem="kne-rr-5Pc" firstAttribute="leading" secondItem="S3H-5h-HB2" secondAttribute="leading" id="WhR-fG-0mc"/>
@@ -259,6 +268,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="consWidthLblOrderStatus" destination="Gj0-3z-UHo" id="bXY-wU-suh"/>
+                <outlet property="imgFreeOngkir" destination="l8b-B9-Dp1" id="6MY-Wh-ccM"/>
                 <outlet property="imgProduct" destination="kne-rr-5Pc" id="bEV-4B-H1a"/>
                 <outlet property="lblCommentCount" destination="bRZ-Ox-QUR" id="nhH-wf-svx"/>
                 <outlet property="lblFacebook" destination="ZKv-OF-wgk" id="M6j-wm-s8g"/>
@@ -276,6 +286,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_free_ongkir.png" width="256" height="256"/>
         <image name="raisa.jpg" width="152" height="152"/>
     </resources>
 </document>

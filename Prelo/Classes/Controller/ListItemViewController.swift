@@ -1245,6 +1245,7 @@ class ListItemCell : UICollectionViewCell
     @IBOutlet var imgSold: UIImageView!
     @IBOutlet var imgReserved: UIImageView!
     @IBOutlet var imgFeatured: UIImageView!
+    @IBOutlet var imgFreeOngkir: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1257,6 +1258,7 @@ class ListItemCell : UICollectionViewCell
         imgSold.hidden = true
         imgReserved.hidden = true
         imgFeatured.hidden = true
+        imgFreeOngkir.hidden = true
     }
     
     func adapt(product : Product) {
@@ -1311,6 +1313,10 @@ class ListItemCell : UICollectionViewCell
             } else if (product.isFeatured) { // featured
                 self.imgFeatured.hidden = false
             }
+        }
+        
+        if product.isFreeOngkir {
+            imgFreeOngkir.hidden = false
         }
     }
 }

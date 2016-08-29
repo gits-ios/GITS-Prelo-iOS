@@ -1156,6 +1156,13 @@ public class Product : NSObject
         }
         return ""
     }
+    
+    var isFreeOngkir : Bool {
+        if let j = json["free_ongkir"].int {
+            return (j == 1)
+        }
+        return false
+    }
 }
 
 class MyProductItem : Product {
@@ -1406,6 +1413,13 @@ class UserTransactionItem: UserTransaction {
         } else {
             return nil
         }
+    }
+    
+    var isFreeOngkir : Bool {
+        if let j = json["free_ongkir"].int {
+            return (j == 1)
+        }
+        return false
     }
 }
 

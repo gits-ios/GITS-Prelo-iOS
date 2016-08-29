@@ -464,6 +464,7 @@
 		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
+		589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */; };
 		58A223AB1C89827900619518 /* NotifAnggiTransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */; };
 		58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BC1C898CB600619518 /* ic_trx_canceled.png */; };
 		58A223C51C898CB600619518 /* ic_trx_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BD1C898CB600619518 /* ic_trx_done.png */; };
@@ -551,6 +552,7 @@
 		58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */; };
 		58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4181C7C634A002A488F /* cchmrk_pinch.png */; };
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
+		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F91B191CF313CB00943A7A /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
@@ -1139,6 +1141,7 @@
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
 		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
+		589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir.png; sourceTree = "<group>"; };
 		58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransactionCell.xib; sourceTree = "<group>"; };
 		58A223BC1C898CB600619518 /* ic_trx_canceled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_canceled.png; sourceTree = "<group>"; };
 		58A223BD1C898CB600619518 /* ic_trx_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_done.png; sourceTree = "<group>"; };
@@ -1275,6 +1278,7 @@
 		58F0A4181C7C634A002A488F /* cchmrk_pinch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_pinch.png; sourceTree = "<group>"; };
 		58F0A4191C7C634A002A488F /* cchmrk_spread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_spread.png; sourceTree = "<group>"; };
 		58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 7.xcdatamodel"; sourceTree = "<group>"; };
+		58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir_truck.png; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController2.swift; sourceTree = "<group>"; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -1974,6 +1978,8 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */,
+				589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */,
 				58EF19D91D4F55FB00997828 /* ic_search_filter.png */,
 				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
 				58BE535C1D479F5B00E358EB /* courier_jne.png */,
@@ -2623,7 +2629,7 @@
 				TargetAttributes = {
 					2115E6C71B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = FA5P8G36Y9;
+						DevelopmentTeam = A72B22UTXM;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2778,6 +2784,7 @@
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21B467DF1CCE5EDB00E145ED /* LICENSE in Resources */,
 				21EEB4631B87038400CAD5C9 /* PaymentConfirmation.xib in Resources */,
+				589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				21A6C40E1CEF461100966B42 /* dummyCart.json in Resources */,
@@ -2819,6 +2826,7 @@
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
+				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
 				44B7088C1BBA6E19001EACBF /* MyPurchaseDetail.xib in Resources */,
 				44B93C7B1BBEA51B00036173 /* PathLogin.xib in Resources */,
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
@@ -3357,8 +3365,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3386,7 +3394,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
+				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3398,7 +3406,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fransiska Hadiwidjana (T5RRJ8YACU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3423,7 +3431,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb08d9f6-6d8a-40e3-adfa-42d8495d6bfb";
+				PROVISIONING_PROFILE = "c357cb80-d26b-405a-a1f2-bcbc3e0b70bf";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

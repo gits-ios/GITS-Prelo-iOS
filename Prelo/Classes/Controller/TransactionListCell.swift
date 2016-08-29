@@ -10,6 +10,7 @@ import Foundation
 
 class TransactionListCell : UITableViewCell {
     @IBOutlet weak var imgProduct: UIImageView!
+    @IBOutlet var imgFreeOngkir: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var lblCommentCount: UILabel!
@@ -31,6 +32,7 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet var imgs : [UIView] = []
     
     override func prepareForReuse() {
+        imgFreeOngkir.hidden = true
         vwShareStatus.hidden = true
         lblInstagram.textColor = UIColor.lightGrayColor()
         lblFacebook.textColor = UIColor.lightGrayColor()
@@ -49,6 +51,9 @@ class TransactionListCell : UITableViewCell {
     func adaptItem(userPurchase : UserTransactionItem) {
         if (userPurchase.productImageURL != nil) {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
+        }
+        if (userPurchase.isFreeOngkir) {
+            imgFreeOngkir.hidden = false
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
