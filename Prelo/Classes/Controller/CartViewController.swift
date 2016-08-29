@@ -39,6 +39,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     // Prices and discounts data container
     var bankTransferDigit : Int = 0
     var isUsingPreloBalance : Bool = false
+    var isHalfBonusMode : Bool = false // Apakah aturan half bonus aktif
+    var isUsingReferralBonus : Bool = false
     var balanceAvailable : Int = 0
     var isShowVoucher : Bool = false
     var isVoucherApplied : Bool = false
@@ -60,6 +62,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     @IBOutlet var tableView : UITableView!
     @IBOutlet var captionNoItem: UILabel!
     @IBOutlet var loadingCart: UIActivityIndicatorView!
+    @IBOutlet var lblSend: UILabel!
+    @IBOutlet var consHeightLblSend: NSLayoutConstraint!
     @IBOutlet var btnSend : UIButton!
     
     // Metode pembayaran
@@ -194,6 +198,16 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 self.arrayItem = data["cart_details"].array!
                 //print("arrayItem = \(self.arrayItem)")
                 
+                // Ab test check
+                self.isHalfBonusMode = false
+                if let ab = data["ab_test"].array {
+                    for i in 0...ab.count - 1 {
+                        if (ab[i].stringValue.lowercaseString == "half_bonus") {
+                            self.isHalfBonusMode = true
+                        }
+                    }
+                }
+                
                 // Show modal text if any
                 if let modalText = data["modal_verify_text"].string {
                     if (!modalText.isEmpty) {
@@ -219,8 +233,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 let bonus = data["bonus_available"].intValue
                 if (bonus > 0) {
+                    self.isUsingReferralBonus = true
                     let disc = DiscountItem(title: "Referral Bonus", value: bonus)
                     self.discountItems.append(disc)
+                } else {
+                    self.isUsingReferralBonus = false
                 }
                 
                 // Bank transfer digit
@@ -433,12 +450,23 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.cellsData[i] = b
         self.cellsData[i2] = b
         
-        // Update bonus discount if its more than subtotal
+        // Hide lblSend (for referral bonus description)
+        self.consHeightLblSend.constant = 0
+        
+        // Update bonus discount if its more than half of subtotal
         if (discountItems.count > 0) {
             for i in 0...discountItems.count - 1 {
                 if (discountItems[i].title == "Referral Bonus") {
-                    if (discountItems[i].value > self.subtotalPrice) {
-                        discountItems[i].value = self.subtotalPrice
+                    if (isHalfBonusMode) {
+                        if (discountItems[i].value > self.subtotalPrice / 2) {
+                            discountItems[i].value = self.subtotalPrice / 2
+                            // Show lblSend
+                            self.consHeightLblSend.constant = 31
+                        }
+                    } else {
+                        if (discountItems[i].value > self.subtotalPrice) {
+                            discountItems[i].value = self.subtotalPrice
+                        }
                     }
                 }
             }
@@ -904,14 +932,20 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.btnSend.enabled = false
         
         var usedBalance = 0
-        if isUsingPreloBalance { // Pengecekan #1
-            let discBalance = discountItems[0]
-            if (discBalance.title == "Prelo Balance") { // Pengecekan #2
-                usedBalance = discBalance.value
+        var usedBonus = 0
+        if (isUsingPreloBalance || isUsingReferralBonus) {
+            if (discountItems.count > 0) {
+                for i in 0...discountItems.count - 1 {
+                    if (discountItems[i].title.containsString("Referral Bonus")) {
+                        usedBonus = discountItems[i].value
+                    } else if (discountItems[i].title == "Prelo Balance") {
+                        usedBalance = discountItems[i].value
+                    }
+                }
             }
         }
         
-        request(APICart.Checkout(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+        request(APICart.Checkout(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]

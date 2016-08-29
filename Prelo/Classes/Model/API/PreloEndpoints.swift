@@ -714,14 +714,14 @@ enum APICart : URLRequestConvertible
     static let basePath = "cart/"
     
     case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, kodeTransfer : Int)
+    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
     var method : Method
     {
         switch self
         {
         case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _, _, _) : return .POST
+        case .Checkout(_, _, _, _, _, _, _) : return .POST
         }
     }
     
@@ -730,7 +730,7 @@ enum APICart : URLRequestConvertible
         switch self
         {
         case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _, _, _) : return "checkout"
+        case .Checkout(_, _, _, _, _, _, _) : return "checkout"
         }
     }
     
@@ -745,7 +745,7 @@ enum APICart : URLRequestConvertible
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
-        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let kodeTransfer) :
+        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             var p = [
                 "cart_products":cart,
                 "shipping_address":address,
@@ -761,6 +761,10 @@ enum APICart : URLRequestConvertible
             if kodeTransfer != 0
             {
                 p["banktransfer_digit"] = NSNumber(integer: kodeTransfer)
+            }
+            
+            if usedBonus != 0 {
+                p["bonus_used"] = NSNumber(integer: usedBonus)
             }
             
             return p

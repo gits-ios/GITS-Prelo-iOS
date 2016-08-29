@@ -9150,11 +9150,20 @@ Keuntungan</string>
                                 <rect key="frame" x="8" y="0.0" width="584" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Mbg-tu-sJy">
-                                    <rect key="frame" x="0.0" y="872" width="584" height="56"/>
+                                    <rect key="frame" x="0.0" y="872" width="584" height="95"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maksimal Referral Bonus yang dapat digunakan adalah 50% dari subtotal transaksi " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33I-iN-ift">
+                                            <rect key="frame" x="0.0" y="8" width="584" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="31" id="fPR-aA-MOL"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ph-wM-BZ2">
-                                            <rect key="frame" x="0.0" y="8" width="584" height="40"/>
+                                            <rect key="frame" x="0.0" y="47" width="584" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="OHu-sE-77w"/>
                                             </constraints>
@@ -9170,10 +9179,23 @@ Keuntungan</string>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
+                                        <constraint firstItem="6Ph-wM-BZ2" firstAttribute="top" secondItem="33I-iN-ift" secondAttribute="bottom" constant="8" id="4ot-7a-hKy"/>
+                                        <constraint firstAttribute="trailing" secondItem="33I-iN-ift" secondAttribute="trailing" id="5bA-te-gcy"/>
+                                        <constraint firstItem="33I-iN-ift" firstAttribute="top" secondItem="Mbg-tu-sJy" secondAttribute="top" constant="8" id="7Q8-rj-wdC"/>
                                         <constraint firstAttribute="trailing" secondItem="6Ph-wM-BZ2" secondAttribute="trailing" id="9DY-os-zN4"/>
+                                        <constraint firstAttribute="bottom" secondItem="6Ph-wM-BZ2" secondAttribute="bottom" constant="8" id="Kso-ZJ-uje"/>
                                         <constraint firstItem="6Ph-wM-BZ2" firstAttribute="top" secondItem="Mbg-tu-sJy" secondAttribute="top" constant="8" id="Rf1-eC-1l5"/>
                                         <constraint firstItem="6Ph-wM-BZ2" firstAttribute="leading" secondItem="Mbg-tu-sJy" secondAttribute="leading" id="ogg-7F-RWC"/>
+                                        <constraint firstItem="33I-iN-ift" firstAttribute="top" secondItem="Mbg-tu-sJy" secondAttribute="top" constant="8" id="vxL-ag-YiC"/>
+                                        <constraint firstItem="33I-iN-ift" firstAttribute="leading" secondItem="Mbg-tu-sJy" secondAttribute="leading" id="xMv-Uc-hvl"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="7Q8-rj-wdC"/>
+                                            <exclude reference="Kso-ZJ-uje"/>
+                                            <exclude reference="Rf1-eC-1l5"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell_input" id="haP-ho-geD" customClass="CartCellInput" customModule="Prelo" customModuleProvider="target">
@@ -10229,8 +10251,10 @@ Keuntungan</string>
                     <connections>
                         <outlet property="btnSend" destination="6Ph-wM-BZ2" id="RrN-4j-bMw"/>
                         <outlet property="captionNoItem" destination="449-Mw-YhC" id="fvc-5b-M0h"/>
+                        <outlet property="consHeightLblSend" destination="fPR-aA-MOL" id="ZoX-is-b1F"/>
                         <outlet property="consHeightPaymentReminder" destination="Aef-ku-oQo" id="GHP-ci-BTs"/>
                         <outlet property="lblPaymentReminder" destination="yFW-Nr-GNO" id="CcX-TL-rkj"/>
+                        <outlet property="lblSend" destination="33I-iN-ift" id="eJj-j0-elB"/>
                         <outlet property="loadingCart" destination="ykb-uJ-lqk" id="5og-H5-hmc"/>
                         <outlet property="tableView" destination="TgT-98-DqM" id="Ung-R2-5rt"/>
                         <segue destination="CUm-Gp-gzM" kind="show" identifier="segOK" id="cF2-vl-VUh"/>
