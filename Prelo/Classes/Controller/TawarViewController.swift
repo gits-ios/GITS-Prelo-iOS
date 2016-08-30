@@ -32,6 +32,7 @@ protocol  TawarItem {
     var finalPrice : Int {get} // Final price after bargain accept/reject
     
     func setBargainPrice(price : Int)
+    func setFinalPrice(price : Int)
 }
 
 // MARK: - Protocol
@@ -104,7 +105,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         // Set title
-        self.title = tawarItem.title
+        self.title = tawarItem.theirName
 
         // Init textViewGrowHandler
         textViewGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: conHeightTextView)
@@ -407,14 +408,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCellWithIdentifier("bubble") as! TawarBubbleCell
             cell.selectionStyle = .None
             if (self.tawarItem.opIsMe) { // I am buyer
-                let attrStr = NSMutableAttributedString(string: "Klik BELI untuk transaksi 100% aman dengan Rekening Bersama Prelo.")
+                let attrStr = NSMutableAttributedString(string: "Kamu bisa bertransaksi langsung dengan penjual tanpa jaminan atau klik BELI untuk bertransaksi 100% aman dengan rekening bersama Prelo")
                 cell.lblText.attributedText = attrStr
-                cell.lblText.boldSubstring("BELI")
-                cell.lblText.setSubstringColor("Rekening Bersama Prelo.", color: Theme.PrimaryColor)
+                cell.lblText.boldSubstring("klik BELI")
+                cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
             } else { // I am seller
                 let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName)")
                 cell.lblText.attributedText = attrStr
                 cell.lblText.boldSubstring("MARK AS SOLD")
+                cell.lblText.setSubstringColor(self.tawarItem.theirName, color: Theme.PrimaryColor)
             }
             return cell
         } else { // Chat cell
@@ -442,7 +444,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if (indexPath.row == 0 && isShowBubble) { // Bubble cell
-            return 74
+            if (self.tawarItem.opIsMe) { // I am buyer
+                return 106
+            } else { // I am seller
+                return 74
+            }
         } else { // Chat cell
             let chat = inboxMessages[indexPath.row - (isShowBubble ? 1 : 0)]
             var m = chat.dynamicMessage
@@ -515,6 +521,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // 1: bargain
         // 2: confirm bargain
         // 3: reject bargain
+        // 4: mark as sold
         
         // Set tawarFromMe
         if (type == 1) {
@@ -663,6 +670,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             txtTawar.text = ""
             btnTawar1.hidden = true
             btnTawar2.hidden = true
+            self.tawarItem.setBargainPrice(m)
         }
     }
     
@@ -676,6 +684,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func confirmTawar(sender : UIView?) {
         sendChat(2, message : String(tawarItem.bargainPrice))
+        if (tawarItem.bargainPrice != 0) {
+            self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
+        }
     }
     
     // MARK: - Message pool delegate functions
@@ -690,11 +701,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.tawarDelegate?.tawarNeedReloadList()
         }
         if (message.messageType == 1) {
+            self.tawarItem.setBargainPrice(message.message.int)
             if (threadState == 1 && message.isMe == true) {
                 tawarFromMe = true
             } else {
                 tawarFromMe = false
             }
+        } else if (message.messageType == 2) {
+            if (tawarItem.bargainPrice != 0) {
+                self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
+            }
+        } else if (message.messageType == 4) {
+            self.prodStatus = 2
         }
         
         if (threadState == 1) {
@@ -774,21 +792,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
-            self.showLoading()
-            request(APIProduct.MarkAsSold(productId: self.tawarItem.itemId, soldTo: self.tawarItem.theirId)).responseJSON { resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
-                    let json = JSON(resp.result.value!)
-                    let isSuccess = json["_data"].boolValue
-                    if (isSuccess) {
-                        self.prodStatus = 2
-                        self.adjustButtons()
-                        Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
-                    } else {
-                        Constant.showDialog("Failed", message: "Oops, terdapat kesalahan")
-                    }
-                }
-                self.hideLoading()
+            self.prodStatus = 2
+            Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
+            var finalPrice = ""
+            if (self.tawarItem.bargainPrice != 0 && self.tawarItem.threadState == 2) {
+                finalPrice = self.tawarItem.bargainPrice.asPrice
+            } else {
+                finalPrice = self.tawarItem.price
             }
+            self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)")
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }

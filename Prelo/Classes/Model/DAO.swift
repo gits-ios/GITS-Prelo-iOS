@@ -884,6 +884,10 @@ public class ProductDetail : NSObject, TawarItem
         
     }
     
+    func setFinalPrice(price: Int) {
+        
+    }
+    
     var bargainerIsMe : Bool {
         if (reveresed)
         {
@@ -2405,7 +2409,7 @@ class SearchUser : NSObject
 
 class Inbox : NSObject, TawarItem
 {
-    var json : JSON!
+    var json : JSON = JSON([:])
     var date : NSDate = NSDate()
     var forceThreadState = -1
     
@@ -2599,8 +2603,11 @@ class Inbox : NSObject, TawarItem
     
     func setBargainPrice(price: Int) {
         settedBargainPrice = price
-//        json["current_bargain_amount"].int = price
-//        print("current_bargain_amount : " + String(bargainPrice))
+        json["current_bargain_amount"] = JSON(price)
+    }
+    
+    func setFinalPrice(price: Int) {
+        json["final_price"] = JSON(price)
     }
     
     var bargainerIsMe : Bool {
