@@ -12,10 +12,13 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
 {
     
     @IBOutlet var txtNamaBank : UILabel!
+    @IBOutlet var txtCustomBank: UITextField!
     @IBOutlet var txtNomerRekening : UITextField!
     @IBOutlet var txtNamaRekening : UITextField!
     @IBOutlet var txtPassword : UITextField!
     @IBOutlet var txtJumlah : UITextField!
+    
+    @IBOutlet var consHeightCustomBank: NSLayoutConstraint!
     
     @IBOutlet var captionPreloBalance : UILabel!
     @IBOutlet var scrollView : UIScrollView!
@@ -25,6 +28,8 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     var viewSetupPassword : SetupPasswordPopUp?
     var viewShadow : UIView?
     var backEnabled : Bool = true
+    
+    var isShowBankBRI = false
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
@@ -66,6 +71,8 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         scrollView.delegate = self
         
         captionPreloBalance.text = "..."
+        
+        self.consHeightCustomBank.constant = 0
         
         txtNamaBank.textAlignment = NSTextAlignment.Right
         txtNomerRekening.textAlignment = NSTextAlignment.Right
@@ -136,6 +143,10 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
             Constant.showDialog("Form belum lengkap", message: "Harap pilih Bank Kamu")
             return
         }
+        if (txtNamaBank.text == "Bank Lainnya" && (txtCustomBank.text == nil || txtCustomBank.text!.isEmpty)) {
+            Constant.showDialog("Form belum lengkap", message: "Harap isi Nama Bank")
+            return
+        }
         if (txtNomerRekening.text == nil || txtNomerRekening.text!.isEmpty) {
             Constant.showDialog("Form belum lengkap", message: "Harap isi Nomor Rekening")
             return
@@ -166,6 +177,9 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         }
         
         namaBank = namaBank.stringByReplacingOccurrencesOfString("Bank ", withString: "")
+        if (namaBank.lowercaseString == "lainnya") {
+            namaBank = txtCustomBank.text!
+        }
         let norek = txtNomerRekening.text == nil ? "" : txtNomerRekening.text!
         let namarek = txtNamaRekening.text == nil ? "" : txtNamaRekening.text!
         let pass = txtPassword.text == nil ? "" : txtPassword.text!
@@ -207,10 +221,15 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     {
         let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
         
-        p.items = ["Bank Mandiri", "Bank BCA", "Bank BNI"]
+        p.items = ["Bank Mandiri", "Bank BCA", "Bank BNI", "Bank Lainnya"]
         p.title = "Pilih Bank"
         p.selectBlock = { value in
             self.txtNamaBank.text = value
+            if (value == "Bank Lainnya") {
+                self.consHeightCustomBank.constant = 70
+            } else {
+                self.consHeightCustomBank.constant = 0
+            }
         }
         
         self.navigationController?.pushViewController(p, animated: true)
