@@ -98,6 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
                 Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
             }*/
+            
+            // Send uuid to server
+            request(APIUser.SetUserUUID)
         }
         
         // Mixpanel

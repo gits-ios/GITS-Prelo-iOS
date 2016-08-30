@@ -202,6 +202,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                     
+                    // Send uuid to server
+                    request(APIUser.SetUserUUID)
+                    
                     // Mixpanel
                     if let c = CDUser.getOne() {
                         let provinceName = CDProvince.getProvinceNameWithID(c.profiles.provinceID)
@@ -825,10 +828,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             return
         }
         
-        let userDeviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
-        
         // API Migrasi
-        request(APIAuth.Login(email: email!, password: pwd!, deviceId: userDeviceId)).responseJSON {resp in
+        request(APIAuth.Login(email: email!, password: pwd!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

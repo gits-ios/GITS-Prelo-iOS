@@ -216,6 +216,9 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             // Di dalamnya akan memanggil MessagePool.start()
                             NSNotificationCenter.defaultCenter().postNotificationName("userLoggedIn", object: nil)
                             
+                            // Send uuid to server
+                            request(APIUser.SetUserUUID)
+                            
                             // Set crashlytics user information
                             let user = CDUser.getOne()!
                             Crashlytics.sharedInstance().setUserIdentifier(user.profiles.phone!)

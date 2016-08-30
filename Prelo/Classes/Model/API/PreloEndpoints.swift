@@ -802,7 +802,7 @@ enum APIAuth : URLRequestConvertible
     static let basePath = "auth/"
     
     case Register(username : String, fullname : String, email : String, password : String)
-    case Login(email : String, password : String, deviceId : String)
+    case Login(email : String, password : String)
     case LoginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
@@ -813,7 +813,7 @@ enum APIAuth : URLRequestConvertible
             switch self
             {
             case .Register(_, _, _, _) : return .POST
-            case .Login(_, _, _) : return .POST
+            case .Login(_, _) : return .POST
             case .LoginFacebook(_, _, _, _, _) : return .POST
             case .LoginPath(_, _, _, _) : return .POST
             case .LoginTwitter(_, _, _, _, _, _) : return .POST
@@ -826,7 +826,7 @@ enum APIAuth : URLRequestConvertible
             switch self
             {
             case .Register(_, _, _, _) : return "register"
-            case .Login(_, _, _) : return "login"
+            case .Login(_, _) : return "login"
             case .LoginFacebook(_, _, _, _, _) : return "login/facebook"
             case .LoginPath(_, _, _, _) : return "login/path"
             case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
@@ -846,11 +846,10 @@ enum APIAuth : URLRequestConvertible
                     "password" : password
                 ]
                 return p
-            case .Login(let usernameOrEmail, let password, let deviceId) :
+            case .Login(let usernameOrEmail, let password) :
                 let p = [
                     "username_or_email" : usernameOrEmail,
-                    "password" : password,
-                    "device_id" : deviceId
+                    "password" : password
                 ]
                 return p
             case .LoginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :
@@ -964,6 +963,7 @@ enum APIUser : URLRequestConvertible
     case CheckPassword
     case ResendVerificationEmail
     case GetBalanceMutations(current : Int, limit : Int)
+    case SetUserUUID
     
     var method : Method
     {
@@ -987,6 +987,7 @@ enum APIUser : URLRequestConvertible
         case .CheckPassword : return .GET
         case .ResendVerificationEmail : return .POST
         case .GetBalanceMutations(_, _) : return .GET
+        case .SetUserUUID : return .POST
         }
     }
     
@@ -1012,6 +1013,7 @@ enum APIUser : URLRequestConvertible
         case .CheckPassword : return "checkpassword"
         case .ResendVerificationEmail : return "verify/resend_email"
         case .GetBalanceMutations(_, _) : return "getprelobalances"
+        case .SetUserUUID : return "setgafaid"
         }
     }
     
@@ -1105,6 +1107,11 @@ enum APIUser : URLRequestConvertible
             let p = [
                 "current" : current,
                 "limit" : limit
+            ]
+            return p
+        case .SetUserUUID :
+            let p = [
+                "fa_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString
             ]
             return p
         }
