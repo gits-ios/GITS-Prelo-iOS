@@ -543,6 +543,8 @@
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
 		58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 58D125251CDC4D1F002BC78A /* MoEngage.bundle */; };
 		58D1253E1CDC4D1F002BC78A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 58D125361CDC4D1F002BC78A /* README.md */; };
+		58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D736091D759B0B009D7C61 /* ic_cart.png */; };
+		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
@@ -1268,6 +1270,8 @@
 		58D1252A1CDC4D1F002BC78A /* MoEngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoEngage.h; sourceTree = "<group>"; };
 		58D1252B1CDC4D1F002BC78A /* MOPayloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOPayloadBuilder.h; sourceTree = "<group>"; };
 		58D125361CDC4D1F002BC78A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		58D736091D759B0B009D7C61 /* ic_cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart.png; sourceTree = "<group>"; };
+		58D7360A1D759B0B009D7C61 /* ic_notif.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_notif.png; sourceTree = "<group>"; };
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -1980,6 +1984,8 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58D736091D759B0B009D7C61 /* ic_cart.png */,
+				58D7360A1D759B0B009D7C61 /* ic_notif.png */,
 				58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */,
 				589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */,
 				58EF19D91D4F55FB00997828 /* ic_search_filter.png */,
@@ -2686,6 +2692,7 @@
 				44B708871BBA6E19001EACBF /* MyLovelist.xib in Resources */,
 				215C526A1B6B349C00EA4E61 /* ic_bag@2x.png in Resources */,
 				21EEB4721B87095C00CAD5C9 /* btn_checkbox_pressed.png in Resources */,
+				58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */,
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
@@ -2801,6 +2808,7 @@
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
 				FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
+				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				58A7C4471D36263E00405CEC /* BalanceMutation.xib in Resources */,
 				58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,

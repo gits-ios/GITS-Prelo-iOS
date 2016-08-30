@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
             landmarkName = "LoginFacebookCancelled(_:reason:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
             landmarkName = "LoginFacebookCancelled(_:reason:)"
             landmarkType = "5">
             <Locations>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155150.747108"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "AfterLoginFacebook(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155166.737358"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611"
+            startingLineNumber = "614"
+            endingLineNumber = "614"
             landmarkName = "AfterLoginTwitter(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155167.328877"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
             landmarkName = "AfterLoginTwitter(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155185.672783"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "AfterLoginFacebook(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155599.089881"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "537"
-            endingLineNumber = "537"
+            startingLineNumber = "540"
+            endingLineNumber = "540"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "494151112.540681"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "896"
-            endingLineNumber = "896"
+            startingLineNumber = "899"
+            endingLineNumber = "899"
             landmarkName = "loginFacebookPressed(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155697.472266"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
+            startingLineNumber = "571"
+            endingLineNumber = "571"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
             <Locations>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155700.109083"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "565"
-            endingLineNumber = "565"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/LoginViewController.swift"
-            timestampString = "487155718.006651"
+            timestampString = "494246546.869341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
             landmarkType = "5">
          </BreakpointContent>

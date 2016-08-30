@@ -236,6 +236,15 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         return b
     }
     
+    func createButtonWithIcon(img : UIImage) -> UIButton {
+        let imgVw = UIImageView(frame: CGRectMake(4, 4, 25, 38), image: img)
+        imgVw.contentMode = UIViewContentMode.ScaleAspectFit
+        let b = UIButton(type: .Custom)
+        b.frame = CGRectMake(0, 0, 33, 46)
+        b.addSubview(imgVw)
+        return b
+    }
+    
     func createButtonWithIconAndNumber(appFont : AppFont, icon : String, num : Int) -> UIButton {
         let b = UIButton(type: .Custom)
         var name = "Prelo2"
@@ -259,12 +268,20 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         return b
     }
     
-    func createButtonWithIcon(img : UIImage) -> UIButton {
+    func createButtonWithIconAndNumber(img : UIImage, num : Int) -> UIButton {
         let imgVw = UIImageView(frame: CGRectMake(4, 4, 25, 38), image: img)
         imgVw.contentMode = UIViewContentMode.ScaleAspectFit
         let b = UIButton(type: .Custom)
         b.frame = CGRectMake(0, 0, 33, 46)
         b.addSubview(imgVw)
+        if (num > 0) {
+            let badge = GIBadgeView()
+            badge.badgeValue = num
+            badge.backgroundColor = Theme.ThemeOrage
+            badge.topOffset = 9
+            badge.rightOffset = 5
+            b.addSubview(badge)
+        }
         return b
     }
         
@@ -275,12 +292,12 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     func createBellButton(num : Int)->UIButton
     {
-        return createButtonWithIconAndNumber(AppFont.Prelo2, icon: "", num: num)
+        return createButtonWithIconAndNumber(UIImage(named: "ic_notif.png")!, num: num)
     }
     
     func createTroliButton()->UIButton
     {
-        return createButtonWithIcon(AppFont.Prelo2, icon: "")
+        return createButtonWithIcon(UIImage(named: "ic_cart.png")!)
     }
     
     // MARK: - PreloNotifListenerDelegate function
