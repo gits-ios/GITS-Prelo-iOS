@@ -22,7 +22,7 @@ class PreloEndpoints: NSObject {
         // Set crashlytics custom keys
         Crashlytics.sharedInstance().setObjectValue(oldParam, forKey: "last_req_param")
         
-        _ = oldParam
+        
         return oldParam
     }
     

@@ -82,7 +82,12 @@ public enum ParameterEncoding {
     {
         var mutableURLRequest = URLRequest.URLRequest
 
-        guard let parameters = parameters else { return (mutableURLRequest, nil) }
+        guard var parameters = parameters else { return (mutableURLRequest, nil) }
+        
+        // Additional for Prelo
+        if (mutableURLRequest.HTTPMethod == Method.POST.rawValue) {
+            parameters["platform_sent_from"] = "ios"
+        }
 
         var encodingError: NSError? = nil
 
