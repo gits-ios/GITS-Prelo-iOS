@@ -258,7 +258,10 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
         
         // Set trxId/trxProductId
-        if (notif.progress == TransactionDetailTools.ProgressExpired || notif.progress == TransactionDetailTools.ProgressNotPaid || notif.progress == TransactionDetailTools.ProgressClaimedPaid) {
+        if (notif.progress == TransactionDetailTools.ProgressExpired ||
+            notif.progress == TransactionDetailTools.ProgressNotPaid ||
+            notif.progress == TransactionDetailTools.ProgressClaimedPaid ||
+            notif.progress == TransactionDetailTools.ProgressFraudDetected) {
             transactionDetailVC.trxId = notif.objectId
         } else if (notif.progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (notif.caption.lowercaseString == "jual") {
@@ -413,14 +416,16 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let progress = self.notif?.progress {
-            if (TransactionDetailTools.isReservationProgress(progress)) { // Reservation
+            if (TransactionDetailTools.isReservationProgress(progress)) {
                 return 2
-            } else if (progress == -1) { // Expired
+            } else if (progress == TransactionDetailTools.ProgressExpired) {
                 return 1
-            } else if (progress == -3) { // Rejected by seller
+            } else if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
                 return 4
-            } else if (progress == -4) { // Not sent
+            } else if (progress == TransactionDetailTools.ProgressNotSent) {
                 return 4
+            } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+                return 1
             } else { // Default
                 return 6
             }
@@ -495,18 +500,18 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 if (idx == 1) { // Reserved
                     imgName = "ic_trx_reserved"
                 } else {
-                    if (progress == 7 || progress == 8) { // Done
+                    if (progress == TransactionDetailTools.ProgressReserved || progress == TransactionDetailTools.ProgressReserveDone) { // Done
                         imgName = "ic_trx_reservation_done"
-                    } else if (progress == -2) { // Reservation cancelled
+                    } else if (progress == TransactionDetailTools.ProgressReservationCancelled) { // Reservation cancelled
                         imgName = "ic_trx_reservation_cancelled"
                     }
                 }
             } else {
-                if (progress == -1 && idx == 1) { // Expired
+                if ((progress == TransactionDetailTools.ProgressExpired || progress == TransactionDetailTools.ProgressFraudDetected) && idx == 1) { // Expired
                     imgName = "ic_trx_expired"
-                } else if (progress == -3 && idx == 4) { // Rejected by seller
+                } else if (progress == TransactionDetailTools.ProgressRejectedBySeller && idx == 4) { // Rejected by seller
                     imgName = "ic_trx_exclamation"
-                } else if (progress == -4 && idx == 4) { // Not sent
+                } else if (progress == TransactionDetailTools.ProgressNotSent && idx == 4) { // Not sent
                     imgName = "ic_trx_canceled"
                 } else {
                     if (idx == 1) { // Not paid

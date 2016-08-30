@@ -303,6 +303,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             hideableCell[3] = true
         } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
             // No hideable cell
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            // No hideable cell
         }
     }
     
@@ -369,6 +371,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             return 6
         } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
             return 3
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            return 5
         }
         return 0
     }
@@ -749,6 +753,18 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 2) {
                 return ContactPreloHeight
             }
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            if (idx == 0) {
+                return TransactionDetailTableCell.heightForProducts(hideProductCell)
+            } else if (idx == 1) {
+                return SeparatorHeight
+            } else if (idx == 2) {
+                return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+            } else if (idx == 3) {
+                return DefaultHeight
+            } else if (idx == 4) {
+                return ContactPreloHeight
+            }
         }
         
         return 0
@@ -1072,6 +1088,18 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (idx == 2) {
                 return self.createContactPreloCell()
             }
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            if (idx == 0) {
+                return self.createTableProductsCell()
+            } else if (idx == 1) {
+                return self.createSeparatorCell()
+            } else if (idx == 2) {
+                return self.createDescriptionCell(1)
+            } else if (idx == 3) {
+                return self.createButtonCell(1)
+            } else if (idx == 4) {
+                return self.createContactPreloCell()
+            }
         }
         
         return UITableViewCell()
@@ -1087,7 +1115,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTableCellId) as! TransactionDetailTableCell
         
         // Adapt cell
-        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid) {
+        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
                 cell.adaptTableProducts(trxDetail!.transactionProducts, hideProductCell: hideProductCell)
             }
@@ -1132,7 +1160,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTableCellId) as! TransactionDetailTableCell
         
         // Adapt cell
-        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid) {
+        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
                 cell.adaptTableTitleContents(trxDetail!, titleContentType: titleContentType)
             }
@@ -1159,7 +1187,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailDescriptionCellId) as! TransactionDetailDescriptionCell
         
         // Adapt cell
-        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid) {
+        if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
                 cell.adapt(trxDetail!)
             }
@@ -1246,6 +1274,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.reviewSeller = {
             self.vwShadow.hidden = false
             self.vwReviewSeller.hidden = false
+        }
+        cell.seeFAQ = {
+            let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+            helpVC.url = "https://prelo.co.id/faq?ref=preloapp#tidak-lolos"
+            helpVC.titleString = "FAQ"
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([helpVC], animated: false)
+            self.presentViewController(baseNavC, animated: true, completion: nil)
         }
         
         return cell
@@ -1752,6 +1788,7 @@ class TransactionDetailTools : NSObject {
     static let ProgressReservationCancelled = -2
     static let ProgressRejectedBySeller = -3
     static let ProgressNotSent = -4
+    static let ProgressFraudDetected = -6
     static let ProgressNotPaid = 1
     static let ProgressClaimedPaid = 2
     static let ProgressConfirmedPaid = 3
@@ -1801,6 +1838,7 @@ class TransactionDetailTools : NSObject {
     static let TextReserved2 = "Apabila kamu tidak menyelesaikan pembelian sampai dengan batas waktu yang ditentukan, reservasi barang kamu akan dibatalkan.\n\nTunjukkan halaman ini sebagai bukti reservasi kamu."
     static let TextReserveDone = "Terima kasih sudah berbelanja di Prelo! Temukan barang preloved lainnya di Prelo dan tunggu event menarik selanjutnya dari Prelo."
     static let TextReservationCancelled = "Reservasi kamu sudah resmi dibatalkan. Apabila kamu ingin memesan kembali, kamu bisa memilih barang ini di menu Garage Sale."
+    static let TextFraudDetected = "Transaksi ini tidak lolos verifikasi."
     
     // Icon
     static let IcDownArrow = ""
@@ -2774,6 +2812,8 @@ class TransactionDetailProductCell : UITableViewCell {
             imgName = "ic_trx_reservation_done"
         } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
             imgName = "ic_trx_reservation_cancelled"
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            imgName = "ic_trx_expired"
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
@@ -2869,6 +2909,8 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 textRect = TransactionDetailTools.TextReserveDone.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
             } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
                 textRect = TransactionDetailTools.TextReservationCancelled.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+            } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+                textRect = TransactionDetailTools.TextFraudDetected.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
             }
             if (textRect != nil) {
                 return textRect!.height + (2 * TransactionDetailTools.Margin)
@@ -2907,6 +2949,8 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.boldSubstring("transaksi akan dibatalkan")
                     lblDesc.boldSubstring("uang akan dikembalikan kepada pembeli")
                 }
+            } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+                lblDesc.text = TransactionDetailTools.TextFraudDetected
             }
         }
     }
@@ -3085,6 +3129,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var confirmPayment : () -> () = {}
     var confirmShipping : () -> () = {}
     var reviewSeller : () -> () = {}
+    var seeFAQ : () -> () = {}
     
     func adapt(progress : Int?, order : Int) {
         self.progress = progress
@@ -3097,6 +3142,8 @@ class TransactionDetailButtonCell : UITableViewCell {
             btn.setTitle("KIRIM / TOLAK", forState: UIControlState.Normal)
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
             btn.setTitle("REVIEW PENJUAL", forState: UIControlState.Normal)
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            btn.setTitle("FAQ", forState: UIControlState.Normal)
         }
     }
     
@@ -3109,6 +3156,8 @@ class TransactionDetailButtonCell : UITableViewCell {
             self.confirmShipping()
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
             self.reviewSeller()
+        } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
+            self.seeFAQ()
         }
     }
 }
