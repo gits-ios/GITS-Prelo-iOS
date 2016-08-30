@@ -603,13 +603,13 @@ enum APITransaction2 : URLRequestConvertible
     static let basePath = "transaction/"
     
     case TransactionDetail(tId : String)
-    case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String)
+    case ConfirmPayment(bankFrom : String, bankTo : String, name : String, nominal : Int, orderId : String, timePaid : String)
 
     var method : Method {
         switch self
         {
         case .TransactionDetail(_) : return .GET
-        case .ConfirmPayment(_, _, _, _, _) : return .POST
+        case .ConfirmPayment(_, _, _, _, _, _) : return .POST
         }
     }
     
@@ -617,7 +617,7 @@ enum APITransaction2 : URLRequestConvertible
         switch self
         {
         case .TransactionDetail(let tId) : return "\(tId)"
-        case  .ConfirmPayment(_, _, _, _, let orderId) : return orderId + "/payment"
+        case  .ConfirmPayment(_, _, _, _, let orderId, _) : return orderId + "/payment"
         }
     }
     
@@ -626,12 +626,13 @@ enum APITransaction2 : URLRequestConvertible
         {
         case .TransactionDetail(_) :
             return [:]
-        case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _) :
+        case  .ConfirmPayment(let bankFrom, let bankTo, let nama, let nominal, _, let timePaid) :
             return [
                 "target_bank":bankTo,
                 "source_bank":bankFrom,
                 "name":nama,
-                "nominal":nominal
+                "nominal":nominal,
+                "time_paid":timePaid
             ]
         }
     }
@@ -801,7 +802,7 @@ enum APIAuth : URLRequestConvertible
     static let basePath = "auth/"
     
     case Register(username : String, fullname : String, email : String, password : String)
-    case Login(email : String, password : String)
+    case Login(email : String, password : String, deviceId : String)
     case LoginFacebook(email : String, fullname : String, fbId : String, fbUsername : String, fbAccessToken : String)
     case LoginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case LoginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
@@ -812,7 +813,7 @@ enum APIAuth : URLRequestConvertible
             switch self
             {
             case .Register(_, _, _, _) : return .POST
-            case .Login(_, _) : return .POST
+            case .Login(_, _, _) : return .POST
             case .LoginFacebook(_, _, _, _, _) : return .POST
             case .LoginPath(_, _, _, _) : return .POST
             case .LoginTwitter(_, _, _, _, _, _) : return .POST
@@ -825,7 +826,7 @@ enum APIAuth : URLRequestConvertible
             switch self
             {
             case .Register(_, _, _, _) : return "register"
-            case .Login(_, _) : return "login"
+            case .Login(_, _, _) : return "login"
             case .LoginFacebook(_, _, _, _, _) : return "login/facebook"
             case .LoginPath(_, _, _, _) : return "login/path"
             case .LoginTwitter(_, _, _, _, _, _) : return "login/twitter"
@@ -845,10 +846,11 @@ enum APIAuth : URLRequestConvertible
                     "password" : password
                 ]
                 return p
-            case .Login(let usernameOrEmail, let password) :
+            case .Login(let usernameOrEmail, let password, let deviceId) :
                 let p = [
                     "username_or_email" : usernameOrEmail,
-                    "password" : password
+                    "password" : password,
+                    "device_id" : deviceId
                 ]
                 return p
             case .LoginFacebook(let email, let fullname, let fbId, let fbUsername, let fbAccessToken) :

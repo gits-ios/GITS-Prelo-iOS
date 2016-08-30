@@ -95,6 +95,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     @IBOutlet var btnTundaBatal: UIButton!
     @IBOutlet var btnTundaKirim: UIButton!
     
+    // Others
+    var isShowBankBRI : Bool = false
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -189,6 +192,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else {
                         self.trxProductDetail = TransactionProductDetail.instance(data)
                         self.progress = self.trxProductDetail?.progress
+                    }
+                    
+                    // AB test check
+                    self.isShowBankBRI = false
+                    if let ab = data["ab_test"].array {
+                        for i in 0...ab.count - 1 {
+                            if (ab[i].stringValue.lowercaseString == "bri") {
+                                self.isShowBankBRI = true
+                            }
+                        }
                     }
                     
                     // Mixpanel
@@ -1219,6 +1232,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 orderConfirmVC.total = self.trxDetail!.totalPrice
                 orderConfirmVC.images = imgs
                 orderConfirmVC.isFromCheckout = false
+                orderConfirmVC.isShowBankBRI = self.isShowBankBRI
                 self.navigationController?.pushViewController(orderConfirmVC, animated: true)
             }
         }

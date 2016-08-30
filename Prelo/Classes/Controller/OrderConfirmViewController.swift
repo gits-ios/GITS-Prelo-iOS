@@ -28,7 +28,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var btnFreeTrx : UIButton! // Back button (for free transaction)
     @IBOutlet var vwUnpaidTrx: UIView! // Views for unfree transaction
     @IBOutlet var sectionRekOptions : [BorderedView] = []
-    @IBOutlet var tapDefaultRek : UITapGestureRecognizer!
+    @IBOutlet var btnDefaultBank: [UIButton]!
+    @IBOutlet var vw3Banks: UIView!
+    @IBOutlet var vw4Banks: UIView!
     @IBOutlet var captionBankInfoBankName : UILabel?
     @IBOutlet var captionBankInfoBankNumber : UILabel?
     @IBOutlet var captionBankInfoBankCabang : UILabel?
@@ -40,12 +42,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var fldNominalTrf: UITextField!
     @IBOutlet var consTopPaymentPopUp: NSLayoutConstraint!
     @IBOutlet var btnKirimPayment: UIButton!
+    @IBOutlet var datePicker: UIDatePicker!
     
     // Flags
     var isFromCheckout = true
     var isFreeTransaction = false
     var isBackTwice = false
     var isNavCtrlsChecked = false
+    var isShowBankBRI = false
     
     // Data from previous page
     var orderID : String = ""
@@ -56,9 +60,31 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     // Prelo account data
     var rekenings = [
-        ["name":"KLEO APPARA INDONESIA PT", "no":"777-16-13-113", "cabang":"KCU Dago", "bank_name":"Bank BCA"],
-        ["name":"PT KLEO APPARA INDONESIA", "no":"131-0050-313-131", "cabang":"KCP Bandung Dago", "bank_name":"Bank Mandiri"],
-        ["name":"PT KLEO APPARA INDONESIA", "no":"042-390-6140", "cabang":"Perguruan Tinggi Bandung", "bank_name":"Bank BNI"]]
+        [
+            "name":"KLEO APPARA INDONESIA PT",
+            "no":"777-16-13-113",
+            "cabang":"KCU Dago",
+            "bank_name":"Bank BCA"
+        ],
+        [
+            "name":"PT KLEO APPARA INDONESIA",
+            "no":"131-0050-313-131",
+            "cabang":"KCP Bandung Dago",
+            "bank_name":"Bank Mandiri"
+        ],
+        [
+            "name":"PT KLEO APPARA INDONESIA",
+            "no":"042-390-6140",
+            "cabang":"Perguruan Tinggi Bandung",
+            "bank_name":"Bank BNI"
+        ],
+        [
+            "name":"KLEO APPARA INDONESIA",
+            "no":"040-501-000-570-304",
+            "cabang":"Dago",
+            "bank_name":"Bank BRI"
+        ]
+    ]
     
     // MARK: - Init
     
@@ -131,12 +157,25 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionOrderID.text = orderID
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
+        if (self.isShowBankBRI) {
+            self.vw3Banks.hidden = true
+            self.vw4Banks.hidden = false
+        } else {
+            self.vw3Banks.hidden = false
+            self.vw4Banks.hidden = true
+        }
+        
         // Default active bank option
-        self.rekOptTapped(tapDefaultRek)
+        for i in 0...btnDefaultBank.count - 1 {
+            self.rekOptionsTapped(btnDefaultBank[i])
+        }
         
         // Pop up init
         self.vwPaymentPopUp.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.5)
         self.vwPaymentPopUp.hidden = true
+        
+        // Date picker init
+        datePicker.setValue(UIColor.darkGrayColor(), forKey: "textColor")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -199,8 +238,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.presentViewController(a, animated: true, completion: nil)
     }
     
-    @IBAction func rekOptTapped(sender : UITapGestureRecognizer) {
-        let b = sender.view as! BorderedView
+    @IBAction func rekOptionsTapped(sender: UIButton) {
+        let b = sender.superview as! BorderedView
         
         for x in sectionRekOptions {
             x.borderColor = Theme.GrayLight
@@ -271,7 +310,10 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     @IBAction func bankTujuanPressed(sender: AnyObject) {
-        let bankOpt = ["BCA", "Mandiri", "BNI"]
+        var bankOpt = ["BCA", "Mandiri", "BNI"]
+        if (self.isShowBankBRI) {
+            bankOpt.append("BRI")
+        }
         let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .ActionSheet)
         bankAlert.popoverPresentationController?.sourceView = sender as? UIView
         bankAlert.popoverPresentationController?.sourceRect = sender.bounds
@@ -296,8 +338,13 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         btnKirimPayment.setTitle("MENGIRIM...", forState: .Normal)
         btnKirimPayment.userInteractionEnabled = false
         
+        let timePaid = datePicker.date
+        let timePaidFormatter = NSDateFormatter()
+        timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
+        let timePaidString = timePaidFormatter.stringFromDate(timePaid)
+        
         // API Migrasi
-        request(APITransaction2.ConfirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId)).responseJSON { resp in
+        request(APITransaction2.ConfirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
                 // Mixpanel
                 let pt = [

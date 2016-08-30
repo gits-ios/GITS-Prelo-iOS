@@ -90,6 +90,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var address = ""
     var addressHeight = 44
     
+    // Others
+    var isShowBankBRI : Bool = false
+    
     // MARK: - Init
     
     override func viewWillAppear(animated: Bool) {
@@ -200,10 +203,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 
                 // Ab test check
                 self.isHalfBonusMode = false
+                self.isShowBankBRI = false
                 if let ab = data["ab_test"].array {
                     for i in 0...ab.count - 1 {
                         if (ab[i].stringValue.lowercaseString == "half_bonus") {
                             self.isHalfBonusMode = true
+                        } else if (ab[i].stringValue.lowercaseString == "bri") {
+                            self.isShowBankBRI = true
                         }
                     }
                 }
@@ -569,6 +575,13 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         let cell : CartPaymethodCell = tableView.dequeueReusableCellWithIdentifier("cell_paymethod") as! CartPaymethodCell
         cell.methodChosen = { tag in
             self.setPaymentOption(tag)
+        }
+        if (self.isShowBankBRI) {
+            cell.vw3Banks.hidden = true
+            cell.vw4Banks.hidden = false
+        } else {
+            cell.vw3Banks.hidden = false
+            cell.vw4Banks.hidden = true
         }
         
         return cell
@@ -1878,6 +1891,8 @@ class CartGrandTotalCell : BaseCartCell
 // MARK: - Class - Metode pembayaran
 
 class CartPaymethodCell : UITableViewCell {
+    @IBOutlet var vw3Banks: UIView!
+    @IBOutlet var vw4Banks: UIView!
     
     // Tag set in storyboard
     // 0 = Transfer Bank
