@@ -843,7 +843,9 @@ enum APIAuth : URLRequestConvertible
                     "username" : username,
                     "fullname" : fullname,
                     "email" : email,
-                    "password" : password
+                    "password" : password,
+                    "device_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString,
+                    "fa_id" : UIDevice.currentDevice().identifierForVendor!.UUIDString
                 ]
                 return p
             case .Login(let usernameOrEmail, let password) :
