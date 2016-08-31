@@ -3040,7 +3040,7 @@ in Bandung</string>
                                                     </variation>
                                                 </imageView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_free_ongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="lOd-bY-4Md">
-                                                    <rect key="frame" x="153" y="153" width="40" height="40"/>
+                                                    <rect key="frame" x="153" y="156" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="Wsj-u0-5ql"/>
                                                         <constraint firstAttribute="width" constant="40" id="dBj-Uy-jrG"/>
@@ -3078,7 +3078,7 @@ in Bandung</string>
                                             <constraint firstItem="X32-1K-QZA" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="d59-pF-1BK"/>
                                             <constraint firstAttribute="trailing" secondItem="I7f-5u-kJl" secondAttribute="trailing" constant="4" id="d9b-Bx-U4c"/>
                                             <constraint firstItem="lW7-IS-hv7" firstAttribute="width" secondItem="lW7-IS-hv7" secondAttribute="height" multiplier="123:122" id="db9-4K-haP"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="lOd-bY-4Md" secondAttribute="bottom" constant="49" id="gT6-Tr-wNh"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="lOd-bY-4Md" secondAttribute="bottom" constant="46" id="gT6-Tr-wNh"/>
                                             <constraint firstItem="CIM-nt-4UI" firstAttribute="leading" secondItem="p5l-ZT-ELz" secondAttribute="trailing" constant="4" id="hFf-s4-YWd"/>
                                             <constraint firstItem="WM2-Ez-8Ku" firstAttribute="leading" secondItem="VJW-xa-4Ee" secondAttribute="leading" id="iEo-Ah-f0V"/>
                                             <constraint firstItem="WM2-Ez-8Ku" firstAttribute="top" secondItem="VJW-xa-4Ee" secondAttribute="top" id="ipF-ea-q0t"/>

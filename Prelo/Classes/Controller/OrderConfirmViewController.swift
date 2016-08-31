@@ -323,6 +323,9 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 bankAlert.dismissViewControllerAnimated(true, completion: nil)
             }))
         }
+        bankAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { act in
+            bankAlert.dismissViewControllerAnimated(true, completion: nil)
+        }))
         self.presentViewController(bankAlert, animated: true, completion: nil)
     }
     
