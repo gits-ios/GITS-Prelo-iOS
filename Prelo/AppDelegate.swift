@@ -226,6 +226,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
+        // Deeplink handling for universal link
+        if let activityDict = launchOptions?[UIApplicationLaunchOptionsUserActivityDictionaryKey] as? [NSObject : AnyObject], activity = activityDict["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity {
+            if (activity.activityType == NSUserActivityTypeBrowsingWeb) {
+                if let url = activity.webpageURL, let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let path = components.path {
+                    var param : [NSURLQueryItem] = []
+                    if let items = components.queryItems {
+                        param = items
+                    }
+                    self.handleUniversalLink(path, param: param)
+                }
+            }
+        }
+        
         // Set User-Agent for every HTTP request
         let webViewDummy = UIWebView()
         let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
@@ -267,7 +280,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
     }
     
+    func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        return userActivityType == NSUserActivityTypeBrowsingWeb
+    }
+    
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        
+        if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
+            if let url = userActivity.webpageURL, let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let path = components.path {
+                var param : [NSURLQueryItem] = []
+                if let items = components.queryItems {
+                    param = items
+                }
+                self.handleUniversalLink(path, param: param)
+                return true
+            }
+        }
+
         Branch.getInstance().continueUserActivity(userActivity)
         
         return true
@@ -395,6 +424,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Redirection functions
+    
+    func handleUniversalLink(path : String, param : [NSURLQueryItem]) {
+        self.showRedirAlert()
+        if (path.containsString("/p/")) {
+            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+            if (splittedPath.count > 1) {
+                let permalink = splittedPath[1].stringByReplacingOccurrencesOfString(".html", withString: "")
+                request(Products.GetIdByPermalink(permalink: permalink)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Produk")) {
+                        let json = JSON(resp.result.value!)
+                        let pId = json["_data"].stringValue
+                        if (pId != "") {
+                            self.redirectProduct(pId)
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
+        } else if (path.containsString("/reminder-ketersediaan-barang")) {
+            var token = ""
+            if (param.count > 0) {
+                for i in 0...param.count - 1 {
+                    if (param[i].name.lowercaseString == "token") {
+                        if let v = param[i].value {
+                            token = v
+                        }
+                    }
+                }
+            }
+            Constant.showDialog("Token", message: token)
+        } else {
+            self.hideRedirAlertWithDelay(1.0)
+        }
+    }
     
     func deeplinkRedirect(tipe : String, targetId : String?) {
         //Constant.showDialog("tipe", message: "\(tipe)")
