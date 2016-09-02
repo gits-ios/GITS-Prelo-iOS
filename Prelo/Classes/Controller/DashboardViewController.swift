@@ -97,7 +97,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwTopMenu.frame = CGRectMake(vwTopMenuFrame.origin.x, vwTopMenuFrame.origin.y, vwTopMenuFrame.width, VwTopMenuHeightLoggedOut)
             menus = [
                 [
-                    "title":"Voucher Gratis",
+                    "title":"Referral Bonus",
                     "iconimg":"ic_share"
                 ],
                 [
@@ -225,7 +225,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchAbout()
             }
         } else {
-            if (indexPath.row == 0) { // Voucher gratis
+            if (indexPath.row == 0) { // Referral bonus
                 self.launchFreeVoucher()
             } else if (indexPath.row == 1) { // Hubungi prelo
                 self.launchContactPrelo()

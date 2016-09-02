@@ -83,7 +83,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     // Tampilkan pop up untuk verifikasi email
                     let a = UIAlertView()
                     a.title = "Referral Bonus"
-                    a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan voucher gratis dari Prelo"
+                    a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
                     a.addButtonWithTitle("Batal")
                     a.addButtonWithTitle("Kirim E-mail Konfirmasi")
                     a.delegate = self
