@@ -445,7 +445,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.showFailedRedirAlert()
             }
-        } else if (path.containsString("/reminder-ketersediaan-barang")) {
+        } else if (path.containsString("/reminder-ketersediaan-barang") || path.containsString("/barang-expiring")) {
+            /* GET PARAM EXAMPLE
             var token = ""
             if (param.count > 0) {
                 for i in 0...param.count - 1 {
@@ -455,8 +456,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                 }
-            }
-            Constant.showDialog("Token", message: token)
+            }*/
+            self.redirectExpiringProducts()
         } else {
             self.hideRedirAlertWithDelay(1.0)
         }
@@ -822,6 +823,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             self.showFailedRedirAlert()
         }
+    }
+    
+    func redirectExpiringProducts() {
+        let expProductsVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameExpiringProducts, owner: nil, options: nil).first as! ExpiringProductsViewController
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            expProductsVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(expProductsVC, animated: true)
     }
     
     // MARK: - Core Data stack

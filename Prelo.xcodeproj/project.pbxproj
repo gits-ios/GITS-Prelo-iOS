@@ -548,6 +548,9 @@
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
+		58EC90BB1D780ED600712E8A /* ExpiringProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */; };
+		58EC90BD1D78100400712E8A /* ExpiringProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EC90BC1D78100400712E8A /* ExpiringProducts.xib */; };
+		58EC90BF1D78142F00712E8A /* ExpiringProductsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */; };
 		58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 58EF19D91D4F55FB00997828 /* ic_search_filter.png */; };
 		58F0A41A1C7C634A002A488F /* cchmrk_buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4151C7C634A002A488F /* cchmrk_buy.png */; };
 		58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4161C7C634A002A488F /* cchmrk_chat.png */; };
@@ -1276,6 +1279,9 @@
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
+		58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpiringProductsViewController.swift; sourceTree = "<group>"; };
+		58EC90BC1D78100400712E8A /* ExpiringProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProducts.xib; sourceTree = "<group>"; };
+		58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProductsCell.xib; sourceTree = "<group>"; };
 		58EF19D91D4F55FB00997828 /* ic_search_filter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_search_filter.png; sourceTree = "<group>"; };
 		58F0A4151C7C634A002A488F /* cchmrk_buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_buy.png; sourceTree = "<group>"; };
 		58F0A4161C7C634A002A488F /* cchmrk_chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_chat.png; sourceTree = "<group>"; };
@@ -1848,6 +1854,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */,
 				5894DB3B1D586B2D00874A56 /* FilterViewController.swift */,
 				58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */,
 				58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */,
@@ -2417,6 +2424,8 @@
 				5894DB451D5880F200874A56 /* FilterCollectionCell.xib */,
 				5894DB431D58765200874A56 /* FilterCheckboxCell.xib */,
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
+				58EC90BC1D78100400712E8A /* ExpiringProducts.xib */,
+				58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2811,6 +2820,7 @@
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				58A7C4471D36263E00405CEC /* BalanceMutation.xib in Resources */,
 				58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */,
+				58EC90BF1D78142F00712E8A /* ExpiringProductsCell.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
@@ -2857,6 +2867,7 @@
 				213E77151BABD8E700D3002B /* SearchResultHeader.xib in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
+				58EC90BD1D78100400712E8A /* ExpiringProducts.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
 				440AF65A1BE0DF1600074CBC /* ReferralPage.xib in Resources */,
@@ -2963,6 +2974,7 @@
 				58A99A3D1C6D864E00E3E7D7 /* BranchCloseRequest.m in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				21679A581B901C5300F18F90 /* UIView+MPHelpers.m in Sources */,
+				58EC90BB1D780ED600712E8A /* ExpiringProductsViewController.swift in Sources */,
 				2141BBAB1B54BE4C00787F5D /* Request.swift in Sources */,
 				21679A571B901C5300F18F90 /* UIImage+MPImageEffects.m in Sources */,
 				2167998E1B8F8AB900F18F90 /* AFSecurityPolicy.m in Sources */,

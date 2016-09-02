@@ -188,6 +188,7 @@ class Tags : NSObject
     static let XibNameConfirmShipping = "ConfirmShipping"
     static let XibNameBalanceMutation = "BalanceMutation"
     static let XibNameFilter = "Filter"
+    static let XibNameExpiringProducts = "ExpiringProducts"
 }
 
 class OrderStatus : NSObject
@@ -259,6 +260,7 @@ class PageName
     static let TermsAndConditions = "Terms and Conditions"
     static let CheckoutTutorial = "Checkout Tutorial"
     static let Mutation = "Mutasi"
+    static let BarangExpired = "Barang Expired"
 }
 
 

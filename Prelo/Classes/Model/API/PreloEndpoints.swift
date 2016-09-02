@@ -1147,6 +1147,10 @@ enum Products : URLRequestConvertible
     case Delete(productID : String)
     case GetAllFeaturedProducts()
     case GetIdByPermalink(permalink : String)
+    case GetExpiringProducts
+    case SetSoldExpiringProduct(productId : String)
+    case SetUnsoldExpiringProduct(productId : String)
+    case FinishExpiringProducts
     
     var method : Method
     {
@@ -1167,6 +1171,10 @@ enum Products : URLRequestConvertible
         case .Delete(_) : return .POST
         case .GetAllFeaturedProducts() : return .GET
         case .GetIdByPermalink(_) : return .GET
+        case .GetExpiringProducts : return .GET
+        case .SetSoldExpiringProduct(_) : return .POST
+        case .SetUnsoldExpiringProduct(_) : return .POST
+        case .FinishExpiringProducts : return .POST
         }
     }
     
@@ -1189,6 +1197,10 @@ enum Products : URLRequestConvertible
         case .Delete(let pId) : return pId + "/delete"
         case .GetAllFeaturedProducts() : return "editorspick/all"
         case .GetIdByPermalink(let permalink) : return "to_id/" + permalink
+        case .GetExpiringProducts : return "expiring"
+        case .SetSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"
+        case .SetUnsoldExpiringProduct(let productId) : return "expiring/\(productId)/undo_sold"
+        case .FinishExpiringProducts : return "expiring/finish"
         }
     }
     

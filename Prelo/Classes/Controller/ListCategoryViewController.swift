@@ -180,9 +180,15 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             listItemViews.append(v)
         }
         
+        // Trying to avoid crash
+        let delay = 1.0
+        NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(ListCategoryViewController.afterAddChilds), userInfo: count, repeats: false)
+    }
+    
+    func afterAddChilds(timer : NSTimer) {
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
-        
+        let count = timer.userInfo as! Int
         addCategoryNames(count)
     }
     
