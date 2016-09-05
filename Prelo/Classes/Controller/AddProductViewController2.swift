@@ -446,8 +446,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     func pickerView(pickerView: AKPickerView!, didSelectItem item: Int) {
-        let s = sizes[item]
-        txtSize.text = s.stringByReplacingOccurrencesOfString("\n", withString: "/")
+        var s = sizes[item]
+        s = s.stringByReplacingOccurrencesOfString("\n", withString: "/")
+        if (String(s.characters.suffix(1)) == "/") {
+            s = String(s.characters.dropLast())
+        }
+        txtSize.text = s
     }
     
     func userLoggedIn() {
@@ -880,32 +884,37 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         self.captionSize1.text = ""
                         self.captionSize2.text = ""
                         self.captionSize3.text = ""
-                        var sml : Array<String> = []
-                        var usa : Array<String> = []
-                        var eur : Array<String> = []
+                        var sml : Array<String> = [] // = UK, this var name is screwed
+                        var usa : Array<String> = [] // = EU, this var name is screwed
+                        var eur : Array<String> = [] // = USA, this var name is screwed
                         for i in 0...arr.count-1
                         {
                             let d = arr[i]
                             let name = d["name"].string!
+                            if (i == 0) {
+                                self.captionSize1.text = name
+                            } else if (i == 1) {
+                                self.captionSize2.text = name
+                            } else if (i == 2) {
+                                self.captionSize3.text = name
+                            }
+                            
                             if let strings = d["sizes"].arrayObject
                             {
                                 for c in 0...strings.count-1
                                 {
                                     if (i == 0)
                                     {
-                                        self.captionSize1.text = name
                                         sml.append(strings[c] as! String)
                                     }
                                     
                                     if (i == 1)
                                     {
-                                        self.captionSize2.text = name
                                         usa.append(strings[c] as! String)
                                     }
                                     
                                     if (i == 2)
                                     {
-                                        self.captionSize3.text = name
                                         eur.append(strings[c] as! String)
                                     }
                                 }
@@ -918,25 +927,25 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         let sizeCount = tempCount >= eur.count ? tempCount : eur.count
                         for i in 0...sizeCount-1
                         {
-                            var usaString = " "
+                            var usaString = ""
                             if (i < usa.count-1) // usa is safe
                             {
                                 usaString = usa[i]
                             }
                             
-                            var smlString = " "
+                            var smlString = ""
                             if (i < sml.count-1) // sml is safe
                             {
                                 smlString = sml[i]
                             }
                             
-                            var eurString = " "
+                            var eurString = ""
                             if (i < eur.count-1) // eur is safe
                             {
                                 eurString = eur[i]
                             }
                             
-                            let sizeString = usaString + "\n" + smlString + "\n" + eurString
+                            let sizeString = smlString + "\n" + usaString + "\n" + eurString
                             self.sizes.append(sizeString)
                         }
                         
