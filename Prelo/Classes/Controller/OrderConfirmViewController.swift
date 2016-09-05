@@ -173,6 +173,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // Pop up init
         self.vwPaymentPopUp.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.5)
         self.vwPaymentPopUp.hidden = true
+        self.fldNominalTrf.text = "\(total + kodeTransfer)"
         
         // Date picker init
         datePicker.setValue(UIColor.darkGrayColor(), forKey: "textColor")

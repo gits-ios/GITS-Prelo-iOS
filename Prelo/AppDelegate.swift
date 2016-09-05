@@ -316,6 +316,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("deviceToken = \(deviceToken)")
         
+        // Mixpanel push notification setup
+        Mixpanel.sharedInstance().people.addPushDeviceToken(deviceToken)
+        
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
         
@@ -335,7 +338,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             LoginViewController.SendDeviceRegId()
         } else {
             // API Migrasi
-        request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+            request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
                     print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
