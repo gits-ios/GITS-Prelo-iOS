@@ -853,9 +853,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
             
             let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            p.standaloneMode = true
-            p.standaloneCategoryName = subcategoryItems[indexPath.item].name
-            p.standaloneCategoryID = subcategoryItems[indexPath.item].id
+            p.filterMode = true
+            p.fltrCategId = subcategoryItems[indexPath.item].id
+            p.fltrSortBy = "recent"
             self.navigationController?.pushViewController(p, animated: true)
         } else { // Product listing
             selectedProduct = products?[indexPath.item]
@@ -905,9 +905,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                     
                     let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                    p.standaloneMode = true
-                    p.standaloneCategoryName = "All"
-                    p.standaloneCategoryID = "55de6d4e9ffd40362ae310a7"
+                    p.filterMode = true
+                    p.fltrCategId = "55de6d4e9ffd40362ae310a7"
+                    p.fltrSortBy = "recent"
                     self.navigationController?.pushViewController(p, animated: true)
                 }
             } else if (subcategoryMode && indexPath.section == 0) { // 'Header' for section idx 1, we use section 0's footer so it won't be floating
