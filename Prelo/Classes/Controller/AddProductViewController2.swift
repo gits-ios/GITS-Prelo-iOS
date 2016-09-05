@@ -476,7 +476,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let ap = APImage()
             ap.image = imageViews[index].image
             a.apImage = ap
-            if (index == 0 || index == 3)
+            if (index == 0)
             {
                 a.disableDelete = true
             }
