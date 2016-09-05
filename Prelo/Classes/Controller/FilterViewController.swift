@@ -46,7 +46,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     let SortByData : [String] = ["Popular", "Recent", "Lowest Price", "Highest Price"]
     let SortByDataValue : [String] = ["popular", "recent", "lowest_price", "highest_price"]
     let CategSizeCellHeight : CGFloat = 28
-    var selectedIdxSortBy : Int = 0
+    var selectedIdxSortBy : Int = 1
     var productConditions : [String] = []
     var selectedProductConditions : [Bool] = []
     var isFreeOngkir : Bool = false
@@ -331,7 +331,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     // MARK: - Actions
     
     @IBAction func resetPressed(sender: AnyObject) {
-        selectedIdxSortBy = 0
+        selectedIdxSortBy = 1
         selectedProductConditions = []
         if (productConditions.count > 0) {
             for _ in 0...productConditions.count - 1 {

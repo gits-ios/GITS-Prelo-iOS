@@ -904,6 +904,13 @@ public class ProductDetail : NSObject, TawarItem
         return 0
     }
     
+    var markAsSoldTo : String {
+        if let j = json["sold_to"].string {
+            return j
+        }
+        return ""
+    }
+    
     var reveresed = false
     func reverse()
     {
@@ -2632,6 +2639,13 @@ class Inbox : NSObject, TawarItem
             return j
         }
         return 0
+    }
+    
+    var markAsSoldTo : String {
+        if let j = json["sold_to"].string {
+            return j
+        }
+        return ""
     }
 }
 

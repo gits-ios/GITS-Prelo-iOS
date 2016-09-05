@@ -19,13 +19,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XU5-WJ-Ths" userLabel="loadingPanel">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="732"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fI7-Iz-Xy3" userLabel="loading">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fI7-Iz-Xy3" userLabel="loading">
                                 <rect key="frame" x="290" y="95" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="fI7-Iz-Xy3" firstAttribute="top" secondItem="XU5-WJ-Ths" secondAttribute="top" constant="25" id="bys-DY-CPp"/>
+                            <constraint firstItem="fI7-Iz-Xy3" firstAttribute="top" secondItem="XU5-WJ-Ths" secondAttribute="top" constant="95" id="bys-DY-CPp"/>
                             <constraint firstAttribute="centerX" secondItem="fI7-Iz-Xy3" secondAttribute="centerX" id="wBP-Ua-G48"/>
                         </constraints>
                     </view>
@@ -404,8 +404,8 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYt-bx-pgM">
-                                        <rect key="frame" x="33" y="177" width="534" height="29"/>
-                                        <string key="text">Share kode referral kamu ke pengguna baru dan dapatkan Referral Bonus Rp 25.000. Pengguna kode referral kamu juga akan mendapatkan Referral Bonus Rp 25.000.</string>
+                                        <rect key="frame" x="33" y="177" width="534" height="43"/>
+                                        <string key="text">Untuk setiap referral yang dipakai, temanmu akan mendapatkan referral bonus Rp25.000 dan kamu akan mendapatkan Rp5.000. Dapatkan tambahan Rp20.000 saat temanmu berhasil belanja.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

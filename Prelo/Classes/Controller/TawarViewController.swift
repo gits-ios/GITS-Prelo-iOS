@@ -30,6 +30,7 @@ protocol  TawarItem {
     var bargainerIsMe : Bool {get}
     var productStatus : Int {get}
     var finalPrice : Int {get} // Final price after bargain accept/reject
+    var markAsSoldTo : String {get}
     
     func setBargainPrice(price : Int)
     func setFinalPrice(price : Int)
@@ -122,6 +123,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (self.prodStatus > 1) { // Product is sold
             if (!self.tawarItem.opIsMe) { // I am seller
                 isShowBubble = false
+            } else { // I am buyer
+                if (tawarItem.markAsSoldTo != User.Id) {
+                    isShowBubble = false
+                }
             }
         }
         
@@ -328,7 +333,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Set header height
         if (tawarItem.opIsMe) { // I am buyer
-            self.conMarginHeightOptions.constant = 114
+            if (self.prodStatus == 1) { // Product isn't sold
+                self.conMarginHeightOptions.constant = 114
+            } else { // Product is sold
+                if (tawarItem.markAsSoldTo == User.Id) { // Mark as sold to me
+                    self.conMarginHeightOptions.constant = 114
+                } else {
+                    self.conMarginHeightOptions.constant = 80
+                    return
+                }
+            }
         } else { // I am seller
             if (self.prodStatus == 1) { // Product isn't sold
                 if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
@@ -344,7 +358,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Arrange buttons
         if (self.prodStatus != 1) { // Product is sold
-            if (tawarItem.opIsMe) { // I am buyer
+            if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
                 btnBeliSold.hidden = false
             }
         } else { // Product isn't sold
