@@ -198,7 +198,8 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                 } else
                 {
 //                    self.getBalance()
-                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan 3x24 jam hari kerja.")
+                    let nDays = (self.txtNamaBank.text?.lowercaseString == "bank lainnya") ? 5 : 3
+                    UIAlertView.SimpleShow("Perhatian", message: "Permohonan tarik uang telah diterima. Proses paling lambat membutuhkan \(nDays)x24 jam hari kerja.")
                     
                     // Mixpanel
                     let pt = [
