@@ -439,7 +439,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
@@ -567,7 +567,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -625,7 +625,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -687,7 +687,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     return DefaultHeight
                 } else if (idx == 3) {
                     if (trxProductDetail != nil) {
-                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                        return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
                     }
                 } else if (idx == 4) {
                     return SeparatorHeight
@@ -817,7 +817,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
                 } else if (idx == 4) {
                     return self.createDescriptionCell(1)
                 } else if (idx == 5) {
@@ -929,7 +931,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
@@ -979,7 +983,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
@@ -1031,7 +1037,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 2) {
                     return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
                 } else if (idx == 3) {
-                    return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranBuyerPaid)
+                    if (trxProductDetail != nil) {
+                        return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    }
                 } else if (idx == 4) {
                     return self.createSeparatorCell()
                 } else if (idx == 5) {
@@ -1778,6 +1786,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         tableView.reloadData()
     }
+    
+    func getTitleContentPembayaranBuyerPaidType(trxProductDetail : TransactionProductDetail) -> String {
+        if (trxProductDetail.paymentMethod.lowercaseString == "credit card") {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidCC
+        } else if (trxProductDetail.paymentBankSource.lowercaseString == "prelo bonus") {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus
+        } else {
+            return TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer
+        }
+    }
 }
 
 // MARK: - Class
@@ -1805,7 +1823,9 @@ class TransactionDetailTools : NSObject {
     
     // TitleContent type
     static let TitleContentPembayaranBuyer = "tcpembayaranbuyer"
-    static let TitleContentPembayaranBuyerPaid = "tcpembayaranbuyerpaid"
+    static let TitleContentPembayaranBuyerPaidTransfer = "tcpembayaranbuyerpaidtransfer"
+    static let TitleContentPembayaranBuyerPaidCC = "tcpembayaranbuyerpaidcc"
+    static let TitleContentPembayaranBuyerPaidBonus = "tcpembayaranbuyerpaidbonus"
     static let TitleContentPembayaranSeller = "tcpembayaranseller"
     static let TitleContentPengirimanBuyer = "tcpengirimanbuyer"
     static let TitleContentPengirimanSeller = "tcpengirimanseller"
@@ -1947,13 +1967,20 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     static func heightForTitleContents2(trxProductDetail : TransactionProductDetail, titleContentType : String) -> CGFloat {
         var height : CGFloat = 8
         
-        if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
+        if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankTarget)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankSource)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentBankAccount)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentNominal.asPrice)
+        } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
+            height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
         } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentMethod)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.paymentDate)
@@ -2038,8 +2065,12 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else {
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 return 7
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 return 6
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                return 3
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
@@ -2098,7 +2129,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(p.asPrice)
                     }
                 }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 if (idx == 0) {
                     if (isTrxDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
@@ -2134,6 +2165,40 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                if (idx == 0) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                    }
+                } else if (idx == 1) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                    }
+                } else if (idx == 2) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                    }
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                if (idx == 0) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankSource)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankSource)
+                    }
+                } else if (idx == 1) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
                     }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
@@ -2386,7 +2451,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     content += "  Copy   \u{200c}"
                     return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .Right, url: nil, textToCopy: textToCopy)
                 }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaid) {
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 if (idx == 0) {
                     var content = ""
                     if (isTrxDetail()) {
@@ -2435,6 +2500,50 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.paymentNominal.asPrice
                     }
                     return self.createTitleContentCell("Nominal", content: content)
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                if (idx == 0) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentMethod
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentMethod
+                    }
+                    return self.createTitleContentCell("Metode", content: content)
+                } else if (idx == 1) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentDate
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentDate
+                    }
+                    return self.createTitleContentCell("Tanggal", content: content)
+                } else if (idx == 2) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentNominal.asPrice
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentNominal.asPrice
+                    }
+                    return self.createTitleContentCell("Nominal", content: content)
+                }
+            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                if (idx == 0) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentBankSource
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentBankSource
+                    }
+                    return self.createTitleContentCell("Metode", content: content)
+                } else if (idx == 1) {
+                    var content = ""
+                    if (isTrxDetail()) {
+                        content = trxDetail!.paymentDate
+                    } else if (isTrxProductDetail()) {
+                        content = trxProductDetail!.paymentDate
+                    }
+                    return self.createTitleContentCell("Tanggal", content: content)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 if (idx == 0) {
