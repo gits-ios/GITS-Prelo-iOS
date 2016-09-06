@@ -281,7 +281,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (userIsSeller()) {
                 hideableCell[3] = true
                 hideableCell[6] = true
-                hideableCell[9] = true
             } else {
                 hideableCell[3] = true
                 hideableCell[6] = true
@@ -355,7 +354,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
             if (userIsSeller()) {
-                return 12
+                return 10
             } else {
                 return 12
             }
@@ -610,10 +609,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 8) {
                     return DefaultHeight
                 } else if (idx == 9) {
-                    return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
-                } else if (idx == 10) {
-                    return DefaultHeight
-                } else if (idx == 11) {
                     return ContactPreloHeight
                 }
             } else {
@@ -967,12 +962,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if (idx == 7) {
                     return self.createSeparatorCell()
                 } else if (idx == 8) {
-                    return self.createTitleCell(TitleReview, detailCellIndexes: [9])
-                } else if (idx == 9) {
-                    return self.createDescriptionCell(1)
-                } else if (idx == 10) {
                     return self.createBorderedButtonCell(1)
-                } else if (idx == 11) {
+                } else if (idx == 9) {
                     return self.createContactPreloCell()
                 }
             } else {
