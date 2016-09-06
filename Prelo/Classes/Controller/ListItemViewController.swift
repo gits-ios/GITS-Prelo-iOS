@@ -329,14 +329,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.searchBar.text = self.fltrName
         }
         
-        // Remove redirect alert if any
-        if (storeMode) {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            if let redirAlert = appDelegate.redirAlert {
-                redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-            }
-        }
-        
         // Mixpanel for store mode
         if (storeMode) {
             if (User.IsLoggedIn && self.storeId == User.Id!) {

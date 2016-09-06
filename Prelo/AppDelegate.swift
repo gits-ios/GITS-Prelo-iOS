@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirTrxSeller = "transaction_seller"
     let RedirTrxPBuyer = "transaction_product_buyer"
     let RedirTrxPSeller = "transaction_product_seller"
+    let RedirCategory = "category"
     
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
@@ -440,6 +441,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         let pId = json["_data"].stringValue
                         if (pId != "") {
                             self.redirectProduct(pId)
+                        } else {
+                            self.showFailedRedirAlert()
                         }
                     } else {
                         self.showFailedRedirAlert()
@@ -461,6 +464,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }*/
             self.redirectExpiringProducts()
+        } else if (path.containsString("/c/") || path.containsString("/bekas/")) {
+            let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
+            if (splittedPath.count > 1) {
+                let permalink = splittedPath[1].stringByReplacingOccurrencesOfString(".html", withString: "")
+                request(References.GetCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Category ID")) {
+                        let json = JSON(resp.result.value!)
+                        let cId = json["_data"].stringValue
+                        if (cId != "") {
+                            self.redirectCategory(cId)
+                        } else {
+                            self.showFailedRedirAlert()
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
         } else {
             self.hideRedirAlertWithDelay(1.0)
         }
@@ -518,6 +541,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            }
+        } else if (tipeLowercase == self.RedirCategory) {
+            if (targetId != nil && targetId != "") {
+                self.showRedirAlert()
+                self.redirectCategory(targetId!)
             }
         }
     }
@@ -627,35 +655,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func redirectShopPage(userId : String) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        listItemVC.storeMode = true
+        listItemVC.storeId = userId
+
         var rootViewController : UINavigationController?
-        
-        // Tunggu sampai UINavigationController terbentuk
-        var wait = true
-        var waitCount = self.RedirWaitAmount
-        while (wait) {
-            if let childVCs = self.window!.rootViewController?.childViewControllers {
-                if (childVCs.count > 0) {
-                    if let rootVC = childVCs[0] as? UINavigationController {
-                        rootViewController = rootVC
-                    }
-                    wait = false
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
                 }
             }
-            waitCount -= 1
-            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-                wait = false
-            }
         }
-        
-        // Redirect setelah selesai menunggu
-        if (rootViewController != nil) {
-            let shopPage = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            shopPage.storeMode = true
-            shopPage.storeId = userId
-            rootViewController!.pushViewController(shopPage, animated: true)
-        } else {
-            self.showFailedRedirAlert()
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
+        rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
     func redirectInbox(inboxId : String?) {
@@ -850,6 +872,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             expProductsVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(expProductsVC, animated: true)
+    }
+    
+    func redirectCategory(categoryId : String) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        listItemVC.filterMode = true
+        listItemVC.fltrCategId = categoryId
+        listItemVC.fltrSortBy = "recent"
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
     // MARK: - Core Data stack

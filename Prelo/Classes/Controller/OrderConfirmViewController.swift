@@ -221,12 +221,6 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 self.consTopPaymentPopUp.constant = 100
             }
         }, completion: nil)
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-        }
     }
     
     // MARK: - Actions

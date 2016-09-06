@@ -139,12 +139,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             // Google Analytics
             GAI.trackPageVisit(PageName.ProductDetail)
         }
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-        }
     }
     
     func option()

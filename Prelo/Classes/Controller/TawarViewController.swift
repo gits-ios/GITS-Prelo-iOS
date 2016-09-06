@@ -202,12 +202,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             isShowLogin = false
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         }
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-        }
     }
     
     override func viewWillDisappear(animated: Bool) {

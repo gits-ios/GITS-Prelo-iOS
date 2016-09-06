@@ -80,12 +80,6 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             let notifListener = delegate.preloNotifListener
             notifListener.delegate = self
         }
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-        }
     }
         
     func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {

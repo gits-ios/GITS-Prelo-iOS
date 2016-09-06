@@ -76,6 +76,16 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Remove redirect alert if any
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
+        }
+    }
+    
     func backPressed(sender: UIBarButtonItem) {
         self.navigationController?.popViewControllerAnimated(true)
     }

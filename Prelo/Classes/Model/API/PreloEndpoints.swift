@@ -1502,6 +1502,7 @@ enum References : URLRequestConvertible
     case BrandAndSizeByCategory(category : String)
     case HomeCategories
     case FormattedSizesByCategory(category : String)
+    case GetCategoryByPermalink(permalink : String)
     
     var method : Method
     {
@@ -1513,6 +1514,7 @@ enum References : URLRequestConvertible
         case .BrandAndSizeByCategory(_) : return .GET
         case .HomeCategories : return .GET
         case .FormattedSizesByCategory(_) : return .GET
+        case .GetCategoryByPermalink(_) : return .GET
         }
     }
     
@@ -1526,6 +1528,7 @@ enum References : URLRequestConvertible
         case .BrandAndSizeByCategory(_) : return "brands_sizes"
         case .HomeCategories : return "categories/home"
         case .FormattedSizesByCategory(_) : return "formatted_sizes"
+        case .GetCategoryByPermalink(_) : return "category/by_permalink"
         }
     }
     
@@ -1539,6 +1542,7 @@ enum References : URLRequestConvertible
         case .BrandAndSizeByCategory(let catId) : return ["category_id":catId]
         case .HomeCategories : return[:]
         case .FormattedSizesByCategory(let catId) : return ["category_id":catId]
+        case .GetCategoryByPermalink(let permalink) : return ["permalink":permalink]
         }
     }
     

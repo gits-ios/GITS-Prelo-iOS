@@ -70,17 +70,6 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Remove redirect alert if any
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismissWithClickedButtonIndex(-1, animated: true)
-            
-        }
-    }
-    
     // MARK: - Tableview functions
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
