@@ -1268,11 +1268,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         if (balanceFix > priceAfterDiscountsWithoutBalance) {
             balanceFix = priceAfterDiscountsWithoutBalance
-            warning += "Prelo balance yang digunakan disesuaikan karena melebihi subtotal."
-        }
-        if (balanceFix % 1000 != 0) {
-            balanceFix -= balanceFix % 1000
-            warning += " Prelo balance yang digunakan harus kelipatan 1000."
+            warning += "Prelo balance yang digunakan disesuaikan karena melebihi subtotal. "
         }
         if (warning != "") {
             Constant.showDialog("Prelo Balance", message: warning)

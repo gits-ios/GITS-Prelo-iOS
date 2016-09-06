@@ -367,7 +367,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             str = "Terima kasih semuanya selamat duduk"
             break
         case 4 : // Anggi
-            str = "Cet Cet Cet Con Con Con"
+            str = "Tektoknya harus balance"
             break
         case 5 : // Nanda
             str = "Mha hart mah sole"
@@ -379,10 +379,10 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             str = "Aku.. gajadi deh"
             break
         case 8 : // Yossy
-            str = "Wkwkwkw"
+            str = "Okii"
             break
         case 9 : // Rico
-            str = "Ku.. sadari.. akhirnya.."
+            str = "Tonenonet Eghp eghp.. nenonet eghp eghp"
             break
         case 10 : // Rido
             str = "Gua punya satu pertanyaan"
