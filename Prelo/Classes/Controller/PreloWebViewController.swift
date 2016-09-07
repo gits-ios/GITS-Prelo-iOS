@@ -16,6 +16,14 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
     @IBOutlet var webView : UIWebView!
     var url : String = ""
     var titleString : String = ""
+    
+    var creditCardMode : Bool = false
+    var ccModeSuccessUrl : String = "\(AppTools.PreloBaseUrl)/payment/finish"
+    var ccModeUnfinishUrl : String = "\(AppTools.PreloBaseUrl)/payment/unfinish"
+    var ccModeFailUrl : String = "\(AppTools.PreloBaseUrl)/payment/error"
+    var ccPaymentSucceed : () -> () = {}
+    var ccPaymentUnfinished : () -> () = {}
+    var ccPaymentFailed : () -> () = {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +33,9 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         webView.loadRequest(req)
         webView.delegate = self
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Selesai", style: .Plain, target: self, action: #selector(PreloWebViewController.done))
+        let btnClose = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(PreloWebViewController.closePressed))
+        btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], forState: UIControlState.Normal)
+        self.navigationItem.rightBarButtonItem = btnClose
         
         self.title = titleString
         
@@ -47,36 +57,69 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    func done()
-    {
+    func closePressed() {
+        if (creditCardMode) {
+            ccPaymentUnfinished()
+        }
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func webViewDidStartLoad(webView: UIWebView) {
         // Show loading
         loadingPanel.hidden = false
         loading.startAnimating()
+        
+        //let currentURL = webView.request // Not incoming URL
+        //print(currentURL)
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
         // Hide loading
         loadingPanel.hidden = true
         loading.stopAnimating()
+        
+        //let currentURL = webView.request?.URL // Incoming URL
+        //print(currentURL)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        print("Load webview failed!")
     }
-    */
-
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        let auth = request.valueForHTTPHeaderField("Authorization")
+        print("Auth = \(auth)")
+        print("URL = \(webView.request?.URL), INCOMING REQUEST = \(request), NAVIGATION TYPE = \(navigationType.rawValue)")
+        
+        if (creditCardMode) {
+            let incomingURL = request.URL
+            if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeSuccessUrl) != nil) { // Success
+                ccPaymentSucceed()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeUnfinishUrl) != nil) { // Unfinished
+                ccPaymentUnfinished()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeFailUrl) != nil) { // Failed
+                ccPaymentFailed()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            /* Adding Auth to HTTPHeader, cancelling current request, and performing new request (Unused)
+             if (request.URLString.containsString("http://dev.prelo.id") && auth == nil) {
+                let username = "klora.ops"
+                let password = "BekasBerkualitas31!"
+                let loginString = NSString(format: "%@:%@", username, password)
+                let loginData : NSData = loginString.dataUsingEncoding(NSUTF8StringEncoding)!
+                let base64LoginString = loginData.base64EncodedStringWithOptions([])
+                
+                let mutableReq = NSMutableURLRequest(URL: request.URL!)
+                mutableReq.HTTPMethod = request.HTTPMethod!
+                mutableReq.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+                webView.delegate = self
+                webView.loadRequest(mutableReq)
+                return false
+            }*/
+        }
+        
+        return true
+    }
 }

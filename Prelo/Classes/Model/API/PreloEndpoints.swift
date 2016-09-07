@@ -715,14 +715,16 @@ enum APICart : URLRequestConvertible
     static let basePath = "cart/"
     
     case Refresh(cart : String, address : String, voucher : String?)
-    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
+    case Checkout(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int, ccOrderId : String)
+    case GenerateVeritransUrl(cart : String, address : String, voucher : String?, payment : String, usedPreloBalance : Int, usedReferralBonus : Int, kodeTransfer : Int)
     
     var method : Method
     {
         switch self
         {
         case .Refresh(_, _, _) : return .POST
-        case .Checkout(_, _, _, _, _, _, _) : return .POST
+        case .Checkout(_, _, _, _, _, _, _, _) : return .POST
+        case .GenerateVeritransUrl(_, _, _, _, _, _, _) : return .POST
         }
     }
     
@@ -731,7 +733,8 @@ enum APICart : URLRequestConvertible
         switch self
         {
         case .Refresh(_, _, _) : return ""
-        case .Checkout(_, _, _, _, _, _, _) : return "checkout"
+        case .Checkout(_, _, _, _, _, _, _, _) : return "checkout"
+        case .GenerateVeritransUrl(_, _, _, _, _, _, _) : return "generate_veritrans_url"
         }
     }
     
@@ -746,7 +749,34 @@ enum APICart : URLRequestConvertible
                     "voucher_serial":(voucher == nil) ? "" : voucher!
                 ]
                 return p
-        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
+        case .Checkout(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer, let ccOrderId) :
+            var p = [
+                "cart_products":cart,
+                "shipping_address":address,
+                "banktransfer_digit":NSNumber(integer: 1),
+                "voucher_serial":(voucher == nil) ? "" : voucher!,
+                "payment_method":payment
+            ]
+            if usedBalance != 0
+            {
+                p["prelobalance_used"] = NSNumber(integer: usedBalance)
+            }
+            
+            if kodeTransfer != 0
+            {
+                p["banktransfer_digit"] = NSNumber(integer: kodeTransfer)
+            }
+            
+            if usedBonus != 0 {
+                p["bonus_used"] = NSNumber(integer: usedBonus)
+            }
+            
+            if ccOrderId != "" {
+                p["order_id"] = ccOrderId
+            }
+            
+            return p
+        case .GenerateVeritransUrl(let cart, let address, let voucher, let payment, let usedBalance, let usedBonus, let kodeTransfer) :
             var p = [
                 "cart_products":cart,
                 "shipping_address":address,
@@ -1740,7 +1770,6 @@ class APIPrelo
                         }
                     }
                 } else if (res == nil && showErrorDialog) {
-                    let status = response.statusCode
                     if (response.statusCode > 500) {
                         UIAlertView.SimpleShow(reqAlias, message: "Server Prelo sedang lelah, silahkan coba beberapa saat lagi")
                     } else {

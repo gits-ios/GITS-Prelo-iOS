@@ -35,6 +35,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     var kecamatanPickerItems : [String] = []
     var shouldBack : Bool = false
     var refreshByLocationChange : Bool = false
+    var ccPaymentOrderId : String = ""
     
     // Prices and discounts data container
     var bankTransferDigit : Int = 0
@@ -68,7 +69,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     // Metode pembayaran
     var selectedPayment = "Bank Transfer"
-    var availablePayments = ["Bank Transfer", "Credit Card", "Prelo Balance"]
+    var availablePayments = ["Bank Transfer", "Credit Card"]
     
     // Sections
     let sectionProducts = 0
@@ -958,7 +959,48 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             }
         }
         
-        request(APICart.Checkout(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+        if (self.selectedPayment == self.availablePayments[0] || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
+            self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
+        } else if (self.selectedPayment == self.availablePayments[1]) { // Credit Cards
+            request(APICart.GenerateVeritransUrl(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Generate Veritrans URL")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    if (data["success"].bool == true) {
+                        let webVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+                        webVC.url = data["veritrans_redirect_url"].stringValue
+                        webVC.titleString = "Pembayaran Kartu Kredit"
+                        webVC.creditCardMode = true
+                        webVC.ccPaymentSucceed = {
+                            self.ccPaymentOrderId = data["order_id"].stringValue
+                            self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
+                        }
+                        webVC.ccPaymentUnfinished = {
+                            Constant.showDialog("", message: "Pembayaran dibatalkan")
+                            self.btnSend.enabled = true
+                        }
+                        webVC.ccPaymentFailed = {
+                            Constant.showDialog("Pembayaran Gagal", message: "Mohon coba lagi dengan metode pembayaran yang lain")
+                            self.btnSend.enabled = true
+                        }
+                        let baseNavC = BaseNavigationController()
+                        baseNavC.setViewControllers([webVC], animated: false)
+                        self.presentViewController(baseNavC, animated: true, completion: nil)
+                    } else {
+                        Constant.showDialog("Generate Veritrans URL", message: "Oops, terdapat kesalahan, silahkan coba beberapa saat lagi")
+                        self.btnSend.enabled = true
+                    }
+                } else {
+                    self.btnSend.enabled = true
+                }
+            }
+        }
+        
+        
+    }
+    
+    func performCheckout(cart : String, address : String, usedBalance : Int, usedBonus : Int) {
+        request(APICart.Checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
@@ -982,7 +1024,11 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 let o = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 
                 o.orderID = (self.checkoutResult?["order_id"].string)!
-                o.total = gTotal
+                if (self.selectedPayment == self.availablePayments[1]) { // Credit card
+                    o.total = 0
+                } else { // Bank transfer etc
+                    o.total = gTotal
+                }
                 o.transactionId = (self.checkoutResult?["transaction_id"].string)!
                 o.isBackTwice = true
                 
