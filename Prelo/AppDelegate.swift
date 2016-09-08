@@ -168,6 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         UIApplication.sharedApplication().registerForRemoteNotifications()
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         // Handling push notification from APNS
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
@@ -319,6 +320,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Mixpanel push notification setup
         Mixpanel.sharedInstance().people.addPushDeviceToken(deviceToken)
+        
+        // Appsflyer uninstall tracking
+        AppsFlyerTracker.sharedTracker().registerUninstall(deviceToken)
+        if (AppTools.isDev) {
+            AppsFlyerTracker.sharedTracker().useUninstallSandbox = true
+        }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
