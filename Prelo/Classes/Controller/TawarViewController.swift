@@ -151,6 +151,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Product image
         header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
         
+        // Hide textview and price for Prelo Message
+        if (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567") {
+            self.conMarginBottom.constant = -(self.conHeightTextView.constant + 6)
+            header.captionPrice.hidden = true
+        }
+        
         // Setup table
         tableView.dataSource = self
         tableView.delegate = self
