@@ -154,6 +154,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             c.root = self.root
             c.searchMode = self.searchMode
             c.categoryImageName = categories[indexPath.item]["image_name"].stringValue
+            c.categoryLv1Id = categories[indexPath.item]["_id"].stringValue
             c.delegate = self.delegate
             c.previousController = self.previousController
             self.navigationController?.pushViewController(c, animated: true)
@@ -173,6 +174,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         c.root = self.root
         c.searchMode = self.searchMode
         c.categoryImageName = selectedCategory!["image_name"].stringValue
+        c.categoryLv1Id = selectedCategory!["_id"].stringValue
         c.delegate = self.delegate
         c.previousController = self.previousController
     }
@@ -202,6 +204,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     var backTreshold = 1
     var searchMode = false
     var categoryImageName : String = ""
+    var categoryLv1Id : String = ""
     
     // Data container
     var categories : Array<JSON> = []
@@ -291,6 +294,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             p.searchMode = self.searchMode
             p.root = root
             p.categoryImageName = self.categoryImageName
+            p.categoryLv1Id = self.categoryLv1Id
             p.categoryLv2Name = self.categoryLv2Name
             p.delegate = self.delegate
             p.previousController = self.previousController
@@ -300,6 +304,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 "parent":parent.rawValue,
                 "child":selectedCategory!.rawValue,
                 "category_image_name":self.categoryImageName,
+                "category_level1_id":self.categoryLv1Id,
                 "category_level2_name":self.categoryLv2Name
             ]
             if (searchMode) {

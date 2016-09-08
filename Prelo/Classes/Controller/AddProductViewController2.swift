@@ -44,6 +44,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     var isOriginalDustboxChecked = false
     var isReceiptChecked = false
     var isAuthCardChecked = false
+    var isCategWomenOrMenSelected = false
     
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var fakeScrollView : UIScrollView!
@@ -866,6 +867,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     }
                 }
             }
+            
+            if let catLv1Id = dataJson["category_level1_id"].string {
+                if (catLv1Id == "55de6dbc5f6522562a2c73ef" || catLv1Id == "55de6dbc5f6522562a2c73f0") {
+                    self.isCategWomenOrMenSelected = true
+                } else {
+                    self.isCategWomenOrMenSelected = false
+                }
+            }
         }
         p.root = self
         self.navigationController?.pushViewController(p, animated: true)
@@ -1048,13 +1057,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             if let isLux = data[i]["is_luxury"].bool {
                                 isLuxury = isLux
                             }
-                            if let segments = data[i]["segments"].array where segments.count > 0 {
-                                for j in 0...(segments.count - 1) {
-                                    if (segments[j].stringValue.lowercaseString == "luxury") {
-                                        isLuxury = true
-                                    }
-                                }
-                            }
                             strToHide += ";" + (isLuxury ? "1" : "0")
                             names.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
                         }
@@ -1083,7 +1085,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         self.captionMerek.text = x
                         
                         // Show luxury fields if isLuxury
-                        if (self.merekIsLuxury) {
+                        if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
                             self.groupVerifAuth.hidden = false
                             self.groupKelengkapan.hidden = false
                             self.conTopOngkirGroup.constant = 498
