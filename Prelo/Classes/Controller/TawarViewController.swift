@@ -152,9 +152,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
         
         // Hide textview and price for Prelo Message
-        if (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567") {
+        if (self.isChatWithPreloMessage()) {
             self.conMarginBottom.constant = -(self.conHeightTextView.constant + 6)
             header.captionPrice.hidden = true
+            header.captionUsername.hidden = true
         }
         
         // Setup table
@@ -755,7 +756,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - Navigation
     
     @IBAction func gotoProduct(sender: AnyObject) {
-        if (tawarItem.itemId != "") {
+        if (!isChatWithPreloMessage() && tawarItem.itemId != "") {
             request(Products.Detail(productId: tawarItem.itemId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
@@ -770,7 +771,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func gotoShopPage(sender: AnyObject) {
-        if (tawarItem.theirId != "") {
+        if (!isChatWithPreloMessage() && tawarItem.theirId != "") {
             let shopPage = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             shopPage.storeMode = true
             shopPage.storeId = tawarItem.theirId
@@ -836,6 +837,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             "Is Seller" : !tawarItem.opIsMe
         ]
         Mixpanel.trackEvent(eventName, properties: pt as [NSObject : AnyObject])
+    }
+    
+    func isChatWithPreloMessage() -> Bool {
+        return (tawarItem.theirId == "56c73cc61b97db64088b4567" || tawarItem.theirId == "56c73e581b97db1b628b4567")
     }
 }
 
