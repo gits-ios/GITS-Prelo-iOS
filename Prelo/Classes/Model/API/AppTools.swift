@@ -74,8 +74,41 @@ extension UILabel {
     }
 }
 
+extension UIImage {
+    func resizeWithPercentage(percentage: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.renderInContext(context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+    
+    func resizeWithWidth(width: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.renderInContext(context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+    
+    func resizeWithMaxWidth(width: CGFloat) -> UIImage? {
+        if (self.size.width > width) {
+            return self.resizeWithWidth(width)
+        }
+        return self
+    }
+}
+
 class AppTools: NSObject {
-    static let isDev = true // Set true for demo/testing purpose only
+    static let isDev = false // Set true for demo/testing purpose only
     
     private static var devURL = "http://dev.prelo.id"
     private static var prodURL = "https://prelo.co.id"

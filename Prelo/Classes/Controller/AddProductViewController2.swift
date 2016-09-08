@@ -1418,6 +1418,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        
+        // Compress images
+        for i in 0...images.count - 1 {
+            if let img = images[i] as? UIImage {
+                //print("Resizing image no-\(i) with width = \(img.size.width)")
+                if let imgResized = img.resizeWithMaxWidth(1024) {
+                    images[i] = imgResized
+                    //print("Image no-\(i) has been resized")
+                }
+            }
+        }
 
         if (editMode == false)
         {
@@ -1442,7 +1453,6 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.presentViewController(alert, animated: true, completion: nil)
             return
         }
-        
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
             print(res)

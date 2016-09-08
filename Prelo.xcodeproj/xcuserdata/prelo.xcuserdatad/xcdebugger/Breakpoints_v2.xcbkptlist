@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/AddProductViewController2.swift"
-            timestampString = "494751776.244955"
+            timestampString = "495002914.227335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1425"
-            endingLineNumber = "1425"
+            startingLineNumber = "1436"
+            endingLineNumber = "1436"
             landmarkName = "sendProduct()"
             landmarkType = "5">
             <Locations>
