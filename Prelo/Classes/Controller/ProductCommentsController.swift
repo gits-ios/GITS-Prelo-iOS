@@ -18,6 +18,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     @IBOutlet var btnSend : UIButton!
     @IBOutlet var loading: UIActivityIndicatorView!
     
+    @IBOutlet var consTopVwHeader: NSLayoutConstraint!
+    @IBOutlet var vwHeader: UIView!
+    
     var pDetail : ProductDetail!
     
     var growHandler : GrowingTextViewHandler?
@@ -204,6 +207,9 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         return 47+(s.height)
     }
 
+    @IBAction func topHeaderPressed(sender: AnyObject) {
+        self.consTopVwHeader.constant = -(self.vwHeader.height)
+    }
     /*
     // MARK: - Navigation
 

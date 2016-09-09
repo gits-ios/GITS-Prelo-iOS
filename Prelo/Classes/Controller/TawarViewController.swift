@@ -423,12 +423,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCellWithIdentifier("bubble") as! TawarBubbleCell
             cell.selectionStyle = .None
             if (self.tawarItem.opIsMe) { // I am buyer
-                let attrStr = NSMutableAttributedString(string: "Kamu bisa bertransaksi langsung dengan penjual tanpa jaminan atau klik BELI untuk bertransaksi 100% aman dengan rekening bersama Prelo")
+                let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                 cell.lblText.attributedText = attrStr
-                cell.lblText.boldSubstring("klik BELI")
                 cell.lblText.setSubstringColor("rekening bersama Prelo", color: Theme.PrimaryColor)
             } else { // I am seller
-                let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName)")
+                let attrStr = NSMutableAttributedString(string: "Klik MARK AS SOLD jika barang sudah dibeli oleh \(self.tawarItem.theirName). Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                 cell.lblText.attributedText = attrStr
                 cell.lblText.boldSubstring("MARK AS SOLD")
                 cell.lblText.setSubstringColor(self.tawarItem.theirName, color: Theme.PrimaryColor)
@@ -460,9 +459,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         if (indexPath.row == 0 && isShowBubble) { // Bubble cell
             if (self.tawarItem.opIsMe) { // I am buyer
-                return 106
+                return 110
             } else { // I am seller
-                return 74
+                return 110
             }
         } else { // Chat cell
             let chat = inboxMessages[indexPath.row - (isShowBubble ? 1 : 0)]
