@@ -14615,14 +14615,14 @@ Label / Merek</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7S4-Kn-bh2">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="544"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-D4-QhS" userLabel="shadow">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="544"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6sY-EX-kSi" userLabel="loading">
-                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                        <rect key="frame" x="290" y="262" width="20" height="20"/>
                                         <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -14632,20 +14632,74 @@ Label / Merek</string>
                                     <constraint firstAttribute="centerX" secondItem="6sY-EX-kSi" secondAttribute="centerX" id="oc1-Md-1PL"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NOX-VI-E5j" userLabel="Sticky Footer">
+                                <rect key="frame" x="0.0" y="544" width="600" height="56"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TZ7-Q6-YhS">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                        <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="vhC-AB-ToZ"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSt-dD-pU0" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="584" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="HUBUNGI PRELO">
+                                            <color key="titleColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
+                                                <color key="value" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="btnStickyFooterPressed:" destination="AqF-mG-OjO" eventType="touchUpInside" id="23S-CX-7v8"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="TZ7-Q6-YhS" secondAttribute="trailing" id="4Rb-XG-hl8"/>
+                                    <constraint firstAttribute="height" constant="56" id="6Z7-4W-zIj"/>
+                                    <constraint firstItem="cSt-dD-pU0" firstAttribute="leading" secondItem="NOX-VI-E5j" secondAttribute="leading" constant="8" id="D6p-8N-snB"/>
+                                    <constraint firstAttribute="bottom" secondItem="cSt-dD-pU0" secondAttribute="bottom" constant="8" id="FJn-Rh-ZtJ"/>
+                                    <constraint firstItem="TZ7-Q6-YhS" firstAttribute="top" secondItem="NOX-VI-E5j" secondAttribute="top" id="TYR-ox-pRd"/>
+                                    <constraint firstAttribute="trailing" secondItem="cSt-dD-pU0" secondAttribute="trailing" constant="8" id="qe7-Q3-B8Y"/>
+                                    <constraint firstItem="TZ7-Q6-YhS" firstAttribute="leading" secondItem="NOX-VI-E5j" secondAttribute="leading" id="ysl-xM-6bK"/>
+                                    <constraint firstItem="cSt-dD-pU0" firstAttribute="top" secondItem="NOX-VI-E5j" secondAttribute="top" constant="8" id="z6T-T9-piX"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="Gpa-D4-QhS" secondAttribute="bottom" id="4Hi-tu-QC2"/>
+                            <constraint firstItem="NOX-VI-E5j" firstAttribute="leading" secondItem="0WL-2i-fE5" secondAttribute="leading" id="2Fp-Er-uTU"/>
+                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="Gpa-D4-QhS" secondAttribute="bottom" constant="56" id="4Hi-tu-QC2"/>
+                            <constraint firstItem="NOX-VI-E5j" firstAttribute="top" secondItem="Gpa-D4-QhS" secondAttribute="bottom" id="5B4-Aq-x7g"/>
                             <constraint firstAttribute="trailing" secondItem="Gpa-D4-QhS" secondAttribute="trailing" id="D7z-T2-qxp"/>
+                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="NOX-VI-E5j" secondAttribute="bottom" id="JPK-n7-8kz"/>
+                            <constraint firstAttribute="trailing" secondItem="NOX-VI-E5j" secondAttribute="trailing" id="SZ4-35-BeP"/>
                             <constraint firstAttribute="trailing" secondItem="7S4-Kn-bh2" secondAttribute="trailing" id="X28-dD-Wrz"/>
                             <constraint firstItem="7S4-Kn-bh2" firstAttribute="leading" secondItem="0WL-2i-fE5" secondAttribute="leading" id="ZJ9-w9-KFK"/>
+                            <constraint firstItem="NOX-VI-E5j" firstAttribute="top" secondItem="7S4-Kn-bh2" secondAttribute="bottom" id="et3-Dh-Qld"/>
                             <constraint firstItem="Gpa-D4-QhS" firstAttribute="top" secondItem="0WL-2i-fE5" secondAttribute="top" id="jwt-o3-gxB"/>
                             <constraint firstItem="Gpa-D4-QhS" firstAttribute="leading" secondItem="0WL-2i-fE5" secondAttribute="leading" id="nNh-JD-JXp"/>
-                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="7S4-Kn-bh2" secondAttribute="bottom" id="rKl-n4-1hg"/>
+                            <constraint firstItem="BZ1-ke-h1x" firstAttribute="top" secondItem="7S4-Kn-bh2" secondAttribute="bottom" constant="56" id="rKl-n4-1hg"/>
                             <constraint firstItem="7S4-Kn-bh2" firstAttribute="top" secondItem="0WL-2i-fE5" secondAttribute="top" id="taz-PE-OWv"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="4Hi-tu-QC2"/>
+                                <exclude reference="rKl-n4-1hg"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="btnStickyFooter" destination="cSt-dD-pU0" id="5jN-wp-3nn"/>
+                        <outlet property="consHeightStickyFooter" destination="6Z7-4W-zIj" id="i38-vM-cJv"/>
                         <outlet property="loading" destination="6sY-EX-kSi" id="oSv-pi-KSH"/>
                         <outlet property="loadingPanel" destination="Gpa-D4-QhS" id="mTN-yD-XFh"/>
                         <outlet property="webView" destination="7S4-Kn-bh2" id="DTF-Vs-l53"/>

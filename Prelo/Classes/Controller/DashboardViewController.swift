@@ -75,12 +75,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "iconimg":"ic_bag"
                 ],
                 [
-                    "title":"Hubungi Prelo",
-                    "icon":"",
-                    "PreloAwesome":"0"
-                ],
-                [
-                    "title":"FAQ",
+                    "title":"Bantuan",
                     "icon":"",
                     "PreloAwesome":"1"
                 ],
@@ -101,12 +96,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                     "iconimg":"ic_share"
                 ],
                 [
-                    "title":"Hubungi Prelo",
-                    "icon":"",
-                    "PreloAwesome":"0"
-                ],
-                [
-                    "title":"FAQ",
+                    "title":"Bantuan",
                     "icon":"",
                     "PreloAwesome":"1"
                 ],
@@ -217,21 +207,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.launchMyProducts()
             } else if (indexPath.row == 2) { // Belanjaan saya
                 self.launchMyPurchases()
-            } else if (indexPath.row == 3) { // Hubungi prelo
-                self.launchContactPrelo()
-            } else if (indexPath.row == 4) { // FAQ
+            } else if (indexPath.row == 3) { // Bantuan
                 self.launchFAQ()
-            } else if (indexPath.row == 5) { // About
+            } else if (indexPath.row == 4) { // About
                 self.launchAbout()
             }
         } else {
             if (indexPath.row == 0) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if (indexPath.row == 1) { // Hubungi prelo
-                self.launchContactPrelo()
-            } else if (indexPath.row == 2) { // FAQ
+            } else if (indexPath.row == 1) { // Bantuan
                 self.launchFAQ()
-            } else if (indexPath.row == 3) { // About
+            } else if (indexPath.row == 2) { // About
                 self.launchAbout()
             }
         }
@@ -341,7 +327,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     func launchFAQ() {
         let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
         helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
-        helpVC.titleString = "FAQ"
+        helpVC.titleString = "Bantuan"
+        helpVC.contactPreloMode = true
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
         self.presentViewController(baseNavC, animated: true, completion: nil)

@@ -24,6 +24,11 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
     var ccPaymentSucceed : () -> () = {}
     var ccPaymentUnfinished : () -> () = {}
     var ccPaymentFailed : () -> () = {}
+    
+    var contactPreloMode : Bool = false
+    @IBOutlet var btnStickyFooter: BorderedButton!
+    @IBOutlet var consHeightStickyFooter: NSLayoutConstraint!
+    var contactUs : UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +48,17 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         loadingPanel.hidden = false
         loading.startAnimating()
+        
+        // Sticky footer
+        self.btnStickyFooter.borderColor = Theme.PrimaryColor
+        self.btnStickyFooter.borderWidth = 1
+        
+        // Contact prelo mode
+        if (self.contactPreloMode) {
+            self.consHeightStickyFooter.constant = 56
+        } else {
+            self.consHeightStickyFooter.constant = 0
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -121,5 +137,22 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         }
         
         return true
+    }
+    
+    @IBAction func btnStickyFooterPressed(sender: AnyObject) {
+        if (contactPreloMode) {
+            let c = (self.storyboard?.instantiateViewControllerWithIdentifier("contactus"))!
+            contactUs = c
+            if let v = c.view, let p = self.navigationController?.view {
+                v.alpha = 0
+                v.frame = p.bounds
+                self.navigationController?.view.addSubview(v)
+                
+                v.alpha = 0
+                UIView.animateWithDuration(0.2, animations: {
+                    v.alpha = 1
+                })
+            }
+        }
     }
 }

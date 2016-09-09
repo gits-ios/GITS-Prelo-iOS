@@ -431,7 +431,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     @IBAction func showFAQ(sender : UIView?)
     {
         let w = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
-        w.url = "http://prelo.id/syarat-ketentuan"
+        w.url = "https://prelo.co.id/syarat-ketentuan?ref=preloapp"
         w.titleString = "Syarat & Ketentuan"
         let n = BaseNavigationController()
         n.setViewControllers([w], animated: false)
