@@ -202,6 +202,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             cell.lblPrice.text = p.price
             cell.lblOrderTime.text = p.time
             
+            if (p.isFreeOngkir) {
+                cell.imgFreeOngkir.hidden = false
+            }
+            
             let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
             cell.lblCommentCount.text = "\(commentCount)"
             
