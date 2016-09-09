@@ -353,7 +353,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     override func backPressed(sender: UIBarButtonItem) {
         if (self.filterMode) {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+            self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
             self.navigationController?.popViewControllerAnimated(true)
         }

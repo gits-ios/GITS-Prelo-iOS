@@ -600,9 +600,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
 
     @IBAction func filterPressed(sender: AnyObject) {
-        let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        l.fltrCategId = self.currentCategoryId
+        l.filterMode = true
+        l.fltrSortBy = "recent"
+        self.navigationController?.pushViewController(l, animated: true)
+        
+        /* FOR MORE LOGICAL UX
+         let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
         filterVC.categoryId = self.currentCategoryId
-        self.navigationController?.pushViewController(filterVC, animated: true)
+        self.navigationController?.pushViewController(filterVC, animated: true)*/
     }
     
     @IBAction func requestBarangPressed(sender: AnyObject) {
