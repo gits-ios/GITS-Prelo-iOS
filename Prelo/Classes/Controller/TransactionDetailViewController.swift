@@ -1246,7 +1246,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 let orderConfirmVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 orderConfirmVC.transactionId = self.trxDetail!.id
                 orderConfirmVC.orderID = self.trxDetail!.orderId
-                orderConfirmVC.total = self.trxDetail!.totalPrice
+                orderConfirmVC.total = self.trxDetail!.totalPrice + self.trxDetail!.bankTransferDigit
                 orderConfirmVC.images = imgs
                 orderConfirmVC.isFromCheckout = false
                 orderConfirmVC.isShowBankBRI = self.isShowBankBRI
