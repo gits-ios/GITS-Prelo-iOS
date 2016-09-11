@@ -95,6 +95,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // For filter/search result mode
     // Predefined values
     var filterMode = false
+    var isBackToFltrSearch = false
     var fltrCategId : String = ""
     var fltrSegment : String = ""
     var fltrBrands : [String : String] = [:]
@@ -352,8 +353,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     override func backPressed(sender: UIBarButtonItem) {
-        if (self.filterMode) {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+        if (self.isBackToFltrSearch) {
+            let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
+            self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
             self.navigationController?.popViewControllerAnimated(true)
         }

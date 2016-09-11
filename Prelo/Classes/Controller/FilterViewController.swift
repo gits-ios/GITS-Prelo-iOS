@@ -393,6 +393,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             l.fltrCategId = self.categoryId
             l.filterMode = true
+            l.isBackToFltrSearch = true
             l.fltrProdCondIds = fltrProdCondIds
             l.fltrPriceMin = fltrPriceMin
             l.fltrPriceMax = fltrPriceMax

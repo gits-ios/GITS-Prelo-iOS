@@ -390,6 +390,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.filterMode = true
+                l.isBackToFltrSearch = true
                 l.fltrCategId = self.currentCategoryId
                 l.fltrSortBy = "recent"
                 if let searchText = self.searchBar.text {
@@ -604,6 +605,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
         l.fltrCategId = self.currentCategoryId
         l.filterMode = true
+        l.isBackToFltrSearch = true
         l.fltrSortBy = "recent"
         self.navigationController?.pushViewController(l, animated: true)
         

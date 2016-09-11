@@ -137,6 +137,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             } else {
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.filterMode = true
+                l.isBackToFltrSearch = true
                 l.fltrCategId = selectedCategory!["_id"].stringValue
                 l.fltrSortBy = "recent"
                 self.navigationController?.pushViewController(l, animated: true)
@@ -314,6 +315,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
                 } else {
                     let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                     l.filterMode = true
+                    l.isBackToFltrSearch = true
                     l.fltrCategId = selectedCategory!["_id"].stringValue
                     l.fltrSortBy = "recent"
                     self.navigationController?.pushViewController(l, animated: true)

@@ -263,6 +263,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         } else {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
             l.filterMode = true
+            l.isBackToFltrSearch = true
             l.fltrBrands = selectedBrands
             l.fltrSortBy = "recent"
             self.navigationController?.pushViewController(l, animated: true)
