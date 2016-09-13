@@ -3389,8 +3389,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3418,7 +3418,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c357cb80-d26b-405a-a1f2-bcbc3e0b70bf";
+				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3430,7 +3430,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3455,7 +3455,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c357cb80-d26b-405a-a1f2-bcbc3e0b70bf";
+				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

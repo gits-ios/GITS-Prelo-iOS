@@ -9,35 +9,45 @@
 import UIKit
 import MessageUI
 
-class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate
-{
+// MARK: - Class
+
+class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMailComposeViewControllerDelegate {
     
+    // MARK: - Properties
+    
+    // Views
     @IBOutlet var scrollView : UIScrollView!
     @IBOutlet var tableView : UITableView!
     @IBOutlet var sectionTopSearch : UIView!
     @IBOutlet var sectionHistorySearch : UIView!
     @IBOutlet var topSearchLoading : UIActivityIndicatorView!
-    
     @IBOutlet var conHeightSectionTopSearch : NSLayoutConstraint!
     @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
-    
-    var searchBar : UISearchBar!
-    
-    var foundItems : [Product] = []
-    var foundUsers : [SearchUser] = []
-    
-    var currentCategoryId : String = "" // Category id terakhir yg dilihat di home
-    
-    var findingUser : Bool = false
-    var findingItem : Bool = false
-    
     @IBOutlet var vwZeroResult: UIView!
     @IBOutlet var lblZeroResult: UILabel!
+    var searchBar : UISearchBar!
+    
+    // Data container
+    var foundItems : [Product] = []
+    var foundUsers : [SearchUser] = []
+    var findingUser : Bool = false
+    var findingItem : Bool = false
+    var itemRequest : Request?
+    var userRequest : Request?
+    var currentKeyword = ""
+    
+    // Predefined value
+    var currentCategoryId : String = "" // Category id terakhir yg dilihat di home
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Status bar style
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
         
+        // Nib register
         tableView.registerNib(UINib(nibName: "SearchResultHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "head")
         
         // Search bar setup
@@ -61,42 +71,33 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         searchBar.placeholder = "Cari di Prelo"
         self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
         
-        // API Migrasi
+        // Top search setup
         request(APISearch.GetTopSearch(limit: "10")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search"))
-            {
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search")) {
                 self.topSearchLoading.hidden = true
                 let json = JSON(resp.result.value!)
-                if let data = json["_data"].array
-                {
-                    if (data.count > 0)
-                    {
-                        _ = UIScreen.mainScreen().bounds.width-16
+                if let data = json["_data"].array {
+                    if (data.count > 0) {
                         var lastView : UIView?
-                        for i in 0...data.count-1
-                        {
+                        for i in 0...data.count - 1 {
                             let ts = data[i]
                             let name = ts["name"].stringValue
-                            if (name.stringByReplacingOccurrencesOfString(" ", withString: "") == "")
-                            {
+                            if (name.stringByReplacingOccurrencesOfString(" ", withString: "") == "") {
                                 continue
                             }
+                            // Adjust search tag
                             let searchTag = SearchTag.instance(name)
-                            if let lv = lastView
-                            {
+                            if let lv = lastView {
                                 let x = lv.maxX + 8
                                 searchTag.x = x
                                 
-                                if (searchTag.maxX + 8 > self.sectionTopSearch.width)
-                                {
+                                if (searchTag.maxX + 8 > self.sectionTopSearch.width) {
                                     searchTag.y = lv.maxY + 4
                                     searchTag.x = 0
-                                }else
-                                {
+                                } else {
                                     searchTag.y = lv.y
                                 }
-                            } else
-                            {
+                            } else {
                                 searchTag.x = 0
                                 searchTag.y = 0
                             }
@@ -107,82 +108,22 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                             self.sectionTopSearch.addSubview(searchTag)
                             lastView = searchTag
                         }
-                        if let lv = lastView
-                        {
+                        if let lv = lastView {
                             self.conHeightSectionTopSearch.constant = lv.maxY
                         }
-                        
                         self.sectionTopSearch.layoutIfNeeded()
                     }
                 }
-            } else
-            {
-                
+            } else {
+               self.topSearchLoading.hidden = true
             }
         }
         
-//        setupHistory()
-        
+        // Scrollview and tableview setup
         scrollView.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.tableFooterView = UIView()
-    }
-    
-    
-    func setupHistory()
-    {
-        conHeightSectionHistorySearch.constant = 0
-        
-        let arrx = sectionHistorySearch.subviews 
-        for v in arrx
-        {
-            v.removeFromSuperview()
-        }
-        
-        let arr : [String] = AppToolsObjC.searchHistories() as! [String]
-        var y : CGFloat = 0.0
-        var x : CGFloat = 0.0
-        let sw = sectionHistorySearch.width
-        for s in arr
-        {
-            let tag = SearchTag.instance(s)
-            tag.x = x
-            tag.y = y
-            _ = tag.frame
-            let maxx = tag.maxX
-            if (maxx > sw)
-            {
-                x = 0
-                tag.x = x
-                let maxY = tag.maxY
-                y = maxY + 4
-                tag.y = y
-                _ = tag.bounds
-                _ = tag.frame
-                print("tag new y : \(y)")
-            }
-//            tag.y = y
-            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
-            tag.addGestureRecognizer(tap)
-            tag.userInteractionEnabled = true
-            tag.captionTitle.userInteractionEnabled = true
-            sectionHistorySearch.addSubview(tag)
-            conHeightSectionHistorySearch.constant = tag.maxY
-            x = tag.maxX + 8
-        }
-    }
-    
-    @IBAction func clearHistory()
-    {
-        AppToolsObjC.clearSearch()
-        setupHistory()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -193,31 +134,81 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         // Google Analytics
         GAI.trackPageVisit(PageName.Search)
         
-
+        // Status bar style
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
     }
     
     override func viewDidAppear(animated: Bool) {
+        // Setup history
         setupHistory()
         
-        self.an_subscribeKeyboardWithAnimations({f, t, o in
-            
-            if (o)
-            {
+        // Setup keyboard appearance
+        self.an_subscribeKeyboardWithAnimations({ f, t, o in
+            if (o) {
                 self.tableView.contentInset = UIEdgeInsetsMake(0, 0, f.height, 0)
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, f.height, 0)
-            } else
-            {
+            } else {
                 self.tableView.contentInset = UIEdgeInsetsZero
                 self.scrollView.contentInset = UIEdgeInsetsZero
             }
-            
-            }, completion: nil)
+        }, completion: nil)
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.navigationController?.view.endEditing(true)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
+    }
+    
+    // MARK: - History setup
+    
+    func setupHistory() {
+        
+        // Remove all first
+        conHeightSectionHistorySearch.constant = 0
+        let arrx = sectionHistorySearch.subviews 
+        for v in arrx {
+            v.removeFromSuperview()
+        }
+        
+        // Adjust tags
+        let arr : [String] = AppToolsObjC.searchHistories() as! [String]
+        var y : CGFloat = 0.0
+        var x : CGFloat = 0.0
+        let sw = sectionHistorySearch.width
+        for s in arr {
+            let tag = SearchTag.instance(s)
+            tag.x = x
+            tag.y = y
+            let maxx = tag.maxX
+            if (maxx > sw) {
+                x = 0
+                tag.x = x
+                let maxY = tag.maxY
+                y = maxY + 4
+                tag.y = y
+                //print("tag new y : \(y)")
+            }
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.searchTopKey(_:)))
+            tag.addGestureRecognizer(tap)
+            tag.userInteractionEnabled = true
+            tag.captionTitle.userInteractionEnabled = true
+            sectionHistorySearch.addSubview(tag)
+            conHeightSectionHistorySearch.constant = tag.maxY
+            x = tag.maxX + 8
+        }
+    }
+    
+    @IBAction func clearHistory(){
+        AppToolsObjC.clearSearch()
+        setupHistory()
+    }
+    
+    // MARK: - Search bar functions
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if (searchText == "\n") {
@@ -251,23 +242,25 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
+    // MARK: - Scroll view functions
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.navigationController?.view.endEditing(true)
+    }
+    
+    // MARK: - Table view functions
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 0)
-        {
-            if (foundItems.count > 0)
-            {
+        if (section == 0) {
+            if (foundItems.count > 0) {
                 return 32
-            } else
-            {
+            } else {
                 return 0
             }
-        } else
-        {
-            if (foundUsers.count > 0)
-            {
+        } else {
+            if (foundUsers.count > 0) {
                 return 32
-            } else
-            {
+            } else {
                 return 0
             }
         }
@@ -275,38 +268,28 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let arr:[AnyObject] = (section == 0) ? foundItems : foundUsers
-        if (arr.count > 0)
-        {
+        if (arr.count > 0) {
             let s = tableView.dequeueReusableHeaderFooterViewWithIdentifier("head") as! SearchResultHeader
-            _ = titleForSection(section)
             let ss = titleForSection(section)
             s.captionName.text = ss[1]
             s.captionIcon.text = ss[0]
             return s
-        } else
-        {
+        } else {
             return nil
         }
     }
     
-    func titleForSection(section : Int) -> [String]
-    {
-        if (section == 0)
-        {
-            if (foundItems.count > 0)
-            {
-                return ["","BARANG"]
-            } else
-            {
+    func titleForSection(section : Int) -> [String] {
+        if (section == 0) {
+            if (foundItems.count > 0) {
+                return ["", "BARANG"]
+            } else {
                 return ["", ""]
             }
-        } else
-        {
-            if (foundUsers.count > 0)
-            {
-                return ["","PENGGUNA"]
-            } else
-            {
+        } else {
+            if (foundUsers.count > 0) {
+                return ["", "PENGGUNA"]
+            } else {
                 return ["", ""]
             }
         }
@@ -317,23 +300,18 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (section == 0)
-        {
-            return foundItems.count+((foundItems.count == 5) ? 1 : 0)
-        } else
-        {
-            return foundUsers.count+((foundUsers.count == 5) ? 1 : 0)
+        if (section == 0) { // Items
+            return foundItems.count + ((foundItems.count == 5) ? 1 : 0)
+        } else { // Users
+            return foundUsers.count + ((foundUsers.count == 5) ? 1 : 0)
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (indexPath.section == 0)
-        {
-            if (indexPath.row == foundItems.count)
-            {
+        if (indexPath.section == 0) { // Items
+            if (indexPath.row == foundItems.count) {
                 var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
-                if (c == nil)
-                {
+                if (c == nil) {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
                 }
                 c?.textLabel?.text = "Lihat semua barang \"" + currentKeyword + "\""
@@ -344,18 +322,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let p = foundItems[indexPath.row]
             c.captionName.text = p.name
             c.captionPrice.text = p.price
-            if let url = p.coverImageURL
-            {
+            if let url = p.coverImageURL {
                 c.ivImage.setImageWithUrl(url, placeHolderImage: nil)
             }
             return c
-        } else
-        {
-            if (indexPath.row == foundUsers.count)
-            {
+        } else { // Users
+            if (indexPath.row == foundUsers.count) {
                 var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
-                if (c == nil)
-                {
+                if (c == nil) {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
                 }
                 c?.textLabel?.text = "Lihat semua user \"" + currentKeyword + "\""
@@ -373,12 +347,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (indexPath.section == 0)
-        {
-            if (indexPath.row == foundItems.count)
-            {
+        if (indexPath.section == 0) { // Items
+            if (indexPath.row == foundItems.count) {
                 // API Migrasi
-                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON {resp in
+                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON { resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                         //print("TOP")
                         //print(resp.result.value)
@@ -397,8 +369,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     l.fltrName = searchText
                 }
                 self.navigationController?.pushViewController(l, animated: true)
-            } else
-            {
+            } else {
                 // API Migrasi
                 request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
@@ -411,18 +382,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)
             }
-        } else
-        {
-            if (indexPath.row == foundUsers.count)
-            {
+        } else { // Users
+            if (indexPath.row == foundUsers.count) {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
                 u.keyword = searchBar.text == nil ? "" : searchBar.text!
                 // API Migrasi
                 request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!))
                 self.navigationController?.pushViewController(u, animated: true)
-                
-            } else
-            {
+            } else {
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 let u = foundUsers[indexPath.row]
                 d.storeMode = true
@@ -440,25 +407,23 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
-    func searchTopKey(sender : UITapGestureRecognizer)
-    {
+    // MARK: - Search functions
+    
+    func searchTopKey(sender : UITapGestureRecognizer) {
         let searchTag = sender.view as! SearchTag
         searchBar.text = searchTag.captionTitle.text
         scrollView.hidden = true
         find(searchTag.captionTitle.text!)
     }
     
-    var itemRequest : Request?
-    var currentKeyword = ""
-    func find(keyword : String)
-    {
+    
+    func find(keyword : String) {
         currentKeyword = keyword
         findItem(keyword)
         findUser(keyword)
     }
     
-    func findItem(keyword : String)
-    {
+    func findItem(keyword : String) {
         // Mixpanel
         if (!keyword.isEmpty) {
             let pt = [
@@ -470,32 +435,23 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         self.findingItem = true
         
-        if let req = itemRequest
-        {
+        if let req = itemRequest {
             req.cancel()
         }
         
-        itemRequest = // API Migrasi
-        request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
-        
-        itemRequest?.responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Item"))
-            {
+        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
+        itemRequest?.responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Item")) {
                 self.foundItems = []
                 let json = JSON(resp.result.value!)
-                if let arr = json["_data"].array
-                {
-                    if (arr.count > 0)
-                    {
-                        for i in 0...arr.count-1
-                        {
+                if let arr = json["_data"].array {
+                    if (arr.count > 0) {
+                        for i in 0...arr.count - 1 {
                             let p = Product.instance(arr[i])
-                            if let product = p
-                            {
+                            if let product = p {
                                 self.foundItems.append(product)
                             }
-                            if (self.foundItems.count == 5)
-                            {
+                            if (self.foundItems.count == 5) {
                                 break
                             }
                         }
@@ -519,9 +475,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
-    var userRequest : Request?
-    func findUser(keyword : String)
-    {
+    func findUser(keyword : String) {
         // Mixpanel
         if (!keyword.isEmpty) {
             let pt = [
@@ -533,31 +487,23 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         self.findingUser = true
         
-        if let req = userRequest
-        {
+        if let req = userRequest {
             req.cancel()
         }
         
-        userRequest = // API Migrasi
-        request(APISearch.User(keyword: keyword))
-        userRequest?.responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
-            {
+        userRequest = request(APISearch.User(keyword: keyword))
+        userRequest?.responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User")) {
                 self.foundUsers = []
                 let json = JSON(resp.result.value!)
-                if let arr = json["_data"].array
-                {
-                    if (arr.count > 0)
-                    {
-                        for i in 0...arr.count-1
-                        {
+                if let arr = json["_data"].array {
+                    if (arr.count > 0) {
+                        for i in 0...arr.count-1 {
                             let p = SearchUser.instance(arr[i])
-                            if let product = p
-                            {
+                            if let product = p {
                                 self.foundUsers.append(product)
                             }
-                            if (self.foundUsers.count == 5)
-                            {
+                            if (self.foundUsers.count == 5) {
                                 break
                             }
                         }
@@ -581,24 +527,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
     }
     
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
-    }
-    
-    // MARK: - Navigation
-    var canAnimateBar = false
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        canAnimateBar = true
-        if (segue.identifier == "segAllCategory")
-        {
-            let c = segue.destinationViewController as! CategoryPickerViewController
-            c.searchMode = true
-        }
-    }
+    // MARK: - Actions
 
     @IBAction func filterPressed(sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -648,24 +577,39 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         }
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if (segue.identifier == "segAllCategory") {
+            let c = segue.destinationViewController as! CategoryPickerViewController
+            c.searchMode = true
+        }
+    }
 }
 
-class SearchUserCell : UITableViewCell
-{
+// MARK: - Class
+
+class SearchUserCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var btnFollow : BorderedButton!
     @IBOutlet var ivImage : UIImageView!
 }
 
-class SearchItemCell : UITableViewCell
-{
+// MARK: - Class
+
+class SearchItemCell : UITableViewCell {
     @IBOutlet var captionName : UILabel!
     @IBOutlet var captionPrice : UILabel!
     @IBOutlet var ivImage : UIImageView!
 }
 
-class SearchResultHeader : UITableViewHeaderFooterView
-{
+// MARK: - Class
+
+class SearchResultHeader : UITableViewHeaderFooterView {
     @IBOutlet var captionIcon : UILabel!
     @IBOutlet var captionName : UILabel!
 }
