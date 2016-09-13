@@ -25,16 +25,20 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     @IBOutlet var conHeightSectionHistorySearch : NSLayoutConstraint!
     @IBOutlet var vwZeroResult: UIView!
     @IBOutlet var lblZeroResult: UILabel!
+    @IBOutlet var loadingPanel: UIView!
     var searchBar : UISearchBar!
     
     // Data container
     var foundItems : [Product] = []
     var foundUsers : [SearchUser] = []
-    var findingUser : Bool = false
-    var findingItem : Bool = false
-    var itemRequest : Request?
-    var userRequest : Request?
+    var foundBrands : [SearchBrand] = []
+    var currentRequest : Request?
     var currentKeyword = ""
+    
+    // Section
+    let SectionItem = 0
+    let SectionUser = 1
+    let SectionBrand = 2
     
     // Predefined value
     var currentCategoryId : String = "" // Category id terakhir yg dilihat di home
@@ -46,6 +50,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         // Status bar style
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
+        
+        // Init loading
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        self.hideLoading()
         
         // Nib register
         tableView.registerNib(UINib(nibName: "SearchResultHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "head")
@@ -251,23 +259,37 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     // MARK: - Table view functions
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 0) {
+        if (section == SectionItem) {
             if (foundItems.count > 0) {
                 return 32
             } else {
                 return 0
             }
-        } else {
+        } else if (section == SectionUser) {
             if (foundUsers.count > 0) {
                 return 32
             } else {
                 return 0
             }
+        } else if (section == SectionBrand) {
+            if (foundBrands.count > 0) {
+                return 32
+            } else {
+                return 0
+            }
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let arr:[AnyObject] = (section == 0) ? foundItems : foundUsers
+        var arr : [AnyObject] = []
+        if (section == SectionItem) {
+            arr = foundItems
+        } else if (section == SectionUser) {
+            arr = foundUsers
+        } else if (section == SectionBrand) {
+            arr = foundBrands
+        }
         if (arr.count > 0) {
             let s = tableView.dequeueReusableHeaderFooterViewWithIdentifier("head") as! SearchResultHeader
             let ss = titleForSection(section)
@@ -280,36 +302,40 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     }
     
     func titleForSection(section : Int) -> [String] {
-        if (section == 0) {
+        if (section == SectionItem) {
             if (foundItems.count > 0) {
                 return ["", "BARANG"]
-            } else {
-                return ["", ""]
             }
-        } else {
+        } else if (section == SectionUser) {
             if (foundUsers.count > 0) {
                 return ["", "PENGGUNA"]
-            } else {
-                return ["", ""]
+            }
+        } else if (section == SectionBrand) {
+            if (foundBrands.count > 0) {
+                return ["", "MEREK"]
             }
         }
+        return ["", ""]
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (section == 0) { // Items
+        if (section == SectionItem) {
             return foundItems.count + ((foundItems.count == 5) ? 1 : 0)
-        } else { // Users
+        } else if (section == SectionUser) {
             return foundUsers.count + ((foundUsers.count == 5) ? 1 : 0)
+        } else if (section == SectionBrand) {
+            return  foundBrands.count
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (indexPath.section == 0) { // Items
-            if (indexPath.row == foundItems.count) {
+        if (indexPath.section == SectionItem) {
+            if (indexPath.row == foundItems.count) { // View more
                 var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil) {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -326,8 +352,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 c.ivImage.setImageWithUrl(url, placeHolderImage: nil)
             }
             return c
-        } else { // Users
-            if (indexPath.row == foundUsers.count) {
+        } else if (indexPath.section == SectionUser) {
+            if (indexPath.row == foundUsers.count) { // View more
                 var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
                 if (c == nil) {
                     c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
@@ -343,11 +369,22 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
             c.ivImage.clipsToBounds = true
             return c
+        } else if (indexPath.section == SectionBrand) {
+            // Reuse templatenya view more karena mirip
+            var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
+            if (c == nil) {
+                c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
+            }
+            c?.textLabel?.text = foundBrands[indexPath.row].name
+            c?.textLabel?.textColor = UIColor.darkGrayColor()
+            c?.textLabel?.font = c?.textLabel?.font.fontWithSize(15)
+            return c!
         }
+        return UITableViewCell()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (indexPath.section == 0) { // Items
+        if (indexPath.section == SectionItem) {
             if (indexPath.row == foundItems.count) {
                 // API Migrasi
                 request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON { resp in
@@ -382,7 +419,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)
             }
-        } else { // Users
+        } else if (indexPath.section == SectionUser) {
             if (indexPath.row == foundUsers.count) {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
                 u.keyword = searchBar.text == nil ? "" : searchBar.text!
@@ -404,6 +441,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.storePictPath = u.pict
                 self.navigationController?.pushViewController(d, animated: true)
             }
+        } else if (indexPath.section == SectionBrand) {
+            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            l.filterMode = true
+            l.isBackToFltrSearch = true
+            l.fltrCategId = self.currentCategoryId
+            l.fltrSortBy = "recent"
+            let brand = foundBrands[indexPath.row]
+            var fltrBrands : [String : String] = [:]
+            fltrBrands[brand.name] = brand.id
+            l.fltrBrands = fltrBrands
+            self.navigationController?.pushViewController(l, animated: true)
         }
     }
     
@@ -418,48 +466,63 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     
     func find(keyword : String) {
+        if (keyword == "") {
+            self.tableView.hidden = true
+            return
+        }
+        
+        self.showLoading()
+        
         currentKeyword = keyword
-        findItem(keyword)
-        findUser(keyword)
-    }
-    
-    func findItem(keyword : String) {
-        // Mixpanel
-        if (!keyword.isEmpty) {
-            let pt = [
-                "Search Type" : "Product",
-                "Search Query" : keyword
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
-        }
         
-        self.findingItem = true
-        
-        if let req = itemRequest {
+        // Cancel unfinished previous request
+        if let req = currentRequest {
             req.cancel()
         }
         
-        itemRequest = request(APISearch.Find(keyword: keyword, categoryId: "", brandId: "", condition: "", current: 0, limit: 6, priceMin: 0, priceMax: 999999999))
-        itemRequest?.responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Item")) {
-                self.foundItems = []
+        currentRequest = request(APISearch.Autocomplete(key: keyword))
+        currentRequest?.responseJSON { resp in
+            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Autocomplete")) {
                 let json = JSON(resp.result.value!)
-                if let arr = json["_data"].array {
-                    if (arr.count > 0) {
-                        for i in 0...arr.count - 1 {
-                            let p = Product.instance(arr[i])
-                            if let product = p {
-                                self.foundItems.append(product)
-                            }
-                            if (self.foundItems.count == 5) {
-                                break
-                            }
+                if let items = json["_data"]["products"].array where items.count > 0 {
+                    self.foundItems = []
+                    for i in 0...items.count - 1 {
+                        let p = Product.instance(items[i])
+                        if p != nil {
+                            self.foundItems.append(p!)
+                        }
+                        if (self.foundItems.count == 5) {
+                            break
+                        }
+                    }
+                }
+                if let users = json["_data"]["users"].array where users.count > 0 {
+                    self.foundUsers = []
+                    for i in 0...users.count - 1 {
+                        let u = SearchUser.instance(users[i])
+                        if u != nil {
+                            self.foundUsers.append(u!)
+                        }
+                        if (self.foundUsers.count == 5) {
+                            break
+                        }
+                    }
+                }
+                if let brands = json["_data"]["brands"].array where brands.count > 0 {
+                    self.foundBrands = []
+                    for i in 0...brands.count - 1 {
+                        let b = SearchBrand.instance(brands[i])
+                        if b != nil {
+                            self.foundBrands.append(b!)
+                        }
+                        if (self.foundBrands.count == 5) {
+                            break
                         }
                     }
                 }
                 self.tableView.hidden = false
                 self.tableView.reloadData()
-                if (!self.findingUser && self.foundUsers.isEmpty && self.foundItems.isEmpty) {
+                if (self.foundItems.isEmpty && self.foundUsers.isEmpty && self.foundBrands.isEmpty) {
                     self.tableView.hidden = true
                     self.vwZeroResult.hidden = false
                     var txt = "Tidak ada hasil yang ditemukan"
@@ -470,60 +533,8 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 } else {
                     self.vwZeroResult.hidden = true
                 }
+                self.hideLoading()
             }
-            self.findingItem = false
-        }
-    }
-    
-    func findUser(keyword : String) {
-        // Mixpanel
-        if (!keyword.isEmpty) {
-            let pt = [
-                "Search Type" : "User",
-                "Search Query" : keyword
-            ]
-            Mixpanel.trackEvent(MixpanelEvent.Search, properties: pt)
-        }
-        
-        self.findingUser = true
-        
-        if let req = userRequest {
-            req.cancel()
-        }
-        
-        userRequest = request(APISearch.User(keyword: keyword))
-        userRequest?.responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User")) {
-                self.foundUsers = []
-                let json = JSON(resp.result.value!)
-                if let arr = json["_data"].array {
-                    if (arr.count > 0) {
-                        for i in 0...arr.count-1 {
-                            let p = SearchUser.instance(arr[i])
-                            if let product = p {
-                                self.foundUsers.append(product)
-                            }
-                            if (self.foundUsers.count == 5) {
-                                break
-                            }
-                        }
-                    }
-                }
-                self.tableView.hidden = false
-                self.tableView.reloadData()
-                if (!self.findingItem && self.foundUsers.isEmpty && self.foundItems.isEmpty) {
-                    self.tableView.hidden = true
-                    self.vwZeroResult.hidden = false
-                    var txt = "Tidak ada hasil yang ditemukan"
-                    if let searchText = self.searchBar.text {
-                        txt += " untuk '\(searchText)'"
-                    }
-                    self.lblZeroResult.text = txt
-                } else {
-                    self.vwZeroResult.hidden = true
-                }
-            }
-            self.findingUser = false
         }
     }
     
@@ -588,6 +599,16 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let c = segue.destinationViewController as! CategoryPickerViewController
             c.searchMode = true
         }
+    }
+    
+    // MARK: - Other functions
+    
+    func showLoading() {
+        loadingPanel.hidden = false
+    }
+    
+    func hideLoading() {
+        loadingPanel.hidden = true
     }
 }
 

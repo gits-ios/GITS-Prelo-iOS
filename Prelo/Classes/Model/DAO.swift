@@ -2414,6 +2414,58 @@ class SearchUser : NSObject
     }
 }
 
+class SearchBrand : NSObject {
+    var json : JSON!
+    
+    static func instance(json : JSON?) -> SearchBrand? {
+        if (json == nil) {
+            return nil
+        } else {
+            let b = SearchBrand()
+            b.json = json!
+            return b
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var segments : [String] {
+        var s : [String] = []
+        if let j = json["segments"].array where j.count > 0 {
+            for i in 0...j.count - 1 {
+                if let segment = j[i].string {
+                    s.append(segment)
+                }
+            }
+        }
+        return s
+    }
+    
+    var categoryIds : [String] {
+        var ids : [String] = []
+        if let j = json["category_ids"].array where j.count > 0 {
+            for i in 0...j.count - 1 {
+                if let id = j[i].string {
+                    ids.append(id)
+                }
+            }
+        }
+        return ids
+    }
+}
+
 class Inbox : NSObject, TawarItem
 {
     var json : JSON = JSON([:])

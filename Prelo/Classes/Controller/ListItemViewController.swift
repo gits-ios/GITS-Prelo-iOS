@@ -98,7 +98,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var isBackToFltrSearch = false
     var fltrCategId : String = ""
     var fltrSegment : String = ""
-    var fltrBrands : [String : String] = [:]
+    var fltrBrands : [String : String] = [:] // [name:id]
     // Predefined values from filtervc
     var fltrProdCondIds : [String] = []
     var fltrPriceMin : NSNumber = 0

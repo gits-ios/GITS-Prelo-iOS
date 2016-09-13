@@ -6478,7 +6478,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="22" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtg-rL-NXh" id="y94-VI-cym">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVj-eY-b2b">
@@ -6522,7 +6522,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="76" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="188-aR-rkL" id="o6v-Qm-Guh">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QLq-GL-On4">
@@ -6585,7 +6585,7 @@ Keuntungan</string>
                                         <rect key="frame" x="0.0" y="130" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sFi-da-Ewt" id="7ce-O6-5gy">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -6928,6 +6928,20 @@ Keuntungan</string>
                                     <constraint firstAttribute="trailing" secondItem="GwD-LC-9Pp" secondAttribute="trailing" id="sW9-EV-8F8"/>
                                 </constraints>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="daF-ed-SKK">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="X4w-Jk-lA3">
+                                        <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                        <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="X4w-Jk-lA3" firstAttribute="centerX" secondItem="daF-ed-SKK" secondAttribute="centerX" id="pkY-iB-cq8"/>
+                                    <constraint firstItem="X4w-Jk-lA3" firstAttribute="centerY" secondItem="daF-ed-SKK" secondAttribute="centerY" id="tB7-IC-yMk"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -6938,11 +6952,15 @@ Keuntungan</string>
                             <constraint firstItem="iBD-sL-LWc" firstAttribute="top" secondItem="f31-Je-4AJ" secondAttribute="top" id="QKH-oA-uRk"/>
                             <constraint firstItem="Ln7-Zm-kLs" firstAttribute="top" secondItem="f31-Je-4AJ" secondAttribute="top" id="SJv-ek-cZm"/>
                             <constraint firstItem="T8W-db-YN9" firstAttribute="top" secondItem="LSO-qb-eU0" secondAttribute="bottom" id="UPF-O8-DmV"/>
+                            <constraint firstItem="T8W-db-YN9" firstAttribute="top" secondItem="daF-ed-SKK" secondAttribute="bottom" id="Yi7-AX-OUo"/>
+                            <constraint firstItem="daF-ed-SKK" firstAttribute="top" secondItem="f31-Je-4AJ" secondAttribute="top" id="ZFF-xN-mMN"/>
                             <constraint firstItem="GwD-LC-9Pp" firstAttribute="height" relation="greaterThanOrEqual" secondItem="f31-Je-4AJ" secondAttribute="height" id="cZS-2q-Edb"/>
                             <constraint firstItem="iBD-sL-LWc" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="eef-Qy-eax"/>
+                            <constraint firstItem="daF-ed-SKK" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="iIQ-2i-SxM"/>
                             <constraint firstItem="LSO-qb-eU0" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="iql-wf-d1x"/>
                             <constraint firstAttribute="trailing" secondItem="iBD-sL-LWc" secondAttribute="trailing" id="m46-c2-Cyf"/>
                             <constraint firstItem="GwD-LC-9Pp" firstAttribute="width" secondItem="f31-Je-4AJ" secondAttribute="width" id="ofK-jY-PLj"/>
+                            <constraint firstAttribute="trailing" secondItem="daF-ed-SKK" secondAttribute="trailing" id="pFr-0g-17G"/>
                             <constraint firstItem="T8W-db-YN9" firstAttribute="top" secondItem="iBD-sL-LWc" secondAttribute="bottom" id="tex-Co-jtn"/>
                             <constraint firstItem="Ln7-Zm-kLs" firstAttribute="leading" secondItem="f31-Je-4AJ" secondAttribute="leading" id="xLw-WR-uFD"/>
                         </constraints>
@@ -6957,6 +6975,7 @@ Keuntungan</string>
                         <outlet property="conHeightSectionHistorySearch" destination="58A-oq-bIs" id="VkP-Fx-Wdf"/>
                         <outlet property="conHeightSectionTopSearch" destination="0SL-lN-Ora" id="0vw-4s-L3l"/>
                         <outlet property="lblZeroResult" destination="fGp-Wv-YIc" id="kba-sk-r78"/>
+                        <outlet property="loadingPanel" destination="daF-ed-SKK" id="oFC-it-hyn"/>
                         <outlet property="scrollView" destination="LSO-qb-eU0" id="c8E-Cy-lPf"/>
                         <outlet property="sectionHistorySearch" destination="0Jj-bE-NI2" id="1Nv-Nk-nIF"/>
                         <outlet property="sectionTopSearch" destination="YxU-ew-1E2" id="M5A-uz-EPS"/>

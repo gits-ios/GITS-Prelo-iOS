@@ -1394,6 +1394,7 @@ enum APISearch : URLRequestConvertible
     case InsertTopSearch(search : String)
     case Brands(name : String, current : Int, limit : Int)
     case ProductByFilter(name : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : NSNumber, priceMax : NSNumber, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String)
+    case Autocomplete(key : String)
     
     var method : Method
         {
@@ -1406,6 +1407,7 @@ enum APISearch : URLRequestConvertible
             case .InsertTopSearch(_): return .POST
             case .Brands(_, _, _) : return .GET
             case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return .GET
+            case .Autocomplete(_) : return .GET
             }
     }
     
@@ -1420,6 +1422,7 @@ enum APISearch : URLRequestConvertible
             case .InsertTopSearch(_):return "top"
             case .Brands(_, _, _) : return "brands"
             case .ProductByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
+            case .Autocomplete(_) : return "autocomplete"
             }
     }
     
@@ -1474,6 +1477,10 @@ enum APISearch : URLRequestConvertible
                     "current" : current,
                     "limit" : limit,
                     "last_time_uuid" : lastTimeUuid
+                ]
+            case .Autocomplete(let key) :
+                return [
+                    "name": key
                 ]
             }
     }
