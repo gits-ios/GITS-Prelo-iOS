@@ -1270,17 +1270,17 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
         
-        if (imageViews[0].image == nil)
+        if (imageViews[0].image == nil) // Main image
         {
             UIAlertView.SimpleShow("Perhatian", message: "Gambar utama tidak boleh kosong")
             return
         }
         
-//        if (imageViews[3].image == nil)
-//        {
-//            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
-//            return
-//        }
+        if (imageViews[3].image == nil && captionMerek.text != "" && captionMerek.text != "Tanpa Merek") // Brand image
+        {
+            UIAlertView.SimpleShow("Perhatian", message: "Gambar merek tidak boleh kosong")
+            return
+        }
         
         //validasi
         if (validateString(name, message: "Nama barang masih kosong") == false)
@@ -1344,6 +1344,28 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (conHeightSize.constant != 0 && txtSize.text == "")
         {
             UIAlertView.SimpleShow("Perhatian", message: "Silahkan pilih ukuran")
+        }
+        
+        // Compress images
+        for i in 0...images.count - 1 {
+            if let img = images[i] as? UIImage {
+                if (img.size.width * img.scale < 480 || img.size.height * img.scale < 480) {
+                    var imgType = ""
+                    if (i == 0) {
+                        imgType = "Gambar Utama"
+                    } else if (i == 1) {
+                        imgType = "Gambar Tampak Belakang"
+                    } else if (i == 2) {
+                        imgType = "Gambar Ketika Dipakai"
+                    } else if (i == 3) {
+                        imgType = "Gambar Tampilan Label/Merek"
+                    } else if (i == 4) {
+                        imgType = "Gambar Cacat"
+                    }
+                    UIAlertView.SimpleShow("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari 480x480 px")
+                    return
+                }
+            }
         }
         
         self.btnSubmit.enabled = false
