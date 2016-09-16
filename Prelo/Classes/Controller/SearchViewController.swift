@@ -34,6 +34,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     var foundBrands : [SearchBrand] = []
     var currentRequest : Request?
     var currentKeyword = ""
+    let ResultLimit = 3
     
     // Section
     let SectionItem = 0
@@ -262,20 +263,14 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         if (section == SectionItem) {
             if (foundItems.count > 0) {
                 return 32
-            } else {
-                return 0
             }
         } else if (section == SectionUser) {
             if (foundUsers.count > 0) {
                 return 32
-            } else {
-                return 0
             }
         } else if (section == SectionBrand) {
             if (foundBrands.count > 0) {
                 return 32
-            } else {
-                return 0
             }
         }
         return 0
@@ -324,11 +319,11 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == SectionItem) {
-            return foundItems.count + ((foundItems.count == 5) ? 1 : 0)
+            return foundItems.count + ((foundItems.count == ResultLimit) ? 1 : 0)
         } else if (section == SectionUser) {
-            return foundUsers.count + ((foundUsers.count == 5) ? 1 : 0)
+            return foundUsers.count + ((foundUsers.count == ResultLimit) ? 1 : 0)
         } else if (section == SectionBrand) {
-            return  foundBrands.count
+            return  foundBrands.count + ((foundBrands.count == ResultLimit) ? 1 : 0)
         }
         return 0
     }
@@ -370,6 +365,17 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             c.ivImage.clipsToBounds = true
             return c
         } else if (indexPath.section == SectionBrand) {
+            if (indexPath.row == foundBrands.count) { // View more
+                var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
+                if (c == nil) {
+                    c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "viewmore")
+                }
+                c?.textLabel?.text = "Lihat semua merek \"" + currentKeyword + "\""
+                c?.textLabel?.textColor = UIColor.darkGrayColor()
+                c?.textLabel?.font = c?.textLabel?.font.fontWithSize(15)
+                return c!
+            }
+            
             // Reuse templatenya view more karena mirip
             var c = tableView.dequeueReusableCellWithIdentifier("viewmore")
             if (c == nil) {
@@ -447,9 +453,16 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             l.isBackToFltrSearch = true
             l.fltrCategId = self.currentCategoryId
             l.fltrSortBy = "recent"
-            let brand = foundBrands[indexPath.row]
             var fltrBrands : [String : String] = [:]
-            fltrBrands[brand.name] = brand.id
+            if (indexPath.row == foundBrands.count) {
+                for i in 0...foundBrands.count - 1 {
+                    let brand = foundBrands[i]
+                    fltrBrands[brand.name] = brand.id
+                }
+            } else {
+                let brand = foundBrands[indexPath.row]
+                fltrBrands[brand.name] = brand.id
+            }
             l.fltrBrands = fltrBrands
             self.navigationController?.pushViewController(l, animated: true)
         }
@@ -491,7 +504,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         if p != nil {
                             self.foundItems.append(p!)
                         }
-                        if (self.foundItems.count == 5) {
+                        if (self.foundItems.count == self.ResultLimit) {
                             break
                         }
                     }
@@ -503,7 +516,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         if u != nil {
                             self.foundUsers.append(u!)
                         }
-                        if (self.foundUsers.count == 5) {
+                        if (self.foundUsers.count == self.ResultLimit) {
                             break
                         }
                     }
@@ -515,7 +528,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         if b != nil {
                             self.foundBrands.append(b!)
                         }
-                        if (self.foundBrands.count == 5) {
+                        if (self.foundBrands.count == self.ResultLimit) {
                             break
                         }
                     }
