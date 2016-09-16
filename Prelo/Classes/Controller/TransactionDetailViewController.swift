@@ -1442,19 +1442,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         cell.lblKeterangan.hidden = true // Not used
         cell.consTopLblContact.constant = 8 // Set to 48 if lblKeterangan is used
         cell.showContactPrelo = {
-            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus") 
-            self.contactUs = c
-            if let v = c.view, let p = self.navigationController?.view {
-                v.alpha = 0
-                v.frame = p.bounds
-                self.navigationController?.view.addSubview(v)
-                
-                v.alpha = 0
-                UIView.animateWithDuration(0.2, animations: {
-                    v.alpha = 1
-                })
-            }
+            let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+            helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
+            helpVC.titleString = "Bantuan"
+            helpVC.contactPreloMode = true
+            let baseNavC = BaseNavigationController()
+            baseNavC.setViewControllers([helpVC], animated: false)
+            self.presentViewController(baseNavC, animated: true, completion: nil)
         }
         
         return cell
