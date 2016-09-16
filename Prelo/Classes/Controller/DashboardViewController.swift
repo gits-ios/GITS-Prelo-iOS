@@ -39,18 +39,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         let c = CDUser.getOne()
         captionName?.text = c?.username
         
-        if let i = UIImage(named: "ic_love") {
-            ivLove?.tintColor = Theme.PrimaryColorDark
+        if let i = UIImage(named: "ic_lovelist") {
+            ivLove?.tintColor = Theme.PrimaryColor
             ivLove?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
         
         if let i2 = UIImage(named: "ic_request") {
-            ivRequest?.tintColor = Theme.PrimaryColorDark
+            ivRequest?.tintColor = Theme.PrimaryColor
             ivRequest?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
     
-        if let i3 = UIImage(named: "ic_share") {
-            ivVoucher?.tintColor = Theme.PrimaryColorDark
+        if let i3 = UIImage(named: "ic_voucher") {
+            ivVoucher?.tintColor = Theme.PrimaryColor
             ivVoucher?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
 
@@ -63,26 +63,23 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             menus = [
                 [
                     "title":"Tarik Uang",
-                    "icon":"",
-                    "PreloAwesome":"0"
+                    "iconimg":"ic_tarik_uang",
                 ],
                 [
                     "title":"Jualan Saya",
-                    "iconimg":"ic_shirt"
+                    "iconimg":"ic_tshirt"
                 ],
                 [
                     "title":"Belanjaan Saya",
-                    "iconimg":"ic_bag"
+                    "iconimg":"ic_belanjaan_saya"
                 ],
                 [
                     "title":"Bantuan",
-                    "icon":"",
-                    "PreloAwesome":"1"
+                    "iconimg":"ic_faq"
                 ],
                 [
                     "title":"About",
-                    "icon":"",
-                    "PreloAwesome":"1"
+                    "iconimg":"ic_about"
                 ]
             ]
         } else {
@@ -93,17 +90,15 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             menus = [
                 [
                     "title":"Referral Bonus",
-                    "iconimg":"ic_share"
+                    "iconimg":"ic_voucher"
                 ],
                 [
                     "title":"Bantuan",
-                    "icon":"",
-                    "PreloAwesome":"1"
+                    "iconimg":"ic_faq"
                 ],
                 [
                     "title":"About",
-                    "icon":"",
-                    "PreloAwesome":"1"
+                    "iconimg":"ic_about"
                 ]
             ]
         }
@@ -194,6 +189,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         cell.captionTitle?.text = m["title"]
+        cell.selectionStyle = .None
+        
         
         return cell
     }

@@ -464,6 +464,38 @@
 		5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
+		589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */; };
+		589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8F1D8C08F600654CDD /* ic_1kg.png */; };
+		589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F901D8C08F600654CDD /* ic_2kg.png */; };
+		589A6FB11D8C08F600654CDD /* ic_about.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F911D8C08F600654CDD /* ic_about.png */; };
+		589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F921D8C08F600654CDD /* ic_belanjaan_saya.png */; };
+		589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F931D8C08F600654CDD /* ic_berat.png */; };
+		589A6FB41D8C08F600654CDD /* ic_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F941D8C08F600654CDD /* ic_box.png */; };
+		589A6FB51D8C08F600654CDD /* ic_cacat.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F951D8C08F600654CDD /* ic_cacat.png */; };
+		589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F961D8C08F600654CDD /* ic_chat_tawar.png */; };
+		589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F971D8C08F600654CDD /* ic_comment.png */; };
+		589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F981D8C08F600654CDD /* ic_delete.png */; };
+		589A6FB91D8C08F600654CDD /* ic_dipakai.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F991D8C08F600654CDD /* ic_dipakai.png */; };
+		589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9A1D8C08F600654CDD /* ic_ditanggung_pembeli.png */; };
+		589A6FBB1D8C08F600654CDD /* ic_edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9B1D8C08F600654CDD /* ic_edit.png */; };
+		589A6FBC1D8C08F600654CDD /* ic_faq.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9C1D8C08F600654CDD /* ic_faq.png */; };
+		589A6FBD1D8C08F600654CDD /* ic_gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9D1D8C08F600654CDD /* ic_gallery.png */; };
+		589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9E1D8C08F600654CDD /* ic_gambar_utama.png */; };
+		589A6FBF1D8C08F600654CDD /* ic_harga.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F9F1D8C08F600654CDD /* ic_harga.png */; };
+		589A6FC01D8C08F600654CDD /* ic_hubungi_prelo.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA01D8C08F600654CDD /* ic_hubungi_prelo.png */; };
+		589A6FC11D8C08F600654CDD /* ic_kartu_kredit.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA11D8C08F600654CDD /* ic_kartu_kredit.png */; };
+		589A6FC21D8C08F600654CDD /* ic_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA21D8C08F600654CDD /* ic_label.png */; };
+		589A6FC31D8C08F600654CDD /* ic_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA31D8C08F600654CDD /* ic_location.png */; };
+		589A6FC41D8C08F600654CDD /* ic_love.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA41D8C08F600654CDD /* ic_love.png */; };
+		589A6FC51D8C08F600654CDD /* ic_lovelist.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA51D8C08F600654CDD /* ic_lovelist.png */; };
+		589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA61D8C08F600654CDD /* ic_luxury.png */; };
+		589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA71D8C08F600654CDD /* ic_mata.png */; };
+		589A6FC81D8C08F600654CDD /* ic_ongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA81D8C08F600654CDD /* ic_ongkir.png */; };
+		589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FA91D8C08F600654CDD /* ic_tampak_belakang.png */; };
+		589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAA1D8C08F600654CDD /* ic_tarik_uang.png */; };
+		589A6FCB1D8C08F600654CDD /* ic_tshirt.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAB1D8C08F600654CDD /* ic_tshirt.png */; };
+		589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAC1D8C08F600654CDD /* ic_ukuran.png */; };
+		589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAD1D8C08F600654CDD /* ic_voucher.png */; };
 		589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */; };
 		58A223AB1C89827900619518 /* NotifAnggiTransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */; };
 		58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BC1C898CB600619518 /* ic_trx_canceled.png */; };
@@ -1147,6 +1179,38 @@
 		5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupPasswordPopUp.xib; sourceTree = "<group>"; };
 		5895E8691C48E08600752ACA /* img_setup_pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_setup_pwd.png; sourceTree = "<group>"; };
 		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
+		589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1_2kg.png; sourceTree = "<group>"; };
+		589A6F8F1D8C08F600654CDD /* ic_1kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1kg.png; sourceTree = "<group>"; };
+		589A6F901D8C08F600654CDD /* ic_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_2kg.png; sourceTree = "<group>"; };
+		589A6F911D8C08F600654CDD /* ic_about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_about.png; sourceTree = "<group>"; };
+		589A6F921D8C08F600654CDD /* ic_belanjaan_saya.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_belanjaan_saya.png; sourceTree = "<group>"; };
+		589A6F931D8C08F600654CDD /* ic_berat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_berat.png; sourceTree = "<group>"; };
+		589A6F941D8C08F600654CDD /* ic_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_box.png; sourceTree = "<group>"; };
+		589A6F951D8C08F600654CDD /* ic_cacat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cacat.png; sourceTree = "<group>"; };
+		589A6F961D8C08F600654CDD /* ic_chat_tawar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_chat_tawar.png; sourceTree = "<group>"; };
+		589A6F971D8C08F600654CDD /* ic_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_comment.png; sourceTree = "<group>"; };
+		589A6F981D8C08F600654CDD /* ic_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_delete.png; sourceTree = "<group>"; };
+		589A6F991D8C08F600654CDD /* ic_dipakai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_dipakai.png; sourceTree = "<group>"; };
+		589A6F9A1D8C08F600654CDD /* ic_ditanggung_pembeli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_ditanggung_pembeli.png; sourceTree = "<group>"; };
+		589A6F9B1D8C08F600654CDD /* ic_edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_edit.png; sourceTree = "<group>"; };
+		589A6F9C1D8C08F600654CDD /* ic_faq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_faq.png; sourceTree = "<group>"; };
+		589A6F9D1D8C08F600654CDD /* ic_gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_gallery.png; sourceTree = "<group>"; };
+		589A6F9E1D8C08F600654CDD /* ic_gambar_utama.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_gambar_utama.png; sourceTree = "<group>"; };
+		589A6F9F1D8C08F600654CDD /* ic_harga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_harga.png; sourceTree = "<group>"; };
+		589A6FA01D8C08F600654CDD /* ic_hubungi_prelo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_hubungi_prelo.png; sourceTree = "<group>"; };
+		589A6FA11D8C08F600654CDD /* ic_kartu_kredit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_kartu_kredit.png; sourceTree = "<group>"; };
+		589A6FA21D8C08F600654CDD /* ic_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_label.png; sourceTree = "<group>"; };
+		589A6FA31D8C08F600654CDD /* ic_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_location.png; sourceTree = "<group>"; };
+		589A6FA41D8C08F600654CDD /* ic_love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love.png; sourceTree = "<group>"; };
+		589A6FA51D8C08F600654CDD /* ic_lovelist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_lovelist.png; sourceTree = "<group>"; };
+		589A6FA61D8C08F600654CDD /* ic_luxury.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_luxury.png; sourceTree = "<group>"; };
+		589A6FA71D8C08F600654CDD /* ic_mata.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_mata.png; sourceTree = "<group>"; };
+		589A6FA81D8C08F600654CDD /* ic_ongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_ongkir.png; sourceTree = "<group>"; };
+		589A6FA91D8C08F600654CDD /* ic_tampak_belakang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_tampak_belakang.png; sourceTree = "<group>"; };
+		589A6FAA1D8C08F600654CDD /* ic_tarik_uang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_tarik_uang.png; sourceTree = "<group>"; };
+		589A6FAB1D8C08F600654CDD /* ic_tshirt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_tshirt.png; sourceTree = "<group>"; };
+		589A6FAC1D8C08F600654CDD /* ic_ukuran.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_ukuran.png; sourceTree = "<group>"; };
+		589A6FAD1D8C08F600654CDD /* ic_voucher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_voucher.png; sourceTree = "<group>"; };
 		589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir.png; sourceTree = "<group>"; };
 		58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransactionCell.xib; sourceTree = "<group>"; };
 		58A223BC1C898CB600619518 /* ic_trx_canceled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_canceled.png; sourceTree = "<group>"; };
@@ -1991,51 +2055,103 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				58D736091D759B0B009D7C61 /* ic_cart.png */,
-				58D7360A1D759B0B009D7C61 /* ic_notif.png */,
-				58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */,
-				589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */,
-				58EF19D91D4F55FB00997828 /* ic_search_filter.png */,
-				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
-				58BE535C1D479F5B00E358EB /* courier_jne.png */,
-				58BE535D1D479F5B00E358EB /* courier_pos.png */,
-				58BE535E1D479F5B00E358EB /* courier_tiki.png */,
-				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
-				58C23B5F1C9DC86300E4C929 /* ic_share.png */,
-				58A223BC1C898CB600619518 /* ic_trx_canceled.png */,
-				58A223BD1C898CB600619518 /* ic_trx_done.png */,
-				58A223BE1C898CB600619518 /* ic_trx_exclamation.png */,
-				58A223BF1C898CB600619518 /* ic_trx_expired.png */,
-				58A223C01C898CB600619518 /* ic_trx_paid.png */,
-				58A223C11C898CB600619518 /* ic_trx_received.png */,
-				58A223C21C898CB600619518 /* ic_trx_shipped.png */,
-				58A223C31C898CB600619518 /* ic_trx_wait.png */,
-				58A4F9731CB5146B00E717AF /* ic_trx_reservation_cancelled.png */,
-				58A4F9741CB5146B00E717AF /* ic_trx_reservation_done.png */,
-				58A4F9751CB5146B00E717AF /* ic_trx_reserved.png */,
+				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
+				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
+				589A6F901D8C08F600654CDD /* ic_2kg.png */,
+				589A6F911D8C08F600654CDD /* ic_about.png */,
+				589A6F921D8C08F600654CDD /* ic_belanjaan_saya.png */,
+				589A6F931D8C08F600654CDD /* ic_berat.png */,
+				589A6F941D8C08F600654CDD /* ic_box.png */,
+				589A6F951D8C08F600654CDD /* ic_cacat.png */,
+				589A6F961D8C08F600654CDD /* ic_chat_tawar.png */,
+				589A6F971D8C08F600654CDD /* ic_comment.png */,
+				589A6F981D8C08F600654CDD /* ic_delete.png */,
+				589A6F991D8C08F600654CDD /* ic_dipakai.png */,
+				589A6F9A1D8C08F600654CDD /* ic_ditanggung_pembeli.png */,
+				589A6F9B1D8C08F600654CDD /* ic_edit.png */,
+				589A6F9C1D8C08F600654CDD /* ic_faq.png */,
+				589A6F9D1D8C08F600654CDD /* ic_gallery.png */,
+				589A6F9E1D8C08F600654CDD /* ic_gambar_utama.png */,
+				589A6F9F1D8C08F600654CDD /* ic_harga.png */,
+				589A6FA01D8C08F600654CDD /* ic_hubungi_prelo.png */,
+				589A6FA11D8C08F600654CDD /* ic_kartu_kredit.png */,
+				589A6FA21D8C08F600654CDD /* ic_label.png */,
+				589A6FA31D8C08F600654CDD /* ic_location.png */,
+				589A6FA41D8C08F600654CDD /* ic_love.png */,
+				589A6FA51D8C08F600654CDD /* ic_lovelist.png */,
+				589A6FA61D8C08F600654CDD /* ic_luxury.png */,
+				589A6FA71D8C08F600654CDD /* ic_mata.png */,
+				589A6FA81D8C08F600654CDD /* ic_ongkir.png */,
+				589A6FA91D8C08F600654CDD /* ic_tampak_belakang.png */,
+				589A6FAA1D8C08F600654CDD /* ic_tarik_uang.png */,
+				589A6FAB1D8C08F600654CDD /* ic_tshirt.png */,
+				589A6FAC1D8C08F600654CDD /* ic_ukuran.png */,
+				589A6FAD1D8C08F600654CDD /* ic_voucher.png */,
+				21156EBD1B8F5DBC001D7842 /* arrow_down.png */,
+				21156EBE1B8F5DBC001D7842 /* arrow_left.png */,
+				21156EBF1B8F5DBC001D7842 /* arrow_right.png */,
 				58FE766E1D34FB9B00D90F27 /* banner_featured.png */,
 				58A4F9711CB4F5DB00E717AF /* banner_reserved.png */,
 				58A387491C7DBABC00281B85 /* banner_review.png */,
+				FDF39A2F1C3CF43B002A5DF6 /* banner_sold.png */,
+				212007C11B6A0EA600D9C84B /* basic_facebook@2x.png */,
+				44C10A661B8C8145006D8770 /* basic_green@2x.png */,
+				212007BF1B6A0CD100D9C84B /* basic_orange@2x.png */,
+				212007C21B6A0EA600D9C84B /* basic_path@2x.png */,
+				212007BD1B6A0BB400D9C84B /* basic_purple@2x.png */,
+				21EEB4661B87095C00CAD5C9 /* btn_checkbox_checked.png */,
+				21EEB4671B87095C00CAD5C9 /* btn_checkbox_empty.png */,
+				21EEB4681B87095C00CAD5C9 /* btn_checkbox_pressed.png */,
+				21156EC01B8F5DBC001D7842 /* btn_checkbox_purple_checked.png */,
+				21156EC11B8F5DBC001D7842 /* btn_checkbox_purple_empty.png */,
+				21156EC21B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png */,
+				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
 				58F0A4151C7C634A002A488F /* cchmrk_buy.png */,
 				58F0A4161C7C634A002A488F /* cchmrk_chat.png */,
 				58F0A4171C7C634A002A488F /* cchmrk_imgzoom.png */,
 				58F0A4181C7C634A002A488F /* cchmrk_pinch.png */,
-				58F0A4191C7C634A002A488F /* cchmrk_spread.png */,
 				58A2A4C01CB768500031C873 /* cchmrk_reserve.png */,
 				58528C501D13A3D200074EC6 /* cchmrk_share.png */,
 				58528C511D13A3D200074EC6 /* cchmrk_sold.png */,
+				58F0A4191C7C634A002A488F /* cchmrk_spread.png */,
 				58528C521D13A3D200074EC6 /* cchmrk_up.png */,
-				5856875A1C6C97F4002A19CE /* ic_request.png */,
 				5895E86B1C49315400752ACA /* chat-rp.png */,
-				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
-				FDF39A2F1C3CF43B002A5DF6 /* banner_sold.png */,
-				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
+				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
+				58BE535C1D479F5B00E358EB /* courier_jne.png */,
+				58BE535D1D479F5B00E358EB /* courier_pos.png */,
+				58BE535E1D479F5B00E358EB /* courier_tiki.png */,
+				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
 				210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */,
 				210702DA1BE7A8F100DD9E52 /* cu_call@2x.png */,
 				210702DB1BE7A8F100DD9E52 /* cu_email@2x.png */,
 				210702DC1BE7A8F100DD9E52 /* cu_line@2x.png */,
 				210702DD1BE7A8F100DD9E52 /* cu_sms@2x.png */,
 				210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */,
+				21C6587A1B8EE4E10037F85F /* default */,
+				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
+				210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */,
+				215C52681B6B349C00EA4E61 /* ic_bag@2x.png */,
+				21EEB4691B87095C00CAD5C9 /* ic_bubble.png */,
+				210959AE1B8DD088000F2939 /* ic_cacat@2x.png */,
+				58D736091D759B0B009D7C61 /* ic_cart.png */,
+				210DF0E81B730764004AE3D9 /* ic_cc@2x.png */,
+				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
+				581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */,
+				210DF0E91B730764004AE3D9 /* ic_dollar@2x.png */,
+				21EEB46A1B87095C00CAD5C9 /* ic_email.png */,
+				58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */,
+				589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */,
+				210959AF1B8DD088000F2939 /* ic_hanger@2x.png */,
+				21EEB46B1B87095C00CAD5C9 /* ic_heart.png */,
+				212007B91B6A087F00D9C84B /* ic_ico_label@2x.png */,
+				21EEB46C1B87095C00CAD5C9 /* ic_lock.png */,
+				212007BA1B6A087F00D9C84B /* ic_logo_white@2x.png */,
+				215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */,
+				58D7360A1D759B0B009D7C61 /* ic_notif.png */,
+				21EEB46D1B87095C00CAD5C9 /* ic_phone.png */,
+				21C6587D1B8EED520037F85F /* ic_prelo_balance@2x.png */,
+				21156EB21B8F3598001D7842 /* ic_prelo_logo_text@2x.png */,
+				5856875A1C6C97F4002A19CE /* ic_request.png */,
 				440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */,
 				440AF65C1BE1090800074CBC /* ic_round_email.png */,
 				440AF65D1BE1090800074CBC /* ic_round_facebook.png */,
@@ -2045,62 +2161,42 @@
 				440AF6611BE1090800074CBC /* ic_round_sms.png */,
 				440AF6621BE1090800074CBC /* ic_round_twitter.png */,
 				440AF6631BE1090800074CBC /* ic_round_whatsapp.png */,
-				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
+				58EF19D91D4F55FB00997828 /* ic_search_filter.png */,
+				58C23B5F1C9DC86300E4C929 /* ic_share.png */,
+				215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */,
+				21156EC31B8F5DBC001D7842 /* ic_socmed_facebook.png */,
+				21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */,
+				21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */,
+				21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */,
+				210959B01B8DD088000F2939 /* ic_tag@2x.png */,
+				FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */,
+				58A223BC1C898CB600619518 /* ic_trx_canceled.png */,
+				58A223BD1C898CB600619518 /* ic_trx_done.png */,
+				58A223BE1C898CB600619518 /* ic_trx_exclamation.png */,
+				58A223BF1C898CB600619518 /* ic_trx_expired.png */,
+				58A223C01C898CB600619518 /* ic_trx_paid.png */,
+				58A223C11C898CB600619518 /* ic_trx_received.png */,
+				58A4F9731CB5146B00E717AF /* ic_trx_reservation_cancelled.png */,
+				58A4F9741CB5146B00E717AF /* ic_trx_reservation_done.png */,
+				58A4F9751CB5146B00E717AF /* ic_trx_reserved.png */,
+				58A223C21C898CB600619518 /* ic_trx_shipped.png */,
+				58A223C31C898CB600619518 /* ic_trx_wait.png */,
+				21EEB46E1B87095C00CAD5C9 /* ic_user_2.png */,
+				21EEB46F1B87095C00CAD5C9 /* ic_user.png */,
+				5895E8691C48E08600752ACA /* img_setup_pwd.png */,
+				21D3869D1B6B93CD00D0FA90 /* Launch */,
+				58AD00FE1D49DAA8002C7CCF /* preloteam.png */,
+				2113125B1B67847100A4DA3B /* raisa.jpg */,
+				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
+				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
+				58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */,
+				216799721B8F879A00F18F90 /* rsz_ic_mandiri@2x.png */,
 				2109BCA11BDDF85E004F36C5 /* tour_1.jpg */,
 				2109BCA21BDDF85E004F36C5 /* tour_2.jpg */,
 				2109BCA31BDDF85E004F36C5 /* tour_3.jpg */,
 				58A9AE951CA9320000DF30C8 /* tour_4.jpg */,
 				58A9AE961CA9320000DF30C8 /* tour_5.jpg */,
-				211BC9911B96AC9100FDB1DC /* category_placeholder@2x.png */,
-				216799701B8F879A00F18F90 /* rsz_ic_bca@2x.png */,
-				216799711B8F879A00F18F90 /* rsz_ic_bni@2x.png */,
-				216799721B8F879A00F18F90 /* rsz_ic_mandiri@2x.png */,
-				58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */,
-				21156EBD1B8F5DBC001D7842 /* arrow_down.png */,
-				21156EBE1B8F5DBC001D7842 /* arrow_left.png */,
-				21156EBF1B8F5DBC001D7842 /* arrow_right.png */,
-				21156EC01B8F5DBC001D7842 /* btn_checkbox_purple_checked.png */,
-				21156EC11B8F5DBC001D7842 /* btn_checkbox_purple_empty.png */,
-				21156EC21B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png */,
-				21156EC31B8F5DBC001D7842 /* ic_socmed_facebook.png */,
-				21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */,
-				21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */,
-				21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */,
-				21156EB21B8F3598001D7842 /* ic_prelo_logo_text@2x.png */,
-				581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */,
-				21C6587D1B8EED520037F85F /* ic_prelo_balance@2x.png */,
-				21C6587A1B8EE4E10037F85F /* default */,
-				210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */,
-				210959AE1B8DD088000F2939 /* ic_cacat@2x.png */,
-				FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */,
-				210959AF1B8DD088000F2939 /* ic_hanger@2x.png */,
-				210959B01B8DD088000F2939 /* ic_tag@2x.png */,
-				44C10A661B8C8145006D8770 /* basic_green@2x.png */,
-				21EEB4661B87095C00CAD5C9 /* btn_checkbox_checked.png */,
-				21EEB4671B87095C00CAD5C9 /* btn_checkbox_empty.png */,
-				21EEB4681B87095C00CAD5C9 /* btn_checkbox_pressed.png */,
-				21EEB4691B87095C00CAD5C9 /* ic_bubble.png */,
-				21EEB46A1B87095C00CAD5C9 /* ic_email.png */,
-				21EEB46B1B87095C00CAD5C9 /* ic_heart.png */,
-				21EEB46C1B87095C00CAD5C9 /* ic_lock.png */,
-				21EEB46D1B87095C00CAD5C9 /* ic_phone.png */,
-				21EEB46E1B87095C00CAD5C9 /* ic_user_2.png */,
-				21EEB46F1B87095C00CAD5C9 /* ic_user.png */,
-				210DF0E81B730764004AE3D9 /* ic_cc@2x.png */,
-				210DF0E91B730764004AE3D9 /* ic_dollar@2x.png */,
-				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
-				21D3869D1B6B93CD00D0FA90 /* Launch */,
-				215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */,
-				215C52681B6B349C00EA4E61 /* ic_bag@2x.png */,
-				215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */,
-				212007C11B6A0EA600D9C84B /* basic_facebook@2x.png */,
-				212007C21B6A0EA600D9C84B /* basic_path@2x.png */,
-				212007BF1B6A0CD100D9C84B /* basic_orange@2x.png */,
-				212007BD1B6A0BB400D9C84B /* basic_purple@2x.png */,
-				212007B91B6A087F00D9C84B /* ic_ico_label@2x.png */,
-				212007BA1B6A087F00D9C84B /* ic_logo_white@2x.png */,
-				2113125B1B67847100A4DA3B /* raisa.jpg */,
-				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
+				FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -2708,11 +2804,13 @@
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				58A7C4491D362ED800405CEC /* BalanceMutationCell.xib in Resources */,
+				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				2109BCAC1BDE2489004F36C5 /* checkout_tour_1.jpg in Resources */,
 				5800FF9B1C88372B00492DB2 /* NotifAnggiTabBar.xib in Resources */,
 				210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */,
+				589A6FB41D8C08F600654CDD /* ic_box.png in Resources */,
 				FDF0AC951C0C4A6200FC7D61 /* wm_logo@2x.png in Resources */,
 				44B7088A1BBA6E19001EACBF /* MyProductDetail.xib in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
@@ -2724,6 +2822,7 @@
 				FDF728251BF24F7900C0D843 /* CategoryPreferencesCell.xib in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
 				21EEB4791B87095C00CAD5C9 /* ic_user.png in Resources */,
+				589A6FC21D8C08F600654CDD /* ic_label.png in Resources */,
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
@@ -2732,6 +2831,7 @@
 				58A223C61C898CB600619518 /* ic_trx_exclamation.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
 				FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */,
+				589A6FC51D8C08F600654CDD /* ic_lovelist.png in Resources */,
 				21104AD21BAA8F1200947E7F /* MyPurchaseCompleted.xib in Resources */,
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
@@ -2739,11 +2839,16 @@
 				58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				214EBD671B78800800CCBB9B /* MenuPopUp.xib in Resources */,
+				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
+				589A6FB51D8C08F600654CDD /* ic_cacat.png in Resources */,
 				58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
+				589A6FBA1D8C08F600654CDD /* ic_ditanggung_pembeli.png in Resources */,
 				21D386A81B6B93CD00D0FA90 /* Default-Portrait.png in Resources */,
+				589A6FC41D8C08F600654CDD /* ic_love.png in Resources */,
 				5895E8681C48CCF500752ACA /* SetupPasswordPopUp.xib in Resources */,
+				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
 				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
@@ -2751,6 +2856,7 @@
 				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
 				5800FFA51C88530900492DB2 /* NotifAnggiConversation.xib in Resources */,
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
+				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
@@ -2765,19 +2871,25 @@
 				216344B91CC394A1005CBA37 /* Info.plist in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
+				589A6FC11D8C08F600654CDD /* ic_kartu_kredit.png in Resources */,
 				FDF39A301C3CF43B002A5DF6 /* banner_sold.png in Resources */,
 				21156EC91B8F5DBC001D7842 /* arrow_right.png in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
+				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
+				589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
+				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
+				589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				5894DB461D5880F200874A56 /* FilterCollectionCell.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
 				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
+				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				5894DB421D58725800874A56 /* FilterSwitchCell.xib in Resources */,
 				210702E11BE7A8F100DD9E52 /* cu_email@2x.png in Resources */,
 				216799751B8F879A00F18F90 /* rsz_ic_mandiri@2x.png in Resources */,
@@ -2789,6 +2901,8 @@
 				58EF19DA1D4F55FB00997828 /* ic_search_filter.png in Resources */,
 				21104AD11BAA8F1200947E7F /* MyPurchase.xib in Resources */,
 				21679A401B901C5300F18F90 /* MPSurvey.storyboard in Resources */,
+				589A6FC81D8C08F600654CDD /* ic_ongkir.png in Resources */,
+				589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */,
 				44BD691F1B957D3A00D036F0 /* ProfileSetup.xib in Resources */,
 				5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */,
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
@@ -2796,9 +2910,11 @@
 				5894DB481D58825F00874A56 /* FilterPriceCell.xib in Resources */,
 				58A223CB1C898CB600619518 /* ic_trx_wait.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
+				589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
+				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21B467DF1CCE5EDB00E145ED /* LICENSE in Resources */,
@@ -2811,18 +2927,24 @@
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,
 				5894DB401D58705F00874A56 /* FilterChecklistCell.xib in Resources */,
 				21104AD61BAA8F1200947E7F /* TransactionListCell.xib in Resources */,
+				589A6FBD1D8C08F600654CDD /* ic_gallery.png in Resources */,
+				589A6FBC1D8C08F600654CDD /* ic_faq.png in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
 				21B4680B1CCE5EDB00E145ED /* BFKit.strings in Resources */,
 				44B708891BBA6E19001EACBF /* MyProductCompleted.xib in Resources */,
+				589A6FBF1D8C08F600654CDD /* ic_harga.png in Resources */,
 				FDB1A0021BFD84A8001F2600 /* ShopReview.xib in Resources */,
 				2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				58A7C4471D36263E00405CEC /* BalanceMutation.xib in Resources */,
 				58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */,
+				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
 				58EC90BF1D78142F00712E8A /* ExpiringProductsCell.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */,
+				589A6FBB1D8C08F600654CDD /* ic_edit.png in Resources */,
+				589A6FC31D8C08F600654CDD /* ic_location.png in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,
 				58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */,
@@ -2835,9 +2957,12 @@
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
 				5894DB441D58765200874A56 /* FilterCheckboxCell.xib in Resources */,
+				589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */,
+				589A6FB91D8C08F600654CDD /* ic_dipakai.png in Resources */,
 				21104AD41BAA8F1200947E7F /* PhoneReverification.xib in Resources */,
 				21EEB4731B87095C00CAD5C9 /* ic_bubble.png in Resources */,
 				21EEB4641B87038400CAD5C9 /* PaymentConfirmationCell.xib in Resources */,
+				589A6FC01D8C08F600654CDD /* ic_hubungi_prelo.png in Resources */,
 				2141BBA51B54BE4C00787F5D /* LICENSE in Resources */,
 				216799731B8F879A00F18F90 /* rsz_ic_bca@2x.png in Resources */,
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
@@ -2854,6 +2979,7 @@
 				21D386A61B6B93CD00D0FA90 /* Default-667h@2x.png in Resources */,
 				58B16A371C900CC600408534 /* NotifAnggiConversationCell.xib in Resources */,
 				21156EB31B8F3598001D7842 /* ic_prelo_logo_text@2x.png in Resources */,
+				589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */,
 				58A4F9721CB4F5DB00E717AF /* banner_reserved.png in Resources */,
 				21104AD81BAAA15500947E7F /* SearchTag.xib in Resources */,
 				214864CF1B6F235900EF49EF /* ic_chat@2x.png in Resources */,
@@ -2864,6 +2990,7 @@
 				21156ECC1B8F5DBC001D7842 /* btn_checkbox_purple_pressed.png in Resources */,
 				21156EC81B8F5DBC001D7842 /* arrow_left.png in Resources */,
 				21104AD51BAA8F1200947E7F /* PhoneVerification.xib in Resources */,
+				589A6FCB1D8C08F600654CDD /* ic_tshirt.png in Resources */,
 				213E77151BABD8E700D3002B /* SearchResultHeader.xib in Resources */,
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
@@ -2878,6 +3005,7 @@
 				58BE53601D479F5B00E358EB /* courier_pos.png in Resources */,
 				21EEB4741B87095C00CAD5C9 /* ic_email.png in Resources */,
 				44B708881BBA6E19001EACBF /* MyLovelistCell.xib in Resources */,
+				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
 				58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */,
