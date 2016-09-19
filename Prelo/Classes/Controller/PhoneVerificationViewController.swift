@@ -25,6 +25,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     
     var delegate : PhoneVerificationDelegate?
     
+    var backAlert : UIAlertController? = nil
+    
     // Variable from previous scene
     var userId : String = ""
     var userToken : String = ""
@@ -90,13 +92,16 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     }
     
     func backPressed2(sender: UIBarButtonItem) {
-        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Keluar", style: .Default, handler: { action in
+        backAlert = UIAlertController(title: "Perhatian", message: "Verifikasi belum selesai. Halaman ini akan muncul lagi lain kali kamu login. Keluar?", preferredStyle: UIAlertControllerStyle.Alert)
+        backAlert!.addAction(UIAlertAction(title: "Batal", style: .Default, handler: { action in
+            self.backAlert!.dismissViewControllerAnimated(true, completion: nil)
+            self.backAlert = nil
+        }))
+        backAlert!.addAction(UIAlertAction(title: "Keluar", style: .Default, handler: { action in
             User.Logout()
             self.dismissViewControllerAnimated(true, completion: nil)
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.presentViewController(backAlert!, animated: true, completion: nil)
     }
     
     @IBAction func disableTextFields(sender : AnyObject)
@@ -309,6 +314,8 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
     // MARK: - UITextField Delegate
     
     func textFieldDidEndEditing(textField: UITextField) {
-        Constant.showDialog("Kirim Ulang", message: "Tekan 'Kirim Ulang' untuk mengirim sms kembali")
+        if (backAlert == nil) { // Jika tidak sedang memunculkan back alert
+            Constant.showDialog("Kirim Ulang", message: "Tekan 'Kirim Ulang' untuk mengirim sms kembali")
+        }
     }
 }

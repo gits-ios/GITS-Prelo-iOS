@@ -128,8 +128,15 @@ class ShopReviewCell : UITableViewCell {
     @IBOutlet var lblStar: UILabel!
     @IBOutlet var lblComment: UILabel!
     
+    override func prepareForReuse() {
+        imgBuyer.image = nil
+        lblStar.attributedText = nil
+    }
+    
     func adapt(userReview : UserReview) {
         imgBuyer.setImageWithUrl(userReview.buyerPictURL!, placeHolderImage: nil)
+        imgBuyer.layer.masksToBounds = true
+        imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2
         lblBuyerName.text = userReview.buyerUsername
         lblComment.text = userReview.comment
         

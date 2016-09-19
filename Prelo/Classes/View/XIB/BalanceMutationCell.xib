@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SlX-29-To2" id="vlr-Dc-tBO">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="84.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGK-Gd-hJc">
@@ -49,7 +49,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance mutation description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ya9-5f-S2c">
-                        <rect key="frame" x="8" y="27" width="209" height="15"/>
+                        <rect key="frame" x="24" y="27" width="202" height="15"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14.5" id="RBy-uW-k0t"/>
@@ -59,7 +59,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reason admin" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XTw-xu-gkf">
-                        <rect key="frame" x="8" y="45" width="209" height="14"/>
+                        <rect key="frame" x="24" y="45" width="202" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14.5" id="2uy-PZ-rd3"/>
                         </constraints>
@@ -68,7 +68,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date and time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzB-7C-2OX">
-                        <rect key="frame" x="8" y="64" width="209" height="11"/>
+                        <rect key="frame" x="24" y="64" width="202" height="11"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="11" id="6Qi-sP-zYv"/>
                         </constraints>
@@ -78,11 +78,11 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="pzB-7C-2OX" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="3Dk-nY-SE3"/>
+                    <constraint firstItem="pzB-7C-2OX" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="24" id="3Dk-nY-SE3"/>
                     <constraint firstItem="VSP-gG-hia" firstAttribute="leading" secondItem="nrJ-9M-bun" secondAttribute="trailing" constant="8" id="40L-h0-jdA"/>
                     <constraint firstItem="VSP-gG-hia" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="4" id="4HF-2u-hxI"/>
                     <constraint firstItem="XTw-xu-gkf" firstAttribute="width" secondItem="Ya9-5f-S2c" secondAttribute="width" id="4wk-Mg-Qqf"/>
-                    <constraint firstItem="VSP-gG-hia" firstAttribute="leading" secondItem="Ya9-5f-S2c" secondAttribute="trailing" constant="-7" id="5hR-0b-DNy"/>
+                    <constraint firstItem="VSP-gG-hia" firstAttribute="leading" secondItem="Ya9-5f-S2c" secondAttribute="trailing" constant="-16" id="5hR-0b-DNy"/>
                     <constraint firstItem="UGK-Gd-hJc" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="6" id="A30-4g-L5q"/>
                     <constraint firstItem="nrJ-9M-bun" firstAttribute="leading" secondItem="UGK-Gd-hJc" secondAttribute="trailing" id="JaQ-jT-fIp"/>
                     <constraint firstAttribute="trailing" secondItem="VSP-gG-hia" secondAttribute="trailing" constant="8" id="Jc2-Xr-KBi"/>
@@ -95,8 +95,8 @@
                     <constraint firstItem="UGK-Gd-hJc" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="kbf-cm-ijp"/>
                     <constraint firstItem="pzB-7C-2OX" firstAttribute="top" secondItem="Ya9-5f-S2c" secondAttribute="bottom" constant="5" id="lt3-ki-6C3"/>
                     <constraint firstItem="nrJ-9M-bun" firstAttribute="top" secondItem="vlr-Dc-tBO" secondAttribute="top" constant="4" id="oLb-IK-FPX"/>
-                    <constraint firstItem="Ya9-5f-S2c" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="rru-yB-84W"/>
-                    <constraint firstItem="XTw-xu-gkf" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="8" id="zW1-xZ-3mc"/>
+                    <constraint firstItem="Ya9-5f-S2c" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="24" id="rru-yB-84W"/>
+                    <constraint firstItem="XTw-xu-gkf" firstAttribute="leading" secondItem="vlr-Dc-tBO" secondAttribute="leading" constant="24" id="zW1-xZ-3mc"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
