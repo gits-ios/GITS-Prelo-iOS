@@ -55,6 +55,28 @@ class CDShipping: NSManagedObject {
         }
     }
     
+    // Get shipping list where 'pos' is first object and 'tiki' is last object
+    static func getPosBlaBlaBlaTiki() -> [CDShipping] {
+        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        
+        do {
+            if var r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDShipping] {
+                for i in 0..<r.count {
+                    if (r[i].name.lowercaseString == "pos") {
+                        r.moveObjectFromIndex(i, toIndex: 0)
+                    }
+                    if (r[i].name.lowercaseString == "tiki") {
+                        r.moveObjectFromIndex(i, toIndex: r.count - 1)
+                    }
+                }
+                return r
+            }
+            return []
+        } catch {
+            return []
+        }
+    }
+    
     static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]

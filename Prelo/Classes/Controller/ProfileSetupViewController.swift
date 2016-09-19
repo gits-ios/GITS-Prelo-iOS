@@ -208,7 +208,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
     
     func setupContent() {
         // Shipping table setup
-        self.shippingList = CDShipping.getAll()
+        self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
         self.tableShipping.tableFooterView = UIView()
         self.tableShipping.delegate = self
         self.tableShipping.dataSource = self

@@ -199,7 +199,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.selectedKecamatanName = userProfile.subdistrictName
         
         // Shipping table setup
-        self.shippingList = CDShipping.getAll()
+        self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
         self.userShippingIdList = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
         self.tableShipping.tableFooterView = UIView()
         self.tableShipping.delegate = self
