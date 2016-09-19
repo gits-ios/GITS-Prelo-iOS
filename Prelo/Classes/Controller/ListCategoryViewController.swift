@@ -141,6 +141,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
 //        let colors = [UIColor.blueColor(), UIColor.clearColor()]
         
+        /* FOR TESTING: Manual category count in home
+        let count = 1
+        */
         var lastView : UIView?
         for i in 0...count-1
         {
@@ -521,6 +524,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     }
                 }
         }
+        // FOR TESTING: DISABLE HOME LOAD
+        /*if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+            kumangTabBarVC.isAlreadyGetCategory = true
+            if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                kumangTabBarVC.hideLoading()
+            }
+        }*/
     }
     
     func getIndexInArrayJSON(arr : [JSON], withId id : String) -> Int? {

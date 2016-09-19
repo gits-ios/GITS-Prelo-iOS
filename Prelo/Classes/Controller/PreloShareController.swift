@@ -347,7 +347,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             }
             name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             UIPasteboard.generalPasteboard().string = name
-            UIAlertView.SimpleShow("", message: "Sukses di salin")
+            UIAlertView.SimpleShow("", message: "Sukses disalin")
             
             self.mixpanelSharedProduct("Copy Info", username: "")
         }

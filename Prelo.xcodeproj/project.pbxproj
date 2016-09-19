@@ -579,6 +579,7 @@
 		58D7360C1D759B0B009D7C61 /* ic_notif.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D7360A1D759B0B009D7C61 /* ic_notif.png */; };
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
+		58DBE8181D8F9B1100355608 /* ic_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 58DBE8171D8F9B1100355608 /* ic_round.png */; };
 		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
 		58EC90BB1D780ED600712E8A /* ExpiringProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */; };
 		58EC90BD1D78100400712E8A /* ExpiringProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EC90BC1D78100400712E8A /* ExpiringProducts.xib */; };
@@ -1342,6 +1343,7 @@
 		58D7D5211CD9B68300308A50 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		58DBE8171D8F9B1100355608 /* ic_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round.png; sourceTree = "<group>"; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
 		58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpiringProductsViewController.swift; sourceTree = "<group>"; };
 		58EC90BC1D78100400712E8A /* ExpiringProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProducts.xib; sourceTree = "<group>"; };
@@ -2055,6 +2057,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58DBE8171D8F9B1100355608 /* ic_round.png */,
 				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
 				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
 				589A6F901D8C08F600654CDD /* ic_2kg.png */,
@@ -2998,6 +3001,7 @@
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
 				440AF65A1BE0DF1600074CBC /* ReferralPage.xib in Resources */,
+				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
 				21679A331B901C5300F18F90 /* MPNotification.storyboard in Resources */,

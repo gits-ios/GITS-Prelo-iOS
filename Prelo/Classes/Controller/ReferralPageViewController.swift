@@ -36,7 +36,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     @IBOutlet weak var btnLine: UIButton!
     @IBOutlet weak var btnSms: UIButton!
     @IBOutlet weak var btnEmail: UIButton!
-    @IBOutlet weak var btnMore: UIButton!
+    @IBOutlet weak var btnCopy: UIButton!
     
     @IBOutlet weak var fieldKodeReferral: UITextField!
     @IBOutlet weak var vwSubmit: UIView!
@@ -126,7 +126,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             btnEmail.userInteractionEnabled = false
         }
         // More
-        imgMore.alpha = 0.3
+        imgMore.alpha = 1
     }
     
     override func viewDidLoad() {
@@ -412,8 +412,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }
     }
     
-    @IBAction func morePressed(sender: AnyObject) {
-        UIAlertView.SimpleShow("Coming Soon :)", message: "")
+    @IBAction func copyPressed(sender: AnyObject) {
+        UIPasteboard.generalPasteboard().string = shareText
+        UIAlertView.SimpleShow("Copied", message: "Teks telah disalin")
     }
     
     @IBAction func disableTextFields(sender : AnyObject)

@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/ListCategoryViewController.swift"
-            timestampString = "495518147.731195"
+            timestampString = "495951203.450812"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "addChilds(_:)"
             landmarkType = "5">
          </BreakpointContent>

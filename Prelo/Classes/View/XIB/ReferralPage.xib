@@ -4,6 +4,11 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -305,19 +310,25 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO4-bv-Bs9" userLabel="More">
                                                 <rect key="frame" x="360" y="220" width="64" height="84"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_round_ellipsis.png" translatesAutoresizingMaskIntoConstraints="NO" id="ifi-Wn-ZPl">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic_round.png" translatesAutoresizingMaskIntoConstraints="NO" id="ifi-Wn-ZPl">
                                                         <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                                     </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhp-lM-TnG">
+                                                        <rect key="frame" x="11" y="8" width="42" height="49"/>
+                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="29"/>
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ph-CQ-adm">
                                                         <rect key="frame" x="0.0" y="0.0" width="64" height="84"/>
                                                         <state key="normal">
                                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="morePressed:" destination="oGD-JK-z8i" eventType="touchUpInside" id="yog-qs-R99"/>
+                                                            <action selector="copyPressed:" destination="oGD-JK-z8i" eventType="touchUpInside" id="E24-Tu-IQe"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="More" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hz-eM-snM">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Salin Info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hz-eM-snM">
                                                         <rect key="frame" x="0.0" y="65" width="64" height="19"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -502,11 +513,11 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <size key="freeformSize" width="600" height="796"/>
             <connections>
+                <outlet property="btnCopy" destination="7ph-CQ-adm" id="usq-fh-f8o"/>
                 <outlet property="btnEmail" destination="aDg-T4-n51" id="KzR-u7-pBR"/>
                 <outlet property="btnFacebook" destination="hKl-x5-eS5" id="Vnu-xC-pdb"/>
                 <outlet property="btnInstagram" destination="gDu-70-gid" id="Gol-bi-rFz"/>
                 <outlet property="btnLine" destination="V9t-DG-Fh3" id="YqD-FB-Cd8"/>
-                <outlet property="btnMore" destination="7ph-CQ-adm" id="bxy-e7-5zg"/>
                 <outlet property="btnPath" destination="1Ub-SD-3ZM" id="7LW-Sl-a4e"/>
                 <outlet property="btnSms" destination="ghA-1h-hMS" id="uM2-Lv-ibI"/>
                 <outlet property="btnSubmit" destination="Seh-Ye-MJq" id="kuG-6z-zq3"/>
@@ -539,7 +550,7 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="ic_round_ellipsis.png" width="174" height="172"/>
+        <image name="ic_round.png" width="174" height="172"/>
         <image name="ic_round_email.png" width="172" height="172"/>
         <image name="ic_round_facebook.png" width="174" height="172"/>
         <image name="ic_round_instagram.png" width="172" height="172"/>
