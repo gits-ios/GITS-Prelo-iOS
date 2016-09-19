@@ -436,6 +436,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.an_unsubscribeKeyboard()
     }
     
+    override func backPressed(sender: UIBarButtonItem) {
+        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu yakin mau keluar dari Jual Barang? Seluruh keterangan yang telah diisi akan terhapus", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+            self.navigationController?.popViewControllerAnimated(true)
+        }))
+        alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func showFAQ(sender : UIView?)
     {
         let w = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
