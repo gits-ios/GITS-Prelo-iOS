@@ -269,6 +269,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let c = category_breadcrumbs[i]
                     productCategoryId = c["_id"].string!
                     captionKategori.text = c["name"].string!
+                    
+                    if (c["level"].intValue == 1) {
+                        if (c["_id"].stringValue == "55de6dbc5f6522562a2c73ef" || c["_id"].stringValue == "55de6dbc5f6522562a2c73f0") {
+                            self.isCategWomenOrMenSelected = true
+                        } else {
+                            self.isCategWomenOrMenSelected = false
+                        }
+                    }
                 }
             }
             

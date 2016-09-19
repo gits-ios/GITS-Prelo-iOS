@@ -239,4 +239,25 @@ class CDCategory: NSManagedObject {
             return nil
         }
     }
+    
+    static func getLv1CategIDFromID(id : String) -> String? {
+        if var categ = CDCategory.getCategoryWithID(id) {
+            if (categ.level.intValue > 1) {
+                var parentId : String? = nil
+                for _ in 1..<categ.level.intValue {
+                    if (categ.parentId != nil) {
+                        if let p = CDCategory.getCategoryWithID(categ.parentId!) {
+                            categ = p
+                            parentId = p.id
+                        } else {
+                            parentId = nil
+                            break
+                        }
+                    }
+                }
+                return parentId
+            }
+        }
+        return nil
+    }
 }
