@@ -107,8 +107,18 @@ extension UIImage {
     }
 }
 
+extension UIDevice {
+    var isIOSSimulator: Bool {
+        #if IOS_SIMULATOR
+            return true
+        #else
+            return false
+        #endif
+    }
+}
+
 class AppTools: NSObject {
-    static let isDev = true // Set true for demo/testing purpose only
+    static let isDev = false // Set true for demo/testing purpose only
     
     private static var devURL = "http://dev.prelo.id"
     private static var prodURL = "https://prelo.co.id"
@@ -129,6 +139,10 @@ class AppTools: NSObject {
     
     static var isIPad : Bool {
         return UIDevice.currentDevice().userInterfaceIdiom == .Pad
+    }
+    
+    static var isSimulator : Bool {
+        return UIDevice.currentDevice().isIOSSimulator
     }
 }
 
@@ -495,4 +509,10 @@ extension NSData
 //        }
 //        return ""
 //    }
+}
+
+func print(items: Any..., separator: String = " ", terminator: String = "\n") {
+    if (AppTools.isSimulator) {
+        Swift.print(items[0], separator:separator, terminator: terminator)
+    }
 }

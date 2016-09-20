@@ -3549,6 +3549,7 @@
 					"-ObjC",
 					"-all_load",
 				);
+				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
