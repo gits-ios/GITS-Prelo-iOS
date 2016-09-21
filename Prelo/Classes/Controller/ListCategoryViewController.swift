@@ -94,6 +94,14 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         listItemViews.removeAll(keepCapacity: false)
         
+        if (childViewControllers.count > 0) {
+            for vc in childViewControllers {
+                vc.willMoveToParentViewController(nil)
+                vc.removeFromParentViewController()
+                vc.view.removeFromSuperview()
+            }
+        }
+        
         if (contentView != nil) {
             for v in self.contentView!.subviews
             {
@@ -139,60 +147,57 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             contentView = pContentView
         }
         
-//        let colors = [UIColor.blueColor(), UIColor.clearColor()]
-        
-        /* FOR TESTING: Manual category count in home
-        let count = 1
-        */
+        //let count = 1 // FOR TESTING: Manual category count in home
         var lastView : UIView?
-        for i in 0...count-1
-        {
-            let li:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            li.previousController = self.previousController
-            
-            li.categoryJson = categoriesFix[i]
-            
-            li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
-            li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
-            
-            let v = li.view
-            v.translatesAutoresizingMaskIntoConstraints = false
-//            v.backgroundColor = colors.objectAtCircleIndex(i)
-            contentView?.addSubview(v)
-            self.addChildViewController(li)
-            d["v"] = v
-            if let lv = lastView
-            {
-                d["lv"] = lv
-                contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[lv]-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-                
-            } else {
-                contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        if (count > 0) {
+            for i in 0..<count {
+                self.addChildAtIdx(i, count: count, d: &d, lastView: &lastView)
             }
-            
-            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==scroll)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v(==master)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            
-            if (i == count-1)
-            {
-                contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            }
-            
-            lastView = v
-            listItemViews.append(v)
+        }
+        if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
+            firstChild.setupContent()
         }
         
-        // Trying to avoid crash
-        let delay = 1.0
-        NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(ListCategoryViewController.afterAddChilds), userInfo: count, repeats: false)
-    }
-    
-    func afterAddChilds(timer : NSTimer) {
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
-        let count = timer.userInfo as! Int
         addCategoryNames(count)
+    }
+    
+    func addChildAtIdx(i : Int, count : Int, inout d : [String : UIView!], inout lastView : UIView?) {
+        let li:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        li.previousController = self.previousController
+        
+        li.categoryJson = categoriesFix[i]
+        
+        li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
+        li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
+        
+        let v = li.view
+        v.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.addSubview(v)
+        self.addChildViewController(li)
+        li.didMoveToParentViewController(self)
+        d["v"] = v
+        if let lv = lastView
+        {
+            d["lv"] = lv
+            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[lv]-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            
+        } else {
+            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        }
+        
+        contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==scroll)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v(==master)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        
+        if (i == count-1)
+        {
+            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        }
+        
+        lastView = v
+        listItemViews.append(v)
     }
     
     var contentCategoryNames : UIView?
@@ -376,6 +381,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         UIView.animateWithDuration(0.5, animations: {
             self.categoryIndicator?.layoutIfNeeded()
         })
+        
+        // Load content
+        if let child = self.childViewControllers[index] as? ListItemViewController {
+            child.setupContent()
+        }
     }
     
     func categoryButtonAction(sender : UIView)

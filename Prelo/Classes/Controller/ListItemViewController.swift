@@ -60,6 +60,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var requesting : Bool = false
     var done : Bool = false
     var draggingScrollView : Bool = false
+    var isContentLoaded : Bool = false
     
     // For standalone mode, used for category-filtered product list
     var standaloneMode : Bool = false
@@ -147,6 +148,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
         }
         
+        // Hide top header first
+        self.consHeightVwTopHeader.constant = 0
+        
         // Send top search API for searchMode
         if (searchMode) {
             request(APISearch.InsertTopSearch(search: searchKey)).responseJSON{resp in
@@ -162,141 +166,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
         
-        // Identify current mode and set content based on the mode
-        if (filterMode) {
-            // Setup filter related views
-            for i in 0...vwTopHeaderFilter.subviews.count - 1 {
-                vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
-            }
-            vwTopHeaderFilter.hidden = false
-            vwTopHeader.hidden = true
-            consHeightVwTopHeader.constant = 52
-            if (fltrBrands.count > 0) {
-                if (fltrBrands.count == 1) {
-                    lblFilterMerek.text = Array(fltrBrands.keys)[0]
-                } else {
-                    lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
-                }
-            } else {
-                lblFilterMerek.text = "All"
-            }
-            if (fltrCategId == "") {
-                lblFilterKategori.text = "All"
-            } else {
-                lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
-            }
-            lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-            if (lblFilterSort.text?.lowercaseString == "highest rp") {
-                lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
-            } else {
-                lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
-            }
-            // Search bar setup
-            var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
-            if (AppTools.isIPad) {
-                searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
-            }
-            searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
-            if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
-                searchField.backgroundColor = Theme.PrimaryColorDark
-                searchField.textColor = UIColor.whiteColor()
-                let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
-                searchField.attributedPlaceholder = attrPlaceholder
-                if let icon = searchField.leftView as? UIImageView {
-                    icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                    icon.tintColor = UIColor.lightGrayColor()
-                }
-                searchField.borderStyle = UITextBorderStyle.None
-            }
-            searchBar.delegate = self
-            searchBar.placeholder = "Cari di Prelo"
-            self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
-            
-            // Get initial products
-            if (products?.count == 0 || products == nil) {
-                if (products == nil) {
-                    products = []
-                }
-                getProducts()
-            }
-            
-        } else if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
-            consHeightVwTopHeader.constant = 40
-            self.setDefaultTopHeaderWomen()
-            segmentMode = true
-            if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
-                for i in 0...segmentsJson.count - 1 {
-                    var img : UIImage = UIImage()
-                    if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
-                        if let data = NSData(contentsOfURL: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
-                    }
-                    self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
-                }
-            }
-            gridView.dataSource = self
-            gridView.delegate = self
-            gridView.reloadData()
-        } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
-            self.featuredProductsMode = true
-            consHeightVwTopHeader.constant = 0
-            self.gridView.backgroundColor = Theme.GrayGranite
-            
-            // Get featured products
-            getFeaturedProducts()
-        } else if (self.categoryJson?["name"].stringValue == "Book") { // Special case for 'Book' category
-            self.subcategoryMode = true
-            
-            if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
-                for i in 0...subcatJson.count - 1 {
-                    var img : UIImage = UIImage()
-                    if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
-                        if let data = NSData(contentsOfURL: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
-                    }
-                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
-                }
-            }
-            
-            consHeightVwTopHeader.constant = 0
-            
-            // Get initial products
-            if (products?.count == 0 || products == nil) {
-                if (products == nil) {
-                    products = []
-                }
-                getProducts()
-            }
-        } else {
-            consHeightVwTopHeader.constant = 0
-            
-            // Get initial products
-            if (products?.count == 0 || products == nil) {
-                if (products == nil) {
-                    products = []
-                }
-                getProducts()
-            }
-        }
-        
-        // Upper 4px padding handler
-        if (self.featuredProductsMode) {
-            self.consTopTopHeader.constant = 4
-            self.view.backgroundColor = Theme.GrayGranite
-        } else if (self.searchMode) {
-            self.consTopTopHeader.constant = 4
-            self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
-        } else if (self.filterMode) {
-            self.consTopTopHeader.constant = 4
-            self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
-        } else if (self.storeMode || self.standaloneMode) {
-            self.consTopTopHeader.constant = 0
+        // Setup content
+        if (filterMode || storeMode || standaloneMode) {
+            self.setupContent()
         }
     }
     
@@ -358,6 +230,149 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
             self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+    
+    func setupContent() {
+        if (!isContentLoaded) {
+            isContentLoaded = true
+            
+            // Identify current mode and set content based on the mode
+            if (filterMode) {
+                // Setup filter related views
+                for i in 0...vwTopHeaderFilter.subviews.count - 1 {
+                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
+                }
+                vwTopHeaderFilter.hidden = false
+                vwTopHeader.hidden = true
+                consHeightVwTopHeader.constant = 52
+                if (fltrBrands.count > 0) {
+                    if (fltrBrands.count == 1) {
+                        lblFilterMerek.text = Array(fltrBrands.keys)[0]
+                    } else {
+                        lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                    }
+                } else {
+                    lblFilterMerek.text = "All"
+                }
+                if (fltrCategId == "") {
+                    lblFilterKategori.text = "All"
+                } else {
+                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
+                }
+                lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
+                if (lblFilterSort.text?.lowercaseString == "highest rp") {
+                    lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
+                } else {
+                    lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
+                }
+                // Search bar setup
+                var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+                if (AppTools.isIPad) {
+                    searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+                }
+                searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
+                if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+                    searchField.backgroundColor = Theme.PrimaryColorDark
+                    searchField.textColor = UIColor.whiteColor()
+                    let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+                    searchField.attributedPlaceholder = attrPlaceholder
+                    if let icon = searchField.leftView as? UIImageView {
+                        icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
+                        icon.tintColor = UIColor.lightGrayColor()
+                    }
+                    searchField.borderStyle = UITextBorderStyle.None
+                }
+                searchBar.delegate = self
+                searchBar.placeholder = "Cari di Prelo"
+                self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
+                
+                // Get initial products
+                if (products?.count == 0 || products == nil) {
+                    if (products == nil) {
+                        products = []
+                    }
+                    getProducts()
+                }
+                
+            } else if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
+                consHeightVwTopHeader.constant = 40
+                self.setDefaultTopHeaderWomen()
+                segmentMode = true
+                if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
+                    for i in 0...segmentsJson.count - 1 {
+                        var img : UIImage = UIImage()
+                        if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
+                            if let data = NSData(contentsOfURL: url) {
+                                if let uiimg = UIImage(data: data) {
+                                    img = uiimg
+                                }
+                            }
+                        }
+                        self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
+                    }
+                }
+                gridView.dataSource = self
+                gridView.delegate = self
+                gridView.reloadData()
+            } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
+                self.featuredProductsMode = true
+                consHeightVwTopHeader.constant = 0
+                self.gridView.backgroundColor = Theme.GrayGranite
+                
+                // Get featured products
+                getFeaturedProducts()
+            } else if (self.categoryJson?["name"].stringValue == "Book") { // Special case for 'Book' category
+                self.subcategoryMode = true
+                
+                if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
+                    for i in 0...subcatJson.count - 1 {
+                        var img : UIImage = UIImage()
+                        if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
+                            if let data = NSData(contentsOfURL: url) {
+                                if let uiimg = UIImage(data: data) {
+                                    img = uiimg
+                                }
+                            }
+                        }
+                        self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                    }
+                }
+                
+                consHeightVwTopHeader.constant = 0
+                
+                // Get initial products
+                if (products?.count == 0 || products == nil) {
+                    if (products == nil) {
+                        products = []
+                    }
+                    getProducts()
+                }
+            } else {
+                consHeightVwTopHeader.constant = 0
+                
+                // Get initial products
+                if (products?.count == 0 || products == nil) {
+                    if (products == nil) {
+                        products = []
+                    }
+                    getProducts()
+                }
+            }
+            
+            // Upper 4px padding handler
+            if (self.featuredProductsMode) {
+                self.consTopTopHeader.constant = 4
+                self.view.backgroundColor = Theme.GrayGranite
+            } else if (self.searchMode) {
+                self.consTopTopHeader.constant = 4
+                self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
+            } else if (self.filterMode) {
+                self.consTopTopHeader.constant = 4
+                self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
+            } else if (self.storeMode || self.standaloneMode) {
+                self.consTopTopHeader.constant = 0
+            }
         }
     }
     
