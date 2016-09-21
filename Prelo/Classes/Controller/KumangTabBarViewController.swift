@@ -8,29 +8,26 @@
 
 import UIKit
 
+// MARK: - Class
+
 class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuPopUpDelegate {
     
+    // MARK: - Properties
+    
+    // Views
     @IBOutlet var loadingPanel: UIView!
-    
-    var numberOfControllers : Int = 0
-    
     @IBOutlet var sectionContent : UIView?
     @IBOutlet var sectionBar : UIView?
-    @IBOutlet var segmentBar : UISegmentedControl?
     @IBOutlet var btnAdd : UIView?
-    
     @IBOutlet var btnDashboard : UIButton!
     @IBOutlet var btnBrowse : UIButton!
-    
     @IBOutlet var consMarginBottomBar : NSLayoutConstraint!
-    
-    var menuPopUp : MenuPopUp?
-    
-    var changeToBrowseCount = 0
-    
+    var menuPopUp : MenuPopUp? // Looks like unused
+    var oldController : UIViewController?
+    var controllerBrowse : UIViewController?
     var _controllerDashboard : BaseViewController?
-    @IBOutlet var controllerDashboard : BaseViewController?
-    {
+    var controllerDashboard : BaseViewController?
+        {
         get {
             return _controllerDashboard
         }
@@ -50,11 +47,17 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             _controllerDashboard2?.userRelatedDelegate = self
         }
     }
-    @IBOutlet var controllerBrowse : UIViewController?
-    @IBOutlet var controllerLogin : LoginViewController?
-    @IBOutlet var controllerContactPrelo : BaseViewController?
     
+    // Data container
+    var numberOfControllers : Int = 0
+    var changeToBrowseCount = 0
+    
+    // Flags
     var isVersionChecked = false
+    var isAlreadyGetCategory : Bool = false
+    var userDidLoggedIn : Bool?
+    
+    // MARK: - Init
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.Default
@@ -63,19 +66,18 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Loading panel
         self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
         
+        // Version check
         if (!isVersionChecked) {
             self.versionCheck()
         } else {
             self.versionChecked()
         }
         
-//        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        
         // Resume product upload
-        if (User.Token != nil && CDUser.getOne() != nil)
-        {
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 AppDelegate.Instance.produkUploader.start()
             })
@@ -84,94 +86,70 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         // Subdistrict check
         self.subdistrictProfileCheck()
         
+        // Adjust navbar and title view
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         let v = UIView()
         v.frame = CGRectMake(0, 0, 10, 10)
         v.backgroundColor = UIColor.clearColor()
         self.navigationItem.titleView = v
         
+        // Login button setup
         self.updateLoginButton()
         
-        //self.setupNormalOptions()
+        // Set left-corner title
         self.setupTitle()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.pushNew(_:)), name: NotificationName.PushNew, object: nil)
+        // Add observers
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showProduct(_:)), name: NotificationName.ShowProduct, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: "hideBottomBar", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: "showBottomBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: "userLoggedIn", object: nil)
 
-        // Do any additional setup after loading the view.
+        // Sell button setup
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
         btnAdd?.layer.shadowColor = UIColor.blackColor().CGColor
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
         
+        // Init controllers
         let lc : ListCategoryViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as! ListCategoryViewController
         lc.previousController = self
         controllerBrowse = lc
-        changeToController(controllerBrowse!)
-        
         controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard?.previousController = self
-        controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController//Dashboard2ViewController(nibName:Tags.XibNameDashboard2, bundle: nil)
+        controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard2?.previousController = self
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: "userLoggedIn", object: nil)
-    }
-    
-    func updateLoginButton()
-    {
-        if (User.IsLoggedIn)
-        {
-            btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
-        } else
-        {
-            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
-        }
-    }
-    
-    func hideBottomBar()
-    {
-        consMarginBottomBar.constant = -76
-        UIView.animateWithDuration(0.2, animations: {
-            self.sectionBar?.layoutIfNeeded()
-            self.btnAdd?.layoutIfNeeded()
-        })
-    }
-    
-    func showBottomBar()
-    {
-        consMarginBottomBar.constant = 0
-        UIView.animateWithDuration(0.2, animations: {
-            self.sectionBar?.layoutIfNeeded()
-            self.btnAdd?.layoutIfNeeded()
-        })
+        changeToController(controllerBrowse!)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().postNotificationName("changeStatusBarColor", object: Theme.PrimaryColor)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        showBottomBar()
+        
+        // Show bottom bar
+        self.showBottomBar()
+        
+        // Setup navbar buttons
         self.setupNormalOptions()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // Show status bar
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
     }
     
-    var isAlreadyGetCategory : Bool = false
-    var userDidLoggedIn : Bool?
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        // Setup menuPopUp (Looks like unused)
         if (menuPopUp == nil) {
             menuPopUp = NSBundle.mainBundle().loadNibNamed("MenuPopUp", owner: nil, options: nil).first as? MenuPopUp
             menuPopUp?.menuDelegate = self
             menuPopUp?.setupView(self.navigationController!)
         }
         
-        // Show tour pop up
+        // Show tour pop up, refresh home, and/or show pop up
         if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
             self.performSegueWithIdentifier("segTour", sender: self)
             NSUserDefaults.setTourDone(true)
@@ -191,6 +169,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         userDidLoggedIn = User.IsLoggedIn
     }
     
+    // MARK: - View-related actions
+    
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
             let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
@@ -202,10 +182,78 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    func pushNew(sender : AnyObject)
-    {
+    func updateLoginButton() {
+        if (User.IsLoggedIn) {
+            btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
+        } else {
+            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        }
+    }
+    
+    func hideBottomBar() {
+        consMarginBottomBar.constant = -76
+        UIView.animateWithDuration(0.2, animations: {
+            self.sectionBar?.layoutIfNeeded()
+            self.btnAdd?.layoutIfNeeded()
+        })
+    }
+    
+    func showBottomBar() {
+        consMarginBottomBar.constant = 0
+        UIView.animateWithDuration(0.2, animations: {
+            self.sectionBar?.layoutIfNeeded()
+            self.btnAdd?.layoutIfNeeded()
+        })
+    }
+    
+    func menuSelected(option: MenuOption) {
+        let i = PreloShareItem()
+        PreloShareController.Share(i, inView: self.view)
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.hidden = true
+    }
+    
+    func showLoading() {
+        self.loadingPanel.hidden = false
+    }
+    
+    // MARK: - User related functions
+    
+    func userLoggedIn() {
+        btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
+        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
+        d.previousController = self
+        changeToController(d)
+        controllerDashboard = d
+    }
+    
+    func userLoggedOut() {
+        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        changeToController(controllerBrowse!)
+    }
+    
+    func userCancelLogin() {
+        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        changeToController(controllerBrowse!)
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if (segue.identifier == "segTour") {
+            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
+            t.parent = sender as? BaseViewController
+        }
+    }
+    
+    func showProduct(sender : AnyObject) {
         let n : NSNotification = sender as! NSNotification
-        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let d : ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         let nav = UINavigationController(rootViewController: d)
         nav.navigationBar.translucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
@@ -214,9 +262,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.navigationController?.pushViewController(d, animated: true)
     }
     
-    var oldController : UIViewController?
-    func changeToController(newController : UIViewController)
-    {
+    func delayBrowseSwitch() {
+        sectionContent?.hidden = false
+        changeToController(controllerBrowse!)
+    }
+    
+    func changeToController(newController : UIViewController) {
         print("class name = \(newController.dynamicType)")
         if ("\(newController.dynamicType)" == "ListCategoryViewController") { // Browse
             btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
@@ -279,75 +330,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    @IBAction func launchMenu()
-    {
-//        let i = PreloShareItem()
-//        PreloShareController.Share(i, inView: (self.navigationController?.view)!)
-        
+    @IBAction func launchMenu() {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(add, animated: true)
-    }
-    
-    func delayBrowseSwitch()
-    {
-        sectionContent?.hidden = false
-        changeToController(controllerBrowse!)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func userLoggedIn() {
-        btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
-        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
-        d.previousController = self
-        changeToController(d)
-        controllerDashboard = d
-    }
-    
-    func userLoggedOut() {
-        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
-//        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdLogin) as! BaseViewController
-        changeToController(controllerBrowse!)
-//        controllerDashboard = d
-    }
-    
-    func userCancelLogin() {
-        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
-        changeToController(controllerBrowse!)
-    }
-    
-    func menuSelected(option: MenuOption) {
-        let i = PreloShareItem()
-        PreloShareController.Share(i, inView: self.view)
-        
-//        menuPopUp?.hide()
-//        
-//        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProductImage) as! AddProductImageSourceViewController
-//        self.navigationController?.pushViewController(add, animated: true)
-    }
-    
-    func hideLoading() {
-        self.loadingPanel.hidden = true
-    }
-    
-    func showLoading() {
-        self.loadingPanel.hidden = false
-    }
-    
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if (segue.identifier == "segTour") {
-            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
-            t.parent = sender as? BaseViewController
-        }
     }
     
     // MARK: - Version check and load/update metadata

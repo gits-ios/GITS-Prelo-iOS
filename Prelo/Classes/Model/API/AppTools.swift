@@ -261,7 +261,7 @@ class NotificationType : NSObject
 
 class NotificationName : NSObject
 {
-    static let PushNew = "pushnew"
+    static let ShowProduct = "showproduct"
 }
 
 class PageName

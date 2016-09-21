@@ -186,7 +186,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 self.selectedProduct = Product.instance(data)
                 
                 // Launch detail scene
-                NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
+                NSNotificationCenter.defaultCenter().postNotificationName(NotificationName.ShowProduct, object: self.selectedProduct)
             }
         }
     }

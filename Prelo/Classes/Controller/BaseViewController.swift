@@ -222,10 +222,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
 //        v.addSubview(iv)
 //        v.addSubview(l)
         let i = TintedImageView(frame: CGRectMake(0, 0, 92, 92), backgroundColor: UIColor.clearColor())
-        i.image = UIImage(named : "ic_prelo_logo_text")
-        i.tintColor = UIColor.whiteColor()
+        i.image = UIImage(named : "ic_prelo_logo_text_white")
         i.contentMode = UIViewContentMode.ScaleAspectFit
-        i.tint = true
         
         self.navigationItem.leftBarButtonItem = i.toBarButton()
     }

@@ -1184,7 +1184,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func launchDetail() {
-        NSNotificationCenter.defaultCenter().postNotificationName("pushnew", object: self.selectedProduct)
+        NSNotificationCenter.defaultCenter().postNotificationName(NotificationName.ShowProduct, object: self.selectedProduct)
     }
     
     // MARK: - Other functions

@@ -580,6 +580,7 @@
 		58D7D5231CD9B68300308A50 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */; };
 		58D7D5251CD9B6FC00308A50 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D7D5241CD9B6FC00308A50 /* iAd.framework */; };
 		58DBE8181D8F9B1100355608 /* ic_round.png in Resources */ = {isa = PBXBuildFile; fileRef = 58DBE8171D8F9B1100355608 /* ic_round.png */; };
+		58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */; };
 		58EADB971CFBE47800410330 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
 		58EC90BB1D780ED600712E8A /* ExpiringProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */; };
 		58EC90BD1D78100400712E8A /* ExpiringProducts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EC90BC1D78100400712E8A /* ExpiringProducts.xib */; };
@@ -1344,6 +1345,7 @@
 		58D7D5221CD9B68300308A50 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		58D7D5241CD9B6FC00308A50 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		58DBE8171D8F9B1100355608 /* ic_round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round.png; sourceTree = "<group>"; };
+		58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_logo_text_white@2x.png"; sourceTree = "<group>"; };
 		58EADB961CFBE47800410330 /* ShippingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingCell.xib; sourceTree = "<group>"; };
 		58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpiringProductsViewController.swift; sourceTree = "<group>"; };
 		58EC90BC1D78100400712E8A /* ExpiringProducts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpiringProducts.xib; sourceTree = "<group>"; };
@@ -2057,6 +2059,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */,
 				58DBE8171D8F9B1100355608 /* ic_round.png */,
 				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
 				589A6F8F1D8C08F600654CDD /* ic_1kg.png */,
@@ -2911,6 +2914,7 @@
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				5894DB481D58825F00874A56 /* FilterPriceCell.xib in Resources */,
+				58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */,
 				58A223CB1C898CB600619518 /* ic_trx_wait.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */,
@@ -3521,7 +3525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3551,7 +3555,7 @@
 				);
 				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c357cb80-d26b-405a-a1f2-bcbc3e0b70bf";
+				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3563,7 +3567,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KLEO APPARA INDONESIA, PT (A72B22UTXM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: M. R. Al-ghazali (QEA6HEZ3FA)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3588,7 +3592,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c357cb80-d26b-405a-a1f2-bcbc3e0b70bf";
+				PROVISIONING_PROFILE = "4bf9644c-618e-4451-a477-c704e506fbea";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
