@@ -167,7 +167,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.gridView.addSubview(refresher!)
         
         // Setup content
-        if (filterMode || storeMode || standaloneMode) {
+        if (filterMode || storeMode || searchMode || standaloneMode) {
             self.setupContent()
         }
     }
