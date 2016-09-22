@@ -487,7 +487,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func getFilteredProducts() {
         requesting = true
-        var fltrNameReq = self.fltrName
+        let fltrNameReq = self.fltrName
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid

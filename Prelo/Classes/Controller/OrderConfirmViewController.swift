@@ -28,7 +28,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet var btnFreeTrx : UIButton! // Back button (for free transaction)
     @IBOutlet var vwUnpaidTrx: UIView! // Views for unfree transaction
     @IBOutlet var sectionRekOptions : [BorderedView] = []
-    @IBOutlet var btnDefaultBank: [UIButton]!
+    @IBOutlet var btnDefault3Banks: UIButton!
+    @IBOutlet var btnDefault4Banks: UIButton!
     @IBOutlet var vw3Banks: UIView!
     @IBOutlet var vw4Banks: UIView!
     @IBOutlet var captionBankInfoBankName : UILabel?
@@ -64,25 +65,25 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             "name":"KLEO APPARA INDONESIA PT",
             "no":"777-16-13-113",
             "cabang":"KCU Dago",
-            "bank_name":"Bank BCA"
+            "bank_name":"BCA"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
             "no":"131-0050-313-131",
             "cabang":"KCP Bandung Dago",
-            "bank_name":"Bank Mandiri"
+            "bank_name":"Mandiri"
         ],
         [
             "name":"PT KLEO APPARA INDONESIA",
             "no":"042-390-6140",
             "cabang":"Perguruan Tinggi Bandung",
-            "bank_name":"Bank BNI"
+            "bank_name":"BNI"
         ],
         [
             "name":"KLEO APPARA INDONESIA",
             "no":"040-501-000-570-304",
             "cabang":"Dago",
-            "bank_name":"Bank BRI"
+            "bank_name":"BRI"
         ]
     ]
     
@@ -166,8 +167,10 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         // Default active bank option
-        for i in 0...btnDefaultBank.count - 1 {
-            self.rekOptionsTapped(btnDefaultBank[i])
+        if (isShowBankBRI) {
+            self.rekOptionsTapped(btnDefault4Banks)
+        } else {
+            self.rekOptionsTapped(btnDefault3Banks)
         }
         
         // Pop up init
@@ -256,12 +259,15 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         setupViewRekening(rekenings[b.tag])
+        
+        // Set label in pop up
+        self.lblBankTujuan.text = rekenings[b.tag]["bank_name"]
     }
     
     func setupViewRekening(data : [String : String]) {
         captionBankInfoBankAtasNama?.text = data["name"]
         captionBankInfoBankCabang?.text = data["cabang"]
-        captionBankInfoBankName?.text = "Transfer melalui " + data["bank_name"]!
+        captionBankInfoBankName?.text = "Transfer melalui Bank " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
     }
     
@@ -305,16 +311,13 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     @IBAction func bankTujuanPressed(sender: AnyObject) {
-        var bankOpt = ["BCA", "Mandiri", "BNI"]
-        if (self.isShowBankBRI) {
-            bankOpt.append("BRI")
-        }
+        let bankCount = rekenings.count - (isShowBankBRI ? 0 : 1)
         let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .ActionSheet)
         bankAlert.popoverPresentationController?.sourceView = sender as? UIView
         bankAlert.popoverPresentationController?.sourceRect = sender.bounds
-        for i in 0...bankOpt.count - 1 {
-            bankAlert.addAction(UIAlertAction(title: bankOpt[i], style: .Default, handler: { act in
-                self.lblBankTujuan.text = bankOpt[i]
+        for i in 0...bankCount - 1 {
+            bankAlert.addAction(UIAlertAction(title: rekenings[i]["bank_name"], style: .Default, handler: { act in
+                self.lblBankTujuan.text = self.rekenings[i]["bank_name"]
                 bankAlert.dismissViewControllerAnimated(true, completion: nil)
             }))
         }

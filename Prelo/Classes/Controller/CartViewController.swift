@@ -1031,6 +1031,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 }
                 o.transactionId = (self.checkoutResult?["transaction_id"].string)!
                 o.isBackTwice = true
+                o.isShowBankBRI = self.isShowBankBRI
                 
                 var imgs : [NSURL] = []
                 for i in 0...self.arrayItem.count - 1 {
@@ -1256,8 +1257,8 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     @IBAction func paymentReminderPressed(sender: AnyObject) {
-        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
-        self.navigateToVC(paymentConfirmationVC)
+        let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
+        self.navigateToVC(notifPageVC)
     }
     
     func printCellsData() {
