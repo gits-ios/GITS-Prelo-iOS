@@ -1596,14 +1596,14 @@ enum APIPeople : URLRequestConvertible
 {
     static let basePath = "user/"
     
-    case GetShopPage(id : String)
+    case GetShopPage(id : String, current : Int, limit : Int)
     case GetSellerReviews(id : String)
     
     var method : Method
         {
             switch self
             {
-            case .GetShopPage(_): return .GET
+            case .GetShopPage(_, _, _): return .GET
             case .GetSellerReviews(_): return .GET
             }
     }
@@ -1612,7 +1612,7 @@ enum APIPeople : URLRequestConvertible
         {
             switch self
             {
-            case .GetShopPage(let id):return id
+            case .GetShopPage(let id, _, _):return id
             case .GetSellerReviews(let id): return "\(id)/review"
             }
     }
@@ -1621,7 +1621,11 @@ enum APIPeople : URLRequestConvertible
         {
             switch self
             {
-            case .GetShopPage(_):return [:]
+            case .GetShopPage(_, let current, let limit):
+                return [
+                    "current" : NSNumber(integer: current),
+                    "limit" : NSNumber(integer : limit)
+                ]
             case .GetSellerReviews(_): return [:]
             }
     }

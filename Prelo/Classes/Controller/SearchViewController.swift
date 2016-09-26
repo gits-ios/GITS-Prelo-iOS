@@ -404,7 +404,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 setupHistory()
                 
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                l.filterMode = true
+                l.currentMode = .Filter
                 l.isBackToFltrSearch = true
                 l.fltrCategId = self.currentCategoryId
                 l.fltrSortBy = "recent"
@@ -435,21 +435,20 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             } else {
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 let u = foundUsers[indexPath.row]
-                d.storeMode = true
-                d.storeName = u.username
+                d.currentMode = .Shop
+                d.shopName = u.username
                 
                 // API Migrasi
                 request(APISearch.InsertTopSearch(search: u.username))
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
-                d.storeId = u.id
-                d.storePictPath = u.pict
+                d.shopId = u.id
                 self.navigationController?.pushViewController(d, animated: true)
             }
         } else if (indexPath.section == SectionBrand) {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.filterMode = true
+            l.currentMode = .Filter
             l.isBackToFltrSearch = true
             l.fltrCategId = self.currentCategoryId
             l.fltrSortBy = "recent"
@@ -557,7 +556,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
         l.fltrCategId = self.currentCategoryId
-        l.filterMode = true
+        l.currentMode = .Filter
         l.isBackToFltrSearch = true
         l.fltrSortBy = "recent"
         self.navigationController?.pushViewController(l, animated: true)

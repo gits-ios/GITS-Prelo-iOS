@@ -391,8 +391,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let l = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+            l.currentMode = .Filter
             l.fltrCategId = self.categoryId
-            l.filterMode = true
             l.isBackToFltrSearch = true
             l.fltrProdCondIds = fltrProdCondIds
             l.fltrPriceMin = fltrPriceMin

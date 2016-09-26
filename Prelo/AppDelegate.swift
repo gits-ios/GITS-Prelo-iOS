@@ -663,8 +663,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func redirectShopPage(userId : String) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        listItemVC.storeMode = true
-        listItemVC.storeId = userId
+        listItemVC.currentMode = .Shop
+        listItemVC.shopId = userId
 
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -884,7 +884,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func redirectCategory(categoryId : String) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        listItemVC.filterMode = true
+        listItemVC.currentMode = .Filter
         listItemVC.fltrCategId = categoryId
         listItemVC.fltrSortBy = "recent"
         

@@ -257,9 +257,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     func launchMyPage() {
         if let me = CDUser.getOne() {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.storeMode = true
-            l.storeName = me.username
-            l.storeId = me.id
+            l.currentMode = .Shop
+            l.shopName = me.username
+            l.shopId = me.id
             self.navigationController?.pushViewController(l, animated: true)
         }
         

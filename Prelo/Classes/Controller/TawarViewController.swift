@@ -772,8 +772,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBAction func gotoShopPage(sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.theirId != "") {
             let shopPage = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            shopPage.storeMode = true
-            shopPage.storeId = tawarItem.theirId
+            shopPage.currentMode = .Shop
+            shopPage.shopId = tawarItem.theirId
             self.navigationController?.pushViewController(shopPage, animated: true)
         }
     }

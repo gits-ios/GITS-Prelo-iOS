@@ -138,10 +138,9 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         if let id = b["_id"].string, name = b["name"].string
         {
             let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.searchMode = true
-            l.searchBrand = true
-            l.searchBrandId = id
-            l.searchKey = name
+            l.currentMode = .Filter
+            l.fltrSortBy = "recent"
+            l.fltrBrands = [name : id]
             self.navigationController?.pushViewController(l, animated: true)
         }
     }

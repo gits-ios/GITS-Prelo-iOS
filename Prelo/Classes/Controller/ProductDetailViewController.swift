@@ -615,20 +615,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (indexPath.row == 1)
         {
             let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            d.storeMode = true
+            d.currentMode = .Shop
             if let name = detail?.json["_data"]["seller"]["username"].string
             {
-                d.storeName = name
+                d.shopName = name
             }
             
             if let name = detail?.json["_data"]["seller"]["_id"].string
             {
-                d.storeId = name
-            }
-            
-            if let name = detail?.json["_data"]["seller"]["pict"].string
-            {
-                d.storePictPath = name
+                d.shopId = name
             }
             
             self.navigationController?.pushViewController(d, animated: true)
@@ -637,7 +632,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func cellTappedCategory(categoryName: String, categoryID: String) {
         let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.standaloneMode = true
+        l.currentMode = .Standalone
         l.standaloneCategoryName = categoryName
         l.standaloneCategoryID = categoryID
         self.navigationController?.pushViewController(l, animated: true)
@@ -645,10 +640,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func cellTappedBrand(brandId: String, brandName: String) {
         let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.searchMode = true
-        l.searchBrand = true
-        l.searchBrandId = brandId
-        l.searchKey = brandName
+        l.currentMode = .Filter
+        l.fltrSortBy = "recent"
+        l.fltrBrands = [brandName : brandId]
         self.navigationController?.pushViewController(l, animated: true)
     }
     
