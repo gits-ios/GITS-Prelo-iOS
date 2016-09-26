@@ -11,6 +11,14 @@ import MessageUI
 
 // MARK: - Class
 
+enum ListItemSectionType {
+    case Carousel
+    case FeaturedHeader
+    case Subcategories
+    case Segments
+    case Products
+}
+
 enum ListItemMode {
     case Default
     case Standalone
@@ -57,11 +65,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var currScrollPoint : CGPoint = CGPointZero
     var itemsPerReq = 12 // Amount of items per request
     
-    
     // Data container
     var categoryJson : JSON? // Set from previous screen
     var products : Array <Product>? // From API response
     var selectedProduct : Product? // For navigating to product detail
+    var listItemSections : [ListItemSectionType] = [.Products]
     
     // Flags
     var requesting : Bool = false
@@ -71,36 +79,18 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // Mode
     var currentMode = ListItemMode.Default
-    
     // For standalone mode, used for category-filtered product list
-//    var standaloneMode : Bool = false
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
-    
-    // For search result mode
-//    var searchMode = false
-//    var searchKey = ""
-//    var searchBrand = false
-//    var searchBrandId = ""
-    
     // For shop page mode
-//    var storeMode = false
     var shopId = ""
     var shopName = ""
     var shopHeader : StoreHeader?
-    
-    // For featured products mode
-//    var featuredProductsMode : Bool = false
-    
     // For segment mode
-//    var segmentMode : Bool = false // Bernilai true jika sedang menampilkan pilihan segment
-    var isShowSegmentList : Bool = false
     var segments : [SegmentItem] = []
     var selectedSegment : String = ""
-    
     // For filter/search result mode
     // Predefined values
-//    var filterMode = false
     var isBackToFltrSearch = false
     var fltrCategId : String = ""
     var fltrSegment : String = ""
@@ -166,7 +156,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.gridView.addSubview(refresher!)
         
-        // Setup content for filter, store, search, or standalone mode
+        // Setup content for filter, shop, or standalone mode
         if (currentMode == .Standalone || currentMode == .Shop || currentMode == .Filter) {
             self.setupContent()
         }
@@ -241,14 +231,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             // Featured and Segment mode will be identified here
             // Carousel and Subcategories also will be identified here
             
-            // Identify Featured mode
-            if let isFeatured = self.categoryJson?["is_featured"].bool where isFeatured {
-                self.currentMode = .Featured
-            }
             // Identify Segment mode
             if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
                 self.currentMode = .Segment
-                self.isShowSegmentList = true
                 for i in 0...segmentsJson.count - 1 {
                     var img : UIImage = UIImage()
                     if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
@@ -260,6 +245,29 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                     self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
                 }
+                self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Products)!)
+                self.listItemSections.insert(.Segments, atIndex: 0)
+            }
+            // Identify Featured mode
+            if let isFeatured = self.categoryJson?["is_featured"].bool where isFeatured {
+                self.currentMode = .Featured
+                self.listItemSections.insert(.FeaturedHeader, atIndex: 0)
+            }
+            // Identify Subcategories
+            if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
+                self.isShowSubcategory = true
+                for i in 0...subcatJson.count - 1 {
+                    var img : UIImage = UIImage()
+                    if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
+                        if let data = NSData(contentsOfURL: url) {
+                            if let uiimg = UIImage(data: data) {
+                                img = uiimg
+                            }
+                        }
+                    }
+                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
+                }
+                self.listItemSections.insert(.Subcategories, atIndex: 0)
             }
             // Identify Carousel
             if let carouselJson = self.categoryJson?["carousel"].array where carouselJson.count > 0 {
@@ -277,21 +285,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
                     self.carouselItems.append(item)
                 }
-            }
-            // Identify Subcategories
-            if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
-                self.isShowSubcategory = true
-                for i in 0...subcatJson.count - 1 {
-                    var img : UIImage = UIImage()
-                    if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
-                        if let data = NSData(contentsOfURL: url) {
-                            if let uiimg = UIImage(data: data) {
-                                img = uiimg
-                            }
-                        }
-                    }
-                    self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
-                }
+                self.listItemSections.insert(.Carousel, atIndex: 0)
             }
             
             // Adjust content base on the mode
@@ -308,13 +302,15 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             case .Featured:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
-                self.view.backgroundColor = Theme.GrayGranite
                 
                 // Top header setup
                 self.consHeightVwTopHeader.constant = 0
                 
-                // Background color
-                self.gridView.backgroundColor = Theme.GrayGranite
+                // Set color
+                if let name = categoryJson?["name"].string where name.lowercaseString == "all" {
+                    self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
+                    self.gridView.backgroundColor = Theme.GrayGranite // Background color
+                }
                 
                 // Get initial products
                 self.getInitialProducts()
@@ -385,144 +381,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 // Get initial products
                 self.getInitialProducts()
             }
-            
-            ///////////////////////
-            
-//            if (filterMode) {
-//                // Setup filter related views
-//                for i in 0...vwTopHeaderFilter.subviews.count - 1 {
-//                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
-//                }
-//                vwTopHeaderFilter.hidden = false
-//                vwTopHeader.hidden = true
-//                consHeightVwTopHeader.constant = 52
-//                if (fltrBrands.count > 0) {
-//                    if (fltrBrands.count == 1) {
-//                        lblFilterMerek.text = Array(fltrBrands.keys)[0]
-//                    } else {
-//                        lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
-//                    }
-//                } else {
-//                    lblFilterMerek.text = "All"
-//                }
-//                if (fltrCategId == "") {
-//                    lblFilterKategori.text = "All"
-//                } else {
-//                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
-//                }
-//                lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-//                if (lblFilterSort.text?.lowercaseString == "highest rp") {
-//                    lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
-//                } else {
-//                    lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
-//                }
-//                // Search bar setup
-//                var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
-//                if (AppTools.isIPad) {
-//                    searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
-//                }
-//                searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
-//                if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
-//                    searchField.backgroundColor = Theme.PrimaryColorDark
-//                    searchField.textColor = UIColor.whiteColor()
-//                    let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
-//                    searchField.attributedPlaceholder = attrPlaceholder
-//                    if let icon = searchField.leftView as? UIImageView {
-//                        icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-//                        icon.tintColor = UIColor.lightGrayColor()
-//                    }
-//                    searchField.borderStyle = UITextBorderStyle.None
-//                }
-//                searchBar.delegate = self
-//                searchBar.placeholder = "Cari di Prelo"
-//                self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
-//                
-//                // Get initial products
-//                if (products?.count == 0 || products == nil) {
-//                    if (products == nil) {
-//                        products = []
-//                    }
-//                    getProducts()
-//                }
-//                
-//            } else if (self.categoryJson?["name"].stringValue == "Women") { // Special case for 'Women' category
-//                consHeightVwTopHeader.constant = 40
-//                self.setDefaultTopHeaderWomen()
-//                segmentMode = true
-//                if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
-//                    for i in 0...segmentsJson.count - 1 {
-//                        var img : UIImage = UIImage()
-//                        if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
-//                            if let data = NSData(contentsOfURL: url) {
-//                                if let uiimg = UIImage(data: data) {
-//                                    img = uiimg
-//                                }
-//                            }
-//                        }
-//                        self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
-//                    }
-//                }
-//                gridView.dataSource = self
-//                gridView.delegate = self
-//                gridView.reloadData()
-//            } else if (self.categoryJson?["name"].stringValue == "All" && self.categoryJson?["is_featured"].boolValue == true) { // Special case for 'Featured' category
-//                self.featuredProductsMode = true
-//                consHeightVwTopHeader.constant = 0
-//                self.gridView.backgroundColor = Theme.GrayGranite
-//                
-//                // Get featured products
-//                getFeaturedProducts()
-//            } else if (self.categoryJson?["name"].stringValue == "Book") { // Special case for 'Book' category
-//                self.subcategoryMode = true
-//                
-//                if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
-//                    for i in 0...subcatJson.count - 1 {
-//                        var img : UIImage = UIImage()
-//                        if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
-//                            if let data = NSData(contentsOfURL: url) {
-//                                if let uiimg = UIImage(data: data) {
-//                                    img = uiimg
-//                                }
-//                            }
-//                        }
-//                        self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
-//                    }
-//                }
-//                
-//                consHeightVwTopHeader.constant = 0
-//                
-//                // Get initial products
-//                if (products?.count == 0 || products == nil) {
-//                    if (products == nil) {
-//                        products = []
-//                    }
-//                    getProducts()
-//                }
-//            } else {
-//                consHeightVwTopHeader.constant = 0
-//                
-//                // Get initial products
-//                if (products?.count == 0 || products == nil) {
-//                    if (products == nil) {
-//                        products = []
-//                    }
-//                    getProducts()
-//                }
-//            }
-//            
-//            // Upper 4px padding handler
-//            if (self.featuredProductsMode) {
-//                self.consTopTopHeader.constant = 4
-//                self.view.backgroundColor = Theme.GrayGranite
-//            } else if (self.searchMode) {
-//                self.consTopTopHeader.constant = 4
-//                self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
-//            } else if (self.filterMode) {
-//                self.consTopTopHeader.constant = 4
-//                self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
-//            } else if (self.storeMode || self.standaloneMode) {
-//                self.consTopTopHeader.constant = 0
-//            }
         }
     }
     
@@ -536,16 +394,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func refresh() {
+        self.products = []
+        self.footerLoading?.hidden = false
+        self.setupGrid() // Agar muncul loading
+        
         switch (currentMode) {
         case .Shop, .Filter:
             self.done = false
-            self.footerLoading?.hidden = false
-            self.products = []
             self.getProducts()
         case .Featured:
             self.getFeaturedProducts()
         case .Segment:
-            self.refresher?.endRefreshing() // No refresh
+            if (self.listItemSections.contains(.Products)) {
+                self.getProducts()
+            } else {
+                self.refresher?.endRefreshing()
+            }
         default:
             requesting = true
             
@@ -574,47 +438,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
             }
         }
-        
-        
-//        if (searchMode || segmentMode) {
-//            // No refresh
-//            self.refresher?.endRefreshing()
-//        } else if (filterMode || storeMode) {
-//            self.done = false
-//            self.footerLoading?.hidden = false
-//            self.products = []
-//            self.getProducts()
-//        } else if (featuredProductsMode) {
-//            self.getFeaturedProducts()
-//        } else {
-//            requesting = true
-//            
-//            var catId : String?
-//            if (standaloneMode) {
-//                catId = standaloneCategoryID
-//            } else {
-//                catId = categoryJson!["_id"].string
-//            }
-//            
-//            // API Migrasi
-//            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON {resp in
-//                self.done = false
-//                self.footerLoading?.hidden = false
-//                self.requesting = false
-//                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
-//                    self.products = []
-//                    var obj = JSON(resp.result.value!)
-//                    for (_, item) in obj["_data"] {
-//                        let p = Product.instance(item)
-//                        if (p != nil) {
-//                            self.products?.append(p!)
-//                        }
-//                    }
-//                    self.refresher?.endRefreshing()
-//                    self.setupGrid()
-//                }
-//            }
-//        }
     }
     
     func getProducts() {
@@ -630,41 +453,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         case .Featured:
             self.getFeaturedProducts()
         case .Segment:
-            break
+            if (self.listItemSections.contains(.Products)) {
+                if let catId = categoryJson?["_id"].string {
+                    self.getCategorizedProducts(catId)
+                }
+            }
         case .Filter:
             self.getFilteredProducts()
         }
-        
-//        if (categoryJson == nil && !(standaloneMode || searchMode || storeMode || filterMode)) {
-//            return
-//        }
-//        
-//        if (filterMode) {
-//            self.getFilteredProducts()
-//        } else if (searchMode) {
-//            self.getSearchProduct()
-//        } else if (storeMode) {
-//            self.getStoreProduct()
-//        } else {
-//            requesting = true
-//            
-//            var catId : String?
-//            if (standaloneMode) {
-//                catId = standaloneCategoryID
-//            } else {
-//                //print(categoryJson)
-//                catId = categoryJson!["_id"].string
-//            }
-//            
-//            // API Migrasi
-//            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON { resp in
-//                self.requesting = false
-//                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
-//                    self.setupData(resp.result.value)
-//                }
-//                self.setupGrid()
-//            }
-//        }
     }
     
     func getCategorizedProducts(catId : String) {
@@ -680,32 +476,18 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func getFeaturedProducts() {
+        if (categoryJson == nil) {
+            return
+        }
+        
         requesting = true
         
-        request(Products.GetAllFeaturedProducts()).responseJSON { resp in
+        request(Products.GetAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Featured Products")) {
                 self.products = []
                 
                 self.setupData(resp.result.value)
-                
-                // Init carousel data
-                var res = JSON(resp.result.value!)
-                self.carouselItems = []
-                if let carouselData = res["_data"]["carousel"].array {
-                    for i in 0...carouselData.count - 1 {
-                        var img = UIImage()
-                        var link = NSURL()
-                        if let url = NSURL(string: carouselData[i]["image"].stringValue), let data = NSData(contentsOfURL: url), let uiimg = UIImage(data: data) {
-                            img = uiimg
-                        }
-                        if let url = NSURL(string: carouselData[i]["link"].stringValue) {
-                            link = url
-                        }
-                        let item = CarouselItem.init(name: carouselData[i]["name"].stringValue, img: img, link: link)
-                        self.carouselItems.append(item)
-                    }
-                }
             }
             self.refresher?.endRefreshing()
             self.setupGrid()
@@ -731,19 +513,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
         }
     }
-    
-//    func getSearchProduct() {
-//        requesting = true
-//        
-//        // API Migrasi
-//        request(APISearch.Find(keyword: (searchBrand == true) ? (searchBrandId == "" ? searchKey : "") : searchKey, categoryId: "", brandId: (searchBrand == true) ? searchBrandId : "", condition: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999)).responseJSON {resp in
-//            self.requesting = false
-//            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Product")) {
-//                self.setupData(resp.result.value)
-//            }
-//            self.setupGrid()
-//        }
-//    }
     
     func getShopProducts() {
         self.requesting = true
@@ -968,13 +737,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             gridView.delegate = self
         }
         
-        if (!(currentMode == .Segment && isShowSegmentList)) {
+        if (!(currentMode == .Segment && listItemSections.contains(.Segments))) {
             if (listStage == 1) {
-                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 12) / 3)
+                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 16) / 3)
             } else if (listStage == 2) {
                 itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 12) / 2)
             } else if (listStage == 3) {
-                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 16) / 1)
+                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 8) / 1)
             }
         }
         
@@ -987,37 +756,55 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     // MARK: - Collection view functions
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if (isShowSubcategory) {
-            return 2
-        } else {
-            return 1
-        }
+        return listItemSections.count
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if (isShowSubcategory && section == 0) { // Subcategory listing
-            return subcategoryItems.count
-        } else if (currentMode == .Segment && isShowSegmentList) { // Segment listing
-            return segments.count
-        } else if let c = products?.count { // Product listing
-            return c
+        switch listItemSections[section] {
+        case .Carousel:
+            return 1
+        case .FeaturedHeader:
+            return 1
+        case .Subcategories:
+            return self.subcategoryItems.count
+        case .Segments:
+            return self.segments.count
+        case .Products:
+            if let p = products {
+                return p.count
+            }
+            return 0
         }
-        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if (isShowSubcategory && indexPath.section == 0) { // Subcategory listing
+        switch listItemSections[indexPath.section] {
+        case .Carousel:
+            let cell : ListItemCarouselCell = collectionView.dequeueReusableCellWithReuseIdentifier("carousel_cell", forIndexPath: indexPath) as! ListItemCarouselCell
+            cell.adapt(carouselItems)
+            if (!isCarouselTimerSet) {
+                cell.setCarouselTimer()
+                isCarouselTimerSet = true
+            }
+            return cell
+        case .FeaturedHeader:
+            let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier("featured_cell", forIndexPath: indexPath) as! ListItemFeaturedHeaderCell
+            if let name = categoryJson?["name"].string {
+                cell.adapt(name)
+            }
+            return cell
+        case .Subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("subcategory_cell", forIndexPath: indexPath) as! ListItemSubcategoryCell
             cell.imgSubcategory.image = subcategoryItems[indexPath.item].image
             cell.lblSubcategory.hidden = true // Unused label
             return cell
-        } else if (currentMode == .Segment && isShowSegmentList) { // Segment listing
+        case .Segments:
             let cell : ListItemSegmentCell = collectionView.dequeueReusableCellWithReuseIdentifier("segment_cell", forIndexPath: indexPath) as! ListItemSegmentCell
             cell.imgSegment.image = segments[indexPath.item].image
             return cell
-        } else { // Product listing
+        case .Products:
             // Load next products here
-            if (currentMode == .Default || currentMode == .Standalone || currentMode == .Shop || currentMode == .Filter) {
+            if (currentMode == .Default || currentMode == .Standalone || currentMode == .Shop || currentMode == .Filter || (currentMode == .Segment && listItemSections.contains(.Products))) {
                 if (indexPath.row == (products?.count)! - 4 && requesting == false && done == false) {
                     getProducts()
                 }
@@ -1035,15 +822,25 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let viewWidth = UIScreen.mainScreen().bounds.size.width
-        if (isShowSubcategory && indexPath.section == 0) { // Subcategory listing
-            let viewMinusMargin = viewWidth - 8
-            return CGSize(width: viewMinusMargin / 3, height: viewMinusMargin / 3)
-        } else if (currentMode == .Segment && isShowSegmentList) { // Segment listing
-            let segWidth = viewWidth - 16
-            let segHeight = segWidth * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
-            return CGSize(width: viewWidth, height: segHeight)
-        } else { // Product listing
+        let viewWidthMinusMargin = UIScreen.mainScreen().bounds.size.width - 8
+        switch listItemSections[indexPath.section] {
+        case .Carousel:
+            var maxHeight : CGFloat = 0
+            for i in 0..<self.carouselItems.count {
+                let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+                if (height > maxHeight) {
+                    maxHeight = height
+                }
+            }
+            return CGSize(width: viewWidthMinusMargin, height: maxHeight)
+        case .FeaturedHeader:
+            return CGSize(width: viewWidthMinusMargin, height: 56)
+        case .Subcategories:
+            return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
+        case .Segments:
+            let segHeight = viewWidthMinusMargin * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
+            return CGSize(width: viewWidthMinusMargin, height: segHeight)
+        case .Products:
             return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
         }
     }
@@ -1053,29 +850,35 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        if (isShowSubcategory && section == 0) { // Subcategory listing
+        switch listItemSections[section] {
+        case .Subcategories:
             return 0
+        default:
+            return 4
         }
-        return 4
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        let s : CGFloat = (listStage == 1 ? 1 : 4)
-        if (isShowSubcategory && section == 0) { // Subcategory listing
-            return UIEdgeInsetsMake(4, 4, 0, 4)
-        } else if (isShowSubcategory && section == 1) { // Product listing under subcategory
-            return UIEdgeInsetsMake(4, s, 0, s)
-        } else if (currentMode == .Segment && isShowSegmentList) { // Segment listing
-            return UIEdgeInsetsMake(4, 0, 0, 0)
-        } else if (currentMode == .Standalone || currentMode == .Featured) {
-            return UIEdgeInsetsMake(4, s, 0, s)
-        } else {
-            return UIEdgeInsetsMake(0, s, 0, s)
+        if (currentMode == .Featured) {
+            if (section == 0) {
+                return UIEdgeInsetsMake(0, 4, 0, 4)
+            }
         }
+        if (listItemSections[section] == .Products) {
+            if (currentMode == .Filter) {
+                return UIEdgeInsetsMake(0, 4, 0, 4)
+            }
+        }
+        return UIEdgeInsetsMake(4, 4, 0, 4)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if (isShowSubcategory && indexPath.section == 0) { // Subcategory listing
+        switch listItemSections[indexPath.section] {
+        case .Carousel:
+            break
+        case .FeaturedHeader:
+            break
+        case .Subcategories:
             NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
@@ -1085,7 +888,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             p.fltrCategId = subcategoryItems[indexPath.item].id
             p.fltrSortBy = "recent"
             self.navigationController?.pushViewController(p, animated: true)
-        } else if (currentMode == .Segment && isShowSegmentList) { // Segment listing
+        case .Segments:
             self.selectedSegment = self.segments[indexPath.item].type
             var txt = " Kamu sedang melihat \(self.segments[indexPath.item].name)"
             if (self.segments[indexPath.item].name.length > 23) {
@@ -1095,43 +898,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             attTxt.addAttributes([NSFontAttributeName : AppFont.Prelo2.getFont(11)!], range: NSRange.init(location: 0, length: 1))
             attTxt.addAttributes([NSFontAttributeName : UIFont.systemFontOfSize(12)], range: NSRange.init(location: 1, length: txt.length - 1))
             self.lblTopHeader.attributedText = attTxt
-            isShowSegmentList = false
-            self.products?.removeAll()
-            self.setupGrid()
-            refresh()
-        } else { // Product listing
-            selectedProduct = products?[indexPath.item]
+            self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Segments)!)
+            self.listItemSections.append(.Products)
+            self.refresh()
+        case .Products:
+            self.selectedProduct = products?[indexPath.item]
             if (currentMode == .Featured) {
                 selectedProduct?.setToFeatured()
             }
-            launchDetail()
+            self.launchDetail()
         }
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         if (kind == UICollectionElementKindSectionHeader) { // Header
-            let h = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! ListHeader
-            var featCatName : String? = nil
-            if (currentMode == .Featured) {
-                if let name = categoryJson?["name"].string {
-                    featCatName = name
-                }
-            }
-            h.adapt((isShowCarousel ? carouselItems : nil), featuredCategoryName: featCatName)
-            return h
-            
-//            if (currentMode == .Featured) {
-//                if (self.carouselItems.count > 0) {
-//                    h.adaptCarousel(self.carouselItems)
-//                }
-//                if (!isCarouselTimerSet) {
-//                    h.setCarouselTimer()
-//                    isCarouselTimerSet = true
-//                }
-//            } else if (isBannerExist()) {
-//                h.adaptBanner(self.bannerImageUrl, targetUrl: bannerTargetUrl)
-//            }
-//            return h
+            // No header
         } else if (kind == UICollectionElementKindSectionFooter) { // Footer
             let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
             
@@ -1147,7 +928,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
             
             // Adapt
-            if (currentMode == .Featured && carouselItems.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
+            if (currentMode == .Featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
                 f.btnFooter.hidden = false
                 f.btnFooterAction = {
                     NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
@@ -1156,7 +937,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     
                     let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                     p.currentMode = .Filter
-                    p.fltrCategId = "55de6d4e9ffd40362ae310a7"
+                    p.fltrCategId = self.categoryJson!["_id"].stringValue
                     p.fltrSortBy = "recent"
                     self.navigationController?.pushViewController(p, animated: true)
                 }
@@ -1170,36 +951,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let headerWidth : CGFloat = collectionView.frame.size.width - 8
-        var headerHeight : CGFloat = 0
-        
-        if (isShowCarousel) {
-            if (carouselItems.count > 0) {
-                var maxHeight : CGFloat = 0
-                for i in 0...self.carouselItems.count - 1 {
-                    let height = ((headerWidth / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-                    if (height > maxHeight) {
-                        maxHeight = height
-                    }
-                }
-                headerHeight += maxHeight
-            }
-        }
-        if (currentMode == .Featured) {
-            headerHeight += 56
-        }
-        return CGSizeMake(headerWidth, headerHeight)
+        return CGSizeZero // No header
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if (isShowSubcategory && section == 0) { // Subcategory listing
-            return CGSizeZero
-        } else if (currentMode == .Segment) {
-            return CGSizeZero
-        } else if (currentMode == .Featured) {
-            return CGSizeMake(collectionView.width, 66)
+        if (listItemSections[section] == .Products) {
+            if (currentMode == .Featured) {
+                return CGSizeMake(collectionView.width, 66)
+            }
+            return CGSizeMake(collectionView.width, 50)
         }
-        return CGSizeMake(collectionView.width, 50)
+        return CGSizeZero
     }
     
     // MARK: - Scrollview functions
@@ -1215,7 +977,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if (draggingScrollView) {
-            if (currentMode == .Default || currentMode == .Featured || currentMode == .Filter || (currentMode == .Segment && isShowSegmentList)) {
+            if (currentMode == .Default || currentMode == .Featured || currentMode == .Filter || (currentMode == .Segment && listItemSections.contains(.Products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
                     if ((self.navigationController?.navigationBarHidden)! == false) {
                         NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
@@ -1240,33 +1002,6 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                 }
             }
-//            if (!storeMode && !standaloneMode) {
-//                if (currScrollPoint.y < scrollView.contentOffset.y) {
-//                    if ((self.navigationController?.navigationBarHidden)! == false) {
-//                        if (!segmentMode) {
-//                            NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
-//                            self.navigationController?.setNavigationBarHidden(true, animated: true)
-//                            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
-//                            if (selectedSegment != "") {
-//                                consHeightVwTopHeader.constant = 0 // Hide top header
-//                                UIView.animateWithDuration(0.2) {
-//                                    self.view.layoutIfNeeded()
-//                                }
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
-//                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-//                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
-//                    if (selectedSegment != "") {
-//                        consHeightVwTopHeader.constant = 40 // Show top header
-//                        UIView.animateWithDuration(0.2) {
-//                            self.view.layoutIfNeeded()
-//                        }
-//                    }
-//                }
-//            }
         }
     }
     
@@ -1350,10 +1085,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func topHeaderPressed(sender: AnyObject) {
-        if (!isShowSegmentList) {
+        if (!listItemSections.contains(.Segments)) {
             setDefaultTopHeaderWomen()
             selectedSegment = ""
-            isShowSegmentList = true
+            self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Products)!)
+            self.listItemSections.append(.Segments)
             gridView.reloadData()
         }
     }
@@ -1467,6 +1203,20 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
 
 // MARK: - Class
 
+class CarouselItem {
+    var name : String = ""
+    var img : UIImage = UIImage()
+    var link : NSURL = NSURL()
+    
+    init(name : String, img : UIImage, link : NSURL) {
+        self.name = name
+        self.img = img
+        self.link = link
+    }
+}
+
+// MARK: - Class
+
 class ListItemSubcategoryCell : UICollectionViewCell {
     
     @IBOutlet var imgSubcategory: UIImageView!
@@ -1484,6 +1234,87 @@ class ListItemSegmentCell : UICollectionViewCell {
     
     override func prepareForReuse() {
         imgSegment.image = nil
+    }
+}
+
+// MARK: - Class
+
+class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
+    @IBOutlet var scrlVwCarousel: UIScrollView!
+    @IBOutlet var contentVwCarousel: UIView!
+    @IBOutlet var pageCtrlCarousel: UIPageControl!
+    @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
+    var carouselItems : [CarouselItem] = []
+    
+    func adapt(carouselItems : [CarouselItem]) {
+        self.carouselItems = carouselItems
+        scrlVwCarousel.delegate = self
+        
+        self.pageCtrlCarousel.numberOfPages = carouselItems.count
+        self.pageCtrlCarousel.currentPage = 0
+        var rectHeightFix : CGFloat = 0
+        let rectWidthFix : CGFloat = UIScreen.mainScreen().bounds.size.width - 8
+        self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
+        for i in 0..<carouselItems.count {
+            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
+            if (height > rectHeightFix) {
+                rectHeightFix = height
+            }
+        }
+        for i in 0...carouselItems.count - 1 {
+            let rect = CGRectMake(CGFloat(i * Int(rectWidthFix)), 0, rectWidthFix, rectHeightFix)
+            let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
+            let uiBtn = UIButton(frame: rect)
+            uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            uiBtn.tag = i
+            contentVwCarousel.addSubview(uiImg)
+            contentVwCarousel.addSubview(uiBtn)
+        }
+    }
+    
+    func setCarouselTimer() {
+        // Scroll timer
+        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ListItemCarouselCell.autoScrollCarousel), userInfo: nil, repeats: true)
+    }
+    
+    func btnCarouselPressed(sender: UIButton) {
+        let tag = sender.tag
+        UIApplication.sharedApplication().openURL(self.carouselItems[tag].link)
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        pageCtrlCarousel.currentPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width)
+    }
+    
+    func autoScrollCarousel() {
+        var nextPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width) + 1
+        if (nextPage > carouselItems.count - 1) {
+            nextPage = 0
+        }
+        scrlVwCarousel.setContentOffset(CGPointMake(CGFloat(nextPage) * scrlVwCarousel.width, 0), animated: true)
+        pageCtrlCarousel.currentPage = nextPage
+    }
+}
+
+// MARK: - Class
+
+class ListItemFeaturedHeaderCell : UICollectionViewCell {
+    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var lblDesc: UILabel!
+    
+    func adapt(categName : String) {
+        let edPickCategName = ["all", "home", "semua"]
+        if (edPickCategName.contains(categName.lowercaseString)) {
+            self.lblTitle.text = "EDITOR'S PICK"
+            self.lblTitle.textColor = UIColor.whiteColor()
+            self.lblDesc.text = "Daftar barang terbaik yang dipilih oleh tim Prelo"
+            self.lblDesc.textColor = UIColor.whiteColor()
+        } else {
+            self.lblTitle.text = "HIGHLIGHTS"
+            self.lblTitle.textColor = UIColor(hexString: "#5d5d5d")
+            self.lblDesc.text = "Barang terbaik \(categName)"
+            self.lblDesc.textColor = UIColor(hexString: "#5d5d5d")
+        }
     }
 }
 
@@ -1577,302 +1408,6 @@ class ListItemCell : UICollectionViewCell {
         if product.isFreeOngkir {
             imgFreeOngkir.hidden = false
         }
-    }
-}
-
-// MARK: - Class
-
-class CarouselItem {
-    var name : String = ""
-    var img : UIImage = UIImage()
-    var link : NSURL = NSURL()
-    
-    init(name : String, img : UIImage, link : NSURL) {
-        self.name = name
-        self.img = img
-        self.link = link
-    }
-}
-
-// MARK: - Class
-
-enum ListHeaderType {
-    case Carousel
-    case FeaturedCategory
-}
-
-class ListHeader : UICollectionReusableView, UITableViewDelegate, UITableViewDataSource {
-    
-    @IBOutlet var tableView: UITableView!
-    var carouselItems : [CarouselItem] = []
-    var featuredCategoryName : String = ""
-    var listHeaderContent : [ListHeaderType] = []
-    
-    func adapt(carouselItems : [CarouselItem]?, featuredCategoryName : String?) {
-        listHeaderContent = []
-        if (featuredCategoryName != nil && featuredCategoryName != "") {
-            self.featuredCategoryName = featuredCategoryName!
-            listHeaderContent.append(.FeaturedCategory)
-        }
-        if (carouselItems != nil && carouselItems?.count > 0) {
-            self.carouselItems = carouselItems!
-            listHeaderContent.append(.Carousel)
-        }
-        
-        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ListHeader.setupTable), userInfo: nil, repeats: false)
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listHeaderContent.count
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (listHeaderContent[indexPath.row] == .Carousel) {
-            var maxHeight : CGFloat = 0
-            for i in 0..<self.carouselItems.count {
-                let height = ((UIScreen.mainScreen().bounds.size.width - 8 / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-                if (height > maxHeight) {
-                    maxHeight = height
-                }
-            }
-            return maxHeight
-        } else if (listHeaderContent[indexPath.row] == .FeaturedCategory) {
-            return 56
-        }
-        return 0
-        
-//        switch (listHeaderContent[indexPath.row]) {
-//        case .Carousel:
-//            var maxHeight : CGFloat = 0
-//            for i in 0..<self.carouselItems.count {
-//                let height = ((UIScreen.mainScreen().bounds.size.width - 8 / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-//                if (height > maxHeight) {
-//                    maxHeight = height
-//                }
-//            }
-//            return maxHeight
-//        case .FeaturedCategory:
-//            return 56
-//        }
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (listHeaderContent[indexPath.row] == .Carousel) {
-            let cell : ListHeaderCarousel = tableView.dequeueReusableCellWithIdentifier("ListItemHeaderCarousel") as! ListHeaderCarousel
-            cell.adapt(carouselItems)
-            return cell
-        } else if (listHeaderContent[indexPath.row] == .FeaturedCategory) {
-            let cell : ListHeaderFeatured = tableView.dequeueReusableCellWithIdentifier("ListItemHeaderFeatured") as! ListHeaderFeatured
-            cell.adapt(featuredCategoryName)
-            return cell
-        }
-        return UITableViewCell()
-        
-//        switch (listHeaderContent[indexPath.row]) {
-//        case .Carousel:
-//            let cell : ListHeaderCarousel = tableView.dequeueReusableCellWithIdentifier("ListItemHeaderCarousel") as! ListHeaderCarousel
-//            cell.adapt(carouselItems)
-//            return cell
-//        case .FeaturedCategory:
-//            let cell : ListHeaderFeatured = tableView.dequeueReusableCellWithIdentifier("ListItemHeaderFeatured") as! ListHeaderFeatured
-//            cell.adapt(featuredCategoryName)
-//            return cell
-//        }
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
-    func setupTable() {
-        if (self.tableView.delegate == nil) {
-            tableView.dataSource = self
-            tableView.delegate = self
-        }
-        
-        tableView.reloadData()
-    }
-    
-//    // Carousel
-//    @IBOutlet var vwCarousel: UIView!
-//    @IBOutlet var scrlVwCarousel: UIScrollView!
-//    @IBOutlet var contentVwCarousel: UIView!
-//    @IBOutlet var pageCtrlCarousel: UIPageControl!
-//    @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
-//    var carouselItems : [CarouselItem] = []
-//    @IBOutlet var lblBottomCarousel: UILabel!
-//    
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        vwBanner.hidden = true
-//        vwTextOnly.hidden = true
-//        vwCarousel.hidden = true
-//        
-//        var carouselRect = scrlVwCarousel.frame
-//        carouselRect.size.width = UIScreen.mainScreen().bounds.width - 8
-//        scrlVwCarousel.frame = carouselRect
-//        
-//        let attTxt = NSMutableAttributedString.init(attributedString: lblBottomCarousel.attributedText!)
-//        attTxt.addAttributes([NSFontAttributeName:AppFont.PreloAwesome.getFont(14)!], range: (lblBottomCarousel.text! as NSString).rangeOfString(""))
-//        lblBottomCarousel.attributedText = attTxt
-//    }
-//    
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        vwBanner.hidden = true
-//        vwTextOnly.hidden = true
-//        vwCarousel.hidden = true
-//    }
-    
-//    func adaptBanner(imgStr : String, targetUrl : String) {
-//        vwBanner.hidden = false
-//        vwTextOnly.hidden = true
-//        vwCarousel.hidden = true
-//        
-//        if let bannerImgUrl = NSURL(string: imgStr) {
-//            banner.setImageWithUrl(bannerImgUrl, placeHolderImage: nil)
-//        }
-//        self.targetUrl = targetUrl
-//    }
-//    
-//    func adaptTextOnly(txt : String) {
-//        vwBanner.hidden = true
-//        vwTextOnly.hidden = false
-//        vwCarousel.hidden = true
-//        
-//        lblTextOnly.text = txt
-//    }
-    
-//    func adaptCarousel(carouselItems : [CarouselItem]) {
-//        vwBanner.hidden = true
-//        vwTextOnly.hidden = true
-//        vwCarousel.hidden = false
-//        
-//        self.carouselItems = carouselItems
-//        scrlVwCarousel.delegate = self
-//        
-//        self.pageCtrlCarousel.numberOfPages = carouselItems.count
-//        self.pageCtrlCarousel.currentPage = 0
-//        var rectHeightFix : CGFloat = 0
-//        let rectWidthFix : CGFloat = UIScreen.mainScreen().bounds.size.width - 8
-//        self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
-//        for i in 0...carouselItems.count - 1 {
-//            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-//            if (height > rectHeightFix) {
-//                rectHeightFix = height
-//            }
-//        }
-//        for i in 0...carouselItems.count - 1 {
-//            let rect = CGRectMake(CGFloat(i * Int(rectWidthFix)), 0, rectWidthFix, rectHeightFix)
-//            let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
-//            let uiBtn = UIButton(frame: rect)
-//            uiBtn.addTarget(self, action: #selector(ListHeader.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-//            uiBtn.tag = i
-//            contentVwCarousel.addSubview(uiImg)
-//            contentVwCarousel.addSubview(uiBtn)
-//        }
-//    }
-    
-//    func setCarouselTimer() {
-//        // Scroll timer
-//        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ListHeader.autoScrollCarousel), userInfo: nil, repeats: true)
-//    }
-    
-//    @IBAction func btnBannerPressed(sender: AnyObject) {
-//        if let url = NSURL(string: targetUrl) {
-//            UIApplication.sharedApplication().openURL(url)
-//        }
-//    }
-//    
-//    @IBAction func btnTextOnlyPressed(sender: AnyObject) {
-//        print("TEXTONLY")
-//    }
-    
-//    func btnCarouselPressed(sender: UIButton) {
-//        let tag = sender.tag
-//        UIApplication.sharedApplication().openURL(self.carouselItems[tag].link)
-//    }
-//    
-//    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        pageCtrlCarousel.currentPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width)
-//    }
-//    
-//    func autoScrollCarousel() {
-//        var nextPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width) + 1
-//        if (nextPage > carouselItems.count - 1) {
-//            nextPage = 0
-//        }
-//        scrlVwCarousel.setContentOffset(CGPointMake(CGFloat(nextPage) * scrlVwCarousel.width, 0), animated: true)
-//        pageCtrlCarousel.currentPage = nextPage
-//    }
-}
-
-// MARK: - Class
-
-class ListHeaderCarousel : UITableViewCell, UIScrollViewDelegate {
-    @IBOutlet var scrlVwCarousel: UIScrollView!
-    @IBOutlet var contentVwCarousel: UIView!
-    @IBOutlet var pageCtrlCarousel: UIPageControl!
-    @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
-    var carouselItems : [CarouselItem] = []
-    
-    func adapt(carouselItems : [CarouselItem]) {
-        self.carouselItems = carouselItems
-        scrlVwCarousel.delegate = self
-        
-        self.pageCtrlCarousel.numberOfPages = carouselItems.count
-        self.pageCtrlCarousel.currentPage = 0
-        var rectHeightFix : CGFloat = 0
-        let rectWidthFix : CGFloat = UIScreen.mainScreen().bounds.size.width - 8
-        self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
-        for i in 0..<carouselItems.count {
-            let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
-            if (height > rectHeightFix) {
-                rectHeightFix = height
-            }
-        }
-        for i in 0...carouselItems.count - 1 {
-            let rect = CGRectMake(CGFloat(i * Int(rectWidthFix)), 0, rectWidthFix, rectHeightFix)
-            let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
-            let uiBtn = UIButton(frame: rect)
-            uiBtn.addTarget(self, action: #selector(ListHeaderCarousel.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            uiBtn.tag = i
-            contentVwCarousel.addSubview(uiImg)
-            contentVwCarousel.addSubview(uiBtn)
-        }
-    }
-    
-    func setCarouselTimer() {
-        // Scroll timer
-        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ListHeaderCarousel.autoScrollCarousel), userInfo: nil, repeats: true)
-    }
-    
-    func btnCarouselPressed(sender: UIButton) {
-        let tag = sender.tag
-        UIApplication.sharedApplication().openURL(self.carouselItems[tag].link)
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        pageCtrlCarousel.currentPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width)
-    }
-    
-    func autoScrollCarousel() {
-        var nextPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width) + 1
-        if (nextPage > carouselItems.count - 1) {
-            nextPage = 0
-        }
-        scrlVwCarousel.setContentOffset(CGPointMake(CGFloat(nextPage) * scrlVwCarousel.width, 0), animated: true)
-        pageCtrlCarousel.currentPage = nextPage
-    }
-}
-
-// MARK: - Class
-
-class ListHeaderFeatured : UITableViewCell {
-    @IBOutlet var lblDesc: UILabel!
-    
-    func adapt(categName : String) {
-        self.lblDesc.text = categName
     }
 }
 
