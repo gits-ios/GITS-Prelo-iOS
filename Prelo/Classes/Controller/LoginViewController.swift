@@ -11,34 +11,31 @@ import CoreData
 import TwitterKit
 import Crashlytics
 
+// MARK: - Class
+
 class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, UIAlertViewDelegate {
+    
+    // MARK: - Properties
 
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtEmail : UITextField?
     @IBOutlet var txtPassword : UITextField?
-    
     @IBOutlet var btnLogin : UIButton?
     
-    @IBOutlet weak var loadingPanel: UIView?
-    @IBOutlet weak var loading: UIActivityIndicatorView?
-    
-    @IBOutlet var btnClose : UIButton?
-    @IBOutlet weak var groupRegister: UIView!
+    // Predefined values
     var isFromTourVC : Bool = false
     var screenBeforeLogin : String = ""
-    
-    var navController : UINavigationController?
+    var loginTabSwipeVC : LoginFransiskaViewController!
     
     // MARK: - Static functions
     
-    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool)
-    {
+    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool) {
         LoginViewController.Show(parent, userRelatedDelegate: userRelatedDelegate, animated: animated, isFromTourVC: false)
     }
     
-    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool, isFromTourVC : Bool)
-    {
-        let l = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdLogin) as! LoginViewController
+    static func Show(parent : UIViewController, userRelatedDelegate : UserRelatedDelegate?, animated : Bool, isFromTourVC : Bool) {
+        // Create view controller
+        let l = NSBundle.mainBundle().loadNibNamed(Tags.XibNameLoginFransiska, owner: nil, options: nil).first as! LoginFransiskaViewController
         let parentType = "\(parent.dynamicType)"
         if (parentType == "KumangTabBarViewController") {
             if (isFromTourVC) {
@@ -58,10 +55,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         //print("screenBeforeLogin = \(l.screenBeforeLogin)")
         l.userRelatedDelegate = userRelatedDelegate
         l.isFromTourVC = isFromTourVC
+        l.setupTabSwipe()
         
+        // Setup navigation controller
         let n = BaseNavigationController(rootViewController : l)
-        n.setNavigationBarHidden(true, animated: false)
-        
+        n.navigationBar.translucent = true
+        n.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        n.navigationBar.shadowImage = UIImage()
+        n.navigationBar.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         parent.presentViewController(n, animated: animated, completion: nil)
     }
     
@@ -73,7 +74,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (User.IsLoggedIn && NSUserDefaults.standardUserDefaults().stringForKey("deviceregid") != nil) {
             deviceToken = NSUserDefaults.standardUserDefaults().stringForKey("deviceregid")!
         }
-        // API Migrasi
         request(APIUser.SetDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set Device Registration ID")) {
                 let json = JSON(resp.result.value!)
@@ -255,6 +255,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         sender.dismiss()
                     })
                 } else {
+                    // Reset navbar color
+                    sender.navigationController?.navigationBar.backgroundColor = Theme.PrimaryColor
+                    
                     // Go to profile setup or phone verification
                     if (userProfileData!.email != "" &&
                         userProfileData!.gender != "" &&
@@ -686,21 +689,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
 
+        // Scrollview setup
         scrollView?.delegate = self
-        
-        txtEmail?.placeholder = "Username / E-mail"
-        
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         
-        // Hide close button if necessary
-        if (isFromTourVC) {
-            self.btnClose!.hidden = true
-            self.groupRegister.hidden = true
-        }
-        
-        // Hide loading
-        loadingPanel?.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        self.hideLoading()
+        // Setup placeholder
+        txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -716,16 +711,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
-                
-                if (o) {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64+r.height, 0)
-                } else {
-                    self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-                }
-                
-            }, completion: nil)
+        self.an_subscribeKeyboardWithAnimations({ r, t, o in
+            if (o) {
+                self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64 + r.height, 0)
+            } else {
+                self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+            }
+        }, completion: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -734,24 +726,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
     }
     
-    @IBAction func viewTapped(sender : AnyObject)
-    {
+    @IBAction func viewTapped(sender : AnyObject) {
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
     }
     
-    @IBAction func signUpTapped(sender : AnyObject)
-    {
-        let registerVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil).first as! RegisterViewController
-        registerVC.userRelatedDelegate = self.userRelatedDelegate
-        registerVC.screenBeforeLogin = self.screenBeforeLogin
-        self.navigationController?.pushViewController(registerVC, animated: true)
-    }
-    
-    @IBAction func forgotPassword(sender : AnyObject?)
-    {
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
-        {
+    @IBAction func forgotPassword(sender : AnyObject?) {
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
             let x = UIAlertController(title: "Lupa Password", message: "Masukkan E-mail", preferredStyle: .Alert)
             x.addTextFieldWithConfigurationHandler({ textfield in
                 textfield.placeholder = "E-mail"
@@ -769,16 +750,14 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             x.addAction(actionOK)
             x.addAction(actionCancel)
             self.presentViewController(x, animated: true, completion: nil)
-        } else
-        {
+        } else {
             let a = UIAlertView(title: "Lupa Password", message: "Masukkan E-mail", delegate: self, cancelButtonTitle: "Batal", otherButtonTitles: "OK")
             a.alertViewStyle = UIAlertViewStyle.PlainTextInput
             a.show()
         }
     }
     
-    func callAPIForgotPassword(email : String)
-    {
+    func callAPIForgotPassword(email : String) {
         // API Migrasi
         request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
@@ -788,9 +767,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1)
-        {
-            // API Migrasi
+        if (buttonIndex == 1) {
             request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textFieldAtIndex(0)?.text)!]).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
                     UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
@@ -799,13 +776,11 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
     }
     
-    @IBAction func login(sender : AnyObject)
-    {
+    @IBAction func login(sender : AnyObject) {
         sendLogin()
     }
     
-    func sendLogin()
-    {
+    func sendLogin() {
         txtEmail?.resignFirstResponder()
         txtPassword?.resignFirstResponder()
         
@@ -815,20 +790,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let email = txtEmail?.text
         let pwd = txtPassword?.text
         
-        if (email == "")
-        {
-            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi username/e-mail")
+        if (email == "") {
+            UIAlertView.SimpleShow("Perhatian", message: "Email atau username harus diisi")
             self.hideLoading()
             return
         }
-        if (pwd == "")
-        {
-            UIAlertView.SimpleShow("Perhatian", message: "Silakan isi password")
+        if (pwd == "") {
+            UIAlertView.SimpleShow("Perhatian", message: "Password harus diisi")
             self.hideLoading()
             return
         }
         
-        // API Migrasi
         request(APIAuth.Login(email: email!, password: pwd!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
                 let json = JSON(resp.result.value!)
@@ -864,15 +836,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         return false
     }
     
-    @IBAction func dismissLogin()
-    {
-        if (self.userRelatedDelegate != nil)
-        {
-            self.userRelatedDelegate?.userCancelLogin!()
-        }
-        self.dismiss()
-    }
-    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
@@ -881,16 +844,6 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         return UIStatusBarStyle.Default
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     // MARK: - Facebook Login
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
@@ -970,14 +923,10 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     func showLoading() {
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
-        loading?.hidden = false
+        loginTabSwipeVC.showLoading()
     }
     
     func hideLoading() {
-        loadingPanel?.hidden = true
-        loading?.stopAnimating()
-        loading?.hidden = true
+        loginTabSwipeVC.hideLoading()
     }
 }

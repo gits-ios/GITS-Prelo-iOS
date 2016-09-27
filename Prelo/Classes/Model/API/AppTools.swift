@@ -236,6 +236,7 @@ class Tags : NSObject
     static let XibNameBalanceMutation = "BalanceMutation"
     static let XibNameFilter = "Filter"
     static let XibNameExpiringProducts = "ExpiringProducts"
+    static let XibNameLoginFransiska = "LoginFransiska"
 }
 
 class OrderStatus : NSObject

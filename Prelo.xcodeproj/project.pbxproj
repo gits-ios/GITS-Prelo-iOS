@@ -496,6 +496,7 @@
 		589A6FCB1D8C08F600654CDD /* ic_tshirt.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAB1D8C08F600654CDD /* ic_tshirt.png */; };
 		589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAC1D8C08F600654CDD /* ic_ukuran.png */; };
 		589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAD1D8C08F600654CDD /* ic_voucher.png */; };
+		589BD4191D993EAB006EDB2E /* LoginFransiskaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */; };
 		589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */; };
 		58A223AB1C89827900619518 /* NotifAnggiTransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */; };
 		58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BC1C898CB600619518 /* ic_trx_canceled.png */; };
@@ -593,6 +594,8 @@
 		58F0A41E1C7C634A002A488F /* cchmrk_spread.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F0A4191C7C634A002A488F /* cchmrk_spread.png */; };
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
+		58F89DC31D9A1A0C003A5378 /* LoginFransiska.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */; };
+		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58F91B191CF313CB00943A7A /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
@@ -1213,6 +1216,7 @@
 		589A6FAB1D8C08F600654CDD /* ic_tshirt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_tshirt.png; sourceTree = "<group>"; };
 		589A6FAC1D8C08F600654CDD /* ic_ukuran.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_ukuran.png; sourceTree = "<group>"; };
 		589A6FAD1D8C08F600654CDD /* ic_voucher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_voucher.png; sourceTree = "<group>"; };
+		589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginFransiskaViewController.swift; sourceTree = "<group>"; };
 		589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir.png; sourceTree = "<group>"; };
 		58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransactionCell.xib; sourceTree = "<group>"; };
 		58A223BC1C898CB600619518 /* ic_trx_canceled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_canceled.png; sourceTree = "<group>"; };
@@ -1359,6 +1363,8 @@
 		58F575251D3F385100257B8C /* Prelo 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 7.xcdatamodel"; sourceTree = "<group>"; };
 		58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir_truck.png; sourceTree = "<group>"; };
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
+		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
+		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListBrandViewController2.swift; sourceTree = "<group>"; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -1954,6 +1960,7 @@
 				21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */,
 				210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */,
 				212007C51B6A102600D9C84B /* LoginViewController.swift */,
+				589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
 				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
@@ -2059,6 +2066,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58F89DC41D9A2359003A5378 /* login-background.jpg */,
 				58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */,
 				58DBE8171D8F9B1100355608 /* ic_round.png */,
 				589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */,
@@ -2528,6 +2536,7 @@
 				5894DB471D58825F00874A56 /* FilterPriceCell.xib */,
 				58EC90BC1D78100400712E8A /* ExpiringProducts.xib */,
 				58EC90BE1D78142F00712E8A /* ExpiringProductsCell.xib */,
+				58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2834,6 +2843,7 @@
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
 				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,
+				58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */,
 				58A223C61C898CB600619518 /* ic_trx_exclamation.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
 				FDB1A0041BFD8BD0001F2600 /* ShopReviewCell.xib in Resources */,
@@ -2919,6 +2929,7 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
+				58F89DC31D9A1A0C003A5378 /* LoginFransiska.xib in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
@@ -3217,6 +3228,7 @@
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				2141BBAA1B54BE4C00787F5D /* ParameterEncoding.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
+				589BD4191D993EAB006EDB2E /* LoginFransiskaViewController.swift in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				21104ABD1BAA8ECC00947E7F /* PhoneVerificationViewController.swift in Sources */,

@@ -9,7 +9,11 @@
 import Foundation
 import CoreData
 
+// MARK: - Class
+
 class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, PathLoginDelegate, UITextFieldDelegate {
+    
+    // MARK: - Properties
     
     @IBOutlet var scrollView : UIScrollView?
     @IBOutlet var txtUsername: UITextField!
@@ -20,20 +24,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     @IBOutlet var btnTermCondition : UIButton?
     @IBOutlet var btnRegister : UIButton?
     
-    @IBOutlet weak var loadingPanel: UIView!
-    @IBOutlet weak var loading: UIActivityIndicatorView!
-    
+    // Predefined values
     var screenBeforeLogin : String = ""
+    var loginTabSwipeVC : LoginFransiskaViewController!
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        
-        // Hide loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = true
-        loading.stopAnimating()
         
         txtName?.autocapitalizationType = .Words
         
@@ -43,6 +43,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtPassword!.delegate = self
         txtRepeatPassword!.delegate = self
         txtName!.delegate = self
+        
+        // Setup placeholder
+        txtUsername.attributedPlaceholder = NSAttributedString(string: (txtUsername.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtRepeatPassword?.attributedPlaceholder = NSAttributedString(string: (txtRepeatPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtName?.attributedPlaceholder = NSAttributedString(string: (txtName?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -260,8 +267,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     @IBAction func loginFacebookPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel?.hidden = false
-        loading?.startAnimating()
+        self.showLoading()
         
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
         LoginViewController.LoginWithFacebook(p, onFinish: { resultDict in
@@ -273,8 +279,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     @IBAction func loginTwitterPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
         LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
@@ -286,8 +291,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     @IBAction func loginPathPressed(sender: AnyObject) {
         // Show loading
-        loadingPanel.hidden = false
-        loading.startAnimating()
+        self.showLoading()
         
         let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
         pathLoginVC.delegate = self
@@ -349,9 +353,13 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
     }
     
+    // MARK: - Other functions
+    
     func hideLoading() {
-        loadingPanel.hidden = true
-        loading.stopAnimating()
-        loading.hidden = true
+        self.loginTabSwipeVC.hideLoading()
+    }
+    
+    func showLoading() {
+        self.loginTabSwipeVC.showLoading()
     }
 }
