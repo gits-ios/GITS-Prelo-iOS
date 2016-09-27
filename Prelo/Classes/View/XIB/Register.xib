@@ -232,7 +232,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="KEh-r5-kC2"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="DAFTAR">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -247,7 +247,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTj-NW-6HB">
                                                 <rect key="frame" x="0.0" y="0.0" width="560" height="30"/>
                                                 <attributedString key="attributedText">
-                                                    <fragment content="Dengan mendaftar berarti Anda setuju dengan ">
+                                                    <fragment content="Dengan mendaftar berarti kamu setuju dengan ">
                                                         <attributes>
                                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <font key="NSFont" size="13" name="HelveticaNeue"/>
