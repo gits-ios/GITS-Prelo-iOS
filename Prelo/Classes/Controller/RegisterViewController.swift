@@ -247,6 +247,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.loginMethod = loginMethod
         profileSetupVC.screenBeforeLogin = screenBeforeLogin
         profileSetupVC.isFromRegister = true
+        self.navigationController?.navigationBar.backgroundColor = Theme.PrimaryColor // Reset navbar color
         self.navigationController?.pushViewController(profileSetupVC, animated: true)
     }
     

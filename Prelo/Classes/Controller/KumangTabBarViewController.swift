@@ -186,7 +186,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         if (User.IsLoggedIn) {
             btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
         } else {
-            btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+            btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
         }
     }
     
@@ -230,12 +230,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func userLoggedOut() {
-        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
         changeToController(controllerBrowse!)
     }
     
     func userCancelLogin() {
-        btnDashboard.setTitle("LOGIN", forState: UIControlState.Normal)
+        btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
         changeToController(controllerBrowse!)
     }
     

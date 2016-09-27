@@ -680,7 +680,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust instagram button
-                        self.lblLoginInstagram.text = "LOGIN INSTAGRAM"
+                        self.lblLoginInstagram.text = "LOG IN INSTAGRAM"
                         self.isLoggedInInstagram = false
                     }
                     // Hide loading
@@ -702,7 +702,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust fb button
-                        self.lblLoginFacebook.text = "LOGIN FACEBOOK"
+                        self.lblLoginFacebook.text = "LOG IN FACEBOOK"
                         self.isLoggedInFacebook = false
                     }
                     // Hide loading
@@ -725,7 +725,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust twitter button
-                        self.lblLoginTwitter.text = "LOGIN TWITTER"
+                        self.lblLoginTwitter.text = "LOG IN TWITTER"
                         self.isLoggedInTwitter = false
                     }
                     // Hide loading
@@ -744,7 +744,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         UIApplication.appDelegate.saveContext()
                         
                         // Adjust path button
-                        self.lblLoginPath.text = "LOGIN PATH"
+                        self.lblLoginPath.text = "LOG IN PATH"
                         self.isLoggedInPath = false
                     }
                     // Hide loading
