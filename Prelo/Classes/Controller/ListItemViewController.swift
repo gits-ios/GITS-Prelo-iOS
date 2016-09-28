@@ -1312,7 +1312,7 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
         } else {
             self.lblTitle.text = "HIGHLIGHTS"
             self.lblTitle.textColor = UIColor(hexString: "#5d5d5d")
-            self.lblDesc.text = "Barang terbaik \(categName)"
+            self.lblDesc.text = "Barang \(categName) pilihan tim Prelo"
             self.lblDesc.textColor = UIColor(hexString: "#5d5d5d")
         }
     }

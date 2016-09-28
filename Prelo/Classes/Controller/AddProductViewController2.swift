@@ -85,6 +85,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     @IBOutlet weak var ivImage: UIImageView!
     
+    // Title icons
+    @IBOutlet var imgTitleIcons : [UIImageView]!
+    
     var sizes : Array<String> = []
     
     var productCategoryId = ""
@@ -376,6 +379,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtAlasanJual.autocapitalizationType = .Sentences
         txtSpesial.autocapitalizationType = .Sentences
         txtDeskripsiCacat.autocapitalizationType = .Sentences
+        
+        for i in 0..<imgTitleIcons.count {
+            imgTitleIcons[i].image = imgTitleIcons[i].image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        }
     }
     
     var notPicked = true

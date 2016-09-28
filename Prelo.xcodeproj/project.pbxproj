@@ -18,7 +18,6 @@
 		210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */; };
 		210959AC1B8DB9A1000F2939 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */; };
-		210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AE1B8DD088000F2939 /* ic_cacat@2x.png */; };
 		210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959AF1B8DD088000F2939 /* ic_hanger@2x.png */; };
 		210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210959B01B8DD088000F2939 /* ic_tag@2x.png */; };
 		210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */; };
@@ -498,6 +497,7 @@
 		589A6FCD1D8C08F600654CDD /* ic_voucher.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6FAD1D8C08F600654CDD /* ic_voucher.png */; };
 		589BD4191D993EAB006EDB2E /* LoginFransiskaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */; };
 		589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */; };
+		58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A0F4D31D9BA00E00CD693F /* ic_freeongkir.png */; };
 		58A223AB1C89827900619518 /* NotifAnggiTransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */; };
 		58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BC1C898CB600619518 /* ic_trx_canceled.png */; };
 		58A223C51C898CB600619518 /* ic_trx_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A223BD1C898CB600619518 /* ic_trx_done.png */; };
@@ -626,7 +626,6 @@
 		210702DE1BE7A8F100DD9E52 /* cu_wasap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cu_wasap@2x.png"; sourceTree = "<group>"; };
 		210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_backarrow@2x.png"; sourceTree = "<group>"; };
-		210959AE1B8DD088000F2939 /* ic_cacat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cacat@2x.png"; sourceTree = "<group>"; };
 		210959AF1B8DD088000F2939 /* ic_hanger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_hanger@2x.png"; sourceTree = "<group>"; };
 		210959B01B8DD088000F2939 /* ic_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_tag@2x.png"; sourceTree = "<group>"; };
 		210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRekeningViewController.swift; sourceTree = "<group>"; };
@@ -1218,6 +1217,7 @@
 		589A6FAD1D8C08F600654CDD /* ic_voucher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_voucher.png; sourceTree = "<group>"; };
 		589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginFransiskaViewController.swift; sourceTree = "<group>"; };
 		589F5EC01D70456000ACEB4E /* ic_free_ongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir.png; sourceTree = "<group>"; };
+		58A0F4D31D9BA00E00CD693F /* ic_freeongkir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_freeongkir.png; sourceTree = "<group>"; };
 		58A223AA1C89827900619518 /* NotifAnggiTransactionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransactionCell.xib; sourceTree = "<group>"; };
 		58A223BC1C898CB600619518 /* ic_trx_canceled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_canceled.png; sourceTree = "<group>"; };
 		58A223BD1C898CB600619518 /* ic_trx_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_done.png; sourceTree = "<group>"; };
@@ -2066,6 +2066,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58A0F4D31D9BA00E00CD693F /* ic_freeongkir.png */,
 				58F89DC41D9A2359003A5378 /* login-background.jpg */,
 				58E8FCDC1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png */,
 				58DBE8171D8F9B1100355608 /* ic_round.png */,
@@ -2146,7 +2147,6 @@
 				210959AD1B8DD088000F2939 /* ic_backarrow@2x.png */,
 				215C52681B6B349C00EA4E61 /* ic_bag@2x.png */,
 				21EEB4691B87095C00CAD5C9 /* ic_bubble.png */,
-				210959AE1B8DD088000F2939 /* ic_cacat@2x.png */,
 				58D736091D759B0B009D7C61 /* ic_cart.png */,
 				210DF0E81B730764004AE3D9 /* ic_cc@2x.png */,
 				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
@@ -2902,7 +2902,6 @@
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				5894DB461D5880F200874A56 /* FilterCollectionCell.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
-				210959B21B8DD088000F2939 /* ic_cacat@2x.png in Resources */,
 				FDF728231BF24B9100C0D843 /* CategoryPreferences.xib in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
@@ -3028,6 +3027,7 @@
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
 				58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */,
+				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
