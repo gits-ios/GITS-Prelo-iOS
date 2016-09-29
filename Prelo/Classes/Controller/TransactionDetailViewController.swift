@@ -186,8 +186,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     // AB test check
                     self.isShowBankBRI = false
-                    if let ab = data["ab_test"].array {
-                        for i in 0...ab.count - 1 {
+                    if let ab = data["ab_test"].array where ab.count > 0 {
+                        for i in 0..<ab.count {
                             if (ab[i].stringValue.lowercaseString == "bri") {
                                 self.isShowBankBRI = true
                             }
@@ -1257,6 +1257,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (self.trxDetail != nil) {
                 let confirmShippingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil).first as! ConfirmShippingViewController
                 confirmShippingVC.trxDetail = self.trxDetail!
+                confirmShippingVC.setDefaultKurir()
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }

@@ -12,19 +12,22 @@ import Foundation
 
 class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var consHeightContentView: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var consHeightTableView: NSLayoutConstraint!
-    @IBOutlet weak var txtFldKurir: UITextField!
-    @IBOutlet weak var txtFldNoResi: UITextField!
-    @IBOutlet weak var imgResi: UIImageView!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var consHeightContentView: NSLayoutConstraint!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var consHeightTableView: NSLayoutConstraint!
+    @IBOutlet var lblKurir: UILabel!
+    @IBOutlet var lblDropdownKurir: UILabel!
+    @IBOutlet var txtFldNoResi: UITextField!
+    @IBOutlet var imgResi: UIImageView!
+    @IBOutlet var consHeightVwKurirLainnya: NSLayoutConstraint!
+    @IBOutlet var txtFldKurirLainnya: UITextField!
     
     // Loading
-    @IBOutlet weak var loadingPanel: UIView!
-    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet var loadingPanel: UIView!
+    @IBOutlet var loading: UIActivityIndicatorView!
     
-    // Variable from previous screen
+    // Predefined value
     var trxDetail : TransactionDetail!
     
     // Data container
@@ -59,6 +62,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         // Transaparent panel
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        
+        // Hide kurir lainnya field
+        self.hideFldKurirLainnya()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -89,6 +95,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
+    }
+    
+    func setDefaultKurir() {
+        self.lblKurir.text = trxDetail.requestCourier.characters.split{$0 == "("}.map(String.init)[0]
     }
     
     // MARK: - TableView delegate
@@ -141,6 +151,30 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     // MARK: - Actions
+    
+    @IBAction func btnKurirPressed(sender: AnyObject) {
+        let kurirs = CDShipping.getAll()
+        if (kurirs.count <= 0) {
+            Constant.showDialog("Oops, gagal memproses data kurir", message: "Harap me-refresh data kurir melalui menu About > Reload App Data")
+            return
+        }
+        let kurirAlert = UIAlertController(title: "Pilih Kurir", message: nil, preferredStyle: .ActionSheet)
+        kurirAlert.popoverPresentationController?.sourceView = self.lblDropdownKurir as UIView
+        kurirAlert.popoverPresentationController?.sourceRect = self.lblDropdownKurir.bounds
+        for i in 0..<kurirs.count {
+            kurirAlert.addAction(UIAlertAction(title: kurirs[i].name, style: .Default, handler: { act in
+                self.lblKurir.text = kurirs[i].name
+                self.hideFldKurirLainnya()
+                kurirAlert.dismissViewControllerAnimated(true, completion: nil)
+            }))
+        }
+        kurirAlert.addAction(UIAlertAction(title: "Lainnya", style: .Default, handler: { act in
+            self.lblKurir.text = "Lainnya"
+            self.showFldKurirLainnya()
+            kurirAlert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        self.presentViewController(kurirAlert, animated: true, completion: nil)
+    }
     
     @IBAction func btnResiPressed(sender: AnyObject) {
         let i = UIImagePickerController()
@@ -206,7 +240,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
             let param = [
                 "confirmation_data" : confirmData,
-                "kurir" : self.txtFldKurir.text == nil ? "" : self.txtFldKurir.text!,
+                "kurir" : self.lblKurir.text?.lowercaseString != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
                 "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
             ]
             var images : [UIImage] = []
@@ -283,8 +317,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             }
         }
         if (!isAllRejected) {
-            if (self.txtFldKurir.text == "") {
+            if (self.lblKurir.text == "") {
                 Constant.showDialog("Warning", message: "Field kurir harus diisi")
+                return false
+            }
+            if (self.lblKurir.text?.lowercaseString == "lainnya" && (txtFldKurirLainnya.text == nil || txtFldKurirLainnya.text == "")) {
+                Constant.showDialog("Warning", message: "Field nama kurir harus diisi")
                 return false
             }
             if (self.txtFldNoResi.text == "") {
@@ -324,6 +362,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         loadingPanel.hidden = false
         loading.hidden = false
         loading.startAnimating()
+    }
+    
+    func hideFldKurirLainnya() {
+        consHeightVwKurirLainnya.constant = 0
+    }
+    
+    func showFldKurirLainnya() {
+        consHeightVwKurirLainnya.constant = 55
     }
 }
 
