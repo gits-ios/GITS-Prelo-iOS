@@ -392,16 +392,19 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.section == SectionItem) {
             if (indexPath.row == foundItems.count) {
-                // Insert top search
-                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!)).responseJSON { resp in
-                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
-                        //print("TOP")
-                        //print(resp.result.value)
-                        //print("TOPEND")
+                if let searchText = self.searchBar.text {
+                    // Insert top search
+                    request(APISearch.InsertTopSearch(search: searchText)).responseJSON { resp in
+                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                            //print("TOP")
+                            //print(resp.result.value)
+                            //print("TOPEND")
+                        }
                     }
+                    // Save history
+                    AppToolsObjC.insertNewSearch(searchText)
+                    setupHistory()
                 }
-                AppToolsObjC.insertNewSearch(searchBar.text)
-                setupHistory()
                 
                 let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
                 l.currentMode = .Filter
@@ -421,6 +424,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                         //print("TOPEND")
                     }
                 }
+                // Save history
+                AppToolsObjC.insertNewSearch(foundItems[indexPath.row].name)
+                setupHistory()
+                
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[indexPath.row]
                 self.navigationController?.pushViewController(d, animated: true)
@@ -429,8 +436,13 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if (indexPath.row == foundUsers.count) {
                 let u = self.storyboard?.instantiateViewControllerWithIdentifier("searchuser") as! UserSearchViewController
                 u.keyword = searchBar.text == nil ? "" : searchBar.text!
-                // Insert top search
-                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!))
+                if let searchText = self.searchBar.text {
+                    // Insert top search
+                    request(APISearch.InsertTopSearch(search: searchText))
+                    // Save history
+                    AppToolsObjC.insertNewSearch(searchText)
+                    setupHistory()
+                }
                 self.navigationController?.pushViewController(u, animated: true)
             } else {
                 let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
@@ -440,6 +452,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 
                 // Insert top search
                 request(APISearch.InsertTopSearch(search: u.username))
+                // Save history
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
                 
@@ -459,14 +472,22 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                     fltrBrands[brand.name] = brand.id
                 }
                 
-                // Insert top search
-                request(APISearch.InsertTopSearch(search: searchBar.text == nil ? "" : searchBar.text!))
+                if let searchText = self.searchBar.text {
+                    // Insert top search
+                    request(APISearch.InsertTopSearch(search: searchText))
+                    // Save history
+                    AppToolsObjC.insertNewSearch(searchText)
+                    setupHistory()
+                }
             } else {
                 let brand = foundBrands[indexPath.row]
                 fltrBrands[brand.name] = brand.id
                 
                 // Insert top search
                 request(APISearch.InsertTopSearch(search: brand.name))
+                // Save history
+                AppToolsObjC.insertNewSearch(brand.name)
+                setupHistory()
             }
             l.fltrBrands = fltrBrands
             self.navigationController?.pushViewController(l, animated: true)
