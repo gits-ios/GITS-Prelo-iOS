@@ -44,12 +44,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             ivLove?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
         
-        if let i2 = UIImage(named: "ic_request") {
+        if let i2 = UIImage(named: "ic_tshirt") {
             ivRequest?.tintColor = Theme.PrimaryColor
             ivRequest?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
     
-        if let i3 = UIImage(named: "ic_voucher") {
+        if let i3 = UIImage(named: "ic_belanjaan_saya") {
             ivVoucher?.tintColor = Theme.PrimaryColor
             ivVoucher?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
@@ -62,16 +62,16 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             vwHeaderLoggedOut.hidden = true
             menus = [
                 [
+                    "title":"Request Barang",
+                    "iconimg":"ic_request",
+                ],
+                [
                     "title":"Tarik Uang",
                     "iconimg":"ic_tarik_uang",
                 ],
                 [
-                    "title":"Jualan Saya",
-                    "iconimg":"ic_tshirt"
-                ],
-                [
-                    "title":"Belanjaan Saya",
-                    "iconimg":"ic_belanjaan_saya"
+                    "title":"Referral Bonus",
+                    "iconimg":"ic_voucher"
                 ],
                 [
                     "title":"Bantuan",
@@ -198,12 +198,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (User.IsLoggedIn) {
-            if (indexPath.row == 0) { // Tarik uang
+            if (indexPath.row == 0) { // Request barang
+                self.launchRequestBarang()
+            } else if (indexPath.row == 1) { // Tarik uang
                 self.launchTarikUang()
-            } else if (indexPath.row == 1) { // Jualan saya
-                self.launchMyProducts()
-            } else if (indexPath.row == 2) { // Belanjaan saya
-                self.launchMyPurchases()
+            } else if (indexPath.row == 2) { // Referral bonus
+                self.launchFreeVoucher()
             } else if (indexPath.row == 3) { // Bantuan
                 self.launchFAQ()
             } else if (indexPath.row == 4) { // About
@@ -240,11 +240,11 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func topMenu2Pressed(sender: AnyObject) {
-        self.launchRequestBarang()
+        self.launchMyProducts()
     }
     
     @IBAction func topMenu3Pressed(sender: AnyObject) {
-        self.launchFreeVoucher()
+        self.launchMyPurchases()
     }
     
     // MARK: - Navigation functions
