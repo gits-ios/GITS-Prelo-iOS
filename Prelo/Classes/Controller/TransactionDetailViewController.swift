@@ -3328,8 +3328,8 @@ class TransactionDetailTitleContentHeaderCell : UITableViewCell {
     static let CellHeight : CGFloat = 60
     
     func adaptShipHistory(isEmptyTable : Bool) {
-        lblTopTitle.text = "Histori Pengiriman"
-        lblOneColumn.text = "Belum ada histori pengiriman"
+        lblTopTitle.text = "Riwayat Pengiriman"
+        lblOneColumn.text = "Belum ada riwayat pengiriman"
         lblTwoColumn1.text = "Tanggal"
         lblTwoColumn2.text = "Status Tracking"
         if (isEmptyTable) {

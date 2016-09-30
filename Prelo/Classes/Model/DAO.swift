@@ -1717,8 +1717,8 @@ class TransactionDetail : NSObject {
                 return _shipHistory
             }
             // FIXME: ambil dari json
-            _shipHistory.append((date: "27/9/2016 10:15", status: "RAISA : Delivered"))
-            _shipHistory.append((date: "26/9/2016 19:15", status: "SEMARANG : ON PROCESS"))
+            _shipHistory.append((date: "27/9/2016 10:15", status: "TEST"))
+            _shipHistory.append((date: "26/9/2016 19:15", status: "TEST TEST TEST TEST TEST TEST"))
             return _shipHistory
         }
     }
@@ -2136,8 +2136,8 @@ class TransactionProductDetail : NSObject {
                 return _shipHistory
             }
             // FIXME: ambil dari json
-            _shipHistory.append((date: "27/9/2016 10:15", status: "RAISA : Delivered"))
-            _shipHistory.append((date: "26/9/2016 19:15", status: "SEMARANG : ON PROCESS"))
+            _shipHistory.append((date: "27/9/2016 10:15", status: "TEST"))
+            _shipHistory.append((date: "26/9/2016 19:15", status: "TEST TEST TEST TEST TEST TEST"))
             return _shipHistory
         }
     }
