@@ -1874,6 +1874,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     // Cell identifiers
     let TransactionDetailProductCellId = "TransactionDetailProductCell"
     let TransactionDetailTitleContentCellId = "TransactionDetailTitleContentCell"
+    let TransactionDetailTitleContentHeaderCellId = "TransactionDetailTitleContentHeaderCell"
     
     // Actions
     var toProductDetail : (String) -> () = { _ in }
@@ -1918,6 +1919,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.resiNumber)
+            height += TransactionDetailTitleContentHeaderCell.CellHeight
+            for i in 0..<trxDetail.shipHistory.count {
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.shipHistory[i].status)
+            }
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientName)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingRecipientPhone)
@@ -1935,6 +1940,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
+            height += TransactionDetailTitleContentHeaderCell.CellHeight
+            for i in 0..<trxDetail.shipHistory.count {
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.shipHistory[i].status)
+            }
         }
         
         return height
@@ -1973,6 +1982,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingPostalCode)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingName)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.resiNumber)
+            height += TransactionDetailTitleContentHeaderCell.CellHeight
+            for i in 0..<trxProductDetail.shipHistory.count {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shipHistory[i].status)
+            }
         } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientName)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingRecipientPhone)
@@ -1990,6 +2003,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
+            height += TransactionDetailTitleContentHeaderCell.CellHeight
+            for i in 0..<trxProductDetail.shipHistory.count {
+                height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shipHistory[i].status)
+            }
         } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBalance.asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.myPreloBonus.asPrice)
@@ -2050,9 +2067,19 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                return 8
+                if (isTrxDetail()) {
+                    return 9 + trxDetail!.shipHistory.count
+                } else if (isTrxProductDetail()) {
+                    return 9 + trxProductDetail!.shipHistory.count
+                }
+                return 9
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                return 8
+                if (isTrxDetail()) {
+                    return 9 + trxDetail!.shipHistory.count
+                } else if (isTrxProductDetail()) {
+                    return 9 + trxProductDetail!.shipHistory.count
+                }
+                return 9
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 return 2
             } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
@@ -2248,6 +2275,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                     } else if (isTrxProductDetail()) {
                         return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                     }
+                } else if (idx == 8) {
+                    return TransactionDetailTitleContentHeaderCell.CellHeight
+                } else if (idx > 8) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].status)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].status)
+                    }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
                 if (idx == 0) {
@@ -2312,6 +2347,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         image = img!
                     }
                     return TransactionDetailTitleContentCell.heightFor(content, image: image)
+                } else if (idx == 8) {
+                    return TransactionDetailTitleContentHeaderCell.CellHeight
+                } else if (idx > 8) {
+                    if (isTrxDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 9].status)
+                    } else if (isTrxProductDetail()) {
+                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 9].status)
+                    }
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 if (idx == 0) {
@@ -2612,6 +2655,25 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.resiNumber
                     }
                     return self.createTitleContentCell("Nomor Resi", content: content)
+                } else if (idx == 8) {
+                    var isEmptyTable = true
+                    if (isTrxDetail()) {
+                        isEmptyTable = trxDetail!.shipHistory.isEmpty
+                    } else if (isTrxProductDetail()) {
+                        isEmptyTable = trxProductDetail!.shipHistory.isEmpty
+                    }
+                    return self.createTitleContentHeaderCellShipHistory(isEmptyTable)
+                } else if (idx > 8) {
+                    var date = ""
+                    var status = ""
+                    if (isTrxDetail()) {
+                        date = trxDetail!.shipHistory[idx - 9].date
+                        status = trxDetail!.shipHistory[idx - 9].status
+                    } else if (isTrxProductDetail()) {
+                        date = trxProductDetail!.shipHistory[idx - 9].date
+                        status = trxProductDetail!.shipHistory[idx - 9].status
+                    }
+                    return self.createTitleContentCellShipHistory(date, status: status)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
                 if (idx == 0) {
@@ -2690,6 +2752,25 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         image = img!
                     }
                     return self.createTitleContentCell("Request Kurir", content: content, image: image)
+                } else if (idx == 8) {
+                    var isEmptyTable = true
+                    if (isTrxDetail()) {
+                        isEmptyTable = trxDetail!.shipHistory.isEmpty
+                    } else if (isTrxProductDetail()) {
+                        isEmptyTable = trxProductDetail!.shipHistory.isEmpty
+                    }
+                    return self.createTitleContentHeaderCellShipHistory(isEmptyTable)
+                } else if (idx > 8) {
+                    var date = ""
+                    var status = ""
+                    if (isTrxDetail()) {
+                        date = trxDetail!.shipHistory[idx - 9].date
+                        status = trxDetail!.shipHistory[idx - 9].status
+                    } else if (isTrxProductDetail()) {
+                        date = trxProductDetail!.shipHistory[idx - 9].date
+                        status = trxProductDetail!.shipHistory[idx - 9].status
+                    }
+                    return self.createTitleContentCellShipHistory(date, status: status)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
                 if (idx == 0) {
@@ -2735,14 +2816,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         if (isProductCell) {
             self.toProductDetail(trxProducts[idx].productId)
         } else if (isTitleContentCell) {
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TransactionDetailTitleContentCell
-            if (cell.tapUrl != "") {
-                if let url = NSURL(string: cell.tapUrl) {
-                    UIApplication.sharedApplication().openURL(url)
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TransactionDetailTitleContentCell {
+                if (cell.tapUrl != "") {
+                    if let url = NSURL(string: cell.tapUrl) {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
+                } else if (cell.textToCopy != "") {
+                    UIPasteboard.generalPasteboard().string = cell.textToCopy
+                    Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah di-copy ke clipboard")
                 }
-            } else if (cell.textToCopy != "") {
-                UIPasteboard.generalPasteboard().string = cell.textToCopy
-                Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah di-copy ke clipboard")
             }
         }
     }
@@ -2772,6 +2854,24 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         
         // Adapt cell
         cell.adapt(title, content: content, image: image)
+        
+        return cell
+    }
+    
+    func createTitleContentCellShipHistory(date : String, status : String) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+        
+        // Adapt cell
+        cell.adaptShipHistory(date, status: status)
+        
+        return cell
+    }
+    
+    func createTitleContentHeaderCellShipHistory(isEmptyTable : Bool) -> TransactionDetailTitleContentHeaderCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentHeaderCellId) as! TransactionDetailTitleContentHeaderCell
+        
+        // Adapt cell
+        cell.adaptShipHistory(isEmptyTable)
         
         return cell
     }
@@ -3125,16 +3225,22 @@ class TransactionDetailTitleCell : UITableViewCell {
 class TransactionDetailTitleContentCell : UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
+    @IBOutlet var consWidthLblTitle: NSLayoutConstraint!
     @IBOutlet var consLeadingLblContent: NSLayoutConstraint!
     @IBOutlet var vwLine: UIView!
+    @IBOutlet var vwBackground: UIView!
     var imgContent: UIImageView?
     
     var tapUrl : String = ""
     var textToCopy : String = ""
     
     override func prepareForReuse() {
+        consWidthLblTitle.constant = 130
         consLeadingLblContent.constant = 8
+        vwBackground.backgroundColor = UIColor.clearColor()
         imgContent?.removeFromSuperview()
+        lblTitle.font = UIFont.boldSystemFontOfSize(13)
+        lblTitle.textAlignment = .Left
     }
     
     static func heightFor(text : String) -> CGFloat {
@@ -3198,8 +3304,41 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         self.consLeadingLblContent.constant = 8 + 4 + imgRect.width
     }
     
+    func adaptShipHistory(date : String, status : String) {
+        self.adapt(date, content: status)
+        self.lblTitle.font = UIFont.systemFontOfSize(13)
+        self.lblTitle.textAlignment = .Center
+        self.vwBackground.backgroundColor = UIColor(hexString: "#F1F1F1")
+    }
+    
     func showVwLine() {
         vwLine.hidden = false
+    }
+}
+
+// MARK: - Class
+
+class TransactionDetailTitleContentHeaderCell : UITableViewCell {
+    @IBOutlet var lblTopTitle: UILabel!
+    @IBOutlet var vwOneColumnHeader: UIView!
+    @IBOutlet var lblOneColumn: UILabel!
+    @IBOutlet var vwTwoColumnHeader: UIView!
+    @IBOutlet var lblTwoColumn1: UILabel!
+    @IBOutlet var lblTwoColumn2: UILabel!
+    static let CellHeight : CGFloat = 60
+    
+    func adaptShipHistory(isEmptyTable : Bool) {
+        lblTopTitle.text = "Histori Pengiriman"
+        lblOneColumn.text = "Belum ada histori pengiriman"
+        lblTwoColumn1.text = "Tanggal"
+        lblTwoColumn2.text = "Status Tracking"
+        if (isEmptyTable) {
+            vwOneColumnHeader.hidden = false
+            vwTwoColumnHeader.hidden = true
+        } else {
+            vwOneColumnHeader.hidden = true
+            vwTwoColumnHeader.hidden = false
+        }
     }
 }
 

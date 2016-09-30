@@ -1709,6 +1709,19 @@ class TransactionDetail : NSObject {
             return false
         }
     }
+    
+    private var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
+    var shipHistory : [(date : String, status : String)] {
+        get {
+            if (!_shipHistory.isEmpty) {
+                return _shipHistory
+            }
+            // FIXME: ambil dari json
+            _shipHistory.append((date: "27/9/2016 10:15", status: "RAISA : Delivered"))
+            _shipHistory.append((date: "26/9/2016 19:15", status: "SEMARANG : ON PROCESS"))
+            return _shipHistory
+        }
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -2114,6 +2127,19 @@ class TransactionProductDetail : NSObject {
             return j
         }
         return ""
+    }
+    
+    private var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
+    var shipHistory : [(date : String, status : String)] {
+        get {
+            if (!_shipHistory.isEmpty) {
+                return _shipHistory
+            }
+            // FIXME: ambil dari json
+            _shipHistory.append((date: "27/9/2016 10:15", status: "RAISA : Delivered"))
+            _shipHistory.append((date: "26/9/2016 19:15", status: "SEMARANG : ON PROCESS"))
+            return _shipHistory
+        }
     }
 }
 
