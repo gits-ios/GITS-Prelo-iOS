@@ -378,14 +378,29 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         indicatorMargin?.constant = v.x
         indicatorWidth?.constant = v.width
         
-        UIView.animateWithDuration(0.5, animations: {
-            self.categoryIndicator?.layoutIfNeeded()
-        })
-        
-        // Load content
+        self.categoryIndicator?.layoutIfNeeded()
         if let child = self.childViewControllers[index] as? ListItemViewController {
             child.setupContent()
         }
+        
+        /*
+        let queue : NSOperationQueue = NSOperationQueue()
+        let opLayout : NSOperation = NSBlockOperation(block: {
+            dispatch_async(dispatch_get_main_queue(), {
+                self.categoryIndicator?.layoutIfNeeded()
+            })
+        })
+        queue.addOperation(opLayout)
+        let opSetupContent : NSOperation = NSBlockOperation(block: {
+            dispatch_async(dispatch_get_main_queue(), {
+                if let child = self.childViewControllers[index] as? ListItemViewController {
+                    child.setupContent()
+                }
+            })
+        })
+        opSetupContent.addDependency(opLayout)
+        queue.addOperation(opSetupContent)
+         */
     }
     
     func categoryButtonAction(sender : UIView)
