@@ -229,6 +229,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }
+        
+        // Disable pet buying
+        if (self.detail?.categoryID == "57d8da9dce731801ed540fa4") { // Pet category ID
+            self.disableButton(self.btnBuy)
+        }
     }
     
     func disableMyProductBtnSet() {

@@ -562,6 +562,13 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["_id"].string!
     }
     
+    var categoryID : String {
+        if let j = json["_data"]["category_id"].string {
+            return j
+        }
+        return ""
+    }
+    
     var name : String
     {
         return (json["_data"]["name"].string)!.escapedHTML
