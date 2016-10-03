@@ -93,6 +93,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     // Others
     var isShowBankBRI : Bool = false
+    var isEnableCCPayment : Bool = false
     
     // MARK: - Init
     
@@ -205,12 +206,15 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 // Ab test check
                 self.isHalfBonusMode = false
                 self.isShowBankBRI = false
+                self.isEnableCCPayment = false
                 if let ab = data["ab_test"].array {
                     for i in 0...ab.count - 1 {
                         if (ab[i].stringValue.lowercaseString == "half_bonus") {
                             self.isHalfBonusMode = true
                         } else if (ab[i].stringValue.lowercaseString == "bri") {
                             self.isShowBankBRI = true
+                        } else if (ab[i].stringValue.lowercaseString == "cc") {
+                            self.isEnableCCPayment = true
                         }
                     }
                 }
@@ -574,6 +578,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func createPayMethodCell(tableView : UITableView, indexPath : NSIndexPath) -> CartPaymethodCell {
         let cell : CartPaymethodCell = tableView.dequeueReusableCellWithIdentifier("cell_paymethod") as! CartPaymethodCell
+        cell.isEnableCCPayment = isEnableCCPayment
         cell.methodChosen = { tag in
             self.setPaymentOption(tag)
         }
@@ -1936,6 +1941,7 @@ class CartGrandTotalCell : BaseCartCell
 class CartPaymethodCell : UITableViewCell {
     @IBOutlet var vw3Banks: UIView!
     @IBOutlet var vw4Banks: UIView!
+    var isEnableCCPayment : Bool = false
     
     // Tag set in storyboard
     // 0 = Transfer Bank
@@ -1945,7 +1951,7 @@ class CartPaymethodCell : UITableViewCell {
     var methodChosen : (Int) -> () = { _ in }
     
     @IBAction func methodPressed(sender: UIButton) {
-        if (sender.tag == 1) { // Disabled method
+        if (sender.tag == 1 && !isEnableCCPayment) { // Disabled method
             UIAlertView.SimpleShow("Coming Soon", message: "Metode pembayaran ini belum tersedia")
             return
         }
