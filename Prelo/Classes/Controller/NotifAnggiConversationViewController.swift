@@ -124,11 +124,13 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as! NotifAnggiConversationCell
-        cell.selectionStyle = .None
-        let n = notifications?[indexPath.item]
-        cell.adapt(n!)
-        return cell
+        if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as? NotifAnggiConversationCell {
+            cell.selectionStyle = .None
+            let n = notifications?[indexPath.item]
+            cell.adapt(n!)
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

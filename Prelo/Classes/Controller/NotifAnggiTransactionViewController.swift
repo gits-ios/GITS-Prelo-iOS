@@ -124,12 +124,14 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as! NotifAnggiTransactionCell
-        cell.selectionStyle = .None
-        let n = notifications?[indexPath.item]
-        cell.adapt(n!, idx: indexPath.item)
-        cell.delegate = self
-        return cell
+        if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
+            cell.selectionStyle = .None
+            let n = notifications?[indexPath.item]
+            cell.adapt(n!, idx: indexPath.item)
+            cell.delegate = self
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
