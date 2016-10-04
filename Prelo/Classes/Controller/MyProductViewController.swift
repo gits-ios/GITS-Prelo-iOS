@@ -13,8 +13,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
     var tabSwipe : CarbonTabSwipeNavigation?
     
     var productSell : BaseViewController?
-    var productProcessing : BaseViewController?
-    var productCompleted : BaseViewController?
+    var productTransaction : BaseViewController?
 
     @IBOutlet weak var viewJualButton: UIView!
     
@@ -24,12 +23,10 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         productSell = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProductSell) as? BaseViewController
         productSell?.previousController = self
         
-        productProcessing = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductProcessing, owner: nil, options: nil).first as! MyProductProcessingViewController
-        
-        productCompleted = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductCompleted, owner: nil, options: nil).first as! MyProductCompletedViewController
+        productTransaction = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductTransaction, owner: nil, options: nil).first as! MyProductTransactionViewController
         
         // Do any additional setup after loading the view.
-        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["BARANG", "DIPROSES", "SELESAI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["BARANG", "TRANSAKSI"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
         tabSwipe?.addShadow()
         
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
@@ -77,11 +74,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate {
         }
         else if (index == 1)
         {
-            return productProcessing
-        }
-        else if (index == 2)
-        {
-            return productCompleted
+            return productTransaction
         }
         
         let v = UIViewController()

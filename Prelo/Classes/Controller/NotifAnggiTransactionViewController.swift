@@ -341,6 +341,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     var delegate : NotifAnggiTransactionCellDelegate?
     
+    var isDiffUnread : Bool = true
+    
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0)
         imgSingle.image = UIImage(named: "raisa.jpg")
@@ -352,7 +354,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
 
     func adapt(notif : Notification, idx : Int) {
         // Set background color
-        if (!notif.read) {
+        if (!notif.read && isDiffUnread) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         }
         

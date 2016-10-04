@@ -301,7 +301,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchMyPurchases() {
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil).first as! MyPurchaseTransactionViewController
         self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     

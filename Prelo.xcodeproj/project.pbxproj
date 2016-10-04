@@ -571,6 +571,10 @@
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
 		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
 		58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 58C431B11CF8138300EB99AE /* InitialMetadata.json */; };
+		58C87C951DA382BA00F132E2 /* MyProductTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */; };
+		58C87C971DA382F600F132E2 /* MyProductTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C87C961DA382F600F132E2 /* MyProductTransaction.xib */; };
+		58C87C991DA3929700F132E2 /* MyPurchaseTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */; };
+		58C87C9B1DA3930E00F132E2 /* MyPurchaseTransaction.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C87C9A1DA3930E00F132E2 /* MyPurchaseTransaction.xib */; };
 		58CECD981C926EFF003470C3 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */; };
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
@@ -1334,6 +1338,10 @@
 		58C23B5F1C9DC86300E4C929 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		58C431B11CF8138300EB99AE /* InitialMetadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = InitialMetadata.json; sourceTree = "<group>"; };
 		58C431B61CF841AC00EB99AE /* Prelo 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 5.xcdatamodel"; sourceTree = "<group>"; };
+		58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductTransactionViewController.swift; sourceTree = "<group>"; };
+		58C87C961DA382F600F132E2 /* MyProductTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyProductTransaction.xib; sourceTree = "<group>"; };
+		58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPurchaseTransactionViewController.swift; sourceTree = "<group>"; };
+		58C87C9A1DA3930E00F132E2 /* MyPurchaseTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPurchaseTransaction.xib; sourceTree = "<group>"; };
 		58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMoEngageSDK.a; sourceTree = "<group>"; };
 		58D125241CDC4D1F002BC78A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -1959,17 +1967,19 @@
 				21C68F5D1B746E8B00D1125E /* ListCategoryViewController.swift */,
 				21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */,
 				210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */,
-				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */,
+				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
 				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
 				44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */,
 				21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */,
+				58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */,
 				21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */,
 				21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */,
 				44B7087A1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift */,
 				21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */,
+				58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */,
 				21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */,
 				5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */,
 				5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */,
@@ -2514,10 +2524,12 @@
 				44B708831BBA6E19001EACBF /* MyProductCompleted.xib */,
 				44B708841BBA6E19001EACBF /* MyProductDetail.xib */,
 				44B708851BBA6E19001EACBF /* MyProductProcessing.xib */,
+				58C87C961DA382F600F132E2 /* MyProductTransaction.xib */,
 				21104ACB1BAA8F1200947E7F /* MyPurchase.xib */,
 				21104ACC1BAA8F1200947E7F /* MyPurchaseCompleted.xib */,
 				44B708861BBA6E19001EACBF /* MyPurchaseDetail.xib */,
 				21104ACD1BAA8F1200947E7F /* MyPurchaseProcessing.xib */,
+				58C87C9A1DA3930E00F132E2 /* MyPurchaseTransaction.xib */,
 				5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */,
 				58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */,
 				5800FF9A1C88372B00492DB2 /* NotifAnggiTabBar.xib */,
@@ -2816,6 +2828,7 @@
 				440AF66A1BE1090800074CBC /* ic_round_sms.png in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
+				58C87C971DA382F600F132E2 /* MyProductTransaction.xib in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				58A7C4491D362ED800405CEC /* BalanceMutationCell.xib in Resources */,
@@ -3026,6 +3039,7 @@
 				589A6FCA1D8C08F600654CDD /* ic_tarik_uang.png in Resources */,
 				21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */,
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
+				58C87C9B1DA3930E00F132E2 /* MyPurchaseTransaction.xib in Resources */,
 				58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
@@ -3086,6 +3100,7 @@
 				21B467F31CCE5EDB00E145ED /* NSNumber+BFKit.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				44D32A121BDF161E00EFC1E3 /* CDProductCondition.swift in Sources */,
+				58C87C951DA382BA00F132E2 /* MyProductTransactionViewController.swift in Sources */,
 				210959B61B8DDBC9000F2939 /* ListRekeningViewController.swift in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
@@ -3140,6 +3155,7 @@
 				21CFBA1A1CC7023F0097A965 /* SocketStringReader.swift in Sources */,
 				21B4680A1CCE5EDB00E145ED /* UIWindow+BFKit.swift in Sources */,
 				44B7087C1BBA6D86001EACBF /* MyProductCompletedViewController.swift in Sources */,
+				58C87C991DA3929700F132E2 /* MyPurchaseTransactionViewController.swift in Sources */,
 				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
 				216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */,
 				58A99A351C6D864E00E3E7D7 /* Branch.m in Sources */,

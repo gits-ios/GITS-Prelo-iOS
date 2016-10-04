@@ -341,6 +341,8 @@ enum APINotifAnggi : URLRequestConvertible
     static let basePath = "notification/"
     
     case GetNotifs(tab : String, page : Int)
+    case GetNotifsSell(page : Int)
+    case GetNotifsBuy(page : Int)
     case GetUnreadNotifCount
     case ReadNotif(tab : String, id : String)
     
@@ -349,6 +351,8 @@ enum APINotifAnggi : URLRequestConvertible
         switch self
         {
         case .GetNotifs(_, _) : return .GET
+        case .GetNotifsSell(_) : return .GET
+        case .GetNotifsBuy(_) : return .GET
         case .GetUnreadNotifCount : return .GET
         case .ReadNotif(_, _) : return .POST
         }
@@ -359,6 +363,8 @@ enum APINotifAnggi : URLRequestConvertible
         switch self
         {
         case .GetNotifs(let tab, let page) : return "new/\(tab)/\(page)"
+        case .GetNotifsSell(let page) : return "new/transaction/\(page)"
+        case .GetNotifsBuy(let page) : return "new/transaction/\(page)"
         case .GetUnreadNotifCount : return "new/count"
         case .ReadNotif(let tab, _) : return "new/\(tab)/read"
         }
@@ -370,6 +376,10 @@ enum APINotifAnggi : URLRequestConvertible
         {
         case .GetNotifs(_, _) :
             return [:]
+        case .GetNotifsSell(_) :
+            return ["type" : NSNumber(integer: 1)]
+        case .GetNotifsBuy(_) :
+            return ["type" : NSNumber(integer: 2)]
         case .GetUnreadNotifCount :
             return [:]
         case .ReadNotif(_, let id) :
