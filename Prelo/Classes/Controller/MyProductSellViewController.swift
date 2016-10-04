@@ -301,7 +301,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.previousController?.navigationController?.pushViewController(d, animated: true)
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -323,17 +323,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             }
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 class MyProductCell : UITableViewCell
