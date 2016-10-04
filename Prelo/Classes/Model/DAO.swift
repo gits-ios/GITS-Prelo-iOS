@@ -1723,11 +1723,31 @@ class TransactionDetail : NSObject {
             if (!_shipHistory.isEmpty) {
                 return _shipHistory
             }
-            // FIXME: ambil dari json
-            _shipHistory.append((date: "27/9/2016 10:15", status: "TEST"))
-            _shipHistory.append((date: "26/9/2016 19:15", status: "TEST TEST TEST TEST TEST TEST"))
+            if let j = json["shipping_manifest"]["tracking"].array where j.count > 0 {
+                for i in 0..<j.count {
+                    _shipHistory.append((date: j[i]["time"].stringValue, status: j[i]["status"].stringValue))
+                }
+            }
             return _shipHistory
         }
+    }
+    
+    var shipHistoryMsg : String? {
+        if let j = json["shipping_manifest"]["message"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var shipVerified : Bool? {
+        if let j = json["shipping_verified"].bool {
+            return j
+        }
+        return nil
+    }
+    
+    var isShowShipHistory : Bool {
+        return shipVerified != nil
     }
 }
 
@@ -2142,11 +2162,31 @@ class TransactionProductDetail : NSObject {
             if (!_shipHistory.isEmpty) {
                 return _shipHistory
             }
-            // FIXME: ambil dari json
-            _shipHistory.append((date: "27/9/2016 10:15", status: "TEST"))
-            _shipHistory.append((date: "26/9/2016 19:15", status: "TEST TEST TEST TEST TEST TEST"))
+            if let j = json["shipping_manifest"]["tracking"].array where j.count > 0 {
+                for i in 0..<j.count {
+                    _shipHistory.append((date: j[i]["time"].stringValue, status: j[i]["status"].stringValue))
+                }
+            }
             return _shipHistory
         }
+    }
+    
+    var shipHistoryMsg : String? {
+        if let j = json["shipping_manifest"]["message"].string {
+            return j
+        }
+        return nil
+    }
+    
+    var shipVerified : Bool? {
+        if let j = json["shipping_verified"].bool {
+            return j
+        }
+        return nil
+    }
+    
+    var isShowShipHistory : Bool {
+        return shipVerified != nil
     }
 }
 
