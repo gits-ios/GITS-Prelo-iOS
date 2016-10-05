@@ -444,7 +444,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     
     override func backPressed(sender: UIBarButtonItem) {
-        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu yakin mau keluar dari Jual Barang? Seluruh keterangan yang telah diisi akan terhapus", preferredStyle: UIAlertControllerStyle.Alert)
+        let title = editMode ? "Edit" : "Jual"
+        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu yakin mau keluar dari \(title)? Seluruh keterangan yang telah diisi akan terhapus", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
             self.navigationController?.popViewControllerAnimated(true)
         }))
