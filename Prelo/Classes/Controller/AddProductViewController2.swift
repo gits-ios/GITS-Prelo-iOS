@@ -1468,12 +1468,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
         
-        // Compress images
+        // Compress and remove exif from images
         for i in 0...images.count - 1 {
             if let img = images[i] as? UIImage {
                 //print("Resizing image no-\(i) with width = \(img.size.width)")
                 if let imgResized = img.resizeWithMaxWidth(1024) {
-                    images[i] = imgResized
+                    if let imgData = ImageHelper.removeExifData(UIImagePNGRepresentation(imgResized)!) {
+                        images[i] = UIImage(data: imgData)!
+                    } else {
+                        images[i] = imgResized
+                    }
                     //print("Image no-\(i) has been resized")
                 }
             }

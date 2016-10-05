@@ -40,5 +40,6 @@
 #import "NotifyManager.h"
 #import "AppsFlyerTracker.h"
 #import "MoEngage.h"
+#import <ImageIO/ImageIO.h>
 
 #endif
