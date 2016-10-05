@@ -455,18 +455,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
                         if (newVer.compare(installedVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
-                            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "Update", style: .Default, handler: { action in
-                                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
-                            }))
+                            NSUserDefaults.standardUserDefaults().setObject(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
                             if let isForceUpdate = data["is_force_update"].bool {
-                                if (!isForceUpdate) {
-                                    alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-                                }
-                            } else {
-                                alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+                                NSUserDefaults.standardUserDefaults().setObject(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
                             }
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            NSUserDefaults.standardUserDefaults().synchronize()
                         }
                     }
                 }

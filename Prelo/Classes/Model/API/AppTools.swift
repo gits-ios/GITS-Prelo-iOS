@@ -408,6 +408,8 @@ class UserDefaultsKey : NSObject
     static let UninstallIOIdentified = "uninstallioidentified"
     static let LastPromoTitle = "lastpromotitle"
     static let PreloBaseUrlJustChanged = "prelobaseurljustchanged"
+    static let UpdatePopUpVer = "updatepopupver"
+    static let UpdatePopUpForced = "updatepopupforced"
 }
 
 extension NSUserDefaults

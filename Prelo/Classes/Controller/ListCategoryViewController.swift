@@ -348,6 +348,20 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         } else {
             setCurrentTab(0)
         }
+        
+        // Show app store update pop up if necessary
+        if let newVer = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UpdatePopUpVer) as? String where newVer != "" {
+            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Update", style: .Default, handler: { action in
+                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+            }))
+            if let isForceUpdate = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UpdatePopUpForced) as? Bool where !isForceUpdate {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            }
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: UserDefaultsKey.UpdatePopUpVer)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
     
     var currentTabIndex = 0
