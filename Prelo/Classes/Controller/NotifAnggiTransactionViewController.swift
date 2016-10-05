@@ -142,7 +142,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         return 81
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
