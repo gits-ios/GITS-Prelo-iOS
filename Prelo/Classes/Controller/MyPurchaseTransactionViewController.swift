@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Class
 
-class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     // MARK: - Properties
     
@@ -21,7 +21,8 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     @IBOutlet var loading : UIActivityIndicatorView!
     @IBOutlet var bottomLoading: UIActivityIndicatorView!
     @IBOutlet var consBottomTableView: NSLayoutConstraint!
-    @IBOutlet weak var viewJualButton: UIView!
+    @IBOutlet var viewJualButton: UIView!
+    @IBOutlet var searchBar: UISearchBar!
     var refreshControl : UIRefreshControl!
     
     // Data container
@@ -66,13 +67,17 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubviewToFront(viewJualButton)
+        
+        // Search bar setup
+        searchBar.delegate = self
+        searchBar.placeholder = "Cari Barang"
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         if (userProducts.isEmpty) {
-            getMyProducts()
+            getMyPurchase()
         } else {
             self.hideLoading()
             self.showContent()
@@ -87,44 +92,50 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         self.showLoading()
         self.hideContent()
         
-        self.getMyProducts()
+        self.getMyPurchase()
     }
     
-    func getMyProducts() {
-        request(APINotifAnggi.GetNotifsBuy(page: currentPage + 1)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Transaksi")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                let dataCount = data.count
-                
-                // Store data into variable
-                for (_, item) in data {
-                    if let n = Notification.instance(item) {
-                        self.userProducts.append(n)
+    func getMyPurchase() {
+        var searchText = ""
+        if let txt = searchBar.text {
+            searchText = txt
+        }
+        request(APINotifAnggi.GetNotifsBuy(page: currentPage + 1, name : searchText)).responseJSON { resp in
+            if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Transaksi")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let dataCount = data.count
+                    
+                    // Store data into variable
+                    for (_, item) in data {
+                        if let n = Notification.instance(item) {
+                            self.userProducts.append(n)
+                        }
                     }
+                    
+                    // Check if all data are already loaded
+                    if (dataCount < self.ItemPerLoad) {
+                        self.isAllItemLoaded = true
+                    }
+                    
+                    // Set next page
+                    self.currentPage += 1
                 }
                 
-                // Check if all data are already loaded
-                if (dataCount < self.ItemPerLoad) {
-                    self.isAllItemLoaded = true
-                }
+                // Hide loading (for first time request)
+                self.hideLoading()
                 
-                // Set next page
-                self.currentPage += 1
+                // Hide bottomLoading (for next request)
+                self.hideBottomLoading()
+                self.consBottomTableView.constant = 0
+                
+                // Hide refreshControl (for refreshing)
+                self.refreshControl.endRefreshing()
+                
+                // Show content
+                self.showContent()
             }
-            
-            // Hide loading (for first time request)
-            self.hideLoading()
-            
-            // Hide bottomLoading (for next request)
-            self.hideBottomLoading()
-            self.consBottomTableView.constant = 0
-            
-            // Hide refreshControl (for refreshing)
-            self.refreshControl.endRefreshing()
-            
-            // Show content
-            self.showContent()
         }
     }
     
@@ -170,7 +181,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
                 self.showBottomLoading()
                 
                 // Get balance mutations
-                self.getMyProducts()
+                self.getMyPurchase()
             }
         }
     }
@@ -214,6 +225,12 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
             }
             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
         }
+    }
+    
+    // MARK: - Search bar functions
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.refreshPage()
     }
     
     // MARK: - Other functions

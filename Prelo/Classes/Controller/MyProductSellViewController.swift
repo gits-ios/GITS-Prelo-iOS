@@ -8,11 +8,12 @@
 
 import UIKit
 
-class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet var btnRefresh: UIButton!
+    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView : UITableView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
     @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
@@ -56,8 +57,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refreshPressed(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
+        
+        // Search bar setup
+        searchBar.delegate = self
+        searchBar.placeholder = "Cari Barang"
     }
     
     var first = true
@@ -72,7 +77,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         if (!first)
         {
-            self.refresh(0)
+            self.refresh(0, isSearchMode: false)
         }
         
         first = false
@@ -89,13 +94,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func uploadProdukSukses(notif : NSNotification)
     {
-        refresh(0)
+        refresh(0, isSearchMode: false)
         Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
     }
     
     func uploadProdukGagal(notif : NSNotification)
     {
-        refresh(0)
+        refresh(0, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
     }
     
@@ -113,64 +118,71 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     func getProducts()
     {
-        // API Migrasi
-        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
-                if let result: AnyObject = resp.result.value
-                {
-                    let j = JSON(result)
-                    let d = j["_data"].arrayObject
-                    if let data = d
+        var searchText = ""
+        if let txt = searchBar.text {
+            searchText = txt
+        }
+        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad), name: searchText)).responseJSON {resp in
+            if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
+                    if let result: AnyObject = resp.result.value
                     {
-                        let dataCount = data.count
-                        
-                        for json in data
+                        let j = JSON(result)
+                        let d = j["_data"].arrayObject
+                        if let data = d
                         {
-                            self.products.append(Product.instance(JSON(json))!)
-                            self.tableView.tableFooterView = UIView()
+                            let dataCount = data.count
+                            
+                            for json in data
+                            {
+                                self.products.append(Product.instance(JSON(json))!)
+                                self.tableView.tableFooterView = UIView()
+                            }
+                            
+                            // Check if all data already loaded
+                            if (dataCount < self.ItemPerLoad) {
+                                self.isAllItemLoaded = true
+                            }
+                            
+                            // Set next index
+                            self.nextIdx += dataCount
                         }
-                        
-                        // Check if all data already loaded
-                        if (dataCount < self.ItemPerLoad) {
-                            self.isAllItemLoaded = true
-                        }
-                        
-                        // Set next index
-                        self.nextIdx += dataCount
                     }
                 }
-            }
-            
-            // Hide loading (for first time request)
-            self.loading.stopAnimating()
-            self.loading.hidden = true
-            
-            // Hide bottomLoading (for next request)
-            self.bottomLoading.stopAnimating()
-            self.bottomLoading.hidden = true
-            self.consBottomTableView.constant = 0
-            
-            // Hide refreshControl (for refreshing)
-            self.refreshControl.endRefreshing()
-            
-            self.addUploadingProducts()
-            
-            if (self.products.count > 0) {
-                self.lblEmpty.hidden = true
-                self.tableView.hidden = false
-                self.tableView.reloadData()
-            } else {
-                self.lblEmpty.hidden = false
-                self.btnRefresh.hidden = false
-                self.tableView.hidden = true
+                
+                // Hide loading (for first time request)
+                self.loading.stopAnimating()
+                self.loading.hidden = true
+                
+                // Hide bottomLoading (for next request)
+                self.bottomLoading.stopAnimating()
+                self.bottomLoading.hidden = true
+                self.consBottomTableView.constant = 0
+                
+                // Hide refreshControl (for refreshing)
+                self.refreshControl.endRefreshing()
+                
+                self.addUploadingProducts()
+                
+                if (self.products.count > 0) {
+                    self.lblEmpty.hidden = true
+                    self.tableView.hidden = false
+                    self.tableView.reloadData()
+                } else {
+                    self.lblEmpty.hidden = false
+                    self.btnRefresh.hidden = false
+                    self.tableView.hidden = true
+                }
             }
         }
     }
     
-    func refresh(sender: AnyObject) {
+    func refresh(sender: AnyObject, isSearchMode : Bool) {
         // Reset data
         self.products = []
-        self.addUploadingProducts()
+        if (!isSearchMode) {
+            self.addUploadingProducts()
+        }
         self.nextIdx = 0
         self.isAllItemLoaded = false
         self.tableView.hidden = true
@@ -181,7 +193,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     @IBAction func refreshPressed(sender: AnyObject) {
-        self.refresh(sender)
+        self.refresh(sender, isSearchMode : false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -322,6 +334,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 self.getProducts()
             }
         }
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.refresh(0, isSearchMode: true)
     }
 }
 

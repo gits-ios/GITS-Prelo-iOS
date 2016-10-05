@@ -341,8 +341,8 @@ enum APINotifAnggi : URLRequestConvertible
     static let basePath = "notification/"
     
     case GetNotifs(tab : String, page : Int)
-    case GetNotifsSell(page : Int)
-    case GetNotifsBuy(page : Int)
+    case GetNotifsSell(page : Int, name : String)
+    case GetNotifsBuy(page : Int, name : String)
     case GetUnreadNotifCount
     case ReadNotif(tab : String, id : String)
     
@@ -351,8 +351,8 @@ enum APINotifAnggi : URLRequestConvertible
         switch self
         {
         case .GetNotifs(_, _) : return .GET
-        case .GetNotifsSell(_) : return .GET
-        case .GetNotifsBuy(_) : return .GET
+        case .GetNotifsSell(_, _) : return .GET
+        case .GetNotifsBuy(_, _) : return .GET
         case .GetUnreadNotifCount : return .GET
         case .ReadNotif(_, _) : return .POST
         }
@@ -363,8 +363,8 @@ enum APINotifAnggi : URLRequestConvertible
         switch self
         {
         case .GetNotifs(let tab, let page) : return "new/\(tab)/\(page)"
-        case .GetNotifsSell(let page) : return "new/transaction/\(page)"
-        case .GetNotifsBuy(let page) : return "new/transaction/\(page)"
+        case .GetNotifsSell(let page, _) : return "new/transaction/\(page)"
+        case .GetNotifsBuy(let page, _) : return "new/transaction/\(page)"
         case .GetUnreadNotifCount : return "new/count"
         case .ReadNotif(let tab, _) : return "new/\(tab)/read"
         }
@@ -376,10 +376,16 @@ enum APINotifAnggi : URLRequestConvertible
         {
         case .GetNotifs(_, _) :
             return [:]
-        case .GetNotifsSell(_) :
-            return ["type" : NSNumber(integer: 1)]
-        case .GetNotifsBuy(_) :
-            return ["type" : NSNumber(integer: 2)]
+        case .GetNotifsSell(_, let name) :
+            return [
+                "type" : NSNumber(integer: 1),
+                "name" : name
+            ]
+        case .GetNotifsBuy(_, let name) :
+            return [
+                "type" : NSNumber(integer: 2),
+                "name" : name
+            ]
         case .GetUnreadNotifCount :
             return [:]
         case .ReadNotif(_, let id) :
@@ -1310,7 +1316,7 @@ enum APIProduct : URLRequestConvertible
     case Unlove(productID : String)
     case GetComment(productID : String)
     case PostComment(productID : String, message : String, mentions : String)
-    case MyProduct(current : Int, limit : Int)
+    case MyProduct(current : Int, limit : Int, name : String)
     case Push(productId : String)
     case MarkAsSold(productId : String, soldTo : String)
     
@@ -1325,7 +1331,7 @@ enum APIProduct : URLRequestConvertible
             case .Unlove(_):return .POST
             case .PostComment(_, _, _) : return .POST
             case .GetComment(_) :return .GET
-            case .MyProduct(_, _): return .GET
+            case .MyProduct(_, _, _): return .GET
             case .Push(_) : return .POST
             case .MarkAsSold(_, _) : return .POST
             }
@@ -1342,7 +1348,7 @@ enum APIProduct : URLRequestConvertible
             case .Unlove(let prodId):return prodId + "/unlove"
             case .PostComment(let pId, _, _):return pId + "/comments"
             case .GetComment(let pId) :return pId + "/comments"
-            case .MyProduct(_, _): return ""
+            case .MyProduct(_, _, _): return ""
             case .Push(let pId) : return "push/\(pId)"
             case .MarkAsSold(let pId, _) : return "sold/\(pId)"
             }
@@ -1376,7 +1382,7 @@ enum APIProduct : URLRequestConvertible
             case .Unlove(let pId):return ["product_id":pId]
             case .PostComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
             case .GetComment(_) :return [:]
-            case .MyProduct(let c, let l): return ["current":c, "limit":l]
+            case .MyProduct(let c, let l, let n): return ["current":c, "limit":l, "name":n]
             case .Push(_) : return [:]
             case .MarkAsSold(_, let soldTo) : return ["sold_from":"ios", "sold_to":soldTo]
             }
