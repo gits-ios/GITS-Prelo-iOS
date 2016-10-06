@@ -38,6 +38,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet var vwCoachmarkMine: UIView!
     @IBOutlet var vwCoachmarkReserve: UIView!
     
+    @IBOutlet var vwAddComment: UIView!
+    @IBOutlet var consHeightLblNoComment: NSLayoutConstraint!
+    
     @IBOutlet weak var konfirmasiBayarBtnSet: UIView!
     @IBOutlet weak var tpDetailBtnSet: UIView!
     
@@ -61,6 +64,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Hide add comment view first
+        self.vwAddComment.hidden = true
         
         _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         
@@ -191,10 +197,21 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.activated = (self.detail?.isActive)!
                     self.adjustButtonByStatus()
                     print(self.detail?.json)
+                    
+                    // Setup add comment view
+                    self.vwAddComment.hidden = false
+                    if (self.detail?.discussions?.count > 0) {
+                        self.consHeightLblNoComment.constant = 0
+                    } else {
+                        self.consHeightLblNoComment.constant = 16
+                    }
+                    
+                    // Setup table
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
                     self.tableView?.hidden = false
                     self.tableView?.reloadData()
+                    
                     self.setupView()
                 } else {
                     

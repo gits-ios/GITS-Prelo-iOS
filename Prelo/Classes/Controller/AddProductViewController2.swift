@@ -1485,7 +1485,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 
         if (editMode == false)
         {
-            let alert : UIAlertController = UIAlertController(title: "Upload Barang", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .Alert)
+            let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
                 self.btnSubmit.enabled = true
                 let share = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
