@@ -43,7 +43,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     var initSelectedCategSizeVal : [String] = []
     
     // Data container
-    let SortByData : [String] = ["Popular", "Recent", "Lowest Price", "Highest Price"]
+    let SortByData : [String] = ["Populer", "Terkini", "Harga Terendah", "Harga Tertinggi"]
     let SortByDataValue : [String] = ["popular", "recent", "lowest_price", "highest_price"]
     let CategSizeCellHeight : CGFloat = 28
     var selectedIdxSortBy : Int = 1

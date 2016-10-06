@@ -113,7 +113,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     @IBOutlet var lblFilterZeroResult: UILabel!
     // Others
     var fltrName : String = ""
-    let FltrValSortBy : [String : String] = ["recent" : "Recent", "lowest_price" : "Lowest Rp", "highest_price" : "Highest Rp", "popular" : "Popular"]
+    let FltrValSortBy : [String : String] = ["recent" : "Terkini", "lowest_price" : "Lowest Rp", "highest_price" : "Highest Rp", "popular" : "Populer"]
     
     // For carousel
     var isShowCarousel : Bool = false
@@ -334,7 +334,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Setup filter related views
                 for i in 0...vwTopHeaderFilter.subviews.count - 1 {
-                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor.lightGrayColor(), radius: 0, width: 1)
+                    vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
                 }
                 vwTopHeaderFilter.hidden = false
                 vwTopHeader.hidden = true
