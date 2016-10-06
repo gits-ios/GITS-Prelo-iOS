@@ -63,7 +63,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var itemCellWidth: CGFloat? = 200
     var listStage = 2 // Column amount in list: 1 = 3 column, 2 = 2 column, 3 = 1 column
     var currScrollPoint : CGPoint = CGPointZero
-    var itemsPerReq = 12 // Amount of items per request
+    var itemsPerReq = 24 // Amount of items per request
     
     // Data container
     var categoryJson : JSON? // Set from previous screen
@@ -109,6 +109,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     @IBOutlet var lblFilterSort: UILabel!
     var searchBar : UISearchBar!
     @IBOutlet var vwFilterZeroResult: UIView!
+    @IBOutlet var btnFilterZeroResult: UIButton!
     @IBOutlet var lblFilterZeroResult: UILabel!
     // Others
     var fltrName : String = ""
@@ -420,7 +421,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 catId = categoryJson!["_id"].string
             }
             
-            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON { resp in
+            var lastTimeUuid = ""
+            if (products != nil && products?.count > 0) {
+                lastTimeUuid = products![products!.count - 1].updateTimeUuid
+            }
+            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
                 self.done = false
                 self.footerLoading?.hidden = false
                 self.requesting = false
@@ -466,7 +471,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     func getCategorizedProducts(catId : String) {
         requesting = true
         
-        request(APISearch.ProductByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment)).responseJSON { resp in
+        var lastTimeUuid = ""
+        if (products != nil && products?.count > 0) {
+            lastTimeUuid = products![products!.count - 1].updateTimeUuid
+        }
+        request(APISearch.ProductByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
@@ -725,10 +734,16 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     func setupGrid() {
-        if (currentMode == .Filter && products?.count <= 0 && !requesting && fltrName != "") {
+        if (currentMode == .Filter && products?.count <= 0 && !requesting) {
             gridView.hidden = true
             vwFilterZeroResult.hidden = false
-            lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
+            if (fltrName != "") {
+                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
+                btnFilterZeroResult.hidden = false
+            } else {
+                lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
+                btnFilterZeroResult.hidden = true
+            }
             return
         }
         
