@@ -566,6 +566,8 @@
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
 		58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535E1D479F5B00E358EB /* courier_tiki.png */; };
+		58BED8E61DA62CB20063E11E /* ic_cart_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BED8E41DA62CB20063E11E /* ic_cart_white.png */; };
+		58BED8E71DA62CB20063E11E /* ic_chat_tawar_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */; };
 		58C23B5A1C9C070600E4C929 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
 		58C23B5C1C9C07F800E4C929 /* ConfirmShipping.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */; };
 		58C23B5E1C9C177F00E4C929 /* ConfirmShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5D1C9C177F00E4C929 /* ConfirmShippingCell.xib */; };
@@ -1332,6 +1334,8 @@
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
 		58BE535E1D479F5B00E358EB /* courier_tiki.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_tiki.png; sourceTree = "<group>"; };
+		58BED8E41DA62CB20063E11E /* ic_cart_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cart_white.png; sourceTree = "<group>"; };
+		58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_chat_tawar_white.png; sourceTree = "<group>"; };
 		58C19DE01D092AB700639E6C /* Prelo 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 6.xcdatamodel"; sourceTree = "<group>"; };
 		58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmShippingViewController.swift; sourceTree = "<group>"; };
 		58C23B5B1C9C07F800E4C929 /* ConfirmShipping.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmShipping.xib; sourceTree = "<group>"; };
@@ -2133,6 +2137,8 @@
 				589A6F951D8C08F600654CDD /* ic_cacat.png */,
 				58D736091D759B0B009D7C61 /* ic_cart.png */,
 				210DF0E81B730764004AE3D9 /* ic_cc@2x.png */,
+				58BED8E41DA62CB20063E11E /* ic_cart_white.png */,
+				58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */,
 				589A6F961D8C08F600654CDD /* ic_chat_tawar.png */,
 				214864CE1B6F235900EF49EF /* ic_chat@2x.png */,
 				589A6F971D8C08F600654CDD /* ic_comment.png */,
@@ -2884,6 +2890,7 @@
 				589A6FC91D8C08F600654CDD /* ic_tampak_belakang.png in Resources */,
 				212007C31B6A0EA600D9C84B /* basic_facebook@2x.png in Resources */,
 				21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */,
+				58BED8E71DA62CB20063E11E /* ic_chat_tawar_white.png in Resources */,
 				210702E21BE7A8F100DD9E52 /* cu_line@2x.png in Resources */,
 				440AF6661BE1090800074CBC /* ic_round_facebook.png in Resources */,
 				58F0A41D1C7C634A002A488F /* cchmrk_pinch.png in Resources */,
@@ -2956,6 +2963,7 @@
 				589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
+				58BED8E61DA62CB20063E11E /* ic_cart_white.png in Resources */,
 				58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */,
 				21A6C40E1CEF461100966B42 /* dummyCart.json in Resources */,
 				210DF0EA1B730764004AE3D9 /* ic_cc@2x.png in Resources */,

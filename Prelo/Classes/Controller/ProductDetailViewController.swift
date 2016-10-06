@@ -225,9 +225,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.disableButton(self.btnUp)
             self.disableButton(self.btnSold)
         } else if (self.detail?.status == 3 || self.detail?.status == 4) { // sold or deleted
+            self.disableButton(self.btnTawar)
             self.btnTawar.borderColor = Theme.GrayLight
-            self.btnTawar.titleLabel?.textColor = Theme.GrayLight
-            self.btnTawar.userInteractionEnabled = false
             
             self.disableButton(self.btnBuy)
             self.disableMyProductBtnSet()
@@ -260,6 +259,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func disableButton(btn : UIButton) {
+        btn.userInteractionEnabled = false
+        
+        if (btn.titleLabel?.text == nil || btn.titleLabel?.text == "") { // Button with uiimage icon
+            btn.backgroundColor = UIColor.colorWithColor(UIColor.darkGrayColor(), alpha: 0.5)
+            return
+        }
+        
+        // Button with uilabel icon
         btn.setBackgroundImage(nil, forState: .Normal)
         btn.backgroundColor = nil
         btn.setTitleColor(Theme.GrayLight)
@@ -267,7 +274,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         btn.layer.borderWidth = 1
         btn.layer.cornerRadius = 1
         btn.layer.masksToBounds = true
-        btn.userInteractionEnabled = false
     }
     
     func setupView()
