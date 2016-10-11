@@ -237,7 +237,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         print(item?.url)
         print(item?.text)
         
-        request(Method.GET, (item?.url?.absoluteString)!).validate().response{ req, res, data, error in
+        let _ = request(Method.GET, (item?.url?.absoluteString)!).validate().response{ req, res, data, error in
             if let imgData = data
             {
                 let i = UIImage(data: imgData)
@@ -295,7 +295,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         /* FIXME: Sementara dijadiin komentar, soalnya kalo user lagi ga login terus share product via path, harusnya ga usah APIAuth.LoginPath ga sih
         // API Migrasi
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
+        let _ = request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 print("Path login req = \(req)")
                 

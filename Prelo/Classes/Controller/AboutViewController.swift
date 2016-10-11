@@ -116,7 +116,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             rID = u.profiles.regionID
         }
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
-        request(APICart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
+        let _ = request(APICart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Clear Cache")) {
                 self.enableBtnClearCache()
                 
@@ -134,7 +134,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         
         // Tell server
         // API Migrasi
-        request(APIAuth.logout).responseJSON {resp in
+        let _ = request(APIAuth.logout).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout")) {
                 print("Logout API success")
             }
@@ -241,7 +241,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         a.show()
 
         // API Migrasi
-        request(APIApp.metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
+        let _ = request(APIApp.metadata(brands: "0", categories: "1", categorySizes: "0", shippings: "1", productConditions: "1", provincesRegions: "1")).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Reload App Data")) {
                 let metaJson = JSON(resp.result.value!)
                 let metadata = metaJson["_data"]

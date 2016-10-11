@@ -261,7 +261,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInbox() {
         self.tableView.isHidden = true
         
-        request(APIInbox.getInboxByProductID(productId: prodId)).responseJSON { resp in
+        let _ = request(APIInbox.getInboxByProductID(productId: prodId)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Inbox By Product ID")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -287,7 +287,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             api = APIInbox.getInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
         // API Migrasi
-        request(api).responseJSON {resp in
+        let _ = request(api).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat")) {
                 
                 // Obtain inbox messages
@@ -618,7 +618,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         if (fromSeller) {
             api = APIInbox.startNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
-        request(api).responseJSON { resp in
+        let _ = request(api).responseJSON { resp in
             self.starting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Chat")) {
                 let json = JSON(resp.result.value!)
@@ -776,7 +776,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func gotoProduct(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.itemId != "") {
-            request(Products.detail(productId: tawarItem.itemId)).responseJSON { resp in
+            let _ = request(Products.detail(productId: tawarItem.itemId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]

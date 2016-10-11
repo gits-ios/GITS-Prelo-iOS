@@ -109,7 +109,7 @@ class MyProductProcessingViewController : BaseViewController, UITableViewDataSou
     
     func getUserProducts() {
         // API Migrasi
-        request(APITransaction.sells(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
+        let _ = request(APITransaction.sells(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Diproses")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

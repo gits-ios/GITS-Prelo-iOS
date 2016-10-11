@@ -102,7 +102,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func getBalanceMutations() {
-        request(APIUser.getBalanceMutations(current: self.nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { resp in
+        let _ = request(APIUser.getBalanceMutations(current: self.nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mutasi Prelo Balance")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]["prelo_balances"]

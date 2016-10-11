@@ -118,7 +118,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         
         // Get sizes
-        request(References.formattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
+        let _ = request(References.formattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Ukuran")) {
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array , data.count > 0 {

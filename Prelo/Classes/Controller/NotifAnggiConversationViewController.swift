@@ -96,7 +96,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func getNotif() {
         // API Migrasi
-        request(APINotifAnggi.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
+        let _ = request(APINotifAnggi.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -158,7 +158,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if let n = notifications?[(indexPath as NSIndexPath).item] {
             if (!n.read) {
                 // API Migrasi
-        request(APINotifAnggi.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
+        let _ = request(APINotifAnggi.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
@@ -268,7 +268,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if (notif.type == 2000) { // Chat
             // Get inbox detail
             // API Migrasi
-        request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+        let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -286,7 +286,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
-            request(Products.detail(productId: notif.objectId)).responseJSON {resp in
+            let _ = request(Products.detail(productId: notif.objectId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let pDetail = ProductDetail.instance(json)

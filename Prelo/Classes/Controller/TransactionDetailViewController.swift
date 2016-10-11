@@ -171,7 +171,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         
         if (req != nil) {
-            request(req!).responseJSON {resp in
+            let _ = request(req!).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Transaksi")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -1125,7 +1125,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.toProductDetail = { productId in
             self.showLoading()
-            request(Products.detail(productId: productId)).responseJSON { resp in
+            let _ = request(Products.detail(productId: productId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -1321,7 +1321,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 buyerId = self.trxProductDetail!.buyerId
             }
             // Get product detail from API
-            request(Products.detail(productId: productId)).responseJSON {resp in
+            let _ = request(Products.detail(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1330,7 +1330,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
                         // API Migrasi
-                        request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
+                        let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                                 let json = JSON(resp.result.value!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
@@ -1374,7 +1374,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            request(Products.detail(productId: productId)).responseJSON {resp in
+            let _ = request(Products.detail(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1399,7 +1399,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 productId = self.trxProductDetail!.productId
             }
             // API Migrasi
-            request(APIGarageSale.cancelReservation(productId: productId)).responseJSON {resp in
+            let _ = request(APIGarageSale.cancelReservation(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
                     let json = JSON(resp.result.value!)
                     if let success = json["_data"].bool {
@@ -1538,7 +1538,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.sendMode(true)
         if (self.trxId != nil) {
             // API Migrasi
-        request(APITransaction.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+        let _ = request(APITransaction.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
@@ -1613,7 +1613,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            request(Products.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+            let _ = request(Products.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
                     let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
@@ -1673,7 +1673,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }
             arrId += "]"
-            request(APITransactionAnggi.delayShipping(arrTpId: arrId)).responseJSON { resp in
+            let _ = request(APITransactionAnggi.delayShipping(arrTpId: arrId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tunda Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let msg = json["_data"].stringValue

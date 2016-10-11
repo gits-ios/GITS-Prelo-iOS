@@ -41,7 +41,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInboxes()
     {
         // API Migrasi
-        request(APIInbox.getInboxes).responseJSON {resp in
+        let _ = request(APIInbox.getInboxes).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
             {
                 let json = JSON(resp.result.value!)

@@ -64,7 +64,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func getUserReviews() {
         // API Migrasi
-        request(APIPeople.getSellerReviews(id: self.sellerId)).responseJSON {resp in
+        let _ = request(APIPeople.getSellerReviews(id: self.sellerId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Pengguna")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

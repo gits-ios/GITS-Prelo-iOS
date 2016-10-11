@@ -55,7 +55,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
     }
     
     func getCategory() {
-        request(References.categoryList).responseJSON { resp in
+        let _ = request(References.categoryList).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Kategori")) {
                 UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                 UserDefaults.standard.synchronize()

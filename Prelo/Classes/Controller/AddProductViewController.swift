@@ -71,7 +71,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
+                let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Conditions")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["product_conditions"].array
@@ -104,7 +104,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
+                let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["brands"].array

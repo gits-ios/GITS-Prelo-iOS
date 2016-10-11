@@ -41,7 +41,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
 //                    }
         self.title = "Loading.."
         // API Migrasi
-        request(APIApp.metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
+        let _ = request(APIApp.metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
             self.title = "Merek"
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Merk"))
             {

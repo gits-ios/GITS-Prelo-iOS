@@ -113,7 +113,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
             name = searchText
         }
         self.isGettingData = true
-        request(APISearch.brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
+        let _ = request(APISearch.brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
                 if (name == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                     let json = JSON(resp.result.value!)

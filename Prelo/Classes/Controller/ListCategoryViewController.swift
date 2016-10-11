@@ -294,7 +294,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Home promo
         // API Migrasi
-        request(APIApp.version).responseJSON {resp in
+        let _ = request(APIApp.version).responseJSON {resp in
             var isShowPromo = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Promo check")) {
                 let json = JSON(resp.result.value!)
@@ -520,7 +520,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getFullcategory()
     {
-        request(References.categoryList).responseJSON {resp in
+        let _ = request(References.categoryList).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category List")) {
                 UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                 UserDefaults.standard.synchronize()
@@ -531,7 +531,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getCategory()
     {
-        request(References.homeCategories)
+        let _ = request(References.homeCategories)
             .responseString { resp in
                 let string = resp.result.value
                 if (string != nil)

@@ -340,7 +340,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func versionCheck() {
         // API Migrasi
-        request(APIApp.version).responseJSON { resp in
+        let _ = request(APIApp.version).responseJSON { resp in
             var isFirstInstall = false
             var isInitialMetadataSaveSuccess : Bool = true
             
@@ -487,7 +487,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func updateMetaCategories(_ ver : CDVersion, updateVer : JSON) {
-        request(APIApp.metadataCategories(currentVer: ver.categoriesVersion.intValue)).responseJSON { resp in
+        let _ = request(APIApp.metadataCategories(currentVer: ver.categoriesVersion.intValue)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Categories")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -517,7 +517,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func updateMetaProductConditions(_ ver : CDVersion, updateVer : JSON) {
-        request(APIApp.metadataProductConditions).responseJSON { resp in
+        let _ = request(APIApp.metadataProductConditions).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Product Conditions")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
@@ -540,7 +540,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func updateMetaProvinceRegions(_ ver : CDVersion, updateVer : JSON) {
-        request(APIApp.metadataProvincesRegions(currentVer: ver.provincesRegionsVersion.intValue)).responseJSON { resp in
+        let _ = request(APIApp.metadataProvincesRegions(currentVer: ver.provincesRegionsVersion.intValue)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Province Regions")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -575,7 +575,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func updateMetaShippings() {
-        request(APIApp.metadataShippings).responseJSON { resp in
+        let _ = request(APIApp.metadataShippings).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Shipping")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {

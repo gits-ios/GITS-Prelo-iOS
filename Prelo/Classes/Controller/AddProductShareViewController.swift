@@ -116,7 +116,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         // userId & name is required
                         if (userId != nil && name != nil) {
                             // API Migrasi
-                            request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                            let _ = request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                     
                                     // Save in core data
@@ -154,7 +154,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                                 return
                         }
                         
-                        request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                        let _ = request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                                 
                                 // Save in core data
@@ -190,7 +190,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     func instagramLoginSuccess(_ token: String) {
         // API Migrasi
-        request(APISocial.storeInstagramToken(token: token)).responseJSON {resp in
+        let _ = request(APISocial.storeInstagramToken(token: token)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Store Instagram Token")) {
                 
             } else {
@@ -206,7 +206,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         //let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         
         // API Migrasi
-        request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+        let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 UserDefaults.standard.set(token, forKey: "pathtoken")
                 UserDefaults.standard.synchronize()
@@ -494,7 +494,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //            }
 //        }
 //        
-//        request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
+//        let _ = request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
 //            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
 //                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
 //                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)

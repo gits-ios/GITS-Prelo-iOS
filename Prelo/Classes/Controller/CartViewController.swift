@@ -139,7 +139,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         self.title = PageName.Checkout
         
         // Get unpaid transaction
-        request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
+        let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -187,7 +187,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         print("shipping_address : \(a)")
         
         // API refresh cart
-        request(APICart.refresh(cart: p, address: a, voucher: voucherApplied)).responseJSON { resp in
+        let _ = request(APICart.refresh(cart: p, address: a, voucher: voucherApplied)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
                 
                 // Back to prev page if cart is empty
@@ -368,7 +368,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 if (self.kecamatanPickerItems.count <= 0) {
                     self.tableView.isHidden = true
                     self.loadingCart.isHidden = false
-                    request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKotaID)).responseJSON { resp in
+                    let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKotaID)).responseJSON { resp in
                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
                             let json = JSON(resp.result.value!)
                             let data = json["_data"].arrayValue
@@ -967,7 +967,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         if (self.selectedPayment == self.availablePayments[0] || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
             self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
         } else if (self.selectedPayment == self.availablePayments[1]) { // Credit Cards
-            request(APICart.generateVeritransUrl(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+            let _ = request(APICart.generateVeritransUrl(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Generate Veritrans URL")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -1005,7 +1005,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     }
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
-        request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
+        let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]

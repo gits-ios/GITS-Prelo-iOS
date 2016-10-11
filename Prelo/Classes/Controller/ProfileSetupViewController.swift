@@ -482,7 +482,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 self.showLoading()
                 
                 // Retrieve kecamatanPickerItems
-                request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
+                let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"].arrayValue
@@ -606,7 +606,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             User.SetToken(self.userToken)
             
             // API Migrasi
-            request(APIUser.setupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
+            let _ = request(APIUser.setupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)
@@ -616,7 +616,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     // Set user's preferenced categories by current stored categories
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
                     // API Migrasi
-                    request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
+                    let _ = request(APIUser.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
                         if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set User Preferenced Categories")) {
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!

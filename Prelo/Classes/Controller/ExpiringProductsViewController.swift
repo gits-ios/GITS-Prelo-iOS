@@ -42,7 +42,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
         self.title = PageName.BarangExpired
         
         // Get data
-        request(Products.getExpiringProducts).responseJSON { resp in
+        let _ = request(Products.getExpiringProducts).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array , data.count > 0 {
@@ -92,7 +92,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
                 } else {
                     req = Products.setSoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 }
-                request(req).responseJSON { resp in
+                let _ = request(req).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Sold/Unsold")) {
                         let json = JSON(resp.result.value!)
                         if let isSuccess = json["_data"].bool , isSuccess {
@@ -117,7 +117,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
     // MARK: - Actions
     @IBAction func simpanPressed(_ sender: AnyObject) {
         self.showLoading()
-        request(Products.finishExpiringProducts).responseJSON { resp in
+        let _ = request(Products.finishExpiringProducts).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Finish Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let isSuccess = json["_data"].bool , isSuccess {

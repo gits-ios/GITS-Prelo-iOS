@@ -81,7 +81,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         self.navigationItem.rightBarButtonItem = searchBar.toBarButton()
         
         // Top search setup
-        request(APISearch.getTopSearch(limit: "10")).responseJSON {resp in
+        let _ = request(APISearch.getTopSearch(limit: "10")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search")) {
                 self.topSearchLoading.isHidden = true
                 let json = JSON(resp.result.value!)
@@ -394,7 +394,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             if ((indexPath as NSIndexPath).row == foundItems.count) {
                 if let searchText = self.searchBar.text {
                     // Insert top search
-                    request(APISearch.insertTopSearch(search: searchText)).responseJSON { resp in
+                    let _ = request(APISearch.insertTopSearch(search: searchText)).responseJSON { resp in
                         if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                             //print("TOP")
                             //print(resp.result.value)
@@ -417,7 +417,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 self.navigationController?.pushViewController(l, animated: true)
             } else {
                 // Insert top search
-                request(APISearch.insertTopSearch(search: foundItems[(indexPath as NSIndexPath).row].name)).responseJSON {resp in
+                let _ = request(APISearch.insertTopSearch(search: foundItems[(indexPath as NSIndexPath).row].name)).responseJSON {resp in
                     if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
                         //print("TOP")
                         //print(resp.result.value)
@@ -438,7 +438,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 u.keyword = searchBar.text == nil ? "" : searchBar.text!
                 if let searchText = self.searchBar.text {
                     // Insert top search
-                    request(APISearch.insertTopSearch(search: searchText))
+                    let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
                     AppToolsObjC.insertNewSearch(searchText)
                     setupHistory()
@@ -451,7 +451,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 d.shopName = u.username
                 
                 // Insert top search
-                request(APISearch.insertTopSearch(search: u.username))
+                let _ = request(APISearch.insertTopSearch(search: u.username))
                 // Save history
                 AppToolsObjC.insertNewSearch(u.username)
                 setupHistory()
@@ -474,7 +474,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 
                 if let searchText = self.searchBar.text {
                     // Insert top search
-                    request(APISearch.insertTopSearch(search: searchText))
+                    let _ = request(APISearch.insertTopSearch(search: searchText))
                     // Save history
                     AppToolsObjC.insertNewSearch(searchText)
                     setupHistory()
@@ -484,7 +484,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 fltrBrands[brand.name] = brand.id
                 
                 // Insert top search
-                request(APISearch.insertTopSearch(search: brand.name))
+                let _ = request(APISearch.insertTopSearch(search: brand.name))
                 // Save history
                 AppToolsObjC.insertNewSearch(brand.name)
                 setupHistory()
@@ -519,7 +519,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        currentRequest = request(APISearch.autocomplete(key: keyword))
+        currentRequest = let _ = request(APISearch.autocomplete(key: keyword))
         currentRequest?.responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Autocomplete")) {
                 let json = JSON(resp.result.value!)

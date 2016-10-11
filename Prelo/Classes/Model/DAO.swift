@@ -2911,7 +2911,7 @@ class InboxMessage : NSObject
         self.failedToSend = false
         let m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
         // API Migrasi
-        request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
+        let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim chat"))
             {

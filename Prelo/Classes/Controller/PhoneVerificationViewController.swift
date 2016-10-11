@@ -141,7 +141,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             }
             
             // API Migrasi
-            request(APIUser.verifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text!)).responseJSON {resp in
+            let _ = request(APIUser.verifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text!)).responseJSON {resp in
                 if (!self.isReverification) {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)
@@ -222,7 +222,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "userLoggedIn"), object: nil)
                             
                             // Send uuid to server
-                            request(APIUser.setUserUUID)
+                            let _ = request(APIUser.setUserUUID)
                             
                             // Set crashlytics user information
                             let user = CDUser.getOne()!
@@ -293,7 +293,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             User.SetToken(self.userToken)
         }
         
-        request(APIUser.resendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {resp in
+        let _ = request(APIUser.resendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {resp in
             if (!self.isReverification) {
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)

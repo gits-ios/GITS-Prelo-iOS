@@ -72,7 +72,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         var isEmailVerified : Bool = false
         // API Migrasi
-        request(APIUser.me).responseJSON {resp in
+        let _ = request(APIUser.me).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -156,7 +156,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     func getReferralData() {
         // API Migrasi
-        request(APIUser.referralData).responseJSON {resp in
+        let _ = request(APIUser.referralData).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -238,7 +238,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             let profilePictureUrl = userData["photo"]["medium"]["url"].string! // FIXME: harusnya dipasang di profile kan?
         }
         // API Migrasi
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
+        let _ = request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -435,7 +435,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             self.showLoading()
             let deviceId = UIDevice.current.identifierForVendor!.uuidString
             // API Migrasi
-        request(APIUser.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+        let _ = request(APIUser.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Referral Bonus")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
@@ -492,7 +492,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 a.message = "Mengirim e-mail..."
                 a.show()
                 // API Migrasi
-        request(APIUser.resendVerificationEmail).responseJSON {resp in
+        let _ = request(APIUser.resendVerificationEmail).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
                         a.dismiss(withClickedButtonIndex: -1, animated: true)
                         Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")

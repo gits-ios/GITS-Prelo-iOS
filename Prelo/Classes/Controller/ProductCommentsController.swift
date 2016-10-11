@@ -116,7 +116,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     func getComments()
     {
         // API Migrasi
-        request(APIProduct.getComment(productID: pDetail.productID)).responseJSON {resp in
+        let _ = request(APIProduct.getComment(productID: pDetail.productID)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
@@ -169,7 +169,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.isEditable = false
         
         // API Migrasi
-        request(APIProduct.postComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
+        let _ = request(APIProduct.postComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""

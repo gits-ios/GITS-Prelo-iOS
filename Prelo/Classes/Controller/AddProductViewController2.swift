@@ -907,7 +907,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func getSizes()
     {
-        request(References.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
+        let _ = request(References.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
                 if let x: AnyObject = resp.result.value
                 {
@@ -1069,7 +1069,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let cur = 0
         let lim = 25
         var names : [String] = []
-        request(APISearch.brands(name: "", current: cur, limit: lim)).responseJSON { resp in
+        let _ = request(APISearch.brands(name: "", current: cur, limit: lim)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -1248,7 +1248,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             btnDelete.setTitle("Menghapus barang...", for: UIControlState.disabled)
             btnDelete.isEnabled = false
             
-            request(Products.delete(productID: prodId)).responseJSON {resp in
+            let _ = request(Products.delete(productID: prodId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
                 {
                     if var v = self.navigationController?.viewControllers

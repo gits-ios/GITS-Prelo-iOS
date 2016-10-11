@@ -74,7 +74,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil) {
             deviceToken = UserDefaults.standard.string(forKey: "deviceregid")!
         }
-        request(APIUser.setDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
+        let _ = request(APIUser.setDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set Device Registration ID")) {
                 let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].int!
@@ -104,7 +104,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Get user profile from API and check if required data is set
         // Required data: gender, phone, province, region, shipping
         // API Migrasi
-        request(APIUser.me).responseJSON {resp in
+        let _ = request(APIUser.me).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Profil Pengguna")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -203,7 +203,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                     
                     // Send uuid to server
-                    request(APIUser.setUserUUID)
+                    let _ = request(APIUser.setUserUUID)
                     
                     // Mixpanel
                     if let c = CDUser.getOne() {
@@ -416,7 +416,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             //print("accessToken = \(accessToken)")
             
             // API Migrasi
-            request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
+            let _ = request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -588,7 +588,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             return
         }
         
-        request(APIAuth.loginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
+        let _ = request(APIAuth.loginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -801,7 +801,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             return
         }
         
-        request(APIAuth.login(email: email!, password: pwd!)).responseJSON {resp in
+        let _ = request(APIAuth.login(email: email!, password: pwd!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -889,7 +889,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }*/
         
         // API Migrasi
-        request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { resp in
+        let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

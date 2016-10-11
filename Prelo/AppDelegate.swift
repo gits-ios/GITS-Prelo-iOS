@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }*/
             
             // Send uuid to server
-            request(APIUser.setUserUUID)
+            let _ = request(APIUser.setUserUUID)
         }
         
         // Mixpanel
@@ -346,7 +346,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             LoginViewController.SendDeviceRegId()
         } else {
             // API Migrasi
-            request(APIVisitor.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+            let _ = request(APIVisitor.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
                     print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
@@ -442,7 +442,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
-                request(Products.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                let _ = request(Products.getIdByPermalink(permalink: permalink)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
                         let pId = json["_data"].stringValue
@@ -475,7 +475,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
-                request(References.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                let _ = request(References.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
                         let cId = json["_data"].stringValue
@@ -579,7 +579,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectProduct(_ productId : String) {
-        request(Products.detail(productId: productId)).responseJSON {resp in
+        let _ = request(Products.detail(productId: productId)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -621,7 +621,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectComment(_ productId : String) {
-        request(Products.detail(productId: productId)).responseJSON {resp in
+        let _ = request(Products.detail(productId: productId)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product Comment")) {
                 let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)
@@ -712,7 +712,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
             // API Migrasi
-            request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+            let _ = request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -763,7 +763,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func redirectConfirmPayment(_ transactionId : String) {
         if (transactionId != "") {
             // API Migrasi
-            request(APITransaction2.transactionDetail(tId: transactionId)).responseJSON {resp in
+            let _ = request(APITransaction2.transactionDetail(tId: transactionId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]

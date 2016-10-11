@@ -100,7 +100,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         if let txt = searchBar.text {
             searchText = txt
         }
-        request(APINotifAnggi.getNotifsBuy(page: currentPage + 1, name : searchText)).responseJSON { resp in
+        let _ = request(APINotifAnggi.getNotifsBuy(page: currentPage + 1, name : searchText)).responseJSON { resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Transaksi")) {
                     let json = JSON(resp.result.value!)

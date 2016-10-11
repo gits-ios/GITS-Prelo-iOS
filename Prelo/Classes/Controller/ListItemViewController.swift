@@ -454,7 +454,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (products != nil && products?.count > 0) {
                 lastTimeUuid = products![products!.count - 1].updateTimeUuid
             }
-            request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+            let _ = request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
                 self.done = false
                 self.footerLoading?.isHidden = false
                 self.requesting = false
@@ -504,7 +504,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        request(APISearch.productByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
@@ -520,7 +520,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         requesting = true
         
-        request(Products.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        let _ = request(Products.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Featured Products")) {
                 self.products = []
@@ -540,7 +540,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Product")) {
@@ -556,7 +556,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.requesting = true
         
         // API Migrasi
-        request(APIPeople.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
+        let _ = request(APIPeople.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)

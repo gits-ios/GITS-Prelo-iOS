@@ -203,7 +203,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let password = txtPassword?.text
         let name = txtName?.text
         // API Migrasi
-        request(APIAuth.register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
+        let _ = request(APIAuth.register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Register")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -319,7 +319,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
 
         // API Migrasi
-        request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+        let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

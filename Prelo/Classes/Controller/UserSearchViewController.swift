@@ -31,7 +31,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
     {
         self.title = "Loading.."
         // API Migrasi
-        request(APISearch.user(keyword: keyword))
+        let _ = request(APISearch.user(keyword: keyword))
 //            .responseJSON {resp in
             .responseJSON { resp in
             //print(res)
