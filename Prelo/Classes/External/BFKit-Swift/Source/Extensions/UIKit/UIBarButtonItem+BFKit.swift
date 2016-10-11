@@ -40,20 +40,20 @@ public extension UIBarButtonItem {
      - returns: Returns the created UIBarButtonItem
      */
     public convenience init(barButtonSpaceType space: UIBarButtonSystemItem, width: CGFloat = 0.0) {
-        if space == .FixedSpace || space == .FlexibleSpace {
+        if space == .fixedSpace || space == .flexibleSpace {
             self.init(barButtonSystemItem: space, target: nil, action: #selector(UIBarButtonItem.nothing))
-            if space == .FixedSpace {
+            if space == .fixedSpace {
                 self.width = width
             }
         } else {
-            self.init(barButtonSystemItem: .FlexibleSpace, target: nil, action: #selector(UIBarButtonItem.nothing))
+            self.init(barButtonSystemItem: .flexibleSpace, target: nil, action: #selector(UIBarButtonItem.nothing))
         }
     }
     
     /**
      Private, is just a placeholder to remove warning messages to "init(barButtonSpaceType space:, width:)"
      */
-    @objc private func nothing() {
+    @objc fileprivate func nothing() {
         
     }
 }

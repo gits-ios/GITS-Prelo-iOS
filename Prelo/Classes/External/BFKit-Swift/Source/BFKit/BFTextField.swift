@@ -28,8 +28,8 @@ import Foundation
 import UIKit
 
 /// This class adds some useful functions to UITextField that cannot be in an extension
-public class BFTextField: UITextField {
-    @IBInspectable public var maxNumberOfCharacters: Int = 0 {
+open class BFTextField: UITextField {
+    @IBInspectable open var maxNumberOfCharacters: Int = 0 {
         didSet {
             
         }
@@ -39,7 +39,7 @@ public class BFTextField: UITextField {
         super.init(frame: frame)
         
         self.maxNumberOfCharacters = 0
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BFTextField.textFieldDidChange(_:)), name: UITextFieldTextDidChangeNotification, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(BFTextField.textFieldDidChange(_:)), name: NSNotification.Name.UITextFieldTextDidChange, object: self)
     }
     
     /**
@@ -52,23 +52,23 @@ public class BFTextField: UITextField {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.maxNumberOfCharacters = Int(aDecoder.decodeIntForKey("MaxNumberOfCharacters"))
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BFTextField.textFieldDidChange(_:)), name: UITextFieldTextDidChangeNotification, object: self)
+        self.maxNumberOfCharacters = Int(aDecoder.decodeCInt(forKey: "MaxNumberOfCharacters"))
+        NotificationCenter.default.addObserver(self, selector: #selector(BFTextField.textFieldDidChange(_:)), name: NSNotification.Name.UITextFieldTextDidChange, object: self)
     }
     
-    public override func encodeWithCoder(aCoder: NSCoder) {
-        super.encodeWithCoder(aCoder)
+    open override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
         
-        aCoder.encodeInt(Int32(maxNumberOfCharacters), forKey: "MaxNumberOfCharacters")
+        aCoder.encodeCInt(Int32(maxNumberOfCharacters), forKey: "MaxNumberOfCharacters")
     }
     
-    public func textFieldDidChange(notification: NSNotification) {
+    open func textFieldDidChange(_ notification: Foundation.Notification) {
         if self.maxNumberOfCharacters != 0 && self.text!.length >= self.maxNumberOfCharacters {
             self.text = self.text?.substringToIndex(self.maxNumberOfCharacters)
         }
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }

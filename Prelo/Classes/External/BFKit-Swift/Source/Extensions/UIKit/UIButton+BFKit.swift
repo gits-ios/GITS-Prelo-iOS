@@ -39,7 +39,7 @@ public extension UIButton {
     
      - returns: Returns the UIButton instance
      */
-    @available(*, obsoleted=1.2.0, message="Use UIButton(_, title:, backgroundImage:, highlightedBackgroundImage:)")
+    @available(*, obsoleted: 1.2.0, message: "Use UIButton(_, title:, backgroundImage:, highlightedBackgroundImage:)")
     public convenience init(frame: CGRect, title: String) {
         self.init(frame: frame, title: title, backgroundImage: nil, highlightedBackgroundImage: nil)
     }
@@ -53,7 +53,7 @@ public extension UIButton {
     
      - returns: Returns the UIButton instance
      */
-    @available(*, obsoleted=1.2.0, message="Use UIButton(_, title:, backgroundImage:, highlightedBackgroundImage:)")
+    @available(*, obsoleted: 1.2.0, message: "Use UIButton(_, title:, backgroundImage:, highlightedBackgroundImage:)")
     public convenience init(frame: CGRect, title: String, backgroundImage: UIImage?) {
         self.init(frame: frame, title: title, backgroundImage: backgroundImage, highlightedBackgroundImage: nil)
     }
@@ -71,9 +71,9 @@ public extension UIButton {
     public convenience init(frame: CGRect, title: String, backgroundImage: UIImage? = nil, highlightedBackgroundImage: UIImage? = nil) {
         self.init(frame: frame)
         self.frame = frame
-        self.setTitle(title, forState: .Normal)
-        self.setBackgroundImage(backgroundImage, forState: .Normal)
-        self.setBackgroundImage(highlightedBackgroundImage, forState: .Highlighted)
+        self.setTitle(title, for: UIControlState())
+        self.setBackgroundImage(backgroundImage, for: UIControlState())
+        self.setBackgroundImage(highlightedBackgroundImage, for: .highlighted)
     }
     
     /**
@@ -86,7 +86,7 @@ public extension UIButton {
      - returns: Returns the UIButton instance
      */
     public convenience init(frame: CGRect, title: String, color: UIColor) {
-        let components: UnsafePointer<CGFloat> = CGColorGetComponents(color.CGColor)
+        let components: UnsafePointer<CGFloat> = color.cgColor.components
         self.init(frame: frame, title: title, backgroundImage: UIImage(color: color), highlightedBackgroundImage: UIImage(color: UIColor(red: components[0]-0.1, green: components[1]-0.1, blue: components[2]-0.1, alpha: 1)))
     }
     
@@ -112,7 +112,7 @@ public extension UIButton {
     
      - returns: Returns the UIButton instance
      */
-    @available(*, obsoleted=1.2.0, message="Use UIButton(_, image:, highlightedImage:)")
+    @available(*, obsoleted: 1.2.0, message: "Use UIButton(_, image:, highlightedImage:)")
     public convenience init(frame: CGRect, image: UIImage) {
         self.init(frame: frame, image: image, highlightedImage: nil)
     }
@@ -129,8 +129,8 @@ public extension UIButton {
     public convenience init(frame: CGRect, image: UIImage, highlightedImage: UIImage? = nil) {
         self.init(frame: frame)
         self.frame = frame
-        self.setImage(image, forState: .Normal)
-        self.setImage(highlightedImage, forState: .Highlighted)
+        self.setImage(image, for: UIControlState())
+        self.setImage(highlightedImage, for: .highlighted)
     }
     
     // MARK: - Instance functions -
@@ -141,7 +141,7 @@ public extension UIButton {
      - parameter fontName: Font name from the FontName enum declared in UIFont+BFKit
      - parameter size:     Font size
      */
-    public func setTitleFont(fontName: FontName, size: CGFloat) {
+    public func setTitleFont(_ fontName: FontName, size: CGFloat) {
         self.titleLabel!.font = UIFont(fontName: fontName, size: size)
     }
     
@@ -150,8 +150,8 @@ public extension UIButton {
     
      - parameter color: Font color, the highlighted color will be automatically created
      */
-    public func setTitleColor(color: UIColor) {
-        self.setTitleColor(color, highlightedColor: color.colorWithAlphaComponent(0.4))
+    public func setTitleColor(_ color: UIColor) {
+        self.setTitleColor(color, highlightedColor: color.withAlphaComponent(0.4))
     }
     
     /**
@@ -160,8 +160,8 @@ public extension UIButton {
      - parameter color:            Button's color
      - parameter highlightedColor: Button's highlighted color
      */
-    public func setTitleColor(color: UIColor, highlightedColor: UIColor) {
-        self.setTitleColor(color, forState: .Normal)
-        self.setTitleColor(highlightedColor, forState: .Highlighted)
+    public func setTitleColor(_ color: UIColor, highlightedColor: UIColor) {
+        self.setTitleColor(color, for: UIControlState())
+        self.setTitleColor(highlightedColor, for: .highlighted)
     }
 }

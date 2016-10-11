@@ -43,10 +43,10 @@ class CarConfirmViewController: BaseViewController {
         captionTotalPayment?.text = "Rp. " + String(totalPayment)
         captionPaymentMethod?.text = paymentMethod
         
-        captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalizedString + "\nKami baru saja mengirimkan e-mail konfirmasi pesanan Kamu :"
+        captionName?.text = "Hai " + ((CDUser.getOne()?.fullname)!).capitalized + "\nKami baru saja mengirimkan e-mail konfirmasi pesanan Kamu :"
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -57,15 +57,15 @@ class CarConfirmViewController: BaseViewController {
     }
     
     var first = true
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let arr = self.navigationController?.viewControllers
         {
             if (first)
             {
                 var x = arr
-                x.removeAtIndex(x.count-2)
-                x.removeAtIndex(x.count-2)
+                x.remove(at: x.count-2)
+                x.remove(at: x.count-2)
                 self.navigationController?.setViewControllers(x, animated: false)
                 first = false
             }
@@ -87,17 +87,17 @@ class CarConfirmViewController: BaseViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segConfirm")
         {
-            let o = segue.destinationViewController as! OrderConfirmViewController
+            let o = segue.destination as! OrderConfirmViewController
             o.orderID = self.orderID
             o.transactionId = transactionId
             o.total = totalPayment
             
-            var imgs : [NSURL] = []
+            var imgs : [URL] = []
             
             for i in 0...items.count-1
             {
@@ -115,7 +115,7 @@ class CarConfirmViewController: BaseViewController {
                     
                     if (ori.count > 0)
                     {
-                        if let u = NSURL(string: ori.first!)
+                        if let u = URL(string: ori.first!)
                         {
                             imgs.append(u)
                         }

@@ -699,15 +699,15 @@ public extension UIFont {
      - returns: Returns all the font family names
      */
     public static func allFamilyAndFonts() -> Dictionary<String, Array<AnyObject>> {
-        var fontFamilies: NSMutableArray = NSMutableArray(array: UIFont.familyNames() as NSArray)
+        var fontFamilies: NSMutableArray = NSMutableArray(array: UIFont.familyNames as NSArray)
         fontFamilies = NSMutableArray.sortArrayByKey("", array: fontFamilies, ascending: true)
         
         var fontFamilyDic: Dictionary<String, Array<AnyObject>> = Dictionary()
         
         for i in 0 ..< fontFamilies.count {
-            let fontFamily: String = fontFamilies.objectAtIndex(i) as! String
-            let fontNames: Array = UIFont.fontNamesForFamilyName(fontFamily)
-            fontFamilyDic[fontFamily] = fontNames
+            let fontFamily: String = fontFamilies.object(at: i) as! String
+            let fontNames: Array = UIFont.fontNames(forFamilyName: fontFamily)
+            fontFamilyDic[fontFamily] = fontNames as [AnyObject]?
         }
         
         BFLog("\(fontFamilyDic)")
@@ -722,11 +722,11 @@ public extension UIFont {
     
      - returns: Returns all the fonts for the given family
      */
-    public static func fontsNameForFamilyName(familyFontName: FamilyFontName) -> Array<AnyObject> {
-        let fontNames: Array = UIFont.fontNamesForFamilyName(familyFontName.rawValue)
+    public static func fontsNameForFamilyName(_ familyFontName: FamilyFontName) -> Array<AnyObject> {
+        let fontNames: Array = UIFont.fontNames(forFamilyName: familyFontName.rawValue)
         
         BFLog("\(fontNames)")
         
-        return fontNames
+        return fontNames as Array<AnyObject>
     }
 }

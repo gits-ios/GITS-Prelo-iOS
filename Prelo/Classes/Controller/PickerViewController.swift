@@ -7,15 +7,35 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 @objc protocol PickerViewDelegate
 {
-    optional func pickerDidSelect(item : String)
-    optional func pickerCancelled()
+    @objc optional func pickerDidSelect(_ item : String)
+    @objc optional func pickerCancelled()
 }
 
-typealias PrepDataBlock = (picker : PickerViewController) -> ()
-typealias PickerSelectBlock = (item : String) -> ()
+typealias PrepDataBlock = (_ picker : PickerViewController) -> ()
+typealias PickerSelectBlock = (_ item : String) -> ()
 
 class PickerViewController: UITableViewController, UISearchBarDelegate
 {
@@ -50,22 +70,22 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    static func HideHiddenString(string : String) -> String
+    static func HideHiddenString(_ string : String) -> String
     {
-        var sf = AppToolsObjC.stringByHideTextBetween(PickerViewController.TAG_START_HIDDEN, and: PickerViewController.TAG_END_HIDDEN, from: string)
+        var sf = AppToolsObjC.string(byHideTextBetween: PickerViewController.TAG_START_HIDDEN, and: PickerViewController.TAG_END_HIDDEN, from: string)
         
-        sf = sf.stringByReplacingOccurrencesOfString(PickerViewController.TAG_START_HIDDEN, withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        sf = sf.stringByReplacingOccurrencesOfString(PickerViewController.TAG_END_HIDDEN, withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        sf = sf?.replacingOccurrences(of: PickerViewController.TAG_START_HIDDEN, with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
+        sf = sf?.replacingOccurrences(of: PickerViewController.TAG_END_HIDDEN, with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
         
-        return sf
+        return sf!
     }
     
-    static func RevealHiddenString(string : String) -> String
+    static func RevealHiddenString(_ string : String) -> String
     {
         let text = PickerViewController.HideHiddenString(string)
-        var sf = string.stringByReplacingOccurrencesOfString(text, withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        sf = sf.stringByReplacingOccurrencesOfString(PickerViewController.TAG_START_HIDDEN, withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
-        sf = sf.stringByReplacingOccurrencesOfString(PickerViewController.TAG_END_HIDDEN, withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        var sf = string.replacingOccurrences(of: text, with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
+        sf = sf.replacingOccurrences(of: PickerViewController.TAG_START_HIDDEN, with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
+        sf = sf.replacingOccurrences(of: PickerViewController.TAG_END_HIDDEN, with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
         return sf
     }
     
@@ -105,15 +125,15 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         
         if (prepDataBlock != nil) {
             startLoading()
-            prepDataBlock!(picker: self)
+            prepDataBlock!(self)
         }
         
-        searchBar.autocapitalizationType = .Words
+        searchBar.autocapitalizationType = .words
         
         // Tombol back
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickerViewController.dismiss))
-        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        let newBackButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(PickerViewController.dismiss))
+        newBackButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], for: UIControlState())
         self.navigationItem.leftBarButtonItem = newBackButton
         
         // Do any additional setup after loading the view.
@@ -124,7 +144,7 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var n = items!.count
         if (!self.isPagingEnded || n == 0) { // Jika paging belum selesai, atau jika sedang loading filter
             // Additional cell for loading indicator
@@ -133,32 +153,32 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         return n
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let usedItems = items else {
             return UITableViewCell()
         }
         
-        if (indexPath.row >= usedItems.count) { // Make this loading cell
-            let cell = tableView.dequeueReusableCellWithIdentifier("PickerVCCell") as! PickerVCCell
+        if ((indexPath as NSIndexPath).row >= usedItems.count) { // Make this loading cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PickerVCCell") as! PickerVCCell
             
             cell.isBottomCell = true
             cell.adapt()
             
             return cell
         } else {
-            var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+            var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
             
             if (cell == nil) {
                 if (subtitles.count != 0 && subtitles.count == usedItems.count)
                 {
-                    cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+                    cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
                 } else
                 {
-                    cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+                    cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
                 }
             }
             
-            let raw = usedItems.objectAtCircleIndex(indexPath.row)
+            let raw = usedItems.objectAtCircleIndex((indexPath as NSIndexPath).row)
             let s = PickerViewController.HideHiddenString(raw)
             
             cell?.textLabel?.text = s
@@ -167,31 +187,31 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             {
                 cell?.detailTextLabel?.minimumScaleFactor = 0.5
                 cell?.detailTextLabel?.adjustsFontSizeToFitWidth = true
-                cell?.detailTextLabel?.text = subtitles[indexPath.row]
+                cell?.detailTextLabel?.text = subtitles[(indexPath as NSIndexPath).row]
             }
             
             return cell!
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let usedItems = items else {
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
             return
         }
         
         if (selectBlock != nil) {
-            selectBlock!(item: (usedItems.objectAtCircleIndex(indexPath.row)))
+            selectBlock!((usedItems.objectAtCircleIndex((indexPath as NSIndexPath).row)))
         }
         
         if (pickerDelegate != nil) {
-            pickerDelegate?.pickerDidSelect!((usedItems.objectAtCircleIndex(indexPath.row)))
+            pickerDelegate?.pickerDidSelect!((usedItems.objectAtCircleIndex((indexPath as NSIndexPath).row)))
         }
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -210,9 +230,9 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    func getBrands(name: String) {
+    func getBrands(_ name: String) {
         self.isGettingData = true
-        request(APISearch.Brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
+        request(APISearch.brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
                 if (name == self.searchBar.text) { // Jika belum ada rikues lain karena perubahan search text
                     let json = JSON(resp.result.value!)
@@ -230,23 +250,23 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                                 if let isLux = data[i]["is_luxury"].bool {
                                     isLuxury = isLux
                                 }
-                                if let segments = data[i]["segments"].array where segments.count > 0 {
+                                if let segments = data[i]["segments"].array , segments.count > 0 {
                                     for j in 0...(segments.count - 1) {
-                                        if (segments[j].stringValue.lowercaseString == "luxury") {
+                                        if (segments[j].stringValue.lowercased() == "luxury") {
                                             isLuxury = true
                                         }
                                     }
                                 }
                                 strToHide += ";" + (isLuxury ? "1" : "0")
                                 self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
-                                if (merkName.lowercaseString == name.lowercaseString) { // Jika ada merk yg sama dengan query search, tidak perlu memunculkan 'Tambahkan merek..'
+                                if (merkName.lowercased() == name.lowercased()) { // Jika ada merk yg sama dengan query search, tidak perlu memunculkan 'Tambahkan merek..'
                                     isShowAddNewBrandCell = false
                                 }
                             }
                         }
                     }
                     if (self.isFiltering() && isShowAddNewBrandCell) {
-                        self.items?.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", atIndex: 0)
+                        self.items?.insert("Tambahkan merek '" + (self.searchBar.text == nil ? "" : self.searchBar.text!) + "'", at: 0)
                     }
                     self.tableView.reloadData()
                     self.pagingCurrent += self.pagingCurrent == 0 ? 25 : self.pagingLimit
@@ -273,18 +293,18 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
             pickerDelegate!.pickerCancelled?()
         }
         if (self.navigationController != nil) {
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         } else {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.filter(searchText)
         tableView.reloadData()
     }
     
-    func filter(k : String)
+    func filter(_ k : String)
     {
         self.items?.removeAll()
         tableView.reloadData()
@@ -314,12 +334,12 @@ class PickerVCCell: UITableViewCell {
     var isBottomCell : Bool = false
     
     override func prepareForReuse() {
-        loading.hidden = true
+        loading.isHidden = true
     }
     
     func adapt() {
         if (isBottomCell) {
-            loading.hidden = false
+            loading.isHidden = false
         }
     }
 }

@@ -29,20 +29,20 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Register custom cell
         let myLovelistCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
-        tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
+        tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
-        tableView.hidden = true
-        lblEmpty.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Set title
@@ -64,7 +64,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func getUserReviews() {
         // API Migrasi
-        request(APIPeople.GetSellerReviews(id: self.sellerId)).responseJSON {resp in
+        request(APIPeople.getSellerReviews(id: self.sellerId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Pengguna")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -76,12 +76,12 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     }
                 }
             }
-            self.loadingPanel.hidden = true
+            self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
             if (self.userReviews.count <= 0) {
-                self.lblEmpty.hidden = false
+                self.lblEmpty.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -98,25 +98,25 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - UITableView Functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.userReviews.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ShopReviewCell = self.tableView.dequeueReusableCellWithIdentifier("ShopReviewCell") as! ShopReviewCell
-        cell.selectionStyle = .None
-        let u = userReviews[indexPath.item]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+        cell.selectionStyle = .none
+        let u = userReviews[(indexPath as NSIndexPath).item]
         cell.adapt(u)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("Row \(indexPath.row) selected")
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath:  NSIndexPath) -> CGFloat {
-        let u = userReviews[indexPath.item]
-        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFontOfSize(12), width: 240).height
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
+        let u = userReviews[(indexPath as NSIndexPath).item]
+        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
         return 65 + commentHeight
     }
 }
@@ -133,7 +133,7 @@ class ShopReviewCell : UITableViewCell {
         lblStar.attributedText = nil
     }
     
-    func adapt(userReview : UserReview) {
+    func adapt(_ userReview : UserReview) {
         imgBuyer.setImageWithUrl(userReview.buyerPictURL!, placeHolderImage: nil)
         imgBuyer.layer.masksToBounds = true
         imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2

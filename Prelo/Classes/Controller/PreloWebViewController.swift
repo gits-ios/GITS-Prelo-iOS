@@ -34,19 +34,19 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let req = NSURLRequest(URL: NSURL(string: url)!)
+        let req = Foundation.URLRequest(url: URL(string: url)!)
         webView.loadRequest(req)
         webView.delegate = self
         
-        let btnClose = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(PreloWebViewController.closePressed))
-        btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], forState: UIControlState.Normal)
+        let btnClose = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(PreloWebViewController.closePressed))
+        btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], for: UIControlState())
         self.navigationItem.rightBarButtonItem = btnClose
         
         self.title = titleString
         
         // Show loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
         
         // Sticky footer
@@ -61,7 +61,7 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if (titleString == "Syarat dan Ketentuan") {
@@ -77,47 +77,47 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         if (creditCardMode) {
             ccPaymentUnfinished()
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         // Show loading
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
         
         //let currentURL = webView.request // Not incoming URL
         //print(currentURL)
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         // Hide loading
-        loadingPanel.hidden = true
+        loadingPanel.isHidden = true
         loading.stopAnimating()
         
         //let currentURL = webView.request?.URL // Incoming URL
         //print(currentURL)
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         print("Load webview failed!")
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        let auth = request.valueForHTTPHeaderField("Authorization")
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        let auth = request.value(forHTTPHeaderField: "Authorization")
         print("Auth = \(auth)")
-        print("URL = \(webView.request?.URL), INCOMING REQUEST = \(request), NAVIGATION TYPE = \(navigationType.rawValue)")
+        print("URL = \(webView.request?.url), INCOMING REQUEST = \(request), NAVIGATION TYPE = \(navigationType.rawValue)")
         
         if (creditCardMode) {
-            let incomingURL = request.URL
-            if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeSuccessUrl) != nil) { // Success
+            let incomingURL = request.url
+            if (incomingURL?.absoluteString.lowercased().range(of: ccModeSuccessUrl) != nil) { // Success
                 ccPaymentSucceed()
-                self.dismissViewControllerAnimated(true, completion: nil)
-            } else if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeUnfinishUrl) != nil) { // Unfinished
+                self.dismiss(animated: true, completion: nil)
+            } else if (incomingURL?.absoluteString.lowercased().range(of: ccModeUnfinishUrl) != nil) { // Unfinished
                 ccPaymentUnfinished()
-                self.dismissViewControllerAnimated(true, completion: nil)
-            } else if (incomingURL?.absoluteString.lowercaseString.rangeOfString(ccModeFailUrl) != nil) { // Failed
+                self.dismiss(animated: true, completion: nil)
+            } else if (incomingURL?.absoluteString.lowercased().range(of: ccModeFailUrl) != nil) { // Failed
                 ccPaymentFailed()
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
             /* Adding Auth to HTTPHeader, cancelling current request, and performing new request (Unused)
              if (request.URLString.containsString("http://dev.prelo.id") && auth == nil) {
@@ -139,9 +139,9 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
         return true
     }
     
-    @IBAction func btnStickyFooterPressed(sender: AnyObject) {
+    @IBAction func btnStickyFooterPressed(_ sender: AnyObject) {
         if (contactPreloMode) {
-            let c = (self.storyboard?.instantiateViewControllerWithIdentifier("contactus"))!
+            let c = (self.storyboard?.instantiateViewController(withIdentifier: "contactus"))!
             contactUs = c
             if let v = c.view, let p = self.navigationController?.view {
                 v.alpha = 0
@@ -149,7 +149,7 @@ class PreloWebViewController: UIViewController, UIWebViewDelegate
                 self.navigationController?.view.addSubview(v)
                 
                 v.alpha = 0
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     v.alpha = 1
                 })
             }

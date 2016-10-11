@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
@@ -123,32 +134,32 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         lblReviewContent.numberOfLines = 2
         
         // Tampilkan loading
-        contentView.hidden = true
+        contentView.isHidden = true
         loading.startAnimating()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-        vwShadow.hidden = true
-        vwReviewSeller.hidden = true
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
+        vwShadow.isHidden = true
+        vwReviewSeller.isHidden = true
         txtvwReview.delegate = self
         txtvwReview.text = TxtvwReviewPlaceholder
-        txtvwReview.textColor = UIColor.lightGrayColor()
+        txtvwReview.textColor = UIColor.lightGray
         txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
-        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 3)
         
         self.validateRvwKirimFields()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Load content
         getPurchaseDetail()
         
-        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+        self.an_subscribeKeyboard (animations: { r, t, o in
             if (o) {
                 self.consTopVwReviewSeller.constant = 10
             } else {
@@ -157,14 +168,14 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
     func getPurchaseDetail() {
         // API Migrasi
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {resp in
+        request(APITransaction.transactionDetail(id: transactionId!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Belanjaan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -201,7 +212,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         lblPrice.text = "Rp \((transactionDetail?.totalPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
         lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
-        lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
+        lblOrderStatus.text = transactionDetail?.progressText.uppercased()
         lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
@@ -235,7 +246,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         // Nama dan gambar reviewer
         let user : CDUser = CDUser.getOne()!
         lblReviewerName.text = user.username
-        let urlReviewer = NSURL(string: user.profiles.pict)
+        let urlReviewer = URL(string: user.profiles.pict)
         imgReviewer.setImageWithUrl(urlReviewer!, placeHolderImage: nil)
         
         // Love
@@ -267,7 +278,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor = UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.red
         } else {
             lblOrderStatus.textColor = Theme.ThemeOrange
         }
@@ -332,17 +343,17 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         
         // Show content
         loading.stopAnimating()
-        contentView.hidden = false
+        contentView.isHidden = false
     }
     
-    func arrangeGroups(isShowGroups : [Bool]) {
+    func arrangeGroups(_ isShowGroups : [Bool]) {
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
         for i in 0 ..< isShowGroups.count { // asumsi i = 0-9
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
-                groups[i].hidden = false
+                groups[i].isHidden = false
                 // Manual narrow/wide space
                 if (i == 0 || i == 3 || i == 4 || i == 7 || i == 8) { // Narrow space before group
                     deltaX += narrowSpace
@@ -352,37 +363,37 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 consTopGroups[i].constant = deltaX
                 deltaX += groups[i].frame.size.height
             } else {
-                groups[i].hidden = true
+                groups[i].isHidden = true
             }
         }
         // Set content view height
         consHeightContentView.constant = deltaX + narrowSpace
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
         }
     }
     
-    @IBAction func disableTextFields(sender : AnyObject) {
+    @IBAction func disableTextFields(_ sender : AnyObject) {
         txtvwReview.resignFirstResponder()
     }
     
-    @IBAction func konfirmasiPembayaranPressed(sender: AnyObject) {
+    @IBAction func konfirmasiPembayaranPressed(_ sender: AnyObject) {
         let orderConfirmVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
         orderConfirmVC.orderID = transactionDetail!.id
         self.navigationController?.pushViewController(orderConfirmVC, animated: true)
     }
     
-    @IBAction func reviewSellerPressed(sender: AnyObject) {
-        vwShadow.hidden = false
-        vwReviewSeller.hidden = false
+    @IBAction func reviewSellerPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = false
+        vwReviewSeller.isHidden = false
     }
     
-    @IBAction func rvwLovePressed(sender: UIButton) {
+    @IBAction func rvwLovePressed(_ sender: UIButton) {
         var isFound = false
         for i in 0 ..< btnsRvwLove.count {
             let b = btnsRvwLove[i]
@@ -399,32 +410,32 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }
     }
     
-    @IBAction func rvwAgreementPressed(sender: AnyObject) {
+    @IBAction func rvwAgreementPressed(_ sender: AnyObject) {
         isRvwAgreed = !isRvwAgreed
         if (isRvwAgreed) {
             lblChkRvwAgreement.text = "";
-            lblChkRvwAgreement.font = AppFont.Prelo2.getFont(19)!
+            lblChkRvwAgreement.font = AppFont.prelo2.getFont(19)!
             lblChkRvwAgreement.textColor = Theme.ThemeOrange
         } else {
             lblChkRvwAgreement.text = "";
-            lblChkRvwAgreement.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkRvwAgreement.font = AppFont.preloAwesome.getFont(24)!
             lblChkRvwAgreement.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func rvwBatalPressed(sender: AnyObject) {
-        vwShadow.hidden = true
-        vwReviewSeller.hidden = true
+    @IBAction func rvwBatalPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = true
+        vwReviewSeller.isHidden = true
     }
     
-    @IBAction func rvwKirimPressed(sender: AnyObject) {
+    @IBAction func rvwKirimPressed(_ sender: AnyObject) {
         if (!isRvwAgreed) {
             Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
             return
         }
         
         self.sendMode(true)
-        request(Products.PostReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+        request(Products.postReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
@@ -437,20 +448,20 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
                 }
                 // Hide pop up
                 self.sendMode(false)
-                self.vwShadow.hidden = true
-                self.vwReviewSeller.hidden = true
+                self.vwShadow.isHidden = true
+                self.vwReviewSeller.isHidden = true
                 
                 // Reload content
-                self.contentView.hidden = true
+                self.contentView.isHidden = true
                 self.loading.startAnimating()
                 self.getPurchaseDetail()
             }
         }
     }
     
-    @IBAction func hubungiPreloPressed(sender: AnyObject) {
+    @IBAction func hubungiPreloPressed(_ sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
+        let c = mainStoryboard.instantiateViewController(withIdentifier: "contactus")
         contactUs = c
         if let v = c.view, let p = self.navigationController?.view
         {
@@ -459,28 +470,28 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
             self.navigationController?.view.addSubview(v)
             
             v.alpha = 0
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 v.alpha = 1
             })
         }
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if (txtvwReview.textColor == UIColor.lightGrayColor()) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (txtvwReview.textColor == UIColor.lightGray) {
             txtvwReview.text = ""
             txtvwReview.textColor = Theme.GrayDark
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
-        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+    func textViewDidChange(_ textView: UITextView) {
+        txtvwGrowHandler.resizeTextView(withAnimation: true)
         self.validateRvwKirimFields()
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if (txtvwReview.text.isEmpty) {
             txtvwReview.text = TxtvwReviewPlaceholder
-            txtvwReview.textColor = UIColor.lightGrayColor()
+            txtvwReview.textColor = UIColor.lightGray
         }
     }
     
@@ -489,32 +500,32 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     func validateRvwKirimFields() {
         if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
             // Disable tombol kirim
-            btnRvwKirim.userInteractionEnabled = false
+            btnRvwKirim.isUserInteractionEnabled = false
         } else {
             // Enable tombol kirim
-            btnRvwKirim.userInteractionEnabled = true
+            btnRvwKirim.isUserInteractionEnabled = true
         }
     }
     
-    func sendMode(mode: Bool) {
+    func sendMode(_ mode: Bool) {
         if (mode) {
             for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
-                b.userInteractionEnabled = false
+                b.isUserInteractionEnabled = false
             }
-            self.txtvwReview.userInteractionEnabled = false
-            self.btnRvwBatal.userInteractionEnabled = false
-            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
-            self.btnRvwKirim.userInteractionEnabled = false
+            self.txtvwReview.isUserInteractionEnabled = false
+            self.btnRvwBatal.isUserInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", for: UIControlState())
+            self.btnRvwKirim.isUserInteractionEnabled = false
         } else {
             for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
-                b.userInteractionEnabled = true
+                b.isUserInteractionEnabled = true
             }
-            self.txtvwReview.userInteractionEnabled = true
-            self.btnRvwBatal.userInteractionEnabled = true
-            self.btnRvwKirim.setTitle("KIRIM", forState: .Normal)
-            self.btnRvwKirim.userInteractionEnabled = true
+            self.txtvwReview.isUserInteractionEnabled = true
+            self.btnRvwBatal.isUserInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KIRIM", for: UIControlState())
+            self.btnRvwKirim.isUserInteractionEnabled = true
         }
     }
 }

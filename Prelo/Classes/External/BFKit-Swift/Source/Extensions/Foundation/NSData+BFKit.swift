@@ -27,7 +27,7 @@
 import Foundation
 
 /// This extension add some useful functions to NSData
-public extension NSData {
+public extension Data {
     // MARK: - Instance functions -
     
     /**
@@ -36,7 +36,7 @@ public extension NSData {
     - returns: Returns self as UTF8 NSString
     */
     public func convertToUTF8String() -> String {
-        return NSData.convertToUTF8String(self)
+        return Data.convertToUTF8String(self)
     }
     
     /**
@@ -45,7 +45,7 @@ public extension NSData {
      - returns: Returns self as ASCII NSString
      */
     public func convertToASCIIString() -> String {
-        return NSData.convertToASCIIString(self)
+        return Data.convertToASCIIString(self)
     }
     
     /**
@@ -55,7 +55,7 @@ public extension NSData {
      - returns: Returns self as String from UUID
      */
     public func convertUUIDToString() -> String {
-        return self.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "")
+        return self.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
     }
     
     // MARK: - Class functions -
@@ -67,8 +67,8 @@ public extension NSData {
     
     - returns: Returns the converted NSData as UTF8 String
     */
-    public static func convertToUTF8String(data: NSData) -> String {
-        return NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+    public static func convertToUTF8String(_ data: Data) -> String {
+        return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as! String
     }
     
     /**
@@ -78,7 +78,7 @@ public extension NSData {
      
      - returns: Returns the converted NSData as ASCII String
      */
-    public static func convertToASCIIString(data: NSData) -> String {
-        return NSString(data: data, encoding: NSASCIIStringEncoding) as! String
+    public static func convertToASCIIString(_ data: Data) -> String {
+        return NSString(data: data, encoding: String.Encoding.ascii.rawValue) as! String
     }
 }

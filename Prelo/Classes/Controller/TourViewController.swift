@@ -24,13 +24,13 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
 
         // Do any additional setup after loading the view.
         
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: UserDefaultsKey.Tour)
+        UserDefaults.standard.set(true, forKey: UserDefaultsKey.Tour)
 //        NSUserDefaults.standardUserDefaults().synchronize()
         
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 
@@ -39,26 +39,26 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let p = scrollView.contentOffset
         
         var x = p.x * scrollViewTitle.width / ((scrollView.width > 0) ? scrollView.width : 1)
-        scrollViewTitle.contentOffset = CGPointMake(x, 0)
+        scrollViewTitle.contentOffset = CGPoint(x: x, y: 0)
         
         x = p.x * scrollViewSubtitle.width / ((scrollView.width > 0) ? scrollView.width : 1)
-        scrollViewSubtitle.contentOffset = CGPointMake(x, 0)
+        scrollViewSubtitle.contentOffset = CGPoint(x: x, y: 0)
         
-        let scrWidth = UIScreen.mainScreen().bounds.width
+        let scrWidth = UIScreen.main.bounds.width
         if (scrWidth > 0) {
             pager.currentPage = Int(p.x / scrWidth)
         }
         
         if (pager.currentPage == 4)
         {
-            btnNext.setTitle("Mulai", forState: UIControlState.Normal)
+            btnNext.setTitle("Mulai", for: UIControlState())
         } else
         {
-            btnNext.setTitle("Selanjutnya", forState: UIControlState.Normal)
+            btnNext.setTitle("Selanjutnya", for: UIControlState())
         }
         
         // Only track if scrollView did finish the scroll
@@ -71,7 +71,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -89,7 +89,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     }
     
     var fromButton = false
-    @IBAction func next(sender : UIButton)
+    @IBAction func next(_ sender : UIButton)
     {
         if (pager.currentPage == 4)
         {
@@ -98,9 +98,9 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
             catPrefVC.parent = parent
             self.navigationController?.pushViewController(catPrefVC, animated: true)
             */
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         } else {
-            scrollView.setContentOffset(CGPointMake(CGFloat(CGFloat(pager.currentPage+1) * UIScreen.mainScreen().bounds.width), CGFloat(0)), animated: true)
+            scrollView.setContentOffset(CGPoint(x: CGFloat(CGFloat(pager.currentPage+1) * UIScreen.main.bounds.width), y: CGFloat(0)), animated: true)
         }
     }
 }

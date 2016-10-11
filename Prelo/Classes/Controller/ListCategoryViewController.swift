@@ -48,7 +48,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         GAI.trackPageVisit(PageName.Home)
         
         scroll_View.delegate = self
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListCategoryViewController.grandRefresh), name: "refreshHome", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ListCategoryViewController.grandRefresh), name: NSNotification.Name(rawValue: "refreshHome"), object: nil)
 //        setupScroll()
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -66,13 +66,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     }
     
     var firstPinch : CGFloat = 0
-    func pinchedIn(p : UIPinchGestureRecognizer)
+    func pinchedIn(_ p : UIPinchGestureRecognizer)
     {
-        if (p.state == UIGestureRecognizerState.Began)
+        if (p.state == UIGestureRecognizerState.began)
         {
             firstPinch = p.scale
             print("Start Scale : " + String(stringInterpolationSegment: p.scale))
-        } else if (p.state == UIGestureRecognizerState.Ended)
+        } else if (p.state == UIGestureRecognizerState.ended)
         {
             print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
             
@@ -92,11 +92,11 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func grandRefresh()
     {
-        listItemViews.removeAll(keepCapacity: false)
+        listItemViews.removeAll(keepingCapacity: false)
         
         if (childViewControllers.count > 0) {
             for vc in childViewControllers {
-                vc.willMoveToParentViewController(nil)
+                vc.willMove(toParentViewController: nil)
                 vc.removeFromParentViewController()
                 vc.view.removeFromSuperview()
             }
@@ -109,7 +109,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-        categoryNames.removeAll(keepCapacity: false)
+        categoryNames.removeAll(keepingCapacity: false)
         if (contentCategoryNames != nil) {
             for v in (self.contentCategoryNames?.subviews)!
             {
@@ -126,13 +126,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var contentView : UIView?
     var listItemViews : [UIView] = []
-    func addChilds(count : Int)
+    func addChilds(_ count : Int)
     {
         var d = ["scroll":scroll_View, "master":self.view]
         if contentView == nil
         {
             scroll_View.showsHorizontalScrollIndicator = false
-            scroll_View.pagingEnabled = true
+            scroll_View.isPagingEnabled = true
             let pContentView = UIView()
             pContentView.backgroundColor = UIColor(hexString: "#E8ECEE")
             scroll_View.addSubview(pContentView)
@@ -140,10 +140,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             pContentView.translatesAutoresizingMaskIntoConstraints = false
             
             d["content"] = pContentView
-            scroll_View.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[content]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            scroll_View.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[content]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             // .AlignAllBaseline asalnya nil suggested by kumang
-            scroll_View.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[content]-0-|", options: .AlignAllBaseline, metrics: nil, views: d))
-            self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[content(==scroll)]", options: .AlignAllBaseline, metrics: nil, views: d))
+            scroll_View.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[content]-0-|", options: .alignAllBaseline, metrics: nil, views: d))
+            self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==scroll)]", options: .alignAllBaseline, metrics: nil, views: d))
             contentView = pContentView
         }
         
@@ -163,8 +163,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         addCategoryNames(count)
     }
     
-    func addChildAtIdx(i : Int, count : Int, inout d : [String : UIView!], inout lastView : UIView?) {
-        let li:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+    func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView?], lastView : inout UIView?) {
+        let li:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         li.previousController = self.previousController
         
         li.categoryJson = categoriesFix[i]
@@ -173,31 +173,31 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
         
         let v = li.view
-        v.translatesAutoresizingMaskIntoConstraints = false
-        contentView?.addSubview(v)
+        v?.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.addSubview(v!)
         self.addChildViewController(li)
-        li.didMoveToParentViewController(self)
+        li.didMove(toParentViewController: self)
         d["v"] = v
         if let lv = lastView
         {
             d["lv"] = lv
-            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[lv]-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-0-[v]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             
         } else {
-            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[v]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
         }
         
-        contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==scroll)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v(==master)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+        contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==scroll)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v(==master)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
         
         if (i == count-1)
         {
-            contentView?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
         }
         
         lastView = v
-        listItemViews.append(v)
+        listItemViews.append(v!)
     }
     
     var contentCategoryNames : UIView?
@@ -205,22 +205,22 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var indicatorWidth : NSLayoutConstraint?
     var indicatorMargin : NSLayoutConstraint?
     var categoryNames : [UIView] = []
-    func addCategoryNames(count : Int)
+    func addCategoryNames(_ count : Int)
     {
         var d = ["scroll":scrollCategoryName, "master":self.view]
         if contentCategoryNames == nil
         {
             scrollCategoryName.showsHorizontalScrollIndicator = false
-            scrollCategoryName.backgroundColor = UIColor.whiteColor()
+            scrollCategoryName.backgroundColor = UIColor.white
             let pContentView = UIView()
             scrollCategoryName.addSubview(pContentView)
             
             pContentView.translatesAutoresizingMaskIntoConstraints = false
             
             d["content"] = pContentView
-            scrollCategoryName.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[content]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            scrollCategoryName.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[content]-0-|", options: .AlignAllBaseline, metrics: nil, views: d))
-            pContentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[content(==44)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[content]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+            scrollCategoryName.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[content]-0-|", options: .alignAllBaseline, metrics: nil, views: d))
+            pContentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[content(==44)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             contentCategoryNames = pContentView
         }
         
@@ -231,10 +231,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             categoryIndicator?.backgroundColor = Theme.ThemeOrange
             contentCategoryNames?.addSubview(categoryIndicator!)
             d["indicator"] = categoryIndicator
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            categoryIndicator?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator(==4)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            indicatorMargin = NSLayoutConstraint.constraintsWithVisualFormat("|-0-[indicator]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d).first
-            indicatorWidth = NSLayoutConstraint.constraintsWithVisualFormat("[indicator(==100)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d).first
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+            categoryIndicator?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator(==4)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+            indicatorMargin = NSLayoutConstraint.constraints(withVisualFormat: "|-0-[indicator]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d).first
+            indicatorWidth = NSLayoutConstraint.constraints(withVisualFormat: "[indicator(==100)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d).first
             contentCategoryNames?.addConstraint(indicatorMargin!)
             categoryIndicator?.addConstraint(indicatorWidth!)
         }
@@ -244,22 +244,22 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         var lastView : UIView?
         for i in 0...count-1
         {
-            let button = UIButton(type: .Custom)
+            let button = UIButton(type: .custom)
             button.setTitleColor(Theme.GrayDark)
-            button.titleLabel?.font = UIFont.systemFontOfSize(15)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             if let name = categoriesFix[i]["name"].string {
                 var nameFix = name
-                if (nameFix.lowercaseString == "all") {
-                    if let ftrd = categoriesFix[i]["is_featured"].bool where ftrd == true {
+                if (nameFix.lowercased() == "all") {
+                    if let ftrd = categoriesFix[i]["is_featured"].bool , ftrd == true {
                         nameFix = "Home"
                     }
                 }
-                button.setTitle(nameFix, forState: UIControlState.Normal)
+                button.setTitle(nameFix, for: UIControlState())
             }
             
             button.sizeToFit()
             
-            button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
             let width = button.width
             let v = button
@@ -270,19 +270,19 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             if let lv = lastView
             {
                 d["lv"] = lv
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[lv]-20-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-20-[v]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
                 
             } else {
-                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-20-[v]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+                contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-20-[v]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             }
             
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            v.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[v(==44)]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
-            v.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v(==\(width))]", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==44)]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
+            v.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v(==\(width))]", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             
             if (i == count-1)
             {
-            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[v]-20-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: d))
+            contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-20-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: d))
             }
             
             lastView = v
@@ -294,7 +294,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         // Home promo
         // API Migrasi
-        request(APIApp.Version).responseJSON {resp in
+        request(APIApp.version).responseJSON {resp in
             var isShowPromo = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Promo check")) {
                 let json = JSON(resp.result.value!)
@@ -304,20 +304,20 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                     if (isPromo) {
                         if let promoTitle = data["promo_data"]["title"].string {
                             if let promoUrlString = data["promo_data"]["url"].string {
-                                if let promoUrl = NSURL(string: promoUrlString) {
-                                    let lastPromoTitle : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.LastPromoTitle) as! String?
+                                if let promoUrl = URL(string: promoUrlString) {
+                                    let lastPromoTitle : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.LastPromoTitle) as! String?
                                     if (promoTitle != lastPromoTitle) { // Artinya blm pernah dimunculkan
-                                        let screenSize : CGRect = UIScreen.mainScreen().bounds
-                                        self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+                                        let screenSize : CGRect = UIScreen.main.bounds
+                                        self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
                                         imgHomePromo.setImageWithUrl(promoUrl, placeHolderImage: nil)
-                                        let imgHomePromoSize = CGSizeMake(300, 400)
-                                        imgHomePromo.frame = CGRectMake((screenSize.width / 2) - (imgHomePromoSize.width / 2), (screenSize.height / 2) - (imgHomePromoSize.height / 2), imgHomePromoSize.width, imgHomePromoSize.height)
-                                        imgHomePromo.contentMode = UIViewContentMode.ScaleAspectFit
+                                        let imgHomePromoSize = CGSize(width: 300, height: 400)
+                                        imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
+                                        imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit
                                         
                                         let btnHomePromo : UIButton = UIButton(frame: screenSize)
-                                        btnHomePromo.addTarget(self, action: #selector(ListCategoryViewController.btnHomePromoPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                                        btnHomePromo.addTarget(self, action: #selector(ListCategoryViewController.btnHomePromoPressed(_:)), for: UIControlEvents.touchUpInside)
                                         
                                         self.vwHomePromo!.addSubview(imgHomePromo)
                                         self.vwHomePromo!.addSubview(btnHomePromo)
@@ -326,7 +326,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                                             kumangTabBarVC.view.addSubview(self.vwHomePromo!)
                                         }
                                         
-                                        NSUserDefaults.setObjectAndSync(promoTitle, forKey: UserDefaultsKey.LastPromoTitle)
+                                        UserDefaults.setObjectAndSync(promoTitle, forKey: UserDefaultsKey.LastPromoTitle)
                                         
                                         isShowPromo = true
                                     }
@@ -343,29 +343,29 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
         let name = categoriesFix[1]["name"].string
-        if (name?.lowercaseString == "all" || name?.lowercaseString == "home") {
+        if (name?.lowercased() == "all" || name?.lowercased() == "home") {
             setCurrentTab(1)
         } else {
             setCurrentTab(0)
         }
         
         // Show app store update pop up if necessary
-        if let newVer = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UpdatePopUpVer) as? String where newVer != "" {
-            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Update", style: .Default, handler: { action in
-                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
+        if let newVer = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpVer) as? String , newVer != "" {
+            let alert : UIAlertController = UIAlertController(title: "New Version Available", message: "Prelo \(newVer) is available on App Store", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+                UIApplication.shared.openURL(URL(string: "itms-apps://itunes.apple.com/id/app/prelo/id1027248488")!)
             }))
-            if let isForceUpdate = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UpdatePopUpForced) as? Bool where !isForceUpdate {
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            if let isForceUpdate = UserDefaults.standard.object(forKey: UserDefaultsKey.UpdatePopUpForced) as? Bool , !isForceUpdate {
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
             }
-            NSUserDefaults.standardUserDefaults().setObject("", forKey: UserDefaultsKey.UpdatePopUpVer)
-            NSUserDefaults.standardUserDefaults().synchronize()
-            self.presentViewController(alert, animated: true, completion: nil)
+            UserDefaults.standard.set("", forKey: UserDefaultsKey.UpdatePopUpVer)
+            UserDefaults.standard.synchronize()
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     var currentTabIndex = 0
-    func setCurrentTab(index : Int)
+    func setCurrentTab(_ index : Int)
     {
         currentTabIndex = index
         if (index >= categoryNames.count)
@@ -374,14 +374,14 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
         
         let x = listItemViews[index].x
-        let p = CGPointMake(x, 0)
+        let p = CGPoint(x: x, y: 0)
         
         scroll_View.setContentOffset(p, animated: true)
         
         adjustIndicator(index)
     }
     
-    func adjustIndicator(index : Int)
+    func adjustIndicator(_ index : Int)
     {
         if (index >= categoryNames.count)
         {
@@ -392,15 +392,15 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         indicatorMargin?.constant = v.x
         indicatorWidth?.constant = v.width
         
-        let queue : NSOperationQueue = NSOperationQueue()
-        let opLayout : NSOperation = NSBlockOperation(block: {
-            dispatch_async(dispatch_get_main_queue(), {
+        let queue : OperationQueue = OperationQueue()
+        let opLayout : Operation = BlockOperation(block: {
+            DispatchQueue.main.async(execute: {
                 self.categoryIndicator?.layoutIfNeeded()
             })
         })
         queue.addOperation(opLayout)
-        let opSetupContent : NSOperation = NSBlockOperation(block: {
-            dispatch_async(dispatch_get_main_queue(), {
+        let opSetupContent : Operation = BlockOperation(block: {
+            DispatchQueue.main.async(execute: {
                 if let child = self.childViewControllers[index] as? ListItemViewController {
                     child.setupContent()
                 }
@@ -410,7 +410,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         queue.addOperation(opSetupContent)
     }
     
-    func categoryButtonAction(sender : UIView)
+    func categoryButtonAction(_ sender : UIView)
     {
         let index = sender.tag
         setCurrentTab(index)
@@ -418,7 +418,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         centerCategoryView(currentTabIndex)
     }
     
-    func centerCategoryView(index : Int)
+    func centerCategoryView(_ index : Int)
     {
         // crashfix for : http://crashes.to/s/04a5d882ec0 (maybe)
         if (index < 0 || index >= categoryNames.count)
@@ -431,8 +431,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         let p = v.frame.origin
 //        let px = self.scrollCategoryName.convertPoint(p, toView:nil)
         
-        let centeredX = (UIScreen.mainScreen().bounds.width-v.width)/2
-        var finalP = CGPointMake(p.x-centeredX, 0)
+        let centeredX = (UIScreen.main.bounds.width-v.width)/2
+        var finalP = CGPoint(x: p.x-centeredX, y: 0)
         
         if (finalP.x < 0)
         {
@@ -452,7 +452,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     var lastContentOffset = CGPoint()
     var isPageTracked = false
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var i = 0
         let width = scrollView.bounds.width
         let contentOffsetX = scrollView.contentOffset.x
@@ -485,10 +485,10 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 isPageTracked = true
                 
                 // Jika masuk ke kategori 'Women', munculkan navbar dkk karena kemungkinan scroll atas-bawah mati karena konten tidak panjang
-                if (categoriesFix[i]["name"].stringValue.lowercaseString == "women") {
-                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
                 }
                 
                 // Set current category id
@@ -499,31 +499,31 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         lastContentOffset = scrollView.contentOffset
     }
     
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
 //        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
         
         // Redirect if any
-        let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
+        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
-                let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
-                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
     }
     
     func getFullcategory()
     {
-        request(References.CategoryList).responseJSON {resp in
+        request(References.categoryList).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category List")) {
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
+                UserDefaults.standard.synchronize()
                 self.getCategory()
             }
         }
@@ -531,7 +531,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getCategory()
     {
-        request(References.HomeCategories)
+        request(References.homeCategories)
             .responseString { resp in
                 let string = resp.result.value
                 if (string != nil)
@@ -544,8 +544,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
             .responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category Home")) {
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(resp.result.value!), forKey: "pre_categories")
-                    NSUserDefaults.standardUserDefaults().synchronize()
+                    UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
+                    UserDefaults.standard.synchronize()
                     self.setupCategory()
                     
                     if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
@@ -565,7 +565,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }*/
     }
     
-    func getIndexInArrayJSON(arr : [JSON], withId id : String) -> Int? {
+    func getIndexInArrayJSON(_ arr : [JSON], withId id : String) -> Int? {
         for i in 0...arr.count - 1 {
             if (arr[i]["_id"].string == id) {
                 return i
@@ -574,9 +574,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         return nil
     }
     
-    func getAllCategoryIndexInArrayJSON(arr : [JSON]) -> Int? {
+    func getAllCategoryIndexInArrayJSON(_ arr : [JSON]) -> Int? {
         for i in 0...arr.count - 1 {
-            if (arr[i]["name"].stringValue.lowercaseString == "all") {
+            if (arr[i]["name"].stringValue.lowercased() == "all") {
                 return i
             }
         }
@@ -585,8 +585,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func setupCategory()
     {
-        let data = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories") as? NSData
-        categories = JSON(NSKeyedUnarchiver.unarchiveObjectWithData(data!)!)
+        let data = UserDefaults.standard.object(forKey: "pre_categories") as? Data
+        categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
         /* CATEGPREF DISABLED
@@ -685,7 +685,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func cikah()
     {
-        tabSwipe?.view.hidden = false
+        tabSwipe?.view.isHidden = false
         tabSwipe?.currentTabIndex = 1
     }
     
@@ -694,14 +694,14 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     {
         if (refreshed == false)
         {
-            self.view.hidden = true
-            NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(ListCategoryViewController.endRefresh), userInfo: nil, repeats: false)
+            self.view.isHidden = true
+            Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(ListCategoryViewController.endRefresh), userInfo: nil, repeats: false)
         }
     }
     
     func endRefresh()
     {
-        self.view.hidden = false
+        self.view.isHidden = false
         refreshed = true
     }
 
@@ -711,9 +711,9 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         // Dispose of any resources that can be recreated.
     }
 
-    func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController!
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController!
     {
-        let v:ListItemViewController = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
+        let v:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         v.previousController = self.previousController
         let i = Int(index)
         
@@ -724,8 +724,8 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     // MARK: - Home promo
     
-    func btnHomePromoPressed(sender: UIButton) {
-        vwHomePromo!.hidden = true
+    func btnHomePromoPressed(_ sender: UIButton) {
+        vwHomePromo!.isHidden = true
         processCoachmark()
     }
     
@@ -733,24 +733,24 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func processCoachmark() {
         // Coachmark
-        let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
+        let coachmarkDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkBrowseDone) as! Bool?
         if (coachmarkDone != true && vwCoachmark == nil) {
-            let screenSize : CGRect = UIScreen.mainScreen().bounds
-            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7))
+            let screenSize : CGRect = UIScreen.main.bounds
+            vwCoachmark = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
             imgCoachmarkPinch = UIImageView(image: UIImage(named: "cchmrk_pinch"))
-            let imgCoachmarkPinchSize : CGSize = CGSizeMake(180, 134)
-            imgCoachmarkPinch?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), imgCoachmarkPinchSize.width, imgCoachmarkPinchSize.height)
+            let imgCoachmarkPinchSize : CGSize = CGSize(width: 180, height: 134)
+            imgCoachmarkPinch?.frame = CGRect(x: (screenSize.width / 2) - (imgCoachmarkPinchSize.width / 2), y: (screenSize.height / 2) - (imgCoachmarkPinchSize.height / 2), width: imgCoachmarkPinchSize.width, height: imgCoachmarkPinchSize.height)
             imgCoachmarkSpread = UIImageView(image: UIImage(named: "cchmrk_spread"))
-            let imgCoachmarkSpreadSize : CGSize = CGSizeMake(180, 136)
-            imgCoachmarkSpread?.frame = CGRectMake((screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), imgCoachmarkSpreadSize.width, imgCoachmarkSpreadSize.height)
+            let imgCoachmarkSpreadSize : CGSize = CGSize(width: 180, height: 136)
+            imgCoachmarkSpread?.frame = CGRect(x: (screenSize.width / 2) - (imgCoachmarkSpreadSize.width / 2), y: (screenSize.height / 2) - (imgCoachmarkSpreadSize.height / 2), width: imgCoachmarkSpreadSize.width, height: imgCoachmarkSpreadSize.height)
             
             let btnCoachmark : UIButton = UIButton(frame: screenSize)
-            btnCoachmark.addTarget(self, action: #selector(ListCategoryViewController.btnCoachmarkPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnCoachmark.addTarget(self, action: #selector(ListCategoryViewController.btnCoachmarkPressed(_:)), for: UIControlEvents.touchUpInside)
             
             if (vwCoachmark != nil && imgCoachmarkPinch != nil && imgCoachmarkSpread != nil) {
                 vwCoachmark!.addSubview(imgCoachmarkPinch!)
                 vwCoachmark!.addSubview(imgCoachmarkSpread!)
-                imgCoachmarkSpread!.hidden = true
+                imgCoachmarkSpread!.isHidden = true
                 vwCoachmark!.addSubview(btnCoachmark)
                 if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
                     kumangTabBarVC.view.addSubview(vwCoachmark!)
@@ -759,13 +759,13 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
     }
     
-    func btnCoachmarkPressed(sender: UIButton!) {
-        if (imgCoachmarkSpread!.hidden) {
-            imgCoachmarkPinch!.hidden = true
-            imgCoachmarkSpread!.hidden = false
-        } else if (imgCoachmarkPinch!.hidden) {
-            vwCoachmark!.hidden = true
-            NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkBrowseDone)
+    func btnCoachmarkPressed(_ sender: UIButton!) {
+        if (imgCoachmarkSpread!.isHidden) {
+            imgCoachmarkPinch!.isHidden = true
+            imgCoachmarkSpread!.isHidden = false
+        } else if (imgCoachmarkPinch!.isHidden) {
+            vwCoachmark!.isHidden = true
+            UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkBrowseDone)
         }
     }
 }

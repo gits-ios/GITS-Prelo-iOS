@@ -27,7 +27,7 @@
 import Foundation
 
 /// This extension adds some useful functions to NSProcessInfo
-private extension NSProcessInfo {
+private extension ProcessInfo {
     // MARK: - Class functions -
     
     /**
@@ -35,7 +35,7 @@ private extension NSProcessInfo {
     
      - returns: Returns the CPU usage by the current App
      */
-    private static func currentAppCPUUsage() -> Float {
+    static func currentAppCPUUsage() -> Float {
         // TODO: Get CPU usage
         return 0.0
     }

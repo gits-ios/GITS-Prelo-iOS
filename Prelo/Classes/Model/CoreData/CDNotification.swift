@@ -28,9 +28,9 @@ class CDNotification : NSManagedObject {
     @NSManaged var weight : NSNumber
     @NSManaged var names : String
     
-    static func newOne(notifType : String, ids : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : NSNumber, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?, weight : NSNumber, names : String) -> CDNotification? {
+    static func newOne(_ notifType : String, ids : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : NSNumber, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?, weight : NSNumber, names : String) -> CDNotification? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDNotification", inManagedObjectContext: m) as! CDNotification
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDNotification", into: m) as! CDNotification
         r.notifType = notifType
         r.ids = ids
         r.opened = opened
@@ -60,11 +60,11 @@ class CDNotification : NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
             if let results = r
             {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {
@@ -83,7 +83,7 @@ class CDNotification : NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDNotification]
             return r
         } catch {
             return nil
@@ -94,7 +94,7 @@ class CDNotification : NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count
         } catch {
             return 0
@@ -102,38 +102,38 @@ class CDNotification : NSManagedObject {
     }
     
     static func getNewNotifCount() -> Int {
-        let predicate = NSPredicate(format: "read == %@", NSNumber(bool: false)) // Ada perubahan bahwa angka notif sekarang adalah berdasarkan read, bukan opened, jadi "opened == %@" diubah jadi "read == %@"
+        let predicate = NSPredicate(format: "read == %@", NSNumber(value: false as Bool)) // Ada perubahan bahwa angka notif sekarang adalah berdasarkan read, bukan opened, jadi "opened == %@" diubah jadi "read == %@"
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count
         } catch {
             return 0
         }
     }
     
-    static func getNotifInSection(section : String) -> [CDNotification] {
+    static func getNotifInSection(_ section : String) -> [CDNotification] {
         let predicate = NSPredicate(format: "notifType == %@", section)
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDNotification]
             return r == nil ? [] : r!
         } catch {
             return []
         }
     }
     
-    static func getUnreadNotifCountInSection(section : String) -> Int {
+    static func getUnreadNotifCountInSection(_ section : String) -> Int {
         let predicate = NSPredicate(format: "notifType == %@ AND read == false", section)
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count
         } catch {
             return 0
@@ -141,13 +141,13 @@ class CDNotification : NSManagedObject {
         
     }
     
-    static func getNotifCountInSection(section : String) -> Int {
+    static func getNotifCountInSection(_ section : String) -> Int {
         let predicate = NSPredicate(format: "notifType == %@", section)
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count
         } catch {
             return 0
@@ -159,7 +159,7 @@ class CDNotification : NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         
         do {
-            let r = try m.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try m.fetch(fetchReq) as? [CDNotification]
             if (r != nil) {
                 for i in 0 ..< r!.count {
                     r![i].opened = true
@@ -183,7 +183,7 @@ class CDNotification : NSManagedObject {
         fetchReq.includesPropertyValues = false
         fetchReq.predicate = predicate
         do {
-            let r = try m.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try m.fetch(fetchReq) as? [CDNotification]
             if (r != nil) {
                 for i in 0 ..< r!.count {
                     r![i].opened = true
@@ -200,7 +200,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let r2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let r2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (r2 != nil) {
                         return r2!.count
                     } else {
@@ -225,7 +225,7 @@ class CDNotification : NSManagedObject {
         fetchReq.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try m.fetch(fetchReq) as? [CDNotification]
             if (r != nil) {
                 for i in 0 ..< r!.count {
                     r![i].opened = true
@@ -242,7 +242,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let r2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let r2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (r2 != nil) {
                         return r2!.count
                     } else {
@@ -267,7 +267,7 @@ class CDNotification : NSManagedObject {
         fetchReq.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchReq) as? [CDNotification]
+            let r = try m.fetch(fetchReq) as? [CDNotification]
             if (r != nil) {
                 for i in 0 ..< r!.count {
                     r![i].opened = true
@@ -284,7 +284,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let r2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let r2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (r2 != nil) {
                         return r2!.count
                     } else {
@@ -301,7 +301,7 @@ class CDNotification : NSManagedObject {
     }
     
     // Mengembalikan jumlah notif transaction yang not read
-    static func setReadNotifTransactionAndGetUnreadCount(ids : String) -> Int? {
+    static func setReadNotifTransactionAndGetUnreadCount(_ ids : String) -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
@@ -309,7 +309,7 @@ class CDNotification : NSManagedObject {
         fetchRequest.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [CDNotification]
+            let r = try m.fetch(fetchRequest) as? [CDNotification]
             if let results = r {
                 let result = results[0]
                 // Ubah jadi read
@@ -326,7 +326,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let results2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let results2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (results2 != nil) {
                         return results2!.count
                     } else {
@@ -343,7 +343,7 @@ class CDNotification : NSManagedObject {
     }
     
     // Mengembalikan jumlah notif inbox yang not read
-    static func setReadNotifInboxAndGetUnreadCount(ids : String) -> Int? {
+    static func setReadNotifInboxAndGetUnreadCount(_ ids : String) -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
@@ -351,7 +351,7 @@ class CDNotification : NSManagedObject {
         fetchRequest.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [CDNotification]
+            let r = try m.fetch(fetchRequest) as? [CDNotification]
             if let results = r {
                 let result = results[0]
                 // Ubah jadi read
@@ -368,7 +368,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let results2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let results2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (results2 != nil) {
                         return results2!.count
                     } else {
@@ -385,7 +385,7 @@ class CDNotification : NSManagedObject {
     }
     
     // Mengembalikan jumlah notif aktivitas yang not read
-    static func setReadNotifActivityAndGetUnreadCount(ids : String) -> Int? {
+    static func setReadNotifActivityAndGetUnreadCount(_ ids : String) -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
@@ -393,7 +393,7 @@ class CDNotification : NSManagedObject {
         fetchRequest.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [CDNotification]
+            let r = try m.fetch(fetchRequest) as? [CDNotification]
             if let results = r {
                 let result = results[0]
                 // Ubah jadi read
@@ -410,7 +410,7 @@ class CDNotification : NSManagedObject {
                     let fetchReq2 = NSFetchRequest(entityName: "CDNotification")
                     fetchReq2.includesPropertyValues = false
                     fetchReq2.predicate = predicate2
-                    let results2 = try m.executeFetchRequest(fetchReq2) as? [CDNotification]
+                    let results2 = try m.fetch(fetchReq2) as? [CDNotification]
                     if (results2 != nil) {
                         return results2!.count
                     } else {
@@ -426,7 +426,7 @@ class CDNotification : NSManagedObject {
         }
     }
     
-    static func setReadNotifWithIds(ids : String) {
+    static func setReadNotifWithIds(_ ids : String) {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
@@ -434,7 +434,7 @@ class CDNotification : NSManagedObject {
         fetchRequest.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [CDNotification]
+            let r = try m.fetch(fetchRequest) as? [CDNotification]
             if let results = r {
                 let result = results[0]
                 // Ubah jadi read
@@ -451,7 +451,7 @@ class CDNotification : NSManagedObject {
         }
     }
     
-    static func deleteNotifWithIds(ids : String) {
+    static func deleteNotifWithIds(_ ids : String) {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)
         let fetchRequest = NSFetchRequest(entityName: "CDNotification")
@@ -459,10 +459,10 @@ class CDNotification : NSManagedObject {
         fetchRequest.predicate = predicate
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
             if let results = r {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {
@@ -474,26 +474,26 @@ class CDNotification : NSManagedObject {
         }
     }
     
-    static func getNotifWithObjectId(objectId : String, andType type : NSNumber) -> CDNotification? {
+    static func getNotifWithObjectId(_ objectId : String, andType type : NSNumber) -> CDNotification? {
         let predicate = NSPredicate(format: "objectId like[c] %@ AND type == %@", objectId, type)
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.first as? CDNotification
         } catch {
             return nil
         }
     }
     
-    static func getNotifWithObjectId(objectId : String) -> CDNotification? {
+    static func getNotifWithObjectId(_ objectId : String) -> CDNotification? {
         let predicate = NSPredicate(format: "objectId like[c] %@", objectId)
         let fetchReq = NSFetchRequest(entityName: "CDNotification")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.first as? CDNotification
         } catch {
             return nil

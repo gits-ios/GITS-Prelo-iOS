@@ -11,29 +11,29 @@ import Foundation
 import TwitterKit
 
 class DAO: NSObject {
-    static func UserPhotoStringURL(fileName : String, userID : String) -> String
+    static func UserPhotoStringURL(_ fileName : String, userID : String) -> String
     {
         let base = "\(AppTools.PreloBaseUrl)/images/users/" + userID + "/" + fileName
         return base
     }
     
-    static func UrlForDisplayPicture(imageName : String, productID : String) -> String
+    static func UrlForDisplayPicture(_ imageName : String, productID : String) -> String
     {
-        let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        let modifiedImageName = imageName.replacingOccurrences(of: "..\\/", with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
         return "\(AppTools.PreloBaseUrl)/images/products/" + productID + "/" + modifiedImageName
         
     }
 }
 
-public class User : NSObject
+open class User : NSObject
 {
-    private static var TokenKey = "user_token"
-    private static var IdKey = "user_id"
-    private static var EmailKey = "user_email"
+    fileprivate static var TokenKey = "user_token"
+    fileprivate static var IdKey = "user_id"
+    fileprivate static var EmailKey = "user_email"
     
     static var IsLoggedIn : Bool
     {
-        guard let _ = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
+        guard let _ = UserDefaults.standard.string(forKey: User.TokenKey), let _ = CDUser.getOne(), let _ = CDUserProfile.getOne(), let _ = CDUserOther.getOne() else {
             return false
         }
         return true
@@ -52,19 +52,19 @@ public class User : NSObject
     
     static var Id : String?
     {
-        let i = NSUserDefaults.standardUserDefaults().stringForKey(User.IdKey)
+        let i = UserDefaults.standard.string(forKey: User.IdKey)
         return i
     }
     
     static var Token : String?
     {
-        let s = NSUserDefaults.standardUserDefaults().stringForKey(User.TokenKey)
+        let s = UserDefaults.standard.string(forKey: User.TokenKey)
         return s
     }
     
     static var Email : String?
     {
-        let e = NSUserDefaults.standardUserDefaults().stringForKey(User.EmailKey)
+        let e = UserDefaults.standard.string(forKey: User.EmailKey)
         return e
     }
     
@@ -78,13 +78,13 @@ public class User : NSObject
         }
     }
     
-    static func SetToken(token : String?)
+    static func SetToken(_ token : String?)
     {
-        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(token, forKey: User.TokenKey)
+        UserDefaults.standard.synchronize()
     }
     
-    static func StoreUser(user : JSON)
+    static func StoreUser(_ user : JSON)
     {
         var id = ""
         if let user_id = user["user_id"].string
@@ -96,24 +96,24 @@ public class User : NSObject
         }
         let token = user["token"].string!
         
-        NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)
-        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(id, forKey: User.IdKey)
+        UserDefaults.standard.set(token, forKey: User.TokenKey)
+        UserDefaults.standard.synchronize()
     }
     
-    static func StoreUser(user : JSON, email : String)
+    static func StoreUser(_ user : JSON, email : String)
     {
         User.StoreUser(user)
-        NSUserDefaults.standardUserDefaults().setObject(email, forKey: User.EmailKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(email, forKey: User.EmailKey)
+        UserDefaults.standard.synchronize()
     }
     
-    static func StoreUser(id : String, token : String, email : String)
+    static func StoreUser(_ id : String, token : String, email : String)
     {
-        NSUserDefaults.standardUserDefaults().setObject(id, forKey: User.IdKey)
-        NSUserDefaults.standardUserDefaults().setObject(token, forKey: User.TokenKey)
-        NSUserDefaults.standardUserDefaults().setObject(email, forKey: User.EmailKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(id, forKey: User.IdKey)
+        UserDefaults.standard.set(token, forKey: User.TokenKey)
+        UserDefaults.standard.set(email, forKey: User.EmailKey)
+        UserDefaults.standard.synchronize()
     }
     
     static func Logout()
@@ -126,14 +126,14 @@ public class User : NSObject
         CDUserProfile.deleteAll()
         CDUserOther.deleteAll()
         
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(User.IdKey)
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(User.TokenKey)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.removeObject(forKey: User.IdKey)
+        UserDefaults.standard.removeObject(forKey: User.TokenKey)
+        UserDefaults.standard.synchronize()
         
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("pathtoken")
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("twittertoken")
+        UserDefaults.standard.removeObject(forKey: "pathtoken")
+        UserDefaults.standard.removeObject(forKey: "twittertoken")
         
-        NSUserDefaults.setTourDone(false)
+        UserDefaults.setTourDone(false)
         
         self.LogoutFacebook()
         self.LogoutTwitter()
@@ -143,7 +143,7 @@ public class User : NSObject
     {
         let fbManager = FBSDKLoginManager()
         fbManager.logOut()
-        FBSDKAccessToken.setCurrentAccessToken(nil)
+        FBSDKAccessToken.setCurrent(nil)
     }
     
     static func LogoutTwitter()
@@ -158,7 +158,7 @@ public class User : NSObject
 class UserProfile : NSObject {
     var json : JSON!
 
-    static func instance(json : JSON?) -> UserProfile? {
+    static func instance(_ json : JSON?) -> UserProfile? {
         if (json == nil) {
             return nil
         } else {
@@ -196,9 +196,9 @@ class UserProfile : NSObject {
         return ""
     }
     
-    var profPictURL : NSURL? {
+    var profPictURL : URL? {
         if let url = json["profile"]["pict"].string {
-            return NSURL(string: url)
+            return URL(string: url)
         }
         return nil
     }
@@ -473,11 +473,11 @@ class UserProfile : NSObject {
     }
 }
 
-public class ProductDetail : NSObject, TawarItem
+open class ProductDetail : NSObject, TawarItem
 {
     var json : JSON = JSON([:])
     
-    static func instance(obj : JSON?)->ProductDetail?
+    static func instance(_ obj : JSON?)->ProductDetail?
     {
         if (obj == nil) {
             return nil
@@ -488,9 +488,9 @@ public class ProductDetail : NSObject, TawarItem
         }
     }
     
-    private func urlForDisplayPicture(imageName : String, productID : String) -> String
+    fileprivate func urlForDisplayPicture(_ imageName : String, productID : String) -> String
     {
-        let modifiedImageName = imageName.stringByReplacingOccurrencesOfString("..\\/", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        let modifiedImageName = imageName.replacingOccurrences(of: "..\\/", with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
         return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
     }
     
@@ -502,7 +502,7 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
-    func setStatus(newStatus : Int) {
+    func setStatus(_ newStatus : Int) {
         json["_data"]["status"] = JSON(newStatus)
     }
     
@@ -518,7 +518,7 @@ public class ProductDetail : NSObject, TawarItem
         return json["_data"]["bought_by_me"].boolValue
     }
     
-    func setBoughtByMe(val : Bool) {
+    func setBoughtByMe(_ val : Bool) {
         json["_data"]["bought_by_me"] = JSON(val)
     }
     
@@ -661,13 +661,13 @@ public class ProductDetail : NSObject, TawarItem
         return labels
     }
     
-    var shopAvatarURL : NSURL?
+    var shopAvatarURL : URL?
     {
         if let p = json["_data"]["seller"]["pict"].string
         {
-            return NSURL(string : p)
+            return URL(string : p)
         }
-        return NSURL(string: "\(AppTools.PreloBaseUrl)/eweuh-gambar")
+        return URL(string: "\(AppTools.PreloBaseUrl)/eweuh-gambar")
     }
     
     var discussionCountText : String
@@ -708,7 +708,7 @@ public class ProductDetail : NSObject, TawarItem
             }
     }
     
-    private var _isMyProduct : Bool?
+    fileprivate var _isMyProduct : Bool?
     var isMyProduct : Bool
     {
         if (_isMyProduct != nil)
@@ -725,16 +725,16 @@ public class ProductDetail : NSObject, TawarItem
         return false
     }
     
-    var productImage : NSURL {
+    var productImage : URL {
         if let s = displayPicturers.first
         {
-            if let url = NSURL(string : s)
+            if let url = URL(string : s)
             {
                 return url
             }
         }
         
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     // tawar item
@@ -772,12 +772,12 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var theirImage : NSURL {
+    var theirImage : URL {
         if (reveresed)
         {
             if let pict = CDUser.getOne()?.profiles.pict
             {
-                if let url = NSURL(string : pict)
+                if let url = URL(string : pict)
                 {
                     return url
                 }
@@ -785,12 +785,12 @@ public class ProductDetail : NSObject, TawarItem
         }
         if let fullname = json["_data"]["seller"]["pict"].string
         {
-            if let url = NSURL(string : fullname)
+            if let url = URL(string : fullname)
             {
                 return url
             }
         }
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     var theirName : String {
@@ -820,12 +820,12 @@ public class ProductDetail : NSObject, TawarItem
         return ""
     }
     
-    var myImage : NSURL {
+    var myImage : URL {
         if (reveresed)
         {
             if let fullname = json["_data"]["seller"]["pict"].string
             {
-                if let url = NSURL(string : fullname)
+                if let url = URL(string : fullname)
                 {
                     return url
                 }
@@ -833,12 +833,12 @@ public class ProductDetail : NSObject, TawarItem
         }
         if let pict = CDUser.getOne()?.profiles.pict
         {
-            if let url = NSURL(string : pict)
+            if let url = URL(string : pict)
             {
                 return url
             }
         }
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     var myName : String {
@@ -887,11 +887,11 @@ public class ProductDetail : NSObject, TawarItem
         return 0
     }
     
-    func setBargainPrice(price: Int) {
+    func setBargainPrice(_ price: Int) {
         
     }
     
-    func setFinalPrice(price: Int) {
+    func setFinalPrice(_ price: Int) {
         
     }
     
@@ -965,7 +965,7 @@ public class ProductDetail : NSObject, TawarItem
     }
 }
 
-public class Product : NSObject
+open class Product : NSObject
 {
     static let StatusUploading = 999
     
@@ -987,7 +987,7 @@ public class Product : NSObject
         return (json["name"].string)!.escapedHTML
     }
     
-    static func instance(obj:JSON?)->Product?
+    static func instance(_ obj:JSON?)->Product?
     {
         if (obj == nil) {
             return nil
@@ -998,7 +998,7 @@ public class Product : NSObject
         }
     }
     
-    var coverImageURL : NSURL?
+    var coverImageURL : URL?
     {
         if (isLokal)
         {
@@ -1007,17 +1007,17 @@ public class Product : NSObject
         
         if json["display_picts"][0].error != nil
         {
-            return NSURL(string: "http://dev.kleora.com/images/products/")
+            return URL(string: "http://dev.kleora.com/images/products/")
         }
         if let base = json["display_picts"][0].string
         {
-            if let url = NSURL(string : base)
+            if let url = URL(string : base)
             {
                 return url
             }
         }
         
-        return NSURL(string: "http://dev.kleora.com/images/products/")
+        return URL(string: "http://dev.kleora.com/images/products/")
     }
     
     var discussionCountText : String
@@ -1102,11 +1102,11 @@ public class Product : NSObject
         }
     }
     
-    var avatar : NSURL? {
+    var avatar : URL? {
         if var seller_pict_thumb = json["seller_pict_thumb"].string
         {
-            seller_pict_thumb = seller_pict_thumb.stringByReplacingOccurrencesOfString(" ", withString: "")
-            let url = NSURL(string : seller_pict_thumb)
+            seller_pict_thumb = seller_pict_thumb.replacingOccurrences(of: " ", with: "")
+            let url = URL(string : seller_pict_thumb)
             return url!
         }
         return nil
@@ -1185,7 +1185,7 @@ public class Product : NSObject
 
 class MyProductItem : Product {
     
-    static func instanceMyProduct(obj : JSON?) -> MyProductItem?
+    static func instanceMyProduct(_ obj : JSON?) -> MyProductItem?
     {
         if (obj == nil) {
             return nil
@@ -1232,7 +1232,7 @@ class ProductDiscussion : NSObject
 {
     var json : JSON!
     
-    static func instance(json : JSON?) -> ProductDiscussion?
+    static func instance(_ json : JSON?) -> ProductDiscussion?
     {
         if (json == nil) {
             return nil
@@ -1260,13 +1260,13 @@ class ProductDiscussion : NSObject
         return m
     }
     
-    var posterImageURL : NSURL?
+    var posterImageURL : URL?
     {
-        return NSURL(string: json["sender_pict"].string!)
+        return URL(string: json["sender_pict"].string!)
     }
     
-    var date : NSDate?
-    var formatter : NSDateFormatter?
+    var date : Date?
+    var formatter : DateFormatter?
     var timestamp : String
     {
         if (date == nil)
@@ -1279,10 +1279,10 @@ class ProductDiscussion : NSObject
         
         formatter?.dateFormat = "eee"
         
-        return (formatter?.stringFromDate(date!))!
+        return (formatter?.string(from: date!))!
     }
     
-    func isSeller(compareId : String) -> Bool
+    func isSeller(_ compareId : String) -> Bool
     {
         if let id = json["_id"].string
         {
@@ -1298,7 +1298,7 @@ class UserTransaction: NSObject {
     
     var json : JSON!
     
-    static func instance(json : JSON?) -> UserTransaction? {
+    static func instance(_ json : JSON?) -> UserTransaction? {
         if (json == nil) {
             return nil
         } else {
@@ -1308,9 +1308,9 @@ class UserTransaction: NSObject {
         }
     }
     
-    var productImages : [NSURL] {
+    var productImages : [URL] {
         let arr = json["transaction_products"].array!
-        var images : [NSURL] = []
+        var images : [URL] = []
         if (arr.count == 0) {
             return images
         }
@@ -1369,7 +1369,7 @@ class UserTransaction: NSObject {
     }
     
     // Only take first image from json
-    var productImageURL : NSURL? {
+    var productImageURL : URL? {
         let arr = json["transaction_products"].array!
         
         if arr[0]["display_picts"][0].error != nil
@@ -1377,7 +1377,7 @@ class UserTransaction: NSObject {
             return nil
         }
         let url = arr[0]["display_picts"][0].string!
-        return NSURL(string: url)
+        return URL(string: url)
     }
     
     var productLoveCount : Int {
@@ -1399,7 +1399,7 @@ class UserTransaction: NSObject {
 
 class UserTransactionItem: UserTransaction {
     
-    static func instanceTransactionItem(json : JSON?) -> UserTransactionItem? {
+    static func instanceTransactionItem(_ json : JSON?) -> UserTransactionItem? {
         if (json == nil) {
             return nil
         } else {
@@ -1421,13 +1421,13 @@ class UserTransactionItem: UserTransaction {
     }
     
     // Only take first image from json
-    override var productImageURL : NSURL? {
+    override var productImageURL : URL? {
         if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
         if let url = json["product"]["display_picts"][0].string {
-            return NSURL(string: url)
+            return URL(string: url)
         } else {
             return nil
         }
@@ -1444,7 +1444,7 @@ class UserTransactionItem: UserTransaction {
 class TransactionDetail : NSObject {
     var json : JSON!
     
-    static func instance(json : JSON?) -> TransactionDetail? {
+    static func instance(_ json : JSON?) -> TransactionDetail? {
         if (json != nil) {
             let t = TransactionDetail()
             t.json = json!
@@ -1708,7 +1708,7 @@ class TransactionDetail : NSObject {
         return ""
     }
     
-    func isBuyer(compareId : String) -> Bool
+    func isBuyer(_ compareId : String) -> Bool
     {
         if let buyerId = json["buyer_id"].string {
             return compareId == buyerId
@@ -1717,13 +1717,13 @@ class TransactionDetail : NSObject {
         }
     }
     
-    private var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
+    fileprivate var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
     var shipHistory : [(date : String, status : String)] {
         get {
             if (!_shipHistory.isEmpty) {
                 return _shipHistory
             }
-            if let j = json["shipping_manifest"]["tracking"].array where j.count > 0 {
+            if let j = json["shipping_manifest"]["tracking"].array , j.count > 0 {
                 for i in 0..<j.count {
                     _shipHistory.append((date: j[i]["time"].stringValue, status: j[i]["status"].stringValue))
                 }
@@ -1754,7 +1754,7 @@ class TransactionDetail : NSObject {
 class TransactionProductDetail : NSObject {
     var json : JSON!
     
-    static func instance(json : JSON?) -> TransactionProductDetail? {
+    static func instance(_ json : JSON?) -> TransactionProductDetail? {
         if (json == nil) {
             return nil
         } else {
@@ -1881,13 +1881,13 @@ class TransactionProductDetail : NSObject {
     }
     
     // Only take first image from json
-    var productImageURL : NSURL? {
+    var productImageURL : URL? {
         if json["product"]["display_picts"][0].error != nil
         {
             return nil
         }
         let url = json["product"]["display_picts"][0].stringValue
-        return NSURL(string: url)
+        return URL(string: url)
     }
     
     var paymentMethod : String {
@@ -2080,13 +2080,13 @@ class TransactionProductDetail : NSObject {
         }
     }
     
-    var reviewerImageURL : NSURL? {
+    var reviewerImageURL : URL? {
         if json["review"]["buyer_pict"].error != nil
         {
             return nil
         }
         let url = json["review"]["buyer_pict"].string!
-        return NSURL(string: url)
+        return URL(string: url)
     }
     
     var reviewStar : Int {
@@ -2119,7 +2119,7 @@ class TransactionProductDetail : NSObject {
         return 0
     }
     
-    func isSeller(compareId : String) -> Bool
+    func isSeller(_ compareId : String) -> Bool
     {
         if let sellerId = json["seller_id"].string {
             return compareId == sellerId
@@ -2156,13 +2156,13 @@ class TransactionProductDetail : NSObject {
         return ""
     }
     
-    private var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
+    fileprivate var _shipHistory : [(date : String, status : String)] = [(date : String, status : String)]()
     var shipHistory : [(date : String, status : String)] {
         get {
             if (!_shipHistory.isEmpty) {
                 return _shipHistory
             }
-            if let j = json["shipping_manifest"]["tracking"].array where j.count > 0 {
+            if let j = json["shipping_manifest"]["tracking"].array , j.count > 0 {
                 for i in 0..<j.count {
                     _shipHistory.append((date: j[i]["time"].stringValue, status: j[i]["status"].stringValue))
                 }
@@ -2194,7 +2194,7 @@ class UserReview : NSObject {
     
     var json : JSON!
     
-    static func instance(json : JSON?) -> UserReview? {
+    static func instance(_ json : JSON?) -> UserReview? {
         if (json == nil) {
             return nil
         } else {
@@ -2244,10 +2244,10 @@ class UserReview : NSObject {
         }
     }
     
-    var buyerPictURL : NSURL? {
+    var buyerPictURL : URL? {
         if (json["buyer_pict"] != nil) {
             let url = json["buyer_pict"].string!
-            return NSURL(string: url)
+            return URL(string: url)
         }
         return nil
     }
@@ -2257,7 +2257,7 @@ class LovedProduct : NSObject {
     
     var json : JSON!
     
-    static func instance(json : JSON?) -> LovedProduct? {
+    static func instance(_ json : JSON?) -> LovedProduct? {
         if (json == nil) {
             return nil
         } else {
@@ -2297,13 +2297,13 @@ class LovedProduct : NSObject {
         return n
     }
     
-    var productImageURL : NSURL? {
+    var productImageURL : URL? {
         if (json["display_picts"][0].string == nil)
         {
             return nil
         }
         let url = json["display_picts"][0].string!
-        return NSURL(string: url)
+        return URL(string: url)
     }
 }
 
@@ -2312,7 +2312,7 @@ class UserCheckout : NSObject {
     var json : JSON!
     var transactionProducts : [UserCheckoutProduct]!
     
-    static func instance(json : JSON?) -> UserCheckout? {
+    static func instance(_ json : JSON?) -> UserCheckout? {
         if (json == nil) {
             return nil
         } else {
@@ -2407,7 +2407,7 @@ class UserCheckout : NSObject {
 
 class UserCheckoutProduct : TransactionProductDetail {
     
-    static func instanceCheckoutProduct(obj : JSON?) -> UserCheckoutProduct?
+    static func instanceCheckoutProduct(_ obj : JSON?) -> UserCheckoutProduct?
     {
         if (obj == nil) {
             return nil
@@ -2427,12 +2427,12 @@ class UserCheckoutProduct : TransactionProductDetail {
     }
     
     // Only take first image from json
-    override var productImageURL : NSURL? {
+    override var productImageURL : URL? {
         if let u = json["display_picts"][0].string
         {
-            return NSURL(string: u)
+            return URL(string: u)
         }
-        return NSURL(string: "\(AppTools.PreloBaseUrl)/images/products/default.png")
+        return URL(string: "\(AppTools.PreloBaseUrl)/images/products/default.png")
     }
 }
 
@@ -2440,7 +2440,7 @@ class SearchUser : NSObject
 {
     var json : JSON!
     
-    static func instance(json : JSON?) -> SearchUser? {
+    static func instance(_ json : JSON?) -> SearchUser? {
         if (json == nil) {
             return nil
         } else {
@@ -2490,7 +2490,7 @@ class SearchUser : NSObject
 class SearchBrand : NSObject {
     var json : JSON!
     
-    static func instance(json : JSON?) -> SearchBrand? {
+    static func instance(_ json : JSON?) -> SearchBrand? {
         if (json == nil) {
             return nil
         } else {
@@ -2516,7 +2516,7 @@ class SearchBrand : NSObject {
     
     var segments : [String] {
         var s : [String] = []
-        if let j = json["segments"].array where j.count > 0 {
+        if let j = json["segments"].array , j.count > 0 {
             for i in 0...j.count - 1 {
                 if let segment = j[i].string {
                     s.append(segment)
@@ -2528,7 +2528,7 @@ class SearchBrand : NSObject {
     
     var categoryIds : [String] {
         var ids : [String] = []
-        if let j = json["category_ids"].array where j.count > 0 {
+        if let j = json["category_ids"].array , j.count > 0 {
             for i in 0...j.count - 1 {
                 if let id = j[i].string {
                     ids.append(id)
@@ -2542,7 +2542,7 @@ class SearchBrand : NSObject {
 class Inbox : NSObject, TawarItem
 {
     var json : JSON = JSON([:])
-    var date : NSDate = NSDate()
+    var date : Date = Date()
     var forceThreadState = -1
     
     init (jsn : JSON)
@@ -2551,9 +2551,9 @@ class Inbox : NSObject, TawarItem
         
         if let dateString = json["update_time"].string
         {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            if let x = formatter.dateFromString(dateString)
+            if let x = formatter.date(from: dateString)
             {
                 date = x
             }
@@ -2587,16 +2587,16 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var imageURL : NSURL
+    var imageURL : URL
     {
         if let x = json["image_path"].string
         {
-            if let url = NSURL(string : x)
+            if let url = URL(string : x)
             {
                 return url
             }
         }
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     var type : String
@@ -2612,7 +2612,7 @@ class Inbox : NSObject, TawarItem
         return judul
     }
     
-    var productImage : NSURL {
+    var productImage : URL {
         return imageURL
     }
     
@@ -2637,16 +2637,16 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var myImage : NSURL {
+    var myImage : URL {
         let identifier = opIsMe ? "image_path_user1" : "image_path_user2"
         if let x = json[identifier].string
         {
-            if let url = NSURL(string : x)
+            if let url = URL(string : x)
             {
                 return url
             }
         }
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     var myName : String {
@@ -2667,16 +2667,16 @@ class Inbox : NSObject, TawarItem
         return ""
     }
     
-    var theirImage : NSURL {
+    var theirImage : URL {
         let identifier = opIsMe ? "image_path_user2" : "image_path_user1"
         if let x = json[identifier].string
         {
-            if let url = NSURL(string : x)
+            if let url = URL(string : x)
             {
                 return url
             }
         }
-        return NSURL(string : "http://prelo.do")!
+        return URL(string : "http://prelo.do")!
     }
     
     var theirName : String {
@@ -2733,12 +2733,12 @@ class Inbox : NSObject, TawarItem
         return 0
     }
     
-    func setBargainPrice(price: Int) {
+    func setBargainPrice(_ price: Int) {
         settedBargainPrice = price
         json["current_bargain_amount"] = JSON(price)
     }
     
-    func setFinalPrice(price: Int) {
+    func setFinalPrice(_ price: Int) {
         json["final_price"] = JSON(price)
     }
     
@@ -2776,7 +2776,7 @@ class Inbox : NSObject, TawarItem
 
 class InboxMessage : NSObject
 {
-    static var formatter : NSDateFormatter = NSDateFormatter()
+    static var formatter : DateFormatter = DateFormatter()
     
     var sending : Bool = false
     var id : String = ""
@@ -2819,14 +2819,14 @@ class InboxMessage : NSObject
         
         return message
     }
-    var dateTime : NSDate = NSDate()
-    private var _time : String = ""
+    var dateTime : Date = Date()
+    fileprivate var _time : String = ""
     var time : String {
         
         set {
             _time = newValue
             InboxMessage.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            if let date = InboxMessage.formatter.dateFromString(_time)
+            if let date = InboxMessage.formatter.date(from: _time)
             {
                 dateTime = date
             }
@@ -2881,7 +2881,7 @@ class InboxMessage : NSObject
         
     }
     
-    static func messageFromMe(localIndex : Int, type : Int, message : String, time : String) -> InboxMessage
+    static func messageFromMe(_ localIndex : Int, type : Int, message : String, time : String) -> InboxMessage
     {
         let i = InboxMessage()
         
@@ -2900,9 +2900,9 @@ class InboxMessage : NSObject
         return i
     }
     
-    private var lastThreadId = ""
-    private var lastCompletion : (InboxMessage)->() = {m in }
-    func sendTo(threadId : String, completion : (InboxMessage)->())
+    fileprivate var lastThreadId = ""
+    fileprivate var lastCompletion : (InboxMessage)->() = {m in }
+    func sendTo(_ threadId : String, completion : @escaping (InboxMessage)->())
     {
         print("sending chat to thread " + threadId)
         lastThreadId = threadId
@@ -2911,7 +2911,7 @@ class InboxMessage : NSObject
         self.failedToSend = false
         let m = bargainPrice != "" && messageType != 0 ? bargainPrice : message
         // API Migrasi
-        request(APIInbox.SendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
+        request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim chat"))
             {
@@ -2934,7 +2934,7 @@ class Notification : NSObject
 {
     var json : JSON = JSON([:])
 
-    static func instance(json : JSON?) -> Notification? {
+    static func instance(_ json : JSON?) -> Notification? {
         if (json == nil) {
             return nil
         } else {
@@ -3083,7 +3083,7 @@ class BalanceMutationItem : NSObject {
     
     var json : JSON = JSON([:])
     
-    static func instance(json : JSON?, totalAmount : Int) -> BalanceMutationItem? {
+    static func instance(_ json : JSON?, totalAmount : Int) -> BalanceMutationItem? {
         if (json == nil) {
             return nil
         } else {

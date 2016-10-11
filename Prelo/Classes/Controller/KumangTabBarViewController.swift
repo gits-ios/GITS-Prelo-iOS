@@ -59,15 +59,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     // MARK: - Init
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.default
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Loading panel
-        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Version check
         if (!isVersionChecked) {
@@ -78,7 +78,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         
         // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                 AppDelegate.Instance.produkUploader.start()
             })
         }
@@ -87,10 +87,10 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.subdistrictProfileCheck()
         
         // Adjust navbar and title view
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         let v = UIView()
-        v.frame = CGRectMake(0, 0, 10, 10)
-        v.backgroundColor = UIColor.clearColor()
+        v.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        v.backgroundColor = UIColor.clear
         self.navigationItem.titleView = v
         
         // Login button setup
@@ -100,29 +100,29 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.setupTitle()
         
         // Add observers
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showProduct(_:)), name: NotificationName.ShowProduct, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: "hideBottomBar", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: "showBottomBar", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: "userLoggedIn", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.showProduct(_:)), name: NSNotification.Name(rawValue: NotificationName.ShowProduct), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: NSNotification.Name(rawValue: "hideBottomBar"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: NSNotification.Name(rawValue: "showBottomBar"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: NSNotification.Name(rawValue: "userLoggedIn"), object: nil)
 
         // Sell button setup
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
-        btnAdd?.layer.shadowColor = UIColor.blackColor().CGColor
+        btnAdd?.layer.shadowColor = UIColor.black.cgColor
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
         
         // Init controllers
-        let lc : ListCategoryViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdBrowse) as! ListCategoryViewController
+        let lc : ListCategoryViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdBrowse) as! ListCategoryViewController
         lc.previousController = self
         controllerBrowse = lc
-        controllerDashboard = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard?.previousController = self
-        controllerDashboard2 = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard2 = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
         controllerDashboard2?.previousController = self
         changeToController(controllerBrowse!)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Show bottom bar
@@ -132,32 +132,32 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.setupNormalOptions()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Show status bar
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Setup menuPopUp (Looks like unused)
         if (menuPopUp == nil) {
-            menuPopUp = NSBundle.mainBundle().loadNibNamed("MenuPopUp", owner: nil, options: nil).first as? MenuPopUp
+            menuPopUp = Bundle.main.loadNibNamed("MenuPopUp", owner: nil, options: nil)?.first as? MenuPopUp
             menuPopUp?.menuDelegate = self
             menuPopUp?.setupView(self.navigationController!)
         }
         
         // Show tour pop up, refresh home, and/or show pop up
-        if (!NSUserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
-            self.performSegueWithIdentifier("segTour", sender: self)
-            NSUserDefaults.setTourDone(true)
+        if (!UserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
+            self.performSegue(withIdentifier: "segTour", sender: self)
+            UserDefaults.setTourDone(true)
         } else {
-            let preloBaseUrlJustChanged : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
+            let preloBaseUrlJustChanged : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
             if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn) || (userDidLoggedIn == true && !User.IsLoggedIn)) { // Jika user baru saja log in, baru saja log out, atau baru saja switch base url dalam dev mode
-                NSUserDefaults.standardUserDefaults().setObject(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
+                UserDefaults.standard.synchronize()
                 (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
                 
                 // Subdistrict check
@@ -173,26 +173,26 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
-            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .Alert)
-            sdAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-                let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
+            sdAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
                 self.navigationController?.pushViewController(userProfileVC, animated: true)
             }))
-            self.presentViewController(sdAlert, animated: true, completion: nil)
+            self.present(sdAlert, animated: true, completion: nil)
         }
     }
     
     func updateLoginButton() {
         if (User.IsLoggedIn) {
-            btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
+            btnDashboard.setTitle("MY ACCOUNT", for: UIControlState())
         } else {
-            btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
+            btnDashboard.setTitle("LOG IN", for: UIControlState())
         }
     }
     
     func hideBottomBar() {
         consMarginBottomBar.constant = -76
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.sectionBar?.layoutIfNeeded()
             self.btnAdd?.layoutIfNeeded()
         })
@@ -200,85 +200,85 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func showBottomBar() {
         consMarginBottomBar.constant = 0
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.sectionBar?.layoutIfNeeded()
             self.btnAdd?.layoutIfNeeded()
         })
     }
     
-    func menuSelected(option: MenuOption) {
+    func menuSelected(_ option: MenuOption) {
         let i = PreloShareItem()
         PreloShareController.Share(i, inView: self.view)
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     // MARK: - User related functions
     
     func userLoggedIn() {
-        btnDashboard.setTitle("MY ACCOUNT", forState: UIControlState.Normal)
-        let d : BaseViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdDashboard) as! BaseViewController
+        btnDashboard.setTitle("MY ACCOUNT", for: UIControlState())
+        let d : BaseViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as! BaseViewController
         d.previousController = self
         changeToController(d)
         controllerDashboard = d
     }
     
     func userLoggedOut() {
-        btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
+        btnDashboard.setTitle("LOG IN", for: UIControlState())
         changeToController(controllerBrowse!)
     }
     
     func userCancelLogin() {
-        btnDashboard.setTitle("LOG IN", forState: UIControlState.Normal)
+        btnDashboard.setTitle("LOG IN", for: UIControlState())
         changeToController(controllerBrowse!)
     }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segTour") {
-            let t = (segue.destinationViewController as? UINavigationController)?.viewControllers.first as! TourViewController
+            let t = (segue.destination as? UINavigationController)?.viewControllers.first as! TourViewController
             t.parent = sender as? BaseViewController
         }
     }
     
-    func showProduct(sender : AnyObject) {
-        let n : NSNotification = sender as! NSNotification
-        let d : ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+    func showProduct(_ sender : AnyObject) {
+        let n : Foundation.Notification = sender as! Foundation.Notification
+        let d : ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         let nav = UINavigationController(rootViewController: d)
-        nav.navigationBar.translucent = false
+        nav.navigationBar.isTranslucent = false
         nav.navigationBar.barTintColor = Theme.navBarColor
-        nav.navigationBar.tintColor = UIColor.whiteColor()
+        nav.navigationBar.tintColor = UIColor.white
         d.product = n.object as? Product
         self.navigationController?.pushViewController(d, animated: true)
     }
     
     func delayBrowseSwitch() {
-        sectionContent?.hidden = false
+        sectionContent?.isHidden = false
         changeToController(controllerBrowse!)
     }
     
-    func changeToController(newController : UIViewController) {
-        print("class name = \(newController.dynamicType)")
-        if ("\(newController.dynamicType)" == "ListCategoryViewController") { // Browse
-            btnDashboard.titleLabel?.font = UIFont.systemFontOfSize(13)
-            btnDashboard.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-            btnBrowse.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnBrowse.setTitleColor(Theme.GrayGranite, forState: .Normal)
-        } else if ("\(newController.dynamicType)" == "DashboardViewController") { // Login/Dashboard
-            btnDashboard.titleLabel?.font = UIFont.boldSystemFontOfSize(13)
-            btnDashboard.setTitleColor(Theme.GrayGranite, forState: .Normal)
-            btnBrowse.titleLabel?.font = UIFont.systemFontOfSize(13)
-            btnBrowse.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+    func changeToController(_ newController : UIViewController) {
+        print("class name = \(type(of: newController))")
+        if ("\(type(of: newController))" == "ListCategoryViewController") { // Browse
+            btnDashboard.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+            btnDashboard.setTitleColor(UIColor.lightGray, for: UIControlState())
+            btnBrowse.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+            btnBrowse.setTitleColor(Theme.GrayGranite, for: UIControlState())
+        } else if ("\(type(of: newController))" == "DashboardViewController") { // Login/Dashboard
+            btnDashboard.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+            btnDashboard.setTitleColor(Theme.GrayGranite, for: UIControlState())
+            btnBrowse.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+            btnBrowse.setTitleColor(UIColor.lightGray, for: UIControlState())
         }
         
         if let o = oldController
@@ -294,8 +294,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         v?.view.translatesAutoresizingMaskIntoConstraints = false
         
         sectionContent?.addSubview((v?.view)!)
-        let horizontalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[v1]-0-|", options: .AlignAllTop, metrics: nil, views: ["v1": v!.view])
-        let verticalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[v1]-0-|", options: .AlignAllTop, metrics: nil, views: ["v1": v!.view])
+        let horizontalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-0-|", options: .alignAllTop, metrics: nil, views: ["v1": v!.view])
+        let verticalConstraint = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v1]-0-|", options: .alignAllTop, metrics: nil, views: ["v1": v!.view])
         
         sectionContent?.addConstraints(horizontalConstraint)
         sectionContent?.addConstraints(verticalConstraint)
@@ -304,7 +304,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         self.addChildViewController(oldController!)
     }
     
-    @IBAction func switchController(sender: AnyObject) {
+    @IBAction func switchController(_ sender: AnyObject) {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
             self.setupNormalOptions() // Agar notification terupdate
@@ -312,8 +312,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             
             if (changeToBrowseCount == 0) {
                 changeToBrowseCount = 1
-                sectionContent?.hidden = true
-                NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(KumangTabBarViewController.delayBrowseSwitch), userInfo: nil, repeats: false)
+                sectionContent?.isHidden = true
+                Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(KumangTabBarViewController.delayBrowseSwitch), userInfo: nil, repeats: false)
             }
             
         } else {
@@ -340,7 +340,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func versionCheck() {
         // API Migrasi
-        request(APIApp.Version).responseJSON { resp in
+        request(APIApp.version).responseJSON { resp in
             var isFirstInstall = false
             var isInitialMetadataSaveSuccess : Bool = true
             
@@ -357,9 +357,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                     MoEngage.sharedInstance().appStatus(INSTALL)
                     
                     // Save category for the first time, from local json file
-                    if let metadataPath = NSBundle.mainBundle().pathForResource("InitialMetadata", ofType: "json") {
+                    if let metadataPath = Bundle.main.path(forResource: "InitialMetadata", ofType: "json") {
                         do {
-                            let metadataData = try NSData(contentsOfURL: NSURL(fileURLWithPath: metadataPath), options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                            let metadataData = try Data(contentsOf: URL(fileURLWithPath: metadataPath), options: NSData.ReadingOptions.mappedIfSafe)
                             let metadataJson = JSON(data: metadataData)
                             
                             data["metadata_versions"] = metadataJson["_data"]["metadata_versions"]
@@ -424,13 +424,13 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                     // Karena ada proses request bersifat paralel dan managed object context beresiko jika diakses berbarengan, proses update ini harus dilakukan secara bergantian, jadi dipilih mana yg dilakukan duluan dari ke-4 jenis metadata, jika satu metadata telah selesai diupdate, baru dilanjutkan yg lainnya
                     // Urutannya: Categories - ProductConditions - ProvinceRegions - Shippings
                     let updateVer = data["metadata_versions"]
-                    if (ver!.categoriesVersion.integerValue < updateVer["categories"].numberValue.integerValue) {
+                    if (ver!.categoriesVersion.intValue < updateVer["categories"].numberValue.intValue) {
                         self.updateMetaCategories(ver!, updateVer: updateVer)
-                    } else if (ver!.productConditionsVersion.integerValue < updateVer["product_conditions"].numberValue.integerValue) {
+                    } else if (ver!.productConditionsVersion.intValue < updateVer["product_conditions"].numberValue.intValue) {
                         self.updateMetaProductConditions(ver!, updateVer: updateVer)
-                    } else if (ver!.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+                    } else if (ver!.provincesRegionsVersion.intValue < updateVer["province_regions"].numberValue.intValue) {
                         self.updateMetaProvinceRegions(ver!, updateVer: updateVer)
-                    } else if (ver!.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+                    } else if (ver!.shippingsVersion.intValue < updateVer["shippings"].numberValue.intValue) {
                         self.updateMetaShippings()
                     } else {
                         // Version check is done
@@ -439,9 +439,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 }
                 
                 // Check if app is just updated
-                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let lastInstalledVer = CDVersion.getOne()?.appVersion {
-                        if (installedVer.compare(lastInstalledVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
+                        if (installedVer.compare(lastInstalledVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
                             // MoEngage
                             MoEngage.sharedInstance().appStatus(UPDATE)
                         }
@@ -452,14 +452,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
                 CDVersion.saveVersions(data)
                 
                 // Check if app need to be updated
-                if let installedVer = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {
+                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
-                        if (newVer.compare(installedVer, options: .NumericSearch, range: nil, locale: nil) == .OrderedDescending) {
-                            NSUserDefaults.standardUserDefaults().setObject(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                        if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                            UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
                             if let isForceUpdate = data["is_force_update"].bool {
-                                NSUserDefaults.standardUserDefaults().setObject(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
+                                UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
                             }
-                            NSUserDefaults.standardUserDefaults().synchronize()
+                            UserDefaults.standard.synchronize()
                         }
                     }
                 }
@@ -486,8 +486,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    func updateMetaCategories(ver : CDVersion, updateVer : JSON) {
-        request(APIApp.MetadataCategories(currentVer: ver.categoriesVersion.integerValue)).responseJSON { resp in
+    func updateMetaCategories(_ ver : CDVersion, updateVer : JSON) {
+        request(APIApp.metadataCategories(currentVer: ver.categoriesVersion.intValue)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Categories")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -503,11 +503,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
             // Continue updating metadata
-            if (ver.productConditionsVersion.integerValue < updateVer["product_conditions"].numberValue.integerValue) {
+            if (ver.productConditionsVersion.intValue < updateVer["product_conditions"].numberValue.intValue) {
                 self.updateMetaProductConditions(ver, updateVer: updateVer)
-            } else if (ver.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+            } else if (ver.provincesRegionsVersion.intValue < updateVer["province_regions"].numberValue.intValue) {
                 self.updateMetaProvinceRegions(ver, updateVer: updateVer)
-            } else if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+            } else if (ver.shippingsVersion.intValue < updateVer["shippings"].numberValue.intValue) {
                 self.updateMetaShippings()
             } else {
                 // Version check is done
@@ -516,8 +516,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    func updateMetaProductConditions(ver : CDVersion, updateVer : JSON) {
-        request(APIApp.MetadataProductConditions).responseJSON { resp in
+    func updateMetaProductConditions(_ ver : CDVersion, updateVer : JSON) {
+        request(APIApp.metadataProductConditions).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Product Conditions")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
@@ -528,9 +528,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
             // Continue updating metadata
-            if (ver.provincesRegionsVersion.integerValue < updateVer["province_regions"].numberValue.integerValue) {
+            if (ver.provincesRegionsVersion.intValue < updateVer["province_regions"].numberValue.intValue) {
                 self.updateMetaProvinceRegions(ver, updateVer: updateVer)
-            } else if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+            } else if (ver.shippingsVersion.intValue < updateVer["shippings"].numberValue.intValue) {
                 self.updateMetaShippings()
             } else {
                 // Version check is done
@@ -539,8 +539,8 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
         }
     }
     
-    func updateMetaProvinceRegions(ver : CDVersion, updateVer : JSON) {
-        request(APIApp.MetadataProvincesRegions(currentVer: ver.provincesRegionsVersion.integerValue)).responseJSON { resp in
+    func updateMetaProvinceRegions(_ ver : CDVersion, updateVer : JSON) {
+        request(APIApp.metadataProvincesRegions(currentVer: ver.provincesRegionsVersion.intValue)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Province Regions")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -565,7 +565,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             }
             
             // Continue updating metadata
-            if (ver.shippingsVersion.integerValue < updateVer["shippings"].numberValue.integerValue) {
+            if (ver.shippingsVersion.intValue < updateVer["shippings"].numberValue.intValue) {
                 self.updateMetaShippings()
             } else {
                 // Version check is done
@@ -575,7 +575,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     }
     
     func updateMetaShippings() {
-        request(APIApp.MetadataShippings).responseJSON { resp in
+        request(APIApp.metadataShippings).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Shipping")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {

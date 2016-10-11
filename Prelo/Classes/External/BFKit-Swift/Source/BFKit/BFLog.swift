@@ -42,7 +42,7 @@ public var BFLogActive: Bool = true
  - parameter function: Function name
  - parameter line:     Line number
  */
-public func BFLog(message: String, filename: String = #file, function: String = #function, line: Int = #line) {
+public func BFLog(_ message: String, filename: String = #file, function: String = #function, line: Int = #line) {
     if BFLogActive {
         var _message = message
         if _message.hasSuffix("\n") == false {
@@ -51,9 +51,9 @@ public func BFLog(message: String, filename: String = #file, function: String = 
         
         BFLogClass.logString += _message
         
-        let filenameNoExt = NSURL(string: NSString(UTF8String: filename)! as String)!.URLByDeletingPathExtension!
+        let filenameNoExt = NSURL(string: NSString(utf8String: filename)! as String)!.deletingPathExtension!
         let log = "(\(function)) (\(filenameNoExt):\(line) \(_message)"
-        let timestamp = NSDate.dateInformationDescriptionWithInformation(NSDate().dateInformation(), dateSeparator: "-", usFormat: true, nanosecond: true)
+        let timestamp = Date.dateInformationDescriptionWithInformation(Date().dateInformation(), dateSeparator: "-", usFormat: true, nanosecond: true)
         print("\(timestamp) \(filenameNoExt):\(line) \(function): \(_message)", terminator: "")
         
         BFLogClass.detailedLogString += log
@@ -92,16 +92,16 @@ private class BFLogClass {
     // MARK: - Variables -
     
     /// The log string
-    private static var logString: String = ""
+    fileprivate static var logString: String = ""
     /// The detailed log string
-    private static var detailedLogString: String = ""
+    fileprivate static var detailedLogString: String = ""
     
     // MARK: - Class functions -
     
     /**
      Private, clear the log string
      */
-    private static func clearLog() {
+    fileprivate static func clearLog() {
         logString = ""
         detailedLogString = ""
     }

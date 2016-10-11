@@ -19,16 +19,16 @@ class SearchTag: BorderedView {
     */
     
     @IBOutlet var captionTitle : UILabel!
-    @IBOutlet private var captionHide : UILabel!
+    @IBOutlet fileprivate var captionHide : UILabel!
     
-    static func instance(tagString : String) -> SearchTag
+    static func instance(_ tagString : String) -> SearchTag
     {
-        let s = NSBundle.mainBundle().loadNibNamed("SearchTag", owner: nil, options: nil).first as! SearchTag
+        let s = Bundle.main.loadNibNamed("SearchTag", owner: nil, options: nil)?.first as! SearchTag
         s.captionTitle.text = tagString
         s.captionHide.text = tagString
         s.captionHide.sizeToFit()
         
-        s.bounds = CGRectMake(0, 0, s.captionHide.width+16, s.captionHide.height+8)
+        s.bounds = CGRect(x: 0, y: 0, width: s.captionHide.width+16, height: s.captionHide.height+8)
         
         s.layer.cornerRadius = s.height/2
         s.layer.masksToBounds = true

@@ -28,9 +28,9 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         getBrands()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
     }
     
     func getBrands()
@@ -41,7 +41,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
 //                    }
         self.title = "Loading.."
         // API Migrasi
-        request(APIApp.Metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
+        request(APIApp.metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
             self.title = "Merek"
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Merk"))
             {
@@ -66,8 +66,8 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
                 {
                     return true
                 }
-                let s = name.lowercaseString as NSString
-                if (s.rangeOfString((self.searchBar.text == nil ? "" : self.searchBar.text!).lowercaseString).location != NSNotFound)
+                let s = name.lowercased() as NSString
+                if (s.range(of: (self.searchBar.text == nil ? "" : self.searchBar.text!).lowercased()).location != NSNotFound)
                 {
                     return true
                 }
@@ -77,12 +77,12 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         })
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.filter()
         self.tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (searchBar.text == "")
         {
             return brands.count
@@ -90,14 +90,14 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         return brands.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var c = tableView.dequeueReusableCellWithIdentifier("cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var c = tableView.dequeueReusableCell(withIdentifier: "cell")
         if (c == nil)
         {
-            c = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+            c = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         }
         
-        let b = brands[indexPath.row]
+        let b = brands[(indexPath as NSIndexPath).row]
         if let name = b["name"].string
         {
             c?.textLabel?.text = name
@@ -125,7 +125,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         return c!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (searchBar.text == "")
         {
             
@@ -134,11 +134,11 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
             
         }
         
-        let b = brands[indexPath.row]
-        if let id = b["_id"].string, name = b["name"].string
+        let b = brands[(indexPath as NSIndexPath).row]
+        if let id = b["_id"].string, let name = b["name"].string
         {
-            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.currentMode = .Filter
+            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            l.currentMode = .filter
             l.fltrSortBy = "recent"
             l.fltrBrands = [name : id]
             self.navigationController?.pushViewController(l, animated: true)

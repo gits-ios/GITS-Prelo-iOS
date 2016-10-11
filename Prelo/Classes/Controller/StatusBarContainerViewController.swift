@@ -16,14 +16,14 @@ class StatusBarContainerViewController: UIViewController
 
         // Do any additional setup after loading the view.
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StatusBarContainerViewController.changeStatusBarColor(_:)), name: "changeStatusBarColor", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(StatusBarContainerViewController.changeStatusBarColor(_:)), name: NSNotification.Name(rawValue: "changeStatusBarColor"), object: nil)
     }
     
-    func changeStatusBarColor(notif : NSNotification)
+    func changeStatusBarColor(_ notif : Foundation.Notification)
     {
         if let c = notif.object as? UIColor
         {
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.view.backgroundColor = c
             })
         }

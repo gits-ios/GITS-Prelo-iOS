@@ -11,14 +11,14 @@ import Crashlytics
 
 protocol MessagePoolDelegate
 {
-    func messageArrived(message : InboxMessage)
+    func messageArrived(_ message : InboxMessage)
 }
 
 class MessagePool: NSObject
 {
-    private var delegates : [String : MessagePoolDelegate] = [:]
+    fileprivate var delegates : [String : MessagePoolDelegate] = [:]
     
-    func registerDelegate(threadId : String, d : MessagePoolDelegate)
+    func registerDelegate(_ threadId : String, d : MessagePoolDelegate)
     {
         if (delegates[threadId]) != nil
         {
@@ -29,9 +29,9 @@ class MessagePool: NSObject
         }
     }
     
-    func removeDelegate(threadId : String)
+    func removeDelegate(_ threadId : String)
     {
-        delegates.removeValueForKey(threadId)
+        delegates.removeValue(forKey: threadId)
     }
     
     var socket : SocketIOClient!
@@ -40,7 +40,7 @@ class MessagePool: NSObject
     {
         if (CDUser.getOne()?.id != nil)
         {
-            let url = NSURL(string: AppTools.PreloBaseUrl)
+            let url = URL(string: AppTools.PreloBaseUrl)
             if (url == nil)
             {
                 let error = NSError(domain: "Cannot create url", code: 0, userInfo: ["string" : AppTools.PreloBaseUrl])
@@ -85,7 +85,7 @@ class MessagePool: NSObject
                             
                             if let o : NSNumber = d["message_type"] as? NSNumber
                             {
-                                i.messageType = o.integerValue
+                                i.messageType = o.intValue
                             }
                             
                             if let m = d["message"] as? String
@@ -113,7 +113,7 @@ class MessagePool: NSObject
             
             
             
-            if let del = UIApplication.sharedApplication().delegate as? AppDelegate
+            if let del = UIApplication.shared.delegate as? AppDelegate
             {
                 let notifListener = del.preloNotifListener
                 socket.on("notification", callback: { data, ack in
@@ -122,8 +122,8 @@ class MessagePool: NSObject
                         notifListener.handleNotification()
                     }
                 })
-                if (notifListener.willReconnect) {
-                    notifListener.willReconnect = false
+                if (notifListener?.willReconnect)! {
+                    notifListener?.willReconnect = false
                 }
             } else
             {

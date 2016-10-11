@@ -35,7 +35,7 @@ public extension NSDictionary {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    @available(*, deprecated=1.3.0, message="Use dictionaryToJSON()")
+    @available(*, deprecated: 1.3.0, message: "Use dictionaryToJSON()")
     public func dictionaryToJson()  throws-> String {
         return try self.dictionaryToJSON()
     }
@@ -56,9 +56,9 @@ public extension NSDictionary {
      
      - returns: Value for the key Or nil
      */
-    public func safeObjectForKey(key: String) -> AnyObject? {
+    public func safeObjectForKey(_ key: String) -> AnyObject? {
         if let value = self[key] {
-            return value
+            return value as AnyObject?
         } else {
             return nil
         }
@@ -73,8 +73,8 @@ public extension NSDictionary {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    @available(*, deprecated=1.3.0, message="Use dictionaryToJSON(_ )")
-    public static func dictionaryToJson(dictionary: NSDictionary) throws -> String {
+    @available(*, deprecated: 1.3.0, message: "Use dictionaryToJSON(_ )")
+    public static func dictionaryToJson(_ dictionary: NSDictionary) throws -> String {
         return try self.dictionaryToJSON(dictionary)
     }
     
@@ -85,14 +85,14 @@ public extension NSDictionary {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    public static func dictionaryToJSON(dictionary: NSDictionary) throws -> String {
+    public static func dictionaryToJSON(_ dictionary: NSDictionary) throws -> String {
         var json: NSString
-        let jsonData: NSData = try NSJSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted)
+        let jsonData: Data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
         
         if jsonData == false {
             return "{}"
         } else {
-            json = NSString(data: jsonData, encoding: NSUTF8StringEncoding)!
+            json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)!
             return json as String
         }
     }

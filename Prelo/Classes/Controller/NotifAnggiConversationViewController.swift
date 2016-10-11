@@ -7,6 +7,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 // MARK: - NotifAnggiConversation Protocol
 
@@ -45,7 +65,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         
         // Register custom cell
         let notifConversationCellNib = UINib(nibName: "NotifAnggiConversationCell", bundle: nil)
-        tableView.registerNib(notifConversationCellNib, forCellReuseIdentifier: "NotifAnggiConversationCell")
+        tableView.register(notifConversationCellNib, forCellReuseIdentifier: "NotifAnggiConversationCell")
         
         // Hide and show
         self.showLoading()
@@ -55,12 +75,12 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(NotifAnggiConversationViewController.refreshPage), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(NotifAnggiConversationViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Transparent panel
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
     }
     
     func refreshPage() {
@@ -76,7 +96,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func getNotif() {
         // API Migrasi
-        request(APINotifAnggi.GetNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
+        request(APINotifAnggi.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -115,7 +135,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     // MARK: - TableView delegate functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (notifications != nil) {
             return notifications!.count
         } else {
@@ -123,27 +143,27 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiConversationCell") as? NotifAnggiConversationCell {
-            cell.selectionStyle = .None
-            let n = notifications?[indexPath.item]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell : NotifAnggiConversationCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiConversationCell") as? NotifAnggiConversationCell {
+            cell.selectionStyle = .none
+            let n = notifications?[(indexPath as NSIndexPath).item]
             cell.adapt(n!)
             return cell
         }
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.showLoading()
-        if let n = notifications?[indexPath.item] {
+        if let n = notifications?[(indexPath as NSIndexPath).item] {
             if (!n.read) {
                 // API Migrasi
-        request(APINotifAnggi.ReadNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
+        request(APINotifAnggi.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
-                            self.notifications?[indexPath.item].setRead()
+                            self.notifications?[(indexPath as NSIndexPath).item].setRead()
                             self.delegate?.decreaseConversationBadgeNumber()
                             self.navigateReadNotif(n)
                         } else {
@@ -162,11 +182,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 81
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -177,7 +197,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Show bottomLoading
                 self.showBottomLoading()
                 
@@ -189,48 +209,48 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     // MARK: - IBActions
     
-    @IBAction func refreshPressed(sender: AnyObject) {
+    @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshPage()
     }
     
     // MARK: - Other functions
     
     func hideLoading() {
-        loadingPanel.hidden = true
-        loading.hidden = true
+        loadingPanel.isHidden = true
+        loading.isHidden = true
         loading.stopAnimating()
     }
     
     func showLoading() {
-        loadingPanel.hidden = false
-        loading.hidden = false
+        loadingPanel.isHidden = false
+        loading.isHidden = false
         loading.startAnimating()
     }
     
     func hideBottomLoading() {
-        bottomLoadingPanel.hidden = true
-        bottomLoading.hidden = true
+        bottomLoadingPanel.isHidden = true
+        bottomLoading.isHidden = true
         bottomLoading.stopAnimating()
     }
     
     func showBottomLoading() {
-        bottomLoadingPanel.hidden = false
-        bottomLoading.hidden = false
+        bottomLoadingPanel.isHidden = false
+        bottomLoading.isHidden = false
         bottomLoading.startAnimating()
     }
     
     func hideContent() {
-        tableView.hidden = true
-        lblEmpty.hidden = true
-        btnRefresh.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
+        btnRefresh.isHidden = true
     }
     
     func showContent() {
         if (self.notifications?.count <= 0) {
-            self.lblEmpty.hidden = false
-            self.btnRefresh.hidden = false
+            self.lblEmpty.isHidden = false
+            self.btnRefresh.isHidden = false
         } else {
-            self.tableView.hidden = false
+            self.tableView.isHidden = false
             self.setupTable()
         }
     }
@@ -244,11 +264,11 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         tableView.reloadData()
     }
     
-    func navigateReadNotif(notif : Notification) {
+    func navigateReadNotif(_ notif : Notification) {
         if (notif.type == 2000) { // Chat
             // Get inbox detail
             // API Migrasi
-        request(APIInbox.GetInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
+        request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -266,7 +286,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
-            request(Products.Detail(productId: notif.objectId)).responseJSON {resp in
+            request(Products.detail(productId: notif.objectId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let pDetail = ProductDetail.instance(json)
@@ -304,13 +324,13 @@ class NotifAnggiConversationCell: UITableViewCell {
     @IBOutlet weak var consWidthLblTime: NSLayoutConstraint!
     
     override func prepareForReuse() {
-        self.contentView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0)
+        self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
         imgSingle.image = UIImage(named: "raisa.jpg")
         vwCaption.backgroundColor = Theme.GrayDark
         lblConvStatus.textColor = Theme.GrayDark
     }
     
-    func adapt(notif : Notification) {
+    func adapt(_ notif : Notification) {
         // Set background color
         if (!notif.read) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
@@ -318,14 +338,14 @@ class NotifAnggiConversationCell: UITableViewCell {
         
         // Set image
         if (notif.productImages.count > 0) {
-            imgSingle.setImageWithUrl(NSURL(string: notif.productImages.objectAtCircleIndex(0))!, placeHolderImage: nil)
+            imgSingle.setImageWithUrl(URL(string: notif.productImages.objectAtCircleIndex(0))!, placeHolderImage: nil)
         }
         
         // Set caption
         lblCaption.text = notif.caption
-        if (notif.caption.lowercaseString == "komentar") {
+        if (notif.caption.lowercased() == "komentar") {
             vwCaption.backgroundColor = Theme.PrimaryColor
-        } else if (notif.caption.lowercaseString == "chat") {
+        } else if (notif.caption.lowercased() == "chat") {
             vwCaption.backgroundColor = Theme.ThemeOrange
         }
         

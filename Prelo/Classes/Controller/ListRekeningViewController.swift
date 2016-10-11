@@ -32,7 +32,7 @@ class ListRekeningViewController: BaseViewController {
     }
     
     var first = true
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
@@ -41,7 +41,7 @@ class ListRekeningViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func tapped(sender : UITapGestureRecognizer)
+    @IBAction func tapped(_ sender : UITapGestureRecognizer)
     {
         let b = sender.view as! BorderedView
         
@@ -50,7 +50,7 @@ class ListRekeningViewController: BaseViewController {
             x.borderColor = Theme.GrayLight
             for v in x.subviews
             {
-                if (v.isKindOfClass(TintedImageView.classForCoder()))
+                if (v.isKind(of: TintedImageView.classForCoder()))
                 {
                     let t = v as! TintedImageView
                     t.tint = true
@@ -62,7 +62,7 @@ class ListRekeningViewController: BaseViewController {
         b.borderColor = Theme.PrimaryColor
         for v in b.subviews
         {
-            if (v.isKindOfClass(TintedImageView.classForCoder()))
+            if (v.isKind(of: TintedImageView.classForCoder()))
             {
                 let t = v as! TintedImageView
                 t.tint = false
@@ -72,7 +72,7 @@ class ListRekeningViewController: BaseViewController {
         setupViewRekeing(rekenings[b.tag])
     }
     
-    func setupViewRekeing(data : [String : String])
+    func setupViewRekeing(_ data : [String : String])
     {
         captionAtasNama.text = data["name"]
         captionCabang.text = data["cabang"]
@@ -85,7 +85,7 @@ class ListRekeningViewController: BaseViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         

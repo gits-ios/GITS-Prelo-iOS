@@ -41,25 +41,25 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         if let i = UIImage(named: "ic_lovelist") {
             ivLove?.tintColor = Theme.PrimaryColor
-            ivLove?.image = i.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            ivLove?.image = i.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
         
         if let i2 = UIImage(named: "ic_tshirt") {
             ivRequest?.tintColor = Theme.PrimaryColor
-            ivRequest?.image = i2.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            ivRequest?.image = i2.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
     
         if let i3 = UIImage(named: "ic_belanjaan_saya") {
             ivVoucher?.tintColor = Theme.PrimaryColor
-            ivVoucher?.image = i3.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            ivVoucher?.image = i3.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
 
         //self.setupNormalOptions()
         self.setupTitle()
 
         if (User.IsLoggedIn) {
-            vwHeaderLoggedIn.hidden = false
-            vwHeaderLoggedOut.hidden = true
+            vwHeaderLoggedIn.isHidden = false
+            vwHeaderLoggedOut.isHidden = true
             menus = [
                 [
                     "title":"Request Barang",
@@ -83,10 +83,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 ]
             ]
         } else {
-            vwHeaderLoggedIn.hidden = true
-            vwHeaderLoggedOut.hidden = false
+            vwHeaderLoggedIn.isHidden = true
+            vwHeaderLoggedOut.isHidden = false
             let vwTopMenuFrame = vwTopMenu.frame
-            vwTopMenu.frame = CGRectMake(vwTopMenuFrame.origin.x, vwTopMenuFrame.origin.y, vwTopMenuFrame.width, VwTopMenuHeightLoggedOut)
+            vwTopMenu.frame = CGRect(x: vwTopMenuFrame.origin.x, y: vwTopMenuFrame.origin.y, width: vwTopMenuFrame.width, height: VwTopMenuHeightLoggedOut)
             menus = [
                 [
                     "title":"Referral Bonus",
@@ -111,7 +111,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if (User.IsLoggedIn) {
@@ -129,13 +129,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         imgCover?.image = UIImage(named: "ic_user_2.png")
         let uProf = CDUserProfile.getOne()
         if (uProf != nil) {
-            let url = NSURL(string: uProf!.pict)
+            let url = URL(string: uProf!.pict)
             if (url != nil) {
                 imgCover?.setImageWithUrl(url!, placeHolderImage: nil)
                 imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
@@ -144,16 +144,16 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         // Redirect if any
-        let redirectFromHome : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.RedirectFromHome) as! String?
+        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
         if (redirectFromHome != nil) {
             if (redirectFromHome == PageName.MyOrders) {
-                let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
-                let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKey.RedirectFromHome)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
     }
 
@@ -164,19 +164,19 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Table view delegate functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (menus?.count)!
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : DashboardCell = tableView.dequeueReusableCellWithIdentifier("cell") as! DashboardCell
-        let m : [String : String] = (menus?.objectAtCircleIndex(indexPath.row))!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : DashboardCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DashboardCell
+        let m : [String : String] = (menus?.objectAtCircleIndex((indexPath as NSIndexPath).row))!
         
         if let isPreloAwesome = m["PreloAwesome"] { // Icon is from font
             if (isPreloAwesome == "1") {
-                cell.captionIcon?.font = AppFont.PreloAwesome.getFont(24)!
+                cell.captionIcon?.font = AppFont.preloAwesome.getFont(24)!
             } else {
-                cell.captionIcon?.font = AppFont.Prelo2.getFont(24)!
+                cell.captionIcon?.font = AppFont.prelo2.getFont(24)!
             }
             cell.captionIcon?.text = m["icon"]
         } else { // Icon is from image
@@ -189,32 +189,32 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         cell.captionTitle?.text = m["title"]
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
         
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (User.IsLoggedIn) {
-            if (indexPath.row == 0) { // Request barang
+            if ((indexPath as NSIndexPath).row == 0) { // Request barang
                 self.launchRequestBarang()
-            } else if (indexPath.row == 1) { // Tarik uang
+            } else if ((indexPath as NSIndexPath).row == 1) { // Tarik uang
                 self.launchTarikUang()
-            } else if (indexPath.row == 2) { // Referral bonus
+            } else if ((indexPath as NSIndexPath).row == 2) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if (indexPath.row == 3) { // Bantuan
+            } else if ((indexPath as NSIndexPath).row == 3) { // Bantuan
                 self.launchFAQ()
-            } else if (indexPath.row == 4) { // About
+            } else if ((indexPath as NSIndexPath).row == 4) { // About
                 self.launchAbout()
             }
         } else {
-            if (indexPath.row == 0) { // Referral bonus
+            if ((indexPath as NSIndexPath).row == 0) { // Referral bonus
                 self.launchFreeVoucher()
-            } else if (indexPath.row == 1) { // Bantuan
+            } else if ((indexPath as NSIndexPath).row == 1) { // Bantuan
                 self.launchFAQ()
-            } else if (indexPath.row == 2) { // About
+            } else if ((indexPath as NSIndexPath).row == 2) { // About
                 self.launchAbout()
             }
         }
@@ -222,7 +222,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - IBActions
 
-    @IBAction func vwHeaderPressed(sender: AnyObject) {
+    @IBAction func vwHeaderPressed(_ sender: AnyObject) {
         if (User.IsLoggedIn) {
             self.launchMyPage()
         } else {
@@ -230,34 +230,34 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
-    @IBAction func editProfilePressed(sender: UIButton) {
-        let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+    @IBAction func editProfilePressed(_ sender: UIButton) {
+        let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
         self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
-    @IBAction func topMenu1Pressed(sender: AnyObject) {
+    @IBAction func topMenu1Pressed(_ sender: AnyObject) {
         self.launchMyLovelist()
     }
     
-    @IBAction func topMenu2Pressed(sender: AnyObject) {
+    @IBAction func topMenu2Pressed(_ sender: AnyObject) {
         self.launchMyProducts()
     }
     
-    @IBAction func topMenu3Pressed(sender: AnyObject) {
+    @IBAction func topMenu3Pressed(_ sender: AnyObject) {
         self.launchMyPurchases()
     }
     
     // MARK: - Navigation functions
     
     func launchTarikUang() {
-        let balanceMutationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil).first as! BalanceMutationViewController
+        let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
         self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)
     }
     
     func launchMyPage() {
         if let me = CDUser.getOne() {
-            let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            l.currentMode = .Shop
+            let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            l.currentMode = .shop
             l.shopName = me.username
             l.shopId = me.id
             self.navigationController?.pushViewController(l, animated: true)
@@ -266,12 +266,12 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchMyLovelist() {
-        let myLovelistVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil).first as! MyLovelistViewController
+        let myLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil)?.first as! MyLovelistViewController
         self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
     }
     
     func launchFreeVoucher() {
-        let referralPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil).first as! ReferralPageViewController
+        let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
     }
     
@@ -288,25 +288,25 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             m.setSubject("Request Barang")
             m.setMessageBody(msgBody, isHTML: true)
             m.mailComposeDelegate = self
-            self.presentViewController(m, animated: true, completion: nil)
+            self.present(m, animated: true, completion: nil)
         } else {
             Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
     }
     
     func launchMyProducts() {
-        let m = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
         self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
     
     func launchMyPurchases() {
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil).first as! MyPurchaseTransactionViewController
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
         self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     func launchContactPrelo() {
-        let c = (self.storyboard?.instantiateViewControllerWithIdentifier("contactus"))!
+        let c = (self.storyboard?.instantiateViewController(withIdentifier: "contactus"))!
         contactUs = c
         if let v = c.view, let p = self.previousController?.navigationController?.view
         {
@@ -315,24 +315,24 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
             self.previousController?.navigationController?.view.addSubview(v)
             
             v.alpha = 0
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 v.alpha = 1
             })
         }
     }
     
     func launchFAQ() {
-        let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+        let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
         helpVC.titleString = "Bantuan"
         helpVC.contactPreloMode = true
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
-        self.presentViewController(baseNavC, animated: true, completion: nil)
+        self.present(baseNavC, animated: true, completion: nil)
     }
     
     func launchAbout() {
-        let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAbout) as! AboutViewController
+        let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
         self.previousController?.navigationController?.pushViewController(a, animated: true)
@@ -340,13 +340,13 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Mail compose delegate functions
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        if (result == MFMailComposeResultSent) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if (result == MFMailComposeResult.sent) {
             Constant.showDialog("Request Barang", message: "E-mail terkirim")
-        } else if (result == MFMailComposeResultFailed) {
+        } else if (result == MFMailComposeResult.failed) {
             Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
         }
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

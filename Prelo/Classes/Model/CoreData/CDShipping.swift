@@ -17,7 +17,7 @@ class CDShipping: NSManagedObject {
     @NSManaged var packageId : String
     @NSManaged var packageName : String
     
-    static func saveShippingsFromArrayJson(arr: [JSON]) -> Bool {
+    static func saveShippingsFromArrayJson(_ arr: [JSON]) -> Bool {
         
         if (arr.count <= 0) {
             return true
@@ -25,7 +25,7 @@ class CDShipping: NSManagedObject {
         
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
-            let n = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            let n = NSEntityDescription.insertNewObject(forEntityName: "CDShipping", into: m) as! CDShipping
             let ship = arr[i]
             n.id = ship["_id"].stringValue
             n.name = ship["name"].stringValue
@@ -46,7 +46,7 @@ class CDShipping: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
         
         do {
-            if let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDShipping] {
+            if let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDShipping] {
                 return r
             }
             return []
@@ -60,12 +60,12 @@ class CDShipping: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDShipping")
         
         do {
-            if var r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq) as? [CDShipping] {
+            if var r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDShipping] {
                 for i in 0..<r.count {
-                    if (r[i].name.lowercaseString == "pos") {
+                    if (r[i].name.lowercased() == "pos") {
                         r.moveObjectFromIndex(i, toIndex: 0)
                     }
-                    if (r[i].name.lowercaseString == "tiki") {
+                    if (r[i].name.lowercased() == "tiki") {
                         r.moveObjectFromIndex(i, toIndex: r.count - 1)
                     }
                 }
@@ -77,10 +77,10 @@ class CDShipping: NSManagedObject {
         }
     }
     
-    static func saveShippings(json : JSON, m : NSManagedObjectContext) -> Bool {
+    static func saveShippings(_ json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let shipJson = json[i]
-            let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+            let r = NSEntityDescription.insertNewObject(forEntityName: "CDShipping", into: m) as! CDShipping
             r.id = shipJson["_id"].stringValue
             r.name = shipJson["name"].stringValue
             r.packageId = ""
@@ -95,9 +95,9 @@ class CDShipping: NSManagedObject {
         }
     }
     
-    static func newOne(id : String, name : String, packageId : String, packageName : String) -> CDShipping? {
+    static func newOne(_ id : String, name : String, packageId : String, packageName : String) -> CDShipping? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDShipping", inManagedObjectContext: m) as! CDShipping
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDShipping", into: m) as! CDShipping
         r.id = id
         r.name = name
         r.packageId = packageId
@@ -109,7 +109,7 @@ class CDShipping: NSManagedObject {
         }
     }
     
-    static func deleteAll(m : NSManagedObjectContext) -> Bool {
+    static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDShipping")
         fetchRequest.includesPropertyValues = false
         
@@ -118,7 +118,7 @@ class CDShipping: NSManagedObject {
             return false
         }
         for result in results {
-            m.deleteObject(result)
+            m.delete(result)
         }
         if (m.saveSave() == false) {
             print("deleteAll CDShipping failed")
@@ -138,7 +138,7 @@ class CDShipping: NSManagedObject {
         return r.count
     }
     
-    static func getShippingCompleteNameWithId(id : String) -> String? {
+    static func getShippingCompleteNameWithId(_ id : String) -> String? {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDShipping")

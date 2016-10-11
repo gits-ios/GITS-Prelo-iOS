@@ -17,7 +17,7 @@ class CDProductCondition: NSManagedObject {
     @NSManaged var detail : String
     @NSManaged var order : NSNumber
     
-    static func saveProductConditionsFromArrayJson(arr: [JSON]) -> Bool {
+    static func saveProductConditionsFromArrayJson(_ arr: [JSON]) -> Bool {
         
         if (arr.count <= 0) {
             return true
@@ -25,7 +25,7 @@ class CDProductCondition: NSManagedObject {
         
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
-            let n = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
+            let n = NSEntityDescription.insertNewObject(forEntityName: "CDProductCondition", into: m) as! CDProductCondition
             let prodCond = arr[i]
             n.id = prodCond["_id"].stringValue
             n.name = prodCond["name"].stringValue
@@ -42,10 +42,10 @@ class CDProductCondition: NSManagedObject {
         }
     }
     
-    static func saveProductConditions(json : JSON, m : NSManagedObjectContext) -> Bool {
+    static func saveProductConditions(_ json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let condJson = json[i]
-            let r = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
+            let r = NSEntityDescription.insertNewObject(forEntityName: "CDProductCondition", into: m) as! CDProductCondition
             r.id = condJson["_id"].string!
             r.name = condJson["name"].string!
             r.detail = condJson["description"].string!
@@ -59,35 +59,35 @@ class CDProductCondition: NSManagedObject {
         return true
     }
     
-    static func getProductConditionWithID(id : String) -> CDProductCondition? {
+    static func getProductConditionWithID(_ id : String) -> CDProductCondition? {
         let predicate = NSPredicate(format: "id == %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : (r.first as! CDProductCondition)
         } catch {
             return nil
         }
     }
     
-    static func getProductConditionWithName(name : String) -> CDProductCondition? {
+    static func getProductConditionWithName(_ name : String) -> CDProductCondition? {
         let predicate = NSPredicate(format: "name == %@", name)
         let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         fetchReq.predicate = predicate
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : (r.first as! CDProductCondition)
         } catch {
             return nil
         }
     }
     
-    static func newOne(id : String, name : String, detail : String, order : NSNumber) -> CDProductCondition? {
+    static func newOne(_ id : String, name : String, detail : String, order : NSNumber) -> CDProductCondition? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDProductCondition", inManagedObjectContext: m) as! CDProductCondition
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDProductCondition", into: m) as! CDProductCondition
         r.id = id
         r.name = name
         r.detail = detail
@@ -99,15 +99,15 @@ class CDProductCondition: NSManagedObject {
         }
     }
     
-    static func deleteAll(m : NSManagedObjectContext) -> Bool {
+    static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDProductCondition")
         fetchRequest.includesPropertyValues = false
         
         do {
-            let r = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
             if let results = r {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() == true) {
@@ -128,7 +128,7 @@ class CDProductCondition: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count
         } catch {
             return 0
@@ -147,7 +147,7 @@ class CDProductCondition: NSManagedObject {
         var arr : [String] = []
         
         do {
-            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            productConditions = (try m.fetch(fetchReq) as? [CDProductCondition])!
             for productCondition in productConditions {
                 arr.append(productCondition.name + PickerViewController.TAG_START_HIDDEN + productCondition.id + PickerViewController.TAG_END_HIDDEN)
             }
@@ -169,7 +169,7 @@ class CDProductCondition: NSManagedObject {
         var arr : [String] = []
         
         do {
-            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            productConditions = (try m.fetch(fetchReq) as? [CDProductCondition])!
             for productCondition in productConditions {
                 arr.append(productCondition.detail)
             }
@@ -192,7 +192,7 @@ class CDProductCondition: NSManagedObject {
         var arr : [String] = []
         
         do {
-            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            productConditions = (try m.fetch(fetchReq) as? [CDProductCondition])!
             for productCondition in productConditions {
                 arr.append(productCondition.name)
             }
@@ -214,7 +214,7 @@ class CDProductCondition: NSManagedObject {
         var arr : [String] = []
         
         do {
-            productConditions = (try m.executeFetchRequest(fetchReq) as? [CDProductCondition])!
+            productConditions = (try m.fetch(fetchReq) as? [CDProductCondition])!
             for productCondition in productConditions {
                 arr.append(productCondition.id)
             }

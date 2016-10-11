@@ -13,13 +13,13 @@ extension UIApplication
 {
     static var appDelegate : AppDelegate
     {
-        return UIApplication.sharedApplication().delegate as! AppDelegate
+        return UIApplication.shared.delegate as! AppDelegate
     }
 }
 
 extension UIAlertView
 {
-    static func SimpleShow(title : String, message : String)
+    static func SimpleShow(_ title : String, message : String)
     {
         let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
         a.show()
@@ -35,38 +35,38 @@ extension Int
     
     var asPrice : String
     {
-        let f = NSNumberFormatter()
-        f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        f.locale = NSLocale(localeIdentifier: "id_ID")
-        return f.stringFromNumber(NSNumber(integer: self))!
+        let f = NumberFormatter()
+        f.numberStyle = NumberFormatter.Style.currency
+        f.locale = Locale(identifier: "id_ID")
+        return f.string(from: NSNumber(value: self as Int))!
     }
 }
 
 extension UILabel {
     
-    func boldRange(range: Range<String.Index>) {
+    func boldRange(_ range: Range<String.Index>) {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
-            let start = text.string.startIndex.distanceTo(range.startIndex)
-            let length = range.startIndex.distanceTo(range.endIndex)
-            attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(self.font.pointSize)], range: NSMakeRange(start, length))
+            let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+            let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
+            attr.addAttributes([NSFontAttributeName: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: NSMakeRange(start, length))
             self.attributedText = attr
         }
     }
     
-    func boldSubstring(substr: String) {
-        let range = self.text?.rangeOfString(substr)
+    func boldSubstring(_ substr: String) {
+        let range = self.text?.range(of: substr)
         if let r = range {
             boldRange(r)
         }
     }
     
-    func setSubstringColor(substr: String, color: UIColor) {
-        if let range = self.text?.rangeOfString(substr) {
+    func setSubstringColor(_ substr: String, color: UIColor) {
+        if let range = self.text?.range(of: substr) {
             if let text = self.attributedText {
                 let attr = NSMutableAttributedString(attributedString: text)
-                let start = text.string.startIndex.distanceTo(range.startIndex)
-                let length = range.startIndex.distanceTo(range.endIndex)
+                let start = text.string.characters.distance(from: text.string.startIndex, to: range.lowerBound)
+                let length = text.string.characters.distance(from: range.lowerBound, to: range.upperBound)
                 attr.addAttributes([NSForegroundColorAttributeName: color], range: NSMakeRange(start, length))
                 self.attributedText = attr
             }
@@ -75,31 +75,31 @@ extension UILabel {
 }
 
 extension UIImage {
-    func resizeWithPercentage(percentage: CGFloat) -> UIImage? {
+    func resizeWithPercentage(_ percentage: CGFloat) -> UIImage? {
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: size.width * percentage, height: size.height * percentage)))
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.image = self
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        imageView.layer.renderInContext(context)
+        imageView.layer.render(in: context)
         guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
         UIGraphicsEndImageContext()
         return result
     }
     
-    func resizeWithWidth(width: CGFloat) -> UIImage? {
+    func resizeWithWidth(_ width: CGFloat) -> UIImage? {
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.image = self
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        imageView.layer.renderInContext(context)
+        imageView.layer.render(in: context)
         guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
         UIGraphicsEndImageContext()
         return result
     }
     
-    func resizeWithMaxWidth(width: CGFloat) -> UIImage? {
+    func resizeWithMaxWidth(_ width: CGFloat) -> UIImage? {
         if (self.size.width > width) {
             return self.resizeWithWidth(width)
         }
@@ -120,10 +120,10 @@ extension UIDevice {
 class AppTools: NSObject {
     static let isDev = false // Set true for demo/testing purpose only
     
-    private static var devURL = "http://dev.prelo.id"
-    private static var prodURL = "https://prelo.co.id"
+    fileprivate static var devURL = "http://dev.prelo.id"
+    fileprivate static var prodURL = "https://prelo.co.id"
     
-    private static var _PreloBaseUrl = isDev ? devURL : prodURL
+    fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
     static var PreloBaseUrl : String {
         set {
             _PreloBaseUrl = newValue
@@ -138,11 +138,11 @@ class AppTools: NSObject {
     }
     
     static var isIPad : Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
+        return UIDevice.current.userInterfaceIdiom == .pad
     }
     
     static var isSimulator : Bool {
-        return UIDevice.currentDevice().isIOSSimulator
+        return UIDevice.current.isIOSSimulator
     }
 }
 
@@ -339,21 +339,21 @@ class MixpanelEvent
 
 extension GAI
 {
-    static func trackPageVisit(pageName : String)
+    static func trackPageVisit(_ pageName : String)
     {
         // Send if Prelo production only (not development)
         if (AppTools.IsPreloProduction) {
             let tracker = GAI.sharedInstance().defaultTracker
-            tracker.set(kGAIScreenName, value: pageName)
+            tracker?.set(kGAIScreenName, value: pageName)
             let builder = GAIDictionaryBuilder.createScreenView()
-            tracker.send(builder.build() as [NSObject : AnyObject])
+            tracker?.send(builder?.build() as [AnyHashable: Any])
         }
     }
 }
 
 extension Mixpanel
 {
-    static func trackEvent(eventName : String)
+    static func trackEvent(_ eventName : String)
     {
         // Disable Category Browsed and Search Event
         if (eventName == MixpanelEvent.CategoryBrowsed || eventName == MixpanelEvent.Search) {
@@ -363,7 +363,7 @@ extension Mixpanel
         Mixpanel.sharedInstance().track(eventName)
     }
     
-    static func trackEvent(eventName : String, properties : [NSObject : AnyObject])
+    static func trackEvent(_ eventName : String, properties : [AnyHashable: Any])
     {
         // Disable Category Browsed and Search Event
         if (eventName == MixpanelEvent.CategoryBrowsed || eventName == MixpanelEvent.Search) {
@@ -373,7 +373,7 @@ extension Mixpanel
         Mixpanel.sharedInstance().track(eventName, properties: properties)
     }
     
-    static func trackPageVisit(pageName : String)
+    static func trackPageVisit(_ pageName : String)
     {
         /* Disable Page Visit
         let p = [
@@ -383,7 +383,7 @@ extension Mixpanel
         */
     }
     
-    static func trackPageVisit(pageName : String, otherParam : [String : String])
+    static func trackPageVisit(_ pageName : String, otherParam : [String : String])
     {
         var p = otherParam
         p["Page"] = pageName
@@ -412,16 +412,16 @@ class UserDefaultsKey : NSObject
     static let UpdatePopUpForced = "updatepopupforced"
 }
 
-extension NSUserDefaults
+extension UserDefaults
 {
-    static func lastSavedAssetURL() -> NSURL?
+    static func lastSavedAssetURL() -> URL?
     {
-        return NSUserDefaults.standardUserDefaults().objectForKey("lastAssetURL") as? NSURL
+        return UserDefaults.standard.object(forKey: "lastAssetURL") as? URL
     }
     
     static func isCategorySaved() -> Bool
     {
-        let saved : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategorySaved) as! Bool?
+        let saved : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategorySaved) as! Bool?
         if (saved == true) {
             return true
         }
@@ -430,7 +430,7 @@ extension NSUserDefaults
     
     static func categoryPref1() -> String
     {
-        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref1) as! String?
+        let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref1) as! String?
         if (c != nil) {
             return c!
         }
@@ -439,7 +439,7 @@ extension NSUserDefaults
     
     static func categoryPref2() -> String
     {
-        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref2) as! String?
+        let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref2) as! String?
         if (c != nil) {
             return c!
         }
@@ -448,7 +448,7 @@ extension NSUserDefaults
     
     static func categoryPref3() -> String
     {
-        let c : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CategoryPref3) as! String?
+        let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref3) as! String?
         if (c != nil) {
             return c!
         }
@@ -457,23 +457,23 @@ extension NSUserDefaults
     
     static func isTourDone() -> Bool
     {
-        let done : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.TourDone) as! Bool?
+        let done : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.TourDone) as! Bool?
         if (done == true) {
             return true
         }
         return false
     }
     
-    static func setTourDone(done : Bool)
+    static func setTourDone(_ done : Bool)
     {
-        NSUserDefaults.standardUserDefaults().setObject(done, forKey: UserDefaultsKey.TourDone)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(done, forKey: UserDefaultsKey.TourDone)
+        UserDefaults.standard.synchronize()
     }
     
     // TODO: standardisasi, gunakan fungsi ini untuk semua pengesetan object nsuserdefaults
-    static func setObjectAndSync(value : AnyObject?, forKey key : String) {
-        NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    static func setObjectAndSync(_ value : AnyObject?, forKey key : String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
     }
 }
 
@@ -491,10 +491,10 @@ extension NSManagedObjectContext
         return success
     }
     
-    public func tryExecuteFetchRequest(req : NSFetchRequest) -> [NSManagedObject]? {
+    public func tryExecuteFetchRequest(_ req : NSFetchRequest<AnyObject>) -> [NSManagedObject]? {
         var results : [NSManagedObject]?
         do {
-            try results = self.executeFetchRequest(req) as? [NSManagedObject]
+            try results = self.fetch(req) as? [NSManagedObject]
             print("Fetch request success")
         } catch {
             print("Fetch request failed")
@@ -504,7 +504,7 @@ extension NSManagedObjectContext
     }
 }
 
-extension NSData
+extension Data
 {
 //    public func convertToUTF8String() -> String
 //    {
@@ -516,23 +516,23 @@ extension NSData
 //    }
 }
 
-func print(items: Any..., separator: String = " ", terminator: String = "\n") {
+func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     if (AppTools.isSimulator) {
         Swift.print(items[0], separator:separator, terminator: terminator)
     }
 }
 
 class ImageHelper {
-    static func removeExifData(data: NSData) -> NSData? {
-        guard let source = CGImageSourceCreateWithData(data, nil) else {
+    static func removeExifData(_ data: Data) -> Data? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
             return nil
         }
         guard let type = CGImageSourceGetType(source) else {
             return nil
         }
         let count = CGImageSourceGetCount(source)
-        let mutableData = NSMutableData(data: data)
-        guard let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else {
+        let mutableData = NSData(data: data) as Data
+        guard let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else {
             return nil
         }
         // Check the keys for what you need to remove

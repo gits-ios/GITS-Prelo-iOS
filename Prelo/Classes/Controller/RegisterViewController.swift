@@ -8,6 +8,17 @@
 
 import Foundation
 import CoreData
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 // MARK: - Class
 
@@ -35,7 +46,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         
         scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         
-        txtName?.autocapitalizationType = .Words
+        txtName?.autocapitalizationType = .words
         
         // Set delegate
         txtUsername.delegate = self
@@ -45,14 +56,14 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtName!.delegate = self
         
         // Setup placeholder
-        txtUsername.attributedPlaceholder = NSAttributedString(string: (txtUsername.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        txtRepeatPassword?.attributedPlaceholder = NSAttributedString(string: (txtRepeatPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        txtName?.attributedPlaceholder = NSAttributedString(string: (txtName?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        txtUsername.attributedPlaceholder = NSAttributedString(string: (txtUsername.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
+        txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
+        txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
+        txtRepeatPassword?.attributedPlaceholder = NSAttributedString(string: (txtRepeatPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
+        txtName?.attributedPlaceholder = NSAttributedString(string: (txtName?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.init(white: 1, alpha: 1)])
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Mixpanel
@@ -61,8 +72,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         // Google Analytics
         GAI.trackPageVisit(PageName.Register)
         
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
                 
                 if (o) {
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64+r.height, 0)
@@ -73,16 +84,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
             }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.default
     }
     
-    @IBAction func disableTextFields(sender : AnyObject)
+    @IBAction func disableTextFields(_ sender : AnyObject)
     {
         txtUsername?.resignFirstResponder()
         txtEmail?.resignFirstResponder()
@@ -91,81 +102,81 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         txtName?.resignFirstResponder()
     }
     
-    @IBAction func xBackPressed(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func xBackPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func termConditionPressed(sender: AnyObject) {
+    @IBAction func termConditionPressed(_ sender: AnyObject) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let termCondVC = mainStoryboard.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+        let termCondVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         termCondVC.url = "https://prelo.co.id/syarat-ketentuan?ref=preloapp"
         termCondVC.titleString = "Syarat dan Ketentuan"
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([termCondVC], animated: false)
-        self.presentViewController(baseNavC, animated: true, completion: nil)
+        self.present(baseNavC, animated: true, completion: nil)
     }
     
     func fieldsVerified() -> Bool {
         if (txtUsername?.text == "") {
-            let placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Username harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtUsername?.attributedPlaceholder = placeholder
             return false
         } else {
             let usernameRegex = "^[a-zA-Z0-9_]{4,15}$"
             if (txtUsername?.text!.match(usernameRegex) == false) {
                 txtUsername?.text = ""
-                let placeholder = NSAttributedString(string: "Username: 4-15 char (a-z, A-Z, 0-9, _)", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+                let placeholder = NSAttributedString(string: "Username: 4-15 char (a-z, A-Z, 0-9, _)", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
                 txtUsername?.attributedPlaceholder = placeholder
                 return false
             }
         }
         if (txtEmail?.text == "") {
-            let placeholder = NSAttributedString(string: "E-mail harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "E-mail harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtEmail?.attributedPlaceholder = placeholder
             return false
         } else if (txtEmail?.text!.match("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}") == false) {
-            let placeholder = NSAttributedString(string: "E-mail tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "E-mail tidak valid", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtEmail?.text = ""
             txtEmail?.attributedPlaceholder = placeholder
             return false
         }
         if (txtPassword?.text == "") {
-            let placeholder = NSAttributedString(string: "Kata sandi harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Kata sandi harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtPassword?.attributedPlaceholder = placeholder
             return false
         } else if (txtPassword?.text!.length < 6) {
-            let placeholder = NSAttributedString(string: "Kata sandi minimal 6 karakter", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Kata sandi minimal 6 karakter", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtPassword?.attributedPlaceholder = placeholder
             txtPassword?.text = ""
             return false
         }
         if (txtRepeatPassword?.text == "") {
-            let placeholder = NSAttributedString(string: "Kata sandi harus diulangi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Kata sandi harus diulangi", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtRepeatPassword?.attributedPlaceholder = placeholder
             return false
         }
         if (txtPassword?.text != txtRepeatPassword?.text) {
-            let placeholder = NSAttributedString(string: "Kata sandi tidak cocok", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Kata sandi tidak cocok", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtRepeatPassword?.text = ""
             txtRepeatPassword?.attributedPlaceholder = placeholder
             return false
         }
         if (txtName?.text == "") {
-            let placeholder = NSAttributedString(string: "Nama harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            let placeholder = NSAttributedString(string: "Nama harus diisi", attributes: [NSForegroundColorAttributeName : UIColor.init(red: 1, green: 0, blue: 0, alpha: 1)])
             txtName?.attributedPlaceholder = placeholder
             return false
         }
         return true
     }
     
-    @IBAction func registerPressed(sender : AnyObject) {
+    @IBAction func registerPressed(_ sender : AnyObject) {
         if (fieldsVerified()) {
-            self.btnRegister?.enabled = false
+            self.btnRegister?.isEnabled = false
             register()
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField == self.txtUsername) {
             textField.resignFirstResponder()
             self.txtEmail?.becomeFirstResponder()
@@ -186,33 +197,33 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     func register() {
-        disableTextFields(NSNull)
+        disableTextFields(0 as AnyObject)
         let username = txtUsername?.text
         let email = txtEmail?.text
         let password = txtPassword?.text
         let name = txtName?.text
         // API Migrasi
-        request(APIAuth.Register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
+        request(APIAuth.register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Register")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
                 let m = UIApplication.appDelegate.managedObjectContext
                 CDUser.deleteAll()
-                let c = NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser
+                let c = NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser
                 c.id = data["_id"].stringValue
                 c.email = data["email"].stringValue
                 c.username = data["username"].stringValue
                 c.fullname = data["fullname"].stringValue
                 
                 CDUserProfile.deleteAll()
-                let p = NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile
+                let p = NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile
                 let pr = data["profile"]
                 p.pict = pr["pict"].stringValue
                 c.profiles = p
                 
                 CDUserOther.deleteAll()
-                let o = NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther
+                let o = NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther
                 let oth = data["others"]
                 o.lastLogin = oth["last_login"].stringValue
                 o.registerTime = oth["register_time"].stringValue
@@ -224,7 +235,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 
                 self.toProfileSetup(data["_id"].string!, userToken : data["token"].string!, userEmail : data["email"].string!, isSocmedAccount : false, loginMethod : "Basic", screenBeforeLogin : self.screenBeforeLogin)
             } else {
-                self.btnRegister?.enabled = true
+                self.btnRegister?.isEnabled = true
             }
         }
         
@@ -237,8 +248,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         self.navigationController?.pushViewController(phoneVerificationVC, animated: true)*/
     }
     
-    func toProfileSetup(userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
-        let profileSetupVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+    func toProfileSetup(_ userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
+        let profileSetupVC = Bundle.main.loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil)?.first as! ProfileSetupViewController
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         profileSetupVC.userId = userId
         profileSetupVC.userToken = userToken
@@ -256,8 +267,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         // Dispose of any resources that can be recreated.
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -266,11 +277,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     // MARK: - Facebook Login
     
-    @IBAction func loginFacebookPressed(sender: AnyObject) {
+    @IBAction func loginFacebookPressed(_ sender: AnyObject) {
         // Show loading
         self.showLoading()
         
-        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
         LoginViewController.LoginWithFacebook(p, onFinish: { resultDict in
             LoginViewController.AfterLoginFacebook(resultDict)
         })
@@ -278,11 +289,11 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     // MARK: - Twitter Login
     
-    @IBAction func loginTwitterPressed(sender: AnyObject) {
+    @IBAction func loginTwitterPressed(_ sender: AnyObject) {
         // Show loading
         self.showLoading()
         
-        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin]
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
         LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
         })
@@ -290,16 +301,16 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     // MARK: - Path Login
     
-    @IBAction func loginPathPressed(sender: AnyObject) {
+    @IBAction func loginPathPressed(_ sender: AnyObject) {
         // Show loading
         self.showLoading()
         
-        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
         pathLoginVC.delegate = self
         self.navigationController?.pushViewController(pathLoginVC, animated: true)
     }
     
-    func pathLoginSuccess(userData : JSON, token : String) {
+    func pathLoginSuccess(_ userData : JSON, token : String) {
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         let email = userData["email"].string!
@@ -308,7 +319,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
 
         // API Migrasi
-        request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
+        request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -317,7 +328,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 let m = UIApplication.appDelegate.managedObjectContext
                 var user : CDUser? = CDUser.getOne()
                 if (user == nil) {
-                    user = (NSEntityDescription.insertNewObjectForEntityForName("CDUser", inManagedObjectContext: m) as! CDUser)
+                    user = (NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser)
                 }
                 user!.id = data["_id"].string!
                 user!.username = data["username"].string!
@@ -326,14 +337,14 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 
                 var p : CDUserProfile? = CDUserProfile.getOne()
                 if (p == nil) {
-                    p = (NSEntityDescription.insertNewObjectForEntityForName("CDUserProfile", inManagedObjectContext: m) as! CDUserProfile)
+                    p = (NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile)
                 }
                 let pr = data["profile"]
                 p!.pict = pr["pict"].string!
                 
                 var o : CDUserOther? = CDUserOther.getOne()
                 if (o == nil) {
-                    o = (NSEntityDescription.insertNewObjectForEntityForName("CDUserOther", inManagedObjectContext: m) as! CDUserOther)
+                    o = (NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther)
                 }
                 o!.pathID = pathId
                 o!.pathUsername = pathName
@@ -344,8 +355,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 UIApplication.appDelegate.saveContext()
                 
                 // Save in NSUserDefaults
-                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "pathtoken")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(token, forKey: "pathtoken")
+                UserDefaults.standard.synchronize()
                 
                 // Check if user have set his account
                 //self.checkProfileSetup(data["token"].string!)

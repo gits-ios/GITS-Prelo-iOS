@@ -7,6 +7,35 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, MyLovelistCellDelegate {
     
@@ -29,27 +58,27 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Register custom cell
         let myLovelistCellNib = UINib(nibName: "MyLovelistCell", bundle: nil)
-        tableView.registerNib(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
+        tableView.register(myLovelistCellNib, forCellReuseIdentifier: "MyLovelistCell")
         
         // Set title
         self.title = PageName.Lovelist
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
-        viewJualButton.layer.shadowColor = UIColor.blackColor().CGColor
+        viewJualButton.layer.shadowColor = UIColor.black.cgColor
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
-        viewJualButton.layer.zPosition = CGFloat.max;
+        viewJualButton.layer.zPosition = CGFloat.greatestFiniteMagnitude;
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
-        tableView.hidden = true
-        lblEmpty.hidden = true
+        tableView.isHidden = true
+        lblEmpty.isHidden = true
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.Lovelist)
@@ -63,12 +92,12 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
             }
             getUserLovelist()
         } else {
-            self.loadingPanel.hidden = true
+            self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
             if (self.userLovelist?.count <= 0) {
-                self.lblEmpty.hidden = false
+                self.lblEmpty.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -76,7 +105,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     func getUserLovelist() {
         // API Migrasi
-        request(APIUser.MyLovelist).responseJSON {resp in
+        request(APIUser.myLovelist).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lovelist")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -90,12 +119,12 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 }
             }
             
-            self.loadingPanel.hidden = true
+            self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
             if (self.userLovelist?.count <= 0) {
-                self.lblEmpty.hidden = false
+                self.lblEmpty.isHidden = false
             } else {
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.setupTable()
             }
         }
@@ -115,32 +144,32 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     func showLoading() {
         // Tampilkan loading
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
     }
     
     func hideLoading() {
         // Hilangkan loading
-        loadingPanel.hidden = true
+        loadingPanel.isHidden = true
         loading.stopAnimating()
     }
     
-    func deleteCell(cell: MyLovelistCell) {
+    func deleteCell(_ cell: MyLovelistCell) {
         print("delete cell with productId = \(cell.productId)")
         
         // Delete data in userLovelist
         for i in 0 ..< userLovelist!.count {
             let l = userLovelist?.objectAtCircleIndex(i)
             if (l?.id == cell.productId) {
-                userLovelist?.removeAtIndex(i)
+                userLovelist?.remove(at: i)
             }
         }
         if (self.userLovelist?.count <= 0) {
-            self.lblEmpty.hidden = false
-            self.tableView.hidden = true
+            self.lblEmpty.isHidden = false
+            self.tableView.isHidden = true
         } else {
-            self.lblEmpty.hidden = true
-            self.tableView.hidden = false
+            self.lblEmpty.isHidden = true
+            self.tableView.isHidden = false
             self.setupTable()
         }
     }
@@ -152,7 +181,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - UITableViewDelegate Functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (userLovelist?.count > 0) {
             return (self.userLovelist?.count)!
         } else {
@@ -160,25 +189,25 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: MyLovelistCell = self.tableView.dequeueReusableCellWithIdentifier("MyLovelistCell") as! MyLovelistCell
-        cell.selectionStyle = .None
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: MyLovelistCell = self.tableView.dequeueReusableCell(withIdentifier: "MyLovelistCell") as! MyLovelistCell
+        cell.selectionStyle = .none
         cell.delegate = self
-        let u = userLovelist?[indexPath.item]
+        let u = userLovelist?[(indexPath as NSIndexPath).item]
         cell.adapt(u!)
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("Row \(indexPath.row) selected")
         
         // Tampilkan loading
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
         
         // Load detail product
-        let selectedLoved : LovedProduct = (userLovelist?[indexPath.item])! as LovedProduct
-        request(Products.Detail(productId: selectedLoved.id)).responseJSON {resp in
+        let selectedLoved : LovedProduct = (userLovelist?[(indexPath as NSIndexPath).item])! as LovedProduct
+        request(Products.detail(productId: selectedLoved.id)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -186,18 +215,18 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
                 self.selectedProduct = Product.instance(data)
                 
                 // Launch detail scene
-                NSNotificationCenter.defaultCenter().postNotificationName(NotificationName.ShowProduct, object: self.selectedProduct)
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: self.selectedProduct)
             }
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
     // MARK: - IBActions
     
-    @IBAction func sellPressed(sender: AnyObject) {
+    @IBAction func sellPressed(_ sender: AnyObject) {
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Lovelist
         self.navigationController?.pushViewController(add, animated: true)
@@ -209,7 +238,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
 protocol MyLovelistCellDelegate {
     func showLoading()
     func hideLoading()
-    func deleteCell(cell : MyLovelistCell)
+    func deleteCell(_ cell : MyLovelistCell)
     func gotoCart()
 }
 
@@ -224,7 +253,7 @@ class MyLovelistCell : UITableViewCell {
     
     var delegate : MyLovelistCellDelegate?
     
-    func adapt(lovedProduct : LovedProduct) {
+    func adapt(_ lovedProduct : LovedProduct) {
         imgProduct.setImageWithUrl(lovedProduct.productImageURL!, placeHolderImage: nil)
         lblProductName.text = lovedProduct.name
         lblPrice.text = "\(lovedProduct.price.asPrice)"
@@ -233,7 +262,7 @@ class MyLovelistCell : UITableViewCell {
         productId = lovedProduct.id
     }
     
-    @IBAction func beliPressed(sender: AnyObject) {
+    @IBAction func beliPressed(_ sender: AnyObject) {
         if (CartProduct.isExist(productId!, email : User.EmailOrEmptyString)) { // Already in cart
             Constant.showDialog("Warning", message: "Barang sudah ada di keranjang belanja Anda")
             self.delegate?.gotoCart()
@@ -250,12 +279,12 @@ class MyLovelistCell : UITableViewCell {
         //self.deletePressed(nil)
     }
     
-    @IBAction func deletePressed(sender: AnyObject?) {
+    @IBAction func deletePressed(_ sender: AnyObject?) {
         // Show loading
         self.delegate?.showLoading()
         
         // Send unlove API
-        request(Products.Unlove(productID: productId)).responseJSON {resp in
+        request(Products.unlove(productID: productId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove")) {
                 let json = JSON(resp.result.value!)
                 let isLove : Bool = json["_data"]["love"].bool!

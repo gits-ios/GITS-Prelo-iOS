@@ -29,19 +29,19 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         
         // Setup close button
         self.navigationItem.hidesBackButton = true
-        let btnClose = UIBarButtonItem(title: "", style: .Plain, target: self, action: #selector(LoginFransiskaViewController.dismiss))
-        btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], forState: UIControlState.Normal)
+        let btnClose = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(LoginFransiskaViewController.dismiss))
+        btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], for: UIControlState())
         self.navigationItem.rightBarButtonItem = btnClose
         
         // Setup loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
     }
     
     override func dismiss() {
         loginVC.userRelatedDelegate?.userCancelLogin?()
         registerVC.userRelatedDelegate?.userCancelLogin?()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupTabSwipe() {
@@ -51,24 +51,24 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         loginVC.isFromTourVC = isFromTourVC
         loginVC.userRelatedDelegate = userRelatedDelegate
         loginVC.loginTabSwipeVC = self
-        registerVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil).first as! RegisterViewController
+        registerVC = Bundle.main.loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil)?.first as! RegisterViewController
         registerVC.screenBeforeLogin = screenBeforeLogin
         registerVC.userRelatedDelegate = userRelatedDelegate
         registerVC.loginTabSwipeVC = self
         
-        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["LOG IN", "DAFTAR"] as [AnyObject], tintColor: UIColor.clearColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["LOG IN" as AnyObject, "DAFTAR" as AnyObject] as [AnyObject], tintColor: UIColor.clear, delegate: self)
         tabSwipe?.addShadow()
         tabSwipe?.setNormalColor(UIColor(hexString: "#f5f5f5"))
-        tabSwipe?.colorIndicator = UIColor.whiteColor()
-        tabSwipe?.setSelectedColor(UIColor.whiteColor())
+        tabSwipe?.colorIndicator = UIColor.white
+        tabSwipe?.setSelectedColor(UIColor.white)
         
         // Set loadingPanel to front
-        self.view.bringSubviewToFront(loadingPanel)
+        self.view.bringSubview(toFront: loadingPanel)
     }
     
     // MARK: - Tab swipe functions
     
-    func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
         if (index == 0) {
             return loginVC
         } else if (index == 1) {
@@ -80,10 +80,10 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
     // MARK: - Other functions
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
 }

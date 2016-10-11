@@ -29,13 +29,13 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        notifAnggiTransactionVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTransaction, owner: nil, options: nil).first as? NotifAnggiTransactionViewController
+        notifAnggiTransactionVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTransaction, owner: nil, options: nil)?.first as? NotifAnggiTransactionViewController
         notifAnggiTransactionVC?.delegate = self
         
-        notifAnggiConversationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil).first as? NotifAnggiConversationViewController
+        notifAnggiConversationVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiConversation, owner: nil, options: nil)?.first as? NotifAnggiConversationViewController
         notifAnggiConversationVC?.delegate = self
         
-        tabSwipe = CarbonTabSwipeNavigation().createWithRootViewController(self, tabNames: ["TRANSAKSI", "PERCAKAPAN"] as [AnyObject], tintColor: UIColor.whiteColor(), delegate: self)
+        tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["TRANSAKSI" as AnyObject, "PERCAKAPAN" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
         tabSwipe?.setNormalColor(Theme.TabNormalColor)
         tabSwipe?.colorIndicator = Theme.PrimaryColorDark
@@ -45,7 +45,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         self.title = "Notifikasi"
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -55,7 +55,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         GAI.trackPageVisit(PageName.Notification)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if (User.IsLoggedIn == false) {
@@ -76,13 +76,13 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             }
             
             // Activate self as PreloNotifListenerDelegate
-            let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let delegate = UIApplication.shared.delegate as! AppDelegate
             let notifListener = delegate.preloNotifListener
-            notifListener.delegate = self
+            notifListener?.delegate = self
         }
     }
         
-    func tabSwipeNavigation(tabSwipe: CarbonTabSwipeNavigation!, viewControllerAtIndex index: UInt) -> UIViewController! {
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController! {
         if (index == 0) { // Transaction
             return notifAnggiTransactionVC
         } else if (index == 1) { // Conversation
@@ -91,13 +91,13 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         // Default
         let v = UIViewController()
-        v.view.backgroundColor = UIColor.whiteColor()
+        v.view.backgroundColor = UIColor.white
         return v
     }
     
     func getUnreadNotifCount() {
         // API Migrasi
-        request(APINotifAnggi.GetUnreadNotifCount).responseJSON {resp in
+        request(APINotifAnggi.getUnreadNotifCount).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -114,7 +114,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func userLoggedIn() {
@@ -123,7 +123,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     // MARK: - PreloNotifListenerDelegate functions
     
-    override func showNewNotifCount(count: Int) {
+    override func showNewNotifCount(_ count: Int) {
         // Do nothing
     }
     
@@ -140,9 +140,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let notifListener = appDelegate.preloNotifListener
-                notifListener.setNewNotifCount(badgeNumberAll)
+                notifListener?.setNewNotifCount(badgeNumberAll)
             }
         }
     }
@@ -153,9 +153,9 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             if (self.isBadgeValuesCompleted()) {
                 tabSwipe?.setBadgeValues([self.transactionBadgeNumber!, self.conversationBadgeNumber!], andRightOffsets: [TransactionBadgeRightOffset, ConversationBadgeRightOffset])
                 let badgeNumberAll = transactionBadgeNumber! + conversationBadgeNumber!
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let notifListener = appDelegate.preloNotifListener
-                notifListener.setNewNotifCount(badgeNumberAll)
+                notifListener?.setNewNotifCount(badgeNumberAll)
             }
         }
     }

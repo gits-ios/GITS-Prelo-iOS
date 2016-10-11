@@ -31,11 +31,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.lblEmpty.hidden = true
-        self.tableView.hidden = true
-        self.btnRefresh.hidden = true
+        self.lblEmpty.isHidden = true
+        self.tableView.isHidden = true
+        self.btnRefresh.isHidden = true
         self.loading.startAnimating()
-        self.loading.hidden = false
+        self.loading.isHidden = false
 //        getProducts()
         
         tableView.dataSource = self
@@ -47,17 +47,17 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         // Register custom cell
         let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
-        tableView.registerNib(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        tableView.register(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
         
         // Hide bottom refresh first
         bottomLoading.stopAnimating()
-        bottomLoading.hidden = true
+        bottomLoading.isHidden = true
         consBottomTableView.constant = 0
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refreshPressed(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(MyProductSellViewController.refreshPressed(_:)), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Search bar setup
@@ -66,7 +66,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     var first = true
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -77,7 +77,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         
         if (!first)
         {
-            self.refresh(0, isSearchMode: false)
+            self.refresh(0 as AnyObject, isSearchMode: false)
         }
         
         first = false
@@ -86,21 +86,21 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         ProdukUploader.AddObserverForUploadFailed(self, selector: #selector(MyProductSellViewController.uploadProdukGagal(_:)))
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         ProdukUploader.RemoveObserverForUploadSuccess(self)
         ProdukUploader.RemoveObserverForUploadFailed(self)
     }
     
-    func uploadProdukSukses(notif : NSNotification)
+    func uploadProdukSukses(_ notif : Foundation.Notification)
     {
-        refresh(0, isSearchMode: false)
+        refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
     }
     
-    func uploadProdukGagal(notif : NSNotification)
+    func uploadProdukGagal(_ notif : Foundation.Notification)
     {
-        refresh(0, isSearchMode: false)
+        refresh(0 as AnyObject, isSearchMode: false)
         Constant.showDialog("Upload Barang Gagal", message: "Oops, upload barang gagal")
     }
     
@@ -111,7 +111,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         {
             if let prod = p.toProduct
             {
-                products.insert(prod, atIndex: 0)
+                products.insert(prod, at: 0)
             }
         }
     }
@@ -122,7 +122,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         if let txt = searchBar.text {
             searchText = txt
         }
-        request(APIProduct.MyProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad), name: searchText)).responseJSON {resp in
+        request(APIProduct.myProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad), name: searchText)).responseJSON {resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya")) {
                     if let result: AnyObject = resp.result.value
@@ -152,11 +152,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 // Hide loading (for first time request)
                 self.loading.stopAnimating()
-                self.loading.hidden = true
+                self.loading.isHidden = true
                 
                 // Hide bottomLoading (for next request)
                 self.bottomLoading.stopAnimating()
-                self.bottomLoading.hidden = true
+                self.bottomLoading.isHidden = true
                 self.consBottomTableView.constant = 0
                 
                 // Hide refreshControl (for refreshing)
@@ -165,19 +165,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 self.addUploadingProducts()
                 
                 if (self.products.count > 0) {
-                    self.lblEmpty.hidden = true
-                    self.tableView.hidden = false
+                    self.lblEmpty.isHidden = true
+                    self.tableView.isHidden = false
                     self.tableView.reloadData()
                 } else {
-                    self.lblEmpty.hidden = false
-                    self.btnRefresh.hidden = false
-                    self.tableView.hidden = true
+                    self.lblEmpty.isHidden = false
+                    self.btnRefresh.isHidden = false
+                    self.tableView.isHidden = true
                 }
             }
         }
     }
     
-    func refresh(sender: AnyObject, isSearchMode : Bool) {
+    func refresh(_ sender: AnyObject, isSearchMode : Bool) {
         // Reset data
         self.products = []
         if (!isSearchMode) {
@@ -185,14 +185,14 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         }
         self.nextIdx = 0
         self.isAllItemLoaded = false
-        self.tableView.hidden = true
-        self.lblEmpty.hidden = true
-        self.btnRefresh.hidden = true
-        self.loading.hidden = false
+        self.tableView.isHidden = true
+        self.lblEmpty.isHidden = true
+        self.btnRefresh.isHidden = true
+        self.loading.isHidden = false
         getProducts()
     }
     
-    @IBAction func refreshPressed(sender: AnyObject) {
+    @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refresh(sender, isSearchMode : false)
     }
 
@@ -201,21 +201,21 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return products.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : TransactionListCell = self.tableView.dequeueReusableCellWithIdentifier("TransactionListCell") as! TransactionListCell
-        if (!refreshControl.refreshing) {
-            let p = products[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
+        if (!refreshControl.isRefreshing) {
+            let p = products[(indexPath as NSIndexPath).row]
             
             cell.lblProductName.text = p.name
             cell.lblPrice.text = p.price
             cell.lblOrderTime.text = p.time
             
             if (p.isFreeOngkir) {
-                cell.imgFreeOngkir.hidden = false
+                cell.imgFreeOngkir.isHidden = false
             }
             
             let commentCount : Int = (p.json["num_comment"] != nil) ? p.json["num_comment"].int! : 0
@@ -233,18 +233,18 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             }
             
             let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
-            cell.lblOrderStatus.text = status.uppercaseString
+            cell.lblOrderStatus.text = status.uppercased()
             if (p.isLokal)
             {
                 cell.lblOrderStatus.text = "Uploading"
             }
             
-            if (status.lowercaseString == "aktif") {
+            if (status.lowercased() == "aktif") {
                 cell.lblOrderStatus.textColor = Theme.PrimaryColor
-            } else if (status.lowercaseString == "direview admin") {
+            } else if (status.lowercased() == "direview admin") {
                 cell.lblOrderStatus.textColor = Theme.ThemeOrange
             } else {
-                cell.lblOrderStatus.textColor = UIColor.redColor()
+                cell.lblOrderStatus.textColor = UIColor.red
             }
             
             // Fix product status text width
@@ -253,7 +253,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
             
             // Socmed share status
-            cell.vwShareStatus.hidden = false
+            cell.vwShareStatus.isHidden = false
             if (p.isSharedInstagram) {
                 cell.lblInstagram.textColor = Theme.PrimaryColor
             }
@@ -291,29 +291,29 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         return m*/
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //return 80 // If using MyProductCell
         return 64
     }
     
     var selectedProduct : Product?
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        selectedProduct = products[indexPath.row]
+        selectedProduct = products[(indexPath as NSIndexPath).row]
         if (selectedProduct!.isLokal)
         {
             return
         }
         
-        let d:ProductDetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         d.product = selectedProduct!
         
         self.previousController?.navigationController?.pushViewController(d, animated: true)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -324,11 +324,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating()) {
+            if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah
                 consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 bottomLoading.startAnimating()
-                bottomLoading.hidden = false
+                bottomLoading.isHidden = false
                 
                 // Get user products
                 self.getProducts()
@@ -336,8 +336,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        self.refresh(0, isSearchMode: true)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.refresh(0 as AnyObject, isSearchMode: true)
     }
 }
 

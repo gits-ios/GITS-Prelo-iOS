@@ -35,13 +35,13 @@ class CDUserOther: NSManagedObject {
     @NSManaged var pathID: String?
     @NSManaged var pathUsername: String?
     @NSManaged var pathAccessToken: String?
-    @NSManaged var shippingIDs: NSData
+    @NSManaged var shippingIDs: Data
 
     static func getOne() -> CDUserOther? {
         let fetchReq = NSFetchRequest(entityName: "CDUserOther")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : r.first as? CDUserOther
         } catch {
             return nil
@@ -54,9 +54,9 @@ class CDUserOther: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {

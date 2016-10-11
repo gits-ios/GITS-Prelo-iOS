@@ -29,21 +29,21 @@ import Foundation
 // MARK: - Stack class -
 
 /// Primitive Stack implementation
-public class Stack: CustomStringConvertible {
+open class Stack: CustomStringConvertible {
     /// Describe the Stack
-    public var description: String {
+    open var description: String {
         return "\(stack)"
     }
     
     /// Private, the array behind Stack
-    private var stack: Array<AnyObject> = Array<AnyObject>()
+    fileprivate var stack: Array<AnyObject> = Array<AnyObject>()
     
     /**
      Returns if the Stack is empty or not
     
      - returns: Returns true if the Stack is empty, otherwise false
      */
-    public func empty() -> Bool {
+    open func empty() -> Bool {
         return stack.isEmpty
     }
     
@@ -52,7 +52,7 @@ public class Stack: CustomStringConvertible {
     
      - parameter object: The element to add
      */
-    public func push(object: AnyObject) {
+    open func push(_ object: AnyObject) {
         stack.append(object)
     }
     
@@ -61,11 +61,11 @@ public class Stack: CustomStringConvertible {
     
      - returns: Returns the removed element
      */
-    public func pop() -> AnyObject? {
+    open func pop() -> AnyObject? {
         var popped: AnyObject? = nil
         if !self.empty() {
             popped = stack[stack.count - 1]
-            stack.removeAtIndex(stack.count - 1)
+            stack.remove(at: stack.count - 1)
         }
         
         return popped
@@ -75,14 +75,14 @@ public class Stack: CustomStringConvertible {
 // MARK: - List class -
 
 /// Primitive List implementation. In order to work, the List must contain only objects that is subclass of NSObject
-public class List: CustomStringConvertible {
+open class List: CustomStringConvertible {
     /// Describe the List
-    public var description: String {
+    open var description: String {
         return "\(list)"
     }
     
     /// Private, the array behind the List
-    private var list: Array<AnyObject> = Array<AnyObject>()
+    fileprivate var list: Array<AnyObject> = Array<AnyObject>()
     
     /**
      Search an element and returns the index
@@ -91,7 +91,7 @@ public class List: CustomStringConvertible {
     
      - returns: Returns the index of the searched element
      */
-    public func search(object: AnyObject) -> Int? {
+    open func search(_ object: AnyObject) -> Int? {
         for i in 0 ..< list.count {
             if object is NSObject {
                 if list[i] as! NSObject == object as! NSObject {
@@ -112,7 +112,7 @@ public class List: CustomStringConvertible {
     
      - returns: Returns the element of the searched index
      */
-    public func search(index: Int) -> AnyObject? {
+    open func search(_ index: Int) -> AnyObject? {
         return list.safeObjectAtIndex(index)
     }
     
@@ -121,7 +121,7 @@ public class List: CustomStringConvertible {
     
      - parameter object: The element to insert in the List
      */
-    public func insert(object: AnyObject) {
+    open func insert(_ object: AnyObject) {
         list.append(object)
     }
     
@@ -132,11 +132,11 @@ public class List: CustomStringConvertible {
      
      - returns: Retruns true if removed, otherwise false
      */
-    public func delete(object: AnyObject) -> Bool {
+    open func delete(_ object: AnyObject) -> Bool {
         let search = self.search(object)
         
         if search != nil {
-            list.removeAtIndex(search!)
+            list.remove(at: search!)
             return true
         } else {
             return false
@@ -148,29 +148,29 @@ public class List: CustomStringConvertible {
     
      - parameter index: The index to delete
      */
-    public func delete(index: Int) {
-        list.removeAtIndex(index)
+    open func delete(_ index: Int) {
+        list.remove(at: index)
     }
 }
 
 // MARK: - Queue class -
 
 /// Primitive Queue implementation
-public class Queue: CustomStringConvertible {
+open class Queue: CustomStringConvertible {
     /// Describe the Queue
-    public var description: String {
+    open var description: String {
         return "\(queue)"
     }
     
     /// Private, the array behind the Queue
-    private var queue: Array<AnyObject> = Array<AnyObject>()
+    fileprivate var queue: Array<AnyObject> = Array<AnyObject>()
     
     /**
      Adds an element to the Queue
     
      - parameter object: The element to add
      */
-    public func enqueue(object: AnyObject) {
+    open func enqueue(_ object: AnyObject) {
         queue.append(object)
     }
     
@@ -179,9 +179,9 @@ public class Queue: CustomStringConvertible {
      
      - returns: Retruns true if removed, otherwise false
      */
-    public func dequeue() -> Bool {
+    open func dequeue() -> Bool {
         if queue.count > 0 {
-            queue.removeAtIndex(0)
+            queue.remove(at: 0)
             return true
         } else {
             return false
@@ -193,14 +193,14 @@ public class Queue: CustomStringConvertible {
     
      - returns: Returns the element on the top of the Queue
      */
-    public func top() -> AnyObject? {
+    open func top() -> AnyObject? {
         return queue.first
     }
     
     /**
      Remove all the elements in the Queue
      */
-    public func emptyQueue() {
-        queue.removeAll(keepCapacity: false)
+    open func emptyQueue() {
+        queue.removeAll(keepingCapacity: false)
     }
 }

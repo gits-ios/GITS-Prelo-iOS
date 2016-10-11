@@ -42,7 +42,7 @@ public let NO = false
 
  - returns: Returns the convertion result
  */
-public func DegreesToRadians(degrees: Float) -> Float {
+public func DegreesToRadians(_ degrees: Float) -> Float {
     return Float(Double(degrees) * M_PI / 180)
 }
 
@@ -53,7 +53,7 @@ public func DegreesToRadians(degrees: Float) -> Float {
 
  - returns: Returns the convertion result
  */
-public func RadiansToDegrees(radians: Float) -> Float {
+public func RadiansToDegrees(_ radians: Float) -> Float {
     return Float(Double(radians) * 180 / M_PI)
 }
 
@@ -69,7 +69,7 @@ public extension NSNumber {
     
      - returns: Returns the created random integer
      */
-    public static func randomIntBetweenMin(minValue: Int, andMax maxValue: Int) -> Int {
+    public static func randomIntBetweenMin(_ minValue: Int, andMax maxValue: Int) -> Int {
         return minValue + Int(self.randomFloat()) * (maxValue - minValue)
     }
     
@@ -81,17 +81,17 @@ public extension NSNumber {
      
      - returns: Returns the created random integer
      */
-    static func randomInt(range: Range<Int>) -> Int
+    static func randomInt(_ range: Range<Int>) -> Int
     {
         var offset = 0
         
-        if range.startIndex < 0
+        if range.lowerBound < 0
         {
-            offset = abs(range.startIndex)
+            offset = abs(range.lowerBound)
         }
         
-        let min = UInt32(range.startIndex + offset)
-        let max = UInt32(range.endIndex   + offset)
+        let min = UInt32(range.lowerBound + offset)
+        let max = UInt32(range.upperBound   + offset)
         
         return Int(min + arc4random_uniform(max - min)) - offset
     }
@@ -113,7 +113,7 @@ public extension NSNumber {
     
      - returns: Returns the created random float
      */
-    public static func randomFloatBetweenMin(minValue: Float, andMax maxValue: Float) -> Float {
+    public static func randomFloatBetweenMin(_ minValue: Float, andMax maxValue: Float) -> Float {
         return Float(arc4random()) / Float(UINT32_MAX) * abs(minValue - maxValue) + min(minValue, maxValue)
     }
     
@@ -124,7 +124,7 @@ public extension NSNumber {
     
      - returns: Returns the number powered
      */
-    public static func nextPowerOfTwo(number: Int) -> Int {
+    public static func nextPowerOfTwo(_ number: Int) -> Int {
         var result = 1
         while result < number {
             result *= 2
@@ -139,7 +139,7 @@ public extension NSNumber {
     
      - returns: Returns if the number is a power of two
      */
-    public static func isPowerOfTwo(number: Int) -> Bool {
+    public static func isPowerOfTwo(_ number: Int) -> Bool {
         return (number != 0) && Bool((number & (number - 1)))
     }
 }

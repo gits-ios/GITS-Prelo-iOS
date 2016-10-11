@@ -55,7 +55,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     // Data from previous page
     var orderID : String = ""
     var transactionId : String = ""
-    var images : [NSURL] = []
+    var images : [URL] = []
     var total : Int = 0
     var kodeTransfer = 0
     
@@ -103,7 +103,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             // Clear cart right after checkout
             let products = CartProduct.getAll(User.EmailOrEmptyString)
             for p in products {
-                UIApplication.appDelegate.managedObjectContext.deleteObject(p)
+                UIApplication.appDelegate.managedObjectContext.delete(p)
             }
             UIApplication.appDelegate.saveContext()
         } else {
@@ -121,28 +121,28 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             // Arrange views
             captionTitle.text = "Selamat! Transaksi kamu berhasil"
             captionDesc.text = "Kami segera memproses dan mengirim barang pesanan kamu. Silakan tunggu notifikasi Konfirmasi Pengiriman maximal 3 x 24 jam."
-            self.vwUnpaidTrx.hidden = true
-            self.btnFreeTrx.hidden = false
+            self.vwUnpaidTrx.isHidden = true
+            self.btnFreeTrx.isHidden = false
         } else {
             // Arrange views
             let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
-            mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGrayColor()], range: NSMakeRange(0, text.length))
-            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("TEPAT"))
-            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFontOfSize(14)], range: (text as NSString).rangeOfString("3 digit terakhir"))
+            mtext.addAttributes([NSForegroundColorAttributeName:UIColor.darkGray], range: NSMakeRange(0, text.length))
+            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
+            mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "3 digit terakhir"))
             captionDesc.attributedText = mtext
-            self.vwUnpaidTrx.hidden = false
-            self.btnFreeTrx.hidden = true
+            self.vwUnpaidTrx.isHidden = false
+            self.btnFreeTrx.isHidden = true
         }
         
         // Arrange product images
         for v in imgs {
-            v.hidden = true
+            v.isHidden = true
         }
         if (images.count > 0) {
             for i in (0...images.count - 1) {
                 let v = imgs[i]
-                v.hidden = false
+                v.isHidden = false
                 
                 if (i < 3) {
                     let im = v as! UIImageView
@@ -159,11 +159,11 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
         if (self.isShowBankBRI) {
-            self.vw3Banks.hidden = true
-            self.vw4Banks.hidden = false
+            self.vw3Banks.isHidden = true
+            self.vw4Banks.isHidden = false
         } else {
-            self.vw3Banks.hidden = false
-            self.vw4Banks.hidden = true
+            self.vw3Banks.isHidden = false
+            self.vw4Banks.isHidden = true
         }
         
         // Default active bank option
@@ -174,15 +174,15 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         // Pop up init
-        self.vwPaymentPopUp.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.5)
-        self.vwPaymentPopUp.hidden = true
+        self.vwPaymentPopUp.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.5)
+        self.vwPaymentPopUp.isHidden = true
         self.fldNominalTrf.text = "\(total + kodeTransfer)"
         
         // Date picker init
-        datePicker.setValue(UIColor.darkGrayColor(), forKey: "textColor")
+        datePicker.setValue(UIColor.darkGray, forKey: "textColor")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -197,7 +197,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         GAI.trackPageVisit(PageName.PaymentConfirmation)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Content view height
@@ -206,7 +206,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // Back action handling
         if (!isNavCtrlsChecked && isBackTwice) {
             var x = self.navigationController?.viewControllers
-            x?.removeAtIndex((x?.count)! - 2)
+            x?.remove(at: (x?.count)! - 2)
             if (x == nil) {
                 x = []
             }
@@ -215,12 +215,12 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         // Keyboard handling
-        self.an_subscribeKeyboardWithAnimations({ r, t, o in
+        self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
                 self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
                 self.consTopPaymentPopUp.constant = 10
             } else {
-                self.scrollView.contentInset = UIEdgeInsetsZero
+                self.scrollView.contentInset = UIEdgeInsets.zero
                 self.consTopPaymentPopUp.constant = 100
             }
         }, completion: nil)
@@ -230,19 +230,19 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     @IBAction func copyPrice() {
         let s = String((total + kodeTransfer))
-        UIPasteboard.generalPasteboard().string = s
-        let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .Alert)
-        a.addAction(UIAlertAction(title: "OK", style: .Default, handler: { act in }))
-        self.presentViewController(a, animated: true, completion: nil)
+        UIPasteboard.general.string = s
+        let a = UIAlertController(title: "Copied!", message: "Total harga sudah ada di clipboard!", preferredStyle: .alert)
+        a.addAction(UIAlertAction(title: "OK", style: .default, handler: { act in }))
+        self.present(a, animated: true, completion: nil)
     }
     
-    @IBAction func rekOptionsTapped(sender: UIButton) {
+    @IBAction func rekOptionsTapped(_ sender: UIButton) {
         let b = sender.superview as! BorderedView
         
         for x in sectionRekOptions {
             x.borderColor = Theme.GrayLight
             for v in x.subviews {
-                if (v.isKindOfClass(TintedImageView.classForCoder())) {
+                if (v.isKind(of: TintedImageView.classForCoder())) {
                     let t = v as! TintedImageView
                     t.tint = true
                     t.tintColor = Theme.GrayLight
@@ -252,7 +252,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         b.borderColor = Theme.PrimaryColor
         for v in b.subviews {
-            if (v.isKindOfClass(TintedImageView.classForCoder())) {
+            if (v.isKind(of: TintedImageView.classForCoder())) {
                 let t = v as! TintedImageView
                 t.tint = false
             }
@@ -264,88 +264,88 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.lblBankTujuan.text = rekenings[b.tag]["bank_name"]
     }
     
-    func setupViewRekening(data : [String : String]) {
+    func setupViewRekening(_ data : [String : String]) {
         captionBankInfoBankAtasNama?.text = data["name"]
         captionBankInfoBankCabang?.text = data["cabang"]
         captionBankInfoBankName?.text = "Transfer melalui Bank " + data["bank_name"]!
         captionBankInfoBankNumber?.text = data["no"]
     }
     
-    override func backPressed(sender: UIBarButtonItem) {
+    override func backPressed(_ sender: UIBarButtonItem) {
         if (isFreeTransaction) {
             // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
             if (self.isFromCheckout) {
-                NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+                UserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
             }
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         } else {
             // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
             if (self.isFromCheckout) {
                 //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
             }
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
-    @IBAction func lihatBelanjaanSayaPressed(sender: AnyObject) {
-        NSUserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
-        self.navigationController?.popToRootViewControllerAnimated(true)
+    @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
+        UserDefaults.setObjectAndSync(PageName.MyOrders, forKey: UserDefaultsKey.RedirectFromHome)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
-    @IBAction func showPaymentPopUp(sender: AnyObject) {
-        self.vwPaymentPopUp.hidden = false
+    @IBAction func showPaymentPopUp(_ sender: AnyObject) {
+        self.vwPaymentPopUp.isHidden = false
     }
     
     // MARK: - Pop up actions
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
         }
     }
     
-    @IBAction func disableTextFields(sender : AnyObject) {
+    @IBAction func disableTextFields(_ sender : AnyObject) {
         fldNominalTrf.resignFirstResponder()
     }
     
-    @IBAction func bankTujuanPressed(sender: AnyObject) {
+    @IBAction func bankTujuanPressed(_ sender: AnyObject) {
         let bankCount = rekenings.count - (isShowBankBRI ? 0 : 1)
-        let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .ActionSheet)
+        let bankAlert = UIAlertController(title: "Pilih Bank", message: nil, preferredStyle: .actionSheet)
         bankAlert.popoverPresentationController?.sourceView = sender as? UIView
         bankAlert.popoverPresentationController?.sourceRect = sender.bounds
         for i in 0...bankCount - 1 {
-            bankAlert.addAction(UIAlertAction(title: rekenings[i]["bank_name"], style: .Default, handler: { act in
+            bankAlert.addAction(UIAlertAction(title: rekenings[i]["bank_name"], style: .default, handler: { act in
                 self.lblBankTujuan.text = self.rekenings[i]["bank_name"]
-                bankAlert.dismissViewControllerAnimated(true, completion: nil)
+                bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        bankAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { act in
-            bankAlert.dismissViewControllerAnimated(true, completion: nil)
+        bankAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { act in
+            bankAlert.dismiss(animated: true, completion: nil)
         }))
-        self.presentViewController(bankAlert, animated: true, completion: nil)
+        self.present(bankAlert, animated: true, completion: nil)
     }
     
-    @IBAction func batalKonfPressed(sender: AnyObject) {
-        self.vwPaymentPopUp.hidden = true
+    @IBAction func batalKonfPressed(_ sender: AnyObject) {
+        self.vwPaymentPopUp.isHidden = true
     }
     
-    @IBAction func kirimKonfirmasiPressed(sender: AnyObject) {
+    @IBAction func kirimKonfirmasiPressed(_ sender: AnyObject) {
         if (fldNominalTrf.text == nil || fldNominalTrf.text == "") {
             Constant.showDialog("Perhatian", message: "Nominal transfer harus diisi")
             return
         }
-        btnKirimPayment.setTitle("MENGIRIM...", forState: .Normal)
-        btnKirimPayment.userInteractionEnabled = false
+        btnKirimPayment.setTitle("MENGIRIM...", for: UIControlState())
+        btnKirimPayment.isUserInteractionEnabled = false
         
         let timePaid = datePicker.date
-        let timePaidFormatter = NSDateFormatter()
+        let timePaidFormatter = DateFormatter()
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
-        let timePaidString = timePaidFormatter.stringFromDate(timePaid)
+        let timePaidString = timePaidFormatter.string(from: timePaid)
         
         // API Migrasi
-        request(APITransaction2.ConfirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
+        request(APITransaction2.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
                 // Mixpanel
                 let pt = [
@@ -357,10 +357,10 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 Mixpanel.trackEvent(MixpanelEvent.PaymentClaimed, properties: pt)
                 
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.navigationController?.popToRootViewController(animated: true)
             }
-            self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", forState: .Normal)
-            self.btnKirimPayment.userInteractionEnabled = true
+            self.btnKirimPayment.setTitle("KIRIM KONFIRMASI", for: UIControlState())
+            self.btnKirimPayment.isUserInteractionEnabled = true
         }
     }
 }

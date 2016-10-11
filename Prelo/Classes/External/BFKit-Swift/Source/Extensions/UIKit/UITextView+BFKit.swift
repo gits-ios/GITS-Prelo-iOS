@@ -64,12 +64,12 @@ public extension UITextView {
         self.textColor = color
         self.returnKeyType = returnType
         self.enablesReturnKeyAutomatically = enablesReturnKeyAutomatically
-        self.secureTextEntry = secure
+        self.isSecureTextEntry = secure
         self.keyboardAppearance = keyboardAppearance
         self.font = UIFont(fontName: font, size: size)
         self.delegate = delegate
         self.dataDetectorTypes = dataDetectorTypes
-        self.editable = editable
-        self.selectable = selectable
+        self.isEditable = editable
+        self.isSelectable = selectable
     }
 }

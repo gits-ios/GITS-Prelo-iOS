@@ -16,7 +16,7 @@
             startingLineNumber = "497"
             endingLineNumber = "497"
             landmarkName = "LoginFacebookCancelled(_:reason:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,7 +32,7 @@
             startingLineNumber = "506"
             endingLineNumber = "506"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,7 +48,7 @@
             startingLineNumber = "496"
             endingLineNumber = "496"
             landmarkName = "LoginFacebookCancelled(_:reason:)"
-            landmarkType = "5">
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -144,7 +144,7 @@
             startingLineNumber = "433"
             endingLineNumber = "433"
             landmarkName = "AfterLoginFacebook(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -160,7 +160,7 @@
             startingLineNumber = "617"
             endingLineNumber = "617"
             landmarkName = "AfterLoginTwitter(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -176,7 +176,7 @@
             startingLineNumber = "619"
             endingLineNumber = "619"
             landmarkName = "AfterLoginTwitter(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -192,7 +192,7 @@
             startingLineNumber = "435"
             endingLineNumber = "435"
             landmarkName = "AfterLoginFacebook(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -208,7 +208,7 @@
             startingLineNumber = "543"
             endingLineNumber = "543"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,7 +224,7 @@
             startingLineNumber = "574"
             endingLineNumber = "574"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
-            landmarkType = "5">
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -272,7 +272,7 @@
             startingLineNumber = "571"
             endingLineNumber = "571"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -288,7 +288,7 @@
             startingLineNumber = "575"
             endingLineNumber = "575"
             landmarkName = "LoginWithTwitter(_:onFinish:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -366,9 +366,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1008"
-            endingLineNumber = "1008"
-            landmarkName = "performCheckout(_:address:usedBalance:usedBonus:)"
-            landmarkType = "5">
+            endingLineNumber = "1008">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

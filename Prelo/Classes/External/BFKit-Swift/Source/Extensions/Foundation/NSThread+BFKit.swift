@@ -33,8 +33,8 @@ import Foundation
 
  - parameter block: Block to be executed
  */
-public func runOnMainThread(block: () -> ()) {
-    dispatch_async(dispatch_get_main_queue(), {
+public func runOnMainThread(_ block: @escaping () -> ()) {
+    DispatchQueue.main.async(execute: {
         block()
     })
 }
@@ -44,14 +44,14 @@ public func runOnMainThread(block: () -> ()) {
 
  - parameter: block Block to be executed
  */
-public func runInBackground(block: () -> ()) {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+public func runInBackground(_ block: @escaping () -> ()) {
+    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
         block()
     }
 }
 
 /// This extesion adds some useful functions to NSThread
-public extension NSThread {
+public extension Thread {
     /**
      Exectute a selector asyncronously after a delay
     
@@ -61,8 +61,8 @@ public extension NSThread {
     
      - returns: Return an NSTimer who handle the execution of the selector
      */
-    public static func callSelectorAsync(selector: Selector, target: AnyObject, delay: NSTimeInterval = 0.0) -> NSTimer {
-        return NSTimer.scheduledTimerWithTimeInterval(delay, target: target, selector: selector, userInfo: nil, repeats: false)
+    public static func callSelectorAsync(_ selector: Selector, target: AnyObject, delay: TimeInterval = 0.0) -> Timer {
+        return Timer.scheduledTimer(timeInterval: delay, target: target, selector: selector, userInfo: nil, repeats: false)
     }
     
     /**
@@ -73,9 +73,9 @@ public extension NSThread {
      - parameter object:   Object to pass to the selector
      - parameter delay:    Delay to excute the selector
      */
-    public static func callSelector(selector: Selector, target: AnyObject, object: AnyObject? = nil, delay: NSTimeInterval = 0.0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-            NSThread.detachNewThreadSelector(selector, toTarget: target, withObject: object)
+    public static func callSelector(_ selector: Selector, target: AnyObject, object: AnyObject? = nil, delay: TimeInterval = 0.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+            Thread.detachNewThreadSelector(selector, toTarget: target, with: object)
         })
     }
 }

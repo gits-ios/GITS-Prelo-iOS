@@ -37,8 +37,8 @@ public extension UIWebView {
     public func removeBackgroundShadow() {
         for i in 0 ..< self.scrollView.subviews.count {
             let singleSubview: UIView = self.scrollView.subviews[i]
-            if singleSubview.isKindOfClass(UIImageView.self) && singleSubview.frame.origin.x <= 500 {
-                singleSubview.hidden = true
+            if singleSubview.isKind(of: UIImageView.self) && singleSubview.frame.origin.x <= 500 {
+                singleSubview.isHidden = true
                 singleSubview.removeFromSuperview()
             }
         }
@@ -49,7 +49,7 @@ public extension UIWebView {
     
      - parameter website: Website to load
      */
-    public func loadWebsite(website: String) {
-        self.loadRequest(NSURLRequest(URL: NSURL(string: website)!))
+    public func loadWebsite(_ website: String) {
+        self.loadRequest(Foundation.URLRequest(url: URL(string: website)!))
     }
 }

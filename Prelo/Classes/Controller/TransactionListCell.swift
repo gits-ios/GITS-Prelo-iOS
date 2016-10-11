@@ -32,11 +32,11 @@ class TransactionListCell : UITableViewCell {
     @IBOutlet var imgs : [UIView] = []
     
     override func prepareForReuse() {
-        imgFreeOngkir.hidden = true
-        vwShareStatus.hidden = true
-        lblInstagram.textColor = UIColor.lightGrayColor()
-        lblFacebook.textColor = UIColor.lightGrayColor()
-        lblTwitter.textColor = UIColor.lightGrayColor()
+        imgFreeOngkir.isHidden = true
+        vwShareStatus.isHidden = true
+        lblInstagram.textColor = UIColor.lightGray
+        lblFacebook.textColor = UIColor.lightGray
+        lblTwitter.textColor = UIColor.lightGray
         lblPercentage.text = "-"
         imgProduct.image = nil
         lblProductName.text = "Nama Barang"
@@ -48,18 +48,18 @@ class TransactionListCell : UITableViewCell {
         lblOrderTime.text = "-"
     }
     
-    func adaptItem(userPurchase : UserTransactionItem) {
+    func adaptItem(_ userPurchase : UserTransactionItem) {
         if (userPurchase.productImageURL != nil) {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         }
         if (userPurchase.isFreeOngkir) {
-            imgFreeOngkir.hidden = false
+            imgFreeOngkir.isHidden = false
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
         lblCommentCount.text = "\(userPurchase.productCommentCount)"
         lblLoveCount.text = "\(userPurchase.productLoveCount)"
-        lblOrderStatus.text = userPurchase.progressText.uppercaseString
+        lblOrderStatus.text = userPurchase.progressText.uppercased()
         lblOrderTime.text = userPurchase.time
         
         // Fix order status text width
@@ -72,13 +72,13 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor = UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.red
         } else {
             lblOrderStatus.textColor = Theme.ThemeOrange
         }
     }
     
-    func adapt(userPurchase : UserTransaction) {
+    func adapt(_ userPurchase : UserTransaction) {
         if (userPurchase.productImageURL != nil) {
             imgProduct.setImageWithUrl(userPurchase.productImageURL!, placeHolderImage: nil)
         }
@@ -86,7 +86,7 @@ class TransactionListCell : UITableViewCell {
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
         lblCommentCount.text = ""
         lblLoveCount.text = ""
-        lblOrderStatus.text = userPurchase.progressText.uppercaseString
+        lblOrderStatus.text = userPurchase.progressText.uppercased()
         lblOrderTime.text = userPurchase.time
         
         // Fix order status text width
@@ -99,7 +99,7 @@ class TransactionListCell : UITableViewCell {
         if (orderStatusText == OrderStatus.Dibayar || orderStatusText == OrderStatus.Direview || orderStatusText == OrderStatus.Selesai) { // teks hijau
             lblOrderStatus.textColor = Theme.PrimaryColor
         } else if (orderStatusText == OrderStatus.TidakDikirimSeller || orderStatusText == OrderStatus.DibatalkanSeller) { // Teks merah
-            lblOrderStatus.textColor = UIColor.redColor()
+            lblOrderStatus.textColor = UIColor.red
         } else {
             lblOrderStatus.textColor = Theme.ThemeOrange
         }
@@ -107,7 +107,7 @@ class TransactionListCell : UITableViewCell {
         let images = userPurchase.productImages
         for v in imgs
         {
-            v.hidden = true
+            v.isHidden = true
         }
         
         if (images.count > 0)
@@ -120,7 +120,7 @@ class TransactionListCell : UITableViewCell {
                 }
                 
                 let v = imgs[i]
-                v.hidden = false
+                v.isHidden = false
                 let url = images[i]
                 if (i == 0)
                 {

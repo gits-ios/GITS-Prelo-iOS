@@ -78,12 +78,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         initiateFields()
         
         // Tampilan loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = true
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = true
         loading.stopAnimating()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Mixpanel
@@ -96,8 +96,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.textViewDidChange(fieldTentangShop)
         
         // Handling keyboard animation
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
                 
                 if (o) {
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
@@ -108,19 +108,19 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
     func setNavBarButtons() {
         // Tombol apply
-        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.Done, target:self, action: #selector(UserProfileViewController.simpanDataPressed(_:)))
-        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], forState: UIControlState.Normal)
+        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.done, target:self, action: #selector(UserProfileViewController.simpanDataPressed(_:)))
+        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], for: UIControlState())
         self.navigationItem.rightBarButtonItem = applyButton
     }
     
-    @IBAction func disableTextFields(sender : AnyObject)
+    @IBAction func disableTextFields(_ sender : AnyObject)
     {
         fieldNama?.resignFirstResponder()
         fieldAlamat?.resignFirstResponder()
@@ -128,8 +128,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         fieldTentangShop?.resignFirstResponder()
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -149,7 +149,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         // Set fields' default value
         if (userProfile.pict != "") {
             //print("userProfile.pict = \(userProfile.pict)")
-            let url = NSURL(string: userProfile.pict)
+            let url = URL(string: userProfile.pict)
             if (url != nil) {
                 self.imgUser.image = nil
                 self.imgUser.setImageWithUrl(url!, placeHolderImage: nil)
@@ -180,7 +180,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             fieldTentangShop.textColor = Theme.GrayDark
         } else {
             fieldTentangShop.text = FldTentangShopPlaceholder
-            fieldTentangShop.textColor = UIColor.lightGrayColor()
+            fieldTentangShop.textColor = UIColor.lightGray
         }
         fieldTentangShop.delegate = self
         
@@ -200,11 +200,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // Shipping table setup
         self.shippingList = CDShipping.getPosBlaBlaBlaTiki()
-        self.userShippingIdList = NSKeyedUnarchiver.unarchiveObjectWithData(userOther.shippingIDs) as! [String]
+        self.userShippingIdList = NSKeyedUnarchiver.unarchiveObject(with: userOther.shippingIDs as Data) as! [String]
         self.tableShipping.tableFooterView = UIView()
         self.tableShipping.delegate = self
         self.tableShipping.dataSource = self
-        self.tableShipping.registerNib(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
+        self.tableShipping.register(UINib(nibName: "ShippingCell", bundle: nil), forCellReuseIdentifier: "ShippingCell")
         self.tableShipping.reloadData()
         let tableShippingHeight = self.shippingCellHeight * CGFloat(self.shippingList.count)
         self.contentViewHeightConstraint.constant = 1048 + tableShippingHeight
@@ -229,7 +229,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    func checkFbLogin(userOther : CDUserOther) -> Bool {
+    func checkFbLogin(_ userOther : CDUserOther) -> Bool {
         return (userOther.fbAccessToken != nil) &&
             (userOther.fbAccessToken != "") &&
             (userOther.fbID != nil) &&
@@ -238,7 +238,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             (userOther.fbUsername != "")
     }
     
-    func checkInstagramLogin(userOther : CDUserOther) -> Bool {
+    func checkInstagramLogin(_ userOther : CDUserOther) -> Bool {
         return (userOther.instagramAccessToken != nil) &&
             (userOther.instagramAccessToken != "") &&
             (userOther.instagramID != nil) &&
@@ -247,11 +247,11 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             (userOther.instagramUsername != "")
     }
     
-    func checkTwitterLogin(userOther : CDUserOther) -> Bool {
+    func checkTwitterLogin(_ userOther : CDUserOther) -> Bool {
         return User.IsLoggedInTwitter
     }
     
-    func checkPathLogin(userOther : CDUserOther) -> Bool {
+    func checkPathLogin(_ userOther : CDUserOther) -> Bool {
         return (userOther.pathAccessToken != nil) &&
             (userOther.pathAccessToken != "") &&
             (userOther.pathID != nil) &&
@@ -260,7 +260,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             (userOther.pathUsername != "")
     }
     
-    func pickerDidSelect(item: String) {
+    func pickerDidSelect(_ item: String) {
         if (isPickingJenKel) {
             lblJenisKelamin?.text = PickerViewController.HideHiddenString(item)
             isPickingJenKel = false
@@ -287,42 +287,42 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         isPickingKecamatan = false
     }
     
-    @IBAction func pilihFotoPressed(sender: UIButton) {
+    @IBAction func pilihFotoPressed(_ sender: UIButton) {
         let i = UIImagePickerController()
-        i.sourceType = .PhotoLibrary
+        i.sourceType = .photoLibrary
         i.delegate = self
         
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
             a.popoverPresentationController?.sourceView = self.btnUserImage
             a.popoverPresentationController?.sourceRect = self.btnUserImage.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
-                i.sourceType = .Camera
-                self.presentViewController(i, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
-                self.presentViewController(i, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
-            self.presentViewController(a, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
         } else {
-            self.presentViewController(i, animated: true, completion: nil)
+            self.present(i, animated: true, completion: nil)
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imgUser.image = img
             self.isUserPictUpdated = true
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func loginInstagramPressed(sender: UIButton) {
+    @IBAction func loginInstagramPressed(_ sender: UIButton) {
         // Show loading
         self.showLoading()
         
@@ -332,14 +332,14 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             self.navigationController?.pushViewController(instaLogin, animated: true)
         } else { // Then logout
             let logoutAlert = UIAlertView(title: "Instagram Logout", message: "Yakin mau logout akun Instagram \(self.lblLoginInstagram.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
         }
     }
     
-    func instagramLoginSuccess(token: String, id: String, name: String) {
+    func instagramLoginSuccess(_ token: String, id: String, name: String) {
         // API Migrasi
-        request(APISocial.PostInstagramData(id: id, username: name, token: token)).responseJSON {resp in
+        request(APISocial.postInstagramData(id: id, username: name, token: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"].bool
@@ -367,7 +367,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    func instagramLoginSuccess(token: String) {
+    func instagramLoginSuccess(_ token: String) {
         // Do nothing
     }
     
@@ -376,7 +376,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.hideLoading()
     }
     
-    @IBAction func loginFacebookPressed(sender: UIButton) {
+    @IBAction func loginFacebookPressed(_ sender: UIButton) {
         // Show loading
         self.showLoading()
         
@@ -386,7 +386,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // Handle Profile Photo URL String
                 let userId =  result["id"] as? String
                 let name = result["name"] as? String
-                let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                let accessToken = FBSDKAccessToken.current().tokenString
                 
                 print("result = \(result)")
                 print("accessToken = \(accessToken)")
@@ -394,7 +394,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // userId & name is required
                 if (userId != nil && name != nil) {
                     // API Migrasi
-                    request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                    request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                             
                             // Save in core data
@@ -420,12 +420,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             })
         } else { // Then logout
             let logoutAlert = UIAlertView(title: "Facebook Logout", message: "Yakin mau logout akun Facebook \(self.lblLoginFacebook.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
         }
     }
     
-    @IBAction func loginTwitterPressed(sender: UIButton) {
+    @IBAction func loginTwitterPressed(_ sender: UIButton) {
         // Show loading
         self.showLoading()
         
@@ -440,7 +440,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         return
                 }
                 
-                request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                         
                         // Save in core data
@@ -453,8 +453,8 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         }
                         
                         // Save in NSUserDefaults
-                        NSUserDefaults.standardUserDefaults().setObject(twToken, forKey: "twittertoken")
-                        NSUserDefaults.standardUserDefaults().synchronize()
+                        UserDefaults.standard.set(twToken, forKey: "twittertoken")
+                        UserDefaults.standard.synchronize()
                         
                         // Adjust twitter button
                         self.lblLoginTwitter.text = "@\(twUsername)"
@@ -469,33 +469,33 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             })
         } else { // Then logout
             let logoutAlert = UIAlertView(title: "Twitter Logout", message: "Yakin mau logout akun Twitter \(self.lblLoginTwitter.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
         }
     }
     
-    @IBAction func loginPathPressed(sender: UIButton) {
+    @IBAction func loginPathPressed(_ sender: UIButton) {
         // Show loading
         self.showLoading()
         
         if (!isLoggedInPath) { // Then login
-            let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+            let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
             pathLoginVC.delegate = self
             self.navigationController?.pushViewController(pathLoginVC, animated: true)
         } else { // Then logout
             let logoutAlert = UIAlertView(title: "Path Logout", message: "Yakin mau logout akun Path \(self.lblLoginPath.text!)?", delegate: self, cancelButtonTitle: "No")
-            logoutAlert.addButtonWithTitle("Yes")
+            logoutAlert.addButton(withTitle: "Yes")
             logoutAlert.show()
         }
     }
     
-    func pathLoginSuccess(userData: JSON, token: String) {
+    func pathLoginSuccess(_ userData: JSON, token: String) {
         let pathId = userData["id"].string!
         let pathName = userData["name"].string!
         _ = userData["email"].string!
         
         // API Migrasi
-        request(APISocial.PostPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
+        request(APISocial.postPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
 
                 // Save in core data
@@ -516,23 +516,23 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     }
     
     func showLoading() {
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
     }
     
     func hideLoading() {
-        loadingPanel.hidden = true
+        loadingPanel.isHidden = true
         loading.stopAnimating()
     }
     
-    @IBAction func nomorHpPressed(sender: AnyObject) {
-        let phoneReverificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneReverification, owner: nil, options: nil).first as! PhoneReverificationViewController
+    @IBAction func nomorHpPressed(_ sender: AnyObject) {
+        let phoneReverificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneReverification, owner: nil, options: nil)?.first as! PhoneReverificationViewController
         phoneReverificationVC.verifiedHP = lblNoHP.text
         phoneReverificationVC.prevVC = self
         self.navigationController?.pushViewController(phoneReverificationVC, animated: true)
     }
     
-    @IBAction func jenisKelaminPressed(sender: AnyObject) {
+    @IBAction func jenisKelaminPressed(_ sender: AnyObject) {
         isPickingJenKel = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
@@ -543,7 +543,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
-    @IBAction func pilihProvinsiPressed(sender: UIButton) {
+    @IBAction func pilihProvinsiPressed(_ sender: UIButton) {
         isPickingProvinsi = true
         
         let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
@@ -561,7 +561,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         self.navigationController?.pushViewController(p!, animated: true)
     }
     
-    @IBAction func pilihKabKotaPressed(sender: UIButton) {
+    @IBAction func pilihKabKotaPressed(_ sender: UIButton) {
         if (selectedProvinsiID == "") {
             Constant.showDialog("Warning", message: "Pilih provinsi terlebih dahulu")
         } else {
@@ -582,7 +582,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
     }
     
-    @IBAction func pilihKecamatanPressed(sender: AnyObject) {
+    @IBAction func pilihKecamatanPressed(_ sender: AnyObject) {
         if (selectedKabKotaID == "") {
             Constant.showDialog("Warning", message: "Pilih kota/kabupaten terlebih dahulu")
         } else {
@@ -590,7 +590,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 self.showLoading()
                 
                 // Retrieve kecamatanPickerItems
-                request(APIMisc.GetSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
+                request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"].arrayValue
@@ -621,7 +621,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         p?.pickerDelegate = self
         p?.selectBlock = { string in
             self.selectedKecamatanID = PickerViewController.RevealHiddenString(string)
-            self.selectedKecamatanName = string.componentsSeparatedByString(PickerViewController.TAG_START_HIDDEN)[0]
+            self.selectedKecamatanName = string.components(separatedBy: PickerViewController.TAG_START_HIDDEN)[0]
         }
         p?.title = "Kecamatan"
         self.view.endEditing(true)
@@ -631,45 +631,45 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     // MARK: - UITableView functions
     // Used for shipping table
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.shippingList.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.shippingCellHeight
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ShippingCell = self.tableShipping.dequeueReusableCellWithIdentifier("ShippingCell") as! ShippingCell
-        cell.selectionStyle = .None
-        cell.lblName.text = shippingList[indexPath.row].name
-        if (self.userShippingIdList.contains(self.shippingList[indexPath.row].id)) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ShippingCell = self.tableShipping.dequeueReusableCell(withIdentifier: "ShippingCell") as! ShippingCell
+        cell.selectionStyle = .none
+        cell.lblName.text = shippingList[(indexPath as NSIndexPath).row].name
+        if (self.userShippingIdList.contains(self.shippingList[(indexPath as NSIndexPath).row].id)) {
             cell.setShippingSelected()
         }
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ShippingCell {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? ShippingCell {
             cell.cellTapped()
             if (cell.isShippingSelected) {
-                self.userShippingIdList.append(self.shippingList[indexPath.row].id)
+                self.userShippingIdList.append(self.shippingList[(indexPath as NSIndexPath).row].id)
             } else {
-                self.userShippingIdList.removeAtIndex(self.userShippingIdList.indexOf(self.shippingList[indexPath.row].id)!)
+                self.userShippingIdList.remove(at: self.userShippingIdList.index(of: self.shippingList[(indexPath as NSIndexPath).row].id)!)
             }
         }
     }
     
     // MARK: - UIAlertView Delegate Functions
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if (buttonIndex == 0) { // "No"
             // Hide loading
             self.hideLoading()
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
                 // API Migrasi
-                request(APISocial.PostInstagramData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
 
                         // Save in core data
@@ -688,7 +688,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Facebook Logout") {
                 // API Migrasi
-                request(APISocial.PostFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
 
                         // End session
@@ -710,7 +710,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Twitter Logout") {
                 // API Migrasi
-                request(APISocial.PostTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                request(APISocial.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
 
                         // End session
@@ -733,7 +733,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Path Logout") {
                 // API Migrasi
-                request(APISocial.PostPathData(id: "", username: "", token: "")).responseJSON {resp in
+                request(APISocial.postPathData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
 
                         // Save in core data
@@ -756,7 +756,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     // MARK: - Phone Verification Delegate Functions
     
-    func phoneVerified(newPhone: String) {
+    func phoneVerified(_ newPhone: String) {
         // Change label
         self.lblNoHP.text = newPhone
         
@@ -774,14 +774,14 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     // MARK: - Textview Delegate Functions
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if (textView.textColor == UIColor.lightGrayColor()) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (textView.textColor == UIColor.lightGray) {
             textView.text = ""
             textView.textColor = Theme.GrayDark
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let fieldTentangShopHeight = fieldTentangShop.frame.size.height
         let sizeThatShouldFitTheContent = fieldTentangShop.sizeThatFits(fieldTentangShop.frame.size)
         //print("sizeThatShouldFitTheContent.height = \(sizeThatShouldFitTheContent.height)")
@@ -793,10 +793,10 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         fieldTentangShopHeightConstraint.constant = sizeThatShouldFitTheContent.height
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if (textView.text.isEmpty) {
             textView.text = FldTentangShopPlaceholder
-            textView.textColor = UIColor.lightGrayColor()
+            textView.textColor = UIColor.lightGray
         }
     }
     
@@ -819,7 +819,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
         var isShippingVerified = false
         for i in 0...self.shippingList.count - 1 {
-            if let cell = self.tableShipping.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as? ShippingCell {
+            if let cell = self.tableShipping.cellForRow(at: IndexPath(row: i, section: 0)) as? ShippingCell {
                 if (cell.isShippingSelected) {
                     isShippingVerified = true
                 }
@@ -832,9 +832,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         return true
     }
     
-    @IBAction func simpanDataPressed(sender: UIButton) {
+    @IBAction func simpanDataPressed(_ sender: UIButton) {
         if (fieldsVerified()) {
-            btnSimpanData.enabled = false
+            btnSimpanData.isEnabled = false
             self.showLoading()
             
             var shipping : String = ""
@@ -848,12 +848,12 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             
             if (!self.isUserPictUpdated) {
                 // API Migrasi
-                request(APIUser.SetProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
+                request(APIUser.setProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Edit Profil")) {
                         let json = JSON(resp.result.value!)
                         self.simpanDataSucceed(json)
                     } else {
-                        self.btnSimpanData.enabled = true
+                        self.btnSimpanData.isEnabled = true
                     }
                 }
             } else {
@@ -870,7 +870,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 var images : [UIImage] = []
                 images.append(imgUser.image!)
                 
-                let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+                let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
                 
                 AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                     print("Edit profile res = \(res)")
@@ -879,15 +879,15 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }, failure: { op, err in
                     print(err) // failed
                     Constant.showDialog("Edit Profil", message: "Gagal mengupload data")//:err.description)
-                    self.btnSimpanData.enabled = true
-                    self.loadingPanel.hidden = true
+                    self.btnSimpanData.isEnabled = true
+                    self.loadingPanel.isHidden = true
                     self.loading.stopAnimating()
                 })
             }
         }
     }
     
-    func simpanDataSucceed(json : JSON) {
+    func simpanDataSucceed(_ json : JSON) {
         print("json = \(json)")
         let data = json["_data"]
         let profile : UserProfile = UserProfile.instance(data)!
@@ -914,18 +914,18 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         }
         
         if let userOther = CDUserOther.getOne() {
-            userOther.shippingIDs = NSKeyedArchiver.archivedDataWithRootObject(profile.shippingIds)
+            userOther.shippingIDs = NSKeyedArchiver.archivedData(withRootObject: profile.shippingIds)
         }
         
         // Save data
         if (m.saveSave() == false) {
             Constant.showDialog("Edit Profil", message: "Gagal menyimpan data")
-            self.btnSimpanData.enabled = true
-            self.loadingPanel.hidden = true
+            self.btnSimpanData.isEnabled = true
+            self.loadingPanel.isHidden = true
             self.loading.stopAnimating()
         } else {
             print("Data saved")
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

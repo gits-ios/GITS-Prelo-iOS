@@ -10,7 +10,7 @@ import Foundation
 import Crashlytics
 
 protocol PreloNotifListenerDelegate {
-    func showNewNotifCount(count : Int)
+    func showNewNotifCount(_ count : Int)
     func refreshNotifPage()
 }
 
@@ -32,7 +32,7 @@ class PreloNotificationListener {
     
     func getTotalUnreadNotifCount() {
         // API Migrasi
-        request(APINotifAnggi.GetUnreadNotifCount).responseJSON {resp in
+        request(APINotifAnggi.getUnreadNotifCount).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -47,7 +47,7 @@ class PreloNotificationListener {
     }
     
     func setupSocket() {
-        if let del = UIApplication.sharedApplication().delegate as? AppDelegate {
+        if let del = UIApplication.shared.delegate as? AppDelegate {
         self.socket = del.messagePool?.socket
         } else
         {
@@ -60,7 +60,7 @@ class PreloNotificationListener {
         self.getTotalUnreadNotifCount()
     }
     
-    func setNewNotifCount(count : Int) {
+    func setNewNotifCount(_ count : Int) {
         newNotifCount = count
         delegate?.showNewNotifCount(newNotifCount)
     }

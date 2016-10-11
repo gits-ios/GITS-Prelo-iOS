@@ -19,11 +19,11 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         
         for v in self.view.subviews
         {
-            if (v.isKindOfClass(UIButton.classForCoder()))
+            if (v.isKind(of: UIButton.classForCoder()))
             {
                 continue
             }
-            v.backgroundColor = UIColor.whiteColor()
+            v.backgroundColor = UIColor.white
         }
         
         // Mixpanel
@@ -38,13 +38,13 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func call(sender : UIView)
+    @IBAction func call(_ sender : UIView)
     {
-        if let url = NSURL(string: "tel:0222503593")
+        if let url = URL(string: "tel:0222503593")
         {
-            if (UIApplication.sharedApplication().canOpenURL(url))
+            if (UIApplication.shared.canOpenURL(url))
             {
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             } else
             {
                 putToPasteBoard("0222503593")
@@ -55,26 +55,26 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
         self.batal(nil)
     }
     
-    @IBAction func sms(sender : UIView)
+    @IBAction func sms(_ sender : UIView)
     {
         if (MFMessageComposeViewController.canSendText())
         {
             let composer = MFMessageComposeViewController()
             composer.recipients = ["08112353131"]
             composer.messageComposeDelegate = self
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer, animated: true, completion: nil)
         }
         
 //        self.batal(nil)
     }
     
-    @IBAction func email(sender : UIView)
+    @IBAction func email(_ sender : UIView)
     {
         let composer = MFMailComposeViewController()
         if (MFMailComposeViewController.canSendMail()) {
             composer.mailComposeDelegate = self
             composer.setToRecipients(["contact@prelo.co.id"])
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer, animated: true, completion: nil)
         } else {
             Constant.showDialog("No Active E-mail", message: "Untuk dapat menghubungi Prelo via e-mail, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
@@ -82,48 +82,48 @@ class ContactPreloViewController: UIViewController, MFMailComposeViewControllerD
 //        self.batal(nil)
     }
     
-    @IBAction func line(sender : UIView)
+    @IBAction func line(_ sender : UIView)
     {
         UIAlertView.SimpleShow("Line", message: "Find us on Line\nUserId : @prelo_id\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("@prelo_id")
         self.batal(nil)
     }
 
-    @IBAction func wasap(sender : UIView)
+    @IBAction func wasap(_ sender : UIView)
     {
         UIAlertView.SimpleShow("Whatsapp", message: "Find us on Whatsapp\nNumber : 08112353131\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("08112353131")
         self.batal(nil)
     }
     
-    @IBAction func bbm(sender : UIView)
+    @IBAction func bbm(_ sender : UIView)
     {
         UIAlertView.SimpleShow("BBM", message: "Find us on Whatsapp\nPIN : 51ac2b2e\n\nInformasi kontak sudah disalin ke clipboard")
         putToPasteBoard("51ac2b2e")
         self.batal(nil)
     }
     
-    @IBAction func batal(sender : UIView?)
+    @IBAction func batal(_ sender : UIView?)
     {
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
                 self.view.alpha = 0
             }, completion: { complete in
                 self.view.removeFromSuperview()
         })
     }
     
-    func putToPasteBoard(text : String)
+    func putToPasteBoard(_ text : String)
     {
-        UIPasteboard.generalPasteboard().string = text
+        UIPasteboard.general.string = text
         
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller .dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller .dismiss(animated: true, completion: nil)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     /*

@@ -7,6 +7,17 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class MyProductDetailViewController : BaseViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
@@ -120,15 +131,15 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         super.viewDidLoad()
         
         // Tampilkan loading
-        contentView.hidden = true
+        contentView.isHidden = true
         loading.startAnimating()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Agar shadow transparan
-        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
         
         // Sembunyikan shadow dan pop up
         //vwShadow.hidden = true
@@ -142,27 +153,27 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         fldKonfNoResi.delegate = self
         
         // suggested by kumang
-        fldKonfNoResi.addTarget(self, action: #selector(MyProductDetailViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        fldKonfNoResi.addTarget(self, action: #selector(MyProductDetailViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
         // Atur textview
         txtvwAlasanTolak.delegate = self
         txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
-        txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        txtvwAlasanTolak.textColor = UIColor.lightGray
         txtvwGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
-        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
         
         self.validateKonfKirimFields()
         self.validateTolakPesananFields()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Load content
         getProductDetail()
         
         // Penanganan kemunculan keyboard
-        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+        self.an_subscribeKeyboard (animations: { r, t, o in
             if (o) {
                 self.consTopVwKonfKirim.constant = 10
                 self.consTopVwTolakPesanan.constant = 10
@@ -173,14 +184,14 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
     func getProductDetail() {
         // API Migrasi
-        request(APITransaction.TransactionDetail(id: transactionId!)).responseJSON {resp in
+        request(APITransaction.transactionDetail(id: transactionId!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Jualan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -215,7 +226,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         lblPrice.text = "Rp \((transactionDetail?.totalPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
         lblSellerName.text = " | \((transactionDetail?.sellerUsername)!)"
-        lblOrderStatus.text = transactionDetail?.progressText.uppercaseString
+        lblOrderStatus.text = transactionDetail?.progressText.uppercased()
         lblOrderTime.text = " | \((transactionDetail?.time)!)"
         lblMetodePembayaran.text = (transactionDetail?.paymentMethod != nil) ? (transactionDetail?.paymentMethod) : ""
         lblTglPembayaran.text = transactionDetail?.paymentDate
@@ -338,17 +349,17 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         
         // Show content
         loading.stopAnimating()
-        contentView.hidden = false
+        contentView.isHidden = false
     }
     
-    func arrangeGroups(isShowGroups : [Bool]) {
+    func arrangeGroups(_ isShowGroups : [Bool]) {
         let narrowSpace : CGFloat = 15
         let wideSpace : CGFloat = 25
         var deltaX : CGFloat = 0
         for i in 0 ..< isShowGroups.count { // asumsi i = 0-10
             let isShowGroup : Bool = isShowGroups[i]
             if isShowGroup {
-                groups[i].hidden = false
+                groups[i].isHidden = false
                 // Manual narrow/wide space
                 if (i == 0 || i == 5 || i == 4 || i == 7 || i == 8 || i == 9) { // Narrow space before group
                     deltaX += narrowSpace
@@ -358,7 +369,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 consTopGroups[i].constant = deltaX
                 deltaX += groups[i].frame.size.height
             } else {
-                groups[i].hidden = true
+                groups[i].isHidden = true
             }
         }
         // Set content view height
@@ -367,8 +378,8 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     // MARK: - GestureRecognizer Functions
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -377,73 +388,73 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     // MARK: - ImagePickerDelegate Functions
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imagePicker.dismiss(animated: true, completion: nil)
         
         imgFotoBukti.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        vwFotoBuktiContent.hidden = true
-        vwShadow.hidden = false
-        vwKonfKirim.hidden = false
+        vwFotoBuktiContent.isHidden = true
+        vwShadow.isHidden = false
+        vwKonfKirim.isHidden = false
         
         self.validateKonfKirimFields()
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
         
-        vwShadow.hidden = false
-        vwKonfKirim.hidden = false
+        vwShadow.isHidden = false
+        vwKonfKirim.isHidden = false
         
         self.validateKonfKirimFields()
     }
     
     // MARK: - UITextFieldDelegate Functions
     
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         self.validateKonfKirimFields()
     }
     
     // MARK: - UITextViewDelegate Funcitons
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (txtvwAlasanTolak.textColor == UIColor.lightGray) {
             txtvwAlasanTolak.text = ""
             txtvwAlasanTolak.textColor = Theme.GrayDark
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
-        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+    func textViewDidChange(_ textView: UITextView) {
+        txtvwGrowHandler.resizeTextView(withAnimation: true)
         self.validateTolakPesananFields()
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if (txtvwAlasanTolak.text.isEmpty) {
             txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
-            txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+            txtvwAlasanTolak.textColor = UIColor.lightGray
         }
     }
     
     // MARK: - IBActions
     
-    @IBAction func disableTextFields(sender : AnyObject) {
+    @IBAction func disableTextFields(_ sender : AnyObject) {
         fldKonfNoResi.resignFirstResponder()
         txtvwAlasanTolak.resignFirstResponder()
     }
     
-    @IBAction func konfirmasiPengirimanPressed(sender: AnyObject) {
-        vwShadow.hidden = false
-        vwKonfKirim.hidden = false
+    @IBAction func konfirmasiPengirimanPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = false
+        vwKonfKirim.isHidden = false
     }
     
-    @IBAction func tolakPenawaranPressed(sender: AnyObject) {
-        vwShadow.hidden = false
-        vwTolakPesanan.hidden = false
+    @IBAction func tolakPenawaranPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = false
+        vwTolakPesanan.isHidden = false
     }
     
-    @IBAction func hubungiPreloPressed(sender: AnyObject) {
+    @IBAction func hubungiPreloPressed(_ sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
+        let c = mainStoryboard.instantiateViewController(withIdentifier: "contactus")
         contactUs = c
         if let v = c.view, let p = self.navigationController?.view
         {
@@ -452,20 +463,20 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
             self.navigationController?.view.addSubview(v)
             
             v.alpha = 0
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 v.alpha = 1
             })
         }
     }
     
-    @IBAction func fotoBuktiPressed(sender: AnyObject) {
+    @IBAction func fotoBuktiPressed(_ sender: AnyObject) {
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
         // suggestion by kumang
         // kemungkinan kalaw ada device yang kamera nya rusak, .Camera gakan bisa juga
         // jadi kayaknya bagusan di cek dulu, jangan pake if target_iphone_xx
-        imagePicker.sourceType = UIImagePickerController.isSourceTypeAvailable(.Camera) == true ? .Camera : .PhotoLibrary
+        imagePicker.sourceType = UIImagePickerController.isSourceTypeAvailable(.camera) == true ? .camera : .photoLibrary
         
 //        if TARGET_IPHONE_SIMULATOR == 1 {
 //            imagePicker.sourceType = .PhotoLibrary
@@ -473,29 +484,29 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
 //            imagePicker.sourceType = .Camera // Lie, it'll be executed ->
 //        }
         
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
-    @IBAction func tolakBatalPressed(sender: AnyObject) {
-        vwShadow.hidden = true
-        vwTolakPesanan.hidden = true
+    @IBAction func tolakBatalPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = true
+        vwTolakPesanan.isHidden = true
     }
     
-    @IBAction func tolakKirimPressed(sender: AnyObject) {
+    @IBAction func tolakKirimPressed(_ sender: AnyObject) {
         self.sendMode(true)
         // API Migrasi
-        request(APITransaction.RejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+        request(APITransaction.rejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
                     Constant.showDialog("Success", message: "Tolak pesanan berhasil dilakukan")
                     self.sendMode(false)
-                    self.vwShadow.hidden = true
-                    self.vwTolakPesanan.hidden = true
+                    self.vwShadow.isHidden = true
+                    self.vwTolakPesanan.isHidden = true
                     
                     // Reload content
-                    self.contentView.hidden = true
+                    self.contentView.isHidden = true
                     self.loading.startAnimating()
                     self.getProductDetail()
                 }
@@ -503,12 +514,12 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         }
     }
     
-    @IBAction func konfBatalPressed(sender: AnyObject) {
-        vwShadow.hidden = true
-        vwKonfKirim.hidden = true
+    @IBAction func konfBatalPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = true
+        vwKonfKirim.isHidden = true
     }
     
-    @IBAction func konfKirimPressed(sender: AnyObject) {
+    @IBAction func konfKirimPressed(_ sender: AnyObject) {
         self.sendMode(true)
         
         let url = "\(AppTools.PreloBaseUrl)/api/transaction_product/\(self.transactionId!)/sent"
@@ -523,7 +534,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         var images : [UIImage] = []
         images.append(imgFotoBukti.image!)
         
-        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
         
         AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
             print("KonfKirim res = \(res)")
@@ -535,7 +546,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 self.sendMode(false)
             } else { // Berhasil
                 Constant.showDialog("Success", message: "Konfirmasi pengiriman berhasil dilakukan")
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }, failure: { op, err in
             Constant.showDialog("Warning", message: "Upload bukti pengiriman gagal")// dengan error: \(err)")
@@ -544,9 +555,9 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     }
     
     var detail : ProductDetail?
-    @IBAction func hubungiBuyerPressed(sender: AnyObject) {
+    @IBAction func hubungiBuyerPressed(_ sender: AnyObject) {
         // Get product detail from API
-        request(Products.Detail(productId: (transactionDetail?.productId)!)).responseJSON {resp in
+        request(Products.detail(productId: (transactionDetail?.productId)!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                 let json = JSON(resp.result.value!)
                 //let pDetail = ProductDetail.instance(json)
@@ -557,7 +568,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
                 // API Migrasi
-        request(APIInbox.GetInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
+        request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                         let json = JSON(resp.result.value!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
@@ -590,10 +601,10 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     func validateTolakPesananFields() {
         if (txtvwAlasanTolak.text.isEmpty || txtvwAlasanTolak.text == self.TxtvwAlasanTolakPlaceholder) {
             // Disable tombol kirim
-            btnTolakKirim.userInteractionEnabled = false
+            btnTolakKirim.isUserInteractionEnabled = false
         } else {
             // Enable tombol kirim
-            btnTolakKirim.userInteractionEnabled = true
+            btnTolakKirim.isUserInteractionEnabled = true
         }
     }
     
@@ -602,44 +613,44 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         if (noResi.isEmpty || imgFotoBukti.image == nil) { // Masih ada yang kosong
             // Disable tombol kirim
             btnKonfKirim.backgroundColor = Theme.PrimaryColor
-            btnKonfKirim.userInteractionEnabled = false
+            btnKonfKirim.isUserInteractionEnabled = false
         } else {
             // Enable tombol kirim
             btnKonfKirim.backgroundColor = Theme.PrimaryColor
-            btnKonfKirim.userInteractionEnabled = true
+            btnKonfKirim.isUserInteractionEnabled = true
         }
     }
     
-    func sendMode(mode: Bool) {
+    func sendMode(_ mode: Bool) {
         if (mode) {
             // Disable konfkirim content
-            fldKonfNoResi.userInteractionEnabled = false
-            btnFotoBukti.userInteractionEnabled = false
-            btnKonfBatal.userInteractionEnabled = false
-            btnKonfKirim.userInteractionEnabled = false
-            btnKonfKirim.setTitle("MENGIRIM...", forState: .Normal)
+            fldKonfNoResi.isUserInteractionEnabled = false
+            btnFotoBukti.isUserInteractionEnabled = false
+            btnKonfBatal.isUserInteractionEnabled = false
+            btnKonfKirim.isUserInteractionEnabled = false
+            btnKonfKirim.setTitle("MENGIRIM...", for: UIControlState())
             btnKonfKirim.backgroundColor = Theme.PrimaryColorDark
             
             // Disable tolak pesanan content
-            txtvwAlasanTolak.userInteractionEnabled = false
-            btnTolakBatal.userInteractionEnabled = false
-            btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
-            btnTolakKirim.userInteractionEnabled = false
+            txtvwAlasanTolak.isUserInteractionEnabled = false
+            btnTolakBatal.isUserInteractionEnabled = false
+            btnTolakKirim.setTitle("MENGIRIM...", for: UIControlState())
+            btnTolakKirim.isUserInteractionEnabled = false
             btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
         } else {
             // Enable konfkirim content
-            fldKonfNoResi.userInteractionEnabled = true
-            btnFotoBukti.userInteractionEnabled = true
-            btnKonfBatal.userInteractionEnabled = true
-            btnKonfKirim.userInteractionEnabled = true
-            btnKonfKirim.setTitle("KIRIM", forState: .Normal)
+            fldKonfNoResi.isUserInteractionEnabled = true
+            btnFotoBukti.isUserInteractionEnabled = true
+            btnKonfBatal.isUserInteractionEnabled = true
+            btnKonfKirim.isUserInteractionEnabled = true
+            btnKonfKirim.setTitle("KIRIM", for: UIControlState())
             btnKonfKirim.backgroundColor = Theme.PrimaryColor
             
             // Enable tolak pesanan content
-            txtvwAlasanTolak.userInteractionEnabled = true
-            btnTolakBatal.userInteractionEnabled = true
-            btnTolakKirim.setTitle("KIRIM", forState: .Normal)
-            btnTolakKirim.userInteractionEnabled = true
+            txtvwAlasanTolak.isUserInteractionEnabled = true
+            btnTolakBatal.isUserInteractionEnabled = true
+            btnTolakKirim.setTitle("KIRIM", for: UIControlState())
+            btnTolakKirim.isUserInteractionEnabled = true
             btnTolakKirim.backgroundColor = Theme.PrimaryColor
         }
     }

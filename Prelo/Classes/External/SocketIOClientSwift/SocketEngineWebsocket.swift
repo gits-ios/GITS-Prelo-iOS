@@ -29,36 +29,36 @@ import Foundation
 public protocol SocketEngineWebsocket : SocketEngineSpec, WebSocketDelegate {
     var ws: WebSocket? { get }
 
-    func sendWebSocketMessage(str: String, withType type: SocketEnginePacketType, withData datas: [NSData])
+    func sendWebSocketMessage(_ str: String, withType type: SocketEnginePacketType, withData datas: [Data])
 }
 
 // WebSocket methods
 extension SocketEngineWebsocket {
     func probeWebSocket() {
         if ws?.isConnected ?? false {
-            sendWebSocketMessage("probe", withType: .Ping, withData: [])
+            sendWebSocketMessage("probe", withType: .ping, withData: [])
         }
     }
     
     /// Send message on WebSockets
     /// Only call on emitQueue
-    public func sendWebSocketMessage(str: String, withType type: SocketEnginePacketType, withData datas: [NSData]) {
+    public func sendWebSocketMessage(_ str: String, withType type: SocketEnginePacketType, withData datas: [Data]) {
             DefaultSocketLogger.Logger.log("Sending ws: %@ as type: %@", type: "SocketEngine", args: str, type.rawValue)
             
             ws?.writeString("\(type.rawValue)\(str)")
             
             for data in datas {
-                if case let .Left(bin) = createBinaryDataForSend(data) {
+                if case let .left(bin) = createBinaryDataForSend(data) {
                     ws?.writeData(bin)
                 }
             }
     }
     
-    public func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    public func websocketDidReceiveMessage(_ socket: WebSocket, text: String) {
         parseEngineMessage(text, fromPolling: false)
     }
     
-    public func websocketDidReceiveData(socket: WebSocket, data: NSData) {
+    public func websocketDidReceiveData(_ socket: WebSocket, data: Data) {
         parseEngineData(data)
     }
 }

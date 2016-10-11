@@ -12,22 +12,22 @@ import UIKit
 ////////////////////////////////////////////////////////////////////////////////
 
 private class KDEWeakReferencer<T: NSObject>: NSObject {
-    private(set) weak var value: T?
+    fileprivate(set) weak var value: T?
 
     init(value: T) {
         self.value = value
         super.init()
     }
 
-    private override func isEqual(object: AnyObject?) -> Bool {
+    fileprivate override func isEqual(_ object: Any?) -> Bool {
         return value?.isEqual(object) ?? false
     }
 
-    private override var hash: Int {
+    fileprivate override var hash: Int {
         return value?.hash ?? 0
     }
 
-    private override var hashValue: Int {
+    fileprivate override var hashValue: Int {
         return value?.hashValue ?? 0
     }
 }
@@ -39,42 +39,42 @@ private class KDEWeakReferencer<T: NSObject>: NSObject {
 ////////////////////////////////////////////////////////////////////////////////
 
 class KDEDateLabelsHolder: NSObject {
-    private var dateLabels = [KDEWeakReferencer<KDEDateLabel>]()
-    private var timer: NSTimer?
+    fileprivate var dateLabels = [KDEWeakReferencer<KDEDateLabel>]()
+    fileprivate var timer: Timer?
 
-    private static var instance = KDEDateLabelsHolder()
+    fileprivate static var instance = KDEDateLabelsHolder()
 
-    private override init() {
+    fileprivate override init() {
         super.init()
         self.createNewTimer()
     }
 
 
-    private func addReferencer(referencer: KDEWeakReferencer<KDEDateLabel>) {
+    fileprivate func addReferencer(_ referencer: KDEWeakReferencer<KDEDateLabel>) {
         self.dateLabels.append(referencer)
     }
 
-    private func removeReferencer(referencer: KDEWeakReferencer<KDEDateLabel>) {
-        if let index = self.dateLabels.indexOf(referencer) {
-            self.dateLabels.removeAtIndex(index)
+    fileprivate func removeReferencer(_ referencer: KDEWeakReferencer<KDEDateLabel>) {
+        if let index = self.dateLabels.index(of: referencer) {
+            self.dateLabels.remove(at: index)
         }
         self.dateLabels = self.dateLabels.filter { $0.value != nil }
     }
 
 
-    private func createNewTimer() {
+    fileprivate func createNewTimer() {
         self.timer?.invalidate()
 
-        self.timer = NSTimer(timeInterval: KDEDateLabel.refreshFrequency,
+        self.timer = Timer(timeInterval: KDEDateLabel.refreshFrequency,
             target: self,
-            selector: "timerTicked:",
+            selector: #selector(KDEDateLabelsHolder.timerTicked(_:)),
             userInfo: nil,
             repeats: true)
-        NSRunLoop.mainRunLoop().addTimer(self.timer!, forMode: NSRunLoopCommonModes)
+        RunLoop.main.add(self.timer!, forMode: RunLoopMode.commonModes)
     }
 
 
-    @objc private func timerTicked(_: NSTimer) {
+    @objc fileprivate func timerTicked(_: Timer) {
         for referencer in self.dateLabels {
             referencer.value?.updateText()
         }
@@ -87,8 +87,8 @@ class KDEDateLabelsHolder: NSObject {
 // MARK: - KDEDateLabel
 ////////////////////////////////////////////////////////////////////////////////
 
-public class KDEDateLabel: UILabel {
-    private lazy var holder: KDEWeakReferencer<KDEDateLabel> = {
+open class KDEDateLabel: UILabel {
+    fileprivate lazy var holder: KDEWeakReferencer<KDEDateLabel> = {
         return KDEWeakReferencer<KDEDateLabel>(value: self)
     }()
 
@@ -108,7 +108,7 @@ public class KDEDateLabel: UILabel {
         self.commonInit()
     }
 
-    private func commonInit() {
+    fileprivate func commonInit() {
         KDEDateLabelsHolder.instance.addReferencer(self.holder)
     }
 
@@ -119,7 +119,7 @@ public class KDEDateLabel: UILabel {
 
 
     // MARK: Configuration
-    public static var refreshFrequency: NSTimeInterval = 0.2 {
+    open static var refreshFrequency: TimeInterval = 0.2 {
         didSet {
             KDEDateLabelsHolder.instance.createNewTimer()
         }
@@ -127,31 +127,31 @@ public class KDEDateLabel: UILabel {
 
 
     // MARK: Date & Text updating
-    public var date: NSDate? = nil {
+    open var date: Date? = nil {
         didSet {
             self.updateText()
         }
     }
 
-    public var dateFormatTextBlock: ((date: NSDate) -> String)? {
+    open var dateFormatTextBlock: ((_ date: Date) -> String)? {
         didSet {
             self.updateText()
         }
     }
 
-    public var dateFormatAttributedTextBlock: ((date: NSDate) -> NSAttributedString)? {
+    open var dateFormatAttributedTextBlock: ((_ date: Date) -> NSAttributedString)? {
         didSet {
             self.updateText()
         }
     }
 
-    private func updateText() {
+    fileprivate func updateText() {
         if let date = date {
             if let dateFormatAttributedTextBlock = self.dateFormatAttributedTextBlock {
-                self.attributedText = dateFormatAttributedTextBlock(date: date)
+                self.attributedText = dateFormatAttributedTextBlock(date)
             }
             else if let dateFormatTextBlock = self.dateFormatTextBlock {
-                self.text = dateFormatTextBlock(date: date)
+                self.text = dateFormatTextBlock(date)
             }
             else {
                 self.text = "\(Int(fabs(date.timeIntervalSinceNow)))s ago"

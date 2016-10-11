@@ -21,7 +21,7 @@ class CDUser: NSManagedObject {
     
     static func pathTokenAvailable() -> Bool
     {
-        if NSUserDefaults.standardUserDefaults().stringForKey("pathtoken") != nil
+        if UserDefaults.standard.string(forKey: "pathtoken") != nil
         {
             return true
         }
@@ -31,7 +31,7 @@ class CDUser: NSManagedObject {
     
     static func twitterTokenAvailable() -> Bool
     {
-        if NSUserDefaults.standardUserDefaults().stringForKey("twittertoken") != nil
+        if UserDefaults.standard.string(forKey: "twittertoken") != nil
         {
             return true
         }
@@ -44,7 +44,7 @@ class CDUser: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDUser")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count == 0 ? nil : r.first as? CDUser
         } catch {
             return nil
@@ -57,9 +57,9 @@ class CDUser: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {

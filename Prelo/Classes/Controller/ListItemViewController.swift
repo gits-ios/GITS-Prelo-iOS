@@ -8,24 +8,53 @@
 
 import UIKit
 import MessageUI
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 // MARK: - Class
 
 enum ListItemSectionType {
-    case Carousel
-    case FeaturedHeader
-    case Subcategories
-    case Segments
-    case Products
+    case carousel
+    case featuredHeader
+    case subcategories
+    case segments
+    case products
 }
 
 enum ListItemMode {
-    case Default
-    case Standalone
-    case Shop
-    case Featured
-    case Segment
-    case Filter
+    case `default`
+    case standalone
+    case shop
+    case featured
+    case segment
+    case filter
 }
 
 class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, MFMailComposeViewControllerDelegate {
@@ -62,14 +91,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var refresher : UIRefreshControl?
     var itemCellWidth: CGFloat? = 200
     var listStage = 2 // Column amount in list: 1 = 3 column, 2 = 2 column, 3 = 1 column
-    var currScrollPoint : CGPoint = CGPointZero
+    var currScrollPoint : CGPoint = CGPoint.zero
     var itemsPerReq = 24 // Amount of items per request
     
     // Data container
     var categoryJson : JSON? // Set from previous screen
     var products : Array <Product>? // From API response
     var selectedProduct : Product? // For navigating to product detail
-    var listItemSections : [ListItemSectionType] = [.Products]
+    var listItemSections : [ListItemSectionType] = [.products]
     
     // Flags
     var requesting : Bool = false
@@ -78,7 +107,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     var isContentLoaded : Bool = false
     
     // Mode
-    var currentMode = ListItemMode.Default
+    var currentMode = ListItemMode.default
     // For standalone mode, used for category-filtered product list
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
@@ -138,9 +167,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         // Set title
         switch currentMode {
-        case .Standalone:
+        case .standalone:
             self.title = standaloneCategoryName
-        case .Shop:
+        case .shop:
             self.title = shopName
         default:
             if let name = categoryJson?["name"].string {
@@ -154,47 +183,47 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Initiate refresh control
         refresher = UIRefreshControl()
         refresher!.tintColor = Theme.PrimaryColor
-        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
         self.gridView.addSubview(refresher!)
         
         // Setup content for filter, shop, or standalone mode
-        if (currentMode == .Standalone || currentMode == .Shop || currentMode == .Filter) {
+        if (currentMode == .standalone || currentMode == .shop || currentMode == .filter) {
             self.setupContent()
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Status bar style
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
         
         // Add status bar tap observer
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //print("viewWillDisappear x")
         
         // Remove status bar tap observer
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Default search text
-        if (currentMode == .Filter) {
+        if (currentMode == .filter) {
             self.searchBar.text = self.fltrName
         }
         
         // Mixpanel for store mode
-        if (currentMode == .Shop) {
+        if (currentMode == .shop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
                 Mixpanel.trackPageVisit(PageName.ShopMine)
@@ -215,12 +244,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    override func backPressed(sender: UIBarButtonItem) {
+    override func backPressed(_ sender: UIBarButtonItem) {
         if (self.isBackToFltrSearch) {
             let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
             self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -233,12 +262,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             // Carousel and Subcategories also will be identified here
             
             // Identify Segment mode
-            if let segmentsJson = self.categoryJson?["segments"].array where segmentsJson.count > 0 {
-                self.currentMode = .Segment
+            if let segmentsJson = self.categoryJson?["segments"].array, segmentsJson.count > 0 {
+                self.currentMode = .segment
                 for i in 0...segmentsJson.count - 1 {
                     var img : UIImage = UIImage()
-                    if let url = NSURL(string: segmentsJson[i]["image"].stringValue) {
-                        if let data = NSData(contentsOfURL: url) {
+                    if let url = URL(string: segmentsJson[i]["image"].stringValue) {
+                        if let data = try? Data(contentsOf: url) {
                             if let uiimg = UIImage(data: data) {
                                 img = uiimg
                             }
@@ -246,21 +275,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                     self.segments.append(SegmentItem(type: segmentsJson[i]["type"].stringValue, name: segmentsJson[i]["name"].stringValue, image: img))
                 }
-                self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Products)!)
-                self.listItemSections.insert(.Segments, atIndex: 0)
+                self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
+                self.listItemSections.insert(.segments, at: 0)
             }
             // Identify Featured mode
-            if let isFeatured = self.categoryJson?["is_featured"].bool where isFeatured {
-                self.currentMode = .Featured
-                self.listItemSections.insert(.FeaturedHeader, atIndex: 0)
+            if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
+                self.currentMode = .featured
+                self.listItemSections.insert(.featuredHeader, at: 0)
             }
             // Identify Subcategories
-            if let subcatJson = self.categoryJson?["sub_categories"].array where subcatJson.count > 0 {
+            if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 {
                 self.isShowSubcategory = true
                 for i in 0...subcatJson.count - 1 {
                     var img : UIImage = UIImage()
-                    if let url = NSURL(string: subcatJson[i]["image"].stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
-                        if let data = NSData(contentsOfURL: url) {
+                    if let url = URL(string: subcatJson[i]["image"].stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                        if let data = try? Data(contentsOf: url) {
                             if let uiimg = UIImage(data: data) {
                                 img = uiimg
                             }
@@ -268,30 +297,30 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     }
                     self.subcategoryItems.append(SubcategoryItem(id: subcatJson[i]["_id"].stringValue, name: subcatJson[i]["name"].stringValue, image: img))
                 }
-                self.listItemSections.insert(.Subcategories, atIndex: 0)
+                self.listItemSections.insert(.subcategories, at: 0)
             }
             // Identify Carousel
-            if let carouselJson = self.categoryJson?["carousel"].array where carouselJson.count > 0 {
+            if let carouselJson = self.categoryJson?["carousel"].array, carouselJson.count > 0 {
                 self.isShowCarousel = true
                 self.carouselItems = []
                 for i in 0..<carouselJson.count {
                     var img = UIImage()
-                    var link = NSURL()
-                    if let url = NSURL(string: carouselJson[i]["image"].stringValue), let data = NSData(contentsOfURL: url), let uiimg = UIImage(data: data) {
+                    var link = URL()
+                    if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
                         img = uiimg
                     }
-                    if let url = NSURL(string: carouselJson[i]["link"].stringValue) {
+                    if let url = URL(string: carouselJson[i]["link"].stringValue) {
                         link = url
                     }
                     let item = CarouselItem.init(name: carouselJson[i]["name"].stringValue, img: img, link: link)
                     self.carouselItems.append(item)
                 }
-                self.listItemSections.insert(.Carousel, atIndex: 0)
+                self.listItemSections.insert(.carousel, at: 0)
             }
             
             // Adjust content base on the mode
             switch (currentMode) {
-            case .Default, .Standalone, .Shop:
+            case .default, .standalone, .shop:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 0
                 
@@ -300,7 +329,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Get initial products
                 self.getInitialProducts()
-            case .Featured:
+            case .featured:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 
@@ -308,14 +337,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.consHeightVwTopHeader.constant = 0
                 
                 // Set color
-                if let name = categoryJson?["name"].string where name.lowercaseString == "all" {
+                if let name = categoryJson?["name"].string, name.lowercased() == "all" {
                     self.view.backgroundColor = Theme.GrayGranite // Upper 4px padding color
                     self.gridView.backgroundColor = Theme.GrayGranite // Background color
                 }
                 
                 // Get initial products
                 self.getInitialProducts()
-            case .Segment:
+            case .segment:
                 // Top header setup
                 consHeightVwTopHeader.constant = 40
                 
@@ -324,7 +353,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Setup grid
                 self.setupGrid()
-            case .Filter:
+            case .filter:
                 // Upper 4px padding handling
                 self.consTopTopHeader.constant = 4
                 self.view.backgroundColor = UIColor(hexString: "#E8ECEE")
@@ -336,8 +365,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 for i in 0...vwTopHeaderFilter.subviews.count - 1 {
                     vwTopHeaderFilter.subviews[i].createBordersWithColor(UIColor(hexString: "#e3e3e3"), radius: 0, width: 1)
                 }
-                vwTopHeaderFilter.hidden = false
-                vwTopHeader.hidden = true
+                vwTopHeaderFilter.isHidden = false
+                vwTopHeader.isHidden = true
                 if (fltrBrands.count > 0) {
                     if (fltrBrands.count == 1) {
                         lblFilterMerek.text = Array(fltrBrands.keys)[0]
@@ -353,27 +382,27 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
                 }
                 lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-                if (lblFilterSort.text?.lowercaseString == "highest rp") {
-                    lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
+                if (lblFilterSort.text?.lowercased() == "highest rp") {
+                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
                 } else {
-                    lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
+                    lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
                 }
                 // Search bar setup
-                var searchBarWidth = UIScreen.mainScreen().bounds.size.width * 0.8375
+                var searchBarWidth = UIScreen.main.bounds.size.width * 0.8375
                 if (AppTools.isIPad) {
-                    searchBarWidth = UIScreen.mainScreen().bounds.size.width - 68
+                    searchBarWidth = UIScreen.main.bounds.size.width - 68
                 }
-                searchBar = UISearchBar(frame: CGRectMake(0, 0, searchBarWidth, 30))
-                if let searchField = self.searchBar.valueForKey("searchField") as? UITextField {
+                searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: searchBarWidth, height: 30))
+                if let searchField = self.searchBar.value(forKey: "searchField") as? UITextField {
                     searchField.backgroundColor = Theme.PrimaryColorDark
-                    searchField.textColor = UIColor.whiteColor()
-                    let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGrayColor()])
+                    searchField.textColor = UIColor.white
+                    let attrPlaceholder = NSAttributedString(string: "Cari di Prelo", attributes: [NSForegroundColorAttributeName : UIColor.lightGray])
                     searchField.attributedPlaceholder = attrPlaceholder
                     if let icon = searchField.leftView as? UIImageView {
-                        icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                        icon.tintColor = UIColor.lightGrayColor()
+                        icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                        icon.tintColor = UIColor.lightGray
                     }
-                    searchField.borderStyle = UITextBorderStyle.None
+                    searchField.borderStyle = UITextBorderStyle.none
                 }
                 searchBar.delegate = self
                 searchBar.placeholder = "Cari di Prelo"
@@ -396,17 +425,17 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func refresh() {
         self.products = []
-        self.footerLoading?.hidden = false
+        self.footerLoading?.isHidden = false
         self.setupGrid() // Agar muncul loading
         
         switch (currentMode) {
-        case .Shop, .Filter:
+        case .shop, .filter:
             self.done = false
             self.getProducts()
-        case .Featured:
+        case .featured:
             self.getFeaturedProducts()
-        case .Segment:
-            if (self.listItemSections.contains(.Products)) {
+        case .segment:
+            if (self.listItemSections.contains(.products)) {
                 self.getProducts()
             } else {
                 self.refresher?.endRefreshing()
@@ -415,7 +444,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             requesting = true
             
             var catId : String?
-            if (currentMode == .Standalone) {
+            if (currentMode == .standalone) {
                 catId = standaloneCategoryID
             } else {
                 catId = categoryJson!["_id"].string
@@ -425,9 +454,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (products != nil && products?.count > 0) {
                 lastTimeUuid = products![products!.count - 1].updateTimeUuid
             }
-            request(APISearch.ProductByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+            request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
                 self.done = false
-                self.footerLoading?.hidden = false
+                self.footerLoading?.isHidden = false
                 self.requesting = false
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Barang")) {
                     self.products = []
@@ -447,35 +476,35 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func getProducts() {
         switch (currentMode) {
-        case .Default:
+        case .default:
             if let catId = categoryJson?["_id"].string {
                 self.getCategorizedProducts(catId)
             }
-        case .Standalone:
+        case .standalone:
             self.getCategorizedProducts(standaloneCategoryID)
-        case .Shop:
+        case .shop:
             self.getShopProducts()
-        case .Featured:
+        case .featured:
             self.getFeaturedProducts()
-        case .Segment:
-            if (self.listItemSections.contains(.Products)) {
+        case .segment:
+            if (self.listItemSections.contains(.products)) {
                 if let catId = categoryJson?["_id"].string {
                     self.getCategorizedProducts(catId)
                 }
             }
-        case .Filter:
+        case .filter:
             self.getFilteredProducts()
         }
     }
     
-    func getCategorizedProducts(catId : String) {
+    func getCategorizedProducts(_ catId : String) {
         requesting = true
         
         var lastTimeUuid = ""
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        request(APISearch.ProductByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        request(APISearch.productByCategory(categoryId: catId, sort: "", current: (products?.count)!, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product By Category")) {
                 self.setupData(resp.result.value)
@@ -491,7 +520,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         requesting = true
         
-        request(Products.GetAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        request(Products.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Featured Products")) {
                 self.products = []
@@ -511,7 +540,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        request(APISearch.ProductByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonStringFrom(Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonStringFrom(fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonStringFrom(fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Product")) {
@@ -527,13 +556,13 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.requesting = true
         
         // API Migrasi
-        request(APIPeople.GetShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
+        request(APIPeople.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)
                 
                 if (self.shopHeader == nil) {
-                    self.shopHeader = NSBundle.mainBundle().loadNibNamed("StoreHeader", owner: nil, options: nil).first as? StoreHeader
+                    self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil).first as? StoreHeader
                     self.gridView.addSubview(self.shopHeader!)
                 }
                 
@@ -544,8 +573,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.shopHeader?.captionName.text = self.shopName
                 self.title = self.shopName
                 let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopHeader?.avatar.setImageWithUrl(NSURL(string: avatarThumbnail)!, placeHolderImage: nil)
-                let avatarFull = avatarThumbnail.stringByReplacingOccurrencesOfString("thumbnails/", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                self.shopHeader?.avatar.setImageWithUrl(URL(string: avatarThumbnail)!, placeHolderImage: nil)
+                let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
                 // Love
@@ -568,9 +597,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Last seen
                 if let lastSeenDateString = json["others"]["last_seen"].string {
-                    let formatter = NSDateFormatter()
+                    let formatter = DateFormatter()
                     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    if let lastSeenDate = formatter.dateFromString(lastSeenDateString) {
+                    if let lastSeenDate = formatter.date(from: lastSeenDateString) {
                         self.shopHeader?.captionLastActive.text = lastSeenDate.relativeDescription
                     }
                 }
@@ -591,33 +620,33 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     if (desc.length > descLengthCollapse) { // Jika lebih dari 160 karakter, buat menjadi collapse text
                         // Ambil 160 karakter pertama, beri ellipsis, tambah tulisan 'Selengkapnya'
                         let descToWrite = desc.substringToIndex(descLengthCollapse - 1) + "... Selengkapnya"
-                        let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)])
+                        let descMutableString : NSMutableAttributedString = NSMutableAttributedString(string: descToWrite, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
                         descMutableString.addAttribute(NSForegroundColorAttributeName, value: Theme.PrimaryColorDark, range: NSRange(location: descLengthCollapse + 3, length: 12))
                         self.shopHeader?.captionDesc.attributedText = descMutableString
-                        descHeight = Int(descMutableString.string.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                        descHeight = Int(descMutableString.string.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
                     } else {
                         self.shopHeader?.captionDesc.text = desc
-                        descHeight = Int(desc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height)
+                        descHeight = Int(desc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height)
                     }
                     height = 338 + descHeight
                 } else {
                     self.shopHeader?.captionDesc.text = "Belum ada deskripsi."
-                    self.shopHeader?.captionDesc.textColor = UIColor.lightGrayColor()
-                    height = 338 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFontOfSize(16), width: UIScreen.mainScreen().bounds.width-14).height)
+                    self.shopHeader?.captionDesc.textColor = UIColor.lightGray
+                    height = 338 + Int("Belum ada deskripsi.".boundsWithFontSize(UIFont.systemFont(ofSize: 16), width: UIScreen.main.bounds.width-14).height)
                 }
-                self.shopHeader?.width = UIScreen.mainScreen().bounds.width
+                self.shopHeader?.width = UIScreen.main.bounds.width
                 self.shopHeader?.height = CGFloat(height)
                 self.shopHeader?.y = CGFloat(-height)
                 
                 self.shopHeader?.seeMoreBlock = {
                     if let completeDesc = self.shopHeader?.completeDesc {
                         self.shopHeader?.captionDesc.text = completeDesc
-                        let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.width-16).height
+                        let descHeight = completeDesc.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.width-16).height
                         let newHeight : CGFloat = descHeight + 338.0
                         self.shopHeader?.height = newHeight
                         self.shopHeader?.y = -newHeight
                         self.gridView.contentInset = UIEdgeInsetsMake(newHeight, 0, 0, 0)
-                        self.gridView.setContentOffset(CGPointMake(0, -newHeight), animated: false)
+                        self.gridView.setContentOffset(CGPoint(x: 0, y: -newHeight), animated: false)
                         
                         var refresherBound = self.refresher?.bounds
                         if (refresherBound != nil) {
@@ -630,12 +659,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.shopHeader?.avatar.superview?.layer.cornerRadius = (self.shopHeader?.avatar.width)!/2
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
-                self.shopHeader?.btnEdit.hidden = true
+                self.shopHeader?.btnEdit.isHidden = true
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
                     if (id == me.id)
                     {
-                        self.shopHeader?.btnEdit.hidden = false
+                        self.shopHeader?.btnEdit.isHidden = false
                     }
                 }
                 
@@ -664,12 +693,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
                 
                 self.shopHeader?.editBlock = {
-                    let userProfileVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
                     self.navigationController?.pushViewController(userProfileVC, animated: true)
                 }
                 
                 self.shopHeader?.reviewBlock = {
-                    let shopReviewVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil).first as! ShopReviewViewController
+                    let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil).first as! ShopReviewViewController
                     shopReviewVC.sellerId = self.shopId
                     shopReviewVC.sellerName = self.shopName
                     self.navigationController?.pushViewController(shopReviewVC, animated: true)
@@ -680,7 +709,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     c.labels = [json["username"].stringValue]
                     c.images = (self.shopHeader?.avatarUrls)!
                     c.index = 0
-                    self.navigationController?.presentViewController(c, animated: true, completion: nil)
+                    self.navigationController?.present(c, animated: true, completion: nil)
                 }
                 
                 self.refresher?.endRefreshing()
@@ -695,7 +724,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func setupData(res : AnyObject?) {
+    func setupData(_ res : AnyObject?) {
         guard res != nil else {
             return
         }
@@ -703,7 +732,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if let arr = obj["_data"].array {
             if arr.count == 0 {
                 self.done = true
-                self.footerLoading?.hidden = true
+                self.footerLoading?.isHidden = true
             } else {
                 for (_, item) in obj["_data"] {
                     let p = Product.instance(item)
@@ -715,7 +744,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         } else if let arr = obj["_data"]["products"].array {
             if arr.count == 0 {
                 self.done = true
-                self.footerLoading?.hidden = true
+                self.footerLoading?.isHidden = true
             } else {
                 for item in arr
                 {
@@ -727,22 +756,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             }
         }
         
-        if let x = self.products?.count where x < itemsPerReq {
+        if let x = self.products?.count, x < itemsPerReq {
             self.done = true
-            self.footerLoading?.hidden = true
+            self.footerLoading?.isHidden = true
         }
     }
     
     func setupGrid() {
-        if (currentMode == .Filter && products?.count <= 0 && !requesting) {
-            gridView.hidden = true
-            vwFilterZeroResult.hidden = false
+        if (currentMode == .filter && products?.count <= 0 && !requesting) {
+            gridView.isHidden = true
+            vwFilterZeroResult.isHidden = false
             if (fltrName != "") {
                 lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan untuk '\(fltrName)'"
-                btnFilterZeroResult.hidden = false
+                btnFilterZeroResult.isHidden = false
             } else {
                 lblFilterZeroResult.text = "Tidak ada hasil yang ditemukan"
-                btnFilterZeroResult.hidden = true
+                btnFilterZeroResult.isHidden = true
             }
             return
         }
@@ -752,39 +781,39 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             gridView.delegate = self
         }
         
-        if (!(currentMode == .Segment && listItemSections.contains(.Segments))) {
+        if (!(currentMode == .segment && listItemSections.contains(.segments))) {
             if (listStage == 1) {
-                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 16) / 3)
+                itemCellWidth = ((UIScreen.main.bounds.size.width - 16) / 3)
             } else if (listStage == 2) {
-                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 12) / 2)
+                itemCellWidth = ((UIScreen.main.bounds.size.width - 12) / 2)
             } else if (listStage == 3) {
-                itemCellWidth = ((UIScreen.mainScreen().bounds.size.width - 8) / 1)
+                itemCellWidth = ((UIScreen.main.bounds.size.width - 8) / 1)
             }
         }
         
         gridView.reloadData()
         gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
-        gridView.hidden = false
-        vwFilterZeroResult.hidden = true
+        gridView.isHidden = false
+        vwFilterZeroResult.isHidden = true
     }
     
     // MARK: - Collection view functions
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listItemSections.count
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch listItemSections[section] {
-        case .Carousel:
+        case .carousel:
             return 1
-        case .FeaturedHeader:
+        case .featuredHeader:
             return 1
-        case .Subcategories:
+        case .subcategories:
             return self.subcategoryItems.count
-        case .Segments:
+        case .segments:
             return self.segments.count
-        case .Products:
+        case .products:
             if let p = products {
                 return p.count
             }
@@ -792,54 +821,54 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        switch listItemSections[indexPath.section] {
-        case .Carousel:
-            let cell : ListItemCarouselCell = collectionView.dequeueReusableCellWithReuseIdentifier("carousel_cell", forIndexPath: indexPath) as! ListItemCarouselCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .carousel:
+            let cell : ListItemCarouselCell = collectionView.dequeueReusableCell(withReuseIdentifier: "carousel_cell", for: indexPath) as! ListItemCarouselCell
             cell.adapt(carouselItems)
             if (!isCarouselTimerSet) {
                 cell.setCarouselTimer()
                 isCarouselTimerSet = true
             }
             return cell
-        case .FeaturedHeader:
-            let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier("featured_cell", forIndexPath: indexPath) as! ListItemFeaturedHeaderCell
+        case .featuredHeader:
+            let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
             if let name = categoryJson?["name"].string {
                 cell.adapt(name)
             }
             return cell
-        case .Subcategories:
-            let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("subcategory_cell", forIndexPath: indexPath) as! ListItemSubcategoryCell
-            cell.imgSubcategory.image = subcategoryItems[indexPath.item].image
-            cell.lblSubcategory.hidden = true // Unused label
+        case .subcategories:
+            let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
+            cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
+            cell.lblSubcategory.isHidden = true // Unused label
             return cell
-        case .Segments:
-            let cell : ListItemSegmentCell = collectionView.dequeueReusableCellWithReuseIdentifier("segment_cell", forIndexPath: indexPath) as! ListItemSegmentCell
-            cell.imgSegment.image = segments[indexPath.item].image
+        case .segments:
+            let cell : ListItemSegmentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "segment_cell", for: indexPath) as! ListItemSegmentCell
+            cell.imgSegment.image = segments[(indexPath as NSIndexPath).item].image
             return cell
-        case .Products:
+        case .products:
             // Load next products here
-            if (currentMode == .Default || currentMode == .Standalone || currentMode == .Shop || currentMode == .Filter || (currentMode == .Segment && listItemSections.contains(.Products))) {
-                if (indexPath.row == (products?.count)! - 4 && requesting == false && done == false) {
+            if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
+                if ((indexPath as NSIndexPath).row == (products?.count)! - 4 && requesting == false && done == false) {
                     getProducts()
                 }
             }
             
-            let cell : ListItemCell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ListItemCell
-            let p = products?[indexPath.item]
+            let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
+            let p = products?[(indexPath as NSIndexPath).item]
             cell.adapt(p!)
-            if (currentMode == .Featured) {
+            if (currentMode == .featured) {
                 // Hide featured ribbon
-                cell.imgFeatured.hidden = true
+                cell.imgFeatured.isHidden = true
             }
             return cell
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let viewWidthMinusMargin = UIScreen.mainScreen().bounds.size.width - 8
-        switch listItemSections[indexPath.section] {
-        case .Carousel:
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let viewWidthMinusMargin = UIScreen.main.bounds.size.width - 8
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .carousel:
             var maxHeight : CGFloat = 0
             for i in 0..<self.carouselItems.count {
                 let height = ((viewWidthMinusMargin / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
@@ -848,116 +877,116 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
             }
             return CGSize(width: viewWidthMinusMargin, height: maxHeight)
-        case .FeaturedHeader:
+        case .featuredHeader:
             return CGSize(width: viewWidthMinusMargin, height: 56)
-        case .Subcategories:
+        case .subcategories:
             return CGSize(width: viewWidthMinusMargin / 3, height: viewWidthMinusMargin / 3)
-        case .Segments:
-            let segHeight = viewWidthMinusMargin * segments[indexPath.item].image.size.height / segments[indexPath.item].image.size.width
+        case .segments:
+            let segHeight = viewWidthMinusMargin * segments[(indexPath as NSIndexPath).item].image.size.height / segments[(indexPath as NSIndexPath).item].image.size.width
             return CGSize(width: viewWidthMinusMargin, height: segHeight)
-        case .Products:
+        case .products:
             return CGSize(width: itemCellWidth!, height: itemCellWidth! + 46)
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch listItemSections[section] {
-        case .Subcategories:
+        case .subcategories:
             return 0
         default:
             return 4
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        if (currentMode == .Featured) {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if (currentMode == .featured) {
             if (section == 0) {
                 return UIEdgeInsetsMake(0, 4, 0, 4)
             }
         }
-        if (listItemSections[section] == .Products) {
-            if (currentMode == .Filter) {
+        if (listItemSections[section] == .products) {
+            if (currentMode == .filter) {
                 return UIEdgeInsetsMake(0, 4, 0, 4)
             }
         }
         return UIEdgeInsetsMake(4, 4, 0, 4)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        switch listItemSections[indexPath.section] {
-        case .Carousel:
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch listItemSections[(indexPath as NSIndexPath).section] {
+        case .carousel:
             break
-        case .FeaturedHeader:
+        case .featuredHeader:
             break
-        case .Subcategories:
-            NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+        case .subcategories:
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
             
-            let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            p.currentMode = .Filter
-            p.fltrCategId = subcategoryItems[indexPath.item].id
+            let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            p.currentMode = .filter
+            p.fltrCategId = subcategoryItems[(indexPath as NSIndexPath).item].id
             p.fltrSortBy = "recent"
             self.navigationController?.pushViewController(p, animated: true)
-        case .Segments:
-            self.selectedSegment = self.segments[indexPath.item].type
-            var txt = " Kamu sedang melihat \(self.segments[indexPath.item].name)"
-            if (self.segments[indexPath.item].name.length > 23) {
-                txt = txt.stringByReplacingOccurrencesOfString("sedang ", withString: "")
+        case .segments:
+            self.selectedSegment = self.segments[(indexPath as NSIndexPath).item].type
+            var txt = " Kamu sedang melihat \(self.segments[(indexPath as NSIndexPath).item].name)"
+            if (self.segments[(indexPath as NSIndexPath).item].name.length > 23) {
+                txt = txt.replacingOccurrences(of: "sedang ", with: "")
             }
             let attTxt = NSMutableAttributedString(string: txt)
-            attTxt.addAttributes([NSFontAttributeName : AppFont.Prelo2.getFont(11)!], range: NSRange.init(location: 0, length: 1))
-            attTxt.addAttributes([NSFontAttributeName : UIFont.systemFontOfSize(12)], range: NSRange.init(location: 1, length: txt.length - 1))
+            attTxt.addAttributes([NSFontAttributeName : AppFont.prelo2.getFont(11)!], range: NSRange.init(location: 0, length: 1))
+            attTxt.addAttributes([NSFontAttributeName : UIFont.systemFont(ofSize: 12)], range: NSRange.init(location: 1, length: txt.length - 1))
             self.lblTopHeader.attributedText = attTxt
-            self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Segments)!)
-            self.listItemSections.append(.Products)
+            self.listItemSections.remove(at: self.listItemSections.index(of: .segments)!)
+            self.listItemSections.append(.products)
             self.refresh()
-        case .Products:
-            self.selectedProduct = products?[indexPath.item]
-            if (currentMode == .Featured) {
+        case .products:
+            self.selectedProduct = products?[(indexPath as NSIndexPath).item]
+            if (currentMode == .featured) {
                 selectedProduct?.setToFeatured()
             }
             self.launchDetail()
         }
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if (kind == UICollectionElementKindSectionHeader) { // Header
             // No header
         } else if (kind == UICollectionElementKindSectionFooter) { // Footer
-            let f = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! ListFooter
+            let f = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath) as! ListFooter
             
             // Default value
-            f.btnFooter.hidden = true
-            f.lblFooter.hidden = true
-            f.loading.hidden = false
+            f.btnFooter.isHidden = true
+            f.lblFooter.isHidden = true
+            f.loading.isHidden = false
             
             // Loading handle
             self.footerLoading = f.loading
             if (self.done) {
-                self.footerLoading?.hidden = true
+                self.footerLoading?.isHidden = true
             }
             
             // Adapt
-            if (currentMode == .Featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
-                f.btnFooter.hidden = false
+            if (currentMode == .featured && products?.count > 0) { // 'Lihat semua barang' button, only show if featured products is loaded
+                f.btnFooter.isHidden = false
                 f.btnFooterAction = {
-                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
                     
-                    let p = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-                    p.currentMode = .Filter
+                    let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    p.currentMode = .filter
                     p.fltrCategId = self.categoryJson!["_id"].stringValue
                     p.fltrSortBy = "recent"
                     self.navigationController?.pushViewController(p, animated: true)
                 }
             } else { // Default loading footer
-                f.btnFooter.hidden = true
+                f.btnFooter.isHidden = true
             }
             
             return f
@@ -965,55 +994,55 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         return UICollectionReusableView()
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeZero // No header
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize.zero // No header
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if (listItemSections[section] == .Products) {
-            if (currentMode == .Featured) {
-                return CGSizeMake(collectionView.width, 66)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        if (listItemSections[section] == .products) {
+            if (currentMode == .featured) {
+                return CGSize(width: collectionView.width, height: 66)
             }
-            return CGSizeMake(collectionView.width, 50)
+            return CGSize(width: collectionView.width, height: 50)
         }
-        return CGSizeZero
+        return CGSize.zero
     }
     
     // MARK: - Scrollview functions
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         currScrollPoint = scrollView.contentOffset
         draggingScrollView = true
     }
     
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         draggingScrollView = false
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (draggingScrollView) {
-            if (currentMode == .Default || currentMode == .Featured || currentMode == .Filter || (currentMode == .Segment && listItemSections.contains(.Products))) {
+            if (currentMode == .default || currentMode == .featured || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products))) {
                 if (currScrollPoint.y < scrollView.contentOffset.y) {
-                    if ((self.navigationController?.navigationBarHidden)! == false) {
-                        NSNotificationCenter.defaultCenter().postNotificationName("hideBottomBar", object: nil)
+                    if ((self.navigationController?.isNavigationBarHidden)! == false) {
+                        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
-                        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+                        UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
                         if (selectedSegment != "") {
                             consHeightVwTopHeader.constant = 0 // Hide top header
-                            UIView.animateWithDuration(0.2) {
+                            UIView.animate(withDuration: 0.2, animations: {
                                 self.view.layoutIfNeeded()
-                            }
+                            }) 
                         }
                     }
                 } else {
-                    NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+                    NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
                     if (selectedSegment != "") {
                         consHeightVwTopHeader.constant = 40 // Show top header
-                        UIView.animateWithDuration(0.2) {
+                        UIView.animate(withDuration: 0.2, animations: {
                             self.view.layoutIfNeeded()
-                        }
+                        }) 
                     }
                 }
             }
@@ -1022,36 +1051,36 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Search bar functions
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.fltrName = searchText
         self.done = false
-        self.footerLoading?.hidden = false
+        self.footerLoading?.isHidden = false
         self.products = []
         self.getProducts()
         self.setupGrid()
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
             if let icon = searchField.leftView as? UIImageView {
-                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                icon.tintColor = UIColor.whiteColor()
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                icon.tintColor = UIColor.white
             }
         }
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        if let searchField = searchBar.valueForKey("searchField") as? UITextField {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let searchField = searchBar.value(forKey: "searchField") as? UITextField {
             if let icon = searchField.leftView as? UIImageView {
-                icon.image = icon.image?.imageWithRenderingMode(.AlwaysTemplate)
-                icon.tintColor = UIColor.lightGrayColor()
+                icon.image = icon.image?.withRenderingMode(.alwaysTemplate)
+                icon.tintColor = UIColor.lightGray
             }
         }
     }
     
     // MARK: - Filter delegate function
     
-    func adjustFilter(fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String) {
+    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: NSNumber, fltrPriceMax: NSNumber, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String) {
         self.fltrProdCondIds = fltrProdCondIds
         self.fltrPriceMin = fltrPriceMin
         self.fltrPriceMax = fltrPriceMax
@@ -1059,10 +1088,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.fltrSizes = fltrSizes
         self.fltrSortBy = fltrSortBy
         lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
-        if (lblFilterSort.text?.lowercaseString == "highest rp") {
-            lblFilterSort.font = UIFont.boldSystemFontOfSize(12)
+        if (lblFilterSort.text?.lowercased() == "highest rp") {
+            lblFilterSort.font = UIFont.boldSystemFont(ofSize: 12)
         } else {
-            lblFilterSort.font = UIFont.boldSystemFontOfSize(13)
+            lblFilterSort.font = UIFont.boldSystemFont(ofSize: 13)
         }
         self.refresh()
         self.setupGrid()
@@ -1070,7 +1099,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Category picker delegate function
     
-    func adjustCategory(categId: String) {
+    func adjustCategory(_ categId: String) {
         self.fltrCategId = categId
         lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
         self.refresh()
@@ -1079,7 +1108,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - List brand delegate function
     
-    func adjustBrand(fltrBrands: [String : String]) {
+    func adjustBrand(_ fltrBrands: [String : String]) {
         self.fltrBrands = fltrBrands
         if (fltrBrands.count > 0) {
             if (fltrBrands.count == 1) {
@@ -1096,21 +1125,21 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     func setDefaultTopHeaderWomen() {
         lblTopHeader.text = "Barang apa yang ingin kamu lihat hari ini?"
-        lblTopHeader.font = UIFont.systemFontOfSize(12)
+        lblTopHeader.font = UIFont.systemFont(ofSize: 12)
     }
     
-    @IBAction func topHeaderPressed(sender: AnyObject) {
-        if (!listItemSections.contains(.Segments)) {
+    @IBAction func topHeaderPressed(_ sender: AnyObject) {
+        if (!listItemSections.contains(.segments)) {
             setDefaultTopHeaderWomen()
             selectedSegment = ""
-            self.listItemSections.removeAtIndex(self.listItemSections.indexOf(.Products)!)
-            self.listItemSections.append(.Segments)
+            self.listItemSections.remove(at: self.listItemSections.index(of: .products)!)
+            self.listItemSections.append(.segments)
             gridView.reloadData()
         }
     }
     
-    @IBAction func topHeaderFilterMerekPressed(sender: AnyObject) {
-        let listBrandVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdListBrand) as! ListBrandViewController2
+    @IBAction func topHeaderFilterMerekPressed(_ sender: AnyObject) {
+        let listBrandVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdListBrand) as! ListBrandViewController2
         listBrandVC.previousController = self
         listBrandVC.delegate = self
         listBrandVC.selectedBrands = self.fltrBrands
@@ -1118,22 +1147,22 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.navigationController?.pushViewController(listBrandVC, animated: true)
     }
     
-    @IBAction func topHeaderFilterKategoriPressed(sender: AnyObject) {
-        let categPickerVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+    @IBAction func topHeaderFilterKategoriPressed(_ sender: AnyObject) {
+        let categPickerVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
         categPickerVC.previousController = self
         categPickerVC.delegate = self
         categPickerVC.searchMode = true
         self.navigationController?.pushViewController(categPickerVC, animated: true)
     }
     
-    @IBAction func topHeaderFilterSortPressed(sender: AnyObject) {
-        let filterVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+    @IBAction func topHeaderFilterSortPressed(_ sender: AnyObject) {
+        let filterVC = Bundle.main.loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
         filterVC.previousController = self
         filterVC.delegate = self
         filterVC.categoryId = self.fltrCategId
         filterVC.initSelectedProdCondId = self.fltrProdCondIds
         filterVC.initSelectedCategSizeVal = self.fltrSizes
-        filterVC.selectedIdxSortBy = filterVC.SortByDataValue.indexOf(self.fltrSortBy)!
+        filterVC.selectedIdxSortBy = filterVC.SortByDataValue.index(of: self.fltrSortBy)!
         filterVC.isFreeOngkir = self.fltrIsFreeOngkir
         filterVC.minPrice = (self.fltrPriceMin > 0) ? self.fltrPriceMin.stringValue : ""
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
@@ -1142,7 +1171,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Filter zero result
     
-    @IBAction func reqBarangPressed(sender: AnyObject) {
+    @IBAction func reqBarangPressed(_ sender: AnyObject) {
         var username = "Your beloved user"
         if let u = CDUser.getOne() {
             username = u.username
@@ -1155,7 +1184,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             m.setSubject("Request Barang")
             m.setMessageBody(msgBody, isHTML: true)
             m.mailComposeDelegate = self
-            self.presentViewController(m, animated: true, completion: nil)
+            self.present(m, animated: true, completion: nil)
         } else {
             Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Request Barang, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
         }
@@ -1163,41 +1192,41 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     
     // MARK: - Mail compose delegate functions
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        if (result == MFMailComposeResultSent) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        if (result == MFMailComposeResult.sent) {
             Constant.showDialog("Request Barang", message: "E-mail terkirim")
-        } else if (result == MFMailComposeResultFailed) {
+        } else if (result == MFMailComposeResult.failed) {
             Constant.showDialog("Request Barang", message: "E-mail gagal dikirim")
         }
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let c = segue.destinationViewController
-        if (c.isKindOfClass(BaseViewController.classForCoder())) {
+        let c = segue.destination
+        if (c.isKind(of: BaseViewController.classForCoder())) {
             let b = c as! BaseViewController
             b.previousController = self
         }
     }
     
     func launchDetail() {
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationName.ShowProduct, object: self.selectedProduct)
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: self.selectedProduct)
     }
     
     // MARK: - Other functions
     
     func statusBarTapped() {
-        gridView.setContentOffset(CGPointMake(0, 10), animated: true)
-        NSNotificationCenter.defaultCenter().postNotificationName("showBottomBar", object: nil)
+        gridView.setContentOffset(CGPoint(x: 0, y: 10), animated: true)
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func pinch(pinchedIn : Bool) {
+    func pinch(_ pinchedIn : Bool) {
         //print("current stage : \(listStage)")
         listStage += (pinchedIn ? 1 : -1)
         if (listStage > 3) {
@@ -1210,7 +1239,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         setupGrid()
         
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
             self.gridView.reloadData()
         }, completion: nil)
     }
@@ -1221,9 +1250,9 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
 class CarouselItem {
     var name : String = ""
     var img : UIImage = UIImage()
-    var link : NSURL = NSURL()
+    var link : URL = URL()
     
-    init(name : String, img : UIImage, link : NSURL) {
+    init(name : String, img : UIImage, link : URL) {
         self.name = name
         self.img = img
         self.link = link
@@ -1261,14 +1290,14 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
     @IBOutlet var consWidthContentVwCarousel: NSLayoutConstraint!
     var carouselItems : [CarouselItem] = []
     
-    func adapt(carouselItems : [CarouselItem]) {
+    func adapt(_ carouselItems : [CarouselItem]) {
         self.carouselItems = carouselItems
         scrlVwCarousel.delegate = self
         
         self.pageCtrlCarousel.numberOfPages = carouselItems.count
         self.pageCtrlCarousel.currentPage = 0
         var rectHeightFix : CGFloat = 0
-        let rectWidthFix : CGFloat = UIScreen.mainScreen().bounds.size.width - 8
+        let rectWidthFix : CGFloat = UIScreen.main.bounds.size.width - 8
         self.consWidthContentVwCarousel.constant = rectWidthFix * CGFloat(carouselItems.count)
         for i in 0..<carouselItems.count {
             let height = ((rectWidthFix / carouselItems[i].img.size.width) * carouselItems[i].img.size.height)
@@ -1277,10 +1306,10 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
             }
         }
         for i in 0...carouselItems.count - 1 {
-            let rect = CGRectMake(CGFloat(i * Int(rectWidthFix)), 0, rectWidthFix, rectHeightFix)
+            let rect = CGRect(x: CGFloat(i * Int(rectWidthFix)), y: 0, width: rectWidthFix, height: rectHeightFix)
             let uiImg = UIImageView(frame: rect, image: carouselItems[i].img)
             let uiBtn = UIButton(frame: rect)
-            uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            uiBtn.addTarget(self, action: #selector(ListItemCarouselCell.btnCarouselPressed(_:)), for: UIControlEvents.touchUpInside)
             uiBtn.tag = i
             contentVwCarousel.addSubview(uiImg)
             contentVwCarousel.addSubview(uiBtn)
@@ -1289,15 +1318,15 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
     
     func setCarouselTimer() {
         // Scroll timer
-        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ListItemCarouselCell.autoScrollCarousel), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(ListItemCarouselCell.autoScrollCarousel), userInfo: nil, repeats: true)
     }
     
-    func btnCarouselPressed(sender: UIButton) {
+    func btnCarouselPressed(_ sender: UIButton) {
         let tag = sender.tag
-        UIApplication.sharedApplication().openURL(self.carouselItems[tag].link)
+        UIApplication.shared.openURL(self.carouselItems[tag].link)
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         pageCtrlCarousel.currentPage = Int(scrlVwCarousel.contentOffset.x / scrlVwCarousel.width)
     }
     
@@ -1306,7 +1335,7 @@ class ListItemCarouselCell : UICollectionViewCell, UIScrollViewDelegate {
         if (nextPage > carouselItems.count - 1) {
             nextPage = 0
         }
-        scrlVwCarousel.setContentOffset(CGPointMake(CGFloat(nextPage) * scrlVwCarousel.width, 0), animated: true)
+        scrlVwCarousel.setContentOffset(CGPoint(x: CGFloat(nextPage) * scrlVwCarousel.width, y: 0), animated: true)
         pageCtrlCarousel.currentPage = nextPage
     }
 }
@@ -1317,13 +1346,13 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var lblDesc: UILabel!
     
-    func adapt(categName : String) {
+    func adapt(_ categName : String) {
         let edPickCategName = ["all", "home", "semua"]
-        if (edPickCategName.contains(categName.lowercaseString)) {
+        if (edPickCategName.contains(categName.lowercased())) {
             self.lblTitle.text = "EDITOR'S PICK"
-            self.lblTitle.textColor = UIColor.whiteColor()
+            self.lblTitle.textColor = UIColor.white
             self.lblDesc.text = "Daftar barang terbaik yang dipilih oleh tim Prelo"
-            self.lblDesc.textColor = UIColor.whiteColor()
+            self.lblDesc.textColor = UIColor.white
         } else {
             self.lblTitle.text = "HIGHLIGHTS"
             self.lblTitle.textColor = UIColor(hexString: "#5d5d5d")
@@ -1360,13 +1389,13 @@ class ListItemCell : UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        imgSold.hidden = true
-        imgReserved.hidden = true
-        imgFeatured.hidden = true
-        imgFreeOngkir.hidden = true
+        imgSold.isHidden = true
+        imgReserved.isHidden = true
+        imgFeatured.isHidden = true
+        imgFreeOngkir.isHidden = true
     }
     
-    func adapt(product : Product) {
+    func adapt(_ product : Product) {
         let obj = product.json
         captionTitle.text = product.name
         captionPrice.text = product.price
@@ -1375,14 +1404,14 @@ class ListItemCell : UICollectionViewCell {
         let commentCount = obj["discussions"].int
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
         
-        avatar.contentMode = .ScaleAspectFill
+        avatar.contentMode = .scaleAspectFill
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         
         if (product.specialStory == nil || product.specialStory == "") {
-            sectionSpecialStory.hidden = true
+            sectionSpecialStory.isHidden = true
         } else {
-            sectionSpecialStory.hidden = false
+            sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
                 avatar.setImageWithUrl(url, placeHolderImage: UIImage(named : "raisa.jpg"))
@@ -1406,22 +1435,22 @@ class ListItemCell : UICollectionViewCell {
             captionOldPrice.text = op.asPrice
             let s = captionOldPrice.text! as NSString
             let attString = NSMutableAttributedString(string: s as String)
-            attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.StyleSingle.rawValue], range: s.rangeOfString(s as String))
+            attString.addAttributes([NSStrikethroughStyleAttributeName:NSUnderlineStyle.styleSingle.rawValue], range: s.range(of: s as String))
             captionOldPrice.attributedText = attString
         }
         
         if let status = product.status {
             if (status == 4 || status == 8) { // sold
-                self.imgSold.hidden = false
+                self.imgSold.isHidden = false
             } else if (status == 7) { // reserved
-                self.imgReserved.hidden = false
+                self.imgReserved.isHidden = false
             } else if (product.isFeatured) { // featured
-                self.imgFeatured.hidden = false
+                self.imgFeatured.isHidden = false
             }
         }
         
         if product.isFreeOngkir {
-            imgFreeOngkir.hidden = false
+            imgFreeOngkir.isHidden = false
         }
     }
 }
@@ -1435,7 +1464,7 @@ class ListFooter : UICollectionReusableView {
     
     var btnFooterAction : () -> () = {}
     
-    @IBAction func btnFooterPressed(sender: AnyObject) {
+    @IBAction func btnFooterPressed(_ sender: AnyObject) {
         self.btnFooterAction()
     }
 }
@@ -1467,15 +1496,15 @@ class StoreHeader : UIView {
         self.editBlock()
     }
     
-    @IBAction func gotoShopReview(sender: AnyObject) {
+    @IBAction func gotoShopReview(_ sender: AnyObject) {
         self.reviewBlock()
     }
     
-    @IBAction func avatarPressed(sender: AnyObject) {
+    @IBAction func avatarPressed(_ sender: AnyObject) {
         self.zoomAvatarBlock()
     }
     
-    @IBAction func seeMore(sender: AnyObject) {
+    @IBAction func seeMore(_ sender: AnyObject) {
         if (self.completeDesc != "" && self.captionDesc.text != self.completeDesc) {
             self.seeMoreBlock()
         }

@@ -46,7 +46,7 @@ public extension UIScrollView {
     public convenience init(frame: CGRect, contentSize: CGSize, clipsToBounds: Bool, pagingEnabled: Bool, showScrollIndicators: Bool, delegate: UIScrollViewDelegate?) {
         self.init(frame: frame)
         self.delegate = delegate
-        self.pagingEnabled = pagingEnabled
+        self.isPagingEnabled = pagingEnabled
         self.clipsToBounds = clipsToBounds
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false

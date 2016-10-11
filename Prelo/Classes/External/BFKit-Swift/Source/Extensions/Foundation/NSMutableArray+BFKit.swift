@@ -45,15 +45,15 @@ public extension NSMutableArray {
      - parameter from: The index to move from
      - parameter to:   The index to move to
      */
-    public func moveObjectFromIndex(from: Int, toIndex to: Int) {
+    public func moveObjectFromIndex(_ from: Int, toIndex to: Int) {
         if to != from {
             let obj: AnyObject? = self.safeObjectAtIndex(from)
-            self.removeObjectAtIndex(from)
+            self.removeObject(at: from)
             
             if to >= self.count {
-                self.addObject(obj!)
+                self.add(obj!)
             } else {
-                self.insertObject(obj!, atIndex:to)
+                self.insert(obj!, at:to)
             }
         }
     }
@@ -69,18 +69,18 @@ public extension NSMutableArray {
     
      - returns: Returns the given array ordered by the given key ascending or descending
      */
-    public static func sortArrayByKey(key: String, array: NSMutableArray, ascending: Bool) -> NSMutableArray {
+    public static func sortArrayByKey(_ key: String, array: NSMutableArray, ascending: Bool) -> NSMutableArray {
         var tempArray: NSMutableArray = NSMutableArray()
-        tempArray.addObjectsFromArray(array as [AnyObject])
+        tempArray.addObjects(from: array as [AnyObject])
         
         let descriptor: NSSortDescriptor = NSSortDescriptor(key: key, ascending: ascending)
-        let sortedArray: NSArray = tempArray.sortedArrayUsingDescriptors([descriptor])
+        let sortedArray: NSArray = tempArray.sortedArray(using: [descriptor])
         
         tempArray.removeAllObjects()
         tempArray = NSMutableArray(array: sortedArray)
         
         array.removeAllObjects()
-        array.addObjectsFromArray(tempArray as [AnyObject])
+        array.addObjects(from: tempArray as [AnyObject])
         
         return array
     }

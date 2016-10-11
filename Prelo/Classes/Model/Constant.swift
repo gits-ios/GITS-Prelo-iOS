@@ -8,17 +8,17 @@
 
 import UIKit
 
-var dateFormatter : NSDateFormatter = NSDateFormatter()
+var dateFormatter : DateFormatter = DateFormatter()
 
 class Constant: NSObject {
     static var escapesSymbols : [String : String] = ["&amp;":"&"]
     
-    static func showDialog(title : String, message : String)
+    static func showDialog(_ title : String, message : String)
     {
         let a = UIAlertView()
         a.title = title
         a.message = message
-        a.addButtonWithTitle("OK")
+        a.addButton(withTitle: "OK")
         a.show()
     }
     
@@ -26,25 +26,25 @@ class Constant: NSObject {
 
 extension String
 {
-    func boundsWithFontSize(font : UIFont, width : CGFloat) -> CGRect
+    func boundsWithFontSize(_ font : UIFont, width : CGFloat) -> CGRect
     {
-        let cons = CGSizeMake(width, 0)
+        let cons = CGSize(width: width, height: 0)
         
-        return self.boundingRectWithSize(cons, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
+        return self.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
     }
     
-    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: CGFloat.max)
+    func heightWithConstrainedWidth(_ width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         
         return boundingBox.height
     }
     
-    func widthWithConstrainedHeight(height: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: CGFloat.max, height: height)
+    func widthWithConstrainedHeight(_ height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
         
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         
         return boundingBox.width
     }
@@ -55,7 +55,7 @@ extension String
         
         for (key, value) in Constant.escapesSymbols
         {
-            s = self.stringByReplacingOccurrencesOfString(key, withString: value, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+            s = self.replacingOccurrences(of: key, with: value, options: NSString.CompareOptions.caseInsensitive, range: nil)
         }
         
         return s
@@ -67,78 +67,78 @@ extension String
 }
 
 extension NSAttributedString {
-    func heightWithConstrainedWidth(width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: CGFloat.max)
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+    func heightWithConstrainedWidth(_ width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
         return ceil(boundingBox.height)
     }
     
-    func widthWithConstrainedHeight(height: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: CGFloat.max, height: height)
+    func widthWithConstrainedHeight(_ height: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
         
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         
         return ceil(boundingBox.width)
     }
 }
 
-var CalendarOption = NSCalendarOptions.MatchLast
+var CalendarOption = NSCalendar.Options.matchLast
 
-extension NSDate
+extension Foundation.Date
 {
     
     struct Date {
-        static let formatter = NSDateFormatter()
+        static let formatter = DateFormatter()
     }
     var isoFormatted: String {
         Date.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-        Date.formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        Date.formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-        Date.formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        return Date.formatter.stringFromDate(self)
+        Date.formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        Date.formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+        Date.formatter.locale = Locale(identifier: "en_US_POSIX")
+        return Date.formatter.string(from: self)
     }
     
-    func rollbackIsoFormatted(formatted: String) -> NSDate? {
+    func rollbackIsoFormatted(_ formatted: String) -> Foundation.Date? {
         Date.formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-        Date.formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-        Date.formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-        Date.formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        return Date.formatter.dateFromString(formatted)
+        Date.formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        Date.formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+        Date.formatter.locale = Locale(identifier: "en_US_POSIX")
+        return Date.formatter.date(from: formatted)
     }
     
-    func yearsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Year, fromDate: date, toDate: self, options: CalendarOption).year
+    func yearsFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: date, to: self, options: CalendarOption).year!
     }
-    func monthsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date, toDate: self, options: CalendarOption).month
+    func monthsFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.month, from: date, to: self, options: CalendarOption).month!
     }
-    func weeksFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.WeekOfYear, fromDate: date, toDate: self, options: CalendarOption).weekOfYear
+    func weeksFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.weekOfYear, from: date, to: self, options: CalendarOption).weekOfYear!
     }
-    func daysFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date, toDate: self, options: CalendarOption).day
+    func daysFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.day, from: date, to: self, options: CalendarOption).day!
     }
-    func hoursFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Hour, fromDate: date, toDate: self, options: CalendarOption).hour
+    func hoursFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.hour, from: date, to: self, options: CalendarOption).hour!
     }
-    func minutesFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Minute, fromDate: date, toDate: self, options: CalendarOption).minute
+    func minutesFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.minute, from: date, to: self, options: CalendarOption).minute!
     }
-    func secondsFrom(date:NSDate) -> Int {
-        return NSCalendar.currentCalendar().components(NSCalendarUnit.Second, fromDate: date, toDate: self, options: CalendarOption).second
+    func secondsFrom(_ date:Foundation.Date) -> Int {
+        return (Calendar.current as NSCalendar).components(NSCalendar.Unit.second, from: date, to: self, options: CalendarOption).second!
     }
     
-    func minutesFromIsoFormatted(formatted : String) -> Int {
-        let calendar : NSCalendar = NSCalendar.currentCalendar()
+    func minutesFromIsoFormatted(_ formatted : String) -> Int {
+        let calendar : Calendar = Calendar.current
 //        var comp : NSDateComponents = calendar.components((.Era | .Year | .Month | .Day | .Hour | .Minute | .Second), fromDate: NSDate())
-        var comp : NSDateComponents = calendar.components([.Era, .Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: NSDate())
-        if let nowDate = calendar.dateFromComponents(comp) {
+        var comp : DateComponents = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: Foundation.Date())
+        if let nowDate = calendar.date(from: comp) {
             //print("nowDate = \(nowDate)")
-            if let rollbackNSDate = NSDate().rollbackIsoFormatted(formatted) {
+            if let rollbackNSDate = Foundation.Date().rollbackIsoFormatted(formatted) {
                 //print("rollbackNSDate = \(rollbackNSDate)")
-                comp = calendar.components([.Era, .Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: rollbackNSDate)
-                if let rollbackDate = calendar.dateFromComponents(comp) {
+                comp = (calendar as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: rollbackNSDate)
+                if let rollbackDate = calendar.date(from: comp) {
                     return nowDate.minutesFrom(rollbackDate)
                 }
             }
@@ -172,7 +172,7 @@ extension NSDate
         }
         
         dateFormatter.dateFormat = "dd MMM"
-        let s = dateFormatter.stringFromDate(self)
+        let s = dateFormatter.string(from: self)
         if (s != "") {
             return s
         }
@@ -191,7 +191,7 @@ extension UIView
         }
         set(w) {
             let r = self.frame
-            self.frame = CGRectMake(r.origin.x, r.origin.y, w, r.size.height)
+            self.frame = CGRect(x: r.origin.x, y: r.origin.y, width: w, height: r.size.height)
         }
     }
     
@@ -202,7 +202,7 @@ extension UIView
         }
         set(h) {
             let r = self.frame
-            self.frame = CGRectMake(r.origin.x, r.origin.y, r.size.width, h)
+            self.frame = CGRect(x: r.origin.x, y: r.origin.y, width: r.size.width, height: h)
         }
     }
     
@@ -212,7 +212,7 @@ extension UIView
             return self.frame.origin.x
         }
         set(newX) {
-            self.frame = CGRectMake(newX, self.frame.origin.y, self.frame.size.width, self.frame.size.height)
+            self.frame = CGRect(x: newX, y: self.frame.origin.y, width: self.frame.size.width, height: self.frame.size.height)
         }
     }
     
@@ -222,7 +222,7 @@ extension UIView
             return self.frame.origin.y
         }
         set(newY) {
-            self.frame = CGRectMake(self.frame.origin.x, newY, self.frame.size.width, self.frame.size.height)
+            self.frame = CGRect(x: self.frame.origin.x, y: newY, width: self.frame.size.width, height: self.frame.size.height)
         }
     }
     

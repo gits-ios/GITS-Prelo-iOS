@@ -56,12 +56,12 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     // MARK: - Init
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        loadingPanel.hidden = false
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        loadingPanel.isHidden = false
         loading.startAnimating()
         
         // Mixpanel
@@ -72,7 +72,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         
         var isEmailVerified : Bool = false
         // API Migrasi
-        request(APIUser.Me).responseJSON {resp in
+        request(APIUser.me).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -84,15 +84,15 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                     let a = UIAlertView()
                     a.title = "Referral Bonus"
                     a.message = "Mohon verifikasi e-mail kamu untuk mendapatkan referral bonus dari Prelo"
-                    a.addButtonWithTitle("Batal")
-                    a.addButtonWithTitle("Kirim E-mail Konfirmasi")
+                    a.addButton(withTitle: "Batal")
+                    a.addButton(withTitle: "Kirim E-mail Konfirmasi")
                     a.delegate = self
                     a.show()
                 } else {
                     self.getReferralData()
                 }
             } else {
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -112,18 +112,18 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         // SMS
         if (MFMessageComposeViewController.canSendText()) {
             imgSms.alpha = 1
-            btnSms.userInteractionEnabled = true
+            btnSms.isUserInteractionEnabled = true
         } else {
             imgSms.alpha = 0.3
-            btnSms.userInteractionEnabled = false
+            btnSms.isUserInteractionEnabled = false
         }
         // Email
         if (MFMailComposeViewController.canSendMail()) {
             imgEmail.alpha = 1
-            btnEmail.userInteractionEnabled = true
+            btnEmail.isUserInteractionEnabled = true
         } else {
             imgEmail.alpha = 0.3
-            btnEmail.userInteractionEnabled = false
+            btnEmail.isUserInteractionEnabled = false
         }
         // More
         imgMore.alpha = 1
@@ -136,11 +136,11 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         self.title = "Referral Bonus"
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
                 if (o) {
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
                 } else {
@@ -149,14 +149,14 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
     func getReferralData() {
         // API Migrasi
-        request(APIUser.ReferralData).responseJSON {resp in
+        request(APIUser.referralData).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -171,22 +171,22 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 
                 // Jika sudah pernah memasukkan referral, sembunyikan field
                 if (data["referral"]["referral_code_used"] != nil) {
-                    self.vwSubmit.hidden = true
+                    self.vwSubmit.isHidden = true
                 }
                 
                 // Set shareText
                 self.shareText = "Download aplikasi Prelo dan dapatkan bonus Rp 25.000 dengan mengisikan referral: \(self.lblKodeReferral.text!)"
                 
-                self.loadingPanel.hidden = true
+                self.loadingPanel.isHidden = true
                 self.loading.stopAnimating()
             } else {
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -194,38 +194,38 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     }
     
     // MARK: - MFMessage Delegate Functions
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - MFMail Delegate Functions
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Path
     
     func loginPath()
     {
-        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
         pathLoginVC.delegate = self
         pathLoginVC.standAlone = true
         let n = UINavigationController(rootViewController: pathLoginVC)
-        self.presentViewController(n, animated: true, completion: nil)
+        self.present(n, animated: true, completion: nil)
     }
     
     func hideLoading() {
         // Hilangkan loading
-        loadingPanel.hidden = true
+        loadingPanel.isHidden = true
         loading.stopAnimating()
     }
     
-    func pathLoginSuccess(userData: JSON, token: String) {
+    func pathLoginSuccess(_ userData: JSON, token: String) {
         registerPathToken(userData, token : token)
         postToPath(shareImage, token: token)
     }
     
-    func registerPathToken(userData : JSON, token : String) {
+    func registerPathToken(_ userData : JSON, token : String) {
         let pathName = userData["name"].string!
         
         self.mixpanelSharedReferral("Path", username: pathName)
@@ -271,7 +271,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }*/
     }
     
-    func postToPath(image : UIImage, token : String) {
+    func postToPath(_ image : UIImage, token : String) {
 //        let param = [
 //            "caption": shareText
 //        ]
@@ -279,88 +279,88 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
 //        let jsonString = NSString(data: data!, encoding: NSUTF8StringEncoding)
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
-        AppToolsObjC.PATHPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
-            a.dismissWithClickedButtonIndex(0, animated: true)
+        AppToolsObjC.pathPostPhoto(image, param: ["private": true, "caption": shareText], token: token, success: {_, _ in
+            a.dismiss(withClickedButtonIndex: 0, animated: true)
         }, failure: nil)
     }
     
     // MARK: - Instagram
     
-    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
     
-    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+    func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
         print("DidEndPreview")
     }
     
     // MARK: - IBActions
     
-    @IBAction func instagramPressed(sender: AnyObject) {
-        if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
+    @IBAction func instagramPressed(_ sender: AnyObject) {
+        if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
             mgInstagram = MGInstagram()
-            mgInstagram?.postImage(shareImage, withCaption: shareText, inView: self.view, delegate: self)
+            mgInstagram?.post(shareImage, withCaption: shareText, in: self.view, delegate: self)
             self.mixpanelSharedReferral("Instagram", username: "")
         } else {
             Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
         }
     }
     
-    @IBAction func facebookPressed(sender: AnyObject) {
-        if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)) {
-            let url = NSURL(string:AppTools.PreloBaseUrl)
+    @IBAction func facebookPressed(_ sender: AnyObject) {
+        if (SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook)) {
+            let url = URL(string:AppTools.PreloBaseUrl)
             let composer = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            composer.addURL(url!)
-            composer.addImage(shareImage)
-            composer.setInitialText(shareText)
-            composer.completionHandler = { result -> Void in
+            composer?.add(url!)
+            composer?.add(shareImage)
+            composer?.setInitialText(shareText)
+            composer?.completionHandler = { result -> Void in
                 let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
-                case SLComposeViewControllerResult.Cancelled.rawValue:
+                case SLComposeViewControllerResult.cancelled.rawValue:
                     print("Cancelled")
-                case SLComposeViewControllerResult.Done.rawValue:
+                case SLComposeViewControllerResult.done.rawValue:
                     print("Done")
                     self.mixpanelSharedReferral("Facebook", username: "")
                 default:
                     print("Error")
                 }
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer!, animated: true, completion: nil)
         } else {
             Constant.showDialog("Anda belum login", message: "Silakan login Facebook dari menu Settings")
         }
     }
     
-    @IBAction func twitterPressed(sender: AnyObject) {
-        if (SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter)) {
-            let url = NSURL(string:AppTools.PreloBaseUrl)
+    @IBAction func twitterPressed(_ sender: AnyObject) {
+        if (SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter)) {
+            let url = URL(string:AppTools.PreloBaseUrl)
             let composer = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            composer.addURL(url!)
-            composer.addImage(shareImage)
-            composer.setInitialText(shareText)
-            composer.completionHandler = { result -> Void in
+            composer?.add(url!)
+            composer?.add(shareImage)
+            composer?.setInitialText(shareText)
+            composer?.completionHandler = { result -> Void in
                 let getResult = result as SLComposeViewControllerResult
                 switch(getResult.rawValue) {
-                case SLComposeViewControllerResult.Cancelled.rawValue:
+                case SLComposeViewControllerResult.cancelled.rawValue:
                     print("Cancelled")
-                case SLComposeViewControllerResult.Done.rawValue:
+                case SLComposeViewControllerResult.done.rawValue:
                     print("Done")
                     self.mixpanelSharedReferral("Twitter", username: "")
                 default:
                     print("Error")
                 }
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer!, animated: true, completion: nil)
         } else {
             Constant.showDialog("Anda belum login", message: "Silakan login Twitter dari menu Settings")
         }
     }
     
-    @IBAction func pathPressed(sender: AnyObject) {
+    @IBAction func pathPressed(_ sender: AnyObject) {
         if (CDUser.pathTokenAvailable()) {
-            postToPath(shareImage, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+            postToPath(shareImage, token: UserDefaults.standard.string(forKey: "pathtoken")!)
             if let o = CDUserOther.getOne() {
                 self.mixpanelSharedReferral("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
             }
@@ -369,17 +369,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }
     }
     
-    @IBAction func whatsappPressed(sender: AnyObject) {
-        if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "whatsapp://app")!)) {
-            let url = NSURL(string : "whatsapp://send?text=" + shareText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!)
-            UIApplication.sharedApplication().openURL(url!)
+    @IBAction func whatsappPressed(_ sender: AnyObject) {
+        if (UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")!)) {
+            let url = URL(string : "whatsapp://send?text=" + shareText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!)
+            UIApplication.shared.openURL(url!)
             self.mixpanelSharedReferral("Whatsapp", username: "")
         } else {
             Constant.showDialog("No Whatsapp", message: "Silakan install Whatsapp dari app store terlebih dahulu")
         }
     }
     
-    @IBAction func linePressed(sender: AnyObject) {
+    @IBAction func linePressed(_ sender: AnyObject) {
         if (Line.isLineInstalled()) {
             Line.shareText(shareText)
             self.mixpanelSharedReferral("Line", username: "")
@@ -388,23 +388,23 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }
     }
     
-    @IBAction func smsPressed(sender: AnyObject) {
+    @IBAction func smsPressed(_ sender: AnyObject) {
         let composer = MFMessageComposeViewController()
         composer.body = shareText
         composer.messageComposeDelegate = self
         
-        self.presentViewController(composer, animated: true, completion: nil)
+        self.present(composer, animated: true, completion: nil)
         
         self.mixpanelSharedReferral("SMS", username: "")
     }
     
-    @IBAction func emailPressed(sender: AnyObject) {
+    @IBAction func emailPressed(_ sender: AnyObject) {
         let composer = MFMailComposeViewController()
         if (MFMailComposeViewController.canSendMail()) {
             composer.setMessageBody(shareText, isHTML: false)
             composer.mailComposeDelegate = self
             
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer, animated: true, completion: nil)
             
             self.mixpanelSharedReferral("Email", username: "")
         } else {
@@ -412,17 +412,17 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }
     }
     
-    @IBAction func copyPressed(sender: AnyObject) {
-        UIPasteboard.generalPasteboard().string = shareText
+    @IBAction func copyPressed(_ sender: AnyObject) {
+        UIPasteboard.general.string = shareText
         UIAlertView.SimpleShow("Copied", message: "Teks telah disalin")
     }
     
-    @IBAction func disableTextFields(sender : AnyObject)
+    @IBAction func disableTextFields(_ sender : AnyObject)
     {
         fieldKodeReferral.resignFirstResponder()
     }
     
-    @IBAction func submitPressed(sender: AnyObject) {
+    @IBAction func submitPressed(_ sender: AnyObject) {
         guard self.fieldKodeReferral.text != nil else
         {
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
@@ -433,9 +433,9 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             Constant.showDialog("Warning", message: "Isi kode referral terlebih dahulu")
         } else {
             self.showLoading()
-            let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            let deviceId = UIDevice.current.identifierForVendor!.uuidString
             // API Migrasi
-        request(APIUser.SetReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
+        request(APIUser.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Referral Bonus")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
@@ -447,7 +447,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                         self.lblSaldo.text = "\(self.saldo.asPrice)"
                         
                         // Sembunyikan field
-                        self.vwSubmit.hidden = true
+                        self.vwSubmit.isHidden = true
                         
                         // Mixpanel
                         let p = [
@@ -468,7 +468,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     // MARK: - Mixpanel
     
-    func mixpanelSharedReferral(socmed : String, username : String) {
+    func mixpanelSharedReferral(_ socmed : String, username : String) {
         let pt = [
             "Socmed" : socmed,
             "Socmed Username" : username
@@ -478,30 +478,30 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     // MARK: - UIAlertView Delegate Functions
     
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         switch buttonIndex {
         case 0: // Batal
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
             break
         case 1: // Kirim Email Konfirmasi
             if let email = CDUser.getOne()?.email {
-                alertView.dismissWithClickedButtonIndex(-1, animated: true)
+                alertView.dismiss(withClickedButtonIndex: -1, animated: true)
                 // Tampilkan pop up untuk loading
                 let a = UIAlertView()
                 a.title = "Referral Bonus"
                 a.message = "Mengirim e-mail..."
                 a.show()
                 // API Migrasi
-        request(APIUser.ResendVerificationEmail).responseJSON {resp in
+        request(APIUser.resendVerificationEmail).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
-                        a.dismissWithClickedButtonIndex(-1, animated: true)
+                        a.dismiss(withClickedButtonIndex: -1, animated: true)
                         Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
-                    self.navigationController?.popViewControllerAnimated(true)
+                    self.navigationController?.popViewController(animated: true)
                 }
             } else {
                 Constant.showDialog("Referral Bonus", message: "Oops, terdapat masalah saat mencari e-mail kamu")
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
             }
             break
         default:
@@ -513,7 +513,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     
     func showLoading() {
         // Tampilkan loading
-        loadingPanel.hidden = false
+        loadingPanel.isHidden = false
         loading.startAnimating()
     }
 }

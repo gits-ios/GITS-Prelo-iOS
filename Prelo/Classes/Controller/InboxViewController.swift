@@ -28,7 +28,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         getInboxes()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -41,7 +41,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     func getInboxes()
     {
         // API Migrasi
-        request(APIInbox.GetInboxes).responseJSON {resp in
+        request(APIInbox.getInboxes).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
             {
                 let json = JSON(resp.result.value!)
@@ -96,13 +96,13 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inboxes.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! InboxCell
-        let i = inboxes[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! InboxCell
+        let i = inboxes[(indexPath as NSIndexPath).row]
         
         cell.captionName.text = i.theirName
         cell.captionMessage.text = i.message
@@ -133,9 +133,9 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
-        t.tawarItem = inboxes[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+        t.tawarItem = inboxes[(indexPath as NSIndexPath).row]
         t.tawarDelegate = self
         self.navigationController?.pushViewController(t, animated: true)
     }

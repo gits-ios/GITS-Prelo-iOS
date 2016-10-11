@@ -17,10 +17,10 @@ class BorderedView : UIView
     
     @IBInspectable var borderColor : UIColor {
         get {
-            return UIColor(CGColor: self.layer.borderColor!)
+            return UIColor(cgColor: self.layer.borderColor!)
         }
         set (newColor) {
-            self.layer.borderColor = newColor.CGColor
+            self.layer.borderColor = newColor.cgColor
         }
     }
     
@@ -35,7 +35,7 @@ class BorderedView : UIView
     
     override func awakeFromNib() {
         self.layer.borderWidth = self.borderWidth
-        self.layer.borderColor = self.borderColor.CGColor
+        self.layer.borderColor = self.borderColor.cgColor
     }
 }
 
@@ -50,7 +50,7 @@ class BorderedButton : UIButton
         }
         set (newColor) {
             _borderColor = newColor
-            self.layer.borderColor = newColor.CGColor
+            self.layer.borderColor = newColor.cgColor
         }
     }
     
@@ -76,27 +76,27 @@ class BorderedButton : UIButton
     
     override func awakeFromNib() {
         self.layer.borderWidth = self.borderWidth
-        self.layer.borderColor = _borderColor!.CGColor
+        self.layer.borderColor = _borderColor!.cgColor
         self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
         
-        self.setTitleColor(_borderColorHighlight, forState: UIControlState.Selected)
-        self.setTitleColor(_borderColorHighlight, forState: UIControlState.Highlighted)
+        self.setTitleColor(_borderColorHighlight, for: UIControlState.selected)
+        self.setTitleColor(_borderColorHighlight, for: UIControlState.highlighted)
         
-        self.addTarget(self, action: #selector(BorderedButton.highlightBorder), forControlEvents: UIControlEvents.TouchDown)
-        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), forControlEvents: UIControlEvents.TouchUpInside)
-        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), forControlEvents: UIControlEvents.TouchUpOutside)
-        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), forControlEvents: UIControlEvents.TouchDragOutside)
+        self.addTarget(self, action: #selector(BorderedButton.highlightBorder), for: UIControlEvents.touchDown)
+        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), for: UIControlEvents.touchUpInside)
+        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), for: UIControlEvents.touchUpOutside)
+        self.addTarget(self, action: #selector(BorderedButton.defaultBorder), for: UIControlEvents.touchDragOutside)
     }
     
     func highlightBorder()
     {
-        self.layer.borderColor = _borderColorHighlight!.CGColor
+        self.layer.borderColor = _borderColorHighlight!.cgColor
     }
     
     func defaultBorder()
     {
-        self.layer.borderColor = _borderColor!.CGColor
+        self.layer.borderColor = _borderColor!.cgColor
     }
 }
 
@@ -106,7 +106,7 @@ class TintedImageView : UIImageView
         self.tint = true
     }
     
-    private var _tint : Bool = true
+    fileprivate var _tint : Bool = true
     var tint : Bool
     {
         get {
@@ -117,13 +117,13 @@ class TintedImageView : UIImageView
             _tint = newValue
             if (_tint)
             {
-                let i = self.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                let i = self.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 let c = self.tintColor
                 self.tintColor = c
                 self.image = i
             } else
             {
-                let i = self.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                let i = self.image?.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
                 self.image = i
             }
         }

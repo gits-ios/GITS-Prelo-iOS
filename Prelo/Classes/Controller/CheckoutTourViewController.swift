@@ -16,7 +16,7 @@ class CheckoutTourViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -31,9 +31,9 @@ class CheckoutTourViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func next(sender : AnyObject?)
+    @IBAction func next(_ sender : AnyObject?)
     {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
 

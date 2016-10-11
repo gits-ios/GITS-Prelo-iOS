@@ -7,6 +7,35 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 // MARK: - Class
 
@@ -38,18 +67,18 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         
         // Register custom cell
         let balanceMutationCellNib = UINib(nibName: "BalanceMutationCell", bundle: nil)
-        tblMutation.registerNib(balanceMutationCellNib, forCellReuseIdentifier: "BalanceMutationCell")
+        tblMutation.register(balanceMutationCellNib, forCellReuseIdentifier: "BalanceMutationCell")
         
         // Loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
-        bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        bottomLoadingPanel.backgroundColor = UIColor(white: 1, alpha: 0.5)
         self.showLoading()
         self.hideBottomLoading()
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(BalanceMutationViewController.refreshTable), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(BalanceMutationViewController.refreshTable), for: UIControlEvents.valueChanged)
         self.tblMutation.addSubview(refreshControl)
         
         // Set title
@@ -73,7 +102,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func getBalanceMutations() {
-        request(APIUser.GetBalanceMutations(current: self.nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { resp in
+        request(APIUser.getBalanceMutations(current: self.nextIdx, limit: (nextIdx + ItemPerLoad))).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mutasi Prelo Balance")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]["prelo_balances"]
@@ -83,11 +112,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 if (self.nextIdx == 0) { // First request
                     self.totalPreloBalance = json["_data"]["total_prelo_balance"].intValue
                 }
-                let f = NSNumberFormatter()
-                f.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+                let f = NumberFormatter()
+                f.numberStyle = NumberFormatter.Style.currency
                 f.currencySymbol = ""
-                f.locale = NSLocale(localeIdentifier: "id_ID")
-                self.lblBalanceAmount.text = f.stringFromNumber(NSNumber(integer: self.totalPreloBalance))
+                f.locale = Locale(identifier: "id_ID")
+                self.lblBalanceAmount.text = f.string(from: NSNumber(value: self.totalPreloBalance as Int))
                 
                 // Store data into variable
                 var nextTotalAmount = self.totalPreloBalance
@@ -137,39 +166,39 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     // MARK: - UITableView functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (balanceMutationItems != nil) {
             return balanceMutationItems!.count
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCellWithIdentifier("BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[indexPath.row] {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
+        if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
             return BalanceMutationCell.heightFor(b, lblDescription: cell.lblDescription, lblReasonAdmin: cell.lblReasonAdmin)
         }
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCellWithIdentifier("BalanceMutationCell") as! BalanceMutationCell
-        if let b = balanceMutationItems?[indexPath.item] {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : BalanceMutationCell = self.tblMutation.dequeueReusableCell(withIdentifier: "BalanceMutationCell") as! BalanceMutationCell
+        if let b = balanceMutationItems?[(indexPath as NSIndexPath).item] {
             cell.adapt(b)
         }
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let b = balanceMutationItems?[indexPath.row] {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
             if (b.type != "" && b.isSeller != nil) {
                 let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                 
-                if (b.type.lowercaseString == "transaction") {
+                if (b.type.lowercased() == "transaction") {
                     transactionDetailVC.trxId = b.reasonId
-                } else if (b.type.lowercaseString == "transaction_product") {
+                } else if (b.type.lowercased() == "transaction_product") {
                     transactionDetailVC.trxProductId = b.reasonId
                 }
                 
@@ -184,7 +213,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         }
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -195,7 +224,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && self.bottomLoadingPanel.hidden) {
+            if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
                 // Show bottomLoading
                 self.showBottomLoading()
                 
@@ -207,43 +236,43 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     // MARK: - Actions
     
-    @IBAction func tarikUangPressed(sender: AnyObject) {
+    @IBAction func tarikUangPressed(_ sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let t = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+        let t = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
         self.navigationController?.pushViewController(t, animated: true)
     }
     
-    @IBAction func refreshPressed(sender: AnyObject) {
+    @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refreshTable()
     }
     
     // MARK: - Other functions
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
     
     func showBottomLoading() {
-        self.bottomLoadingPanel.hidden = false
+        self.bottomLoadingPanel.isHidden = false
     }
     
     func hideBottomLoading() {
-        self.bottomLoadingPanel.hidden = true
+        self.bottomLoadingPanel.isHidden = true
     }
     
     func showContent() {
         if (self.balanceMutationItems?.count <= 0) {
-            self.lblEmpty.hidden = false
-            self.btnRefresh.hidden = false
-            self.tblMutation.hidden = true
+            self.lblEmpty.isHidden = false
+            self.btnRefresh.isHidden = false
+            self.tblMutation.isHidden = true
         } else {
-            self.lblEmpty.hidden = true
-            self.btnRefresh.hidden = true
-            self.tblMutation.hidden = false
+            self.lblEmpty.isHidden = true
+            self.btnRefresh.isHidden = true
+            self.tblMutation.isHidden = false
             self.setupTable()
         }
     }
@@ -272,7 +301,7 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet var consHeightLblDescription: NSLayoutConstraint!
     @IBOutlet var consHeightLblReasonAdmin: NSLayoutConstraint!
     
-    static func heightFor(mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {
+    static func heightFor(_ mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel) -> CGFloat {
         
 //        let maxLblWidth = UIScreen.mainScreen().bounds.size.width - 126
 //        let maxLblHeight = CGFloat.max
@@ -295,15 +324,15 @@ class BalanceMutationCell : UITableViewCell {
         lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.reasonAdmin
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.mainScreen().bounds.size.width - 111
+        rectDesc.width = UIScreen.main.bounds.size.width - 111
         var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.mainScreen().bounds.size.width - 111
+        rectReason.width = UIScreen.main.bounds.size.width - 111
         let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
         let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)
         return 56 + sizeFixDesc.height + sizeFixReasonAdmin.height
     }
     
-    func adapt(mutation : BalanceMutationItem) {
+    func adapt(_ mutation : BalanceMutationItem) {
         if (mutation.entryType == 0) { // Kredit
             lblPlusMinus.text = ""
             lblPlusMinus.textColor = Theme.ThemeOrange
@@ -322,7 +351,7 @@ class BalanceMutationCell : UITableViewCell {
         let trxIdStartIdx = mutation.reasonDetail.indexOfCharacter("#")
         var trxIdLength = 0
         if (trxIdStartIdx != -1) {
-            trxIdLength = mutation.reasonDetail.componentsSeparatedByString("#")[1].componentsSeparatedByString(" ")[0].length + 1
+            trxIdLength = mutation.reasonDetail.components(separatedBy: "#")[1].components(separatedBy: " ")[0].length + 1
         }
         let attrStrDesc = NSMutableAttributedString(string: mutation.reasonDetail)
         attrStrDesc.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: NSMakeRange(trxIdStartIdx, trxIdLength))
@@ -330,9 +359,9 @@ class BalanceMutationCell : UITableViewCell {
         
         // Label height fix
         var rectDesc = lblDescription.frame.size
-        rectDesc.width = UIScreen.mainScreen().bounds.size.width - 111
+        rectDesc.width = UIScreen.main.bounds.size.width - 111
         var rectReason = lblReasonAdmin.frame.size
-        rectReason.width = UIScreen.mainScreen().bounds.size.width - 111
+        rectReason.width = UIScreen.main.bounds.size.width - 111
         let sizeFixDesc = lblDescription.sizeThatFits(rectDesc)
         consHeightLblDescription.constant = sizeFixDesc.height
         let sizeFixReasonAdmin = lblReasonAdmin.sizeThatFits(rectReason)

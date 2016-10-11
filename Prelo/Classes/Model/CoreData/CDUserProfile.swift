@@ -28,7 +28,7 @@ class CDUserProfile: NSManagedObject {
         let fetchReq = NSFetchRequest(entityName: "CDUserProfile")
         
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq);
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count == 0 ? nil : r.first as? CDUserProfile
         } catch {
             return nil
@@ -41,9 +41,9 @@ class CDUserProfile: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() != false) {

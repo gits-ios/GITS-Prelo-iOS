@@ -10,8 +10,8 @@ import UIKit
 
 protocol InstagramLoginDelegate
 {
-    func instagramLoginSuccess(token : String)
-    func instagramLoginSuccess(token : String, id : String, name : String)
+    func instagramLoginSuccess(_ token : String)
+    func instagramLoginSuccess(_ token : String, id : String, name : String)
     func instagramLoginFailed()
 }
 
@@ -34,13 +34,13 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         webView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(webView)
         
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-0-[w]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["w":webView]))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[w]-0-|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["w":webView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: ["w":webView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: ["w":webView]))
         
         webView.delegate = self
-        webView.loadRequest(NSURLRequest(URL: NSURL(string: "https://api.instagram.com/oauth/authorize/?client_id="+clientID+"&redirect_uri="+"http://"+urlCallback+"&response_type=code")!))
+        webView.loadRequest(Foundation.URLRequest(url: URL(string: "https://api.instagram.com/oauth/authorize/?client_id="+clientID+"&redirect_uri="+"http://"+urlCallback+"&response_type=code")!))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(InstagramLoginViewController.batal))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.plain, target: self, action: #selector(InstagramLoginViewController.batal))
     }
     
     func batal()
@@ -54,10 +54,10 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     {
         if let n = self.navigationController
         {
-            n.popViewControllerAnimated(true)
+            n.popViewController(animated: true)
         } else
         {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 
@@ -66,15 +66,15 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        if let s = request.URL?.host
+        if let s = request.url?.host
         {
             let ns = s as NSString
-            if (ns.rangeOfString("prelo").location != NSNotFound)
+            if (ns.range(of: "prelo").location != NSNotFound)
             {
-                let string = request.URL?.absoluteString
-                let token = string?.componentsSeparatedByString("=").last
+                let string = request.url?.absoluteString
+                let token = string?.components(separatedBy: "=").last
 //                ns = (request.URL?.absoluteString)!
 //                ns = ns.componentsSeparatedByString("=").last!
                 getToken(token == nil ? "" : token!)
@@ -85,7 +85,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         return true
     }
     
-    func getToken(code : String)
+    func getToken(_ code : String)
     {
         request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram"))

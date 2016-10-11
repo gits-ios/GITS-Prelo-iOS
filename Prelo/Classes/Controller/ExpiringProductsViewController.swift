@@ -32,26 +32,26 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
         
         // Register custom cell
         let expProductsCellNib = UINib(nibName: "ExpiringProductsCell", bundle: nil)
-        tableView.registerNib(expProductsCellNib, forCellReuseIdentifier: "ExpiringProductsCell")
+        tableView.register(expProductsCellNib, forCellReuseIdentifier: "ExpiringProductsCell")
         
         // Loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.showLoading()
         
         // Set title
         self.title = PageName.BarangExpired
         
         // Get data
-        request(Products.GetExpiringProducts).responseJSON { resp in
+        request(Products.getExpiringProducts).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Expiring Products")) {
                 let json = JSON(resp.result.value!)
-                if let data = json["_data"].array where data.count > 0 {
+                if let data = json["_data"].array , data.count > 0 {
                     for i in 0...data.count - 1 {
                         var img : UIImage = UIImage()
-                        if let imgArr = data[i]["display_picts"].array where imgArr.count > 0 {
+                        if let imgArr = data[i]["display_picts"].array , imgArr.count > 0 {
                             let url = imgArr[0].stringValue
-                            if let nsUrl = NSURL(string: url) {
-                                if let data = NSData(contentsOfURL: nsUrl) {
+                            if let nsUrl = URL(string: url) {
+                                if let data = try? Data(contentsOf: nsUrl) {
                                     if let uiimg = UIImage(data: data) {
                                         img = uiimg
                                     }
@@ -72,31 +72,31 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
     
     // MARK: - Tableview functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return expiringProducts.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ExpiringProductsCell = self.tableView.dequeueReusableCellWithIdentifier("ExpiringProductsCell") as! ExpiringProductsCell
-        if (expiringProducts.count > indexPath.row) {
-            cell.adapt(expiringProducts[indexPath.row])
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ExpiringProductsCell = self.tableView.dequeueReusableCell(withIdentifier: "ExpiringProductsCell") as! ExpiringProductsCell
+        if (expiringProducts.count > (indexPath as NSIndexPath).row) {
+            cell.adapt(expiringProducts[(indexPath as NSIndexPath).row])
             cell.btnSoldAction = {
                 self.showLoading()
                 let req : URLRequestConvertible!
-                if (self.expiringProducts[indexPath.row].isSold) {
-                    req = Products.SetUnsoldExpiringProduct(productId: self.expiringProducts[indexPath.row].id)
+                if (self.expiringProducts[(indexPath as NSIndexPath).row].isSold) {
+                    req = Products.setUnsoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 } else {
-                    req = Products.SetSoldExpiringProduct(productId: self.expiringProducts[indexPath.row].id)
+                    req = Products.setSoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 }
                 request(req).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Sold/Unsold")) {
                         let json = JSON(resp.result.value!)
-                        if let isSuccess = json["_data"].bool where isSuccess {
-                            self.expiringProducts[indexPath.row].isSold = !self.expiringProducts[indexPath.row].isSold
+                        if let isSuccess = json["_data"].bool , isSuccess {
+                            self.expiringProducts[(indexPath as NSIndexPath).row].isSold = !self.expiringProducts[(indexPath as NSIndexPath).row].isSold
                             self.setupTable()
                         } else  {
                             Constant.showDialog("Oops", message: "Sold/Unsold gagal, silahkan dicoba kembali")
@@ -106,23 +106,23 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
                 }
             }
         }
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing
     }
     
     // MARK: - Actions
-    @IBAction func simpanPressed(sender: AnyObject) {
+    @IBAction func simpanPressed(_ sender: AnyObject) {
         self.showLoading()
-        request(Products.FinishExpiringProducts).responseJSON { resp in
+        request(Products.finishExpiringProducts).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Finish Expiring Products")) {
                 let json = JSON(resp.result.value!)
-                if let isSuccess = json["_data"].bool where isSuccess {
+                if let isSuccess = json["_data"].bool , isSuccess {
                     Constant.showDialog("Success", message: "Submit Barang Expired berhasil")
-                    self.navigationController?.popViewControllerAnimated(true)
+                    self.navigationController?.popViewController(animated: true)
                 } else {
                     Constant.showDialog("Oops", message: "Submit Barang Expired gagal, silahkan dicoba kembali")
                 }
@@ -134,20 +134,20 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
     // MARK: - Other functions
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
     
     func showContent() {
         if (self.expiringProducts.count <= 0) {
-            self.lblEmpty.hidden = false
-            self.vwContent.hidden = true
+            self.lblEmpty.isHidden = false
+            self.vwContent.isHidden = true
         } else {
-            self.lblEmpty.hidden = true
-            self.vwContent.hidden = false
+            self.lblEmpty.isHidden = true
+            self.vwContent.isHidden = false
             self.setupTable()
         }
     }
@@ -184,19 +184,19 @@ class ExpiringProductsCell : UITableViewCell {
         btnSold.createBordersWithColor(Theme.PrimaryColor, radius: 0, width: 1)
     }
     
-    func adapt(expProduct : ExpiringProduct) {
+    func adapt(_ expProduct : ExpiringProduct) {
         imgProduct.image = expProduct.image
         lblName.text = expProduct.name
         if (expProduct.isSold) {
             btnSold.backgroundColor = Theme.PrimaryColor
-            btnSold.setTitleColor(UIColor.whiteColor())
+            btnSold.setTitleColor(UIColor.white)
         } else {
-            btnSold.backgroundColor = UIColor.whiteColor()
+            btnSold.backgroundColor = UIColor.white
             btnSold.setTitleColor(Theme.PrimaryColor)
         }
     }
     
-    @IBAction func soldPressed(sender: AnyObject) {
+    @IBAction func soldPressed(_ sender: AnyObject) {
         self.btnSoldAction()
     }
 }

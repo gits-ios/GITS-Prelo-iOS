@@ -121,7 +121,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         let makeSureText = "Pastikan orientasi preview foto diatas sudah tegak"
         let attMakeSureText = NSMutableAttributedString(string: makeSureText)
-        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFontOfSize(14)], range: (makeSureText as NSString).rangeOfString("preview"))
+        attMakeSureText.addAttributes([NSFontAttributeName:UIFont.italicSystemFont(ofSize: 14)], range: (makeSureText as NSString).range(of: "preview"))
         
         captionImagesMakeSure.attributedText = attMakeSureText
         captionImagesMakeSureFake.attributedText = attMakeSureText
@@ -139,22 +139,22 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         // Do any additional setup after loading the view.
 //        sizes = ["8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10", "8\nS\n10"]
         conHeightSize.constant = 0
-        sizePicker.superview?.hidden = true
+        sizePicker.superview?.isHidden = true
         
         if (self.editMode) {
-            lblSubmit.hidden = true
+            lblSubmit.isHidden = true
         } else {
             lblSubmit.text = "Klik lanjutkan untuk menentukan komisi Prelo yang kamu mau"
         }
         
-        fakeScrollView.backgroundColor = .whiteColor()
+        fakeScrollView.backgroundColor = .white()
         if (editMode)
         {
-            fakeScrollView.hidden = true
-            btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), forControlEvents: .TouchUpInside)
+            fakeScrollView.isHidden = true
+            btnDelete.addTarget(self, action: #selector(AddProductViewController2.askDeleteProduct), for: .touchUpInside)
         } else
         {
-            btnDelete.hidden = true
+            btnDelete.isHidden = true
             conHeightBtnDelete.constant = 0
             conMarginBtnDelete.constant = 0
         }
@@ -162,15 +162,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         sizePicker.dataSource = self
         sizePicker.delegate = self
         
-        sizePicker.font = UIFont.systemFontOfSize(16)
+        sizePicker.font = UIFont.systemFont(ofSize: 16)
         sizePicker.highlightedFont = UIFont(name: "HelveticaNeue-Light", size: 16)
         sizePicker.highlightedTextColor = Theme.PrimaryColor
         sizePicker.interitemSpacing = 20
         sizePicker.fisheyeFactor = 0.001
-        sizePicker.pickerViewStyle = AKPickerViewStyle.Style3D
-        sizePicker.maskDisabled = false
+        sizePicker.pickerViewStyle = AKPickerViewStyle.style3D
+        sizePicker.isMaskDisabled = false
         
-        txtWeight.hidden = true
+        txtWeight.isHidden = true
         
         txtName.delegate = self
         txtName.placeholder = "mis: iPod 5th Gen"
@@ -180,10 +180,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtDescription.fadeTime = 0.2
         
 //        growerName = GrowingTextViewHandler(textView: txtName, withHeightConstraint: conHeightTxtName)
-        growerName?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        growerName?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
         
         growerDesc = GrowingTextViewHandler(textView: txtDescription, withHeightConstraint: conHeightTxtDesc)
-        growerDesc?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 100)
+        growerDesc?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 100)
         
         selectWeight(nil)
         selectOngkir(nil)
@@ -192,10 +192,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in imageViews
         {
             i.tag = index
-            i.contentMode = UIViewContentMode.ScaleAspectFill
+            i.contentMode = UIViewContentMode.scaleAspectFill
             i.clipsToBounds = true
             index += 1
-            i.userInteractionEnabled = true
+            i.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.imageTapped(_:)))
             i.addGestureRecognizer(tap)
         }
@@ -204,10 +204,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         for i in fakeImageViews
         {
             i.tag = index
-            i.contentMode = UIViewContentMode.ScaleAspectFill
+            i.contentMode = UIViewContentMode.scaleAspectFill
             i.clipsToBounds = true
             index += 1
-            i.userInteractionEnabled = true
+            i.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(AddProductViewController2.imageTapped(_:)))
             i.addGestureRecognizer(tap)
         }
@@ -221,15 +221,15 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         if (editMode)
         {
             self.title = PageName.EditProduct
-            self.btnSubmit.setTitle("SIMPAN", forState: UIControlState.Normal)
-            self.fakeBtnSubmit.setTitle("SIMPAN", forState: UIControlState.Normal)
+            self.btnSubmit.setTitle("SIMPAN", for: UIControlState())
+            self.fakeBtnSubmit.setTitle("SIMPAN", for: UIControlState())
             
             txtName.text = editProduct?.name
             txtDescription.text = editProduct?.json["_data"]["description"].string
             if let weight = editProduct?.json["_data"]["weight"].int
             {
                 txtWeight.text = String(weight)
-                txtWeight.hidden = false
+                txtWeight.isHidden = false
                 conHeightWeightView.constant = 158
                 var index = 0
                 if (weight >= 1000 && weight < 2000)
@@ -306,7 +306,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let o = arr[i]
                     if let s = o as? String
                     {
-                        imageViews[i].setImageWithUrl(NSURL(string: s)!, placeHolderImage: UIImage(named: "raisa.jpg"))
+                        imageViews[i].setImageWithUrl(URL(string: s)!, placeHolderImage: UIImage(named: "raisa.jpg"))
                     }
                 }
             }
@@ -317,7 +317,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if (def != "")
             {
                 self.txtDeskripsiCacat.text = def
-                self.txtDeskripsiCacat.hidden = false
+                self.txtDeskripsiCacat.isHidden = false
                 conHeightCacat.constant = 44
             }
             
@@ -327,10 +327,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.getSizes()
             
             // Luxury fields
-            if let luxData = editProduct?.json["_data"]["luxury_data"] where luxData.count > 0 {
+            if let luxData = editProduct?.json["_data"]["luxury_data"] , luxData.count > 0 {
                 // Show luxury fields
-                self.groupVerifAuth.hidden = false
-                self.groupKelengkapan.hidden = false
+                self.groupVerifAuth.isHidden = false
+                self.groupKelengkapan.isHidden = false
                 self.conTopOngkirGroup.constant = 498
                 
                 // Set texts
@@ -341,53 +341,53 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 // Set checkboxes
                 if (luxData["original_box"].bool == true) {
-                    btnChkOriginalBoxPressed("")
+                    btnChkOriginalBoxPressed("" as AnyObject)
                 }
                 if (luxData["original_dustbox"].bool == true) {
-                    btnChkOriginalDustboxPressed("")
+                    btnChkOriginalDustboxPressed("" as AnyObject)
                 }
                 if (luxData["receipt"].bool == true) {
-                    btnChkReceipt("")
+                    btnChkReceipt("" as AnyObject)
                 }
                 if (luxData["authenticity_card"].bool == true) {
-                    btnChkAuthCard("")
+                    btnChkAuthCard("" as AnyObject)
                 }
             } else {
                 // Hide luxury fields
-                self.groupVerifAuth.hidden = true
-                self.groupKelengkapan.hidden = true
+                self.groupVerifAuth.isHidden = true
+                self.groupKelengkapan.isHidden = true
                 self.conTopOngkirGroup.constant = 8
             }
         }
         else
         {
             self.title = PageName.AddProduct
-            self.btnSubmit.setTitle("LANJUTKAN", forState: UIControlState.Normal)
-            self.fakeBtnSubmit.setTitle("LANJUTKAN", forState: UIControlState.Normal)
+            self.btnSubmit.setTitle("LANJUTKAN", for: UIControlState())
+            self.fakeBtnSubmit.setTitle("LANJUTKAN", for: UIControlState())
             
             // Hide luxury fields
-            self.groupVerifAuth.hidden = true
-            self.groupKelengkapan.hidden = true
+            self.groupVerifAuth.isHidden = true
+            self.groupKelengkapan.isHidden = true
             self.conTopOngkirGroup.constant = 8
         }
         
-        self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
-        self.fakeBtnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), forControlEvents: UIControlEvents.TouchUpInside)
-        self.btnSubmit.setTitle("Loading..", forState: UIControlState.Disabled)
+        self.btnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), for: UIControlEvents.touchUpInside)
+        self.fakeBtnSubmit.addTarget(self, action: #selector(AddProductViewController2.sendProduct), for: UIControlEvents.touchUpInside)
+        self.btnSubmit.setTitle("Loading..", for: UIControlState.disabled)
         
-        txtName.autocapitalizationType = .Words
-        txtAlasanJual.autocapitalizationType = .Sentences
-        txtSpesial.autocapitalizationType = .Sentences
-        txtDeskripsiCacat.autocapitalizationType = .Sentences
+        txtName.autocapitalizationType = .words
+        txtAlasanJual.autocapitalizationType = .sentences
+        txtSpesial.autocapitalizationType = .sentences
+        txtDeskripsiCacat.autocapitalizationType = .sentences
         
         for i in 0..<imgTitleIcons.count {
-            imgTitleIcons[i].image = imgTitleIcons[i].image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            imgTitleIcons[i].image = imgTitleIcons[i].image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         }
     }
     
     var notPicked = true
     var allowLaunchLogin = true
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if (self.editMode) {
@@ -404,7 +404,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             GAI.trackPageVisit(PageName.AddProduct)
         }
         
-        self.an_subscribeKeyboardWithAnimations({ f, t, o in
+        self.an_subscribeKeyboard(animations: { f, t, o in
             
             if (o)
             {
@@ -413,13 +413,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
             } else
             {
-                self.scrollView.contentInset = UIEdgeInsetsZero
+                self.scrollView.contentInset = UIEdgeInsets.zero
             }
             
             }, completion: {f in
                 if let a = self.activeTextview
                 {
-                    let f = self.scrollView.convertRect(a.frame, fromView: a)
+                    let f = self.scrollView.convert(a.frame, from: a)
                     self.scrollView.scrollRectToVisible(f, animated: true)
                 }
         })
@@ -437,43 +437,43 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
     }
     
-    override func backPressed(sender: UIBarButtonItem) {
+    override func backPressed(_ sender: UIBarButtonItem) {
         let title = editMode ? "Edit" : "Jual"
-        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu yakin mau keluar dari \(title)? Seluruh keterangan yang telah diisi akan terhapus", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
-            self.navigationController?.popViewControllerAnimated(true)
+        let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Kamu yakin mau keluar dari \(title)? Seluruh keterangan yang telah diisi akan terhapus", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+            self.navigationController?.popViewController(animated: true)
         }))
-        alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func showFAQ(sender : UIView?)
+    @IBAction func showFAQ(_ sender : UIView?)
     {
-        let w = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+        let w = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         w.url = "https://prelo.co.id/syarat-ketentuan?ref=preloapp"
         w.titleString = "Syarat & Ketentuan"
         let n = BaseNavigationController()
         n.setViewControllers([w], animated: false)
-        self.presentViewController(n, animated: true, completion: nil)
+        self.present(n, animated: true, completion: nil)
     }
     
-    func numberOfItemsInPickerView(pickerView: AKPickerView!) -> Int {
+    func numberOfItems(in pickerView: AKPickerView!) -> Int {
         return sizes.count
     }
     
-    func pickerView(pickerView: AKPickerView!, titleForItem item: Int) -> String! {
+    func pickerView(_ pickerView: AKPickerView!, titleForItem item: Int) -> String! {
         return sizes[item]
     }
     
-    func pickerView(pickerView: AKPickerView!, didSelectItem item: Int) {
+    func pickerView(_ pickerView: AKPickerView!, didSelectItem item: Int) {
         var s = sizes[item]
-        s = s.stringByReplacingOccurrencesOfString("\n", withString: "/")
+        s = s.replacingOccurrences(of: "\n", with: "/")
         if (String(s.characters.suffix(1)) == "/") {
             s = String(s.characters.dropLast())
         }
@@ -486,10 +486,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func userCancelLogin() {
         allowLaunchLogin = false
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func imageTapped(sender : UITapGestureRecognizer)
+    func imageTapped(_ sender : UITapGestureRecognizer)
     {
         let index = sender.view!.tag
      
@@ -497,7 +497,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         {
             self.pickImage(index, forceBackOnCancel: false)
         } else {
-            let a = self.storyboard?.instantiateViewControllerWithIdentifier("AddProductFullscreen") as! AddProductImageFullScreen
+            let a = self.storyboard?.instantiateViewController(withIdentifier: "AddProductFullscreen") as! AddProductImageFullScreen
             a.index = index
             let ap = APImage()
             ap.image = imageViews[index].image
@@ -509,7 +509,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             a.fullScreenDelegate = self
             let n = BaseNavigationController()
             n.setViewControllers([a], animated: false)
-            self.presentViewController(n, animated: true, completion: nil)
+            self.present(n, animated: true, completion: nil)
             
 //            let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
 //            a.addButtonWithTitle("Edit")
@@ -524,7 +524,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    func imageFullScreenDidDelete(controller: AddProductImageFullScreen) {
+    func imageFullScreenDidDelete(_ controller: AddProductImageFullScreen) {
         self.imageViews[controller.index].image = nil
         self.images[controller.index] = NSNull()
         switch (controller.index)
@@ -538,7 +538,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    func imageFullScreenDidReplace(controller: AddProductImageFullScreen, image: APImage) {
+    func imageFullScreenDidReplace(_ controller: AddProductImageFullScreen, image: APImage) {
         /** fix untuk : https://trello.com/c/ByNrWwTL
         ternyata walau masih ngirim multipart image, tapi kalo rm_imageN nya di isi 1, tetep di hapus si gambar nya.
         makadariitu, rm_imageN di kasih nilai kalaw bener2 di delete aja.
@@ -572,11 +572,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
         
         if (self.editMode) {
-            self.lblSubmit.hidden = false
+            self.lblSubmit.isHidden = false
         }
     }
     
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
             /* AVIARY IS DISABLED
@@ -616,33 +616,33 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     }
     */
     
-    func pickImage(index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
+    func pickImage(_ index : Int, forceBackOnCancel : Bool, directToCamera : Bool = false)
     {
         let i = UIImagePickerController()
-        i.sourceType = .PhotoLibrary
+        i.sourceType = .photoLibrary
         i.delegate = self
         
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera))
+        if (UIImagePickerController.isSourceTypeAvailable(.camera))
         {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
             a.popoverPresentationController?.sourceView = self.photosGroupView
             a.popoverPresentationController?.sourceRect = self.photosGroupView.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
-                i.sourceType = .Camera
-                self.presentViewController(i, animated: true, completion: {
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: {
                     i.view.tag = index
                 })
             }))
-            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
-                self.presentViewController(i, animated: true, completion: {
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: {
                     i.view.tag = index
                 })
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
-            self.presentViewController(a, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
         } else
         {
-            self.presentViewController(i, animated: true, completion: {
+            self.present(i, animated: true, completion: {
                 i.view.tag = index
             })
         }
@@ -677,11 +677,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //        })
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             //print(img)
@@ -701,38 +701,38 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
             
             if (self.editMode) {
-                self.lblSubmit.hidden = false
+                self.lblSubmit.isHidden = false
             }
         }
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        navigationController.navigationBar.tintColor = UIColor.whiteColor()
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        navigationController.navigationBar.tintColor = UIColor.white
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if (textField.isEqual(self.txtName)) {
             if (editMode) {
-                self.lblSubmit.hidden = false
+                self.lblSubmit.isHidden = false
             }
         }
     }
     
     var activeTextview : UITextView?
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         print("textViewDidBeginEditing")
         activeTextview = textView
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         activeTextview = nil
     }
     
-    func textViewDidChange(textView: UITextView) {
-        growerName?.resizeTextViewWithAnimation(false)
-        growerDesc?.resizeTextViewWithAnimation(false)
+    func textViewDidChange(_ textView: UITextView) {
+        growerName?.resizeTextView(withAnimation: false)
+        growerDesc?.resizeTextView(withAnimation: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -740,11 +740,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         // Dispose of any resources that can be recreated.
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
-    @IBAction func selectWeight(sender : UIButton?)
+    @IBAction func selectWeight(_ sender : UIButton?)
     {
         for w in weightViews
         {
@@ -756,11 +756,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let w = weightViews[b.tag]
             self.highlightWeightView(true, weightView: w)
             
-            if (txtWeight.hidden)
+            if (txtWeight.isHidden)
             {
-                txtWeight.hidden = false
+                txtWeight.isHidden = false
                 conHeightWeightView.constant = 158
-                UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     self.txtWeight.superview?.layoutIfNeeded()
                     }, completion: nil)
             }
@@ -770,16 +770,16 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    func selectWeightByIndex(index : Int, overrideWeight : Bool)
+    func selectWeightByIndex(_ index : Int, overrideWeight : Bool)
     {
         let w = weightViews[index]
         self.highlightWeightView(true, weightView: w)
         
-        if (txtWeight.hidden)
+        if (txtWeight.isHidden)
         {
-            txtWeight.hidden = false
+            txtWeight.isHidden = false
             conHeightWeightView.constant = 158
-            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                 self.txtWeight.superview?.layoutIfNeeded()
                 }, completion: nil)
         }
@@ -791,7 +791,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    @IBAction func selectOngkir(sender : UIButton?)
+    @IBAction func selectOngkir(_ sender : UIButton?)
     {
         for o in ongkirViews
         {
@@ -816,7 +816,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    func selectOngkirByIndex(index : Int)
+    func selectOngkirByIndex(_ index : Int)
     {
         for o in ongkirViews
         {
@@ -827,18 +827,18 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         self.highlightWeightView(true, weightView: o)
     }
     
-    func highlightWeightView(highlight : Bool, weightView : BorderedView)
+    func highlightWeightView(_ highlight : Bool, weightView : BorderedView)
     {
         let c = highlight ? Theme.PrimaryColorDark : Theme.GrayLight
         weightView.borderColor = c
         
         for v in weightView.subviews
         {
-            if (v.isKindOfClass(UILabel.classForCoder()))
+            if (v.isKind(of: UILabel.classForCoder()))
             {
                 let l = v as! UILabel
                 l.textColor = c
-            } else if (v.isKindOfClass(TintedImageView.classForCoder()))
+            } else if (v.isKind(of: TintedImageView.classForCoder()))
             {
                 let t = v as! TintedImageView
                 t.tintColor = c
@@ -846,9 +846,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    @IBAction func pickKategori(sender : UIButton)
+    @IBAction func pickKategori(_ sender : UIButton)
     {
-        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+        let p = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
         p.blockDone = { data in
             let children = JSON(data["child"]!)
             
@@ -865,7 +865,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             let dataJson = JSON(data)
             if let imgName = dataJson["category_image_name"].string
             {
-                if let imgUrl = NSURL(string: imgName) {
+                if let imgUrl = URL(string: imgName) {
                     self.ivImage.setImageWithUrl(imgUrl, placeHolderImage: nil)
                 }
             }
@@ -874,20 +874,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
             if let catLv2Name = dataJson["category_level2_name"].string {
                 // Set placeholder for item name and description
-                guard let filePath = NSBundle.mainBundle().pathForResource("AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
+                guard let filePath = Bundle.main.path(forResource: "AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
                     print("Couldn't load .plist as a dictionary")
                     return
                 }
                 //print("placehodlersDict = \(placeholdersDict)")
                 
-                let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercaseString)")
-                let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluateWithObject($0) }
-                if let placeholderDict = placeholdersDict.dictionaryWithValuesForKeys(matchingKeys as! [String]).first?.1 {
+                let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercased())")
+                let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
+                if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
                     //print("placehodlerDict = \(placeholderDict)")
-                    if let itemNamePlaceholder = placeholderDict.objectForKey("name") {
+                    if let itemNamePlaceholder = placeholderDict.object(forKey: "name") {
                         self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
                     }
-                    if let descPlaceholder = placeholderDict.objectForKey("desc") {
+                    if let descPlaceholder = placeholderDict.object(forKey: "desc") {
                         self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
                     }
                 }
@@ -907,7 +907,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func getSizes()
     {
-        request(References.BrandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
+        request(References.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
                 if let x: AnyObject = resp.result.value
                 {
@@ -988,7 +988,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             self.sizePicker.collectionView.reloadData()
                             self.sizePicker.selectItem(0, animated: false)
                             self.conHeightSize.constant = 146
-                            self.sizePicker.superview?.hidden = false
+                            self.sizePicker.superview?.isHidden = false
                             
                             var s = ""
                             if let x = self.editProduct?.size
@@ -997,14 +997,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                             }
                             if (s != "" && self.editMode == true)
                             {
-                                s = s.stringByReplacingOccurrencesOfString("/", withString: "\n")
-                                s = s.stringByReplacingOccurrencesOfString(" ", withString: "-")
-                                s = s.stringByReplacingOccurrencesOfString("(", withString: "")
-                                s = s.stringByReplacingOccurrencesOfString(")", withString: "")
+                                s = s.replacingOccurrences(of: "/", with: "\n")
+                                s = s.replacingOccurrences(of: " ", with: "-")
+                                s = s.replacingOccurrences(of: "(", with: "")
+                                s = s.replacingOccurrences(of: ")", with: "")
                                 var index = 0
                                 for s1 in self.sizes
                                 {
-                                    let s1s = s1.stringByReplacingOccurrencesOfString(" ", withString: "")
+                                    let s1s = s1.replacingOccurrences(of: " ", with: "")
                                     if (s1s == s)
                                     {
                                         self.sizePicker.selectItem(UInt(index), animated: false)
@@ -1017,21 +1017,21 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         } else
                         {
                             self.conHeightSize.constant = 0
-                            self.sizePicker.superview?.hidden = true
+                            self.sizePicker.superview?.isHidden = true
                         }
                     }
                 } else
                 {
                     self.conHeightSize.constant = 0
-                    self.sizePicker.superview?.hidden = true
+                    self.sizePicker.superview?.isHidden = true
                 }
             }
         }
     }
     
-    @IBAction func pickKondisi(sender : UIButton)
+    @IBAction func pickKondisi(_ sender : UIButton)
     {
-        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+        let p = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
         
         p.title = "Pilih Kondisi"
         
@@ -1045,31 +1045,31 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             self.kodindisiId = PickerViewController.RevealHiddenString(s)
             let x = PickerViewController.HideHiddenString(s)
             self.captionKondisi.text = x
-            if ((x.lowercaseString as NSString).rangeOfString("cukup").location != NSNotFound)
+            if ((x.lowercased() as NSString).range(of: "cukup").location != NSNotFound)
             {
                 self.conHeightCacat.constant = 44
-                self.txtDeskripsiCacat.hidden = false
+                self.txtDeskripsiCacat.isHidden = false
             }
             else
             {
                 self.conHeightCacat.constant = 0
-                self.txtDeskripsiCacat.hidden = true
+                self.txtDeskripsiCacat.isHidden = true
             }
         }
         
         self.navigationController?.pushViewController(p, animated: true)
     }
     
-    @IBAction func pickMerek(sender : UIButton)
+    @IBAction func pickMerek(_ sender : UIButton)
     {
-        let p = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdPicker) as! PickerViewController
+        let p = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
         
         p.title = "Pilih Merk"
         
         let cur = 0
         let lim = 25
         var names : [String] = []
-        request(APISearch.Brands(name: "", current: cur, limit: lim)).responseJSON { resp in
+        request(APISearch.brands(name: "", current: cur, limit: lim)).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -1105,24 +1105,24 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                         var x : String = PickerViewController.HideHiddenString(s)
                         
                         // Set chosen brand
-                        x = x.stringByReplacingOccurrencesOfString("Tambahkan merek '", withString: "")
-                        x = x.stringByReplacingOccurrencesOfString("'", withString: "")
+                        x = x.replacingOccurrences(of: "Tambahkan merek '", with: "")
+                        x = x.replacingOccurrences(of: "'", with: "")
                         self.captionMerek.text = x
                         
                         // Show luxury fields if isLuxury
                         if (self.merekIsLuxury && self.isCategWomenOrMenSelected) {
-                            self.groupVerifAuth.hidden = false
-                            self.groupKelengkapan.hidden = false
+                            self.groupVerifAuth.isHidden = false
+                            self.groupKelengkapan.isHidden = false
                             self.conTopOngkirGroup.constant = 498
                         } else {
-                            self.groupVerifAuth.hidden = true
-                            self.groupKelengkapan.hidden = true
+                            self.groupVerifAuth.isHidden = true
+                            self.groupKelengkapan.isHidden = true
                             self.conTopOngkirGroup.constant = 8
                         }
                         
                         // Show submit label
                         if (self.editMode) {
-                            self.lblSubmit.hidden = false
+                            self.lblSubmit.isHidden = false
                         }
                     }
                     p.showSearch = true
@@ -1137,61 +1137,61 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         }
     }
     
-    @IBAction func btnChkOriginalBoxPressed(sender: AnyObject) {
+    @IBAction func btnChkOriginalBoxPressed(_ sender: AnyObject) {
         self.isOriginalBoxChecked = !self.isOriginalBoxChecked
         if (isOriginalBoxChecked) {
             lblChkOriginalBox.text = "";
-            lblChkOriginalBox.font = AppFont.Prelo2.getFont(19)!
+            lblChkOriginalBox.font = AppFont.prelo2.getFont(19)!
             lblChkOriginalBox.textColor = Theme.PrimaryColor
         } else {
             lblChkOriginalBox.text = "";
-            lblChkOriginalBox.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkOriginalBox.font = AppFont.preloAwesome.getFont(24)!
             lblChkOriginalBox.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func btnChkOriginalDustboxPressed(sender: AnyObject) {
+    @IBAction func btnChkOriginalDustboxPressed(_ sender: AnyObject) {
         self.isOriginalDustboxChecked = !self.isOriginalDustboxChecked
         if (isOriginalDustboxChecked) {
             lblChkOriginalDustbox.text = "";
-            lblChkOriginalDustbox.font = AppFont.Prelo2.getFont(19)!
+            lblChkOriginalDustbox.font = AppFont.prelo2.getFont(19)!
             lblChkOriginalDustbox.textColor = Theme.PrimaryColor
         } else {
             lblChkOriginalDustbox.text = "";
-            lblChkOriginalDustbox.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkOriginalDustbox.font = AppFont.preloAwesome.getFont(24)!
             lblChkOriginalDustbox.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func btnChkReceipt(sender: AnyObject) {
+    @IBAction func btnChkReceipt(_ sender: AnyObject) {
         self.isReceiptChecked = !self.isReceiptChecked
         if (isReceiptChecked) {
             lblChkReceipt.text = "";
-            lblChkReceipt.font = AppFont.Prelo2.getFont(19)!
+            lblChkReceipt.font = AppFont.prelo2.getFont(19)!
             lblChkReceipt.textColor = Theme.PrimaryColor
         } else {
             lblChkReceipt.text = "";
-            lblChkReceipt.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkReceipt.font = AppFont.preloAwesome.getFont(24)!
             lblChkReceipt.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func btnChkAuthCard(sender: AnyObject) {
+    @IBAction func btnChkAuthCard(_ sender: AnyObject) {
         self.isAuthCardChecked = !self.isAuthCardChecked
         if (isAuthCardChecked) {
             lblChkAuthCard.text = "";
-            lblChkAuthCard.font = AppFont.Prelo2.getFont(19)!
+            lblChkAuthCard.font = AppFont.prelo2.getFont(19)!
             lblChkAuthCard.textColor = Theme.PrimaryColor
         } else {
             lblChkAuthCard.text = "";
-            lblChkAuthCard.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkAuthCard.font = AppFont.preloAwesome.getFont(24)!
             lblChkAuthCard.textColor = Theme.GrayLight
         }
     }
     
     func hideFakeScrollView()
     {
-        fakeScrollView.hidden = true
+        fakeScrollView.isHidden = true
         scrollView.setContentOffset(fakeScrollView.contentOffset, animated: false)
     }
     
@@ -1199,7 +1199,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 //    var loadingDeleteOS7 = UIAlertView(title: "Menghapus barang...", message: nil, delegate: nil, cancelButtonTitle: nil)
     func askDeleteProduct()
     {
-        if (UIDevice.currentDevice().systemVersion.floatValue >= 8)
+        if (UIDevice.current.systemVersion.floatValue >= 8)
         {
             askDeleteOS8()
         } else
@@ -1210,12 +1210,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func askDeleteOS8()
     {
-        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .Alert)
-        a.addAction(UIAlertAction(title: "Ya", style: .Default, handler: {act in
+        let a = UIAlertController(title: "Hapus", message: "Hapus Barang?", preferredStyle: .alert)
+        a.addAction(UIAlertAction(title: "Ya", style: .default, handler: {act in
             self.deleteProduct()
         }))
-        a.addAction(UIAlertAction(title: "Tidak", style: .Cancel, handler: {act in }))
-        self.presentViewController(a, animated: true, completion: nil)
+        a.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: {act in }))
+        self.present(a, animated: true, completion: nil)
     }
     
     func askDeleteOS7()
@@ -1223,14 +1223,14 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let a = UIAlertView()
         a.title = "Hapus"
         a.message = "Hapus Barang?"
-        a.addButtonWithTitle("Ya")
-        a.addButtonWithTitle("Tidak")
+        a.addButton(withTitle: "Ya")
+        a.addButton(withTitle: "Tidak")
         a.delegate = self
         a.tag = 123
         a.show()
     }
     
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (alertView.tag == 123)
         {
             if (buttonIndex == 0)
@@ -1244,11 +1244,11 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     {
         if let prodId = editProduct?.productID
         {
-            btnSubmit.enabled = false
-            btnDelete.setTitle("Menghapus barang...", forState: UIControlState.Disabled)
-            btnDelete.enabled = false
+            btnSubmit.isEnabled = false
+            btnDelete.setTitle("Menghapus barang...", for: UIControlState.disabled)
+            btnDelete.isEnabled = false
             
-            request(Products.Delete(productID: prodId)).responseJSON {resp in
+            request(Products.delete(productID: prodId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hapus Barang"))
                 {
                     if var v = self.navigationController?.viewControllers
@@ -1260,8 +1260,8 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     
 //                    self.navigationController?.popViewControllerAnimated(true)
                 } else {
-                    self.btnSubmit.enabled = true
-                    self.btnDelete.enabled = true
+                    self.btnSubmit.isEnabled = true
+                    self.btnDelete.isEnabled = true
                 }
             }
         }
@@ -1278,7 +1278,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         let deflect = txtDeskripsiCacat.text
         let alasan = txtAlasanJual.text
         
-        if (fakeScrollView.hidden == false)
+        if (fakeScrollView.isHidden == false)
         {
             hideFakeScrollView()
         }
@@ -1354,7 +1354,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             return
         }
         
-        if (validateString(deflect, message: "") == false && txtDeskripsiCacat.hidden == false)
+        if (validateString(deflect, message: "") == false && txtDeskripsiCacat.isHidden == false)
         {
             UIAlertView.SimpleShow("Perhatian", message: "Silahkan jelaskan cacat barang kamu")
             return
@@ -1393,7 +1393,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             }
         }
         
-        self.btnSubmit.enabled = false
+        self.btnSubmit.isEnabled = false
         
         var param = ["name":name,
             "description":desc,
@@ -1422,23 +1422,23 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         if (desc == "")
         {
-            param.removeValueForKey("description")
+            param.removeValue(forKey: "description")
         }
         
         if (merekId == "")
         {
-            param.removeValueForKey("brand_id")
+            param.removeValue(forKey: "brand_id")
             param["proposed_brand"] = captionMerek.text
         }
         
         if (special == "")
         {
-            param.removeValueForKey("special_story")
+            param.removeValue(forKey: "special_story")
         }
         
         if (alasan == "")
         {
-            param.removeValueForKey("sell_reason")
+            param.removeValue(forKey: "sell_reason")
         }
         
         var url = "\(AppTools.PreloBaseUrl)/api/product"
@@ -1461,12 +1461,12 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             
         }
         
-        func printFullname(name : String)
+        func printFullname(_ name : String)
         {
             
         }
         
-        let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+        let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
         
         // Compress and remove exif from images
         for i in 0...images.count - 1 {
@@ -1485,10 +1485,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
 
         if (editMode == false)
         {
-            let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
-                self.btnSubmit.enabled = true
-                let share = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            let alert : UIAlertController = UIAlertController(title: "Jual", message: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+                self.btnSubmit.isEnabled = true
+                let share = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
                 share.sendProductParam = param
                 share.sendProductImages = self.images
                 share.basePrice = (newPrice?.int)!
@@ -1500,10 +1500,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 
                 self.navigationController?.pushViewController(share, animated: true)
             }))
-            alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: { action in
-                self.btnSubmit.enabled = true
+            alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { action in
+                self.btnSubmit.isEnabled = true
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
@@ -1514,13 +1514,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             {
                 //Mixpanel.sharedInstance().track("Editing Product", properties: ["success":"1"])
                 self.editDoneBlock()
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.popViewController(animated: true)
                 return
             }
             
             let json = JSON(res)
             
-            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
                 s.basePrice = price
@@ -1535,20 +1535,20 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 s.permalink = permalink
             }
             s.productID = (json["_data"]["_id"].string)!
-            NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "refreshHome"), object: nil)
             self.navigationController?.pushViewController(s, animated: true)
             }, failure: { op, err in
                 //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
-                self.btnSubmit.enabled = true
+                self.btnSubmit.isEnabled = true
                 var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
                 if let msg = op.responseString {
-                    if let range1 = msg.rangeOfString("{\"_message\":\"") {
+                    if let range1 = msg.range(of: "{\"_message\":\"") {
                         //print(range1)
-                        let msg1 = msg.substringFromIndex(range1.endIndex)
-                        if let range2 = msg1.rangeOfString("\"}") {
+                        let msg1 = msg.substring(from: range1.upperBound)
+                        if let range2 = msg1.range(of: "\"}") {
                             //print(range2)
-                            msgContent = msg1.substringToIndex(range2.startIndex)
+                            msgContent = msg1.substring(to: range2.lowerBound)
                         }
                     }
                 }
@@ -1556,7 +1556,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         })
     }
     
-    func validateString(text : String?, message : String) -> Bool
+    func validateString(_ text : String?, message : String) -> Bool
     {
         if (text == nil || text == "")
         {

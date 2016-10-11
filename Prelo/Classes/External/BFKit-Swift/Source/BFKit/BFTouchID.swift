@@ -29,7 +29,7 @@ import LocalAuthentication
 
 /// This class adds some useful functions to use TouchID
 @available(iOS 8, *)
-public class BFTouchID {
+open class BFTouchID {
     // MARK: - Enums -
     
     /**
@@ -47,15 +47,15 @@ public class BFTouchID {
      */
     @available(iOS 8, *)
     public enum TouchIDResult : Int {
-        case Success
-        case Error
-        case AuthenticationFailed
-        case UserCancel
-        case UserFallback
-        case SystemCancel
-        case PasscodeNotSet
-        case NotAvailable
-        case NotEnrolled
+        case success
+        case error
+        case authenticationFailed
+        case userCancel
+        case userFallback
+        case systemCancel
+        case passcodeNotSet
+        case notAvailable
+        case notEnrolled
     }
     
     // MARK: - Class functions -
@@ -67,44 +67,44 @@ public class BFTouchID {
      - parameter fallbackTitle: Default title "Enter Password" is used when this property is left nil. If set to empty string, the button will be hidden
      - parameter completion:    Completion handler. It returns the TouchID result, from the TouchIDResult enum
      */
-    public static func showTouchIDAuthenticationWithReason(reason: String, fallbackTitle: String? = nil, completion: (result: TouchIDResult) -> ()) {
+    open static func showTouchIDAuthenticationWithReason(_ reason: String, fallbackTitle: String? = nil, completion: @escaping (_ result: TouchIDResult) -> ()) {
         
         let context: LAContext = LAContext()
         
         context.localizedFallbackTitle = fallbackTitle
         
         var error: NSError?
-        if context.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: NSError?) -> Void in
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: NSError?) -> Void in
                 if success {
-                    completion(result: .Success)
+                    completion(result: .success)
                 } else {
                     switch error!.code {
-                    case LAError.AuthenticationFailed.rawValue:
-                        completion(result: .AuthenticationFailed)
-                    case LAError.UserCancel.rawValue:
-                        completion(result: .UserCancel)
-                    case LAError.UserFallback.rawValue:
-                        completion(result: .UserFallback)
-                    case LAError.SystemCancel.rawValue:
-                        completion(result: .SystemCancel)
+                    case LAError.Code.authenticationFailed.rawValue:
+                        completion(result: .authenticationFailed)
+                    case LAError.Code.userCancel.rawValue:
+                        completion(result: .userCancel)
+                    case LAError.Code.userFallback.rawValue:
+                        completion(result: .userFallback)
+                    case LAError.Code.systemCancel.rawValue:
+                        completion(result: .systemCancel)
                     default:
-                        completion(result: .Error)
+                        completion(result: .error)
                     }
                 }
-            })
+            } as! (Bool, Error?) -> Void)
         }
         else
         {
             switch error!.code {
-            case LAError.PasscodeNotSet.rawValue:
-                completion(result: .PasscodeNotSet)
-            case LAError.TouchIDNotAvailable.rawValue:
-                completion(result: .NotAvailable)
-            case LAError.TouchIDNotEnrolled.rawValue:
-                completion(result: .NotEnrolled)
+            case LAError.Code.passcodeNotSet.rawValue:
+                completion(.passcodeNotSet)
+            case LAError.Code.touchIDNotAvailable.rawValue:
+                completion(.notAvailable)
+            case LAError.Code.touchIDNotEnrolled.rawValue:
+                completion(.notEnrolled)
             default:
-                completion(result: .Error)
+                completion(.error)
             }
         }
     }

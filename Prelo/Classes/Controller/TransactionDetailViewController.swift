@@ -107,15 +107,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         tableView.tableFooterView = UIView()
         
         // Hide pop up
-        self.vwTolakPesanan.hidden = true
-        self.vwReviewSeller.hidden = true
-        self.vwTundaPengiriman.hidden = true
+        self.vwTolakPesanan.isHidden = true
+        self.vwReviewSeller.isHidden = true
+        self.vwTundaPengiriman.isHidden = true
         
         // Transparent panel
-        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.2)
+        vwShadow.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
         
         // Penanganan kemunculan keyboard
-        self.an_subscribeKeyboardWithAnimations ({ r, t, o in
+        self.an_subscribeKeyboard (animations: { r, t, o in
             if (o) {
                 self.consTopVwTolakPesanan.constant = 10
                 self.consTopVwReviewSeller.constant = 10
@@ -134,24 +134,24 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.title = productName
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Atur textview tolak
         txtvwAlasanTolak.delegate = self
         txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
-        txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+        txtvwAlasanTolak.textColor = UIColor.lightGray
         txtvwTolakGrowHandler = GrowingTextViewHandler(textView: txtvwAlasanTolak, withHeightConstraint: consHeightTxtvwAlasanTolak)
-        txtvwTolakGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        txtvwTolakGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
         
         self.validateTolakPesananFields()
         
         // Atur textview review
         txtvwReview.delegate = self
         txtvwReview.text = TxtvwReviewPlaceholder
-        txtvwReview.textColor = UIColor.lightGrayColor()
+        txtvwReview.textColor = UIColor.lightGray
         txtvwReviewGrowHandler = GrowingTextViewHandler(textView: txtvwReview, withHeightConstraint: consHeightTxtvwReview)
-        txtvwReviewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 3)
+        txtvwReviewGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 3)
         
         self.validateRvwKirimFields()
     }
@@ -162,12 +162,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         var req : URLRequestConvertible?
         if (trxId != nil) {
             if (userIsSeller()) {
-                req = APITransactionAnggi.GetSellerTransaction(id: trxId!)
+                req = APITransactionAnggi.getSellerTransaction(id: trxId!)
             } else {
-                req = APITransactionAnggi.GetBuyerTransaction(id: trxId!)
+                req = APITransactionAnggi.getBuyerTransaction(id: trxId!)
             }
         } else if (trxProductId != nil) {
-            req = APITransactionAnggi.GetTransactionProduct(id: trxProductId!)
+            req = APITransactionAnggi.getTransactionProduct(id: trxProductId!)
         }
         
         if (req != nil) {
@@ -186,9 +186,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     // AB test check
                     self.isShowBankBRI = false
-                    if let ab = data["ab_test"].array where ab.count > 0 {
+                    if let ab = data["ab_test"].array , ab.count > 0 {
                         for i in 0..<ab.count {
-                            if (ab[i].stringValue.lowercaseString == "bri") {
+                            if (ab[i].stringValue.lowercased() == "bri") {
                                 self.isShowBankBRI = true
                             }
                         }
@@ -310,7 +310,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - TableView delegate functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Jumlah baris bergantung pada progres transaksi
         if (progress == TransactionDetailTools.ProgressExpired) {
             if (userIsSeller()) {
@@ -366,9 +366,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return 0
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // Urutan index bergantung pada progres transaksi
-        let idx = indexPath.row
+        let idx = (indexPath as NSIndexPath).row
         let DefaultHeight : CGFloat = 56
         let BorderlessBtnHeight : CGFloat = 30
         let SeparatorHeight : CGFloat = 1
@@ -755,9 +755,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Urutan index bergantung pada progres transaksi
-        let idx = indexPath.row
+        let idx = (indexPath as NSIndexPath).row
         
         if (progress == TransactionDetailTools.ProgressExpired) {
             if (userIsSeller()) {
@@ -1094,14 +1094,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing
     }
     
     // MARK: - Cell creation
     
     func createTableProductsCell() -> TransactionDetailTableCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTableCellId) as! TransactionDetailTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTableCellId) as! TransactionDetailTableCell
         
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
@@ -1125,12 +1125,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.toProductDetail = { productId in
             self.showLoading()
-            request(Products.Detail(productId: productId)).responseJSON { resp in
+            request(Products.detail(productId: productId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let p = Product.instance(data)
-                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
@@ -1145,8 +1145,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createTableTitleContentsCell(titleContentType : String) -> TransactionDetailTableCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTableCellId) as! TransactionDetailTableCell
+    func createTableTitleContentsCell(_ titleContentType : String) -> TransactionDetailTableCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTableCellId) as! TransactionDetailTableCell
         
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
@@ -1172,8 +1172,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createDescriptionCell(order : Int) -> TransactionDetailDescriptionCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailDescriptionCellId) as! TransactionDetailDescriptionCell
+    func createDescriptionCell(_ order : Int) -> TransactionDetailDescriptionCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailDescriptionCellId) as! TransactionDetailDescriptionCell
         
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
@@ -1199,8 +1199,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createTitleCell(title : String, detailCellIndexes : [Int]) -> TransactionDetailTitleCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleCellId) as! TransactionDetailTitleCell
+    func createTitleCell(_ title : String, detailCellIndexes : [Int]) -> TransactionDetailTitleCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleCellId) as! TransactionDetailTitleCell
         
         // Adapt cell
         cell.adapt(title, detailCellIndexes: detailCellIndexes)
@@ -1220,8 +1220,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createButtonCell(order : Int) -> TransactionDetailButtonCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailButtonCellId) as! TransactionDetailButtonCell
+    func createButtonCell(_ order : Int) -> TransactionDetailButtonCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailButtonCellId) as! TransactionDetailButtonCell
         
         // Adapt cell
         if (progress != nil) {
@@ -1230,20 +1230,20 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Configure actions
         cell.retrieveCash = {
-            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
             self.navigationController?.pushViewController(t, animated: true)
         }
         cell.confirmPayment = {
             if (self.trxDetail != nil) {
-                var imgs : [NSURL] = []
+                var imgs : [URL] = []
                 let tProducts = self.trxDetail!.transactionProducts
                 for i in 0...(tProducts.count - 1) {
                     let tProduct : TransactionProductDetail = tProducts[i]
                     if let url = tProduct.productImageURL {
-                        imgs.append(url)
+                        imgs.append(url as URL)
                     }
                 }
-                let orderConfirmVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                let orderConfirmVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
                 orderConfirmVC.transactionId = self.trxDetail!.id
                 orderConfirmVC.orderID = self.trxDetail!.orderId
                 orderConfirmVC.total = self.trxDetail!.totalPrice + self.trxDetail!.bankTransferDigit
@@ -1255,30 +1255,30 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.confirmShipping = {
             if (self.trxDetail != nil) {
-                let confirmShippingVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil).first as! ConfirmShippingViewController
+                let confirmShippingVC = Bundle.main.loadNibNamed(Tags.XibNameConfirmShipping, owner: nil, options: nil)?.first as! ConfirmShippingViewController
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }
         cell.reviewSeller = {
-            self.vwShadow.hidden = false
-            self.vwReviewSeller.hidden = false
+            self.vwShadow.isHidden = false
+            self.vwReviewSeller.isHidden = false
         }
         cell.seeFAQ = {
-            let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+            let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
             helpVC.url = "https://prelo.co.id/faq?ref=preloapp#tidak-lolos"
             helpVC.titleString = "FAQ"
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([helpVC], animated: false)
-            self.presentViewController(baseNavC, animated: true, completion: nil)
+            self.present(baseNavC, animated: true, completion: nil)
         }
         
         return cell
     }
     
-    func createBorderedButtonCell(order : Int) -> TransactionDetailBorderedButtonCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
+    func createBorderedButtonCell(_ order : Int) -> TransactionDetailBorderedButtonCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailBorderedButtonCellId) as! TransactionDetailBorderedButtonCell
         
         // Adapt cell
         if (progress != nil) {
@@ -1301,12 +1301,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (!success) {
                     Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
                 }
-                self.performSegueWithIdentifier("segCart", sender: nil)
+                self.performSegue(withIdentifier: "segCart", sender: nil)
             }
         }
         cell.rejectTransaction = {
-            self.vwShadow.hidden = false
-            self.vwTolakPesanan.hidden = false
+            self.vwShadow.isHidden = false
+            self.vwTolakPesanan.isHidden = false
         }
         cell.contactBuyer = {
             self.showLoading()
@@ -1321,7 +1321,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 buyerId = self.trxProductDetail!.buyerId
             }
             // Get product detail from API
-            request(Products.Detail(productId: productId)).responseJSON {resp in
+            request(Products.detail(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1330,7 +1330,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     
                         // API Migrasi
-                        request(APIInbox.GetInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
+                        request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                                 let json = JSON(resp.result.value!)
                                 if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
@@ -1374,7 +1374,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            request(Products.Detail(productId: productId)).responseJSON {resp in
+            request(Products.detail(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1391,15 +1391,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         }
         cell.cancelReservation = {
-            cell.btn.setTitle("LOADING...", forState: .Normal)
-            cell.btn.userInteractionEnabled = false
+            cell.btn.setTitle("LOADING...", for: UIControlState())
+            cell.btn.isUserInteractionEnabled = false
             var isSuccess = false
             var productId = ""
             if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
             // API Migrasi
-            request(APIGarageSale.CancelReservation(productId: productId)).responseJSON {resp in
+            request(APIGarageSale.cancelReservation(productId: productId)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
                     let json = JSON(resp.result.value!)
                     if let success = json["_data"].bool {
@@ -1412,21 +1412,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 }
                 if (!isSuccess) {
-                    cell.btn.setTitle(cell.TitleBatalkanReservasi, forState: .Normal)
-                    cell.btn.userInteractionEnabled = true
+                    cell.btn.setTitle(cell.TitleBatalkanReservasi, for: UIControlState())
+                    cell.btn.isUserInteractionEnabled = true
                 }
             }
         }
         cell.delayShipping = {
-            self.vwShadow.hidden = false
-            self.vwTundaPengiriman.hidden = false
+            self.vwShadow.isHidden = false
+            self.vwTundaPengiriman.isHidden = false
         }
         
         return cell
     }
     
     func createReviewCell() -> TransactionDetailReviewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailReviewCellId) as! TransactionDetailReviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailReviewCellId) as! TransactionDetailReviewCell
         
         // Adapt cell
         if (trxProductDetail != nil) {
@@ -1437,80 +1437,80 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func createContactPreloCell() -> TransactionDetailContactPreloCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailContactPreloCellId) as! TransactionDetailContactPreloCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailContactPreloCellId) as! TransactionDetailContactPreloCell
         
         // Adapt cell
-        cell.lblKeterangan.hidden = true // Not used
+        cell.lblKeterangan.isHidden = true // Not used
         cell.consTopLblContact.constant = 8 // Set to 48 if lblKeterangan is used
         cell.showContactPrelo = {
-            let helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("preloweb") as! PreloWebViewController
+            let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
             helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
             helpVC.titleString = "Bantuan"
             helpVC.contactPreloMode = true
             let baseNavC = BaseNavigationController()
             baseNavC.setViewControllers([helpVC], animated: false)
-            self.presentViewController(baseNavC, animated: true, completion: nil)
+            self.present(baseNavC, animated: true, completion: nil)
         }
         
         return cell
     }
     
     func createSeparatorCell() -> UITableViewCell {
-        let cell = UITableViewCell(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 1))
+        let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1))
         cell.backgroundColor = UIColor(hexString: "#E8E8E8")
         return cell
     }
     
     // MARK: - UITextViewDelegate Functions
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         if (textView == txtvwAlasanTolak) {
-            if (txtvwAlasanTolak.textColor == UIColor.lightGrayColor()) {
+            if (txtvwAlasanTolak.textColor == UIColor.lightGray) {
                 txtvwAlasanTolak.text = ""
                 txtvwAlasanTolak.textColor = Theme.GrayDark
             }
         } else if (textView == txtvwReview) {
-            if (txtvwReview.textColor == UIColor.lightGrayColor()) {
+            if (txtvwReview.textColor == UIColor.lightGray) {
                 txtvwReview.text = ""
                 txtvwReview.textColor = Theme.GrayDark
             }
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         if (textView == txtvwAlasanTolak) {
-            txtvwTolakGrowHandler.resizeTextViewWithAnimation(true)
+            txtvwTolakGrowHandler.resizeTextView(withAnimation: true)
             self.validateTolakPesananFields()
         } else if (textView == txtvwReview) {
-            txtvwReviewGrowHandler.resizeTextViewWithAnimation(true)
+            txtvwReviewGrowHandler.resizeTextView(withAnimation: true)
             self.validateRvwKirimFields()
         }
         
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if (textView == txtvwAlasanTolak) {
             if (txtvwAlasanTolak.text.isEmpty) {
                 txtvwAlasanTolak.text = TxtvwAlasanTolakPlaceholder
-                txtvwAlasanTolak.textColor = UIColor.lightGrayColor()
+                txtvwAlasanTolak.textColor = UIColor.lightGray
             }
         } else if (textView == txtvwReview) {
             if (txtvwReview.text.isEmpty) {
                 txtvwReview.text = TxtvwReviewPlaceholder
-                txtvwReview.textColor = UIColor.lightGrayColor()
+                txtvwReview.textColor = UIColor.lightGray
             }
         }
     }
     
     // MARK: - GestureRecognizer Functions
     
-    @IBAction func disableTextFields(sender : AnyObject) {
+    @IBAction func disableTextFields(_ sender : AnyObject) {
         txtvwAlasanTolak.resignFirstResponder()
         txtvwReview.resignFirstResponder()
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -1522,23 +1522,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func validateTolakPesananFields() {
         if (txtvwAlasanTolak.text.isEmpty || txtvwAlasanTolak.text == self.TxtvwAlasanTolakPlaceholder) {
             // Disable tombol kirim
-            btnTolakKirim.userInteractionEnabled = false
+            btnTolakKirim.isUserInteractionEnabled = false
         } else {
             // Enable tombol kirim
-            btnTolakKirim.userInteractionEnabled = true
+            btnTolakKirim.isUserInteractionEnabled = true
         }
     }
     
-    @IBAction func tolakBatalPressed(sender: AnyObject) {
-        vwShadow.hidden = true
-        vwTolakPesanan.hidden = true
+    @IBAction func tolakBatalPressed(_ sender: AnyObject) {
+        vwShadow.isHidden = true
+        vwTolakPesanan.isHidden = true
     }
     
-    @IBAction func tolakKirimPressed(sender: AnyObject) {
+    @IBAction func tolakKirimPressed(_ sender: AnyObject) {
         self.sendMode(true)
         if (self.trxId != nil) {
             // API Migrasi
-        request(APITransaction.RejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+        request(APITransaction.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
@@ -1547,8 +1547,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         
                         // Hide pop up
                         self.sendMode(false)
-                        self.vwShadow.hidden = true
-                        self.vwTolakPesanan.hidden = true
+                        self.vwShadow.isHidden = true
+                        self.vwTolakPesanan.isHidden = true
                         
                         // Reload content
                         self.getTransactionDetail()
@@ -1563,14 +1563,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func validateRvwKirimFields() {
         if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
             // Disable tombol kirim
-            btnRvwKirim.userInteractionEnabled = false
+            btnRvwKirim.isUserInteractionEnabled = false
         } else {
             // Enable tombol kirim
-            btnRvwKirim.userInteractionEnabled = true
+            btnRvwKirim.isUserInteractionEnabled = true
         }
     }
     
-    @IBAction func rvwLovePressed(sender: UIButton) {
+    @IBAction func rvwLovePressed(_ sender: UIButton) {
         var isFound = false
         for i in 0 ..< btnsRvwLove.count {
             let b = btnsRvwLove[i]
@@ -1587,25 +1587,25 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
     }
     
-    @IBAction func rvwAgreementPressed(sender: AnyObject) {
+    @IBAction func rvwAgreementPressed(_ sender: AnyObject) {
         isRvwAgreed = !isRvwAgreed
         if (isRvwAgreed) {
             lblChkRvwAgreement.text = "";
-            lblChkRvwAgreement.font = AppFont.Prelo2.getFont(19)!
+            lblChkRvwAgreement.font = AppFont.prelo2.getFont(19)!
             lblChkRvwAgreement.textColor = Theme.ThemeOrange
         } else {
             lblChkRvwAgreement.text = "";
-            lblChkRvwAgreement.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkRvwAgreement.font = AppFont.preloAwesome.getFont(24)!
             lblChkRvwAgreement.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func reviewBatalPressed(sender: AnyObject) {
-        self.vwShadow.hidden = true
-        self.vwReviewSeller.hidden = true
+    @IBAction func reviewBatalPressed(_ sender: AnyObject) {
+        self.vwShadow.isHidden = true
+        self.vwReviewSeller.isHidden = true
     }
     
-    @IBAction func reviewKirimPressed(sender: AnyObject) {
+    @IBAction func reviewKirimPressed(_ sender: AnyObject) {
         if (!isRvwAgreed) {
             Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
             return
@@ -1613,7 +1613,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            request(Products.PostReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+            request(Products.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
                     let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue
@@ -1627,8 +1627,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     // Hide pop up
                     self.sendMode(false)
-                    self.vwShadow.hidden = true
-                    self.vwReviewSeller.hidden = true
+                    self.vwShadow.isHidden = true
+                    self.vwReviewSeller.isHidden = true
                     
                     // Reload content
                     self.getTransactionDetail()
@@ -1639,25 +1639,25 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - Tunda Pengiriman Pop Up
     
-    @IBAction func tundaAgreementPressed(sender: AnyObject) {
+    @IBAction func tundaAgreementPressed(_ sender: AnyObject) {
         isTundaAgreed = !isTundaAgreed
         if (isTundaAgreed) {
             lblChkTundaAgreement.text = "";
-            lblChkTundaAgreement.font = AppFont.Prelo2.getFont(19)!
+            lblChkTundaAgreement.font = AppFont.prelo2.getFont(19)!
             lblChkTundaAgreement.textColor = Theme.ThemeOrange
         } else {
             lblChkTundaAgreement.text = "";
-            lblChkTundaAgreement.font = AppFont.PreloAwesome.getFont(24)!
+            lblChkTundaAgreement.font = AppFont.preloAwesome.getFont(24)!
             lblChkTundaAgreement.textColor = Theme.GrayLight
         }
     }
     
-    @IBAction func tundaBatalPressed(sender: AnyObject) {
-        self.vwShadow.hidden = true
-        self.vwTundaPengiriman.hidden = true
+    @IBAction func tundaBatalPressed(_ sender: AnyObject) {
+        self.vwShadow.isHidden = true
+        self.vwTundaPengiriman.isHidden = true
     }
     
-    @IBAction func tundaKirimPressed(sender: AnyObject) {
+    @IBAction func tundaKirimPressed(_ sender: AnyObject) {
         if (!isTundaAgreed) {
             Constant.showDialog("Tunda Pengiriman", message: "Isi checkbox sebagai tanda persetujuan")
             return
@@ -1673,15 +1673,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }
             arrId += "]"
-            request(APITransactionAnggi.DelayShipping(arrTpId: arrId)).responseJSON { resp in
+            request(APITransactionAnggi.delayShipping(arrTpId: arrId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tunda Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let msg = json["_data"].stringValue
                     Constant.showDialog("Tunda Pengiriman", message: msg)
                     
                     // Hide pop up
-                    self.vwShadow.hidden = true
-                    self.vwTundaPengiriman.hidden = true
+                    self.vwShadow.isHidden = true
+                    self.vwTundaPengiriman.isHidden = true
                 }
                 self.sendMode(false)
             }
@@ -1690,51 +1690,51 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // MARK: - Other functions
     
-    func sendMode(mode: Bool) {
+    func sendMode(_ mode: Bool) {
         if (mode) {
             // Disable tolak pesanan content
-            txtvwAlasanTolak.userInteractionEnabled = false
-            btnTolakBatal.userInteractionEnabled = false
-            btnTolakKirim.setTitle("MENGIRIM...", forState: .Normal)
-            btnTolakKirim.userInteractionEnabled = false
+            txtvwAlasanTolak.isUserInteractionEnabled = false
+            btnTolakBatal.isUserInteractionEnabled = false
+            btnTolakKirim.setTitle("MENGIRIM...", for: UIControlState())
+            btnTolakKirim.isUserInteractionEnabled = false
             btnTolakKirim.backgroundColor = Theme.PrimaryColorDark
             
             // Disable review seller content
             for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
-                b.userInteractionEnabled = false
+                b.isUserInteractionEnabled = false
             }
-            self.txtvwReview.userInteractionEnabled = false
-            self.btnRvwBatal.userInteractionEnabled = false
-            self.btnRvwKirim.setTitle("MENGIRIM...", forState: .Normal)
-            self.btnRvwKirim.userInteractionEnabled = false
+            self.txtvwReview.isUserInteractionEnabled = false
+            self.btnRvwBatal.isUserInteractionEnabled = false
+            self.btnRvwKirim.setTitle("MENGIRIM...", for: UIControlState())
+            self.btnRvwKirim.isUserInteractionEnabled = false
             
             // Disable tunda pengiriman content
-            self.btnTundaBatal.userInteractionEnabled = false
-            self.btnTundaKirim.setTitle("MENGIRIM...", forState: .Normal)
-            self.btnTundaKirim.userInteractionEnabled = false
+            self.btnTundaBatal.isUserInteractionEnabled = false
+            self.btnTundaKirim.setTitle("MENGIRIM...", for: UIControlState())
+            self.btnTundaKirim.isUserInteractionEnabled = false
         } else {
             // Enable tolak pesanan content
-            txtvwAlasanTolak.userInteractionEnabled = true
-            btnTolakBatal.userInteractionEnabled = true
-            btnTolakKirim.setTitle("KIRIM", forState: .Normal)
-            btnTolakKirim.userInteractionEnabled = true
+            txtvwAlasanTolak.isUserInteractionEnabled = true
+            btnTolakBatal.isUserInteractionEnabled = true
+            btnTolakKirim.setTitle("KIRIM", for: UIControlState())
+            btnTolakKirim.isUserInteractionEnabled = true
             btnTolakKirim.backgroundColor = Theme.PrimaryColor
             
             // Enable review seller content
             for i in 0 ..< btnsRvwLove.count {
                 let b = btnsRvwLove[i]
-                b.userInteractionEnabled = true
+                b.isUserInteractionEnabled = true
             }
-            self.txtvwReview.userInteractionEnabled = true
-            self.btnRvwBatal.userInteractionEnabled = true
-            self.btnRvwKirim.setTitle("KONFIRMASI PENERIMAAN", forState: .Normal)
-            self.btnRvwKirim.userInteractionEnabled = true
+            self.txtvwReview.isUserInteractionEnabled = true
+            self.btnRvwBatal.isUserInteractionEnabled = true
+            self.btnRvwKirim.setTitle("KONFIRMASI PENERIMAAN", for: UIControlState())
+            self.btnRvwKirim.isUserInteractionEnabled = true
             
             // Enable tunda pengiriman content
-            self.btnTundaBatal.userInteractionEnabled = true
-            self.btnTundaKirim.setTitle("TUNDA", forState: .Normal)
-            self.btnTundaKirim.userInteractionEnabled = true
+            self.btnTundaBatal.isUserInteractionEnabled = true
+            self.btnTundaKirim.setTitle("TUNDA", for: UIControlState())
+            self.btnTundaKirim.isUserInteractionEnabled = true
         }
     }
     
@@ -1743,14 +1743,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     func hideLoading() {
-        vwShadow.hidden = true
-        loading.hidden = true
+        vwShadow.isHidden = true
+        loading.isHidden = true
         loading.stopAnimating()
     }
     
     func showLoading() {
-        vwShadow.hidden = false
-        loading.hidden = false
+        vwShadow.isHidden = false
+        loading.isHidden = false
         loading.startAnimating()
     }
     
@@ -1763,10 +1763,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         tableView.reloadData()
     }
     
-    func getTitleContentPembayaranBuyerPaidType(trxProductDetail : TransactionProductDetail) -> String {
-        if (trxProductDetail.paymentMethod.lowercaseString == "credit card") {
+    func getTitleContentPembayaranBuyerPaidType(_ trxProductDetail : TransactionProductDetail) -> String {
+        if (trxProductDetail.paymentMethod.lowercased() == "credit card") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidCC
-        } else if (trxProductDetail.paymentBankSource.lowercaseString == "prelo bonus") {
+        } else if (trxProductDetail.paymentBankSource.lowercased() == "prelo bonus") {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus
         } else {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer
@@ -1848,7 +1848,7 @@ class TransactionDetailTools : NSObject {
     ]
     
     // Functions
-    static func isReservationProgress(progress : Int?) -> Bool {
+    static func isReservationProgress(_ progress : Int?) -> Bool {
         return (progress == 7 || progress == 8 || progress == -2)
     }
 }
@@ -1880,7 +1880,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     var toProductDetail : (String) -> () = { _ in }
     var switchDetailProduct : (Int) -> () = { _ in }
     
-    static func heightForProducts(hideProductCell : [Bool]) -> CGFloat {
+    static func heightForProducts(_ hideProductCell : [Bool]) -> CGFloat {
         var height : CGFloat = 0
         for i in 0...hideProductCell.count - 1 {
             if (hideProductCell[i] == true) {
@@ -1892,7 +1892,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return height
     }
     
-    static func heightForTitleContents(trxDetail : TransactionDetail, titleContentType : String) -> CGFloat {
+    static func heightForTitleContents(_ trxDetail : TransactionDetail, titleContentType : String) -> CGFloat {
         var height : CGFloat = 8
 
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
@@ -1942,7 +1942,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
             var image = UIImage()
-            if let img = TransactionDetailTools.ImgCouriers[trxDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercaseString] {
+            if let img = TransactionDetailTools.ImgCouriers[trxDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercased()] {
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
@@ -1961,7 +1961,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return height
     }
     
-    static func heightForTitleContents2(trxProductDetail : TransactionProductDetail, titleContentType : String) -> CGFloat {
+    static func heightForTitleContents2(_ trxProductDetail : TransactionProductDetail, titleContentType : String) -> CGFloat {
         var height : CGFloat = 8
         
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
@@ -2017,7 +2017,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingPostalCode)
             var image = UIImage()
-            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercaseString] {
+            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercased()] {
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
@@ -2047,36 +2047,36 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return height
     }
     
-    func adaptTableProducts(trxProducts : [TransactionProductDetail], hideProductCell : [Bool]) {
+    func adaptTableProducts(_ trxProducts : [TransactionProductDetail], hideProductCell : [Bool]) {
         self.trxProducts = trxProducts
         self.hideProductCell = hideProductCell
         self.isProductCell = true
         self.isTitleContentCell = false
-        self.tableView.separatorStyle = .SingleLine
+        self.tableView.separatorStyle = .singleLine
         self.setupTable()
     }
     
-    func adaptTableTitleContents(trxDetail : TransactionDetail, titleContentType : String) {
+    func adaptTableTitleContents(_ trxDetail : TransactionDetail, titleContentType : String) {
         self.trxDetail = trxDetail
         self.titleContentType = titleContentType
         self.isProductCell = false
         self.isTitleContentCell = true
-        self.tableView.separatorStyle = .None
+        self.tableView.separatorStyle = .none
         self.setupTable()
     }
     
-    func adaptTableTitleContents2(trxProductDetail : TransactionProductDetail, titleContentType : String) {
+    func adaptTableTitleContents2(_ trxProductDetail : TransactionProductDetail, titleContentType : String) {
         self.trxProductDetail = trxProductDetail
         self.titleContentType = titleContentType
         self.isProductCell = false
         self.isTitleContentCell = true
-        self.tableView.separatorStyle = .None
+        self.tableView.separatorStyle = .none
         self.setupTable()
     }
     
     // MARK: - UITableView delegate functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (isProductCell) {
             return trxProducts.count
         } else {
@@ -2129,8 +2129,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let idx = indexPath.row
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let idx = (indexPath as NSIndexPath).row
         if (isProductCell) {
             if (hideProductCell[idx] == true) {
                 return TransactionDetailTools.TransactionDetailProductCellHeight
@@ -2393,7 +2393,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.requestCourier
                     }
                     var image = UIImage()
-                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercaseString] {
+                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercased()] {
                         image = img!
                     }
                     return TransactionDetailTitleContentCell.heightFor(content, image: image)
@@ -2454,23 +2454,23 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (isProductCell) {
-            let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailProductCellId) as! TransactionDetailProductCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailProductCellId) as! TransactionDetailProductCell
             
             // Adapt cell
-            cell.adapt(trxProducts[indexPath.row])
-            if (indexPath.row == trxProducts.count - 1) {
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGFloat.max)
+            cell.adapt(trxProducts[(indexPath as NSIndexPath).row])
+            if ((indexPath as NSIndexPath).row == trxProducts.count - 1) {
+                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGFloat.greatestFiniteMagnitude)
             }
             
             // Configure actions
             cell.switchDetail = {
-                self.switchDetailProduct(indexPath.row)
+                self.switchDetailProduct((indexPath as NSIndexPath).row)
             }
             return cell
         } else if (isTitleContentCell) {
-            let idx = indexPath.row
+            let idx = (indexPath as NSIndexPath).row
             
             if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
                 if (idx == 0) {
@@ -2480,21 +2480,21 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = p.asPrice
                     }
                     content += "              \u{200c}"
-                    return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 1) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.bonusUsed.asPrice
                     }
                     content += "              \u{200c}"
-                    return self.createTitleContentCell("Prelo Bonus", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    return self.createTitleContentCell("Prelo Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 2) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = "-" + trxDetail!.preloBalanceUsed.asPrice
                     }
                     content += "              \u{200c}"
-                    let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
                     return cell
                 } else if (idx == 3) {
                     var content = ""
@@ -2502,7 +2502,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = "-" + trxDetail!.voucherAmount.asPrice
                     }
                     content += "              \u{200c}"
-                    let cell = self.createTitleContentCell("Voucher", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
                 } else if (idx == 4) {
@@ -2511,14 +2511,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxDetail!.totalPrice.asPrice
                     }
                     content += "              \u{200c}"
-                    return self.createTitleContentCell("Harga belanjaan", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    return self.createTitleContentCell("Harga belanjaan", content: content, alignment: .right, url: nil, textToCopy: nil)
                 } else if (idx == 5) {
                     var content = ""
                     if (isTrxDetail()) {
                         content = trxDetail!.bankTransferDigit.asPrice
                     }
                     content += "              \u{200c}"
-                    let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .Right, url: nil, textToCopy: nil)
+                    let cell = self.createTitleContentCell("Kode Unik", content: content, alignment: .right, url: nil, textToCopy: nil)
                     cell.showVwLine()
                     return cell
                 } else if (idx == 6) {
@@ -2530,7 +2530,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = p.asPrice
                     }
                     content += "  Copy   \u{200c}"
-                    return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .Right, url: nil, textToCopy: textToCopy)
+                    return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
                 }
             } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
                 if (idx == 0) {
@@ -2810,7 +2810,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.requestCourier
                     }
                     var image = UIImage()
-                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercaseString] {
+                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercased()] {
                         image = img!
                     }
                     return self.createTitleContentCell("Request Kurir", content: content, image: image)
@@ -2873,18 +2873,18 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let idx = indexPath.row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let idx = (indexPath as NSIndexPath).row
         if (isProductCell) {
             self.toProductDetail(trxProducts[idx].productId)
         } else if (isTitleContentCell) {
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TransactionDetailTitleContentCell {
+            if let cell = tableView.cellForRow(at: indexPath) as? TransactionDetailTitleContentCell {
                 if (cell.tapUrl != "") {
-                    if let url = NSURL(string: cell.tapUrl) {
-                        UIApplication.sharedApplication().openURL(url)
+                    if let url = URL(string: cell.tapUrl) {
+                        UIApplication.shared.openURL(url)
                     }
                 } else if (cell.textToCopy != "") {
-                    UIPasteboard.generalPasteboard().string = cell.textToCopy
+                    UIPasteboard.general.string = cell.textToCopy
                     Constant.showDialog("Copied", message: "\(cell.lblTitle.text!) telah di-copy ke clipboard")
                 }
             }
@@ -2893,8 +2893,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     
     // MARK: - Cell creation
     
-    func createTitleContentCell(title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) -> TransactionDetailTitleContentCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+    func createTitleContentCell(_ title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
         
         // Adapt cell
         cell.adapt(title, content: content, alignment: alignment, url: url, textToCopy: textToCopy)
@@ -2902,8 +2902,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return cell
     }
     
-    func createTitleContentCell(title : String, content : String) -> TransactionDetailTitleContentCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+    func createTitleContentCell(_ title : String, content : String) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
         
         // Adapt cell
         cell.adapt(title, content: content)
@@ -2911,8 +2911,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return cell
     }
     
-    func createTitleContentCell(title : String, content : String, image : UIImage) -> TransactionDetailTitleContentCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+    func createTitleContentCell(_ title : String, content : String, image : UIImage) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
         
         // Adapt cell
         cell.adapt(title, content: content, image: image)
@@ -2920,8 +2920,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return cell
     }
     
-    func createTitleContentCellShipHistory(date : String, status : String) -> TransactionDetailTitleContentCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
+    func createTitleContentCellShipHistory(_ date : String, status : String) -> TransactionDetailTitleContentCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleContentCellId) as! TransactionDetailTitleContentCell
         
         // Adapt cell
         cell.adaptShipHistory(date, status: status)
@@ -2929,8 +2929,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return cell
     }
     
-    func createTitleContentHeaderCellShipHistory(msg : String?) -> TransactionDetailTitleContentHeaderCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(TransactionDetailTitleContentHeaderCellId) as! TransactionDetailTitleContentHeaderCell
+    func createTitleContentHeaderCellShipHistory(_ msg : String?) -> TransactionDetailTitleContentHeaderCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailTitleContentHeaderCellId) as! TransactionDetailTitleContentHeaderCell
         
         // Adapt cell
         cell.adaptShipHistory(msg)
@@ -2987,7 +2987,7 @@ class TransactionDetailProductCell : UITableViewCell {
         lblTransactionStatus.textColor = Theme.GrayDark
     }
     
-    func adapt(trxProductDetail : TransactionProductDetail) {
+    func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Set image
         if let url = trxProductDetail.productImageURL {
             imgProduct.setImageWithUrl(url, placeHolderImage: nil)
@@ -3000,7 +3000,7 @@ class TransactionDetailProductCell : UITableViewCell {
         lblPrice2?.text = "\(trxProductDetail.totalPrice - trxProductDetail.commissionPrice)"
         lblHasilPenjualan?.text = "\(trxProductDetail.productPrice - trxProductDetail.commissionPrice)"
         lblOngkosKirim?.text = "\(trxProductDetail.totalPrice - trxProductDetail.productPrice)"
-        lblTransactionStatus.text = trxProductDetail.progressText.uppercaseString
+        lblTransactionStatus.text = trxProductDetail.progressText.uppercased()
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
                 lblPrice.text = trxProductDetail.productPrice.asPrice
@@ -3064,7 +3064,7 @@ class TransactionDetailProductCell : UITableViewCell {
         }
         if (imgName != nil) {
             if let imgIcon = UIImage(named: imgName!) {
-                imgVwIcon = UIImageView(frame: CGRectMake(5, 5, 15, 15), image: imgIcon)
+                imgVwIcon = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15), image: imgIcon)
                 vwTransactionStatus.addSubview(imgVwIcon!)
             }
         }
@@ -3072,17 +3072,17 @@ class TransactionDetailProductCell : UITableViewCell {
         // Set hideable detail
         if let userId = User.Id {
             if (trxProductDetail.isSeller(userId)) {
-                lblDetail?.hidden = false
-                lblDetailIcon?.hidden = false
+                lblDetail?.isHidden = false
+                lblDetailIcon?.isHidden = false
             } else {
-                lblDetail?.hidden = true
-                lblDetailIcon?.hidden = true
+                lblDetail?.isHidden = true
+                lblDetailIcon?.isHidden = true
             }
         }
     }
     
-    @IBAction func detailPressed(sender: AnyObject) {
-        if (lblDetail?.hidden == false) {
+    @IBAction func detailPressed(_ sender: AnyObject) {
+        if (lblDetail?.isHidden == false) {
             if (lblDetailIcon?.text == TransactionDetailTools.IcDownArrow) {
                 lblDetailIcon?.text = TransactionDetailTools.IcUpArrow
             } else {
@@ -3098,66 +3098,66 @@ class TransactionDetailProductCell : UITableViewCell {
 class TransactionDetailDescriptionCell : UITableViewCell {
     @IBOutlet weak var lblDesc: UILabel!
     
-    static func heightFor(progress : Int?, isSeller : Bool?, order : Int) -> CGFloat {
+    static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int) -> CGFloat {
         if (progress != nil && isSeller != nil) {
             var textRect : CGRect?
             if (progress == TransactionDetailTools.ProgressExpired) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextPembayaranExpiredSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextPembayaranExpiredSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
-                    textRect = TransactionDetailTools.TextPembayaranExpiredBuyer.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextPembayaranExpiredBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextDikembalikan.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextDikembalikan.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
                     if (order == 1) {
-                        textRect = TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     } else if (order == 2) {
-                        textRect = TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
                 let text = TransactionDetailTools.TextNotPaid + "dd/MM/yyyy hh:mm:ss. " + ((isSeller! == true) ? TransactionDetailTools.TextNotPaidSeller : TransactionDetailTools.TextNotPaidBuyer)
-                textRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin) - 8) // Dikurangin 8 lagi karna ada galat perhitungan
+                textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin) - 8) // Dikurangin 8 lagi karna ada galat perhitungan
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextClaimedPaidSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextClaimedPaidSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
-                    textRect = TransactionDetailTools.TextPembayaranExpiredBuyer.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextPembayaranExpiredBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (isSeller! == true) {
                     let text = TransactionDetailTools.TextConfirmedPaidSeller1 + "dd/MM/yyyy hh:mm:ss" + TransactionDetailTools.TextConfirmedPaidSeller2
-                    textRect = text.boundsWithFontSize(UIFont.boldSystemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
                     let text = TransactionDetailTools.TextConfirmedPaidBuyer1 + "dd/MM/yyyy hh:mm:ss" + TransactionDetailTools.TextConfirmedPaidBuyer2
-                    textRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressSent) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
-                    textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
-                    textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else if (order == 2) {
-                    textRect = TransactionDetailTools.TextReserved2.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                    textRect = TransactionDetailTools.TextReserved2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } else if (progress == TransactionDetailTools.ProgressReserveDone) {
-                textRect = TransactionDetailTools.TextReserveDone.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                textRect = TransactionDetailTools.TextReserveDone.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
             } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
-                textRect = TransactionDetailTools.TextReservationCancelled.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                textRect = TransactionDetailTools.TextReservationCancelled.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
-                textRect = TransactionDetailTools.TextFraudDetected.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (2 * TransactionDetailTools.Margin))
+                textRect = TransactionDetailTools.TextFraudDetected.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
             }
             if (textRect != nil) {
                 return textRect!.height + (2 * TransactionDetailTools.Margin)
@@ -3166,7 +3166,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
         return 0
     }
     
-    func adapt(trxDetail : TransactionDetail) {
+    func adapt(_ trxDetail : TransactionDetail) {
         if let userId = User.Id {
             let progress = trxDetail.progress
             let isSeller = !trxDetail.isBuyer(userId)
@@ -3202,7 +3202,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
         }
     }
     
-    func adapt2(trxProductDetail : TransactionProductDetail, order : Int) {
+    func adapt2(_ trxProductDetail : TransactionProductDetail, order : Int) {
         if let userId = User.Id {
             let progress = trxProductDetail.progress
             let isSeller = trxProductDetail.isSeller(userId)
@@ -3258,19 +3258,19 @@ class TransactionDetailTitleCell : UITableViewCell {
     var switchDetail : () -> () = {}
     var detailCellIndexes : [Int] = []
     
-    func adapt(title : String, detailCellIndexes : [Int]) {
+    func adapt(_ title : String, detailCellIndexes : [Int]) {
         lblTitle.text = title
         self.detailCellIndexes = detailCellIndexes
         if (detailCellIndexes.count > 0) {
-            lblDetail.hidden = false
-            lblDetail.hidden = false
+            lblDetail.isHidden = false
+            lblDetail.isHidden = false
         } else {
-            lblDetail.hidden = true
-            lblDetail.hidden = true
+            lblDetail.isHidden = true
+            lblDetail.isHidden = true
         }
     }
     
-    @IBAction func detailPressed(sender: AnyObject) {
+    @IBAction func detailPressed(_ sender: AnyObject) {
         if (lblDetailIcon.text == TransactionDetailTools.IcDownArrow) {
             lblDetailIcon.text = TransactionDetailTools.IcUpArrow
         } else {
@@ -3299,34 +3299,34 @@ class TransactionDetailTitleContentCell : UITableViewCell {
     override func prepareForReuse() {
         consWidthLblTitle.constant = 130
         consLeadingLblContent.constant = 8
-        vwBackground.backgroundColor = UIColor.clearColor()
+        vwBackground.backgroundColor = UIColor.clear
         imgContent?.removeFromSuperview()
-        lblTitle.font = UIFont.boldSystemFontOfSize(13)
-        lblTitle.textAlignment = .Left
+        lblTitle.font = UIFont.boldSystemFont(ofSize: 13)
+        lblTitle.textAlignment = .left
     }
     
-    static func heightFor(text : String) -> CGFloat {
+    static func heightFor(_ text : String) -> CGFloat {
         let titleWidth : CGFloat = 130.0
-        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
         return textRect.height + 4
     }
     
-    static func heightFor(text : String, image : UIImage) -> CGFloat {
+    static func heightFor(_ text : String, image : UIImage) -> CGFloat {
         let titleWidth : CGFloat = 130.0
         let imageWidth : CGFloat = image.size.width
         let imageHeight : CGFloat = image.size.height
-        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth - (imageWidth + 4))
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth - (imageWidth + 4))
         return (imageHeight >= textRect.height) ? imageHeight : (textRect.height + 4)
     }
     
-    static func heightFor(title : String, content : String) -> CGFloat {
+    static func heightFor(_ title : String, content : String) -> CGFloat {
         let titleWidth : CGFloat = 130.0
-        let titleRect : CGRect = title.boundsWithFontSize(UIFont.systemFontOfSize(13), width: titleWidth)
-        let contentRect : CGRect = content.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
+        let titleRect : CGRect = title.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: titleWidth)
+        let contentRect : CGRect = content.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (3 * TransactionDetailTools.Margin) - titleWidth)
         return ((titleRect.height >= contentRect.height ? titleRect.height : contentRect.height) + 4.0)
     }
     
-    func adapt(title : String, content : String) {
+    func adapt(_ title : String, content : String) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
@@ -3335,7 +3335,7 @@ class TransactionDetailTitleContentCell : UITableViewCell {
         }
     }
     
-    func adapt(title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) {
+    func adapt(_ title : String, content : String, alignment : NSTextAlignment?, url : String?, textToCopy : String?) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
@@ -3353,35 +3353,35 @@ class TransactionDetailTitleContentCell : UITableViewCell {
             self.textToCopy = textToCopy!
             let attrStr = NSMutableAttributedString(string: content)
             attrStr.addAttributes([NSForegroundColorAttributeName:Theme.GrayDark], range: NSMakeRange(0, content.length))
-            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).rangeOfString("Copy"))
+            attrStr.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: (content as NSString).range(of: "Copy"))
             self.lblContent.attributedText = attrStr
         } else {
             self.lblContent.textColor = Theme.GrayDark
         }
     }
     
-    func adapt(title : String, content : String, image : UIImage) {
+    func adapt(_ title : String, content : String, image : UIImage) {
         self.lblTitle.text = title
         if (content.isEmpty) {
             self.lblContent.text = "-"
         } else {
             self.lblContent.text = content
         }
-        let imgRect = CGRectMake(130.0 + 8 + 8, lblContent.y, image.size.width, image.size.height)
+        let imgRect = CGRect(x: 130.0 + 8 + 8, y: lblContent.y, width: image.size.width, height: image.size.height)
         imgContent = UIImageView(frame: imgRect, image: image)
         self.addSubview(imgContent!)
         self.consLeadingLblContent.constant = 8 + 4 + imgRect.width
     }
     
-    func adaptShipHistory(date : String, status : String) {
+    func adaptShipHistory(_ date : String, status : String) {
         self.adapt(date, content: status)
-        self.lblTitle.font = UIFont.systemFontOfSize(13)
-        self.lblTitle.textAlignment = .Center
+        self.lblTitle.font = UIFont.systemFont(ofSize: 13)
+        self.lblTitle.textAlignment = .center
         self.vwBackground.backgroundColor = UIColor(hexString: "#F1F1F1")
     }
     
     func showVwLine() {
-        vwLine.hidden = false
+        vwLine.isHidden = false
     }
 }
 
@@ -3396,22 +3396,22 @@ class TransactionDetailTitleContentHeaderCell : UITableViewCell {
     @IBOutlet var lblTwoColumn2: UILabel!
     static let DefaultCellHeight : CGFloat = 64
     
-    static func heightFor(text : String) -> CGFloat {
-        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (4 * TransactionDetailTools.Margin))
+    static func heightFor(_ text : String) -> CGFloat {
+        let textRect : CGRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (4 * TransactionDetailTools.Margin))
         return textRect.height + 33
     }
     
-    func adaptShipHistory(msg : String?) {
+    func adaptShipHistory(_ msg : String?) {
         lblTopTitle.text = "Riwayat Pengiriman"
         lblOneColumn.text = msg
         lblTwoColumn1.text = "Tanggal"
         lblTwoColumn2.text = "Status Tracking"
         if (msg != nil) {
-            vwOneColumnHeader.hidden = false
-            vwTwoColumnHeader.hidden = true
+            vwOneColumnHeader.isHidden = false
+            vwTwoColumnHeader.isHidden = true
         } else {
-            vwOneColumnHeader.hidden = true
-            vwTwoColumnHeader.hidden = false
+            vwOneColumnHeader.isHidden = true
+            vwTwoColumnHeader.isHidden = false
         }
     }
 }
@@ -3429,23 +3429,23 @@ class TransactionDetailButtonCell : UITableViewCell {
     var reviewSeller : () -> () = {}
     var seeFAQ : () -> () = {}
     
-    func adapt(progress : Int?, order : Int) {
+    func adapt(_ progress : Int?, order : Int) {
         self.progress = progress
         self.order = order
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
-            btn.setTitle("TARIK UANG", forState: UIControlState.Normal)
+            btn.setTitle("TARIK UANG", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
-            btn.setTitle("KONFIRMASI PEMBAYARAN", forState: UIControlState.Normal)
+            btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
-            btn.setTitle("KIRIM / TOLAK", forState: UIControlState.Normal)
+            btn.setTitle("KIRIM / TOLAK", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            btn.setTitle("REVIEW PENJUAL", forState: UIControlState.Normal)
+            btn.setTitle("REVIEW PENJUAL", for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
-            btn.setTitle("FAQ", forState: UIControlState.Normal)
+            btn.setTitle("FAQ", for: UIControlState())
         }
     }
     
-    @IBAction func btnPressed(sender: AnyObject) {
+    @IBAction func btnPressed(_ sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
             self.retrieveCash()
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -3482,46 +3482,46 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     let TitleBatalkanReservasi = "BATALKAN RESERVASI"
     let TitleTundaPengiriman = "Tunda Pengiriman"
     
-    func adapt(progress : Int?, isSeller : Bool?, order : Int) {
+    func adapt(_ progress : Int?, isSeller : Bool?, order : Int) {
         self.progress = progress
         self.order = order
         self.isSeller = isSeller
         if (progress == TransactionDetailTools.ProgressExpired) {
-            btn.setTitle(TitlePesanLagi, forState: UIControlState.Normal)
+            btn.setTitle(TitlePesanLagi, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
-            btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
+            btn.setTitle(TitleHubungiBuyer, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
             if (order == 1) {
-                btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
+                btn.setTitle(TitleHubungiBuyer, for: UIControlState())
             } else if (order == 2) {
-                btn.setTitle(TitleTolakPesanan, forState: UIControlState.Normal)
-                btn.titleLabel!.font = UIFont.systemFontOfSize(13)
-                btn.borderColor = UIColor.clearColor()
-                btn.borderColorHighlight = UIColor.clearColor()
-                btn.contentHorizontalAlignment = .Right
+                btn.setTitle(TitleTolakPesanan, for: UIControlState())
+                btn.titleLabel!.font = UIFont.systemFont(ofSize: 13)
+                btn.borderColor = UIColor.clear
+                btn.borderColorHighlight = UIColor.clear
+                btn.contentHorizontalAlignment = .right
             }
         } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (isSeller != nil) {
                 if (isSeller! == true) {
                     if (order == 1) {
-                        btn.setTitle(TitleHubungiBuyer, forState: UIControlState.Normal)
+                        btn.setTitle(TitleHubungiBuyer, for: UIControlState())
                     } else if (order == 2) {
-                        btn.setTitle(TitleTundaPengiriman, forState: UIControlState.Normal)
-                        btn.titleLabel!.font = UIFont.systemFontOfSize(13)
-                        btn.borderColor = UIColor.clearColor()
-                        btn.borderColorHighlight = UIColor.clearColor()
-                        btn.contentHorizontalAlignment = .Right
+                        btn.setTitle(TitleTundaPengiriman, for: UIControlState())
+                        btn.titleLabel!.font = UIFont.systemFont(ofSize: 13)
+                        btn.borderColor = UIColor.clear
+                        btn.borderColorHighlight = UIColor.clear
+                        btn.contentHorizontalAlignment = .right
                     }
                 } else {
-                    btn.setTitle(TitleHubungiSeller, forState: UIControlState.Normal)
+                    btn.setTitle(TitleHubungiSeller, for: UIControlState())
                 }
             }
         } else if (progress == TransactionDetailTools.ProgressReserved) {
-            btn.setTitle(TitleBatalkanReservasi, forState: UIControlState.Normal)
+            btn.setTitle(TitleBatalkanReservasi, for: UIControlState())
         }
     }
     
-    @IBAction func btnPressed(sender: AnyObject) {
+    @IBAction func btnPressed(_ sender: AnyObject) {
         if (progress == TransactionDetailTools.ProgressExpired) {
             self.orderAgain()
         } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
@@ -3558,13 +3558,13 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet weak var lblLove: UILabel!
     @IBOutlet weak var lblContent: UILabel!
     
-    static func heightFor(reviewComment : String) -> CGFloat {
+    static func heightFor(_ reviewComment : String) -> CGFloat {
         let imgReviewerWidth : CGFloat = 64.0
-        let textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFontOfSize(13), width: UIScreen.mainScreen().bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
+        let textRect : CGRect = reviewComment.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (3 * TransactionDetailTools.Margin) - imgReviewerWidth)
         return textRect.height + 42.0 + (2 * TransactionDetailTools.Margin)
     }
     
-    func adapt(trxProductDetail : TransactionProductDetail) {
+    func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Image
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.setImageWithUrl(url, placeHolderImage: UIImage(named: "raisa.jpg"))
@@ -3598,7 +3598,7 @@ class TransactionDetailContactPreloCell : UITableViewCell {
     
     var showContactPrelo : () -> () = {}
     
-    @IBAction func btnContactPressed(sender: AnyObject) {
+    @IBAction func btnContactPressed(_ sender: AnyObject) {
         self.showContactPrelo()
     }
 }

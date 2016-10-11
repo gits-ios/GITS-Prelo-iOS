@@ -63,7 +63,7 @@ public extension UITextField {
         self.textColor = color
         self.returnKeyType = returnType
         self.enablesReturnKeyAutomatically = enablesReturnKeyAutomatically
-        self.secureTextEntry = secure
+        self.isSecureTextEntry = secure
         self.keyboardAppearance = keyboardAppearance
         self.font = UIFont(fontName: font, size: size)
         self.delegate = delegate

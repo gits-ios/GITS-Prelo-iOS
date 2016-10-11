@@ -44,9 +44,9 @@ public extension UILabel {
     
      - returns: Returns the created UILabel
      */
-    @available(*, obsoleted=1.2.0, message="Use UILabel(_, text:, font:, size:, color:, alignment:, lines:, shadowColor:)")
+    @available(*, obsoleted: 1.2.0, message: "Use UILabel(_, text:, font:, size:, color:, alignment:, lines:, shadowColor:)")
     public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int) {
-        self.init(frame: frame, text: text, font: font, size: size, color: color, alignment: alignment, lines: lines, shadowColor: UIColor.clearColor())
+        self.init(frame: frame, text: text, font: font, size: size, color: color, alignment: alignment, lines: lines, shadowColor: UIColor.clear)
     }
     
     /**
@@ -63,11 +63,11 @@ public extension UILabel {
     
      - returns: Returns the created UILabel
      */
-    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clearColor()) {
+    public convenience init(frame: CGRect, text: String, font: FontName, size: CGFloat, color: UIColor, alignment: NSTextAlignment, lines: Int, shadowColor: UIColor = UIColor.clear) {
         self.init(frame: frame)
         self.font = UIFont(fontName: font, size: size)
         self.text = text
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         self.textColor = color
         self.textAlignment = alignment
         self.numberOfLines = lines
@@ -93,7 +93,7 @@ public extension UILabel {
      - parameter fromIndex: The start index
      - parameter toIndex:   The end index
      */
-    public func setFont(font: UIFont, fromIndex: Int, toIndex: Int) {
+    public func setFont(_ font: UIFont, fromIndex: Int, toIndex: Int) {
         let string = NSMutableAttributedString(string: self.text!)
         string.addAttribute(NSFontAttributeName, value: font, range: NSMakeRange(fromIndex, toIndex - fromIndex))
         

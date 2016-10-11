@@ -12,11 +12,31 @@ import CoreData
 //import ZSWTappableLabel
 import MessageUI
 import Social
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol ProductCellDelegate
 {
-    func cellTappedCategory(categoryName : String, categoryID : String)
-    func cellTappedBrand(brandId : String, brandName : String)
+    func cellTappedCategory(_ categoryName : String, categoryID : String)
+    func cellTappedBrand(_ brandId : String, brandName : String)
 }
 
 class ProductDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, ProductCellDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, UserRelatedDelegate
@@ -66,39 +86,39 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         
         // Hide add comment view first
-        self.vwAddComment.hidden = true
+        self.vwAddComment.isHidden = true
         
-        _ = UIImage(named: "ic_chat")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        _ = UIImage(named: "ic_chat")!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         
-        self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnAddDiscussion?.addTarget(self, action: #selector(ProductDetailViewController.segAddComment(_:)), for: UIControlEvents.touchUpInside)
         
-        btnBuy.hidden = true
-        btnTawar.hidden = true
+        btnBuy.isHidden = true
+        btnTawar.isHidden = true
         
         btnAddDiscussion?.layer.cornerRadius = 4
-        btnAddDiscussion?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        btnAddDiscussion?.layer.borderColor = UIColor.lightGray.cgColor
         btnAddDiscussion?.layer.borderWidth = 1
         
-        let btnClose = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnClose.addTarget(self, action: #selector(ProductDetailViewController.dismiss(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        let btnClose = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        btnClose.addTarget(self, action: #selector(ProductDetailViewController.dismiss(_:)), for: UIControlEvents.touchUpInside)
         
         tableView?.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
-        let btnOption = self.createButtonWithIcon(AppFont.Prelo2, icon: "")
-        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), forControlEvents: UIControlEvents.TouchUpInside)
+        let btnOption = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        btnOption.addTarget(self, action: #selector(ProductDetailViewController.option), for: UIControlEvents.touchUpInside)
         self.navigationItem.rightBarButtonItem = btnOption.toBarButton()
         
-        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
         if (detail == nil) {
             getDetail()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.title = product?.name
@@ -113,15 +133,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         
         if (self.navigationController != nil) {
-            if ((self.navigationController?.navigationBarHidden)! == true)
+            if ((self.navigationController?.isNavigationBarHidden)! == true)
             {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
             }
         }
         
-        if (UIApplication.sharedApplication().statusBarHidden)
+        if (UIApplication.shared.isStatusBarHidden)
         {
-            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
         }
         
         let p = [
@@ -150,11 +170,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func option()
     {
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-        a.addButtonWithTitle("Report")
-        a.showInView(self.view)
+        a.addButton(withTitle: "Report")
+        a.show(in: self.view)
     }
     
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
             guard let pDetail = detail else {
@@ -174,22 +194,22 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 m.setSubject("Laporan Baru untuk Barang " + (detail?.name)!)
                 m.setMessageBody(msgBody, isHTML: true)
                 m.mailComposeDelegate = self
-                self.presentViewController(m, animated: true, completion: nil)
+                self.present(m, animated: true, completion: nil)
             } else {
                 Constant.showDialog("No Active E-mail", message: "Untuk dapat mengirim Report, aktifkan akun e-mail kamu di menu Settings > Mail, Contacts, Calendars")
             }
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func getDetail()
     {
         self.showLoading()
         // API Migrasi
-        request(APIProduct.Detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
+        request(APIProduct.detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang"))
                 {
@@ -199,7 +219,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     print(self.detail?.json)
                     
                     // Setup add comment view
-                    self.vwAddComment.hidden = false
+                    self.vwAddComment.isHidden = false
                     if (self.detail?.discussions?.count > 0) {
                         self.consHeightLblNoComment.constant = 0
                     } else {
@@ -209,7 +229,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     // Setup table
                     self.tableView?.dataSource = self
                     self.tableView?.delegate = self
-                    self.tableView?.hidden = false
+                    self.tableView?.isHidden = false
                     self.tableView?.reloadData()
                     
                     self.setupView()
@@ -233,14 +253,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             if (self.detail?.status == 4) {
                 if (self.detail?.boughtByMe == true) {
-                    self.btnTawar.hidden = true
-                    self.btnBuy.hidden = true
+                    self.btnTawar.isHidden = true
+                    self.btnBuy.isHidden = true
                     if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
                         // Tampilkan button konfirmasi bayar
-                        self.konfirmasiBayarBtnSet.hidden = false
+                        self.konfirmasiBayarBtnSet.isHidden = false
                     } else if (self.detail?.transactionProgress > 2) {
                         // Tampilkan button transaction product detail
-                        self.tpDetailBtnSet.hidden = false
+                        self.tpDetailBtnSet.isHidden = false
                     }
                 }
             }
@@ -258,19 +278,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.disableButton(self.btnEdit)
     }
     
-    func disableButton(btn : UIButton) {
-        btn.userInteractionEnabled = false
+    func disableButton(_ btn : UIButton) {
+        btn.isUserInteractionEnabled = false
         
         if (btn.titleLabel?.text == nil || btn.titleLabel?.text == "") { // Button with uiimage icon
-            btn.backgroundColor = UIColor.colorWithColor(UIColor.darkGrayColor(), alpha: 0.5)
+            btn.backgroundColor = UIColor.colorWithColor(UIColor.darkGray, alpha: 0.5)
             return
         }
         
         // Button with uilabel icon
-        btn.setBackgroundImage(nil, forState: .Normal)
+        btn.setBackgroundImage(nil, for: UIControlState())
         btn.backgroundColor = nil
         btn.setTitleColor(Theme.GrayLight)
-        btn.layer.borderColor = Theme.GrayLight.CGColor
+        btn.layer.borderColor = Theme.GrayLight.cgColor
         btn.layer.borderWidth = 1
         btn.layer.cornerRadius = 1
         btn.layer.masksToBounds = true
@@ -285,7 +305,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         pDetailCover = ProductDetailCover.instance((detail?.displayPicturers)!, status: (detail?.status)!, topBannerText: (detail?.rejectionText))
         pDetailCover?.parent = self
         pDetailCover?.largeImageURLS = (detail?.originalPicturers)!
-        if let isFeatured = self.product?.isFeatured where isFeatured {
+        if let isFeatured = self.product?.isFeatured , isFeatured {
             pDetailCover?.isFeaturedProduct = isFeatured
             pDetailCover?.setupBanner()
         }
@@ -293,7 +313,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             pDetailCover?.labels = labels
         }
-        pDetailCover?.height = UIScreen.mainScreen().bounds.size.width * 340 / 480
+        pDetailCover?.height = UIScreen.main.bounds.size.width * 340 / 480
         tableView?.tableHeaderView = pDetailCover
         
         if (detail?.json["_data"]["price"].int?.asPrice) != nil
@@ -325,7 +345,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 {
                     if let price = detail?.json["_data"]["price"].int
                     {
-                        ACTRemarketingReporter.reportWithConversionID("953474992", customParameters: ["dynx_itemid":id, "dynx_pagetype":catName, "dynx_totalvalue":price])
+                        ACTRemarketingReporter.report(withConversionID: "953474992", customParameters: ["dynx_itemid":id, "dynx_pagetype":catName, "dynx_totalvalue":price])
                     }
                 }
             }
@@ -333,7 +353,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         // Button arrangement
         if (detail!.isGarageSale) {
-            reservationBtnSet.hidden = false
+            reservationBtnSet.isHidden = false
             if (detail!.status == 1) { // Product is available
                 self.setBtnReservationToEnabled()
             } else if (detail!.status == 7) { // Product is reserved
@@ -344,7 +364,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         } else {
-            reservationBtnSet.hidden = true
+            reservationBtnSet.isHidden = true
             
             if ((detail?.isMyProduct)! == true)
             {
@@ -354,69 +374,69 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 //                b.titleLabel?.font = AppFont.PreloAwesome.getFont(15)
 //                b.setTitle(" EDIT", forState: UIControlState.Normal)
 //            }
-                self.btnBuy.hidden = true
-                self.btnTawar.hidden = true
-                btnEdit.hidden = false
-                btnUp.hidden = false
-                btnSold.hidden = false
-                btnSold.superview?.hidden = false
+                self.btnBuy.isHidden = true
+                self.btnTawar.isHidden = true
+                btnEdit.isHidden = false
+                btnUp.isHidden = false
+                btnSold.isHidden = false
+                btnSold.superview?.isHidden = false
             }
             else
             {
-                btnBuy.hidden = false
-                btnTawar.hidden = false
+                btnBuy.isHidden = false
+                btnTawar.isHidden = false
             }
             
-            self.btnTawar.removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-            self.btnTawar.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            self.btnTawar.removeTarget(nil, action: nil, for: .allEvents)
+            self.btnTawar.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), for: UIControlEvents.touchUpInside)
         }
         
         // Coachmark
         if (detail!.isGarageSale) {
-            let coachmarkReserveDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkReserveDone) as! Bool?
+            let coachmarkReserveDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkReserveDone) as! Bool?
             if (coachmarkReserveDone != true) {
-                NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkReserveDone)
-                vwCoachmarkReserve.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-                vwCoachmarkReserve.hidden = false
+                UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkReserveDone)
+                vwCoachmarkReserve.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
+                vwCoachmarkReserve.isHidden = false
             }
         } else {
             if (detail!.isMyProduct) {
-                let coachmarkMineDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailMineDone) as! Bool?
+                let coachmarkMineDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkProductDetailMineDone) as! Bool?
                 if (coachmarkMineDone != true) {
-                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailMineDone)
-                    vwCoachmarkMine.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-                    vwCoachmarkMine.hidden = false
+                    UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailMineDone)
+                    vwCoachmarkMine.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
+                    vwCoachmarkMine.isHidden = false
                 }
             } else {
-                let coachmarkDone : Bool? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
+                let coachmarkDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
                 if (coachmarkDone != true) {
-                    NSUserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
-                    vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.blackColor(), alpha: 0.7)
-                    vwCoachmark.hidden = false
+                    UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+                    vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
+                    vwCoachmark.isHidden = false
                 }
             }
         }
     }
 
-    @IBAction func dismiss(sender: AnyObject)
+    @IBAction func dismiss(_ sender: AnyObject)
     {
-        dismissViewControllerAnimated(YES, completion: nil)
+        self.dismiss(animated: YES, completion: nil)
     }
     
     // MARK: - Instagram
     
-    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
     
-    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+    func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
         print("DidEndPreview")
     }
     
     // MARK: - Facebook
     
     func postShareCommissionFacebook() {
-        request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
+        request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Facebook")) {
                 self.cellTitle?.sharedViaFacebook()
                 self.detail?.setSharedViaFacebook()
@@ -430,7 +450,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Twitter
     func postShareCommissionTwitter() {
-        request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
+        request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Twitter")) {
                 self.cellTitle?.sharedViaTwitter()
                 self.detail?.setSharedViaTwitter()
@@ -444,7 +464,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Tableview
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             return 3
         } else {
@@ -452,16 +472,16 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 //        return 1+(((detail?.discussions?.count)! == 0) ? 0 : 1)
         return 2
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (indexPath.section == 0) {
-            if (indexPath.row == 0) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if ((indexPath as NSIndexPath).section == 0) {
+            if ((indexPath as NSIndexPath).row == 0) {
                 if (cellTitle == nil) {
-                    cellTitle = tableView.dequeueReusableCellWithIdentifier("cell_title") as? ProductCellTitle
+                    cellTitle = tableView.dequeueReusableCell(withIdentifier: "cell_title") as? ProductCellTitle
                 }
                 cellTitle?.parent = self
                 cellTitle?.product = self.product
@@ -474,15 +494,15 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 cellTitle?.shareInstagram = {
                     self.showLoading()
-                    if (UIApplication.sharedApplication().canOpenURL(NSURL(string: "instagram://app")!)) {
-                        UIPasteboard.generalPasteboard().string = textToShare
+                    if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                        UIPasteboard.general.string = textToShare
                         Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
                         self.mgInstagram = MGInstagram()
                         if let imgUrl = self.detail?.productImage {
-                            let imgData = NSData(contentsOfURL: imgUrl)
+                            let imgData = try? Data(contentsOf: imgUrl as URL)
                             let img = UIImage(data: imgData!)
-                            self.mgInstagram?.postImage(img, withCaption: textToShare, inView: self.view, delegate: self)
-                            request(Products.ShareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
+                            self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
+                            request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
                                     self.cellTitle?.sharedViaInstagram()
                                     self.detail?.setSharedViaInstagram()
@@ -500,7 +520,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 cellTitle?.shareFacebook = {
                     self.showLoading()
                     
-                    if (FBSDKAccessToken.currentAccessToken() != nil && FBSDKAccessToken.currentAccessToken().permissions.contains("publish_actions")) {
+                    if (FBSDKAccessToken.current() != nil && FBSDKAccessToken.current().permissions.contains("publish_actions")) {
                         self.postShareCommissionFacebook()
                     } else {
                         let p = ["sender" : self]
@@ -508,7 +528,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             // Handle Profile Photo URL String
                             let userId = result["id"] as? String
                             let name = result["name"] as? String
-                            let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+                            let accessToken = FBSDKAccessToken.current().tokenString
                             
                             print("result = \(result)")
                             print("accessToken = \(accessToken)")
@@ -516,7 +536,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             // userId & name is required
                             if (userId != nil && name != nil) {
                                 // API Migrasi
-                                request(APISocial.PostFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
+                                request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
                                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                         
                                         // Save in core data
@@ -554,7 +574,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     return
                             }
                             
-                            request(APISocial.PostTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                            request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                                     
                                     // Save in core data
@@ -575,40 +595,40 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     }
                 }
                 return cellTitle!
-            } else if (indexPath.row == 1) {
+            } else if ((indexPath as NSIndexPath).row == 1) {
                 if (cellSeller == nil) {
-                    cellSeller = tableView.dequeueReusableCellWithIdentifier("cell_seller") as? ProductCellSeller
+                    cellSeller = tableView.dequeueReusableCell(withIdentifier: "cell_seller") as? ProductCellSeller
                 }
                 cellSeller?.adapt(detail)
                 return cellSeller!
             } else {
                 if (cellDesc == nil) {
-                    cellDesc = tableView.dequeueReusableCellWithIdentifier("cell_desc") as? ProductCellDescription
+                    cellDesc = tableView.dequeueReusableCell(withIdentifier: "cell_desc") as? ProductCellDescription
                     cellDesc?.cellDelegate = self
                 }
                 cellDesc?.adapt(detail)
                 return cellDesc!
             }
         } else {
-            let cell : ProductCellDiscussion = (tableView.dequeueReusableCellWithIdentifier("cell_disc_1") as? ProductCellDiscussion)!
-            cell.adapt(detail?.discussions?.objectAtCircleIndex(indexPath.row-3))
+            let cell : ProductCellDiscussion = (tableView.dequeueReusableCell(withIdentifier: "cell_disc_1") as? ProductCellDiscussion)!
+            cell.adapt(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 0) {
             return nil
         } else {
             let l = UILabel()
             l.numberOfLines = 1
-            l.textColor = UIColor.lightGrayColor()
-            l.backgroundColor = UIColor.clearColor()
+            l.textColor = UIColor.lightGray
+            l.backgroundColor = UIColor.clear
             l.text = "KOMENTAR"
-            l.font = UIFont.boldSystemFontOfSize(14)
+            l.font = UIFont.boldSystemFont(ofSize: 14)
             l.sizeToFit()
-            let v = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 40))
-            v.backgroundColor = UIColor.whiteColor()
+            let v = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 40))
+            v.backgroundColor = UIColor.white
             v.addSubview(l)
             l.x = 8
             l.y = (40-l.height)/2
@@ -617,7 +637,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
             return 0
         } else {
@@ -625,25 +645,25 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (indexPath.section == 0) {
-            if (indexPath.row == 0) {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if ((indexPath as NSIndexPath).section == 0) {
+            if ((indexPath as NSIndexPath).row == 0) {
                 return ProductCellTitle.heightFor(detail)
-            } else if (indexPath.row == 1) {
+            } else if ((indexPath as NSIndexPath).row == 1) {
                 return ProductCellSeller.heightFor(detail?.json)
             } else {
                 return ProductCellDescription.heightFor(detail)
             }
         } else {
-            return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex(indexPath.row-3))
+            return ProductCellDiscussion.heightFor(detail?.discussions?.objectAtCircleIndex((indexPath as NSIndexPath).row-3))
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if (indexPath.row == 1)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if ((indexPath as NSIndexPath).row == 1)
         {
-            let d = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            d.currentMode = .Shop
+            let d = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            d.currentMode = .shop
             if let name = detail?.json["_data"]["seller"]["username"].string
             {
                 d.shopName = name
@@ -658,25 +678,25 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    func cellTappedCategory(categoryName: String, categoryID: String) {
-        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.currentMode = .Standalone
+    func cellTappedCategory(_ categoryName: String, categoryID: String) {
+        let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        l.currentMode = .standalone
         l.standaloneCategoryName = categoryName
         l.standaloneCategoryID = categoryID
         self.navigationController?.pushViewController(l, animated: true)
     }
     
-    func cellTappedBrand(brandId: String, brandName: String) {
-        let l = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        l.currentMode = .Filter
+    func cellTappedBrand(_ brandId: String, brandName: String) {
+        let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        l.currentMode = .filter
         l.fltrSortBy = "recent"
         l.fltrBrands = [brandName : brandId]
         self.navigationController?.pushViewController(l, animated: true)
     }
     
-    @IBAction func addToCart(sender: UIButton) {
+    @IBAction func addToCart(_ sender: UIButton) {
         if (alreadyInCart) {
-            self.performSegueWithIdentifier("segCart", sender: nil)
+            self.performSegue(withIdentifier: "segCart", sender: nil)
             return
         }
         
@@ -684,14 +704,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             Constant.showDialog("Failed", message: "Gagal Menyimpan")
         } else {
             setupView()
-            self.performSegueWithIdentifier("segCart", sender: nil)
+            self.performSegue(withIdentifier: "segCart", sender: nil)
         }
     }
     
-    @IBAction func upPressed(sender: AnyObject) {
+    @IBAction func upPressed(_ sender: AnyObject) {
         self.showLoading()
         if let productId = detail?.productID {
-            request(APIProduct.Push(productId: productId)).responseJSON { resp in
+            request(APIProduct.push(productId: productId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Up Barang")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"]["result"].boolValue
@@ -707,13 +727,13 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    @IBAction func soldPressed(sender: AnyObject) {
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+    @IBAction func soldPressed(_ sender: AnyObject) {
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Tidak", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.showLoading()
             if let productId = self.detail?.productID {
-                request(APIProduct.MarkAsSold(productId: productId, soldTo: "")).responseJSON { resp in
+                request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"].boolValue
@@ -729,19 +749,19 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 }
             }
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func editPressed(sender: AnyObject) {
+    @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
-        let a = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         a.editMode = true
         a.editDoneBlock = {
-            self.tableView?.hidden = true
+            self.tableView?.isHidden = true
             self.getDetail()
         }
         // API Migrasi
-        request(APIProduct.Detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+        request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                 a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
                 self.hideLoading()
@@ -750,11 +770,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
-    @IBAction func tawar(sender : UIView)
+    @IBAction func tawar(_ sender : UIView)
     {
         if let d = self.detail
         {
-            let t = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID
@@ -763,7 +783,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     var loginComment = false
-    @IBAction func segAddComment(sender : UIView?)
+    @IBAction func segAddComment(_ sender : UIView?)
     {
         if (User.IsLoggedIn == false)
         {
@@ -771,7 +791,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
         } else
         {
-            self.performSegueWithIdentifier("segAddComment", sender: nil)
+            self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
     
@@ -782,7 +802,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func userLoggedIn() {
         if (loginComment)
         {
-            self.performSegueWithIdentifier("segAddComment", sender: nil)
+            self.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
     
@@ -792,21 +812,21 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Coachmark
     
-    @IBAction func coachmarkTapped(sender: AnyObject) {
-        self.vwCoachmark.hidden = true
-        self.vwCoachmarkMine.hidden = true
-        self.vwCoachmarkReserve.hidden = true
+    @IBAction func coachmarkTapped(_ sender: AnyObject) {
+        self.vwCoachmark.isHidden = true
+        self.vwCoachmarkMine.isHidden = true
+        self.vwCoachmarkReserve.isHidden = true
     }
     
     // MARK: - Reservation
     
-    @IBAction func btnReservationPressed(sender: AnyObject) {
+    @IBAction func btnReservationPressed(_ sender: AnyObject) {
         if (detail != nil) {
             if (detail!.status == ProductStatusActive) { // Product is available
                 // Reserve product
                 self.setBtnReservationToLoading()
                 // API Migrasi
-                request(APIGarageSale.CreateReservation(productId: detail!.productID)).responseJSON {resp in
+                request(APIGarageSale.createReservation(productId: detail!.productID)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Create Reservation")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"]
@@ -816,7 +836,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             self.pDetailCover?.updateStatus(self.ProductStatusReserved)
                             self.setBtnReservationToCancel()
                             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+                            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
                             transactionDetailVC.trxProductId = tpId
                             transactionDetailVC.isSeller = false
                             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
@@ -840,7 +860,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     // Cancel reservation
                     self.setBtnReservationToLoading()
                     // API Migrasi
-                    request(APIGarageSale.CancelReservation(productId: detail!.productID)).responseJSON {resp in
+                    request(APIGarageSale.cancelReservation(productId: detail!.productID)).responseJSON {resp in
                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
                             let json = JSON(resp.result.value!)
                             if let success = json["_data"].bool {
@@ -870,65 +890,65 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     func setBtnReservationToLoading() {
         btnReservation.cornerRadius = 0
         btnReservation.borderWidth = 0
-        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.borderColor = UIColor.clear
         btnReservation.backgroundColor = Theme.ThemeOrangeDark
-        btnReservation.setTitle("LOADING...", forState: .Normal)
-        btnReservation.userInteractionEnabled = false
+        btnReservation.setTitle("LOADING...", for: UIControlState())
+        btnReservation.isUserInteractionEnabled = false
     }
     
     func setBtnReservationToEnabled() {
         btnReservation.cornerRadius = 0
         btnReservation.borderWidth = 0
-        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.borderColor = UIColor.clear
         btnReservation.backgroundColor = Theme.ThemeOrange
-        btnReservation.setTitle(" RESERVE", forState: .Normal)
-        btnReservation.userInteractionEnabled = true
+        btnReservation.setTitle(" RESERVE", for: UIControlState())
+        btnReservation.isUserInteractionEnabled = true
     }
     
     func setBtnReservationToCancel() {
         btnReservation.cornerRadius = 2.0
         btnReservation.borderWidth = 1.0
-        btnReservation.borderColor = UIColor.whiteColor()
-        btnReservation.backgroundColor = UIColor.clearColor()
-        btnReservation.setTitle(" CANCEL RESERVATION", forState: .Normal)
-        btnReservation.userInteractionEnabled = true
+        btnReservation.borderColor = UIColor.white
+        btnReservation.backgroundColor = UIColor.clear
+        btnReservation.setTitle(" CANCEL RESERVATION", for: UIControlState())
+        btnReservation.isUserInteractionEnabled = true
     }
     
     func setBtnReservationToDisabled() {
         btnReservation.cornerRadius = 0
         btnReservation.borderWidth = 0
-        btnReservation.borderColor = UIColor.clearColor()
+        btnReservation.borderColor = UIColor.clear
         btnReservation.backgroundColor = Theme.GrayLight
-        btnReservation.setTitle(" RESERVE", forState: .Normal)
-        btnReservation.userInteractionEnabled = false
+        btnReservation.setTitle(" RESERVE", for: UIControlState())
+        btnReservation.isUserInteractionEnabled = false
     }
     
     // MARK: - If product is bought
     
-    @IBAction func toPaymentConfirm(sender: AnyObject) {
-        let paymentConfirmationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil).first as! PaymentConfirmationViewController
+    @IBAction func toPaymentConfirm(_ sender: AnyObject) {
+        let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
         self.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
     }
     
-    @IBAction func toTransactionProductDetail(sender: AnyObject) {
-        let myPurchaseVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil).first as! MyPurchaseViewController
+    @IBAction func toTransactionProductDetail(_ sender: AnyObject) {
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
         self.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         if (segue.identifier == "segAddComment")
         {
-            let c = segue.destinationViewController as! ProductCommentsController
+            let c = segue.destination as! ProductCommentsController
             c.pDetail = self.detail
         } else
         {
-            let c = segue.destinationViewController as! BaseViewController
+            let c = segue.destination as! BaseViewController
             c.previousController = self
         }
     }
@@ -936,11 +956,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - Other functions
 
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
 }
 
@@ -985,7 +1005,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     var product : Product?
     var detail : ProductDetail?
     
-    static func heightFor(obj : ProductDetail?)->CGFloat
+    static func heightFor(_ obj : ProductDetail?)->CGFloat
     {
         if (obj == nil) {
             return 110
@@ -993,7 +1013,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         var product = (obj?.json)!["_data"]
         
         let name = product["name"].string!
-        let s = name.boundsWithFontSize(UIFont.boldSystemFontOfSize(16.5), width: UIScreen.mainScreen().bounds.size.width-74.0)
+        let s = name.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 16.5), width: UIScreen.main.bounds.size.width-74.0)
         
         var reviewHeight : CGFloat = 32.0
         if let brand_under_review = product["brand_under_review"].bool
@@ -1015,12 +1035,12 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        btnShare?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        btnShare?.layer.borderColor = UIColor.lightGray.cgColor
         btnShare?.layer.borderWidth = 1
         
-        btnShare?.addTarget(self, action: #selector(ProductCellTitle.share), forControlEvents: UIControlEvents.TouchUpInside)
+        btnShare?.addTarget(self, action: #selector(ProductCellTitle.share), for: UIControlEvents.touchUpInside)
         
-        sectionLove?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        sectionLove?.layer.borderColor = UIColor.lightGray.cgColor
         sectionLove?.layer.borderWidth = 1
         sectionLove?.layer.cornerRadius = 2
         sectionLove?.layer.masksToBounds = true
@@ -1028,7 +1048,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         let tap = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.love))
         sectionLove?.addGestureRecognizer(tap)
         
-        sectionComment?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        sectionComment?.layer.borderColor = UIColor.lightGray.cgColor
         sectionComment?.layer.borderWidth = 1
         sectionComment?.layer.cornerRadius = 2
         sectionComment?.layer.masksToBounds = true
@@ -1036,7 +1056,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         let tapcomment = UITapGestureRecognizer(target: self, action: #selector(ProductCellTitle.comment))
         sectionComment?.addGestureRecognizer(tapcomment)
         
-        let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+        let screenWidth: CGFloat = UIScreen.main.bounds.width
         for i in 0...consWidthSocmedBtns.count - 1 {
             consWidthSocmedBtns[i].constant = (screenWidth - 32) / 3
         }
@@ -1050,7 +1070,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             loving = false
         } else
         {
-            self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
+            self.parent?.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
     
@@ -1069,7 +1089,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             LoginViewController.Show(self.parent!, userRelatedDelegate: self, animated: true)
         } else
         {
-            self.parent?.performSegueWithIdentifier("segAddComment", sender: nil)
+            self.parent?.performSegue(withIdentifier: "segAddComment", sender: nil)
         }
     }
     
@@ -1108,7 +1128,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         loveCount+=1
         setupLoveView()
         // API Migrasi
-        request(APIProduct.Love(productID: (detail?.productID)!)).responseJSON {resp in
+        request(APIProduct.love(productID: (detail?.productID)!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Love Product"))
             {
                 if let s = self.captionCountLove?.text
@@ -1130,7 +1150,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         loveCount-=1
         setupLoveView()
         // API Migrasi
-        request(APIProduct.Unlove(productID: (detail?.productID)!)).responseJSON {resp in
+        request(APIProduct.unlove(productID: (detail?.productID)!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove Product"))
             {
                 if let s = self.captionCountLove?.text
@@ -1146,7 +1166,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         }
     }
     
-    func adapt(obj : ProductDetail?)
+    func adapt(_ obj : ProductDetail?)
     {
         if (obj == nil) {
             return
@@ -1213,7 +1233,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         {
             if (brand_under_review == false)
             {
-                sectionBrandReview?.hidden = true
+                sectionBrandReview?.isHidden = true
             }
         }
         
@@ -1221,10 +1241,10 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         if (detail!.isMyProduct) {
             self.consHeightLblShareSocmed.constant = 22
             
-            self.sectionLove?.hidden = true
-            self.sectionComment?.hidden = true
-            self.btnShare?.hidden = true
-            self.socmedBtnSet.hidden = false
+            self.sectionLove?.isHidden = true
+            self.sectionComment?.isHidden = true
+            self.btnShare?.isHidden = true
+            self.socmedBtnSet.isHidden = false
             
             self.productProfit = 90
             self.setShareText()
@@ -1245,13 +1265,13 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     func setShareText() {
         let txt = "Share utk keuntungan lebih, keuntungan sekarang: \(productProfit)%"
         let attTxt = NSMutableAttributedString(string: txt)
-        attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).rangeOfString("\(productProfit)%"))
+        attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).range(of: "\(productProfit)%"))
         self.lblShareSocmed.attributedText = attTxt
     }
     
     func sharedViaInstagram() {
         btnInstagram.borderColor = Theme.PrimaryColor
-        btnInstagram.userInteractionEnabled = false
+        btnInstagram.isUserInteractionEnabled = false
         for i in 0...lblsBtnInstagram.count - 1 {
             lblsBtnInstagram[i].textColor = Theme.PrimaryColor
         }
@@ -1262,7 +1282,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func sharedViaFacebook() {
         btnFacebook.borderColor = Theme.PrimaryColor
-        btnFacebook.userInteractionEnabled = false
+        btnFacebook.isUserInteractionEnabled = false
         for i in 0...lblsBtnFacebook.count - 1 {
             lblsBtnFacebook[i].textColor = Theme.PrimaryColor
         }
@@ -1273,7 +1293,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     
     func sharedViaTwitter() {
         btnTwitter.borderColor = Theme.PrimaryColor
-        btnTwitter.userInteractionEnabled = false
+        btnTwitter.isUserInteractionEnabled = false
         for i in 0...lblsBtnTwitter.count - 1 {
             lblsBtnTwitter[i].textColor = Theme.PrimaryColor
         }
@@ -1289,21 +1309,21 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
             sectionLove?.backgroundColor = Theme.PrimaryColor
             for v in (sectionLove?.subviews)!
             {
-                if (v.isKindOfClass(UILabel.classForCoder()))
+                if (v.isKind(of: UILabel.classForCoder()))
                 {
                     let l = v as! UILabel
-                    l.textColor = UIColor.whiteColor()
+                    l.textColor = UIColor.white
                 } else
                 {
-                    v.backgroundColor = UIColor.whiteColor()
+                    v.backgroundColor = UIColor.white
                 }
             }
         } else
         {
-            sectionLove?.backgroundColor = UIColor.whiteColor()
+            sectionLove?.backgroundColor = UIColor.white
             for v in (sectionLove?.subviews)!
             {
-                if (v.isKindOfClass(UILabel.classForCoder()))
+                if (v.isKind(of: UILabel.classForCoder()))
                 {
                     let l = v as! UILabel
                     l.textColor = UIColor(hexString: "#858585")
@@ -1319,7 +1339,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     {
         var item = PreloShareItem()
         let s = detail?.displayPicturers.first
-        item.url = NSURL(string: s!)
+        item.url = URL(string: s!)
         item.text = (detail?.name)!
         item.permalink  = (detail?.permalink)
         item.price = (detail?.price)
@@ -1328,15 +1348,15 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
     }
     
     // Socmed functions
-    @IBAction func btnInstagramPressed(sender: AnyObject) {
+    @IBAction func btnInstagramPressed(_ sender: AnyObject) {
         self.shareInstagram()
     }
     
-    @IBAction func btnFacebookPressed(sender: AnyObject) {
+    @IBAction func btnFacebookPressed(_ sender: AnyObject) {
         self.shareFacebook()
     }
     
-    @IBAction func btnTwitterPressed(sender: AnyObject) {
+    @IBAction func btnTwitterPressed(_ sender: AnyObject) {
         self.shareTwitter()
     }
 }
@@ -1348,12 +1368,12 @@ class ProductCellSeller : UITableViewCell
     @IBOutlet var captionLastSeen: UILabel!
     @IBOutlet var ivSellerAvatar : UIImageView?
     
-    static func heightFor(obj : JSON?)->CGFloat
+    static func heightFor(_ obj : JSON?)->CGFloat
     {
         return 86
     }
     
-    func adapt(obj : ProductDetail?)
+    func adapt(_ obj : ProductDetail?)
     {
         if (obj == nil) {
             return
@@ -1376,9 +1396,9 @@ class ProductCellSeller : UITableViewCell
         captionSellerRating?.text = stars
         let lastSeenSeller = obj!.lastSeenSeller
         if (lastSeenSeller != "") {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            if let lastSeenDate = formatter.dateFromString(lastSeenSeller) {
+            if let lastSeenDate = formatter.date(from: lastSeenSeller) {
                 captionLastSeen.text = "Terakhir aktif: \(lastSeenDate.relativeDescription)"
             }
         }
@@ -1413,15 +1433,15 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         captionMerk?.tapDelegate = self
     }
     
-    static func heightFor(obj : ProductDetail?)->CGFloat
+    static func heightFor(_ obj : ProductDetail?)->CGFloat
     {
         if (obj == nil) {
             return 202
         }
         var product = (obj?.json)!["_data"]
         
-        let cons = CGSize(width: UIScreen.mainScreen().bounds.size.width-16, height: 0)
-        let font = UIFont.systemFontOfSize(14)
+        let cons = CGSize(width: UIScreen.main.bounds.size.width-16, height: 0)
+        let font = UIFont.systemFont(ofSize: 14)
         let desc = product["description"].string!
         var desc2 : NSString = NSString(string: desc)
         
@@ -1436,9 +1456,9 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         desc2 = desc3 + (desc2 as String)
         
-        let size = desc2.boundingRectWithSize(cons, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
+        let size = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         
-        let s = "Jaminan 100% uang kembali jika pesananmu tidak sampai".boundsWithFontSize(UIFont.systemFontOfSize(12), width: UIScreen.mainScreen().bounds.size.width-66)
+        let s = "Jaminan 100% uang kembali jika pesananmu tidak sampai".boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: UIScreen.main.bounds.size.width-66)
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
@@ -1454,14 +1474,14 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
             }
         }
         
-        let cs = categoryString.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-101)
+        let cs = categoryString.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-101)
         
         var cs2 = (obj?.defectDescription)!
         if (cs2 == "")
         {
             cs2 = "-"
         }
-        let cs2Size = cs2.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-136)
+        let cs2Size = cs2.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-136)
         
 //        var al = (obj?.sellReason)!
         var sellReason = (obj?.sellReason)!
@@ -1469,12 +1489,12 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         {
             sellReason = "-"
         }
-        let alSize = sellReason.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-100)
+        let alSize = sellReason.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-100)
         
         return 163+size.height+s.height+cs.height+8+8+cs2Size.height+8+alSize.height
     }
     
-    func adapt(obj : ProductDetail?)
+    func adapt(_ obj : ProductDetail?)
     {
         if (obj == nil) {
             return
@@ -1506,8 +1526,8 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 "brand":product["brand"].stringValue,
                 "range":NSStringFromRange(NSMakeRange(0, merk.length)),
                 ZSWTappableLabelTappableRegionAttributeName: Int(true),
-                ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
-                ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
+                ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
+                ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
                 NSForegroundColorAttributeName : Theme.PrimaryColorDark
             ]
             captionMerk?.attributedText = NSAttributedString(string: merk, attributes: p)
@@ -1541,8 +1561,8 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                     "category_id":d["_id"].string!,
                     "range":NSStringFromRange(NSMakeRange(categoryString.length, name.length)),
                     ZSWTappableLabelTappableRegionAttributeName: Int(true),
-                    ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGrayColor(),
-                    ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.whiteColor(),
+                    ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
+                    ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
                     NSForegroundColorAttributeName : Theme.PrimaryColorDark
                 ]
                 param.append(p)
@@ -1580,7 +1600,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         captionConditionDesc?.text = defect
     }
     
-    func tappableLabel(tappableLabel: ZSWTappableLabel!, tappedAtIndex idx: Int, withAttributes attributes: [NSObject : AnyObject]!) {
+    func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {
         //print(attributes)
         
         if (cellDelegate != nil) {
@@ -1604,19 +1624,19 @@ class ProductCellDiscussion : UITableViewCell
     @IBOutlet var captionName : UILabel?
     @IBOutlet var ivCover : UIImageView?
     
-    static func heightFor(obj : ProductDiscussion?)->CGFloat
+    static func heightFor(_ obj : ProductDiscussion?)->CGFloat
     {
         if (obj == nil) {
             return 64
         }
         _ = (obj?.json)!
         
-        let s = obj?.message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
+        let s = obj?.message.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-72)
         let h = 47+(s?.height)!
         return h
     }
     
-    func adapt(obj : ProductDiscussion?)
+    func adapt(_ obj : ProductDiscussion?)
     {
         if (obj == nil) {
             return

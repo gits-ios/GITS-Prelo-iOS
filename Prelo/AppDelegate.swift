@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var produkUploader : ProdukUploader!
     
     static var Instance : AppDelegate {
-        return UIApplication.sharedApplication().delegate as! AppDelegate
+        return UIApplication.shared.delegate as! AppDelegate
     }
     
     // Uninstall.io (disabled)
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Application delegate functions
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         produkUploader = ProdukUploader()
         
@@ -73,9 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Fabric.with([Crashlytics.self(), Twitter.self()])
         
         if (AppTools.IsPreloProduction) {
-            Mixpanel.sharedInstanceWithToken("6503102e2f63cae565ac95dbe489c154")
+            Mixpanel.sharedInstance(withToken: "6503102e2f63cae565ac95dbe489c154")
         } else {
-            Mixpanel.sharedInstanceWithToken("5128cc503a07747a39945badf5aa4b3b")
+            Mixpanel.sharedInstance(withToken: "5128cc503a07747a39945badf5aa4b3b")
         }
         
         if (User.IsLoggedIn) {
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }*/
             
             // Send uuid to server
-            request(APIUser.SetUserUUID)
+            request(APIUser.setUserUUID)
         }
         
         // Mixpanel
@@ -109,10 +109,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure GAI options.
         let gai = GAI.sharedInstance()
-        gai.trackerWithTrackingId("UA-68727101-3")
-        gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
-        gai.defaultTracker.allowIDFACollection = true // Enable IDFA collection
+        gai?.tracker(withTrackingId: "UA-68727101-3")
+        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
+        gai?.defaultTracker.allowIDFACollection = true // Enable IDFA collection
         
         // Google Analytics
         GAI.trackPageVisit(PageName.SplashScreen)
@@ -122,15 +122,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         
         // Enable Google AdWords automated usage reporting
-        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID("953474992")
-        ACTConversionReporter.reportWithConversionID("953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
+        ACTAutomatedUsageTracker.enableAutomatedUsageReporting(withConversionID: "953474992")
+        ACTConversionReporter.report(withConversionID: "953474992", label: "sV6mCNOS0WIQsL_TxgM", value: "10000.00", isRepeatable: false)
         
         // AppsFlyer Tracker
-        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
-        AppsFlyerTracker.sharedTracker().appleAppID = "1027248488"
+        AppsFlyerTracker.shared().appsFlyerDevKey = "JdjGSJmNJwd46zDPxZf9J"
+        AppsFlyerTracker.shared().appleAppID = "1027248488"
         
         // MoEngage
-        MoEngage.sharedInstance().initializeWithApiKey("N4VL0T0CGHRODQUOGRKZVWFH", inApplication: application, withLaunchOptions: launchOptions)
+        MoEngage.sharedInstance().initialize(withApiKey: "N4VL0T0CGHRODQUOGRKZVWFH", in: application, withLaunchOptions: launchOptions)
         
         // Uninstall.io (disabled)
         /*NotifyManager.sharedManager().processLaunchOptions(launchOptions)
@@ -158,27 +158,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }*/
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.userLoggedIn), name: "userLoggedIn", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.userLoggedIn), name: NSNotification.Name(rawValue: "userLoggedIn"), object: nil)
         
         // Default deviceRegId so it's not nil
-        NSUserDefaults.standardUserDefaults().setObject("", forKey: "deviceregid")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set("", forKey: "deviceregid")
+        UserDefaults.standard.synchronize()
         
         // Register push notification
-        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        UIApplication.sharedApplication().registerForRemoteNotifications()
-        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         // Handling push notification from APNS
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
         if (launchOptions != nil) {
-            if let remoteNotif = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            if let remoteNotif = launchOptions![UIApplicationLaunchOptionsKey.remoteNotification] as? NSDictionary {
                 if let remoteNotifAps = remoteNotif["aps"] as? NSDictionary {
                     //Constant.showDialog("Push Notification", message: "remoteNotifAps = \(remoteNotifAps)")
-                    if let tipe = remoteNotifAps.objectForKey("tipe") as? String {
+                    if let tipe = remoteNotifAps.object(forKey: "tipe") as? String {
                         var targetId : String?
-                        if let tId = remoteNotifAps.objectForKey("target_id") as? String {
+                        if let tId = remoteNotifAps.object(forKey: "target_id") as? String {
                             targetId = tId
                         }
                         self.deeplinkRedirect(tipe, targetId: targetId)
@@ -189,21 +189,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Handling facebook deferred deep linking
         // Kepanggil hanya jika app baru saja dibuka, jika dibuka ketika sedang dalam background mode maka tidak terpanggil
-        if let launchURL = launchOptions?[UIApplicationLaunchOptionsURLKey] as? NSURL {
+        if let launchURL = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL {
             if let tipe = launchURL.host {
                 var targetId : String?
-                if let tId = launchURL.path?.substringFromIndex(1) {
+                if let tId = launchURL.path.substringFromIndex(1) {
                     targetId = tId
                 }
                 self.deeplinkRedirect(tipe, targetId: targetId)
             }
 
-            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : NSURL!, error : NSError!) -> Void in
+            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
                 if (error != nil) { // Process error
                     print("Received error while fetching deferred app link \(error)")
                 }
                 if (url != nil) {
-                    UIApplication.sharedApplication().openURL(url)
+                    UIApplication.shared.openURL(url)
                 }
             })
         }
@@ -211,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Deeplink handling using Branch
         let branch : Branch = Branch.getInstance()
         branch.accountForFacebookSDKPreventingAppLaunch()
-        branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
+        branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
             // Route the user based on what's in params
             let sessionParams = Branch.getInstance().getLatestReferringParams()
             let firstParams = Branch.getInstance().getFirstReferringParams()
@@ -229,10 +229,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         
         // Deeplink handling for universal link
-        if let activityDict = launchOptions?[UIApplicationLaunchOptionsUserActivityDictionaryKey] as? [NSObject : AnyObject], activity = activityDict["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity {
+        if let activityDict = launchOptions?[UIApplicationLaunchOptionsKey.userActivityDictionary] as? [AnyHashable: Any], let activity = activityDict["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity {
             if (activity.activityType == NSUserActivityTypeBrowsingWeb) {
-                if let url = activity.webpageURL, let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let path = components.path {
-                    var param : [NSURLQueryItem] = []
+                if let url = activity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let path = components.path {
+                    var param : [URLQueryItem] = []
                     if let items = components.queryItems {
                         param = items
                     }
@@ -243,20 +243,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set User-Agent for every HTTP request
         let webViewDummy = UIWebView()
-        let userAgent = webViewDummy.stringByEvaluatingJavaScriptFromString("navigator.userAgent")
-        NSUserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
+        let userAgent = webViewDummy.stringByEvaluatingJavaScript(from: "navigator.userAgent")
+        UserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func application(application: UIApplication,
-        openURL url: NSURL,
+    func application(_ application: UIApplication,
+        open url: URL,
         sourceApplication: String?,
-        annotation: AnyObject) -> Bool {
+        annotation: Any) -> Bool {
             // Kepanggil hanya jika app dibuka ketika sedang dalam background mode, jika app baru saja dibuka maka tidak terpanggil
             //Constant.showDialog("Deeplink", message: "url = \(url)")
             
@@ -274,7 +274,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 return FBSDKApplicationDelegate.sharedInstance().application(
                     application,
-                    openURL: url,
+                    open: url,
                     sourceApplication: sourceApplication,
                     annotation: annotation)
             }
@@ -282,15 +282,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
     }
     
-    func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+    func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
         return userActivityType == NSUserActivityTypeBrowsingWeb
     }
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         
         if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
-            if let url = userActivity.webpageURL, let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let path = components.path {
-                var param : [NSURLQueryItem] = []
+            if let url = userActivity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let path = components.path {
+                var param : [URLQueryItem] = []
                 if let items = components.queryItems {
                     param = items
                 }
@@ -299,54 +299,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        Branch.getInstance().continueUserActivity(userActivity)
+        Branch.getInstance().continue(userActivity)
         
         return true
     }
     
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
         
         // MoEngage
-        MoEngage.sharedInstance().didRegisterForUserNotificationSettings(notificationSettings)
+        MoEngage.sharedInstance().didRegister(for: notificationSettings)
     }
     
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
         print("Action : \(identifier)")
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("deviceToken = \(deviceToken)")
         
         // Mixpanel push notification setup
         Mixpanel.sharedInstance().people.addPushDeviceToken(deviceToken)
         
         // Appsflyer uninstall tracking
-        AppsFlyerTracker.sharedTracker().registerUninstall(deviceToken)
+        AppsFlyerTracker.shared().registerUninstall(deviceToken)
         if (AppTools.isDev) {
-            AppsFlyerTracker.sharedTracker().useUninstallSandbox = true
+            AppsFlyerTracker.shared().useUninstallSandbox = true
         }
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
         
-        let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")
         
         let deviceRegId: String = (deviceToken.description as NSString)
-            .stringByTrimmingCharactersInSet(characterSet)
-            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+            .trimmingCharacters(in: characterSet)
+            .replacingOccurrences(of: " ", with: "") as String
         
         print("deviceRegId = \(deviceRegId)")
         
-        NSUserDefaults.standardUserDefaults().setObject(deviceRegId, forKey: "deviceregid")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(deviceRegId, forKey: "deviceregid")
+        UserDefaults.standard.synchronize()
         
         // Set deviceRegId for push notif if user is logged in
         if (User.IsLoggedIn) {
             LoginViewController.SendDeviceRegId()
         } else {
             // API Migrasi
-            request(APIVisitor.UpdateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+            request(APIVisitor.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
                     print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
@@ -354,14 +354,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("ERROR : \(error)")
         
         // MoEngage
         MoEngage.sharedInstance().didFailToRegisterForPush()
     }
     
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         print("userInfo = \(userInfo)")
         
         // MoEngage
@@ -370,19 +370,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().processRemoteNotification(userInfo)
         
-        if (application.applicationState == UIApplicationState.Active) {
+        if (application.applicationState == UIApplicationState.active) {
             print("App were active when receiving remote notification")
         } else {
             print("App weren't active when receiving remote notification")
         }
     }
     
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
@@ -395,7 +395,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NotifyManager.sharedManager().didLoseFocus()
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
         // Uninstall.io (disabled)
@@ -404,22 +404,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        produkUploader.start()
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
         
         // Remove app badge if any
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
         
         // AppsFlyer
         // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
-        AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        AppsFlyerTracker.shared().trackAppLaunch()
         
         // MoEngage
         MoEngage.sharedInstance().applicationBecameActiveinApplication(application)
     }
     
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
@@ -428,7 +428,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MoEngage.sharedInstance().applicationTerminated(application)
     }
     
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
@@ -436,13 +436,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Redirection functions
     
-    func handleUniversalLink(path : String, param : [NSURLQueryItem]) {
+    func handleUniversalLink(_ path : String, param : [URLQueryItem]) {
         self.showRedirAlert()
-        if (path.containsString("/p/")) {
+        if (path.contains("/p/")) {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].stringByReplacingOccurrencesOfString(".html", withString: "")
-                request(Products.GetIdByPermalink(permalink: permalink)).responseJSON { resp in
+                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                request(Products.getIdByPermalink(permalink: permalink)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
                         let pId = json["_data"].stringValue
@@ -458,7 +458,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.showFailedRedirAlert()
             }
-        } else if (path.containsString("/reminder-ketersediaan-barang") || path.containsString("/barang-expiring")) {
+        } else if (path.contains("/reminder-ketersediaan-barang") || path.contains("/barang-expiring")) {
             /* GET PARAM EXAMPLE
             var token = ""
             if (param.count > 0) {
@@ -471,11 +471,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }*/
             self.redirectExpiringProducts()
-        } else if (path.containsString("/c/") || path.containsString("/bekas/")) {
+        } else if (path.contains("/c/") || path.contains("/bekas/")) {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
-                let permalink = splittedPath[1].stringByReplacingOccurrencesOfString(".html", withString: "")
-                request(References.GetCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
+                request(References.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
                         let cId = json["_data"].stringValue
@@ -496,9 +496,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func deeplinkRedirect(tipe : String, targetId : String?) {
+    func deeplinkRedirect(_ tipe : String, targetId : String?) {
         //Constant.showDialog("tipe", message: "\(tipe)")
-        let tipeLowercase = tipe.lowercaseString
+        let tipeLowercase = tipe.lowercased()
         if (tipeLowercase == self.RedirProduct) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
@@ -564,11 +564,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         redirAlert!.show()
     }
     
-    func hideRedirAlertWithDelay(delay: Double) {
+    func hideRedirAlertWithDelay(_ delay: Double) {
         let delayTime = delay * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime))
-        dispatch_after(time, dispatch_get_main_queue(), {
-            self.redirAlert?.dismissWithClickedButtonIndex(-1, animated: true)
+        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            self.redirAlert?.dismiss(withClickedButtonIndex: -1, animated: true)
         })
     }
     
@@ -578,8 +578,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.hideRedirAlertWithDelay(3.0)
     }
     
-    func redirectProduct(productId : String) {
-        request(Products.Detail(productId: productId)).responseJSON {resp in
+    func redirectProduct(_ productId : String) {
+        request(Products.detail(productId: productId)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -608,7 +608,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Redirect setelah selesai menunggu
                 if (rootViewController != nil) {
-                    let productDetailVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
                     rootViewController!.pushViewController(productDetailVC, animated: true)
                 } else {
@@ -620,8 +620,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func redirectComment(productId : String) {
-        request(Products.Detail(productId: productId)).responseJSON {resp in
+    func redirectComment(_ productId : String) {
+        request(Products.detail(productId: productId)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product Comment")) {
                 let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)
@@ -660,10 +660,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func redirectShopPage(userId : String) {
+    func redirectShopPage(_ userId : String) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        listItemVC.currentMode = .Shop
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .shop
         listItemVC.shopId = userId
 
         var rootViewController : UINavigationController?
@@ -678,16 +678,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Set root view controller
             rootViewController = UINavigationController()
             rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
-            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
-    func redirectInbox(inboxId : String?) {
+    func redirectInbox(_ inboxId : String?) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UINavigationController?
         
@@ -712,13 +712,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
             // API Migrasi
-            request(APIInbox.GetInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+            request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let inbox = Inbox(jsn: data)
                     
-                    let tawarVC = mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdTawar) as! TawarViewController
+                    let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
                     rootViewController!.pushViewController(tawarVC, animated: true)
                 } else {
@@ -753,17 +753,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
-            let notifPageVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil).first as! NotifAnggiTabBarViewController
+            let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
             rootViewController!.pushViewController(notifPageVC, animated: true)
         } else {
             self.showFailedRedirAlert()
         }
     }
     
-    func redirectConfirmPayment(transactionId : String) {
+    func redirectConfirmPayment(_ transactionId : String) {
         if (transactionId != "") {
             // API Migrasi
-            request(APITransaction2.TransactionDetail(tId: transactionId)).responseJSON {resp in
+            request(APITransaction2.transactionDetail(tId: transactionId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -797,7 +797,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             self.hideRedirAlertWithDelay(3.0)
                         } else {
                             let products = data["products"]
-                            var imgs : [NSURL] = []
+                            var imgs : [URL] = []
                             for i in 0 ..< products.count {
                                 if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
                                     imgs.append(c.productImageURL!)
@@ -805,7 +805,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             
                             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+                            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
                             orderConfirmVC.transactionId = transactionId
                             orderConfirmVC.orderID = data["order_id"].stringValue
                             orderConfirmVC.total = data["total_price"].intValue
@@ -823,7 +823,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func redirectTransaction(trxId : String?, trxProductId : String?, isSeller : Bool) {
+    func redirectTransaction(_ trxId : String?, trxProductId : String?, isSeller : Bool) {
         // Tunggu sampai UINavigationController terbentuk
         var rootViewController : UINavigationController?
         
@@ -847,7 +847,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Redirect setelah selesai menunggu
         if (rootViewController != nil) {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
             transactionDetailVC.trxId = trxId
             transactionDetailVC.trxProductId = trxProductId
             transactionDetailVC.isSeller = isSeller
@@ -858,7 +858,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectExpiringProducts() {
-        let expProductsVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameExpiringProducts, owner: nil, options: nil).first as! ExpiringProductsViewController
+        let expProductsVC = Bundle.main.loadNibNamed(Tags.XibNameExpiringProducts, owner: nil, options: nil)?.first as! ExpiringProductsViewController
         
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -872,19 +872,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Set root view controller
             rootViewController = UINavigationController()
             rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
-            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             expProductsVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(expProductsVC, animated: true)
     }
     
-    func redirectCategory(categoryId : String) {
+    func redirectCategory(_ categoryId : String) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let listItemVC = mainStoryboard.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-        listItemVC.currentMode = .Filter
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .filter
         listItemVC.fltrCategId = categoryId
         listItemVC.fltrSortBy = "recent"
         
@@ -900,10 +900,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Set root view controller
             rootViewController = UINavigationController()
             rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-            rootViewController?.navigationBar.tintColor = UIColor.whiteColor()
-            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
             self.window?.rootViewController = rootViewController
-            let noBtn = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             listItemVC.navigationItem.leftBarButtonItem = noBtn
         }
         rootViewController!.pushViewController(listItemVC, animated: true)
@@ -911,36 +911,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data stack
 
-    lazy var applicationDocumentsDirectory: NSURL = {
+    lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "id.gits.Prelo" in the application's documents Application Support directory.
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return urls[urls.count-1] as URL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle.mainBundle().URLForResource("Prelo", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main.url(forResource: "Prelo", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
 
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         
         // migration
         let option = [NSMigratePersistentStoresAutomaticallyOption:true, NSInferMappingModelAutomaticallyOption:true]
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: option)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: option)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
             
-            dict[NSUnderlyingErrorKey] = error as! NSError
+            dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -955,7 +955,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
@@ -985,16 +985,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Other functions
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
-        if let t = event?.allTouches()?.first
+        if let t = event?.allTouches?.first
         {
-            let loc = t.locationInView(self.window)
-            let f = UIApplication.sharedApplication().statusBarFrame
-            let b = CGRectContainsPoint(f, loc)
+            let loc = t.location(in: self.window)
+            let f = UIApplication.shared.statusBarFrame
+            let b = f.contains(loc)
             if (b) {
-                NSNotificationCenter.defaultCenter().postNotificationName(AppDelegate.StatusBarTapNotificationName, object: nil)
+                NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
             }
         }
     }

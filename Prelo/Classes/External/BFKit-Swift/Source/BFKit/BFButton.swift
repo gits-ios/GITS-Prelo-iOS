@@ -28,11 +28,11 @@ import Foundation
 import UIKit
 
 /// This class adds some useful functions to UIButton that cannot be in an extension
-public class BFButton: UIButton {
+open class BFButton: UIButton {
     // MARK: - Variables -
     
     /// The overlay image
-    private var overlayImgView: UIImageView! {
+    fileprivate var overlayImgView: UIImageView! {
         didSet(newOverlayImgView) {
             if self.overlayImgView != newOverlayImgView && newOverlayImgView != nil {
                 self.overlayImgView = newOverlayImgView
@@ -42,20 +42,20 @@ public class BFButton: UIButton {
         }
     }
     /// The fade duration
-    private var fadeDuration: Float!
+    fileprivate var fadeDuration: Float!
     
     /// The animation on highlighted status
-    public override var highlighted: Bool {
+    open override var isHighlighted: Bool {
         didSet(highlighted) {
             if highlighted == false {
                 self.addSubview(self.overlayImgView)
                 self.overlayImgView.alpha = 0
                 
-                UIView.animateWithDuration(NSTimeInterval(self.fadeDuration), animations: {
+                UIView.animate(withDuration: TimeInterval(self.fadeDuration), animations: {
                     self.overlayImgView.alpha = 1
                 })
             } else {
-                UIView.animateWithDuration(NSTimeInterval(self.fadeDuration), animations: {
+                UIView.animate(withDuration: TimeInterval(self.fadeDuration), animations: {
                     self.overlayImgView.alpha = 0
                 }, completion: { (completed) in
                     if completed {
@@ -83,7 +83,7 @@ public class BFButton: UIButton {
         
         super.init(frame: frame)
         
-        self.setImage(image, forState: .Normal)
+        self.setImage(image, for: UIControlState())
         self.overlayImgView = UIImageView(image: highlightedImage)
         self.overlayImgView.frame = self.imageView!.frame
         self.overlayImgView.bounds = self.imageView!.bounds

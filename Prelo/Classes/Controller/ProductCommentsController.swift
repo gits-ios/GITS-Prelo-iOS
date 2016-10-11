@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate
 {
@@ -42,21 +62,21 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         tableView.delegate = self
         
         txtMessage.delegate = self
-        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), forControlEvents: UIControlEvents.TouchUpInside)
+        btnSend.addTarget(self, action: #selector(ProductCommentsController.send), for: UIControlEvents.touchUpInside)
         
         tableView.tableFooterView = UIView()
         
         growHandler = GrowingTextViewHandler(textView: txtMessage, withHeightConstraint: conHeightTxtMessage)
-        growHandler?.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        growHandler?.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
         
         getComments()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Mixpanel
@@ -73,7 +93,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         // Google Analytics
         GAI.trackPageVisit(PageName.ProductDetailComment)
         
-        self.an_subscribeKeyboardWithAnimations({i, f, o in
+        self.an_subscribeKeyboard(animations: {i, f, o in
             
             if (o)
             {
@@ -86,7 +106,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
             }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.an_unsubscribeKeyboard()
@@ -96,7 +116,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     func getComments()
     {
         // API Migrasi
-        request(APIProduct.GetComment(productID: pDetail.productID)).responseJSON {resp in
+        request(APIProduct.getComment(productID: pDetail.productID)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
@@ -143,24 +163,24 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         ]
         //Mixpanel.trackEvent(MixpanelEvent.CommentedProduct, properties: pt)
         
-        self.btnSend.hidden = true
+        self.btnSend.isHidden = true
         
         txtMessage.resignFirstResponder()
-        txtMessage.editable = false
+        txtMessage.isEditable = false
         
         // API Migrasi
-        request(APIProduct.PostComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
+        request(APIProduct.postComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)
-                self.txtMessage.editable = true
-                self.btnSend.hidden = false
+                self.txtMessage.isEditable = true
+                self.btnSend.isHidden = false
                 self.getComments()
             } else
             {
-                self.txtMessage.editable = true
-                self.btnSend.hidden = false
+                self.txtMessage.isEditable = true
+                self.btnSend.isHidden = false
             }
         }
     }
@@ -170,11 +190,11 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         // Dispose of any resources that can be recreated.
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
 //        if (textView.text == "")
 //        {
 //            btnSend.enabled = false
@@ -182,17 +202,17 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
 //        {
 //            btnSend.enabled = true
 //        }
-        growHandler?.resizeTextViewWithAnimation(true)
+        growHandler?.resizeTextView(withAnimation: true)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let comment = comments[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let comment = comments[(indexPath as NSIndexPath).row]
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
-        let c = tableView.dequeueReusableCellWithIdentifier(i) as! ProductCellDiscussion
+        let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
         c.captionMessage?.text = comment.message
         c.captionName?.text = comment.name
@@ -201,13 +221,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         return c
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let s = comments[indexPath.row].message.boundsWithFontSize(UIFont.systemFontOfSize(14), width: UIScreen.mainScreen().bounds.size.width-72)
+        let s = comments[(indexPath as NSIndexPath).row].message.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width-72)
         return 47+(s.height)
     }
 
-    @IBAction func topHeaderPressed(sender: AnyObject) {
+    @IBAction func topHeaderPressed(_ sender: AnyObject) {
         self.consTopVwHeader.constant = -(self.vwHeader.height)
     }
     /*

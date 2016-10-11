@@ -25,7 +25,7 @@ class PhoneReverificationViewController : BaseViewController {
         self.title = "Nomor Handphone"
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Mixpanel
@@ -34,8 +34,8 @@ class PhoneReverificationViewController : BaseViewController {
         // Google Analytics
         GAI.trackPageVisit(PageName.ChangePhone)
         
-        self.an_subscribeKeyboardWithAnimations(
-            {r, t, o in
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
                 if (o) {
                     self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
                 } else {
@@ -47,35 +47,35 @@ class PhoneReverificationViewController : BaseViewController {
         lblNoHP.text = verifiedHP
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
     
-    @IBAction func disableTextFields(sender : AnyObject)
+    @IBAction func disableTextFields(_ sender : AnyObject)
     {
         fieldNoHP?.resignFirstResponder()
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UIButton.classForCoder()) || touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UIButton.classForCoder()) || touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
         }
     }
     
-    @IBAction func verifikasiPressed(sender: AnyObject) {
+    @IBAction func verifikasiPressed(_ sender: AnyObject) {
         if (fieldNoHP.text == "") {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
             // API Migrasi
-        request(APIUser.ResendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
+        request(APIUser.resendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
                     let json = JSON(resp.result.value!)
                     _ = json["_data"].bool
                     
-                    let phoneVerificationVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
                     phoneVerificationVC.isReverification = true
                     phoneVerificationVC.noHpToVerify = self.fieldNoHP.text == nil ? "" : self.fieldNoHP.text!
                     phoneVerificationVC.isShowBackBtn = true

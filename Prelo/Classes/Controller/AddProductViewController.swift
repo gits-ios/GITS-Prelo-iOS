@@ -16,13 +16,13 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     @IBOutlet var gridView : UICollectionView?
     @IBOutlet var sectionHeader : UIView?
     
-    var s1 : CGSize = CGSizeZero
-    var s2 : CGSize = CGSizeZero
+    var s1 : CGSize = CGSize.zero
+    var s2 : CGSize = CGSize.zero
     
     var sectionTitles : Array<[String : String]> = []
-    var baseDatas : [NSIndexPath:BaseCartData] = [:]
-    var cells : [NSIndexPath:UITableViewCell] = [:]
-    var heights : [NSIndexPath:CGFloat] = [:]
+    var baseDatas : [IndexPath:BaseCartData] = [:]
+    var cells : [IndexPath:UITableViewCell] = [:]
+    var heights : [IndexPath:CGFloat] = [:]
     
     var selectedCategoryID = ""
     
@@ -37,15 +37,15 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         self.title = PageName.AddProduct
         // Do any additional setup after loading the view.
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(AddProductViewController.back))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Batal", style: UIBarButtonItemStyle.plain, target: self, action: #selector(AddProductViewController.back))
         
-        sectionHeader?.width = UIScreen.mainScreen().bounds.width
-        sectionHeader?.height = UIScreen.mainScreen().bounds.width * 3 / 4
+        sectionHeader?.width = UIScreen.main.bounds.width
+        sectionHeader?.height = UIScreen.main.bounds.width * 3 / 4
         
-        s1 = CGSizeMake((UIScreen.mainScreen().bounds.width-2)/2, (sectionHeader?.height)!)
-        s2 = CGSizeMake((s1.width)/2, (s1.height-2)/2)
+        s1 = CGSize(width: (UIScreen.main.bounds.width-2)/2, height: (sectionHeader?.height)!)
+        s2 = CGSize(width: (s1.width)/2, height: (s1.height-2)/2)
         
-        tableView?.registerNib(UINib(nibName: "AddProductHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "header")
+        tableView?.register(UINib(nibName: "AddProductHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "header")
         
         sectionTitles.append(["title":"Detail Barang", "icon":""])
         //        sectionTitles.append(["title":"Ukuran", "icon":""])
@@ -54,7 +54,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         sectionTitles.append(["title":"Harga", "icon":""])
         //        sectionTitles.append(["title":"Share", "icon":""])
         
-        baseDatas[NSIndexPath(forRow: 0, inSection: 0)] = BaseCartData.instanceWith(UIImage(named: "category_placeholder")!, placeHolder: "Pilih Kategori", pickerPrepBlock : {picker in
+        baseDatas[IndexPath(row: 0, section: 0)] = BaseCartData.instanceWith(UIImage(named: "category_placeholder")!, placeHolder: "Pilih Kategori", pickerPrepBlock : {picker in
             
             picker.textTitle = "Pilih Kategori"
             picker.items = ["Baju", "Celana", "Kaca Mata", "Daleman"]
@@ -62,16 +62,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             picker.doneLoading()
             
         })
-        baseDatas[NSIndexPath(forRow: 1, inSection: 0)] = BaseCartData.instance("Nama Barang", placeHolder: "mis: iPod 5th Gen")
-        baseDatas[NSIndexPath(forRow: 2, inSection: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
-        baseDatas[NSIndexPath(forRow: 3, inSection: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
+        baseDatas[IndexPath(row: 1, section: 0)] = BaseCartData.instance("Nama Barang", placeHolder: "mis: iPod 5th Gen")
+        baseDatas[IndexPath(row: 2, section: 0)] = BaseCartData.instance("Deskripsi", placeHolder: "Deskripsi (alasan jual, cacat, bahan, penjelasan lainnya)")
+        baseDatas[IndexPath(row: 3, section: 0)] = BaseCartData.instance("Kondisi", placeHolder: "Kondisi", value: "", pickerPrepBlock: { picker in
             
             picker.textTitle = "Pilih Kondisi"
             
-            let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
+            let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Conditions")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["product_conditions"].array
@@ -97,14 +97,14 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 }
             }
         })
-        baseDatas[NSIndexPath(forRow: 4, inSection: 0)] = BaseCartData.instance("Merk", placeHolder: "Merk", value: "", pickerPrepBlock: { picker in
+        baseDatas[IndexPath(row: 4, section: 0)] = BaseCartData.instance("Merk", placeHolder: "Merk", value: "", pickerPrepBlock: { picker in
             
             picker.textTitle = "Pilih Merk"
             
-            let s = NSBundle.mainBundle().URLForResource("merk", withExtension: "json")?.absoluteString
+            let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.URL, headers: nil).responseJSON {resp in
+                request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["brands"].array
@@ -132,10 +132,10 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }
         })
         //        baseDatas[NSIndexPath(forRow: 1, inSection: 1)] = BaseCartData.instance("Ukuran", placeHolder: "Masukan Ukuran")
-        baseDatas[NSIndexPath(forRow: 1, inSection: 2)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
-        baseDatas[NSIndexPath(forRow: 0, inSection: 3)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
-        baseDatas[NSIndexPath(forRow: 1, inSection: 3)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
-        baseDatas[NSIndexPath(forRow: 2, inSection: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
+        baseDatas[IndexPath(row: 1, section: 2)] = BaseCartData.instance("Berat", placeHolder: "Masukan Berat")
+        baseDatas[IndexPath(row: 0, section: 3)] = BaseCartData.instance("Harga Beli", placeHolder: "Masukan Harga")
+        baseDatas[IndexPath(row: 1, section: 3)] = BaseCartData.instance("Harga Jual Prelo", placeHolder: "Masukan Harga")
+        baseDatas[IndexPath(row: 2, section: 3)] = BaseCartData.instance("Charge Prelo", placeHolder: "Komisi Prelo", value: "10%", enable: false)
         
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -146,18 +146,18 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     func back()
     {
         let a = UIAlertView(title: "Batal", message: "Kamu yakin mau batal ?", delegate: self, cancelButtonTitle: "Tidak")
-        a.addButtonWithTitle("Ya")
+        a.addButton(withTitle: "Ya")
         a.show()
     }
     
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1)
         {
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -166,7 +166,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         // Google Analytics
         GAI.trackPageVisit(PageName.AddProduct)
         
-        self.an_subscribeKeyboardWithAnimations({ r, t, o in
+        self.an_subscribeKeyboard(animations: { r, t, o in
             
             if (o)
             {
@@ -181,7 +181,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var first = true
     var firstLaunch = true
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if (User.IsLoggedIn)
@@ -209,10 +209,10 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     func userCancelLogin() {
         self.first = false
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
@@ -228,7 +228,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         //        self.callAPI()
     }
     
-    func populateImages(i : Int)
+    func populateImages(_ i : Int)
     {
         if (i == images.count) { // done with image
             callAPI()
@@ -261,7 +261,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         for (i, c) in cells
         {
-            if (c.isKindOfClass(BaseCartCell.classForCoder()))
+            if (c.isKind(of: BaseCartCell.classForCoder()))
             {
                 let b = c as! BaseCartCell
                 if let d = b.obtainValue()
@@ -289,12 +289,12 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                         //                        }
                     }
                 }
-            } else if (c.isKindOfClass(ACEExpandableTextCell.classForCoder()))
+            } else if (c.isKind(of: ACEExpandableTextCell.classForCoder()))
             {
                 let a = c as! ACEExpandableTextCell
-                if (i.row == 1) {
+                if ((i as NSIndexPath).row == 1) {
                     name = a.textView.text
-                } else if (i.row == 2) {
+                } else if ((i as NSIndexPath).row == 2) {
                     desc = a.textView.text
                 }
             }
@@ -332,7 +332,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
         
         self.navigationItem.rightBarButtonItem = nil
-        btnSend.enabled = false
+        btnSend.isEnabled = false
         
         //Mixpanel.sharedInstance().timeEvent("Adding Product")
         
@@ -340,7 +340,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             print(res)
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"1"])
             let json = JSON(res)
-            let s = self.storyboard?.instantiateViewControllerWithIdentifier("share") as! AddProductShareViewController
+            let s = self.storyboard?.instantiateViewController(withIdentifier: "share") as! AddProductShareViewController
             if let price = json["_data"]["price"].int
             {
                 s.basePrice = price
@@ -350,7 +350,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }, failure: {op, err in
             //Mixpanel.sharedInstance().track("Adding Product", properties: ["success":"0"])
             self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
-            self.btnSend.enabled = true
+            self.btnSend.isEnabled = true
             UIAlertView.SimpleShow("Warning", message: "Gagal")
         })
     
@@ -372,7 +372,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             {
                 if (imgs.count == 0)
                 {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    self.navigationController?.popViewController(animated: true)
                 }
                 
                 self.first = false
@@ -404,21 +404,21 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         })
     }
     
-    func addImage(info: [String : AnyObject]) {
-        let indexPath = info["replaceIndex"] as! NSIndexPath
-        replaceIndex = indexPath.item + (indexPath.section == 0 ? indexPath.section : (gridView?.numberOfItemsInSection(indexPath.section-1))!)
+    func addImage(_ info: [String : AnyObject]) {
+        let indexPath = info["replaceIndex"] as! IndexPath
+        replaceIndex = (indexPath as NSIndexPath).item + ((indexPath as NSIndexPath).section == 0 ? (indexPath as NSIndexPath).section : (gridView?.numberOfItems(inSection: (indexPath as NSIndexPath).section-1))!)
         
         let a = UIActionSheet(title: "Option", delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: "Cancel")
-        a.addButtonWithTitle("Edit")
-        a.addButtonWithTitle("Replace")
+        a.addButton(withTitle: "Edit")
+        a.addButton(withTitle: "Replace")
         
         if (replaceIndex != 0)
         {
-            a.addButtonWithTitle("Delete")
+            a.addButton(withTitle: "Delete")
         }
         
         //        self.addImage()
-        a.showInView(self.view)
+        a.show(in: self.view)
     }
     
     var portalling = false
@@ -442,7 +442,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     */
     
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         print("index \(buttonIndex)")
         if (buttonIndex == 0)
         {
@@ -467,7 +467,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             self.addImage()
         } else if (buttonIndex == 3) // delete
         {
-            self.images.removeAtIndex(replaceIndex)
+            self.images.remove(at: replaceIndex)
             replaceIndex = -1
             self.gridView?.reloadData()
         }
@@ -513,7 +513,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     */
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (section == 0) {
             return 1
         } else {
@@ -521,16 +521,16 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let s = indexPath.section
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let s = (indexPath as NSIndexPath).section
         
-        let c = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! AddProductImageCell
+        let c = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AddProductImageCell
         c.delegate = self
-        let realIndex = indexPath.item + s
+        let realIndex = (indexPath as NSIndexPath).item + s
         if (realIndex < images.count)
         {
             c.apImage = images[realIndex]
@@ -540,23 +540,23 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         
         c.indexPath = indexPath
         
-        if (indexPath.section == 1) {
-            let hint = imageHints[indexPath.item]
+        if ((indexPath as NSIndexPath).section == 1) {
+            let hint = imageHints[(indexPath as NSIndexPath).item]
             
             c.captionHint.text = hint["title"]
-            c.ivHint.image = UIImage(named: hint["image"]!)!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-            c.captionHint.hidden = false
-            c.ivHint.hidden = false
+            c.ivHint.image = UIImage(named: hint["image"]!)!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            c.captionHint.isHidden = false
+            c.ivHint.isHidden = false
         } else {
-            c.captionHint.hidden = true
-            c.ivHint.hidden = true
+            c.captionHint.isHidden = true
+            c.ivHint.isHidden = true
         }
         
         return c
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let s = indexPath.section
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let s = (indexPath as NSIndexPath).section
         
         if (s == 0) {
             return s1
@@ -566,12 +566,12 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     }
     
     // tableview
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
     }
     
     //    var weightSelected = false
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
             return 5
         } else if (section == 1) {
@@ -586,10 +586,10 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         return 3
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var c : UITableViewCell?
-        let s = indexPath.section
-        let r = indexPath.row
+        let s = (indexPath as NSIndexPath).section
+        let r = (indexPath as NSIndexPath).row
         
         c = cells[indexPath]
         if (c != nil) {
@@ -611,7 +611,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             }
         } else if (s == 10) {
             if (r == 0) {
-                let g = tableView.dequeueReusableCellWithIdentifier("cell_size") as! AddProductSizeCell
+                let g = tableView.dequeueReusableCell(withIdentifier: "cell_size") as! AddProductSizeCell
                 g.decorate()
                 print("asd")
                 c = g
@@ -620,10 +620,10 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                 c = b
             }
         } else if (s == 1) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_ongkir")
+            c = tableView.dequeueReusableCell(withIdentifier: "cell_ongkir")
         } else if (s == 2) {
             if (r == 0) {
-                let w = tableView.dequeueReusableCellWithIdentifier("cell_weight") as? AddProductCellWeight
+                let w = tableView.dequeueReusableCell(withIdentifier: "cell_weight") as? AddProductCellWeight
                 w?.weightDelegate = self
                 w?.showInput(allowShowWeightInput)
                 c = w
@@ -635,7 +635,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let b = createOrGetBaseCartCell(tableView, indexPath: indexPath, id: "cell_input")
             c = b
         } else if (s == 5) {
-            c = tableView.dequeueReusableCellWithIdentifier("cell_share")
+            c = tableView.dequeueReusableCell(withIdentifier: "cell_share")
         }
         
         cells[indexPath] = c!
@@ -643,43 +643,43 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         return c!
     }
     
-    func createExpandableCell(tableView : UITableView, indexPath : NSIndexPath) -> ACEExpandableTextCell?
+    func createExpandableCell(_ tableView : UITableView, indexPath : IndexPath) -> ACEExpandableTextCell?
     {
-        var acee = tableView.dequeueReusableCellWithIdentifier("address_cell") as? CartAddressCell
+        var acee = tableView.dequeueReusableCell(withIdentifier: "address_cell") as? CartAddressCell
         if (acee == nil) {
-            acee = CartAddressCell(style: UITableViewCellStyle.Default, reuseIdentifier: "address_cell")
-            acee?.selectionStyle = UITableViewCellSelectionStyle.None
+            acee = CartAddressCell(style: UITableViewCellStyle.default, reuseIdentifier: "address_cell")
+            acee?.selectionStyle = UITableViewCellSelectionStyle.none
             acee?.expandableTableView = tableView
             
-            acee?.textView.font = UIFont.systemFontOfSize(16)
+            acee?.textView.font = UIFont.systemFont(ofSize: 16)
             acee?.textView.textColor = Theme.GrayDark
         }
         
         if (acee?.lastIndex != nil) {
-            baseDatas[(acee?.lastIndex)!] = acee?.obtain()
+            baseDatas[(acee?.lastIndex)! as IndexPath] = acee?.obtain()
         }
         
         acee?.adapt(baseDatas[indexPath]!)
         acee?.lastIndex = indexPath
         
-        if (indexPath.row == 1) { // Nama Barang, Bold
-            acee?.textView.font = UIFont.systemFontOfSize(14)
+        if ((indexPath as NSIndexPath).row == 1) { // Nama Barang, Bold
+            acee?.textView.font = UIFont.systemFont(ofSize: 14)
         } else {
-            acee?.textView.font = UIFont.systemFontOfSize(14)
+            acee?.textView.font = UIFont.systemFont(ofSize: 14)
         }
         
 //        acee?.textView.textColor = UIColor(hexString: "#858585")
-        acee?.textView.textColor = UIColor.darkGrayColor()
+        acee?.textView.textColor = UIColor.darkGray
         
         return acee
     }
     
-    func createOrGetBaseCartCell(tableView : UITableView, indexPath : NSIndexPath, id : String) -> BaseCartCell
+    func createOrGetBaseCartCell(_ tableView : UITableView, indexPath : IndexPath, id : String) -> BaseCartCell
     {
-        let b : BaseCartCell = tableView.dequeueReusableCellWithIdentifier(id) as! BaseCartCell
+        let b : BaseCartCell = tableView.dequeueReusableCell(withIdentifier: id) as! BaseCartCell
         
         if (b.lastIndex != nil) {
-            baseDatas[b.lastIndex!] = b.obtainValue()
+            baseDatas[b.lastIndex! as IndexPath] = b.obtainValue()
         }
         
         b.parent = self
@@ -689,25 +689,25 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         return b
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header") as! AddProductHeader
-        h.width = UIScreen.mainScreen().bounds.size.width
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let h = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! AddProductHeader
+        h.width = UIScreen.main.bounds.size.width
         let d = sectionTitles[section]
         h.captionIcon.text = d["icon"]
-        h.captionTitle.text = d["title"]?.uppercaseString
+        h.captionTitle.text = d["title"]?.uppercased()
         return h
     }
     
     var h1 : CGFloat = 44
     var h2 : CGFloat = 44
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let s = indexPath.section
-        let r = indexPath.row
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let s = (indexPath as NSIndexPath).section
+        let r = (indexPath as NSIndexPath).row
         
         if (s == 0)
         {
@@ -742,7 +742,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         }
     }
     
-    func tableView(tableView: UITableView!, updatedHeight height: CGFloat, atIndexPath indexPath: NSIndexPath!) {
+    func tableView(_ tableView: UITableView!, updatedHeight height: CGFloat, at indexPath: IndexPath!) {
         let s = indexPath.section
         let r = indexPath.row
         
@@ -758,7 +758,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
     
     var name : String?
     var desc : String?
-    func tableView(tableView: UITableView!, updatedText text: String!, atIndexPath indexPath: NSIndexPath!) {
+    func tableView(_ tableView: UITableView!, updatedText text: String!, at indexPath: IndexPath!) {
         if (indexPath.section == 0 && indexPath.section == 1)
         {
             name = text
@@ -769,33 +769,33 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         baseDatas[indexPath]?.value = text
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let c = cells[indexPath]
-        if ((c?.canBecomeFirstResponder())!) {
+        if ((c?.canBecomeFirstResponder)!) {
             c?.becomeFirstResponder()
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
         var parent : UIView?
-        if (((textField.superview?.superview!)?.isKindOfClass(UITableViewCell.classForCoder()))! == true)
+        if (((textField.superview?.superview!)?.isKind(of: UITableViewCell.classForCoder()))! == true)
         {
             parent = textField.superview?.superview!
         } else {
             parent = textField.superview?.superview?.superview!
         }
-        let i = tableView.indexPathForCell(parent as! UITableViewCell)
-        var s = (i?.section)!
-        var r = (i?.row)!
+        let i = tableView.indexPath(for: parent as! UITableViewCell)
+        var s = ((i as NSIndexPath?)?.section)!
+        var r = ((i as NSIndexPath?)?.row)!
         
         var cell : UITableViewCell?
         
         var con = true
         while (con) {
-            let newIndex = NSIndexPath(forRow: r+1, inSection: s)
-            cell = tableView.cellForRowAtIndexPath(newIndex)
+            let newIndex = IndexPath(row: r+1, section: s)
+            cell = tableView.cellForRow(at: newIndex)
             if (cell == nil) {
                 s += 1
                 r = -1
@@ -803,7 +803,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
                     con = false
                 }
             } else {
-                if ((cell?.canBecomeFirstResponder())!) {
+                if ((cell?.canBecomeFirstResponder)!) {
                     cell?.becomeFirstResponder()
                     con = false
                 } else {
@@ -814,26 +814,26 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
         return true
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
-    func categorySelected(id: String) {
+    func categorySelected(_ id: String) {
         selectedCategoryID = id
     }
     
     var allowShowWeightInput = false
-    func weightSelected(index: Int) {
+    func weightSelected(_ index: Int) {
         allowShowWeightInput = true
-        tableView.reloadRowsAtIndexPaths([], withRowAnimation: UITableViewRowAnimation.Automatic)
+        tableView.reloadRows(at: [], with: UITableViewRowAnimation.automatic)
     }
     
     var currentWeight = ""
-    func weightChanged(w: Int) {
+    func weightChanged(_ w: Int) {
         currentWeight = String(w)
     }
     
-    func weightShouldReturn(textField: UITextField) {
+    func weightShouldReturn(_ textField: UITextField) {
         self.textFieldShouldReturn(textField)
     }
     
@@ -851,7 +851,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
 
 protocol ProductCategoryDelegate
 {
-    func categorySelected(id : String)
+    func categorySelected(_ id : String)
 }
 
 class ProductCategoryCell : CartCellInput2
@@ -860,7 +860,7 @@ class ProductCategoryCell : CartCellInput2
     
     var categoryDelegate : ProductCategoryDelegate?
     
-    override func adapt(item: BaseCartData?) {
+    override func adapt(_ item: BaseCartData?) {
         super.adapt(item)
         ivImage.image = item?.image
         if let v = item?.value
@@ -910,7 +910,7 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
         if (decorated == false)
         {
             super.awakeFromNib()
-            gridView.layer.borderColor = UIColor.lightGrayColor().CGColor
+            gridView.layer.borderColor = UIColor.lightGray.cgColor
             gridView.layer.borderWidth = 1
             
             if (leftLayer != nil)
@@ -924,25 +924,25 @@ class AddProductSizeCell : UITableViewCell, UICollectionViewDataSource
             }
             
             _ = leftPanel.frame
-            leftLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 1).CGColor, UIColor(white: 1, alpha: 0).CGColor], withView: leftPanel)
+            leftLayer = AppToolsObjC.gradientView(withColor: [UIColor(white: 1, alpha: 1).cgColor, UIColor(white: 1, alpha: 0).cgColor], with: leftPanel)
             _ = rightPanel.frame
-            rightLayer = AppToolsObjC.gradientViewWithColor([UIColor(white: 1, alpha: 0).CGColor, UIColor(white: 1, alpha: 1).CGColor], withView: rightPanel)
+            rightLayer = AppToolsObjC.gradientView(withColor: [UIColor(white: 1, alpha: 0).cgColor, UIColor(white: 1, alpha: 1).cgColor], with: rightPanel)
             decorated = true
         }
     }
     
     var adjusted = false
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (adjusted == false)
         {
-            collectionView.contentOffset = CGPointMake(120, 0)
+            collectionView.contentOffset = CGPoint(x: 120, y: 0)
             adjusted = true
         }
         return 10
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) 
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) 
     }
 }
 
@@ -961,20 +961,20 @@ class AddProductShippingPaymentCell : UITableViewCell
         {
             for b in btnShippingPayments
             {
-                b.addTarget(self, action: #selector(AddProductShippingPaymentCell.setShippingPayment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                b.addTarget(self, action: #selector(AddProductShippingPaymentCell.setShippingPayment(_:)), for: UIControlEvents.touchUpInside)
             }
             setted = true
         }
     }
     
-    @IBAction func setShippingPayment(sender : UIButton)
+    @IBAction func setShippingPayment(_ sender : UIButton)
     {
         for b in sectionShippingPayments
         {
             b.borderColor = Theme.GrayLight
             for l in b.subviews
             {
-                if (l.isKindOfClass(UILabel.classForCoder()))
+                if (l.isKind(of: UILabel.classForCoder()))
                 {
                     let x = l as! UILabel
                     x.textColor = Theme.GrayLight
@@ -985,13 +985,13 @@ class AddProductShippingPaymentCell : UITableViewCell
         let c = sender.superview as! BorderedView
         for l in c.subviews
         {
-            if (l.isKindOfClass(UILabel.classForCoder()))
+            if (l.isKind(of: UILabel.classForCoder()))
             {
                 let x = l as! UILabel
                 if (x.text == "Ditanggung Pembeli") {
                     let mainTxt = "Ongkos kirim sesuai dengan tarif kurir yang tersimpan di sistem.\nLihat syarat & ketentuan"
                     let greenTxt = "Lihat syarat & ketentuan"
-                    let range = (mainTxt as NSString).rangeOfString(greenTxt)
+                    let range = (mainTxt as NSString).range(of: greenTxt)
                     let attrString = NSMutableAttributedString(string: mainTxt)
                     attrString.addAttribute(NSForegroundColorAttributeName, value: Theme.navBarColor, range: range)
                     lblDescription.attributedText = attrString
@@ -1010,23 +1010,23 @@ class AddProductSizeFlow : UICollectionViewFlowLayout
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.itemSize = CGSizeMake(40, 40)
+        self.itemSize = CGSize(width: 40, height: 40)
         self.minimumInteritemSpacing = 10.0;
         self.minimumLineSpacing = 10.0;
-        self.scrollDirection = UICollectionViewScrollDirection.Horizontal;
+        self.scrollDirection = UICollectionViewScrollDirection.horizontal;
         self.sectionInset = UIEdgeInsetsMake(8, 2, 8, 2);
-        let m = (UIScreen.mainScreen().bounds.size.width - 16 - 40)/2
+        let m = (UIScreen.main.bounds.size.width - 16 - 40)/2
         self.collectionView?.contentInset = UIEdgeInsetsMake(0, m, 0, m)
     }
     
-    override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         var offsetAdjustment = MAXFLOAT
-        let m = (UIScreen.mainScreen().bounds.size.width - 16 - 40)/2
+        let m = (UIScreen.main.bounds.size.width - 16 - 40)/2
         let horizontalOffset = proposedContentOffset.x + m
         
-        let targetRect = CGRectMake(proposedContentOffset.x, 0, (self.collectionView?.bounds.size.width)!, (self.collectionView?.bounds.size.height)!)
+        let targetRect = CGRect(x: proposedContentOffset.x, y: 0, width: (self.collectionView?.bounds.size.width)!, height: (self.collectionView?.bounds.size.height)!)
         
-        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElementsInRect(targetRect)! as Array<UICollectionViewLayoutAttributes>
+        let array:Array<UICollectionViewLayoutAttributes> = super.layoutAttributesForElements(in: targetRect)! as Array<UICollectionViewLayoutAttributes>
         
         for layoutAttributes in array
         {
@@ -1036,7 +1036,7 @@ class AddProductSizeFlow : UICollectionViewFlowLayout
             }
         }
         
-        return CGPointMake(proposedContentOffset.x + CGFloat(offsetAdjustment), proposedContentOffset.y)
+        return CGPoint(x: proposedContentOffset.x + CGFloat(offsetAdjustment), y: proposedContentOffset.y)
     }
 }
 
@@ -1050,7 +1050,7 @@ class AddProductHeader : UITableViewHeaderFooterView
 protocol AddProductImageCellDelegate
 {
     func addImage()
-    func addImage(info : [String : AnyObject])
+    func addImage(_ info : [String : AnyObject])
 }
 
 class AddProductImageCell : UICollectionViewCell
@@ -1060,7 +1060,7 @@ class AddProductImageCell : UICollectionViewCell
     var tapImg : UITapGestureRecognizer?
     
     var delegate : AddProductImageCellDelegate?
-    var indexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var indexPath = IndexPath(row: 0, section: 0)
     
     @IBOutlet var ivHint : TintedImageView!
     @IBOutlet var captionHint : UILabel!
@@ -1080,7 +1080,7 @@ class AddProductImageCell : UICollectionViewCell
         if (delegate != nil) {
             if (ivCover.image != nil)
             {
-                delegate?.addImage(["replaceIndex":self.indexPath])
+                delegate?.addImage(["replaceIndex":self.indexPath as AnyObject])
             } else
             {
                 delegate?.addImage()
@@ -1090,7 +1090,7 @@ class AddProductImageCell : UICollectionViewCell
     
     var asset : ALAssetsLibrary?
     
-    private var _apImage : APImage?
+    fileprivate var _apImage : APImage?
     var apImage : APImage?
         {
         set {
@@ -1111,13 +1111,13 @@ class AddProductImageCell : UICollectionViewCell
                         asset = ALAssetsLibrary()
                     }
                     
-                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        self.asset?.assetForURL((self._apImage?.url)!, resultBlock: { asset in
+                    DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                        self.asset?.asset(for: (self._apImage?.url)! as URL, resultBlock: { asset in
                             if let ast = asset {
                                 let rep = ast.defaultRepresentation()
-                                let ref = rep.fullScreenImage().takeUnretainedValue()
-                                let i = UIImage(CGImage: ref)
-                                dispatch_async(dispatch_get_main_queue(), {
+                                let ref = rep?.fullScreenImage().takeUnretainedValue()
+                                let i = UIImage(cgImage: ref!)
+                                DispatchQueue.main.async(execute: {
                                     self.ivCover.image = i
                                 })
                             }
@@ -1156,7 +1156,7 @@ class AddProductShareCell : UITableViewCell
         }
     }
     
-    @IBAction func setSelectShare(sender : AddProductShareButton)
+    @IBAction func setSelectShare(_ sender : AddProductShareButton)
     {
         let tag = sender.tag
         let arr = arrayRows[tag]
@@ -1164,7 +1164,7 @@ class AddProductShareCell : UITableViewCell
         sender.active = !sender.active
         for b in arr
         {
-            b.setTitleColor(c, forState: UIControlState.Normal)
+            b.setTitleColor(c, for: UIControlState())
         }
     }
 }
@@ -1179,9 +1179,9 @@ class AddProductShareButton : UIButton
 
 protocol AddProductWeightDelegate
 {
-    func weightSelected(index : Int)
-    func weightChanged(w : Int)
-    func weightShouldReturn(textField : UITextField)
+    func weightSelected(_ index : Int)
+    func weightChanged(_ w : Int)
+    func weightShouldReturn(_ textField : UITextField)
 }
 
 class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
@@ -1191,20 +1191,20 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
     static var StandardHeight = 96
     static var ExtendedHeight = 140
     @IBOutlet var txtWeight : UITextField!
-    func showInput(show : Bool)
+    func showInput(_ show : Bool)
     {
         if (show)
         {
-            txtWeight.hidden = false
+            txtWeight.isHidden = false
         } else
         {
-            txtWeight.hidden = true
+            txtWeight.isHidden = true
         }
     }
     
     @IBOutlet var sectionWeights : Array<BorderedView> = []
     
-    @IBAction func setWeight(sender : UIButton)
+    @IBAction func setWeight(_ sender : UIButton)
     {
         var index = 0
         var found = false
@@ -1227,7 +1227,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
         b.changeBorderColor(Theme.PrimaryColorDark)
         
         txtWeight.delegate = self
-        txtWeight.hidden = false
+        txtWeight.isHidden = false
         let w = 500 + (index*1000)
         
         txtWeight.text = String(w)
@@ -1237,13 +1237,13 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
             d.weightChanged(w)
             d.weightSelected(index)
             let l = self.contentView.viewWithTag(666)
-            l?.hidden = false
+            l?.isHidden = false
         }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var s = textField.text == nil ? "" : textField.text! as NSString
-        s = s.stringByReplacingCharactersInRange(range, withString: string)
+        s = s.replacingCharacters(in: range, with: string) as NSString
         
         if let d = weightDelegate
         {
@@ -1253,7 +1253,7 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
         return true
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let d = weightDelegate
         {
             d.weightShouldReturn(txtWeight)
@@ -1264,12 +1264,12 @@ class AddProductCellWeight : UITableViewCell, UITextFieldDelegate
 
 extension BorderedView
 {
-    func changeBorderColor(c : UIColor)
+    func changeBorderColor(_ c : UIColor)
     {
         self.borderColor = c
         for v in self.subviews
         {
-            if (v.isKindOfClass(UILabel.classForCoder()))
+            if (v.isKind(of: UILabel.classForCoder()))
             {
                 let l = v as! UILabel
                 l.textColor = c

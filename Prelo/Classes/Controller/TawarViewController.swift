@@ -8,20 +8,40 @@
 
 import UIKit
 import Crashlytics
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 // MARK: - Protocol
 
 protocol  TawarItem {
     var itemName : String {get}
     var itemId : String {get}
-    var productImage : NSURL {get}
+    var productImage : URL {get}
     var title : String {get}
     var price : String {get} // Original product price
     var myId : String {get}
-    var myImage : NSURL {get}
+    var myImage : URL {get}
     var myName : String {get}
     var theirId : String {get}
-    var theirImage : NSURL {get}
+    var theirImage : URL {get}
     var theirName : String {get}
     var opIsMe : Bool {get} // True if user is buyer
     var threadId : String {get}
@@ -32,8 +52,8 @@ protocol  TawarItem {
     var finalPrice : Int {get} // Final price after bargain accept/reject
     var markAsSoldTo : String {get}
     
-    func setBargainPrice(price : Int)
-    func setFinalPrice(price : Int)
+    func setBargainPrice(_ price : Int)
+    func setFinalPrice(_ price : Int)
 }
 
 // MARK: - Protocol
@@ -110,10 +130,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
 
         // Init textViewGrowHandler
         textViewGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: conHeightTextView)
-        textViewGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 4)
+        textViewGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 4)
         
         // Loading
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         self.hideLoading()
         
         // Set product status
@@ -154,8 +174,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Hide textview and price for Prelo Message
         if (self.isChatWithPreloMessage()) {
             self.conMarginBottom.constant = -(self.conHeightTextView.constant + 6)
-            header.captionPrice.hidden = true
-            header.captionUsername.hidden = true
+            header.captionPrice.isHidden = true
+            header.captionUsername.isHidden = true
         }
         
         // Setup table
@@ -167,12 +187,12 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         textView.delegate = self
         
         // Buttons action setup
-        btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        btnTolak.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        btnTolak2.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        btnConfirm.addTarget(self, action: #selector(TawarViewController.confirmTawar(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        btnSold.addTarget(self, action: #selector(TawarViewController.markAsSold), forControlEvents: UIControlEvents.TouchUpInside)
+        btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnTolak.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnTolak2.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnConfirm.addTarget(self, action: #selector(TawarViewController.confirmTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnSold.addTarget(self, action: #selector(TawarViewController.markAsSold), for: UIControlEvents.touchUpInside)
         
         // Setup messages
         if (User.IsLoggedIn) {
@@ -180,7 +200,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Mixpanel
@@ -190,11 +210,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         GAI.trackPageVisit(PageName.InboxDetail)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Keyboard animation handling
-        self.an_subscribeKeyboardWithAnimations({ frame, interval, opening in
+        self.an_subscribeKeyboard(animations: { frame, interval, opening in
             if (opening) {
                 self.conMarginBottom.constant = frame.height
                 self.conMarginBottomSectionTawar.constant = frame.height
@@ -211,11 +231,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Remove messagepool delegate
-        if let del = UIApplication.sharedApplication().delegate as? AppDelegate {
+        if let del = UIApplication.shared.delegate as? AppDelegate {
             del.messagePool?.removeDelegate(tawarItem.threadId)
         } else {
             let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
@@ -239,9 +259,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func getInbox() {
-        self.tableView.hidden = true
+        self.tableView.isHidden = true
         
-        request(APIInbox.GetInboxByProductID(productId: prodId)).responseJSON { resp in
+        request(APIInbox.getInboxByProductID(productId: prodId)).responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Inbox By Product ID")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -255,16 +275,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.getMessages()
                 //print(res)
             }
-            self.tableView.hidden = false
+            self.tableView.isHidden = false
         }
     }
     
     func getMessages() {
-        inboxMessages.removeAll(keepCapacity: false)
+        inboxMessages.removeAll(keepingCapacity: false)
         
-        var api = APIInbox.GetInboxMessage(inboxId: tawarItem.threadId)
+        var api = APIInbox.getInboxMessage(inboxId: tawarItem.threadId)
         if (fromSeller) {
-            api = APIInbox.GetInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
+            api = APIInbox.getInboxByProductIDSeller(productId: tawarItem.threadId, buyerId: toId)
         }
         // API Migrasi
         request(api).responseJSON {resp in
@@ -296,7 +316,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 
                 // Register delegate for messagepool socket
-                if let del = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if let del = UIApplication.shared.delegate as? AppDelegate {
                     del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
                 } else {
                     let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
@@ -322,15 +342,15 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         // Hide all buttons first
-        btnTawar1.hidden = true
-        btnTawar2.hidden = true
-        btnBeli.hidden = true
-        btnBatal.hidden = true
-        btnTolak.hidden = true
-        btnTolak2.hidden = true
-        btnConfirm.hidden = true
-        btnSold.hidden = true
-        btnBeliSold.hidden = true
+        btnTawar1.isHidden = true
+        btnTawar2.isHidden = true
+        btnBeli.isHidden = true
+        btnBatal.isHidden = true
+        btnTolak.isHidden = true
+        btnTolak2.isHidden = true
+        btnConfirm.isHidden = true
+        btnSold.isHidden = true
+        btnBeliSold.isHidden = true
         
         // Set header height
         if (tawarItem.opIsMe) { // I am buyer
@@ -360,27 +380,27 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         // Arrange buttons
         if (self.prodStatus != 1) { // Product is sold
             if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
-                btnBeliSold.hidden = false
+                btnBeliSold.isHidden = false
             }
         } else { // Product isn't sold
             if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
                 if (tawarItem.opIsMe) { // I am buyer
-                    btnTawar1.hidden = false
-                    btnBeli.hidden = false
+                    btnTawar1.isHidden = false
+                    btnBeli.isHidden = false
                 } else { // I am seller
-                    btnTawar2.hidden = false
-                    btnSold.hidden = false
+                    btnTawar2.isHidden = false
+                    btnSold.isHidden = false
                 }
             } else if (threadState == 1) { // Someone is bargaining
                 if (tawarFromMe) { // I am bargaining
                     if (tawarItem.opIsMe) { // I am buyer
-                        btnTolak2.hidden = false
+                        btnTolak2.isHidden = false
                     } else { // I am seller
-                        btnTolak2.hidden = false
+                        btnTolak2.isHidden = false
                     }
                 } else { // Other is bargaining
-                    btnTolak.hidden = false
-                    btnConfirm.hidden = false
+                    btnTolak.isHidden = false
+                    btnConfirm.isHidden = false
                 }
             }
         }
@@ -400,28 +420,28 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Textview functions
     
-    func textViewDidChange(textView: UITextView) {
-        textViewGrowHandler.resizeTextViewWithAnimation(true)
+    func textViewDidChange(_ textView: UITextView) {
+        textViewGrowHandler.resizeTextView(withAnimation: true)
         if (textView.text == "") {
-            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor.grayColor()), forState: .Normal)
-            btnSend.userInteractionEnabled = false
+            btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor.gray), for: UIControlState())
+            btnSend.isUserInteractionEnabled = false
         } else {
-            btnSend.setBackgroundImage(AppToolsObjC.imageFromColor(UIColor(hexString: "#25A79D")), forState: .Normal)
-            btnSend.userInteractionEnabled = true
+            btnSend.setBackgroundImage(AppToolsObjC.image(from: UIColor(hexString: "#25A79D")), for: UIControlState())
+            btnSend.isUserInteractionEnabled = true
         }
     }
     
     // MARK: - Tableview functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inboxMessages.count + (isShowBubble ? 1 : 0)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (indexPath.row == 0 && isShowBubble) { // Bubble cell
-            let cell = tableView.dequeueReusableCellWithIdentifier("bubble") as! TawarBubbleCell
-            cell.selectionStyle = .None
+        if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "bubble") as! TawarBubbleCell
+            cell.selectionStyle = .none
             if (self.tawarItem.opIsMe) { // I am buyer
                 let attrStr = NSMutableAttributedString(string: "Pastikan kamu bertransaksi 100% aman hanya melalui rekening bersama Prelo. Waspada apabila kamu diminta bertransaksi di luar Prelo, terutama jika terdapat permintaan yang kurang wajar.")
                 cell.lblText.attributedText = attrStr
@@ -434,9 +454,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
             return cell
         } else { // Chat cell
-            let m = inboxMessages[indexPath.row - (isShowBubble ? 1 : 0)]
+            let m = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
             let id = m.isMe ? "me" : "them"
-            let cell = tableView.dequeueReusableCellWithIdentifier(id) as! TawarCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: id) as! TawarCell
             
             cell.inboxMessage = m
             cell.decor()
@@ -446,25 +466,25 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
             
             cell.toShopPage = {
-                self.gotoShopPage(0)
+                self.gotoShopPage(0 as AnyObject)
             }
             
-            cell.selectionStyle = .None
+            cell.selectionStyle = .none
             
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if (indexPath.row == 0 && isShowBubble) { // Bubble cell
+        if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
             if (self.tawarItem.opIsMe) { // I am buyer
                 return 110
             } else { // I am seller
                 return 110
             }
         } else { // Chat cell
-            let chat = inboxMessages[indexPath.row - (isShowBubble ? 1 : 0)]
+            let chat = inboxMessages[(indexPath as NSIndexPath).row - (isShowBubble ? 1 : 0)]
             var m = chat.dynamicMessage
             if (chat.failedToSend) {
                 m = "[GAGAL MENGIRIM]\n\n" + m
@@ -473,46 +493,46 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             var w : CGFloat = 204
             
             if (chat.isMe) {
-                w = (UIScreen.mainScreen().bounds.width - 28) * 0.75
+                w = (UIScreen.main.bounds.width - 28) * 0.75
             } else {
-                w = (UIScreen.mainScreen().bounds.width - 72) * 0.75
+                w = (UIScreen.main.bounds.width - 72) * 0.75
             }
             
-            let s = m.boundsWithFontSize(UIFont.systemFontOfSize(14), width: w)
+            let s = m.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: w)
             return 57 + s.height
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (indexPath.row == 0 && isShowBubble) { // Bubble cell
+        if ((indexPath as NSIndexPath).row == 0 && isShowBubble) { // Bubble cell
             isShowBubble = false
             tableView.reloadData()
         } else { // Chat cell
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
             self.view.endEditing(true)
         }
     }
     
-    func scrollWithInterval(intrvl : NSTimeInterval) {
-        NSTimer.scheduledTimerWithTimeInterval(intrvl, target: self, selector: #selector(TawarViewController.scrollToBottom), userInfo: nil, repeats: false)
+    func scrollWithInterval(_ intrvl : TimeInterval) {
+        Timer.scheduledTimer(timeInterval: intrvl, target: self, selector: #selector(TawarViewController.scrollToBottom), userInfo: nil, repeats: false)
     }
     
     func scrollToBottom() {
         if (inboxMessages.count > 0) {
-            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: inboxMessages.count - 1 + (isShowBubble ? 1 : 0), inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            tableView.scrollToRow(at: IndexPath(row: inboxMessages.count - 1 + (isShowBubble ? 1 : 0), section: 0), at: UITableViewScrollPosition.bottom, animated: false)
         }
     }
     
     // MARK: - Scrollview functions
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
     
     // MARK: - Chat actions
     
-    @IBAction func addChat(sender : UIView?) {
+    @IBAction func addChat(_ sender : UIView?) {
         if (tawarItem.threadId == "") {
             startNew(0, message : textView.text)
             return
@@ -523,13 +543,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             return
         }
         
-        sendChat(0, message: m)
+        sendChat(0, message: m!)
         textViewGrowHandler.setText("", withAnimation: true)
         
         textViewDidChange(textView)
     }
     
-    func sendChat(type : Int, message : String) {
+    func sendChat(_ type : Int, message : String) {
         // type
         // 0: normal chat
         // 1: bargain
@@ -546,10 +566,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Append inboxMessages
         let localId = inboxMessages.count
-        let date = NSDate()
-        let f = NSDateFormatter()
+        let date = Date()
+        let f = DateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let time = f.stringFromDate(date)
+        let time = f.string(from: date)
         let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
         if (type != 0) {
             i.bargainPrice = message
@@ -587,16 +607,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.scrollToBottom()
     }
     
-    func startNew(type : Int, message : String) {
+    func startNew(_ type : Int, message : String) {
         // Make sure this is executed once
         if (starting) {
             return
         }
         self.starting = true
         
-        var api = APIInbox.StartNewOne(productId: prodId, type: type, message: message)
+        var api = APIInbox.startNewOne(productId: prodId, type: type, message: message)
         if (fromSeller) {
-            api = APIInbox.StartNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
+            api = APIInbox.startNewOneBySeller(productId: prodId, type: type, message: message, toId: toId)
         }
         request(api).responseJSON { resp in
             self.starting = false
@@ -607,10 +627,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.tawarItem = inbox
                 
                 let localId = self.inboxMessages.count
-                let date = NSDate()
-                let f = NSDateFormatter()
+                let date = Date()
+                let f = DateFormatter()
                 f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                let time = f.stringFromDate(date)
+                let time = f.string(from: date)
                 let i = InboxMessage.messageFromMe(localId, type: type, message: message, time: time)
                 self.inboxMessages.append(i)
                 self.textView.text = ""
@@ -619,7 +639,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 self.scrollToBottom()
                 
                 // Register to messagePool
-                if let del = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if let del = UIApplication.shared.delegate as? AppDelegate {
                     del.messagePool?.registerDelegate(self.tawarItem.threadId, d: self)
                 } else {
                     let error = NSError(domain: "Failed to cast AppDelegate", code: 0, userInfo: nil)
@@ -632,11 +652,11 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     // Helper untuk simulate ada message masuk
-    func sendDummy(type : Int = 0, message : String = "DUMMY", delay : NSTimeInterval = 3)
+    func sendDummy(_ type : Int = 0, message : String = "DUMMY", delay : TimeInterval = 3)
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            NSThread.sleepForTimeInterval(delay)
-            dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+            Thread.sleep(forTimeInterval: delay)
+            DispatchQueue.main.async(execute: {
                 let i = InboxMessage()
                 i.senderId = self.tawarItem.theirId
                 i.messageType = type
@@ -651,17 +671,17 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Tawar pop up
     
-    @IBAction func showTawar(sender : UIView?) {
-        sectionTawar.hidden = false
+    @IBAction func showTawar(_ sender : UIView?) {
+        sectionTawar.isHidden = false
         txtTawar.becomeFirstResponder()
     }
     
-    @IBAction func hideTawar(sender : UIView?) {
-        sectionTawar.hidden = true
+    @IBAction func hideTawar(_ sender : UIView?) {
+        sectionTawar.isHidden = true
         txtTawar.resignFirstResponder()
     }
     
-    @IBAction func sendTawar(sender : UIView?) {
+    @IBAction func sendTawar(_ sender : UIView?) {
         guard txtTawar.text != nil else {
             return
         }
@@ -682,13 +702,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 sendChat(1, message: txtTawar.text!)
             }
             txtTawar.text = ""
-            btnTawar1.hidden = true
-            btnTawar2.hidden = true
+            btnTawar1.isHidden = true
+            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
         }
     }
     
-    func rejectTawar(sender : UIView?) {
+    func rejectTawar(_ sender : UIView?) {
         var message = String(tawarItem.bargainPrice)
         if (tawarFromMe) {
             message = "Membatalkan tawaran " + tawarItem.bargainPrice.asPrice
@@ -696,7 +716,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         sendChat(3, message: message)
     }
     
-    func confirmTawar(sender : UIView?) {
+    func confirmTawar(_ sender : UIView?) {
         sendChat(2, message : String(tawarItem.bargainPrice))
         if (tawarItem.bargainPrice != 0) {
             self.tawarItem.setFinalPrice(self.tawarItem.bargainPrice)
@@ -705,7 +725,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     // MARK: - Message pool delegate functions
     
-    func messageArrived(message: InboxMessage) {
+    func messageArrived(_ message: InboxMessage) {
         inboxMessages.append(message)
         if (message.messageType != 0) {
             threadState = message.messageType
@@ -749,19 +769,19 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func userCancelLogin() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Navigation
     
-    @IBAction func gotoProduct(sender: AnyObject) {
+    @IBAction func gotoProduct(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.itemId != "") {
-            request(Products.Detail(productId: tawarItem.itemId)).responseJSON { resp in
+            request(Products.detail(productId: tawarItem.itemId)).responseJSON { resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let p = Product.instance(data)
-                    let productDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                     productDetailVC.product = p!
                     self.navigationController?.pushViewController(productDetailVC, animated: true)
                 }
@@ -769,16 +789,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    @IBAction func gotoShopPage(sender: AnyObject) {
+    @IBAction func gotoShopPage(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.theirId != "") {
-            let shopPage = self.storyboard?.instantiateViewControllerWithIdentifier("productList") as! ListItemViewController
-            shopPage.currentMode = .Shop
+            let shopPage = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+            shopPage.currentMode = .shop
             shopPage.shopId = tawarItem.theirId
             self.navigationController?.pushViewController(shopPage, animated: true)
         }
     }
     
-    @IBAction func beli(sender : UIView?) {
+    @IBAction func beli(_ sender : UIView?) {
         var success = true
         if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
             if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
@@ -788,24 +808,24 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
         
         if (success) {
-            self.performSegueWithIdentifier("segCart", sender: nil)
+            self.performSegue(withIdentifier: "segCart", sender: nil)
         }
     }
     
     // MARK: - Other functions
     
     func showLoading() {
-        self.loadingPanel.hidden = false
+        self.loadingPanel.isHidden = false
     }
     
     func hideLoading() {
-        self.loadingPanel.hidden = true
+        self.loadingPanel.isHidden = true
     }
     
     func markAsSold() {
-        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Batal", style: .Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ya", style: .Default, handler: { action in
+        let alert : UIAlertController = UIAlertController(title: "Mark As Sold", message: "Apakah barang ini sudah dibeli dan diterima oleh pembeli? (Aksi ini tidak bisa dibatalkan)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Batal", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
             self.prodStatus = 2
             Constant.showDialog("Success", message: "Barang telah ditandai sebagai barang terjual")
             var finalPrice = ""
@@ -816,16 +836,16 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             }
             self.sendChat(4, message: "Barang ini dijual kepada \(self.tawarItem.theirName) dengan harga \(finalPrice)")
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    func randomElementIndex<T>(s: Set<T>) -> T {
+    func randomElementIndex<T>(_ s: Set<T>) -> T {
         let n = Int(arc4random_uniform(UInt32(s.count)))
-        let i = s.startIndex.advancedBy(n)
+        let i = s.index(s.startIndex, offsetBy: n)
         return s[i]
     }
     
-    func sendMixpanelEvent(eventName : String) {
+    func sendMixpanelEvent(_ eventName : String) {
         let pt = [
             "Product Name" : tawarItem.itemName,
             "Category 1" : "",
@@ -834,8 +854,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             "Buyer Name" : (tawarItem.opIsMe ? tawarItem.myName : tawarItem.theirName),
             "Seller Name" : (tawarItem.opIsMe ? tawarItem.theirName : tawarItem.myName),
             "Is Seller" : !tawarItem.opIsMe
-        ]
-        Mixpanel.trackEvent(eventName, properties: pt as [NSObject : AnyObject])
+        ] as [String : Any]
+        Mixpanel.trackEvent(eventName, properties: pt as [AnyHashable: Any])
     }
     
     func isChatWithPreloMessage() -> Bool {
@@ -856,7 +876,7 @@ class TawarCell : UITableViewCell {
     
     var inboxMessage : InboxMessage?
     
-    let formatter = NSDateFormatter()
+    let formatter = DateFormatter()
     var formattedLongTime : String?
     
     var decorated = false
@@ -880,26 +900,26 @@ class TawarCell : UITableViewCell {
         if let m = inboxMessage {
             if (m.isMe) {
                 self.sectionMessage.backgroundColor = Theme.PrimaryColor
-                self.captionMessage.textColor = UIColor.whiteColor()
+                self.captionMessage.textColor = UIColor.white
             } else {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage.textColor = UIColor.darkGrayColor()
+                self.captionMessage.textColor = UIColor.darkGray
             }
             
-            self.btnRetry?.hidden = true
-            self.captionSending?.hidden = true
+            self.btnRetry?.isHidden = true
+            self.captionSending?.isHidden = true
             
             if (m.failedToSend) {
                 self.captionMessage.text = "[GAGAL MENGIRIM]\n\n" + m.message
-                self.captionMessage.textColor = UIColor.whiteColor()
+                self.captionMessage.textColor = UIColor.white
                 self.sectionMessage.backgroundColor = UIColor(hexString : "#AC281C")
-                self.btnRetry?.hidden = false
+                self.btnRetry?.isHidden = false
             } else {
                 self.captionMessage.text = m.dynamicMessage
             }
             
             if (m.sending) {
-                self.captionSending?.hidden = false
+                self.captionSending?.isHidden = false
                 self.captionTime.text = "sending..."
             } else {
                 self.captionTime.date = m.dateTime
@@ -907,26 +927,26 @@ class TawarCell : UITableViewCell {
             
             if (m.messageType == 1) {
                 self.sectionMessage.backgroundColor = Theme.ThemeOrage
-                self.captionMessage.textColor = UIColor.whiteColor()
+                self.captionMessage.textColor = UIColor.white
             }
             
             if (m.messageType == 3) {
                 self.sectionMessage.backgroundColor = UIColor(hexString: "#E8ECEE")
-                self.captionMessage.textColor = UIColor.darkGrayColor()
+                self.captionMessage.textColor = UIColor.darkGray
             }
             
             self.captionArrow.textColor = self.sectionMessage.backgroundColor
         }
     }
     
-    @IBAction func resendMe(sender : UIView) {
+    @IBAction func resendMe(_ sender : UIView) {
         if let m = inboxMessage {
             m.resend()
             self.decor()
         }
     }
     
-    @IBAction func gotoShopPage(sender: AnyObject) {
+    @IBAction func gotoShopPage(_ sender: AnyObject) {
         self.toShopPage()
     }
 }

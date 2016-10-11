@@ -58,16 +58,16 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         // Register custom cell
         let confirmShippingCellNib = UINib(nibName: "ConfirmShippingCell", bundle: nil)
-        tableView.registerNib(confirmShippingCellNib, forCellReuseIdentifier: "ConfirmShippingCell")
+        tableView.register(confirmShippingCellNib, forCellReuseIdentifier: "ConfirmShippingCell")
         
         // Transaparent panel
-        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.whiteColor(), alpha: 0.5)
+        loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Hide kurir lainnya field
         self.hideFldKurirLainnya()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if (isFirstAppearance) {
@@ -83,7 +83,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             }
         }
         
-        self.an_subscribeKeyboardWithAnimations({ r, t, o in
+        self.an_subscribeKeyboard(animations: { r, t, o in
             if (o) {
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
             } else {
@@ -92,7 +92,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         }, completion: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.an_unsubscribeKeyboard()
     }
@@ -103,13 +103,13 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     // MARK: - TableView delegate
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return trxDetail.transactionProducts.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (isSelected.count >= indexPath.row + 1) {
-            if (isSelected[indexPath.row] == true) {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (isSelected.count >= (indexPath as NSIndexPath).row + 1) {
+            if (isSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
                 return 178
@@ -118,13 +118,13 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (trxProductDetails.count >= indexPath.row + 1) {
-            let cell : ConfirmShippingCell = self.tableView.dequeueReusableCellWithIdentifier("ConfirmShippingCell") as! ConfirmShippingCell
-            cell.selectionStyle = .None
-            cell.adapt(trxProductDetails[indexPath.row], isSelected: self.isSelected[indexPath.row])
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
+            let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
+            cell.selectionStyle = .none
+            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isSelected: self.isSelected[(indexPath as NSIndexPath).row])
             cell.refreshTable = {
-                self.isSelected[indexPath.row] = !self.isSelected[indexPath.row]
+                self.isSelected[(indexPath as NSIndexPath).row] = !self.isSelected[(indexPath as NSIndexPath).row]
                 self.setupTable()
             }
             return cell
@@ -132,89 +132,89 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing
     }
     
     // MARK: - UIImagePickerController functions
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imgResi.image = img
             self.isPictSelected = true
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Actions
     
-    @IBAction func btnKurirPressed(sender: AnyObject) {
+    @IBAction func btnKurirPressed(_ sender: AnyObject) {
         let kurirs = CDShipping.getAll()
         if (kurirs.count <= 0) {
             Constant.showDialog("Oops, gagal memproses data kurir", message: "Harap me-refresh data kurir melalui menu About > Reload App Data")
             return
         }
-        let kurirAlert = UIAlertController(title: "Pilih Kurir", message: nil, preferredStyle: .ActionSheet)
+        let kurirAlert = UIAlertController(title: "Pilih Kurir", message: nil, preferredStyle: .actionSheet)
         kurirAlert.popoverPresentationController?.sourceView = self.lblDropdownKurir as UIView
         kurirAlert.popoverPresentationController?.sourceRect = self.lblDropdownKurir.bounds
         for i in 0..<kurirs.count {
-            kurirAlert.addAction(UIAlertAction(title: kurirs[i].name, style: .Default, handler: { act in
+            kurirAlert.addAction(UIAlertAction(title: kurirs[i].name, style: .default, handler: { act in
                 self.lblKurir.text = kurirs[i].name
                 self.hideFldKurirLainnya()
-                kurirAlert.dismissViewControllerAnimated(true, completion: nil)
+                kurirAlert.dismiss(animated: true, completion: nil)
             }))
         }
-        kurirAlert.addAction(UIAlertAction(title: "Lainnya", style: .Default, handler: { act in
+        kurirAlert.addAction(UIAlertAction(title: "Lainnya", style: .default, handler: { act in
             self.lblKurir.text = "Lainnya"
             self.showFldKurirLainnya()
-            kurirAlert.dismissViewControllerAnimated(true, completion: nil)
+            kurirAlert.dismiss(animated: true, completion: nil)
         }))
-        self.presentViewController(kurirAlert, animated: true, completion: nil)
+        self.present(kurirAlert, animated: true, completion: nil)
     }
     
-    @IBAction func btnResiPressed(sender: AnyObject) {
+    @IBAction func btnResiPressed(_ sender: AnyObject) {
         let i = UIImagePickerController()
-        i.sourceType = .PhotoLibrary
+        i.sourceType = .photoLibrary
         i.delegate = self
         
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera)) {
-            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .ActionSheet)
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            let a = UIAlertController(title: "Ambil gambar dari:", message: nil, preferredStyle: .actionSheet)
             a.popoverPresentationController?.sourceView = self.imgResi
             a.popoverPresentationController?.sourceRect = self.imgResi.bounds
-            a.addAction(UIAlertAction(title: "Kamera", style: .Default, handler: { act in
-                i.sourceType = .Camera
-                self.presentViewController(i, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Kamera", style: .default, handler: { act in
+                i.sourceType = .camera
+                self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Album", style: .Default, handler: { act in
-                self.presentViewController(i, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Album", style: .default, handler: { act in
+                self.present(i, animated: true, completion: nil)
             }))
-            a.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { act in }))
-            self.presentViewController(a, animated: true, completion: nil)
+            a.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { act in }))
+            self.present(a, animated: true, completion: nil)
         } else {
-            self.presentViewController(i, animated: true, completion: nil)
+            self.present(i, animated: true, completion: nil)
         }
     }
     
-    @IBAction func btnKonfKirimPressed(sender: AnyObject) {
+    @IBAction func btnKonfKirimPressed(_ sender: AnyObject) {
         if (validateFields()) {
             self.showLoading()
             
             var sentTp : [String] = []
             let rejectedTp : NSMutableArray = []
             for i in 0 ..< trxProductDetails.count {
-                let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
+                let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
                 if (cell.isSelected == true) {
                     sentTp.append(trxProductDetails[i].id)
                 } else {
                     let rTp = [
                         "tp_id" : trxProductDetails[i].id,
                         "reason" : cell.textView.text
-                    ]
-                    rejectedTp.insertObject(rTp, atIndex: 0)
+                    ] as [String : Any]
+                    rejectedTp.insert(rTp, at: 0)
                 }
             }
             var confirmData = "{\"sent\":["
@@ -240,7 +240,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
             let param = [
                 "confirmation_data" : confirmData,
-                "kurir" : self.lblKurir.text?.lowercaseString != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
+                "kurir" : self.lblKurir.text?.lowercased() != "lainnya" ? self.lblKurir.text! : self.txtFldKurirLainnya.text!,
                 "resi_number" : self.txtFldNoResi.text == nil ? "" : self.txtFldNoResi.text!
             ]
             var images : [UIImage] = []
@@ -248,7 +248,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 images.append(imgR)
             }
             
-            let userAgent : String? = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKey.UserAgent) as? String
+            let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
             
             AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to: url, success: { op, res in
                 print("Confirm shipping res = \(res)")
@@ -256,7 +256,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let data = json["_data"].boolValue
                 if (data == true) {
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Konfirmasi berhasil dilakukan")
-                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 } else {
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
@@ -268,9 +268,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         }
     }
     
-    @IBAction func btnContactPreloPressed(sender: AnyObject) {
+    @IBAction func btnContactPreloPressed(_ sender: AnyObject) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let c = mainStoryboard.instantiateViewControllerWithIdentifier("contactus")
+        let c = mainStoryboard.instantiateViewController(withIdentifier: "contactus")
         self.contactUs = c
         if let v = c.view, let p = self.navigationController?.view {
             v.alpha = 0
@@ -278,7 +278,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             self.navigationController?.view.addSubview(v)
             
             v.alpha = 0
-            UIView.animateWithDuration(0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 v.alpha = 1
             })
         }
@@ -286,15 +286,15 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     // MARK: - GestureRecognizer Functions
     
-    @IBAction func disableTextFields(sender : AnyObject) {
+    @IBAction func disableTextFields(_ sender : AnyObject) {
         for i in 0 ..< trxProductDetails.count {
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
+            let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
             cell.textView.resignFirstResponder()
         }
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UITextField.classForCoder())) {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UITextField.classForCoder())) {
             return false
         } else {
             return true
@@ -307,7 +307,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         var isAllRejected = true
         for i in 0 ..< isSelected.count {
             if (!isSelected[i]) {
-                let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0)) as! ConfirmShippingCell
+                let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
                 if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
                     return false
@@ -321,7 +321,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 Constant.showDialog("Warning", message: "Field kurir harus diisi")
                 return false
             }
-            if (self.lblKurir.text?.lowercaseString == "lainnya" && (txtFldKurirLainnya.text == nil || txtFldKurirLainnya.text == "")) {
+            if (self.lblKurir.text?.lowercased() == "lainnya" && (txtFldKurirLainnya.text == nil || txtFldKurirLainnya.text == "")) {
                 Constant.showDialog("Warning", message: "Field nama kurir harus diisi")
                 return false
             }
@@ -346,21 +346,21 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         tableView.reloadData()
         var height : CGFloat = 0
         for i in 0 ..< isSelected.count {
-            height += self.tableView(tableView, heightForRowAtIndexPath: NSIndexPath(forRow: i, inSection: 0))
+            height += self.tableView(tableView, heightForRowAt: IndexPath(row: i, section: 0))
         }
         consHeightTableView.constant = height
         consHeightContentView.constant = height + 330
     }
     
     func hideLoading() {
-        loadingPanel.hidden = true
-        loading.hidden = true
+        loadingPanel.isHidden = true
+        loading.isHidden = true
         loading.stopAnimating()
     }
     
     func showLoading() {
-        loadingPanel.hidden = false
-        loading.hidden = false
+        loadingPanel.isHidden = false
+        loading.isHidden = false
         loading.startAnimating()
     }
     
@@ -390,7 +390,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     var refreshTable : RefreshTable = {}
     
-    func adapt(trxProductDetail: TransactionProductDetail, isSelected : Bool) {
+    func adapt(_ trxProductDetail: TransactionProductDetail, isSelected : Bool) {
         super.adapt(trxProductDetail)
         
         // Set checkbox
@@ -400,12 +400,12 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         // Configure textview
         textView.delegate = self
         textView.text = TxtvwPlaceholder
-        textView.textColor = UIColor.lightGrayColor()
+        textView.textColor = UIColor.lightGray
         txtvwGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: consHeightTxtvw)
-        txtvwGrowHandler.updateMinimumNumberOfLines(1, andMaximumNumberOfLine: 2)
+        txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
     }
     
-    @IBAction func cellTapped(sender: AnyObject) {
+    @IBAction func cellTapped(_ sender: AnyObject) {
         isSelected = !isSelected
         self.setupCheckbox()
         self.refreshTable()
@@ -414,38 +414,38 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     func setupCheckbox() {
         if (isSelected == true) {
             lblCheckbox.text = "";
-            lblCheckbox.font = AppFont.Prelo2.getFont(19)!
+            lblCheckbox.font = AppFont.prelo2.getFont(19)!
             lblCheckbox.textColor = Theme.PrimaryColor
             
             // Hide vwTolak
-            vwTolak.hidden = true
+            vwTolak.isHidden = true
         } else {
             lblCheckbox.text = "";
-            lblCheckbox.font = AppFont.PreloAwesome.getFont(24)!
+            lblCheckbox.font = AppFont.preloAwesome.getFont(24)!
             lblCheckbox.textColor = Theme.GrayLight
             
             // Show vwTolak
-            vwTolak.hidden = false
+            vwTolak.isHidden = false
         }
     }
     
     // MARK: - UITextViewDelegate functions
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if (textView.textColor == UIColor.lightGrayColor()) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (textView.textColor == UIColor.lightGray) {
             textView.text = ""
             textView.textColor = Theme.GrayDark
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
-        txtvwGrowHandler.resizeTextViewWithAnimation(true)
+    func textViewDidChange(_ textView: UITextView) {
+        txtvwGrowHandler.resizeTextView(withAnimation: true)
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if (textView.text.isEmpty) {
             textView.text = TxtvwPlaceholder
-            textView.textColor = UIColor.lightGrayColor()
+            textView.textColor = UIColor.lightGray
         }
     }
 }

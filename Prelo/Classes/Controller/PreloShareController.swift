@@ -9,12 +9,32 @@
 import UIKit
 import Social
 import MessageUI
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 struct PreloShareItem
 {
     var image : UIImage?
     var text : String?
-    var url : NSURL?
+    var url : URL?
     var permalink : String?
     var price : String?
 }
@@ -23,8 +43,8 @@ struct PreloShareAgent
 {
     var title : String = ""
     var icon : String = ""
-    var font : UIFont = AppFont.Prelo2.getFont!
-    var background : UIColor = UIColor.whiteColor()
+    var font : UIFont = AppFont.prelo2.getFont!
+    var background : UIColor = UIColor.white
     var availibility : Bool = false
 }
 
@@ -33,7 +53,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
 
     static var sharer : PreloShareController = PreloShareController()
     
-    static func Share(item : PreloShareItem, inView:UIView)
+    static func Share(_ item : PreloShareItem, inView:UIView)
     {
         let s = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPreloShare) as! PreloShareController
         s.item = item
@@ -50,7 +70,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         sharer.show()
     }
     
-    static func Share(item : PreloShareItem, inView : UIView, detail : ProductDetail?)
+    static func Share(_ item : PreloShareItem, inView : UIView, detail : ProductDetail?)
     {
         let s = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPreloShare) as! PreloShareController
         s.item = item
@@ -96,7 +116,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     var textToShare1 = ""
     var textToShare2 = ""
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //FIXME: Sepertinya fungsi ini ga kepanggil, jangan taruh logic di sini
@@ -116,15 +136,15 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
 //        let url = NSURL(string : "")
 //        let x = UIApplication.sharedApplication().canOpenURL(NSURL(string:"")!)
-        agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor.brownColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
-        agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#3b5998"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"fb://")!)))
-        agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#00aced"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"twitter://timeline")!)))
-        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#cb2027"), availibility: true))
-        agents.append(PreloShareAgent(title: "Whatsapp", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"whatsapp://app")!)))
-        agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.Prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: Line.isLineInstalled()))
-        agents.append(PreloShareAgent(title: "Salin", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: UIApplication.sharedApplication().canOpenURL(NSURL(string:"instagram://app")!)))
-        agents.append(PreloShareAgent(title: "SMS", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMessageComposeViewController.canSendText()))
-        agents.append(PreloShareAgent(title: "E-mail", icon: "", font: AppFont.PreloAwesome.getFont!, background: UIColor.darkGrayColor(), availibility: MFMailComposeViewController.canSendMail()))
+        agents.append(PreloShareAgent(title: "Instagram", icon: "", font: AppFont.prelo2.getFont!, background: UIColor.brown, availibility: UIApplication.shared.canOpenURL(URL(string:"instagram://app")!)))
+        agents.append(PreloShareAgent(title: "Facebook", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#3b5998"), availibility: UIApplication.shared.canOpenURL(URL(string:"fb://")!)))
+        agents.append(PreloShareAgent(title: "Twitter", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#00aced"), availibility: UIApplication.shared.canOpenURL(URL(string:"twitter://timeline")!)))
+        agents.append(PreloShareAgent(title: "Path", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#cb2027"), availibility: true))
+        agents.append(PreloShareAgent(title: "Whatsapp", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: UIApplication.shared.canOpenURL(URL(string:"whatsapp://app")!)))
+        agents.append(PreloShareAgent(title: "Line", icon: "", font: AppFont.prelo2.getFont!, background: UIColor(hexString: "#4dc247"), availibility: Line.isLineInstalled()))
+        agents.append(PreloShareAgent(title: "Salin", icon: "", font: AppFont.preloAwesome.getFont!, background: UIColor.darkGray, availibility: UIApplication.shared.canOpenURL(URL(string:"instagram://app")!)))
+        agents.append(PreloShareAgent(title: "SMS", icon: "", font: AppFont.preloAwesome.getFont!, background: UIColor.darkGray, availibility: MFMessageComposeViewController.canSendText()))
+        agents.append(PreloShareAgent(title: "E-mail", icon: "", font: AppFont.preloAwesome.getFont!, background: UIColor.darkGray, availibility: MFMailComposeViewController.canSendMail()))
         
         // Do any additional setup after loading the view.
         conGridViewBottomMargin.constant = -gridView.height
@@ -145,7 +165,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         self.conGridViewBottomMargin.constant = 0
         
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.view.backgroundColor = UIColor(white: 0.5, alpha: 0.8)
             self.gridView.layoutIfNeeded()
             }, completion: {s in
@@ -160,7 +180,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         self.gridView.dataSource = nil
         self.gridView.delegate = nil
         
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.view.backgroundColor = UIColor(white: 0.5, alpha: 0)
             self.gridView.layoutIfNeeded()
             }, completion: {s in
@@ -171,18 +191,18 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         })
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return agents.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let s = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ShareCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let s = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ShareCell
         
-        let a = agents[indexPath.item]
+        let a = agents[(indexPath as NSIndexPath).item]
         
         if (a.availibility == false)
         {
-            s.sectionIcon.backgroundColor = UIColor.lightGrayColor()
+            s.sectionIcon.backgroundColor = UIColor.lightGray
         } else {
             s.sectionIcon.backgroundColor = a.background
         }
@@ -194,20 +214,20 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         return s
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake((UIScreen.mainScreen().bounds.width/3)-4, 84)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (UIScreen.main.bounds.width/3)-4, height: 84)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let a = agents[indexPath.item]
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let a = agents[(indexPath as NSIndexPath).item]
         
         if (a.availibility == false)
         {
@@ -228,19 +248,19 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     func loginPath()
     {
-        let pathLoginVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil).first as! PathLoginViewController
+        let pathLoginVC = Bundle.main.loadNibNamed(Tags.XibNamePathLogin, owner: nil, options: nil)?.first as! PathLoginViewController
         pathLoginVC.delegate = self
         pathLoginVC.standAlone = true
         let n = UINavigationController(rootViewController: pathLoginVC)
-        self.presentViewController(n, animated: true, completion: nil)
+        self.present(n, animated: true, completion: nil)
     }
     
-    func pathLoginSuccess(userData: JSON, token: String) {
+    func pathLoginSuccess(_ userData: JSON, token: String) {
         registerPathToken(userData, token : token)
         postToPath(pathImage!, token: token)
     }
     
-    func postToPath(image : UIImage, token : String)
+    func postToPath(_ image : UIImage, token : String)
     {
 //        let param = [
 //            "caption":(item?.text)!
@@ -254,8 +274,8 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
 //        }
         let a = UIAlertView(title: "Path", message: "Posting to path", delegate: nil, cancelButtonTitle: nil)
         a.show()
-        AppToolsObjC.PATHPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
-            a.dismissWithClickedButtonIndex(0, animated: true)
+        AppToolsObjC.pathPostPhoto(image, param: ["private":true, "caption":(item?.text)!], token: token, success: {_, _ in
+            a.dismiss(withClickedButtonIndex: 0, animated: true)
             self.hide()
             }, failure: nil)
     }
@@ -264,7 +284,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
     }
     
-    func registerPathToken(userData : JSON, token : String)
+    func registerPathToken(_ userData : JSON, token : String)
     {
 //        let pathId = userData["id"].string!
         let pathName = userData["name"].string!
@@ -291,26 +311,26 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
     
     var mgInstagram : MGInstagram?
     var pathImage : UIImage?
-    func share(a : PreloShareAgent, img : UIImage)
+    func share(_ a : PreloShareAgent, img : UIImage)
     {
         var image = img
-        image = image.putPreloWatermarkWithUsername("@" + (detail?.json["_data"]["seller"]["username"].stringValue)!)!
+        image = image.putPreloWatermark(withUsername: "@" + (detail?.json["_data"]["seller"]["username"].stringValue)!)!
         
-        if (a.title.lowercaseString == "instagram")
+        if (a.title.lowercased() == "instagram")
         {
-            UIPasteboard.generalPasteboard().string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+            UIPasteboard.general.string = "Temukan barang bekas berkualitas, \(item!.text!) di Prelo hanya dengan harga \(item!.price!). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
             Constant.showDialog("Text sudah disalin ke clipboard", message: "Silakan paste sebagai deskripsi post Instagram kamu")
             mgInstagram = MGInstagram()
-            mgInstagram?.postImage(image, withCaption: self.textToShare1, inView: self.view, delegate: self)
+            mgInstagram?.post(image, withCaption: self.textToShare1, in: self.view, delegate: self)
             self.mixpanelSharedProduct("Instagram", username: "")
         }
         
-        if (a.title.lowercaseString == "path")
+        if (a.title.lowercased() == "path")
         {
             pathImage = image
             if (CDUser.pathTokenAvailable())
             {
-                postToPath(image, token: NSUserDefaults.standardUserDefaults().stringForKey("pathtoken")!)
+                postToPath(image, token: UserDefaults.standard.string(forKey: "pathtoken")!)
                 if let o = CDUserOther.getOne() {
                     self.mixpanelSharedProduct("Path", username: (o.pathUsername != nil) ? o.pathUsername! : "")
                 } else {
@@ -323,60 +343,60 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             
         }
         
-        if (a.title.lowercaseString == "whatsapp")
+        if (a.title.lowercased() == "whatsapp")
         {
             var message = ""
             var name = ""
             if let n = item!.text
             {
-                name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                name = n.replacingOccurrences(of: " ", with: "-")
             }
-            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+            message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!
             
-            let url = NSURL(string : "whatsapp://send?text="+message)
-            UIApplication.sharedApplication().openURL(url!)
+            let url = URL(string : "whatsapp://send?text="+message)
+            UIApplication.shared.openURL(url!)
             self.mixpanelSharedProduct("Whatsapp", username: "")
         }
         
-        if (a.title.lowercaseString == "salin")
+        if (a.title.lowercased() == "salin")
         {
             var name = ""
             if let n = item!.text
             {
-                name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                name = n.replacingOccurrences(of: " ", with: "-")
             }
             name = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
-            UIPasteboard.generalPasteboard().string = name
+            UIPasteboard.general.string = name
             UIAlertView.SimpleShow("", message: "Sukses disalin")
             
             self.mixpanelSharedProduct("Copy Info", username: "")
         }
         
-        if (a.title.lowercaseString == "sms")
+        if (a.title.lowercased() == "sms")
         {
             var message = item!.text!
             var name = ""
             if let n = item!.text
             {
-                name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                name = n.replacingOccurrences(of: " ", with: "-")
             }
             message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             let composer = MFMessageComposeViewController()
             composer.body = message
             composer.messageComposeDelegate = self
             
-            self.presentViewController(composer, animated: true, completion: nil)
+            self.present(composer, animated: true, completion: nil)
             
             self.mixpanelSharedProduct("SMS", username: "")
         }
         
-        if (a.title.lowercaseString == "e-mail")
+        if (a.title.lowercased() == "e-mail")
         {
             var message = item!.text!
             var name = ""
             if let n = item!.text
             {
-                name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                name = n.replacingOccurrences(of: " ", with: "-")
             }
             message = "Hai!\n\nKamu bisa dapatkan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!).\nInfo selengkapnya mengenai kondisi barang bisa kamu cari tahu di \(item!.permalink!).\nNikmati mudahnya jual-beli barang bekas berkualitas dengan aman di Prelo. Dapatkan juga beragam keuntungan dengan aplikasi Prelo di ponsel kamu.\nDownload Prelo sekarang di http://prelo.co.id\nCheers!"
             let composer = MFMailComposeViewController()
@@ -384,7 +404,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                 composer.setMessageBody(message, isHTML: false)
                 composer.mailComposeDelegate = self
                 
-                self.presentViewController(composer, animated: true, completion: nil)
+                self.present(composer, animated: true, completion: nil)
                 
                 self.mixpanelSharedProduct("Email", username: "")
             } else {
@@ -392,40 +412,40 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
             }
         }
         
-        if (a.title.lowercaseString == "line")
+        if (a.title.lowercased() == "line")
         {
             var message = item!.text!
             var name = ""
             if let n = item!.text
             {
-                name = n.stringByReplacingOccurrencesOfString(" ", withString: "-")
+                name = n.replacingOccurrences(of: " ", with: "-")
             }
             message = "Temukan barang bekas berkualitas, \(name) hanya dengan harga \(item!.price!). Jangan sampai kehabisan, beli sekarang juga di Prelo! \(item!.permalink!)"
             Line.shareText(message)
             self.mixpanelSharedProduct("Line", username: "")
         }
         
-        if (a.title.lowercaseString == "facebook" || a.title.lowercaseString == "twitter")
+        if (a.title.lowercased() == "facebook" || a.title.lowercased() == "twitter")
         {
-            let type = a.title.lowercaseString == "facebook" ? SLServiceTypeFacebook : SLServiceTypeTwitter
+            let type = a.title.lowercased() == "facebook" ? SLServiceTypeFacebook : SLServiceTypeTwitter
             
-            if (SLComposeViewController.isAvailableForServiceType(type))
+            if (SLComposeViewController.isAvailable(forServiceType: type))
             {
-                let url = NSURL(string:"\(item!.permalink!)")
+                let url = URL(string:"\(item!.permalink!)")
                 let composer = SLComposeViewController(forServiceType: type)
-                composer.addURL(url!)
-                composer.addImage(image)
+                composer?.add(url!)
+                composer?.add(image)
                 if (type == SLServiceTypeFacebook) {
-                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
+                    composer?.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
                 } else if (type == SLServiceTypeTwitter) {
-                    composer.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
+                    composer?.setInitialText("Dapatkan barang bekas berkualitas, \(item!.text!) seharga Rp\(item!.price!) #PreloID")
                 }
-                composer.completionHandler = { result -> Void in
+                composer?.completionHandler = { result -> Void in
                     let getResult = result as SLComposeViewControllerResult
                     switch(getResult.rawValue) {
-                    case SLComposeViewControllerResult.Cancelled.rawValue:
+                    case SLComposeViewControllerResult.cancelled.rawValue:
                         print("Cancelled")
-                    case SLComposeViewControllerResult.Done.rawValue:
+                    case SLComposeViewControllerResult.done.rawValue:
                         print("Done")
                         if (type == SLServiceTypeFacebook) {
                             self.mixpanelSharedProduct("Facebook", username: "")
@@ -436,7 +456,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
                         print("Error")
                     }
                 }
-                self.presentViewController(composer, animated: true, completion: nil)
+                self.present(composer!, animated: true, completion: nil)
             } else
             {
                 UIAlertView.SimpleShow(a.title, message: "Silakan login "+a.title+" dari Settings")
@@ -462,7 +482,7 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)*/
     }
     
-    func mixpanelSharedProduct(socmed : String, username : String) {
+    func mixpanelSharedProduct(_ socmed : String, username : String) {
         let pt = [
             "Socmed" : socmed,
             "Socmed Username" : username,
@@ -474,16 +494,16 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         Mixpanel.trackEvent(MixpanelEvent.SharedProduct, properties: pt)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isKindOfClass(UICollectionView.classForCoder()) || touch.view!.tag == 1)
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view!.isKind(of: UICollectionView.classForCoder()) || touch.view!.tag == 1)
         {
             return false
         }
@@ -513,6 +533,6 @@ class ShareCell : UICollectionViewCell
     override func awakeFromNib() {
         sectionIcon.layer.cornerRadius = sectionIcon.width/2
         sectionIcon.layer.masksToBounds = true
-        sectionIcon.superview?.backgroundColor = UIColor.clearColor()
+        sectionIcon.superview?.backgroundColor = UIColor.clear
     }
 }

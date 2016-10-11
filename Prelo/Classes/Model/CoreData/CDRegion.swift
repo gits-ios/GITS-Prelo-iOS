@@ -18,7 +18,7 @@ class CDRegion : NSManagedObject {
     @NSManaged var idRajaOngkir : String
     @NSManaged var postalCode : String
     
-    static func saveRegionsFromArrayJson(arr: [JSON]) -> Bool {
+    static func saveRegionsFromArrayJson(_ arr: [JSON]) -> Bool {
         
         if (arr.count <= 0) {
             return true
@@ -26,7 +26,7 @@ class CDRegion : NSManagedObject {
         
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
-            let n = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
+            let n = NSEntityDescription.insertNewObject(forEntityName: "CDRegion", into: m) as! CDRegion
             let reg = arr[i]
             n.id = reg["_id"].stringValue
             n.name = reg["name"].stringValue
@@ -44,7 +44,7 @@ class CDRegion : NSManagedObject {
         }
     }
     
-    static func updateRegionsFromArrayJson(arr : [JSON]) -> Bool {
+    static func updateRegionsFromArrayJson(_ arr : [JSON]) -> Bool {
         var isSuccess = true
         
         if (arr.count <= 0) {
@@ -57,7 +57,7 @@ class CDRegion : NSManagedObject {
             let fetchReq = NSFetchRequest(entityName: "CDRegion")
             fetchReq.predicate = predicate
             do {
-                if let results = try m.executeFetchRequest(fetchReq) as? [CDRegion] {
+                if let results = try m.fetch(fetchReq) as? [CDRegion] {
                     for result in results {
                         result.name = arr[i]["name"].stringValue
                         result.provinceId = arr[i]["province_id"].stringValue
@@ -78,7 +78,7 @@ class CDRegion : NSManagedObject {
         return isSuccess
     }
     
-    static func deleteRegionsFromArrayJson(arr : [JSON]) -> Bool {
+    static func deleteRegionsFromArrayJson(_ arr : [JSON]) -> Bool {
         var isSuccess = true
         
         if (arr.count <= 0) {
@@ -91,9 +91,9 @@ class CDRegion : NSManagedObject {
             let fetchReq = NSFetchRequest(entityName: "CDRegion")
             fetchReq.predicate = predicate
             do {
-                if let results = try m.executeFetchRequest(fetchReq) as? [NSManagedObject] {
+                if let results = try m.fetch(fetchReq) as? [NSManagedObject] {
                     for result in results {
-                        m.deleteObject(result)
+                        m.delete(result)
                     }
                 }
             } catch {
@@ -110,9 +110,9 @@ class CDRegion : NSManagedObject {
         return isSuccess
     }
     
-    static func newOne(id : String, name : String, province : CDProvince) -> CDRegion? {
+    static func newOne(_ id : String, name : String, province : CDProvince) -> CDRegion? {
         let m = UIApplication.appDelegate.managedObjectContext
-        let r = NSEntityDescription.insertNewObjectForEntityForName("CDRegion", inManagedObjectContext: m) as! CDRegion
+        let r = NSEntityDescription.insertNewObject(forEntityName: "CDRegion", into: m) as! CDRegion
         r.id = id
         r.name = name
         //r.province = province
@@ -123,14 +123,14 @@ class CDRegion : NSManagedObject {
         }
     }
     
-    static func deleteAll(m : NSManagedObjectContext) -> Bool {
+    static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
         let fetchRequest = NSFetchRequest(entityName: "CDRegion")
         fetchRequest.includesPropertyValues = false
         
         do {
-            if let results = try m.executeFetchRequest(fetchRequest) as? [NSManagedObject] {
+            if let results = try m.fetch(fetchRequest) as? [NSManagedObject] {
                 for result in results {
-                    m.deleteObject(result)
+                    m.delete(result)
                 }
                 
                 if (m.saveSave() == true) {
@@ -143,7 +143,7 @@ class CDRegion : NSManagedObject {
         return true
     }
     
-    static func getRegionPickerItems(provID : String) -> [String] {
+    static func getRegionPickerItems(_ provID : String) -> [String] {
         let m = UIApplication.appDelegate.managedObjectContext
         var regions = [CDRegion]()
         
@@ -154,7 +154,7 @@ class CDRegion : NSManagedObject {
         var arr : [String] = []
         
         do {
-            regions = try (m.executeFetchRequest(fetchReq) as? [CDRegion])!
+            regions = try (m.fetch(fetchReq) as? [CDRegion])!
             for region in regions {
                 if (region.provinceId == provID) {
                     arr.append(region.name + PickerViewController.TAG_START_HIDDEN + region.id + PickerViewController.TAG_END_HIDDEN)
@@ -166,12 +166,12 @@ class CDRegion : NSManagedObject {
         return arr
     }
     
-    static func getRegionNameWithID(id : String) -> String? {
+    static func getRegionNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq = NSFetchRequest(entityName: "CDRegion")
         fetchReq.predicate = predicate
         do {
-            let r = try UIApplication.appDelegate.managedObjectContext.executeFetchRequest(fetchReq)
+            let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
             return r.count == 0 ? nil : (r.first as! CDRegion).name
         } catch {
             return nil

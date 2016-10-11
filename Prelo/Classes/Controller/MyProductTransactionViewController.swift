@@ -41,7 +41,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         
         // Register custom cell
         let notifTransactionCellNib = UINib(nibName: "NotifAnggiTransactionCell", bundle: nil)
-        tableView.registerNib(notifTransactionCellNib, forCellReuseIdentifier: "NotifAnggiTransactionCell")
+        tableView.register(notifTransactionCellNib, forCellReuseIdentifier: "NotifAnggiTransactionCell")
         
         // Hide and show
         self.showLoading()
@@ -54,7 +54,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Search bar setup
@@ -62,7 +62,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         searchBar.placeholder = "Cari Barang"
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if (userProducts.isEmpty) {
@@ -89,7 +89,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         if let txt = searchBar.text {
             searchText = txt
         }
-        request(APINotifAnggi.GetNotifsSell(page: currentPage + 1, name : searchText)).responseJSON { resp in
+        request(APINotifAnggi.getNotifsSell(page: currentPage + 1, name : searchText)).responseJSON { resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Transaksi")) {
                     let json = JSON(resp.result.value!)
@@ -130,30 +130,30 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     
     // MARK: - Tableview functions
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userProducts.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 81
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
-            cell.selectionStyle = .None
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell : NotifAnggiTransactionCell = self.tableView.dequeueReusableCell(withIdentifier: "NotifAnggiTransactionCell") as? NotifAnggiTransactionCell {
+            cell.selectionStyle = .none
             cell.isDiffUnread = false
-            let p = userProducts[indexPath.item]
-            cell.adapt(p, idx: indexPath.item)
+            let p = userProducts[(indexPath as NSIndexPath).item]
+            cell.adapt(p, idx: (indexPath as NSIndexPath).item)
             return cell
         }
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.readNotif(indexPath.item)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.readNotif((indexPath as NSIndexPath).item)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset : CGPoint = scrollView.contentOffset
         let bounds : CGRect = scrollView.bounds
         let size : CGSize = scrollView.contentSize
@@ -164,7 +164,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         let reloadDistance : CGFloat = 0
         if (y > h + reloadDistance) {
             // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && self.bottomLoading.hidden) {
+            if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading
                 self.consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 self.showBottomLoading()
@@ -177,18 +177,18 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     
     // MARK: - Search bar functions
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.refreshPage()
     }
     
     // MARK: - Other functions
     
-    func readNotif(idx : Int) {
+    func readNotif(_ idx : Int) {
         self.showLoading()
         if (idx < userProducts.count) {
             let p = userProducts[idx]
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("TransactionDetail") as? TransactionDetailViewController)!
+            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
             
             // Set trxId/trxProductId
             if (p.progress == TransactionDetailTools.ProgressExpired ||
@@ -197,9 +197,9 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 p.progress == TransactionDetailTools.ProgressFraudDetected) {
                 transactionDetailVC.trxId = p.objectId
             } else if (p.progress == TransactionDetailTools.ProgressConfirmedPaid) {
-                if (p.caption.lowercaseString == "jual") {
+                if (p.caption.lowercased() == "jual") {
                     transactionDetailVC.trxId = p.objectId
-                } else if (p.caption.lowercaseString == "beli") {
+                } else if (p.caption.lowercased() == "beli") {
                     transactionDetailVC.trxProductId = p.objectId
                 }
             } else {
@@ -207,9 +207,9 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
             }
             
             // Set isSeller
-            if (p.caption.lowercaseString == "jual") {
+            if (p.caption.lowercased() == "jual") {
                 transactionDetailVC.isSeller = true
-            } else if (p.caption.lowercaseString == "beli") {
+            } else if (p.caption.lowercased() == "beli") {
                 transactionDetailVC.isSeller = false
             }
             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
@@ -217,39 +217,39 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     }
     
     func showLoading() {
-        self.loading.hidden = false
+        self.loading.isHidden = false
         self.loading.startAnimating()
     }
     
     func hideLoading() {
-        self.loading.hidden = true
+        self.loading.isHidden = true
         self.loading.stopAnimating()
     }
     
     func showBottomLoading() {
-        self.bottomLoading.hidden = false
+        self.bottomLoading.isHidden = false
         self.bottomLoading.startAnimating()
     }
     
     func hideBottomLoading() {
-        self.bottomLoading.hidden = true
+        self.bottomLoading.isHidden = true
         self.bottomLoading.stopAnimating()
     }
     
     func showContent() {
         if (self.userProducts.count <= 0) {
-            self.lblEmpty.hidden = false
-            self.btnRefresh.hidden = false
+            self.lblEmpty.isHidden = false
+            self.btnRefresh.isHidden = false
         } else {
-            self.tableView.hidden = false
+            self.tableView.isHidden = false
             self.setupTable()
         }
     }
     
     func hideContent() {
-        self.tableView.hidden = true
-        self.lblEmpty.hidden = true
-        self.btnRefresh.hidden = true
+        self.tableView.isHidden = true
+        self.lblEmpty.isHidden = true
+        self.btnRefresh.isHidden = true
     }
     
     func setupTable() {
