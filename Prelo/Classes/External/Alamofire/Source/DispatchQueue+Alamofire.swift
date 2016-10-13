@@ -1,8 +1,7 @@
 //
-//  SocketClientSpec.swift
-//  Socket.IO-Client-Swift
+//  DispatchQueue+Alamofire.swift
 //
-//  Created by Erik Little on 1/3/16.
+//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +20,24 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
+//
 
-protocol SocketClientSpec : class {
-    var nsp: String { get set }
-    var waitingPackets: [SocketPacket] { get set }
-    
-    func didConnect()
-    func didDisconnect(_ reason: String)
-    func didError(_ reason: String)
-    func handleAck(_ ack: Int, data: [AnyObject])
-    func handleEvent(_ event: String, data: [AnyObject], isInternalMessage: Bool, withAck ack: Int)
-    func joinNamespace(_ namespace: String)
-}
+import Dispatch
+import Foundation
 
-extension SocketClientSpec {
-    func didError(_ reason: String) {
-        DefaultSocketLogger.Logger.error("%@", type: "SocketIOClient", args: reason)
-        
-        handleEvent("error", data: [reason as AnyObject], isInternalMessage: true, withAck: -1)
+extension DispatchQueue {
+    static var userInteractive: DispatchQueue { return DispatchQueue.global(qos: .userInteractive) }
+    static var userInitiated: DispatchQueue { return DispatchQueue.global(qos: .userInitiated) }
+    static var utility: DispatchQueue { return DispatchQueue.global(qos: .utility) }
+    static var background: DispatchQueue { return DispatchQueue.global(qos: .background) }
+
+    func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
+        asyncAfter(deadline: .now() + delay, execute: closure)
+    }
+
+    func syncResult<T>(_ closure: () -> T) -> T {
+        var result: T!
+        sync { result = closure() }
+        return result
     }
 }

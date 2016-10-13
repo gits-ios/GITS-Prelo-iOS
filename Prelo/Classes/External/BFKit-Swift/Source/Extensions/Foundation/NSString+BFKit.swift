@@ -25,7 +25,6 @@
 //  SOFTWARE.
 
 import Foundation
-import UIKit
 
 /// This extension adds some useful functions to NSString
 public extension NSString {
@@ -192,23 +191,6 @@ public extension NSString {
         return self.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "-", with: "") as NSString
     }
     
-    /**
-     Used to calculate text height for max width and font
-     
-     - parameter width: Max width to fit text
-     - parameter font:  Font used in text
-     
-     - returns: Returns the calculated height of string within width using given font
-     */
-    public func heightForWidth(_ width: CGFloat, font: UIFont) -> CGFloat {
-        var size: CGSize = CGSize.zero
-        if self.length > 0 {
-            let frame: CGRect = self.boundingRect(with: CGSize(width: width, height: 999999), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName : font], context: nil)
-            size = CGSize(width: frame.size.width, height: frame.size.height + 1)
-        }
-        return size.height
-    }
-    
     // MARK: - Class functions -
     
     /**
@@ -242,7 +224,7 @@ public extension NSString {
             end = 0
         }
         
-        return string.substring(from: start).substringToIndex(end)
+        return string.substring(from: start).substringToIndex(end) as NSString
     }
     
     /**
@@ -324,8 +306,8 @@ public extension NSString {
      - returns: Returns the decoded string
      */
     public static func decodeBase64(_ string: NSString) -> NSString {
-        let data: Data = Data(base64Encoded: string as String, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        return data.convertToUTF8String()
+        let data: Data = Data(base64Encoded: string as String, options: .ignoreUnknownCharacters)!
+        return data.convertToUTF8String() as NSString as NSString
     }
     
     /**
@@ -360,7 +342,7 @@ public extension NSString {
     public func stringByReplacingWithRegex(_ regexString: NSString, replacement: NSString) -> NSString? {
         do {
             let regex: NSRegularExpression = try NSRegularExpression(pattern: regexString as String, options: .caseInsensitive)
-            return regex.stringByReplacingMatches(in: self as String, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.length), withTemplate: "") as NSString?
+            return regex.stringByReplacingMatches(in: self as String, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.length), withTemplate: "") as NSString
         } catch {
             
         }
@@ -379,8 +361,8 @@ public extension NSString {
         hex = hex.replacingOccurrences(of: " ", with: "")
         var s: String = ""
         while hex.characters.count > 0 {
-            let c: String = hex.substring(to: hex.characters.index(hex.startIndex, offsetBy: 2))
-            hex = hex.substring(from: hex.characters.index(hex.startIndex, offsetBy: 2))
+            let c: String = hex.substring(to: hex.index(hex.startIndex, offsetBy: 2))
+            hex = hex.substring(from: hex.index(hex.startIndex, offsetBy: 2))
             var ch: UInt32 = 0
             Scanner(string: c).scanHexInt32(&ch)
             s = s + String(format: "%c", ch)
@@ -395,16 +377,13 @@ public extension NSString {
      - returns: HEX string
      */
     public func stringToHEX() -> NSString {
-        let len: Int = self.length
-        let chars: UnsafeMutablePointer<unichar> = UnsafeMutablePointer<unichar>(malloc(len * sizeof(unichar)));
-        self.getCharacters(UnsafeMutablePointer<unichar>(chars))
+        let selfString = self as String
         
         let hexString: NSMutableString = NSMutableString()
         
-        for i in 0 ..< len {
-            hexString.appendFormat("%02x", chars[i])
+        for i in 0 ..< self.length {
+            hexString.appendFormat("%02x", selfString[i ..< i+1])
         }
-        free(chars)
         
         return hexString
     }

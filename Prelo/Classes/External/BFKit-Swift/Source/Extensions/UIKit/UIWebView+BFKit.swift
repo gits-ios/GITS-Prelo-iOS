@@ -50,6 +50,6 @@ public extension UIWebView {
      - parameter website: Website to load
      */
     public func loadWebsite(_ website: String) {
-        self.loadRequest(Foundation.URLRequest(url: URL(string: website)!))
+        self.loadRequest(URLRequest(url: URL(string: website)!))
     }
 }

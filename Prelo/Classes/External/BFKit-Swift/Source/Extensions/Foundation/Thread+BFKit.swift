@@ -1,5 +1,5 @@
 //
-//  NSThread+BFKit.swift
+//  Thread+BFKit.swift
 //  BFKit
 //
 //  The MIT License (MIT)
@@ -45,7 +45,7 @@ public func runOnMainThread(_ block: @escaping () -> ()) {
  - parameter: block Block to be executed
  */
 public func runInBackground(_ block: @escaping () -> ()) {
-    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+    DispatchQueue.global().async {
         block()
     }
 }

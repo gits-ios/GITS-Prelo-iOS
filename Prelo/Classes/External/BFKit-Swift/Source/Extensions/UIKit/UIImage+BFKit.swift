@@ -391,15 +391,15 @@ public extension UIImage {
      - returns: Returns the filled image
      */
     public func fillAlphaWithColor(_ color: UIColor) -> UIImage {
-        let im_r: CGRect = CGRect(origin: CGPoint.zero, size: self.size)
+        let imageRect: CGRect = CGRect(origin: CGPoint.zero, size: self.size)
         
         let cgColor: CGColor = color.cgColor
         
         UIGraphicsBeginImageContextWithOptions(self.size, false, UIScreen.main.scale)
         let context: CGContext = UIGraphicsGetCurrentContext()!
         context.setFillColor(cgColor)
-        context.fill(im_r)
-        self.draw(in: im_r)
+        context.fill(imageRect)
+        self.draw(in: imageRect)
         
         let returnImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
@@ -418,9 +418,7 @@ public extension UIImage {
         
         if clrMod == CGColorSpaceModel.monochrome {
             return true
-        }
-        else
-        {
+        } else {
             return false
         }
     }
@@ -434,7 +432,7 @@ public extension UIImage {
         let rect: CGRect = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
         
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceGray()
-        let context: CGContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: self.cgImage!.bitmapInfo.rawValue)!
+        let context: CGContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: .allZeros)!
 
         context.draw(self.cgImage!, in: rect)
         let grayscale: CGImage = context.makeImage()!
@@ -450,7 +448,7 @@ public extension UIImage {
      */
     public func imageToBlackAndWhite() -> UIImage {
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceGray()
-        let context: CGContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: self.cgImage!.bitmapInfo.rawValue)!
+        let context: CGContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: .allZeros)!
         context.interpolationQuality = .high
         context.setShouldAntialias(false)
         context.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
@@ -472,7 +470,7 @@ public extension UIImage {
         UIGraphicsGetCurrentContext()?.setBlendMode(.copy)
         self.draw(in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         UIGraphicsGetCurrentContext()?.setBlendMode(.difference)
-        UIGraphicsGetCurrentContext().setFillColor(UIColor.white.cgColor)
+        UIGraphicsGetCurrentContext()?.setFillColor(UIColor.white.cgColor)
         UIGraphicsGetCurrentContext()?.fill(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         
         let returnImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -677,7 +675,7 @@ public extension UIImage {
             return nil
         }
         
-        if let maskImage = maskImage , maskImage.cgImage == nil {
+        if let maskImage = maskImage, maskImage.cgImage == nil {
             BFLog("maskImage must be backed by a CGImage: \(maskImage)")
             return nil
         }
@@ -702,7 +700,8 @@ public extension UIImage {
             
             if hasBlur {
                 let inputRadius = blurRadius * UIScreen.main.scale
-                var radius = UInt32(floor(inputRadius * 3.0 * CGFloat(sqrt(2 * M_PI)) / 4 + 0.5))
+                let temp = inputRadius * 3.0 * CGFloat(sqrt(2 * M_PI)) / 4 + 0.5
+                var radius = UInt32(floor(temp))
                 if radius % 2 != 1 {
                     radius += 1
                 }
@@ -785,7 +784,7 @@ public extension UIImage {
     
      - returns: Returns the created CGSize
      */
-    fileprivate static func sizeForSizeString(_ sizeString: String) -> CGSize {
+    private static func sizeForSizeString(_ sizeString: String) -> CGSize {
         let array: Array = sizeString.components(separatedBy: "x")
         if array.count != 2 {
             return CGSize.zero

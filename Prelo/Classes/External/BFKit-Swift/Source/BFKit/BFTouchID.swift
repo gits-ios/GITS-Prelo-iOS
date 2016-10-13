@@ -1,3 +1,4 @@
+
 //
 //  BFTouchID.swift
 //  BFKit
@@ -28,8 +29,7 @@ import Foundation
 import LocalAuthentication
 
 /// This class adds some useful functions to use TouchID
-@available(iOS 8, *)
-open class BFTouchID {
+public class BFTouchID {
     // MARK: - Enums -
     
     /**
@@ -45,7 +45,6 @@ open class BFTouchID {
      - NotAvailable:         Not Available
      - NotEnrolled:          Not Enrolled
      */
-    @available(iOS 8, *)
     public enum TouchIDResult : Int {
         case success
         case error
@@ -67,7 +66,7 @@ open class BFTouchID {
      - parameter fallbackTitle: Default title "Enter Password" is used when this property is left nil. If set to empty string, the button will be hidden
      - parameter completion:    Completion handler. It returns the TouchID result, from the TouchIDResult enum
      */
-    open static func showTouchIDAuthenticationWithReason(_ reason: String, fallbackTitle: String? = nil, completion: @escaping (_ result: TouchIDResult) -> ()) {
+    public static func showTouchIDAuthenticationWithReason(_ reason: String, fallbackTitle: String? = nil, completion: @escaping (_ result: TouchIDResult) -> ()) {
         
         let context: LAContext = LAContext()
         
@@ -75,33 +74,33 @@ open class BFTouchID {
         
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: NSError?) -> Void in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason, reply: { (success: Bool, error: Error?) -> Void in
                 if success {
-                    completion(result: .success)
+                    completion(.success)
                 } else {
-                    switch error!.code {
-                    case LAError.Code.authenticationFailed.rawValue:
-                        completion(result: .authenticationFailed)
-                    case LAError.Code.userCancel.rawValue:
-                        completion(result: .userCancel)
-                    case LAError.Code.userFallback.rawValue:
-                        completion(result: .userFallback)
-                    case LAError.Code.systemCancel.rawValue:
-                        completion(result: .systemCancel)
+                    switch error! {
+                    case LAError.authenticationFailed:
+                        completion(.authenticationFailed)
+                    case LAError.userCancel:
+                        completion(.userCancel)
+                    case LAError.userFallback:
+                        completion(.userFallback)
+                    case LAError.systemCancel:
+                        completion(.systemCancel)
                     default:
-                        completion(result: .error)
+                        completion(.error)
                     }
                 }
-            } as! (Bool, Error?) -> Void)
+            })
         }
         else
         {
             switch error!.code {
-            case LAError.Code.passcodeNotSet.rawValue:
+            case LAError.passcodeNotSet.rawValue:
                 completion(.passcodeNotSet)
-            case LAError.Code.touchIDNotAvailable.rawValue:
+            case LAError.touchIDNotAvailable.rawValue:
                 completion(.notAvailable)
-            case LAError.Code.touchIDNotEnrolled.rawValue:
+            case LAError.touchIDNotEnrolled.rawValue:
                 completion(.notEnrolled)
             default:
                 completion(.error)

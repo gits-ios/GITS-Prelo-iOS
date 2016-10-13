@@ -28,7 +28,7 @@ import Foundation
 import AudioToolbox
 
 /// This class adds some useful functions to play system sounds
-open class BFSystemSound {
+public class BFSystemSound {
     // MARK: - Enums -
     
     /**
@@ -289,14 +289,14 @@ open class BFSystemSound {
     
      - parameter audioID: ID of system audio from the AudioID enum
      */
-    open static func playSystemSound(_ audioID: AudioID) {
+    public static func playSystemSound(_ audioID: AudioID) {
         AudioServicesPlaySystemSound(SystemSoundID(audioID.rawValue))
     }
     
     /**
      Play system sound vibrate
      */
-    open static func playSystemSoundVibrate() {
+    public static func playSystemSoundVibrate() {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
@@ -307,7 +307,7 @@ open class BFSystemSound {
     
      - returns: Returns the SystemSoundID
      */
-    open static func playCustomSound(_ soundURL: URL) -> SystemSoundID {
+    public static func playCustomSound(_ soundURL: URL) -> SystemSoundID {
         var soundID: SystemSoundID = 0
         
         let error: OSStatus = AudioServicesCreateSystemSoundID(soundURL as CFURL, &soundID)
@@ -324,7 +324,7 @@ open class BFSystemSound {
     
      - returns: Returns true if has been disposed, otherwise false
      */
-    open static func disposeSound(_ soundID: SystemSoundID) -> Bool {
+    public static func disposeSound(_ soundID: SystemSoundID) -> Bool {
         let error: OSStatus = AudioServicesDisposeSystemSoundID(soundID)
         if error != Int32(kAudioServicesNoError) {
             BFLog("Error while disposing sound \(soundID)")

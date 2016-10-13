@@ -35,7 +35,7 @@ public extension Dictionary {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    func dictionaryToJSON() throws -> String {
+    public func dictionaryToJSON() throws -> String {
         return try Dictionary.dictionaryToJSON(self as AnyObject)
     }
     
@@ -48,15 +48,11 @@ public extension Dictionary {
     
      - returns: Returns the JSON as String or nil if error while parsing
      */
-    static func dictionaryToJSON(_ dictionary: AnyObject) throws -> String {
+    public static func dictionaryToJSON(_ dictionary: AnyObject) throws -> String {
         var json: NSString
         let jsonData: Data = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
         
-        if jsonData == false {
-            return "{}"
-        } else {
-            json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)!
-            return json as String
-        }
+        json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)!
+        return json as String
     }
 }

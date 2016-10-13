@@ -17,7 +17,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
     @IBOutlet var scrollViewTitle : UIScrollView!
     @IBOutlet var scrollViewSubtitle : UIScrollView!
     
-    var parent : BaseViewController?
+    var parentVC : BaseViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +95,7 @@ class TourViewController: BaseViewController, UIScrollViewDelegate
         {
             /* CATEGPREF DISABLED
             let catPrefVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameCategoryPreferences, owner: nil, options: nil).first as! CategoryPreferencesViewController
-            catPrefVC.parent = parent
+            catPrefVC.parentVC = parentVC
             self.navigationController?.pushViewController(catPrefVC, animated: true)
             */
             self.dismiss(animated: true, completion: nil)

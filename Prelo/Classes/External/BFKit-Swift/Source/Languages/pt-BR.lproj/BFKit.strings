@@ -24,6 +24,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+// BFKit
+"BFKit" = "BFKit";
+"BFKitAuthor" = "Fabrizio Brancati";
+
 // Generals
 "OK" = "Ok";
 "CONTINUE" = "Continuar";
@@ -63,7 +67,7 @@
 
 // Time zones
 "NIGHT" = "Noite";
-"MORNING" = "Manha";
+"MORNING" = "Manhã";
 "AFTERNOON" = "Tarde";
 "EVENING" = "Noite";
 

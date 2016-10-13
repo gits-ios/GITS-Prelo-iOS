@@ -28,8 +28,8 @@ import Foundation
 import UIKit
 
 /// This class adds some useful functions to UITextField that cannot be in an extension
-open class BFTextField: UITextField {
-    @IBInspectable open var maxNumberOfCharacters: Int = 0 {
+public class BFTextField: UITextField {
+    @IBInspectable public var maxNumberOfCharacters: Int = 0 {
         didSet {
             
         }
@@ -52,17 +52,17 @@ open class BFTextField: UITextField {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.maxNumberOfCharacters = Int(aDecoder.decodeCInt(forKey: "MaxNumberOfCharacters"))
+        self.maxNumberOfCharacters = Int(aDecoder.decodeInteger(forKey: "MaxNumberOfCharacters"))
         NotificationCenter.default.addObserver(self, selector: #selector(BFTextField.textFieldDidChange(_:)), name: NSNotification.Name.UITextFieldTextDidChange, object: self)
     }
     
-    open override func encode(with aCoder: NSCoder) {
+    public override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         
-        aCoder.encodeCInt(Int32(maxNumberOfCharacters), forKey: "MaxNumberOfCharacters")
+        aCoder.encode(Int32(maxNumberOfCharacters), forKey: "MaxNumberOfCharacters")
     }
     
-    open func textFieldDidChange(_ notification: Foundation.Notification) {
+    public func textFieldDidChange(_ notification: Notification) {
         if self.maxNumberOfCharacters != 0 && self.text!.length >= self.maxNumberOfCharacters {
             self.text = self.text?.substringToIndex(self.maxNumberOfCharacters)
         }

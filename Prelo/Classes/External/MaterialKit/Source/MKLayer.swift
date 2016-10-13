@@ -95,7 +95,7 @@ open class MKLayer: CALayer {
         }
     }
 
-    open override func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+    open func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if anim == self.animation(forKey: "opacityAnim") {
             self.opacity = 0
         } else if flag {

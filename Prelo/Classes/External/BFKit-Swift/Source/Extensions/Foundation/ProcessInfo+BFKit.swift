@@ -1,5 +1,5 @@
 //
-//  NSProcessInfo+BFKit.swift
+//  ProcessInfo+BFKit.swift
 //  BFKit
 //
 //  The MIT License (MIT)
@@ -35,7 +35,7 @@ private extension ProcessInfo {
     
      - returns: Returns the CPU usage by the current App
      */
-    static func currentAppCPUUsage() -> Float {
+    private static func currentAppCPUUsage() -> Float {
         // TODO: Get CPU usage
         return 0.0
     }

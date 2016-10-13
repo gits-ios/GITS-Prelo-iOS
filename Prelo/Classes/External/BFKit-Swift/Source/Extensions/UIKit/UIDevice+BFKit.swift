@@ -193,6 +193,7 @@ public extension UIDevice {
         case "iPhone7,2":       return "iPhone 6"
         case "iPhone8,1":       return "iPhone 6s"
         case "iPhone8,2":       return "iPhone 6s Plus"
+        case "iPhone8,4":       return "iPhone SE"
         // iPod
         case "iPod1,1":         return "iPod Touch 1G"
         case "iPod2,1":         return "iPod Touch 2G"
@@ -227,9 +228,12 @@ public extension UIDevice {
         case "iPad4,7":         return "iPad mini 3 (WiFi)"
         case "iPad4,8":         return "iPad mini 3 (Cellular)"
         case "iPad4,9":         return "iPad mini 3 (China)"
-        // iPad Pro
-        case "iPad6,7":         return "iPad Pro (WiFi)"
-        case "iPad6,8":         return "iPad Pro (Cellular)"
+        // iPad Pro 9.7
+        case "iPad6,3":         return "iPad Pro 9.7 (WiFi)"
+        case "iPad6,4":         return "iPad Pro 9.7 (Cellular)"
+        // iPad Pro 12.9
+        case "iPad6,7":         return "iPad Pro 12.9 (WiFi)"
+        case "iPad6,8":         return "iPad Pro 12.9 (Cellular)"
         // Apple TV
         case "AppleTV2,1":      return "Apple TV 2G"
         case "AppleTV3,1":      return "Apple TV 3G"
@@ -324,26 +328,6 @@ public extension UIDevice {
     }
     
     /**
-     Check if the current device has a Retina display
-    
-     - returns: Returns true if it has a Retina display, false if not
-     */
-    @available(*, deprecated: 1.4.0, message: "Use isRetina() in UIScreen class")
-    public static func isRetina() -> Bool {
-        return UIScreen.isRetina()
-    }
-    
-    /**
-     Check if the current device has a Retina HD display
-    
-     - returns: Returns true if it has a Retina HD display, false if not
-     */
-    @available(*, deprecated: 1.4.0, message: "Use isRetinaHD() in UIScreen class")
-    public static func isRetinaHD() -> Bool {
-        return UIScreen.isRetinaHD()
-    }
-    
-    /**
      Returns the iOS version without the subversion
      Example: 7
     
@@ -360,7 +344,7 @@ public extension UIDevice {
     
      - returns: Return the sysyem info
      */
-    fileprivate static func getSysInfo(_ typeSpecifier: Int32) -> Int {
+    private static func getSysInfo(_ typeSpecifier: Int32) -> Int {
         var name: [Int32] = [CTL_HW, typeSpecifier]
         var size: Int = 2
         sysctl(&name, 2, nil, &size, &name, 0)
@@ -429,9 +413,9 @@ public extension UIDevice {
     
      - returns: Returns the current device total disk space
      */
-    public static func totalDiskSpace() throws -> AnyObject {
-        let attributes: NSDictionary = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()) as NSDictionary
-        return attributes.object(forKey: FileAttributeKey.systemSize)! as AnyObject
+    public static func totalDiskSpace() throws -> Any {
+        let attributes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
+        return attributes[FileAttributeKey.systemSize]
     }
     
     /**
@@ -439,9 +423,9 @@ public extension UIDevice {
     
      - returns: Returns the current device free disk space
      */
-    public static func freeDiskSpace() throws -> AnyObject {
-        let attributes: NSDictionary = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()) as NSDictionary
-        return attributes.object(forKey: FileAttributeKey.systemFreeSize)! as AnyObject
+    public static func freeDiskSpace() throws -> Any {
+        let attributes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
+        return attributes[FileAttributeKey.systemFreeSize]
     }
     
     /**
@@ -477,10 +461,10 @@ public extension UIDevice {
         var savedUUID: String? = nil
         var isValid = false, hasToUpdate = false
         
-        if uniqueIdentifier.isKind(of: Data as! AnyClass.self) {
+        if uniqueIdentifier is Data {
             let data: Data = uniqueIdentifier as! Data
             userUUID = data.convertToUTF8String()
-        } else if uniqueIdentifier.isKind(of: NSString.self) {
+        } else if uniqueIdentifier is NSString {
             let string: NSString = uniqueIdentifier as! NSString
             userUUID = string.convertToAPNSUUID() as String
         }

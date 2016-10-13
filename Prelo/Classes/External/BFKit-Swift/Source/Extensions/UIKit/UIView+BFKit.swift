@@ -127,6 +127,20 @@ public extension UIView {
     }
     
     /**
+     Set the corner radius of UIView only at the given corner
+     
+     - parameter corners: Corners to apply radius
+     - parameter radius: Radius value
+     */
+    public func cornerRadius(corners: UIRectCorner, radius: CGFloat) {
+        let rectShape = CAShapeLayer()
+        rectShape.bounds = self.frame
+        rectShape.position = self.center
+        rectShape.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+        self.layer.mask = rectShape
+    }
+    
+    /**
      Create a shadow on the UIView
     
      - parameter offset:  Shadow's offset
@@ -221,37 +235,37 @@ public extension UIView {
     public func pulseViewWithDuration(_ duration: CGFloat) {
         UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
             self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }, completion: { (finished) -> Void in
+        }) { (finished) -> Void in
             if finished {
                 UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
                     self.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-                }, completion: { (finished: Bool) -> Void in
+                }) { (finished: Bool) -> Void in
                     if finished {
                         UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
                             self.transform = CGAffineTransform(scaleX: 1.03, y: 1.03)
-                        }, completion: { (finished: Bool) -> Void in
+                        }) { (finished: Bool) -> Void in
                             if finished {
                                 UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
                                     self.transform = CGAffineTransform(scaleX: 0.985, y: 0.985)
-                                }, completion: { (finished: Bool) -> Void in
+                                }) { (finished: Bool) -> Void in
                                     if finished {
                                         UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
                                             self.transform = CGAffineTransform(scaleX: 1.007, y: 1.007)
-                                        }, completion: { (finished: Bool) -> Void in
+                                        }) { (finished: Bool) -> Void in
                                             if finished {
                                                 UIView.animate(withDuration: TimeInterval(duration / 6), animations: { () -> Void in
                                                     self.transform = CGAffineTransform(scaleX: 1, y: 1)
                                                 })
                                             }
-                                        }) 
+                                        }
                                     }
-                                }) 
+                                }
                             }
-                        }) 
+                        }
                     }
-                }) 
+                }
             }
-        }) 
+        }
     }
     
     /**
@@ -273,7 +287,7 @@ public extension UIView {
         
         animation.values = frameValues
         
-        let frameTimes: Array = [NSNumber(value: 0.05 as Float), NSNumber(value: 0.2 as Float), NSNumber(value: 0.6 as Float), NSNumber(value: 1.0 as Float)]
+        let frameTimes: Array = [NSNumber(value: 0.05), NSNumber(value: 0.2), NSNumber(value: 0.6), NSNumber(value: 1.0)]
         animation.keyTimes = frameTimes
         
         animation.fillMode = kCAFillModeForwards

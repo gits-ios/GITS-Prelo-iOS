@@ -27,19 +27,12 @@
 import Foundation
 import UIKit
 
+// MARK: - Global variables -
+
 /// Used to store the BFHasBeenOpened in defaults
-private let BFHasBeenOpened = "BFHasBeenOpened"
-/// Used to store the BFHasBeenOpenedForCurrentVersion in defaults
-private let BFHasBeenOpenedForCurrentVersion = "\(BFHasBeenOpened)\(APP_VERSION)"
+private let BFAppHasBeenOpened = "BFAppHasBeenOpened"
 
-/// Get App name
-public let APP_NAME: String = Bundle(for: BFApp.self).infoDictionary!["CFBundleDisplayName"] as! String
-
-/// Get App build
-public let APP_BUILD: String = Bundle(for: BFApp.self).infoDictionary!["CFBundleVersion"] as! String
-
-/// Get App version
-public let APP_VERSION: String = Bundle(for: BFApp.self).infoDictionary!["CFBundleShortVersionString"] as! String
+// MARK: - Global functions -
 
 /**
  Use BFLocalizedString to use the string translated by BFKit
@@ -49,26 +42,95 @@ public let APP_VERSION: String = Bundle(for: BFApp.self).infoDictionary!["CFBund
  
  - returns: Returns the localized string
  */
-public func BFLocalizedString(_ key: String, _ comment: String? = nil) -> String {
+public func BFLocalizedString(_ key: String, _ comment: String = "") -> String {
     return Bundle(for: BFApp.self).localizedString(forKey: key, value: key, table: "BFKit")
 }
 
-/// Get AppDelegate (To use it, cast to AppDelegate with "as! AppDelegate")
-let APP_DELEGATE: UIApplicationDelegate? = UIApplication.shared.delegate
+/**
+ NSLocalizedString without comment parameter
+ 
+ - parameter key: The key of the localized string
+ 
+ - returns: Returns a localized string
+ */
+public func NSLocalizedString(_ key: String) -> String {
+    return NSLocalizedString(key, comment: "")
+}
+
+#if os(iOS)
+    /// Get AppDelegate. To use it, cast to AppDelegate with "as! AppDelegate"
+    let appDelegate: UIApplicationDelegate? = UIApplication.shared.delegate
+#endif
 
 /// This class adds some useful functions for the App
-open class BFApp {
-    /**
-     Executes a block on first start of the App.
-     Remember to execute UI instuctions on main thread
+public class BFApp {
+    // MARK: - Class functions -
     
-     - parameter block: The block to execute, returns isFirstStart
+    /**
+     Executes a block only if in DEBUG mode
+     
+     - parameter block: The block to be executed
      */
-    open static func onFirstStart(_ block: (_ isFirstStart: Bool) -> ()) {
+    public static func debug(_ block: () -> ()) {
+        #if DEBUG
+            block()
+        #endif
+    }
+    
+    /**
+     Executes a block only if NOT in DEBUG mode
+     
+     - parameter block: The block to be executed
+     */
+    public static func release(_ block: () -> ()) {
+        #if !DEBUG
+            block()
+        #endif
+    }
+    
+    /**
+     If version is set returns if is first start for that version,
+     otherwise returns if is first start of the App
+     
+     - parameter version: Version to be checked, you can use the global varialble AppVersion to pass the current App version
+     
+     - returns: Returns if is first start of the App or for custom version
+     */
+    public static func isFirstStart(version: String = "") -> Bool {
+        let key: String
+        if version == "" {
+            key = BFAppHasBeenOpened
+        } else {
+            key = BFAppHasBeenOpened + "\(version)"
+        }
+        
         let defaults = UserDefaults.standard
-        let hasBeenOpened: Bool = defaults.bool(forKey: BFHasBeenOpened)
+        let hasBeenOpened: Bool = defaults.bool(forKey: key)
         if hasBeenOpened != true {
-            defaults.set(true, forKey: BFHasBeenOpened)
+            return true
+        }
+        return false
+    }
+    
+    /**
+     Executes a block on first start of the App, if version is set it will be for given version.
+     Remember to execute UI instuctions on main thread
+     
+     - parameter version: Version to be checked, you can use the global varialble AppVersion to pass the current App version
+     - parameter block:   The block to execute, returns isFirstStart
+     */
+    public static func onFirstStart(version: String = "", block: (_ isFirstStart: Bool) -> ()) {
+        let key: String
+        if version == "" {
+            key = BFAppHasBeenOpened
+        } else {
+            key = BFAppHasBeenOpened + "\(version)"
+        }
+        
+        let defaults = UserDefaults.standard
+        let hasBeenOpened: Bool = defaults.bool(forKey: key)
+        if hasBeenOpened != true {
+            defaults.set(true, forKey: key)
             defaults.synchronize()
         }
         
@@ -76,76 +138,64 @@ open class BFApp {
     }
     
     /**
-     Executes a block on first start of the App for current version.
-     Remember to execute UI instuctions on main thread
-    
-     - parameter block: The block to execute, returns isFirstStartForCurrentVersion
+     Set the App settings for a given object and key. The file will be saved in the Library directory
+     
+     - parameter object: Object to set
+     - parameter objKey: Key to set the object
+     
+     - returns: Returns true if the operation was successful, otherwise false
      */
-    open static func onFirstStartForCurrentVersion(_ block: (_ isFirstStartForCurrentVersion: Bool) -> ()) {
-        let defaults = UserDefaults.standard
-        let hasBeenOpenedForCurrentVersion: Bool = defaults.bool(forKey: BFHasBeenOpenedForCurrentVersion)
-        if hasBeenOpenedForCurrentVersion != true {
-            defaults.set(true, forKey: BFHasBeenOpenedForCurrentVersion)
-            defaults.synchronize()
-        }
-        
-        block(!hasBeenOpenedForCurrentVersion)
+    public static func setAppSettingsForObject(_ object: AnyObject, forKey objKey: String) -> Bool {
+        return FileManager.setSettings(BFApp.name, object: object, forKey: objKey)
     }
     
     /**
-     Executes a block on first start of the App for current given version.
-     Remember to execute UI instuctions on main thread
+     Get the App settings for a given key
      
-     - parameter version: Version to be checked
-     - parameter block:   The block to execute, returns isFirstStartForVersion
+     - parameter objKey: Key to get the object
+     
+     - returns: Returns the object for the given key
      */
-    open static func onFirstStartForVersion(_ version: String, block: (_ isFirstStartForVersion: Bool) -> ()) {
-        let defaults = UserDefaults.standard
-        let hasBeenOpenedForVersion: Bool = defaults.bool(forKey: BFHasBeenOpened + "\(version)")
-        if hasBeenOpenedForVersion != true {
-            defaults.set(true, forKey: BFHasBeenOpened + "\(version)")
-            defaults.synchronize()
+    public static func getAppSettingsForObjectWithKey(_ objKey: String) -> Any? {
+        return FileManager.getSettings(BFApp.name, objectForKey: objKey)
+    }
+    
+    /// Return the App name
+    public static var name: String = {
+        return BFApp.stringFromInfoDictionary(forKey: "CFBundleDisplayName")
+    }()
+    
+    
+    /// Returns the App version
+    public static var version: String = {
+        return BFApp.stringFromInfoDictionary(forKey: "CFBundleShortVersionString")
+    }()
+    
+    /// Returns the App build
+    public static var build: String = {
+        return BFApp.stringFromInfoDictionary(forKey: "CFBundleVersion")
+    }()
+    
+    /// Returns the App executable
+    public static var executable: String = {
+        return BFApp.stringFromInfoDictionary(forKey: "CFBundleExecutable")
+    }()
+    
+    /// Returns the App bundle
+    public static var bundle: String = {
+        return BFApp.stringFromInfoDictionary(forKey: "CFBundleIdentifier")
+    }()
+    
+    /// Returns a String from the Info dictionary of the App
+    ///
+    /// - parameter key: Key to search
+    ///
+    /// - returns: Returns a String from the Info dictionary of the App
+    private static func stringFromInfoDictionary(forKey key: String) -> String {
+        guard let infoDictionary = Bundle.main.infoDictionary, let value = infoDictionary[key] as? String else {
+            return ""
         }
         
-        block(!hasBeenOpenedForVersion)
-    }
-    
-    /// Returns if is the first start of the App
-    open static var isFirstStart: Bool {
-        let defaults = UserDefaults.standard
-        let hasBeenOpened: Bool = defaults.bool(forKey: BFHasBeenOpened)
-        if hasBeenOpened != true {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    /// Returns if is the first start of the App for current version
-    open static var isFirstStartForCurrentVersion: Bool {
-        let defaults = UserDefaults.standard
-        let hasBeenOpenedForCurrentVersion: Bool = defaults.bool(forKey: BFHasBeenOpenedForCurrentVersion)
-        if hasBeenOpenedForCurrentVersion != true {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    /**
-     Returns if is the first start of the App for the given version
-     
-     - parameter version: Version to be checked
-     
-     - returns: Returns if is the first start of the App for the given version
-     */
-    open static func isFirstStartForVersion(_ version: String) -> Bool {
-        let defaults = UserDefaults.standard
-        let hasBeenOpenedForCurrentVersion: Bool = defaults.bool(forKey: BFHasBeenOpened + "\(version)")
-        if hasBeenOpenedForCurrentVersion != true {
-            return true
-        } else {
-            return false
-        }
+        return value
     }
 }

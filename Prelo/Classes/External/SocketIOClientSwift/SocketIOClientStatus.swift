@@ -24,19 +24,9 @@
 
 import Foundation
 
-@objc public enum SocketIOClientStatus : Int, CustomStringConvertible {
-    case notConnected, closed, connecting, connected
-
-    public var description: String {
-        switch self {
-        case .notConnected:
-            return "Not Connected"
-        case .closed:
-            return "Closed"
-        case .connecting:
-            return "Connecting"
-        case .connected:
-            return "Connected"
-        }
-    }
+/// **NotConnected**: initial state
+///
+/// **Disconnected**: connected before
+@objc public enum SocketIOClientStatus : Int {
+    case notConnected, disconnected, connecting, connected
 }

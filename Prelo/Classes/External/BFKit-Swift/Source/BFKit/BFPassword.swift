@@ -27,7 +27,7 @@
 import Foundation
 
 /// This class adds some useful functions to manage passwords
-open class BFPassword {
+public class BFPassword {
     // MARK: - Enums -
     
     /**
@@ -60,7 +60,7 @@ open class BFPassword {
     
      - returns: Returns the password strength level with value from enum PasswordStrengthLevel
      */
-    open static func checkPasswordStrength(_ password: String) -> PasswordStrengthLevel {
+    public static func checkPasswordStrength(_ password: String) -> PasswordStrengthLevel {
         let lenght = password.length
         let lowercase = self.countLowercaseLetters(password)
         let uppercase = self.countUppercaseLetters(password)
@@ -163,7 +163,7 @@ open class BFPassword {
     
      - returns: Number of lowercase letters
      */
-    fileprivate static func countLowercaseLetters(_ password: String) -> Int {
+    private static func countLowercaseLetters(_ password: String) -> Int {
         var countChar = 0
         for i in 0 ..< password.length {
             let isLowercase = CharacterSet.lowercaseLetters.contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
@@ -182,10 +182,10 @@ open class BFPassword {
     
      - returns: Number of uppercase letters
      */
-    fileprivate static func countUppercaseLetters(_ password: String) -> Int {
+    private static func countUppercaseLetters(_ password: String) -> Int {
         var countChar = 0
         for i in 0 ..< password.length {
-            let isUppercase = CharacterSet.lowercaseLetters.contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
+            let isUppercase = CharacterSet.uppercaseLetters.contains(UnicodeScalar((((String(password) as NSString))).character(at: i))!)
             if isUppercase {
                 countChar += 1
             }
@@ -201,7 +201,7 @@ open class BFPassword {
     
      - returns: Number of numbers
      */
-    fileprivate static func countNumbers(_ password: String) -> Int {
+    private static func countNumbers(_ password: String) -> Int {
         var countNumber = 0
         for i in 0 ..< password.length {
             let isNumber = CharacterSet(charactersIn: "0123456789").contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)
@@ -220,7 +220,7 @@ open class BFPassword {
     
      - returns: Number of symbols
      */
-    fileprivate static func countSymbols(_ password: String) -> Int {
+    private static func countSymbols(_ password: String) -> Int {
         var countSymbol = 0
         for i in 0 ..< password.length {
             let isSymbol = CharacterSet(charactersIn: "`~!?@#$€£¥§%^&*()_+-={}[]:\";.,<>'•\\|/").contains(UnicodeScalar(((String(password) as NSString)).character(at: i))!)

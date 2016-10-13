@@ -2913,7 +2913,7 @@ class InboxMessage : NSObject
         // API Migrasi
         let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim chat"))
+            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value as AnyObject?, err: resp.result.error, reqAlias: "Kirim chat"))
             {
                 
             } else
@@ -2930,15 +2930,15 @@ class InboxMessage : NSObject
     }
 }
 
-class Notification : NSObject
+class NotificationObj : NSObject
 {
     var json : JSON = JSON([:])
 
-    static func instance(_ json : JSON?) -> Notification? {
+    static func instance(_ json : JSON?) -> NotificationObj? {
         if (json == nil) {
             return nil
         } else {
-            let n = Notification()
+            let n = NotificationObj()
             n.json = json!
             return n
         }

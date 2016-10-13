@@ -37,9 +37,9 @@ public extension NSArray {
     
      - returns: Returns the object at a given index in safe mode (nil if self is empty or out of range)
      */
-    public func safeObjectAtIndex(_ index: Int) -> AnyObject? {
+    public func safeObjectAtIndex(_ index: Int) -> Any? {
         if self.count > 0 && self.count > index {
-            return self[index] as AnyObject?
+            return self[index]
         } else {
             return nil
         }
@@ -70,8 +70,8 @@ public extension NSArray {
     
      - returns: Returns the object at a given index
      */
-    public func objectAtCircleIndex(_ index: Int) -> AnyObject {
-        return self[self.superCircle(index, size: self.count)] as AnyObject
+    public func objectAtCircleIndex(_ index: Int) -> Any {
+        return self[self.superCircle(index, size: self.count)]
     }
     
     /**
@@ -82,7 +82,7 @@ public extension NSArray {
     
      - returns: Returns the right index
      */
-    fileprivate func superCircle(_ index: Int, size maxSize: Int) -> Int{
+    private func superCircle(_ index: Int, size maxSize: Int) -> Int{
         var _index = index
         if _index < 0 {
             _index = _index % maxSize

@@ -1,5 +1,5 @@
 //
-//  NSFileManager+BFKit.swift
+//  FileManager+BFKit.swift
 //  BFKit
 //
 //  The MIT License (MIT)
@@ -93,7 +93,7 @@ public extension FileManager {
     
      - returns: Returns the loaded array
      */
-    public static func loadArrayFromPath(_ directory: DirectoryType, filename: String) -> AnyObject? {
+    public static func loadArrayFromPath(_ directory: DirectoryType, filename: String) -> Any? {
         var finalPath: String
         
         switch directory {
@@ -107,7 +107,7 @@ public extension FileManager {
             finalPath = self.getCacheDirectoryForFile(filename)
         }
         
-        return NSKeyedUnarchiver.unarchiveObject(withFile: finalPath) as AnyObject?
+        return NSKeyedUnarchiver.unarchiveObject(withFile: finalPath)
     }
     
     /**
@@ -182,10 +182,8 @@ public extension FileManager {
             }
             
             if FileManager.default.fileExists(atPath: path) {
-                let fileAttributes: NSDictionary? = try FileManager.default.attributesOfItem(atPath: file) as NSDictionary?
-                if let _fileAttributes = fileAttributes {
-                    return NSNumber(value: _fileAttributes.fileSize() as UInt64)
-                }
+                let fileAttributes = try FileManager.default.attributesOfItem(atPath: file)
+                return fileAttributes[FileAttributeKey.size] as? NSNumber
             }
         }
         
@@ -304,21 +302,6 @@ public extension FileManager {
         return false
     }
     
-    
-    /**
-     Move a file from a directory to another
-    
-     - parameter file:        Filename to move
-     - parameter origin:      Origin directory of the file
-     - parameter destination: Destination directory of the file
-    
-     - returns: Returns true if the operation was successful, otherwise false
-     */
-    @available(*, obsoleted: 1.2.0, message: "Use moveLocalFile(_, fromDirectory:, toDirectory:, withFolderName:)")
-    public static func moveLocalFile(_ file: String, fromDirectory origin: DirectoryType, toDirectory destination: DirectoryType) throws -> Bool {
-        return try self.moveLocalFile(file, fromDirectory: origin, toDirectory: destination, withFolderName: nil)
-    }
-    
     /**
      Duplicate a file into another directory
     
@@ -388,7 +371,7 @@ public extension FileManager {
     
      - returns: Returns the object for the given key
      */
-    public static func getSettings(_ settings: String, objectForKey: String) -> AnyObject? {
+    public static func getSettings(_ settings: String, objectForKey: String) -> Any? {
         var path: String = self.getLibraryDirectoryForFile("")
         path = path + "/Preferences/"
         path = path + "\(settings)-Settings.plist"
@@ -400,7 +383,7 @@ public extension FileManager {
             return nil
         }
         
-        return loadedPlist[objectForKey]
+        return loadedPlist.object(forKey: objectForKey)
     }
     
     /**
@@ -427,28 +410,5 @@ public extension FileManager {
         loadedPlist[objKey] = object
         
         return loadedPlist.write(toFile: path, atomically: true)
-    }
-    
-    /**
-     Set the App settings for a given object and key. The file will be saved in the Library directory
-    
-     - parameter object: Object to set
-     - parameter objKey: Key to set the object
-    
-     - returns: Returns true if the operation was successful, otherwise false
-     */
-    public static func setAppSettingsForObject(_ object: AnyObject, forKey objKey: String) -> Bool {
-        return self.setSettings(APP_NAME, object: object, forKey: objKey)
-    }
-    
-    /**
-     Get the App settings for a given key
-    
-     - parameter objKey: Key to get the object
-    
-     - returns: Returns the object for the given key
-     */
-    public static func getAppSettingsForObjectWithKey(_ objKey: String) -> AnyObject? {
-        return self.getSettings(APP_NAME, objectForKey: objKey)
     }
 }

@@ -1,10 +1,9 @@
 //
-//  BFKit.swift
 //  BFKit
 //
 //  The MIT License (MIT)
 //
-//  Copyright (c) 2015 - 2016 Fabrizio Brancati. All rights reserved.
+//  Copyright (c) 2015 Fabrizio Brancati. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +23,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import Foundation
+#import <UIKit/UIKit.h>
 
-/// BFKit version string
-public let BFKIT_VERSION = "1.6.1"
+//! Project version number for BFKit.
+FOUNDATION_EXPORT double BFKitVersionNumber;
 
-/// BFKit author string
-public let BFKIT_AUTHOR = "Fabrizio Brancati"
+//! Project version string for BFKit.
+FOUNDATION_EXPORT const unsigned char BFKitVersionString[];

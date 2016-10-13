@@ -53,7 +53,7 @@ public extension UIBarButtonItem {
     /**
      Private, is just a placeholder to remove warning messages to "init(barButtonSpaceType space:, width:)"
      */
-    @objc fileprivate func nothing() {
+    @objc private func nothing() {
         
     }
 }
