@@ -519,7 +519,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        currentRequest = let _ = request(APISearch.autocomplete(key: keyword))
+        currentRequest = request(APISearch.autocomplete(key: keyword))
         currentRequest?.responseJSON { resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Autocomplete")) {
                 let json = JSON(resp.result.value!)

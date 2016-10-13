@@ -103,7 +103,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     @IBAction func xBackPressed(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        let _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func termConditionPressed(_ sender: AnyObject) {
@@ -209,20 +209,20 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
                 let data = json["_data"]
                 
                 let m = UIApplication.appDelegate.managedObjectContext
-                CDUser.deleteAll()
+                let _ = CDUser.deleteAll()
                 let c = NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser
                 c.id = data["_id"].stringValue
                 c.email = data["email"].stringValue
                 c.username = data["username"].stringValue
                 c.fullname = data["fullname"].stringValue
                 
-                CDUserProfile.deleteAll()
+                let _ = CDUserProfile.deleteAll()
                 let p = NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile
                 let pr = data["profile"]
                 p.pict = pr["pict"].stringValue
                 c.profiles = p
                 
-                CDUserOther.deleteAll()
+                let _ = CDUserOther.deleteAll()
                 let o = NSEntityDescription.insertNewObject(forEntityName: "CDUserOther", into: m) as! CDUserOther
                 let oth = data["others"]
                 o.lastLogin = oth["last_login"].stringValue
@@ -281,7 +281,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         // Show loading
         self.showLoading()
         
-        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin as AnyObject] as [String : AnyObject]
         LoginViewController.LoginWithFacebook(p, onFinish: { resultDict in
             LoginViewController.AfterLoginFacebook(resultDict)
         })
@@ -293,7 +293,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         // Show loading
         self.showLoading()
         
-        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin as AnyObject] as [String : AnyObject]
         LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
         })
