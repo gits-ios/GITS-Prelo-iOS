@@ -53,7 +53,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     let ItemPerLoad : Int = 10
     var isAllItemLoaded : Bool = false
     
-    var notifications : [Notification]?
+    var notifications : [NotificationObj]?
 
     var delegate : NotifAnggiTransactionDelegate?
     
@@ -106,7 +106,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
                 
                 // Store data into variable
                 for (_, item) in data {
-                    let n = Notification.instance(item)
+                    let n = NotificationObj.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)
                     }
@@ -277,7 +277,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         }
     }
     
-    func navigateReadNotif(_ notif : Notification) {
+    func navigateReadNotif(_ notif : NotificationObj) {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
         
@@ -358,7 +358,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var collcTrxProgress: UICollectionView!
     
-    var notif : Notification?
+    var notif : NotificationObj?
     var idx : Int?
     
     var delegate : NotifAnggiTransactionCellDelegate?
@@ -374,7 +374,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         lblTrxStatus.textColor = Theme.GrayDark
     }
 
-    func adapt(_ notif : Notification, idx : Int) {
+    func adapt(_ notif : NotificationObj, idx : Int) {
         // Set background color
         if (!notif.read && isDiffUnread) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)

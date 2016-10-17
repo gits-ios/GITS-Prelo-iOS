@@ -53,7 +53,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     let ItemPerLoad : Int = 10
     var isAllItemLoaded : Bool = false
     
-    var notifications : [Notification]?
+    var notifications : [NotificationObj]?
     
     var delegate : NotifAnggiConversationDelegate?
     
@@ -106,7 +106,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                 
                 // Store data into variable
                 for (_, item) in data {
-                    let n = Notification.instance(item)
+                    let n = NotificationObj.instance(item)
                     if (n != nil) {
                         self.notifications?.append(n!)
                     }
@@ -266,7 +266,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         tableView.reloadData()
     }
     
-    func navigateReadNotif(_ notif : Notification) {
+    func navigateReadNotif(_ notif : NotificationObj) {
         if (notif.type == 2000) { // Chat
             // Get inbox detail
             // API Migrasi
@@ -332,7 +332,7 @@ class NotifAnggiConversationCell: UITableViewCell {
         lblConvStatus.textColor = Theme.GrayDark
     }
     
-    func adapt(_ notif : Notification) {
+    func adapt(_ notif : NotificationObj) {
         // Set background color
         if (!notif.read) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)

@@ -31,7 +31,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     let ItemPerLoad : Int = 10
     var currentPage : Int = 0
     var isAllItemLoaded : Bool = false
-    var userProducts : [Notification] = []
+    var userProducts : [NotificationObj] = []
     
     // MARK: - Init
     
@@ -110,7 +110,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
                     
                     // Store data into variable
                     for (_, item) in data {
-                        if let n = Notification.instance(item) {
+                        if let n = NotificationObj.instance(item) {
                             self.userProducts.append(n)
                         }
                     }
