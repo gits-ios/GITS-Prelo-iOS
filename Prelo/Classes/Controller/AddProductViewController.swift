@@ -72,7 +72,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if let url = s
             {
                 let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Conditions")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Conditions")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["product_conditions"].array
                         var items : Array<String> = []
@@ -105,7 +105,7 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             if let url = s
             {
                 let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Brands")) {
                         let json = JSON(resp.result.value!)
                         let brands = json["brands"].array
                         var items : Array<String> = []

@@ -117,7 +117,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         if (userId != nil && name != nil) {
                             // API Migrasi
                             let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
-                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                                     
                                     // Save in core data
                                     let userOther : CDUserOther = CDUserOther.getOne()!
@@ -155,7 +155,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         }
                         
                         let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
-                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                                 
                                 // Save in core data
                                 if let userOther : CDUserOther = CDUserOther.getOne() {
@@ -191,7 +191,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     func instagramLoginSuccess(_ token: String) {
         // API Migrasi
         let _ = request(APISocmed.storeInstagramToken(token: token)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Store Instagram Token")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Store Instagram Token")) {
                 
             } else {
                 self.select(self.pathSender!)
@@ -207,7 +207,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         
         // API Migrasi
         let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Path")) {
                 UserDefaults.standard.set(token, forKey: "pathtoken")
                 UserDefaults.standard.synchronize()
             } else {
@@ -495,7 +495,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //        }
 //        
 //        let _ = request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Commission")) {
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Commission")) {
 //                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
 //                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
 //                self.navigationController?.pushViewController(b!, animated: true)

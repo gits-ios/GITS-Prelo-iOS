@@ -35,7 +35,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
 //            .responseJSON {resp in
             .responseJSON { resp in
             //print(res)
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search User"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Search User"))
             {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array

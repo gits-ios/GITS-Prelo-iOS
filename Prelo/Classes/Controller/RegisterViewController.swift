@@ -204,7 +204,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         let name = txtName?.text
         // API Migrasi
         let _ = request(APIAuth.register(username: username!, fullname: name!, email: email!, password: password!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value as AnyObject?, err: resp.result.error as NSError?, reqAlias: "Register")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Register")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -319,9 +319,8 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
 
         // API Migrasi
-        Alamofire.request
         let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value as AnyObject?, err: resp.result.error as NSError?, reqAlias: "Login Path")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 

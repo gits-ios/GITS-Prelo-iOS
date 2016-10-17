@@ -176,7 +176,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     func getPurchaseDetail() {
         // API Migrasi
         let _ = request(APITransactionProduct.transactionDetail(id: transactionId!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Belanjaan Saya")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Belanjaan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -436,7 +436,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         
         self.sendMode(true)
         let _ = request(Products.postReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Review Penjual")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue

@@ -91,7 +91,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
             // Get token
             // API Migrasi
         let _ = request(APIPathAuth.getToken(clientId: pathClientId, clientSecret: pathClientSecret, code: code)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                     let json = JSON(resp.result.value!)
                     print("json = \(json)")
                     if (json["code"].int == 200) { // OK
@@ -101,7 +101,7 @@ class PathLoginViewController : BaseViewController, UIWebViewDelegate {
                         // Get user Path data
                         // API Migrasi
         let _ = request(APIPathUser.getSelfData(token: pathToken)).responseJSON {resp in
-                            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+                            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                                 let json = JSON(resp.result.value!)
                                 print("json = \(json)")
                                 if (json["code"].int == 200) { // OK

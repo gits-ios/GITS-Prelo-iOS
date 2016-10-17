@@ -147,7 +147,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                     User.SetToken(nil)
                 }
                 
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Verifikasi Nomor HP")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Verifikasi Nomor HP")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
@@ -299,7 +299,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                 User.SetToken(nil)
             }
             
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Verifikasi Nomor HP")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Verifikasi Nomor HP")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {

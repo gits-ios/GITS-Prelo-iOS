@@ -192,7 +192,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     func getProductDetail() {
         // API Migrasi
         let _ = request(APITransactionProduct.transactionDetail(id: transactionId!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Jualan Saya")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Jualan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -496,7 +496,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         self.sendMode(true)
         // API Migrasi
         let _ = request(APITransactionProduct.rejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tolak Pengiriman")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil || data == true) {
@@ -558,7 +558,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func hubungiBuyerPressed(_ sender: AnyObject) {
         // Get product detail from API
         let _ = request(Products.detail(productId: (transactionDetail?.productId)!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                 let json = JSON(resp.result.value!)
                 //let pDetail = ProductDetail.instance(json)
                 //pDetail?.reverse()
@@ -569,7 +569,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 
                 // API Migrasi
         let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Hubungi Pembeli")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                         let json = JSON(resp.result.value!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
                             t.tawarItem = Inbox(jsn: json["_data"])

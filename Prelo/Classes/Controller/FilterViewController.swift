@@ -119,7 +119,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         
         // Get sizes
         let _ = request(APIReference.formattedSizesByCategory(category: self.categoryId)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Filter Ukuran")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Filter Ukuran")) {
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array , data.count > 0 {
                     let collViewWidth = UIScreen.main.bounds.size.width - 16

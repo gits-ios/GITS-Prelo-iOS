@@ -483,7 +483,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                 
                 // Retrieve kecamatanPickerItems
                 let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"].arrayValue
                         
@@ -608,7 +608,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
             // API Migrasi
             let _ = request(APIMe.setupAccount(username: username, email: email,gender: (isShowGender ? userGender : -999), phone: userPhone!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, shipping: userShipping, referralCode: userReferral, deviceId: userDeviceId, deviceRegId: deviceToken)).responseJSON {resp in
                 
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Setelan Akun")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Setelan Akun")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     
@@ -617,7 +617,7 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                     // Dilakukan di sini (bukan di register atau phone verification) karna register dibedakan antara normal dan via socmed, dan phone verification dilakukan bisa berkali2 saat edit profile
                     // API Migrasi
                     let _ = request(APIMe.SetUserPreferencedCategories(categ1: NSUserDefaults.categoryPref1(), categ2: NSUserDefaults.categoryPref2(), categ3: NSUserDefaults.categoryPref3())).responseJSON {resp in
-                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set User Preferenced Categories")) {
+                        if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Set User Preferenced Categories")) {
                             let json = JSON(resp.result.value!)
                             let isSuccess = json["_data"].bool!
                             if (isSuccess) { // Berhasil

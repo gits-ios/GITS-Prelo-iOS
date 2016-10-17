@@ -82,7 +82,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         // Top search setup
         let _ = request(APISearch.getTopSearch(limit: "10")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Top Search")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Search")) {
                 self.topSearchLoading.isHidden = true
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array {
@@ -395,7 +395,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 if let searchText = self.searchBar.text {
                     // Insert top search
                     let _ = request(APISearch.insertTopSearch(search: searchText)).responseJSON { resp in
-                        if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                        if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Insert Top Search")) {
                             //print("TOP")
                             //print(resp.result.value)
                             //print("TOPEND")
@@ -418,7 +418,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             } else {
                 // Insert top search
                 let _ = request(APISearch.insertTopSearch(search: foundItems[(indexPath as NSIndexPath).row].name)).responseJSON {resp in
-                    if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Insert Top Search")) {
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Insert Top Search")) {
                         //print("TOP")
                         //print(resp.result.value)
                         //print("TOPEND")
@@ -521,7 +521,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
         
         currentRequest = request(APISearch.autocomplete(key: keyword))
         currentRequest?.responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Search Autocomplete")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Search Autocomplete")) {
                 let json = JSON(resp.result.value!)
                 if let items = json["_data"]["products"].array , items.count > 0 {
                     self.foundItems = []

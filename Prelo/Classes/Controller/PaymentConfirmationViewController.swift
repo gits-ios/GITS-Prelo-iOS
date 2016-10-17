@@ -99,7 +99,7 @@ class PaymentConfirmationViewController: BaseViewController, UITableViewDataSour
     func getUserCheckouts() {
         // API Migrasi
         let _ = request(APITransactionProduct.checkoutList(current: "", limit: "")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Pesanan Saya")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Pesanan Saya")) {
                 let json = JSON(resp.result.value!)
                 print(json)
                 let data = json["_data"]

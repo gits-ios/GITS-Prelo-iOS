@@ -296,7 +296,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         // API Migrasi
         let _ = request(APIApp.version).responseJSON {resp in
             var isShowPromo = false
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Promo check")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Promo check")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -521,7 +521,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     func getFullcategory()
     {
         let _ = request(APIReference.categoryList).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category List")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category List")) {
                 UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                 UserDefaults.standard.synchronize()
                 self.getCategory()
@@ -543,7 +543,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
                 }
             }
             .responseJSON {resp in
-                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category Home")) {
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category Home")) {
                     UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                     UserDefaults.standard.synchronize()
                     self.setupCategory()

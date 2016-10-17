@@ -75,7 +75,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             deviceToken = UserDefaults.standard.string(forKey: "deviceregid")!
         }
         let _ = request(APIMe.setDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set Device Registration ID")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Set Device Registration ID")) {
                 let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].int!
                 if (isSuccess == 1) { // Berhasil
@@ -105,7 +105,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Required data: gender, phone, province, region, shipping
         // API Migrasi
         let _ = request(APIMe.me).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Profil Pengguna")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Profil Pengguna")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -417,7 +417,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             
             // API Migrasi
             let _ = request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     // Save in core data
@@ -589,7 +589,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         
         let _ = request(APIAuth.loginTwitter(email: twEmail, fullname: twFullname, username: twUsername, id: twId, accessToken: twToken, tokenSecret: twSecret)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if (data == nil || data == []) { // Data kembalian kosong
@@ -760,7 +760,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func callAPIForgotPassword(_ email : String) {
         // API Migrasi
         request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
                 UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
             }
         }
@@ -769,7 +769,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if (buttonIndex == 1) {
             request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textField(at: 0)?.text)!]).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lupa Password")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
                     UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
                 }
             }
@@ -802,7 +802,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         
         let _ = request(APIAuth.login(email: email!, password: pwd!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 //self.getProfile(data["token"].string!)
@@ -890,7 +890,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         // API Migrasi
         let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Save in core data

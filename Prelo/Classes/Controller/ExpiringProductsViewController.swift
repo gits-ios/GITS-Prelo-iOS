@@ -43,7 +43,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
         
         // Get data
         let _ = request(Products.getExpiringProducts).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Expiring Products")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array , data.count > 0 {
                     for i in 0...data.count - 1 {
@@ -93,7 +93,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
                     req = Products.setSoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 }
                 let _ = request(req).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Sold/Unsold")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Sold/Unsold")) {
                         let json = JSON(resp.result.value!)
                         if let isSuccess = json["_data"].bool , isSuccess {
                             self.expiringProducts[(indexPath as NSIndexPath).row].isSold = !self.expiringProducts[(indexPath as NSIndexPath).row].isSold
@@ -118,7 +118,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
     @IBAction func simpanPressed(_ sender: AnyObject) {
         self.showLoading()
         let _ = request(Products.finishExpiringProducts).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Finish Expiring Products")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Finish Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let isSuccess = json["_data"].bool , isSuccess {
                     Constant.showDialog("Success", message: "Submit Barang Expired berhasil")

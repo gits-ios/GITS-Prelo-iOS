@@ -346,7 +346,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         
         // API Migrasi
         let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Konfirmasi Bayar")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
                 // Mixpanel
                 let pt = [
                     "Order ID" : self.orderID,

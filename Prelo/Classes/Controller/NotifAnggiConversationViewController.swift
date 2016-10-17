@@ -97,7 +97,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     func getNotif() {
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -159,7 +159,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             if (!n.read) {
                 // API Migrasi
         let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
@@ -269,7 +269,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             // Get inbox detail
             // API Migrasi
         let _ = request(APIInbox.getInboxMessage(inboxId: notif.objectId)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let inboxData = Inbox(jsn: data)
@@ -287,7 +287,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
             let _ = request(Products.detail(productId: notif.objectId)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let pDetail = ProductDetail.instance(json)
                     

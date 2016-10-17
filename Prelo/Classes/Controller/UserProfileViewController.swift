@@ -340,7 +340,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     func instagramLoginSuccess(_ token: String, id: String, name: String) {
         // API Migrasi
         let _ = request(APISocmed.postInstagramData(id: id, username: name, token: token)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Instagram")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"].bool
                 if (data != nil && data == true) { // Berhasil
@@ -395,7 +395,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 if (userId != nil && name != nil) {
                     // API Migrasi
                     let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
-                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                             
                             // Save in core data
                             let userOther : CDUserOther = CDUserOther.getOne()!
@@ -441,7 +441,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
                 
                 let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                         
                         // Save in core data
                         if let userOther : CDUserOther = CDUserOther.getOne() {
@@ -496,7 +496,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         
         // API Migrasi
         let _ = request(APISocmed.postPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
 
                 // Save in core data
                 let userOther : CDUserOther = CDUserOther.getOne()!
@@ -591,7 +591,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 
                 // Retrieve kecamatanPickerItems
                 let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKabKotaID)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"].arrayValue
                         
@@ -670,7 +670,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             if (alertView.title == "Instagram Logout") {
                 // API Migrasi
                 let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Instagram")) {
 
                         // Save in core data
                         let userOther : CDUserOther = CDUserOther.getOne()!
@@ -689,7 +689,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             } else if (alertView.title == "Facebook Logout") {
                 // API Migrasi
                 let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Facebook")) {
 
                         // End session
                         User.LogoutFacebook()
@@ -711,7 +711,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             } else if (alertView.title == "Twitter Logout") {
                 // API Migrasi
                 let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Twitter")) {
 
                         // End session
                         User.LogoutTwitter()
@@ -734,7 +734,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             } else if (alertView.title == "Path Logout") {
                 // API Migrasi
                 let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Logout Path")) {
 
                         // Save in core data
                         let userOther : CDUserOther = CDUserOther.getOne()!
@@ -849,7 +849,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             if (!self.isUserPictUpdated) {
                 // API Migrasi
                 let _ = request(APIMe.setProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Edit Profil")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Edit Profil")) {
                         let json = JSON(resp.result.value!)
                         self.simpanDataSucceed(json)
                     } else {

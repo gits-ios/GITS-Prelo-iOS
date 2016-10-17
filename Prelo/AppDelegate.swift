@@ -347,7 +347,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             // API Migrasi
             let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
-                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Visitor")) {
                     print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
             }
@@ -443,7 +443,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
                 let _ = request(Products.getIdByPermalink(permalink: permalink)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Produk")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
                         let pId = json["_data"].stringValue
                         if (pId != "") {
@@ -476,7 +476,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
                 let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Category ID")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
                         let cId = json["_data"].stringValue
                         if (cId != "") {
@@ -580,7 +580,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func redirectProduct(_ productId : String) {
         let _ = request(Products.detail(productId: productId)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let p = Product.instance(data)
@@ -622,7 +622,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func redirectComment(_ productId : String) {
         let _ = request(Products.detail(productId: productId)).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Product Comment")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product Comment")) {
                 let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)
                 
@@ -713,7 +713,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (rootViewController != nil) {
             // API Migrasi
             let _ = request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
-                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Inbox")) {
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Inbox")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let inbox = Inbox(jsn: data)
@@ -764,7 +764,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (transactionId != "") {
             // API Migrasi
             let _ = request(APITransaction.transactionDetail(tId: transactionId)).responseJSON {resp in
-                if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Confirm Payment")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let progress = data["progress"].intValue

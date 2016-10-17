@@ -344,7 +344,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
             var isFirstInstall = false
             var isInitialMetadataSaveSuccess : Bool = true
             
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Version Check")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Version Check")) {
                 let json = JSON(resp.result.value!)
                 var data = json["_data"]
                 
@@ -488,7 +488,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func updateMetaCategories(_ ver : CDVersion, updateVer : JSON) {
         let _ = request(APIApp.metadataCategories(currentVer: ver.categoriesVersion.intValue)).responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Categories")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Metadata Categories")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteData = data["delete"].array {
@@ -518,7 +518,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func updateMetaProductConditions(_ ver : CDVersion, updateVer : JSON) {
         let _ = request(APIApp.metadataProductConditions).responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Product Conditions")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Metadata Product Conditions")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDProductCondition.deleteAll(UIApplication.appDelegate.managedObjectContext)) {
@@ -541,7 +541,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func updateMetaProvinceRegions(_ ver : CDVersion, updateVer : JSON) {
         let _ = request(APIApp.metadataProvincesRegions(currentVer: ver.provincesRegionsVersion.intValue)).responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Province Regions")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Metadata Province Regions")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if let deleteDataProv = data["provinces"]["delete"].array {
@@ -576,7 +576,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate, MenuP
     
     func updateMetaShippings() {
         let _ = request(APIApp.metadataShippings).responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Metadata Shipping")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Metadata Shipping")) {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array {
                     if (CDShipping.deleteAll(UIApplication.appDelegate.managedObjectContext)) {

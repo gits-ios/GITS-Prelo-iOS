@@ -140,7 +140,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // Get unpaid transaction
         let _ = request(APITransactionCheck.checkUnpaidTransaction).responseJSON { resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout - Unpaid Transaction")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Checkout - Unpaid Transaction")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 if (data["user_has_unpaid_transaction"].boolValue == true) {
@@ -188,7 +188,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         
         // API refresh cart
         let _ = request(APICart.refresh(cart: p, address: a, voucher: voucherApplied)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Keranjang Belanja")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
                 
                 // Back to prev page if cart is empty
                 if (self.shouldBack == true) {
@@ -369,7 +369,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                     self.tableView.isHidden = true
                     self.loadingCart.isHidden = false
                     let _ = request(APIMisc.getSubdistrictsByRegionID(id: self.selectedKotaID)).responseJSON { resp in
-                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Daftar Kecamatan")) {
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Kecamatan")) {
                             let json = JSON(resp.result.value!)
                             let data = json["_data"].arrayValue
                             
@@ -968,7 +968,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
             self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
         } else if (self.selectedPayment == self.availablePayments[1]) { // Credit Cards
             let _ = request(APICart.generateVeritransUrl(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Generate Veritrans URL")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Generate Veritrans URL")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     if (data["success"].bool == true) {
@@ -1006,7 +1006,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
     
     func performCheckout(_ cart : String, address : String, usedBalance : Int, usedBonus : Int) {
         let _ = request(APICart.checkout(cart: cart, address: address, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit, ccOrderId: ccPaymentOrderId)).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Checkout")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
                 let json = JSON(resp.result.value!)
                 self.checkoutResult = json["_data"]
                 

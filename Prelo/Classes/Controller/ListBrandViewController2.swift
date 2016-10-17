@@ -114,7 +114,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
         }
         self.isGettingData = true
         let _ = request(APISearch.brands(name: name, current: self.pagingCurrent, limit: (self.pagingCurrent == 0 ? 25 : self.pagingLimit))).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Merk")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Merk")) {
                 if (name == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]

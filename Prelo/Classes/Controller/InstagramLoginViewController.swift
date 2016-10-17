@@ -88,7 +88,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     func getToken(_ code : String)
     {
         request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram"))
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Instagram"))
             {
                 let json = JSON(resp.result.value!)
                 if let token = json["access_token"].string

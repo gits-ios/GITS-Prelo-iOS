@@ -102,7 +102,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         }
         let _ = request(APINotification.getNotifsBuy(page: currentPage + 1, name : searchText)).responseJSON { resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Transaksi")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya - Transaksi")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let dataCount = data.count

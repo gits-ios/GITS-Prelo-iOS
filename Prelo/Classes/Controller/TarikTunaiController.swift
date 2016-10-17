@@ -80,7 +80,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         // Munculkan pop up jika user belum mempunyai password
         // API Migrasi
         let _ = request(APIMe.checkPassword).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tarik Uang")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool
                 if (data != nil && data == true) {
@@ -115,7 +115,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
     {
         // API Migrasi
         let _ = request(APIWallet.getBalance).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tarik Uang"))
             {
                 let json = JSON(resp.result.value!)
                 if let i = json["_data"].int
@@ -189,7 +189,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         // API Migrasi
         let _ = request(APIWallet.withdraw(amount: amount, targetBank: namaBank, norek: norek, namarek: namarek, password: pass)).responseJSON {resp in
             self.btnWithdraw.isEnabled = true
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Tarik Uang"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Submit Tarik Uang"))
             {
                 let json = JSON(resp.result.value!)
                 if let message = json["_message"].string
@@ -257,7 +257,7 @@ class SetupPasswordPopUp : UIView {
         self.btnKirimEmail.setTitle("MENGIRIM...", for: UIControlState())
         self.btnKirimEmail.isUserInteractionEnabled = false
         let _ = request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON {resp in
-            if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang - Password Checking")) {
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Tarik Uang - Password Checking")) {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue
                 let dataInt : Int = json["_data"].intValue

@@ -71,7 +71,7 @@ class PhoneReverificationViewController : BaseViewController {
         } else {
             // API Migrasi
         let _ = request(APIMe.resendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim Ulang SMS")) {
                     let json = JSON(resp.result.value!)
                     _ = json["_data"].bool
                     

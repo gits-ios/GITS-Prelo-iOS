@@ -106,7 +106,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     func getUserLovelist() {
         // API Migrasi
         let _ = request(APIMe.myLovelist).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lovelist")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lovelist")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -208,7 +208,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         // Load detail product
         let selectedLoved : LovedProduct = (userLovelist?[(indexPath as NSIndexPath).item])! as LovedProduct
         let _ = request(Products.detail(productId: selectedLoved.id)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 // Store data into variable
@@ -285,7 +285,7 @@ class MyLovelistCell : UITableViewCell {
         
         // Send unlove API
         let _ = request(Products.unlove(productID: productId)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove")) {
                 let json = JSON(resp.result.value!)
                 let isLove : Bool = json["_data"]["love"].bool!
                 if (!isLove) { // Berhasil unlove

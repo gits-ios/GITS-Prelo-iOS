@@ -2913,7 +2913,7 @@ class InboxMessage : NSObject
         // API Migrasi
         let _ = request(APIInbox.sendTo(inboxId: threadId, type: messageType, message: m)).responseJSON {resp in
             self.sending = false
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value as AnyObject?, err: resp.result.error, reqAlias: "Kirim chat"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim chat"))
             {
                 
             } else

@@ -211,7 +211,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         // API Migrasi
         let _ = request(APIProduct.detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
             .responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang"))
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang"))
                 {
                     self.detail = ProductDetail.instance(JSON(resp.result.value!))
                     self.activated = (self.detail?.isActive)!
@@ -437,7 +437,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     func postShareCommissionFacebook() {
         let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Facebook")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Facebook")) {
                 self.cellTitle?.sharedViaFacebook()
                 self.detail?.setSharedViaFacebook()
                 if let fbUsername = CDUserOther.getOne()?.fbUsername {
@@ -451,7 +451,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - Twitter
     func postShareCommissionTwitter() {
         let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Twitter")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Twitter")) {
                 self.cellTitle?.sharedViaTwitter()
                 self.detail?.setSharedViaTwitter()
                 if let twUsername = CDUserOther.getOne()?.twitterUsername {
@@ -503,7 +503,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let img = UIImage(data: imgData!)
                             self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
                             let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
-                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Share Instagram")) {
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
                                     self.cellTitle?.sharedViaInstagram()
                                     self.detail?.setSharedViaInstagram()
                                 }
@@ -537,7 +537,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             if (userId != nil && name != nil) {
                                 // API Migrasi
                                 let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
-                                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
+                                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                                         
                                         // Save in core data
                                         if let userOther : CDUserOther = CDUserOther.getOne() {
@@ -575,7 +575,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             }
                             
                             let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
-                                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
+                                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Twitter")) {
                                     
                                     // Save in core data
                                     if let userOther : CDUserOther = CDUserOther.getOne() {
@@ -712,7 +712,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.showLoading()
         if let productId = detail?.productID {
             let _ = request(APIProduct.push(productId: productId)).responseJSON { resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Up Barang")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"]["result"].boolValue
                     let message = json["_data"]["message"].stringValue
@@ -734,7 +734,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             self.showLoading()
             if let productId = self.detail?.productID {
                 let _ = request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Mark As Sold")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Mark As Sold")) {
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"].boolValue
                         if (isSuccess) {
@@ -762,7 +762,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         // API Migrasi
         let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Barang")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                 a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
                 self.hideLoading()
                 self.navigationController?.pushViewController(a, animated: true)
@@ -827,7 +827,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 self.setBtnReservationToLoading()
                 // API Migrasi
                 let _ = request(APIGarageSale.createReservation(productId: detail!.productID)).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Create Reservation")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Create Reservation")) {
                         let json = JSON(resp.result.value!)
                         let data = json["_data"]
                         if let tpId = data["transaction_product_id"].string {
@@ -861,7 +861,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     self.setBtnReservationToLoading()
                     // API Migrasi
                     let _ = request(APIGarageSale.cancelReservation(productId: detail!.productID)).responseJSON {resp in
-                        if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Cancel Reservation")) {
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Cancel Reservation")) {
                             let json = JSON(resp.result.value!)
                             if let success = json["_data"].bool {
                                 if (success) {
@@ -1129,7 +1129,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         setupLoveView()
         // API Migrasi
         let _ = request(APIProduct.love(productID: (detail?.productID)!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Love Product"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product"))
             {
                 if let s = self.captionCountLove?.text
                 {
@@ -1151,7 +1151,7 @@ class ProductCellTitle : UITableViewCell, UserRelatedDelegate
         setupLoveView()
         // API Migrasi
         let _ = request(APIProduct.unlove(productID: (detail?.productID)!)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Unlove Product"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product"))
             {
                 if let s = self.captionCountLove?.text
                 {

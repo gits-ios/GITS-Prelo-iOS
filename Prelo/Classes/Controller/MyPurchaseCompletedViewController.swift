@@ -110,7 +110,7 @@ class MyPurchaseCompletedViewController: BaseViewController, UITableViewDataSour
     func getUserPurchases() {
         // API Migrasi
         let _ = request(APITransactionProduct.purchases(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Belanjaan Saya - Selesai")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Belanjaan Saya - Selesai")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count

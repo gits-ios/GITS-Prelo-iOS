@@ -97,7 +97,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     func getNotif() {
         // API Migrasi
         let _ = request(APINotification.getNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count
@@ -252,7 +252,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             if (!n.read) {
                 // API Migrasi
         let _ = request(APINotification.readNotif(tab: "transaction", id: n.objectId)).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool
                         if (data != nil && data == true) {
@@ -306,7 +306,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         // Check if user is seller or buyer
         /*// API Migrasi
         let _ = request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let tpDetail = TransactionProductDetail.instance(data)

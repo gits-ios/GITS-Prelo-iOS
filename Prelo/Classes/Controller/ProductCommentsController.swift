@@ -117,7 +117,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     {
         // API Migrasi
         let _ = request(APIProduct.getComment(productID: pDetail.productID)).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Komentar Barang"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Komentar Barang"))
             {
                 self.comments = []
                 self.tableView.reloadData()
@@ -170,7 +170,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         
         // API Migrasi
         let _ = request(APIProduct.postComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Komentar Barang"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""
                 self.growHandler?.setText(self.txtMessage.text, withAnimation: true)

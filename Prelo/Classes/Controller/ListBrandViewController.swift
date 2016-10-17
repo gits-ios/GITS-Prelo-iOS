@@ -43,7 +43,7 @@ class ListBrandViewController: BaseViewController, UITableViewDataSource, UITabl
         // API Migrasi
         let _ = request(APIApp.metadata(brands: "1", categories: "0", categorySizes: "0", shippings: "0", productConditions: "0", provincesRegions: "0")).responseJSON {resp in
             self.title = "Merek"
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "List Merk"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "List Merk"))
             {
                 let json = JSON(resp.result.value!)
                 let brands = json["_data"]["brands"].array

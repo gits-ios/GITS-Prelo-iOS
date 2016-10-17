@@ -110,7 +110,7 @@ class MyPurchaseProcessingViewController : BaseViewController, UITableViewDataSo
     func getUserPurchases() {
         // API Migrasi
         let _ = request(APITransactionProduct.purchases(status: "process", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Belanjaan Saya - Diproses")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Belanjaan Saya - Diproses")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let dataCount = data.count

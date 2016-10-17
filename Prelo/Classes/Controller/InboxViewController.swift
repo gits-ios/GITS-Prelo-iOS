@@ -42,7 +42,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     {
         // API Migrasi
         let _ = request(APIInbox.getInboxes).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Inbox"))
             {
                 let json = JSON(resp.result.value!)
                 if let arr = json["_data"].array
@@ -67,7 +67,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
 //        let url = NSBundle.mainBundle().URLForResource("inbox", withExtension: ".json")
 //        request(.GET, (url?.absoluteString)!).responseJSON {resp in
-//            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Inbox"))
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Inbox"))
 //            {
 //                let json = JSON(resp.result.value!)
 //                if let arr = json["_data"].array

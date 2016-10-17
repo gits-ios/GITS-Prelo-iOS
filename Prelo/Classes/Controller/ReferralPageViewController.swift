@@ -73,7 +73,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         var isEmailVerified : Bool = false
         // API Migrasi
         let _ = request(APIMe.me).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Page - Get Profile")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Page - Get Profile")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 isEmailVerified = data["others"]["is_email_verified"].boolValue
@@ -157,7 +157,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
     func getReferralData() {
         // API Migrasi
         let _ = request(APIMe.referralData).responseJSON {resp in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -239,7 +239,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
         }
         // API Migrasi
         let _ = request(APIAuth.LoginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {req, resp, res, err in
-            if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 
@@ -436,7 +436,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
             let deviceId = UIDevice.current.identifierForVendor!.uuidString
             // API Migrasi
         let _ = request(APIMe.setReferral(referralCode: self.fieldKodeReferral.text!, deviceId: deviceId)).responseJSON {resp in
-                if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Submit Referral Bonus")) {
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Submit Referral Bonus")) {
                     let json = JSON(resp.result.value!)
                     let isSuccess = json["_data"].bool!
                     if (isSuccess) { // Berhasil
@@ -493,7 +493,7 @@ class ReferralPageViewController: BaseViewController, MFMessageComposeViewContro
                 a.show()
                 // API Migrasi
         let _ = request(APIMe.resendVerificationEmail).responseJSON {resp in
-                    if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Referral Bonus")) {
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Referral Bonus")) {
                         a.dismiss(withClickedButtonIndex: -1, animated: true)
                         Constant.showDialog("Referral Bonus", message: "E-mail konfirmasi telah terkirim ke \(email)")
                     }
