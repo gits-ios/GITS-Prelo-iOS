@@ -46,7 +46,7 @@ class CartProduct: NSManagedObject {
     
     static func getOne(_ itemID : String, email : String) -> CartProduct?
     {
-        let fetchReq = NSFetchRequest(entityName: "CartProduct")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CartProduct")
         let p1 = NSPredicate(format: "email ==[c] %@", email)
         let p2 = NSPredicate(format: "cpID ==[c] %@", itemID)
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2])
@@ -69,7 +69,7 @@ class CartProduct: NSManagedObject {
     
     static func getAll(_ email : String) -> [CartProduct]
     {
-        let fetchReq = NSFetchRequest(entityName: "CartProduct")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CartProduct")
         let p1 = NSPredicate(format: "email ==[c] %@", email)
         fetchReq.predicate = p1
         
@@ -105,7 +105,7 @@ class CartProduct: NSManagedObject {
     
     static func deleteAll() {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "CartProduct")
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CartProduct")
         fetchRequest.includesPropertyValues = false
         
         do {

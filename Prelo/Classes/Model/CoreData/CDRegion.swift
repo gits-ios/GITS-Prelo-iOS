@@ -54,7 +54,7 @@ class CDRegion : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDRegion")
+            let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [CDRegion] {
@@ -88,7 +88,7 @@ class CDRegion : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDRegion")
+            let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [NSManagedObject] {
@@ -124,7 +124,7 @@ class CDRegion : NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDRegion")
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -147,7 +147,7 @@ class CDRegion : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var regions = [CDRegion]()
         
-        let fetchReq = NSFetchRequest(entityName: "CDRegion")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -168,7 +168,7 @@ class CDRegion : NSManagedObject {
     
     static func getRegionNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id like[c] %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDRegion")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
         fetchReq.predicate = predicate
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)

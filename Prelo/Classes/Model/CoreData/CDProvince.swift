@@ -50,7 +50,7 @@ class CDProvince : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDProvince")
+            let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [CDProvince] {
@@ -81,7 +81,7 @@ class CDProvince : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDProvince")
+            let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [NSManagedObject] {
@@ -132,7 +132,7 @@ class CDProvince : NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDProvince")
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -158,7 +158,7 @@ class CDProvince : NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var provinces = [CDProvince]()
         
-        let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -177,7 +177,7 @@ class CDProvince : NSManagedObject {
     
     static func getProvinceNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         fetchReq.predicate = predicate
         
         do {
@@ -189,7 +189,7 @@ class CDProvince : NSManagedObject {
     }
     
     static func getProvinceCount() -> Int {
-        let fetchReq = NSFetchRequest(entityName: "CDProvince")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
