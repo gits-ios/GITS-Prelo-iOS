@@ -85,7 +85,7 @@ class CDBrand: NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDBrand")
+        let fetchRequest : NSFetchRequest<CDBrand> = CDBrand.fetchRequest()
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -107,7 +107,7 @@ class CDBrand: NSManagedObject {
     }
     
     static func getBrandCount() -> Int {
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<CDBrand> = CDBrand.fetchRequest()
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
             return r.count
@@ -118,7 +118,7 @@ class CDBrand: NSManagedObject {
     
     static func getBrandNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<CDBrand> = CDBrand.fetchRequest()
         fetchReq.predicate = predicate
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
@@ -132,7 +132,7 @@ class CDBrand: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var brands = [CDBrand]()
         
-        let fetchReq = NSFetchRequest(entityName: "CDBrand")
+        let fetchReq : NSFetchRequest<CDBrand> = CDBrand.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors

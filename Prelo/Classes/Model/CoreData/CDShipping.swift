@@ -43,7 +43,7 @@ class CDShipping: NSManagedObject {
     }
     
     static func getAll() -> [CDShipping] {
-        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        let fetchReq : NSFetchRequest<CDShipping> = CDShipping.fetchRequest()
         
         do {
             if let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDShipping] {
@@ -57,7 +57,7 @@ class CDShipping: NSManagedObject {
     
     // Get shipping list where 'pos' is first object and 'tiki' is last object
     static func getPosBlaBlaBlaTiki() -> [CDShipping] {
-        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        let fetchReq : NSFetchRequest<CDShipping> = CDShipping.fetchRequest()
         
         do {
             if var r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq) as? [CDShipping] {
@@ -110,7 +110,7 @@ class CDShipping: NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDShipping")
+        let fetchRequest : NSFetchRequest<CDShipping> = CDShipping.fetchRequest()
         fetchRequest.includesPropertyValues = false
         
         guard let results = m.tryExecuteFetchRequest(fetchRequest) else {
@@ -131,7 +131,7 @@ class CDShipping: NSManagedObject {
     
     static func getShippingCount() -> Int {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        let fetchReq : NSFetchRequest<CDShipping> = CDShipping.fetchRequest()
         guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return 0
         }
@@ -141,7 +141,7 @@ class CDShipping: NSManagedObject {
     static func getShippingCompleteNameWithId(_ id : String) -> String? {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "id like[c] %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDShipping")
+        let fetchReq : NSFetchRequest<CDShipping> = CDShipping.fetchRequest()
         fetchReq.predicate = predicate
         guard let r = m.tryExecuteFetchRequest(fetchReq) else {
             return nil

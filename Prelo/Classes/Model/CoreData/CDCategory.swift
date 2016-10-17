@@ -64,7 +64,7 @@ class CDCategory: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDCategory")
+            let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [CDCategory] {
@@ -102,7 +102,7 @@ class CDCategory: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         for i in 0...arr.count - 1 {
             let predicate = NSPredicate(format: "id == %@", arr[i]["_id"].stringValue)
-            let fetchReq = NSFetchRequest(entityName: "CDCategory")
+            let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
             fetchReq.predicate = predicate
             do {
                 if let results = try m.fetch(fetchReq) as? [NSManagedObject] {
@@ -167,7 +167,7 @@ class CDCategory: NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest = NSFetchRequest(entityName: "CDCategory")
+        let fetchRequest : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -191,7 +191,7 @@ class CDCategory: NSManagedObject {
     }
     
     static func getCategoryCount() -> Int {
-        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
@@ -203,7 +203,7 @@ class CDCategory: NSManagedObject {
     
     static func getCategoriesInLevel(_ level : NSNumber) -> [CDCategory] {
         let predicate = NSPredicate(format: "level == %@", level)
-        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
         fetchReq.predicate = predicate
         
         do {
@@ -216,7 +216,7 @@ class CDCategory: NSManagedObject {
     
     static func getCategoryWithID(_ id : String) -> CDCategory? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
         fetchReq.predicate = predicate
         
         do {
@@ -229,7 +229,7 @@ class CDCategory: NSManagedObject {
     
     static func getCategoryNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq = NSFetchRequest(entityName: "CDCategory")
+        let fetchReq : NSFetchRequest<CDCategory> = CDCategory.fetchRequest()
         fetchReq.predicate = predicate
         
         do {
