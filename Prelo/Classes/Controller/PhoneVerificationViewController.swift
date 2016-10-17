@@ -9,6 +9,7 @@
 import Foundation
 import Crashlytics
 import CoreData
+import Alamofire
 
 protocol PhoneVerificationDelegate {
     func phoneVerified(_ newPhone : String)

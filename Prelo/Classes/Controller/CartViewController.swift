@@ -8,6 +8,7 @@
 
 import UIKit
 import Crashlytics
+import Alamofire
 
 // MARK: - Class
 

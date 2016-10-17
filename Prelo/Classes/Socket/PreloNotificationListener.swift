@@ -8,6 +8,7 @@
 
 import Foundation
 import Crashlytics
+import Alamofire
 
 protocol PreloNotifListenerDelegate {
     func showNewNotifCount(_ count : Int)

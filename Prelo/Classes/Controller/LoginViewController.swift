@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import TwitterKit
 import Crashlytics
+import Alamofire
 
 // MARK: - Class
 

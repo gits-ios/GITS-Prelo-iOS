@@ -8,6 +8,7 @@
 
 import UIKit
 import Crashlytics
+import Alamofire
 
 class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UIScrollViewDelegate
 {

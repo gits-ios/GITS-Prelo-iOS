@@ -9,6 +9,7 @@
 import Foundation
 import Social
 import MessageUI
+import Alamofire
 
 class ReferralPageViewController: BaseViewController, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, PathLoginDelegate, UIDocumentInteractionControllerDelegate, UIAlertViewDelegate {
     

@@ -12,6 +12,8 @@ import CoreData
 //import ZSWTappableLabel
 import MessageUI
 import Social
+import Alamofire
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):

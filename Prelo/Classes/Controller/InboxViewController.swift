@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class InboxViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, TawarDelegate
 {

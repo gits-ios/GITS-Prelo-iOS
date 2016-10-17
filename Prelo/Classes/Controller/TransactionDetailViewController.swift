@@ -9,6 +9,7 @@
 //  Please keep this code neat =)
 
 import Foundation
+import Alamofire
 
 // MARK: - Class
 

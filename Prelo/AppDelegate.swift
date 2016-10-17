@@ -13,6 +13,7 @@ import Crashlytics
 import TwitterKit
 import Bolts
 import FBSDKCoreKit
+import Alamofire
 
 //import AdobeCreativeSDKCore
 

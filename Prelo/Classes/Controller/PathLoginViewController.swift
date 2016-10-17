@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol PathLoginDelegate {
     func pathLoginSuccess(_ userData : JSON, token : String)

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Alamofire
 
 class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
     

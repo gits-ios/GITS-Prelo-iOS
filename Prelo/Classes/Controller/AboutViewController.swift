@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Crashlytics
+import Alamofire
 
 class AboutViewController: BaseViewController, UIAlertViewDelegate {
 

@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import TwitterKit
+import Alamofire
 
 class DAO: NSObject {
     static func UserPhotoStringURL(_ fileName : String, userID : String) -> String

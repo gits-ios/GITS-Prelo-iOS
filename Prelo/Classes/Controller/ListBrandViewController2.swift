@@ -8,6 +8,8 @@
 //  This class is used for brand filtering in search page
 
 import Foundation
+import Alamofire
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):

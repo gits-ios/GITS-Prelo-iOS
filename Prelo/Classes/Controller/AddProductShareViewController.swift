@@ -10,6 +10,7 @@ import UIKit
 import TwitterKit
 import Social
 import Crashlytics
+import Alamofire
 
 class AddProductShareViewController: BaseViewController, PathLoginDelegate, InstagramLoginDelegate, UIDocumentInteractionControllerDelegate {
     

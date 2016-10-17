@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate, NotifAnggiTransactionDelegate, NotifAnggiConversationDelegate, UserRelatedDelegate {
     
