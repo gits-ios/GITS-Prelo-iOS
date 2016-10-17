@@ -136,12 +136,12 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
             
             if (!self.isReverification) {
                 // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-                // But we need to set token temporarily, because APIUser.ResendVerificationSms need token
+                // But we need to set token temporarily, because APIMe.ResendVerificationSms need token
                 User.SetToken(self.userToken)
             }
             
             // API Migrasi
-            let _ = request(APIUser.verifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text!)).responseJSON {resp in
+            let _ = request(APIMe.verifyPhone(phone: self.fldNoHp.text!, phoneCode: self.fieldKodeVerifikasi.text!)).responseJSON {resp in
                 if (!self.isReverification) {
                     // Delete token because user is considered not logged in
                     User.SetToken(nil)
@@ -222,7 +222,7 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
                             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "userLoggedIn"), object: nil)
                             
                             // Send uuid to server
-                            let _ = request(APIUser.setUserUUID)
+                            let _ = request(APIMe.setUserUUID)
                             
                             // Set crashlytics user information
                             let user = CDUser.getOne()!
@@ -289,11 +289,11 @@ class PhoneVerificationViewController : BaseViewController, UITextFieldDelegate 
         
         if (!self.isReverification) {
             // Token belum disimpan pake User.StoreUser karna di titik ini user belum dianggap login
-            // Set token first, because APIUser.ResendVerificationSms need token
+            // Set token first, because APIMe.ResendVerificationSms need token
             User.SetToken(self.userToken)
         }
         
-        let _ = request(APIUser.resendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {resp in
+        let _ = request(APIMe.resendVerificationSms(phone: self.fldNoHp.text!)).responseJSON {resp in
             if (!self.isReverification) {
                 // Delete token because user is considered not logged in
                 User.SetToken(nil)

@@ -74,7 +74,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (User.IsLoggedIn && UserDefaults.standard.string(forKey: "deviceregid") != nil) {
             deviceToken = UserDefaults.standard.string(forKey: "deviceregid")!
         }
-        let _ = request(APIUser.setDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
+        let _ = request(APIMe.setDeviceRegId(deviceRegId: deviceToken)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Set Device Registration ID")) {
                 let json = JSON(resp.result.value!)
                 let isSuccess = json["_data"].int!
@@ -98,13 +98,13 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         var isProfileSet : Bool = false
         
-        // Set token first, because APIUser.Me need token
+        // Set token first, because APIMe.Me need token
         User.SetToken(token)
         
         // Get user profile from API and check if required data is set
         // Required data: gender, phone, province, region, shipping
         // API Migrasi
-        let _ = request(APIUser.me).responseJSON {resp in
+        let _ = request(APIMe.me).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Profil Pengguna")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -203,7 +203,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     CartProduct.registerAllAnonymousProductToEmail(User.EmailOrEmptyString)
                     
                     // Send uuid to server
-                    let _ = request(APIUser.setUserUUID)
+                    let _ = request(APIMe.setUserUUID)
                     
                     // Mixpanel
                     if let c = CDUser.getOne() {

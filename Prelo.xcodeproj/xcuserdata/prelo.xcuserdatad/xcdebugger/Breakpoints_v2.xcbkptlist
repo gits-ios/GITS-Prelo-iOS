@@ -366,7 +366,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1008"
-            endingLineNumber = "1008">
+            endingLineNumber = "1008"
+            landmarkName = "performCheckout(_:address:usedBalance:usedBonus:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -382,7 +384,7 @@
             startingLineNumber = "345"
             endingLineNumber = "345"
             landmarkName = "kirimKonfirmasiPressed(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

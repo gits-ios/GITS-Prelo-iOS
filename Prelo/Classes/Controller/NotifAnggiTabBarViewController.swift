@@ -97,7 +97,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     
     func getUnreadNotifCount() {
         // API Migrasi
-        let _ = request(APINotifAnggi.getUnreadNotifCount).responseJSON {resp in
+        let _ = request(APINotification.getUnreadNotifCount).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Unread Count")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

@@ -70,7 +70,7 @@ class PhoneReverificationViewController : BaseViewController {
             Constant.showDialog("Warning", message: "Isi nomor HP baru untuk verifikasi")
         } else {
             // API Migrasi
-        let _ = request(APIUser.resendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
+        let _ = request(APIMe.resendVerificationSms(phone: self.fieldNoHP.text!)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Kirim Ulang SMS")) {
                     let json = JSON(resp.result.value!)
                     _ = json["_data"].bool

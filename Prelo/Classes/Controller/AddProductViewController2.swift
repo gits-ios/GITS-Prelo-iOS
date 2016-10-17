@@ -907,7 +907,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     
     func getSizes()
     {
-        let _ = request(References.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
+        let _ = request(APIReference.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Product Brands and Sizes")) {
                 if let x: AnyObject = resp.result.value
                 {

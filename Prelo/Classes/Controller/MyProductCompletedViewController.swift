@@ -109,7 +109,7 @@ class MyProductCompletedViewController : BaseViewController, UITableViewDataSour
     
     func getUserProducts() {
         // API Migrasi
-        let _ = request(APITransaction.sells(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
+        let _ = request(APITransactionProduct.sells(status: "done", current: "\(nextIdx)", limit: "\(nextIdx + ItemPerLoad)")).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Jualan Saya - Selesai")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

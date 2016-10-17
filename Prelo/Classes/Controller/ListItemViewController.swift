@@ -556,7 +556,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         self.requesting = true
         
         // API Migrasi
-        let _ = request(APIPeople.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
+        let _ = request(APIUser.getShopPage(id: shopId, current: products!.count, limit: itemsPerReq)).responseJSON { resp in
             self.requesting = false
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Data Shop Pengguna")) {
                 self.setupData(resp.result.value)

@@ -339,7 +339,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     
     func instagramLoginSuccess(_ token: String, id: String, name: String) {
         // API Migrasi
-        let _ = request(APISocial.postInstagramData(id: id, username: name, token: token)).responseJSON {resp in
+        let _ = request(APISocmed.postInstagramData(id: id, username: name, token: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Instagram")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"].bool
@@ -394,7 +394,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // userId & name is required
                 if (userId != nil && name != nil) {
                     // API Migrasi
-                    let _ = request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                    let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
                         if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                             
                             // Save in core data
@@ -440,7 +440,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                         return
                 }
                 
-                let _ = request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                         
                         // Save in core data
@@ -495,7 +495,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         _ = userData["email"].string!
         
         // API Migrasi
-        let _ = request(APISocial.postPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
+        let _ = request(APISocmed.postPathData(id: pathId, username: pathName, token: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Path")) {
 
                 // Save in core data
@@ -669,7 +669,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
         } else if (buttonIndex == 1) { // "Yes"
             if (alertView.title == "Instagram Logout") {
                 // API Migrasi
-                let _ = request(APISocial.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
+                let _ = request(APISocmed.postInstagramData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Instagram")) {
 
                         // Save in core data
@@ -688,7 +688,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Facebook Logout") {
                 // API Migrasi
-                let _ = request(APISocial.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
+                let _ = request(APISocmed.postFacebookData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Facebook")) {
 
                         // End session
@@ -710,7 +710,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Twitter Logout") {
                 // API Migrasi
-                let _ = request(APISocial.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
+                let _ = request(APISocmed.postTwitterData(id: "", username: "", token: "", secret: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Twitter")) {
 
                         // End session
@@ -733,7 +733,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 }
             } else if (alertView.title == "Path Logout") {
                 // API Migrasi
-                let _ = request(APISocial.postPathData(id: "", username: "", token: "")).responseJSON {resp in
+                let _ = request(APISocmed.postPathData(id: "", username: "", token: "")).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Logout Path")) {
 
                         // Save in core data
@@ -848,7 +848,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             
             if (!self.isUserPictUpdated) {
                 // API Migrasi
-                let _ = request(APIUser.setProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
+                let _ = request(APIMe.setProfile(fullname: fieldNama.text!, address: fieldAlamat.text == nil ? "" : fieldAlamat.text!, province: selectedProvinsiID, region: selectedKabKotaID, subdistrict: selectedKecamatanID, postalCode: fieldKodePos.text == nil ? "" : fieldKodePos.text!, description: tentangShop, shipping: shipping)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Edit Profil")) {
                         let json = JSON(resp.result.value!)
                         self.simpanDataSucceed(json)

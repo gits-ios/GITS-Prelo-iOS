@@ -105,7 +105,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     
     func getUserLovelist() {
         // API Migrasi
-        let _ = request(APIUser.myLovelist).responseJSON {resp in
+        let _ = request(APIMe.myLovelist).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Lovelist")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

@@ -319,6 +319,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         }
 
         // API Migrasi
+        Alamofire.request
         let _ = request(APIAuth.loginPath(email: email, fullname: pathName, pathId: pathId, pathAccessToken: token)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value as AnyObject?, err: resp.result.error as NSError?, reqAlias: "Login Path")) {
                 let json = JSON(resp.result.value!)

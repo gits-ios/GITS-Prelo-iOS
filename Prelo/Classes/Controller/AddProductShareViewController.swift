@@ -116,7 +116,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         // userId & name is required
                         if (userId != nil && name != nil) {
                             // API Migrasi
-                            let _ = request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                            let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                     
                                     // Save in core data
@@ -154,7 +154,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                                 return
                         }
                         
-                        let _ = request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                        let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                                 
                                 // Save in core data
@@ -190,7 +190,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     
     func instagramLoginSuccess(_ token: String) {
         // API Migrasi
-        let _ = request(APISocial.storeInstagramToken(token: token)).responseJSON {resp in
+        let _ = request(APISocmed.storeInstagramToken(token: token)).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Store Instagram Token")) {
                 
             } else {

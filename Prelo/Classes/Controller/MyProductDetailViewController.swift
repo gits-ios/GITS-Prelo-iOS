@@ -191,7 +191,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     
     func getProductDetail() {
         // API Migrasi
-        let _ = request(APITransaction.transactionDetail(id: transactionId!)).responseJSON {resp in
+        let _ = request(APITransactionProduct.transactionDetail(id: transactionId!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Jualan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -495,7 +495,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     @IBAction func tolakKirimPressed(_ sender: AnyObject) {
         self.sendMode(true)
         // API Migrasi
-        let _ = request(APITransaction.rejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+        let _ = request(APITransactionProduct.rejectTransaction(tpId: self.transactionId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool

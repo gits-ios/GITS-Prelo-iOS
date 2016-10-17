@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }*/
             
             // Send uuid to server
-            let _ = request(APIUser.setUserUUID)
+            let _ = request(APIMe.setUserUUID)
         }
         
         // Mixpanel
@@ -346,7 +346,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             LoginViewController.SendDeviceRegId()
         } else {
             // API Migrasi
-            let _ = request(APIVisitor.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+            let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Update Visitor")) {
                     print("Visitor updated with deviceRegId: \(deviceRegId)")
                 }
@@ -475,7 +475,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
-                let _ = request(References.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
+                let _ = request(APIReference.getCategoryByPermalink(permalink: permalink)).responseJSON { resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
                         let cId = json["_data"].stringValue
@@ -763,7 +763,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func redirectConfirmPayment(_ transactionId : String) {
         if (transactionId != "") {
             // API Migrasi
-            let _ = request(APITransaction2.transactionDetail(tId: transactionId)).responseJSON {resp in
+            let _ = request(APITransaction.transactionDetail(tId: transactionId)).responseJSON {resp in
                 if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Deeplink Confirm Payment")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]

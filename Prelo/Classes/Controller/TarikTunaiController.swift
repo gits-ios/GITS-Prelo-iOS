@@ -79,7 +79,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
         
         // Munculkan pop up jika user belum mempunyai password
         // API Migrasi
-        let _ = request(APIUser.checkPassword).responseJSON {resp in
+        let _ = request(APIMe.checkPassword).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tarik Uang")) {
                 let json = JSON(resp.result.value!)
                 let data : Bool? = json["_data"].bool

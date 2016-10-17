@@ -96,7 +96,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     
     func getNotif() {
         // API Migrasi
-        let _ = request(APINotifAnggi.getNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
+        let _ = request(APINotification.getNotifs(tab: "transaction", page: self.currentPage + 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -251,7 +251,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         if let n = notifications?[idx] {
             if (!n.read) {
                 // API Migrasi
-        let _ = request(APINotifAnggi.readNotif(tab: "transaction", id: n.objectId)).responseJSON {resp in
+        let _ = request(APINotification.readNotif(tab: "transaction", id: n.objectId)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Transaksi")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool

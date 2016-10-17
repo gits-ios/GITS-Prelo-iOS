@@ -536,7 +536,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             // userId & name is required
                             if (userId != nil && name != nil) {
                                 // API Migrasi
-                                let _ = request(APISocial.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
+                                let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
                                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Facebook")) {
                                         
                                         // Save in core data
@@ -574,7 +574,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                                     return
                             }
                             
-                            let _ = request(APISocial.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
+                            let _ = request(APISocmed.postTwitterData(id: twId, username: twUsername, token: twToken, secret: twSecret)).responseJSON { resp in
                                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Login Twitter")) {
                                     
                                     // Save in core data

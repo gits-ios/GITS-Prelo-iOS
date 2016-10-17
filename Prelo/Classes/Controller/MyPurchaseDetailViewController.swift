@@ -175,7 +175,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
     
     func getPurchaseDetail() {
         // API Migrasi
-        let _ = request(APITransaction.transactionDetail(id: transactionId!)).responseJSON {resp in
+        let _ = request(APITransactionProduct.transactionDetail(id: transactionId!)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Detail Belanjaan Saya")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

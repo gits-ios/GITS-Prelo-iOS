@@ -96,7 +96,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
     
     func getNotif() {
         // API Migrasi
-        let _ = request(APINotifAnggi.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
+        let _ = request(APINotification.getNotifs(tab: "conversation", page: self.currentPage + 1)).responseJSON {resp in
             if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -158,7 +158,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
         if let n = notifications?[(indexPath as NSIndexPath).item] {
             if (!n.read) {
                 // API Migrasi
-        let _ = request(APINotifAnggi.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
+        let _ = request(APINotification.readNotif(tab: "conversation", id: n.objectId)).responseJSON {resp in
                     if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Notifikasi - Percakapan")) {
                         let json = JSON(resp.result.value!)
                         let data : Bool? = json["_data"].bool

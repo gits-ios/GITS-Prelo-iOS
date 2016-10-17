@@ -520,7 +520,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getFullcategory()
     {
-        let _ = request(References.categoryList).responseJSON {resp in
+        let _ = request(APIReference.categoryList).responseJSON {resp in
             if (APIPrelo.validate(false, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Category List")) {
                 UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
                 UserDefaults.standard.synchronize()
@@ -531,7 +531,7 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     
     func getCategory()
     {
-        let _ = request(References.homeCategories)
+        let _ = request(APIReference.homeCategories)
             .responseString { resp in
                 let string = resp.result.value
                 if (string != nil)

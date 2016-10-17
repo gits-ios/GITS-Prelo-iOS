@@ -1538,7 +1538,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.sendMode(true)
         if (self.trxId != nil) {
             // API Migrasi
-        let _ = request(APITransaction.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+        let _ = request(APITransactionProduct.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
                 if (APIPrelo.validate(true, req: resp.request!, resp: resp.response, res: resp.result.value, err: resp.result.error, reqAlias: "Tolak Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
