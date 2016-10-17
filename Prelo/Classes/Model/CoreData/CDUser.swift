@@ -41,7 +41,7 @@ class CDUser: NSManagedObject {
     
     static func getOne() -> CDUser?
     {
-        let fetchReq : NSFetchRequest<CDUser> = CDUser.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDUser")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
@@ -53,7 +53,7 @@ class CDUser: NSManagedObject {
 
     static func deleteAll() -> Bool {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchRequest : NSFetchRequest<CDUser> = CDUser.fetchRequest()
+        let fetchRequest = NSFetchRequest(entityName: "CDUser")
         fetchRequest.includesPropertyValues = false
         
         do {

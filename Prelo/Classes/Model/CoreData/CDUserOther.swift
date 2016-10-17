@@ -38,7 +38,7 @@ class CDUserOther: NSManagedObject {
     @NSManaged var shippingIDs: Data
 
     static func getOne() -> CDUserOther? {
-        let fetchReq : NSFetchRequest<CDUserOther> = CDUserOther.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDUserOther")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)
@@ -50,7 +50,7 @@ class CDUserOther: NSManagedObject {
     
     static func deleteAll() -> Bool {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchRequest : NSFetchRequest<CDUserOther> = CDUserOther.fetchRequest()
+        let fetchRequest = NSFetchRequest(entityName: "CDUserOther")
         fetchRequest.includesPropertyValues = false
         
         do {

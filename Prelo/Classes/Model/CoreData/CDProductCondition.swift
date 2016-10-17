@@ -61,7 +61,7 @@ class CDProductCondition: NSManagedObject {
     
     static func getProductConditionWithID(_ id : String) -> CDProductCondition? {
         let predicate = NSPredicate(format: "id == %@", id)
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         fetchReq.predicate = predicate
         
         do {
@@ -74,7 +74,7 @@ class CDProductCondition: NSManagedObject {
     
     static func getProductConditionWithName(_ name : String) -> CDProductCondition? {
         let predicate = NSPredicate(format: "name == %@", name)
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         fetchReq.predicate = predicate
         
         do {
@@ -100,7 +100,7 @@ class CDProductCondition: NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchRequest = NSFetchRequest(entityName: "CDProductCondition")
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -125,7 +125,7 @@ class CDProductCondition: NSManagedObject {
     }
     
     static func getProductConditionCount() -> Int {
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
@@ -139,7 +139,7 @@ class CDProductCondition: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var productConditions = [CDProductCondition]()
         
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -161,7 +161,7 @@ class CDProductCondition: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var productConditions = [CDProductCondition]()
         
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -184,7 +184,7 @@ class CDProductCondition: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var productConditions = [CDProductCondition]()
         
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors
@@ -206,7 +206,7 @@ class CDProductCondition: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         var productConditions = [CDProductCondition]()
         
-        let fetchReq : NSFetchRequest<CDProductCondition> = CDProductCondition.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDProductCondition")
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
         let sortDescriptors = [sortDescriptor]
         fetchReq.sortDescriptors = sortDescriptors

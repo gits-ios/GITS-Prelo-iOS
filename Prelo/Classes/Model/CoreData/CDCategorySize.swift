@@ -64,7 +64,7 @@ class CDCategorySize: NSManagedObject {
     }
     
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
-        let fetchRequest : NSFetchRequest<CDCategorySize> = CDCategorySize.fetchRequest()
+        let fetchRequest = NSFetchRequest(entityName: "CDCategorySize")
         fetchRequest.includesPropertyValues = false
         
         do {
@@ -87,7 +87,7 @@ class CDCategorySize: NSManagedObject {
     }
     
     static func getCategorySizeCount() -> Int {
-        let fetchReq : NSFetchRequest<CDCategorySize> = CDCategorySize.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDCategorySize")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);

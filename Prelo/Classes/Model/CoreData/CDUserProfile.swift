@@ -25,7 +25,7 @@ class CDUserProfile: NSManagedObject {
 
     static func getOne() -> CDUserProfile?
     {
-        let fetchReq : NSFetchRequest<CDUserProfile> = CDUserProfile.fetchRequest()
+        let fetchReq = NSFetchRequest(entityName: "CDUserProfile")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq);
@@ -37,7 +37,7 @@ class CDUserProfile: NSManagedObject {
     
     static func deleteAll() -> Bool {
         let m = UIApplication.appDelegate.managedObjectContext
-        let fetchRequest : NSFetchRequest<CDUserProfile> = CDUserProfile.fetchRequest()
+        let fetchRequest = NSFetchRequest(entityName: "CDUserProfile")
         fetchRequest.includesPropertyValues = false
         
         do {
