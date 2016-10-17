@@ -7,20 +7,21 @@
 //
 
 import Foundation
+import Alamofire
 
 let pathHost = "https://partner.path.com/"
 
 class PathEndpoints: NSObject {
-    class func ProcessParam(_ oldParam : [String : AnyObject]) -> [String : AnyObject] {
-        _ = oldParam
+    class func ProcessParam(_ oldParam : [String : Any]) -> [String : Any] {
         return oldParam
     }
 }
 
-extension NSMutableURLRequest {
-    class func defaultURLRequest(_ url : URL, token : String?) -> NSMutableURLRequest {
-        let r = NSMutableURLRequest(url : url)
+extension URLRequest {
+    func defaultURLRequest(token : String?) -> URLRequest {
+        var r = URLRequest(url : self.url!)
         
+        // Set token
         if (token != nil) {
             r.setValue("Bearer " + token!, forHTTPHeaderField: "Authorization")
         }
@@ -30,13 +31,22 @@ extension NSMutableURLRequest {
 }
 
 enum APIPathAuth : URLRequestConvertible {
-    static let basePath = "oauth2/"
-    
     case getToken(clientId : String, clientSecret : String, code : String)
     
-    var method : Method {
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "oauth2/"
+        let url = URL(string: pathHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest(token: nil)
+        urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpMethod = method.rawValue
+        urlRequest.httpBody = param.data(using: String.Encoding.ascii, allowLossyConversion: true)
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: nil)
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
         switch self {
-        case .getToken(_, _, _) : return .POST
+        case .getToken(_, _, _) : return .post
         }
     }
     
@@ -46,32 +56,30 @@ enum APIPathAuth : URLRequestConvertible {
         }
     }
     
-    var param : String? {
+    var param : String {
         switch self {
         case .getToken(let clientId, let clientSecret, let code) :
             let p = "grant_type=authorization_code&client_id=\(clientId)&client_secret=\(clientSecret)&code=\(code)"
             return p
         }
     }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = URL(string: pathHost)?.appendingPathComponent(APIPathAuth.basePath).appendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: nil)
-        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        req.httpMethod = method.rawValue
-        req.httpBody = param?.data(using: String.Encoding.ascii, allowLossyConversion: true)
-        return req
-    }
 }
 
 enum APIPathUser : URLRequestConvertible {
-    static let basePath = "1/user"
-    
     case getSelfData(token : String)
     
-    var method : Method {
+    public func asURLRequest() throws -> URLRequest {
+        let basePath = "1/user"
+        let url = URL(string: pathHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest(token: token)
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PathEndpoints.ProcessParam(param))
+        return encodedURLRequest
+    }
+    
+    var method : HTTPMethod {
         switch self {
-        case .getSelfData(_) : return .GET
+        case .getSelfData(_) : return .get
         }
     }
     
@@ -81,7 +89,7 @@ enum APIPathUser : URLRequestConvertible {
         }
     }
     
-    var param : [String : AnyObject]? {
+    var param : [String : Any] {
         switch self {
         case .getSelfData(_) :
             return [:]
@@ -92,13 +100,5 @@ enum APIPathUser : URLRequestConvertible {
         switch self {
         case .getSelfData(let token) : return token
         }
-    }
-    
-    var URLRequest : NSMutableURLRequest {
-        let baseURL = URL(string: pathHost)?.appendingPathComponent(APIPathUser.basePath).appendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!, token: token)
-        req.httpMethod = method.rawValue
-        let r = ParameterEncoding.url.encode(req, parameters: PathEndpoints.ProcessParam(param!)).0
-        return r
     }
 }
