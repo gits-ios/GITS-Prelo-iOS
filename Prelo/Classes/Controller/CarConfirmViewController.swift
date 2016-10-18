@@ -102,7 +102,7 @@ class CarConfirmViewController: BaseViewController {
             for i in 0...items.count-1
             {
                 let json = items[i]
-                if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+                if let raw : Array<AnyObject> = json["display_picts"].arrayObject as Array<AnyObject>?
                 {
                     var ori : Array<String> = []
                     for o in raw

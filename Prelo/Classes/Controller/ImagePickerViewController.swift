@@ -227,7 +227,7 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-    static func ShowFrom(_ v : UIViewController, maxSelect : Int, useAviary : Bool = false, diretToCamera : Bool = false, doneBlock : ImagePickerBlock)
+    static func ShowFrom(_ v : UIViewController, maxSelect : Int, useAviary : Bool = false, diretToCamera : Bool = false, doneBlock : @escaping ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
         let i = n.viewControllers.first as! ImagePickerViewController
@@ -305,7 +305,7 @@ class ImagePickerCell : UICollectionViewCell
                 }
                 
                 
-                _url = (_apImage?.url)!.absoluteString!
+                _url = (_apImage?.url)!.absoluteString
                 DispatchQueue.global( priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     self.asset?.asset(for: URL(string: self._url)!, resultBlock: { asset in
                         if let ast = asset {

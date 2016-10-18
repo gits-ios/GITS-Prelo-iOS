@@ -188,7 +188,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         print("shipping_address : \(a)")
         
         // API refresh cart
-        let _ = request(APICart.refresh(cart: p, address: a, voucher: voucherApplied)).responseJSON { resp in
+        let _ = request(APICart.refresh(cart: p!, address: a, voucher: voucherApplied)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Keranjang Belanja")) {
                 
                 // Back to prev page if cart is empty
@@ -966,9 +966,9 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
         }
         
         if (self.selectedPayment == self.availablePayments[0] || self.priceAfterDiscounts <= 0) { // Bank Transfer or Rp0 Transaction
-            self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
+            self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
         } else if (self.selectedPayment == self.availablePayments[1]) { // Credit Cards
-            let _ = request(APICart.generateVeritransUrl(cart: p, address: a, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
+            let _ = request(APICart.generateVeritransUrl(cart: p!, address: a!, voucher: voucherApplied, payment: selectedPayment, usedPreloBalance: usedBalance, usedReferralBonus: usedBonus, kodeTransfer: bankTransferDigit)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Generate Veritrans URL")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -979,7 +979,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         webVC.creditCardMode = true
                         webVC.ccPaymentSucceed = {
                             self.ccPaymentOrderId = data["order_id"].stringValue
-                            self.performCheckout(p, address: a, usedBalance: usedBalance, usedBonus: usedBonus)
+                            self.performCheckout(p!, address: a!, usedBalance: usedBalance, usedBonus: usedBonus)
                         }
                         webVC.ccPaymentUnfinished = {
                             Constant.showDialog("", message: "Pembayaran dibatalkan")
@@ -1042,7 +1042,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                 var imgs : [URL] = []
                 for i in 0...self.arrayItem.count - 1 {
                     let json = self.arrayItem[i]
-                    if let raw : Array<AnyObject> = json["display_picts"].arrayObject {
+                    if let raw : Array<AnyObject> = json["display_picts"].arrayObject as Array<AnyObject>? {
                         var ori : Array<String> = []
                         for o in raw {
                             if let s = o as? String {
@@ -1119,7 +1119,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         "Shipping Province" : pName!,
                         "Bonus Used" : 0,
                         "Balance Used" : 0
-                    ]
+                    ] as [String : Any]
                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
                     
                     // Answers
@@ -1130,39 +1130,40 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         }
                     }
                     
+                    // FIXME: Swift 3
                     // Google Analytics Ecommerce Tracking
-                    if (AppTools.IsPreloProduction) {
-                        let gaTracker = GAI.sharedInstance().defaultTracker
-                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice, tax: totalCommissionPrice, shipping: self.totalOngkir, currencyCode: "IDR").build() as [AnyHashable: Any]
-                        gaTracker.send(trxDict)
-                        for i in 0...self.arrayItem.count - 1 {
-                            let json = self.arrayItem[i]
-                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
-                            if (cName == nil) {
-                                cName = json["category_id"].stringValue
-                            }
-                            let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue, quantity: 1, currencyCode: "IDR").build() as [AnyHashable: Any]
-                            gaTracker.send(trxItemDict)
-                        }
-                    }
+//                    if (AppTools.IsPreloProduction) {
+//                        let gaTracker = GAI.sharedInstance().defaultTracker
+//                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: self.totalOngkir as NSNumber!, currencyCode: "IDR").build() as [AnyHashable: Any]
+//                        gaTracker.send(trxDict)
+//                        for i in 0...self.arrayItem.count - 1 {
+//                            let json = self.arrayItem[i]
+//                            var cName = CDCategory.getCategoryNameWithID(json["category_id"].stringValue)
+//                            if (cName == nil) {
+//                                cName = json["category_id"].stringValue
+//                            }
+//                            let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: json["name"].stringValue, sku: json["product_id"].stringValue, category: cName, price: json["price"].intValue as NSNumber!, quantity: 1, currencyCode: "IDR").build() as [AnyHashable: Any]
+//                            gaTracker.send(trxItemDict)
+//                        }
+//                    }
                     
                     // MoEngage
                     let moeDict = NSMutableDictionary()
-                    moeDict.setObject(orderId, forKey: "Order ID")
-                    moeDict.setObject(items, forKey: "Items")
-                    moeDict.setObject(itemsCategory, forKey: "Items Category")
-                    moeDict.setObject(itemsSeller, forKey: "Items Seller")
-                    moeDict.setObject(itemsPrice, forKey: "Items Price")
-                    moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage")
-                    moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price")
-                    moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price")
-                    moeDict.setObject(self.totalOngkir, forKey: "Shipping Price")
-                    moeDict.setObject(totalPrice, forKey: "Total Price")
-                    moeDict.setObject(rName!, forKey: "Shipping Region")
-                    moeDict.setObject(pName!, forKey: "Shipping Province")
+                    moeDict.setObject(orderId, forKey: "Order ID" as NSCopying)
+                    moeDict.setObject(items, forKey: "Items" as NSCopying)
+                    moeDict.setObject(itemsCategory, forKey: "Items Category" as NSCopying)
+                    moeDict.setObject(itemsSeller, forKey: "Items Seller" as NSCopying)
+                    moeDict.setObject(itemsPrice, forKey: "Items Price" as NSCopying)
+                    moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage" as NSCopying)
+                    moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price" as NSCopying)
+                    moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price" as NSCopying)
+                    moeDict.setObject(self.totalOngkir, forKey: "Shipping Price" as NSCopying)
+                    moeDict.setObject(totalPrice, forKey: "Total Price" as NSCopying)
+                    moeDict.setObject(rName!, forKey: "Shipping Region" as NSCopying)
+                    moeDict.setObject(pName!, forKey: "Shipping Province" as NSCopying)
                     let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
-                    moeEventTracker.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
-                    moeEventTracker.setDate(Date(), forKey: "startDate")
+                    moeEventTracker?.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
+                    moeEventTracker?.setDate(Date(), forKey: "startDate")
                     let locManager = CLLocationManager()
                     locManager.requestWhenInUseAuthorization()
                     var currentLocation : CLLocation!
@@ -1173,7 +1174,7 @@ class CartViewController: BaseViewController, ACEExpandableTableViewDelegate, UI
                         currentLat = currentLocation.coordinate.latitude
                         currentLng = currentLocation.coordinate.longitude
                     }
-                    moeEventTracker.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                    moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
                     MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                 }
                 o.isFromCheckout = true
@@ -1671,7 +1672,7 @@ class CartCellItem : UITableViewCell
         captionLocation?.text = ""
         captionFrom?.text = ""
         
-        if let raw : Array<AnyObject> = json["display_picts"].arrayObject
+        if let raw : Array<AnyObject> = json["display_picts"].arrayObject as Array<AnyObject>?
         {
             var ori : Array<String> = []
             for o in raw

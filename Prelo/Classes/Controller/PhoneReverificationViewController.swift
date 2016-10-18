@@ -76,7 +76,7 @@ class PhoneReverificationViewController : BaseViewController {
                     let json = JSON(resp.result.value!)
                     _ = json["_data"].bool
                     
-                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.isReverification = true
                     phoneVerificationVC.noHpToVerify = self.fieldNoHP.text == nil ? "" : self.fieldNoHP.text!
                     phoneVerificationVC.isShowBackBtn = true

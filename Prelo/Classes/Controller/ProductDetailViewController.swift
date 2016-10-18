@@ -397,7 +397,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (detail!.isGarageSale) {
             let coachmarkReserveDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkReserveDone) as! Bool?
             if (coachmarkReserveDone != true) {
-                UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkReserveDone)
+                UserDefaults.setObjectAndSync(true as AnyObject?, forKey: UserDefaultsKey.CoachmarkReserveDone)
                 vwCoachmarkReserve.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
                 vwCoachmarkReserve.isHidden = false
             }
@@ -405,14 +405,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             if (detail!.isMyProduct) {
                 let coachmarkMineDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkProductDetailMineDone) as! Bool?
                 if (coachmarkMineDone != true) {
-                    UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailMineDone)
+                    UserDefaults.setObjectAndSync(true as AnyObject?, forKey: UserDefaultsKey.CoachmarkProductDetailMineDone)
                     vwCoachmarkMine.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
                     vwCoachmarkMine.isHidden = false
                 }
             } else {
                 let coachmarkDone : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CoachmarkProductDetailDone) as! Bool?
                 if (coachmarkDone != true) {
-                    UserDefaults.setObjectAndSync(true, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
+                    UserDefaults.setObjectAndSync(true as AnyObject?, forKey: UserDefaultsKey.CoachmarkProductDetailDone)
                     vwCoachmark.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.7)
                     vwCoachmark.isHidden = false
                 }
@@ -538,7 +538,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             // userId & name is required
                             if (userId != nil && name != nil) {
                                 // API Migrasi
-                                let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON { resp in
+                                let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON { resp in
                                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                                         
                                         // Save in core data
@@ -1531,7 +1531,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                 ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
                 ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
                 NSForegroundColorAttributeName : Theme.PrimaryColorDark
-            ]
+            ] as [String : Any]
             captionMerk?.attributedText = NSAttributedString(string: merk, attributes: p)
         } else {
             captionMerk?.text = "Unknown"
@@ -1552,7 +1552,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         
         let arr = product["category_breadcrumbs"].array!
         var categoryString : String = ""
-        var param : Array<[String : AnyObject]> = []
+        var param : Array<[String : Any]> = []
         if (arr.count > 0) {
             for i in 0...arr.count-1
             {
@@ -1566,7 +1566,7 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
                     ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
                     ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
                     NSForegroundColorAttributeName : Theme.PrimaryColorDark
-                ]
+                ] as [String : Any]
                 param.append(p)
                 
                 categoryString += name
