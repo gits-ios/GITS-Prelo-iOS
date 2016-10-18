@@ -1943,7 +1943,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
             var image = UIImage()
-            if let img = TransactionDetailTools.ImgCouriers[trxDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercased()] {
+            if let img = TransactionDetailTools.ImgCouriers[trxDetail.requestCourier.components(separatedBy: " ")[0].lowercased()] {
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.requestCourier, image: image)
@@ -2018,7 +2018,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.shippingPostalCode)
             var image = UIImage()
-            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.requestCourier.componentsSeparatedByString(" ")[0].lowercased()] {
+            if let img = TransactionDetailTools.ImgCouriers[trxProductDetail.requestCourier.components(separatedBy: " ")[0].lowercased()] {
                 image = img!
             }
             height += TransactionDetailTitleContentCell.heightFor(trxProductDetail.requestCourier, image: image)
@@ -2394,7 +2394,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.requestCourier
                     }
                     var image = UIImage()
-                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercased()] {
+                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
                         image = img!
                     }
                     return TransactionDetailTitleContentCell.heightFor(content, image: image)
@@ -2811,7 +2811,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                         content = trxProductDetail!.requestCourier
                     }
                     var image = UIImage()
-                    if let img = TransactionDetailTools.ImgCouriers[content.componentsSeparatedByString(" ")[0].lowercased()] {
+                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
                         image = img!
                     }
                     return self.createTitleContentCell("Request Kurir", content: content, image: image)

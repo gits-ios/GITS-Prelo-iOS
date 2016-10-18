@@ -1447,16 +1447,16 @@ class ProductCellDescription : UITableViewCell, ZSWTappableLabelTapDelegate
         let desc = product["description"].string!
         var desc2 : NSString = NSString(string: desc)
         
-        var desc3 = ""
+        var desc3 : NSString = NSString(string: "")
         if let ss = obj?.specialStory
         {
             if (ss != "")
             {
-                desc3 = "\"" + ss + "\"\n\n"
+                desc3 = NSString(string: "\"" + ss + "\"\n\n")
             }
         }
         
-        desc2 = desc3 + (desc2 as String)
+        desc2 = desc3.appending(desc2 as String) as NSString
         
         let size = desc2.boundingRect(with: cons, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:font], context: nil)
         

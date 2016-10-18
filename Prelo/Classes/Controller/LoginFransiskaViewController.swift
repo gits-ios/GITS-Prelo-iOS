@@ -29,7 +29,7 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         
         // Setup close button
         self.navigationItem.hidesBackButton = true
-        let btnClose = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(LoginFransiskaViewController.dismiss))
+        let btnClose = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(LoginFransiskaViewController.dismissLogin))
         btnClose.setTitleTextAttributes([NSFontAttributeName : UIFont(name: "Prelo2", size: 15)!], for: UIControlState())
         self.navigationItem.rightBarButtonItem = btnClose
         
@@ -38,7 +38,7 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         self.hideLoading()
     }
     
-    override func dismiss() {
+    func dismissLogin() {
         loginVC.userRelatedDelegate?.userCancelLogin?()
         registerVC.userRelatedDelegate?.userCancelLogin?()
         self.dismiss(animated: true, completion: nil)
