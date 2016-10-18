@@ -103,7 +103,7 @@ public extension Date {
     
      - returns: Return the month
      */
-    public func month() -> Date {
+    public func month() -> Foundation.Date {
         let calendar = Calendar.autoupdatingCurrent
         let comp = calendar.dateComponents([.year, .month], from: self)
         
@@ -136,7 +136,7 @@ public extension Date {
     
      - returns: Return the date with time informations
      */
-    private func timelessDate() -> Date {
+    private func timelessDate() -> Foundation.Date {
         let calendar = Calendar.autoupdatingCurrent
         let comp = calendar.dateComponents([.year, .month, .day], from: self)
         
@@ -148,7 +148,7 @@ public extension Date {
     
      - returns: Return the date with time informations
      */
-    private func monthlessDate() -> Date {
+    private func monthlessDate() -> Foundation.Date {
         let calendar = Calendar.autoupdatingCurrent
         let comp = calendar.dateComponents([.year, .month, .day, .weekday], from: self)
         
@@ -162,7 +162,7 @@ public extension Date {
     
      - returns: Returns true if is same day, false if not
      */
-    public func isSameDay(_ anotherDate: Date) -> Bool {
+    public func isSameDay(_ anotherDate: Foundation.Date) -> Bool {
         let calendar = Calendar.autoupdatingCurrent
         let components1 = calendar.dateComponents([.year, .month, .day], from: self)
         let components2 = calendar.dateComponents([.year, .month, .day], from: anotherDate)
@@ -177,7 +177,7 @@ public extension Date {
     
      - returns: Returns the months between the two dates
      */
-    public func monthsBetweenDate(_ toDate: Date) -> Int {
+    public func monthsBetweenDate(_ toDate: Foundation.Date) -> Int {
         let calendar = Calendar.autoupdatingCurrent
         let components = calendar.dateComponents([.month], from: self.monthlessDate(), to: toDate.monthlessDate())
         
@@ -191,7 +191,7 @@ public extension Date {
     
      - returns: Returns the days between the two dates
      */
-    public func daysBetweenDate(_ anotherDate: Date) -> Int {
+    public func daysBetweenDate(_ anotherDate: Foundation.Date) -> Int {
         let time: TimeInterval = self.timeIntervalSince(anotherDate)
         return Int(abs(time / 60 / 60 / 24))
     }
@@ -202,7 +202,7 @@ public extension Date {
      - returns: Returns if self is today
      */
     public func isToday() -> Bool {
-        return self.isSameDay(Date())
+        return self.isSameDay(Foundation.Date())
     }
     
     /**
@@ -212,7 +212,7 @@ public extension Date {
     
      - returns: Returns self by adding the gived days number
      */
-    public func dateByAddingDays(_ days: Int) -> Date {
+    public func dateByAddingDays(_ days: Int) -> Foundation.Date {
         return self.addingTimeInterval(TimeInterval(days * 24 * 60 * 60))
     }
     
@@ -245,7 +245,7 @@ public extension Date {
      
      - returns: Date after removing all components but not year, month and day
      */
-    public func shortData() -> Date {
+    public func shortData() -> Foundation.Date {
         let calendar = Calendar.autoupdatingCurrent
         let comp = calendar.dateComponents([.year, .month, .day], from:self)
         
@@ -259,7 +259,7 @@ public extension Date {
      
      - returns: Returns a true if self is greater than the given one, otherwise false
      */
-    public func isGreaterThanDate(_ dateToCompare: Date) -> Bool {
+    public func isGreaterThanDate(_ dateToCompare: Foundation.Date) -> Bool {
         //Declare Variables
         var isGreater = false
         
@@ -279,7 +279,7 @@ public extension Date {
      
      - returns: Returns a true if self is less than the given one, otherwise false
      */
-    public func isLessThanDate(_ dateToCompare: Date) -> Bool {
+    public func isLessThanDate(_ dateToCompare: Foundation.Date) -> Bool {
         //Declare Variables
         var isLess = false
         
@@ -299,8 +299,8 @@ public extension Date {
     
      - returns: Returns a NSDate with the yesterday date
      */
-    public static func yesterday() -> Date {
-        var info: BFDateInformation = Date().dateInformation()
+    public static func yesterday() -> Foundation.Date {
+        var info: BFDateInformation = Foundation.Date().dateInformation()
         info.day -= 1
         return self.dateFromDateInformation(info)
     }
@@ -310,8 +310,8 @@ public extension Date {
     
      - returns: Returns the month
      */
-    public static func month() -> Date {
-        return Date().month()
+    public static func month() -> Foundation.Date {
+        return Foundation.Date().month()
     }
     
     /**
@@ -322,9 +322,9 @@ public extension Date {
     
      - returns: Returns a NSDate from a given BFDateInformation structure with a given time zone
      */
-    public static func dateFromDateInformation(_ info: BFDateInformation, timeZone: TimeZone = TimeZone.ReferenceType.system) -> Date {
+    public static func dateFromDateInformation(_ info: BFDateInformation, timeZone: TimeZone = TimeZone.ReferenceType.system) -> Foundation.Date {
         let calendar = Calendar.autoupdatingCurrent
-        let comp = calendar.dateComponents([.year, .month], from:Date())
+        let comp = calendar.dateComponents([.year, .month], from:Foundation.Date())
         
         (comp as NSDateComponents).setValue(info.day, forComponent:.day)
         (comp as NSDateComponents).setValue(info.month, forComponent:.month)
@@ -350,7 +350,7 @@ public extension Date {
     
      - returns: Returns the created NSDate
      */
-    public static func dateWithDatePart(_ date: Date, andTimePart time: Date) -> Date {
+    public static func dateWithDatePart(_ date: Foundation.Date, andTimePart time: Foundation.Date) -> Foundation.Date {
         let dateFormatter: DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         let datePortion: String = dateFormatter.string(from: date)
@@ -393,10 +393,10 @@ public extension Date {
 
 // MARK: - Operators -
 
-public func >(left: Date, right: Date) -> Bool {
+public func >(left: Foundation.Date, right: Foundation.Date) -> Bool {
     return left.isGreaterThanDate(right)
 }
 
-public func <(left: Date, right: Date) -> Bool {
+public func <(left: Foundation.Date, right: Foundation.Date) -> Bool {
     return left.isLessThanDate(right)
 }

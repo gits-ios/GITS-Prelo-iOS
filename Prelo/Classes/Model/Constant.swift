@@ -88,7 +88,7 @@ var CalendarOption = NSCalendar.Options.matchLast
 extension Foundation.Date
 {
     
-    struct Date {
+    public struct Date {
         static let formatter = DateFormatter()
     }
     var isoFormatted: String {

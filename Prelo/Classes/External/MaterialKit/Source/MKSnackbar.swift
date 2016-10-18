@@ -158,7 +158,7 @@ open class MKSnackbar: UIControl {
                 }, completion: {(finished: Bool) -> Void in
                     if finished {
                         self.isAnimating = false
-                        self.performDelegateAction(Selector("snackbarDismissed:"))
+                        self.performDelegateAction(Selector(("snackbarDismissed:")))
                         self.removeFromSuperview()
                         if let textLabel = self.textLabel, let actionButton = self.actionButton {
                             textLabel.removeFromSuperview()

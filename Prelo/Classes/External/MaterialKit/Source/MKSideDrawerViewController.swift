@@ -128,7 +128,7 @@ open class MKSideDrawerViewController: UIViewController, UIGestureRecognizerDele
                 oldController.removeFromParentViewController()
             }
             guard let mainViewController = mainViewController else { return }
-            let viewDictionary = ["mainView" : mainViewController.view]
+            let viewDictionary : [String : UIView] = ["mainView" : mainViewController.view]
             mainViewController.view.translatesAutoresizingMaskIntoConstraints = false
             addChildViewController(mainViewController)
             view.insertSubview(mainViewController.view, at: 0)
@@ -160,7 +160,7 @@ open class MKSideDrawerViewController: UIViewController, UIGestureRecognizerDele
                 oldController.removeFromParentViewController()
             }
             guard let drawerViewController = drawerViewController else { return }
-            let viewDictionary = ["drawerView" : drawerViewController.view]
+            let viewDictionary : [String : UIView] = ["drawerView" : drawerViewController.view]
             let itemAttribute: NSLayoutAttribute
             let toItemAttribute: NSLayoutAttribute
             switch drawerDirection {
@@ -226,7 +226,7 @@ open class MKSideDrawerViewController: UIViewController, UIGestureRecognizerDele
     override open func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let viewDictionary = ["_containerView": _containerView]
+        let viewDictionary : [String : UIView] = ["_containerView": _containerView]
 
         view.addGestureRecognizer(screenEdgePanGesture)
         view.addGestureRecognizer(panGesture)

@@ -10,7 +10,7 @@ import UIKit
 
 let kMKClearEffectsDuration = 0.3
 
-open class MKLayer: CALayer {
+open class MKLayer: CALayer  , CAAnimationDelegate{
 
     open var maskEnabled: Bool = true {
         didSet {
@@ -23,6 +23,7 @@ open class MKLayer: CALayer {
             self.calculateRippleSize()
         }
     }
+    
     open var rippleDuration: CFTimeInterval = 0.35
     open var elevation: CGFloat = 0 {
         didSet {
@@ -94,8 +95,11 @@ open class MKLayer: CALayer {
             CATransaction.commit()
         }
     }
+    
+    
 
-    open func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+
+    open  func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if anim == self.animation(forKey: "opacityAnim") {
             self.opacity = 0
         } else if flag {
