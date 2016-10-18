@@ -126,7 +126,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         let _ = request(APIProduct.myProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad), name: searchText)).responseJSON {resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya")) {
-                    if let result: AnyObject = resp.result.value
+                    if let result: AnyObject = resp.result.value as AnyObject?
                     {
                         let j = JSON(result)
                         let d = j["_data"].arrayObject

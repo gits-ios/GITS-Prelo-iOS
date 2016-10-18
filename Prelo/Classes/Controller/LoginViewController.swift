@@ -138,7 +138,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     // Refresh notifications badge
                     let delegate = UIApplication.shared.delegate as! AppDelegate
                     let notifListener = delegate.preloNotifListener
-                    notifListener.getTotalUnreadNotifCount()
+                    notifListener?.getTotalUnreadNotifCount()
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
@@ -253,7 +253,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (isProfileSet) {
                     // Send deviceRegId, then dismiss
                     LoginViewController.SendDeviceRegId({
-                        sender.dismiss()
+                        sender.dismiss(animated: true, completion: nil)
                     })
                 } else {
                     // Reset navbar color
@@ -267,7 +267,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         userProfileData!.regionId != "" &&
                         userProfileData!.shippingIds.count > 0) { // User has finished profile setup
                             // Goto PhoneVerificationVC
-                            let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                            let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                             phoneVerificationVC.userRelatedDelegate = sender.userRelatedDelegate
                             phoneVerificationVC.userId = userProfileData!.id
                             phoneVerificationVC.userToken = token
@@ -278,7 +278,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             phoneVerificationVC.noHpToVerify = userProfileData!.phone
                             sender.navigationController?.pushViewController(phoneVerificationVC, animated: true)
                     } else { // User hasn't finished profile setup
-                        let profileSetupVC = Bundle.main.loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil).first as! ProfileSetupViewController
+                        let profileSetupVC = Bundle.main.loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil)?.first as! ProfileSetupViewController
                         profileSetupVC.userRelatedDelegate = sender.userRelatedDelegate
                         profileSetupVC.userId = userProfileData!.id
                         profileSetupVC.userToken = token
@@ -327,42 +327,43 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let fbLoginManager = FBSDKLoginManager()
         
         // Ask for publish permissions
-        fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            if (error != nil) { // Process error
-                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
-            } else if result.isCancelled { // User cancellation
-                LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
-            } else { // Success
-                var permissions = FBSDKAccessToken.current().permissions
-                if permissions.contains("publish_actions") {
-                    if (permissions.contains("email")) {
-                        // Continue work
-                        LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
-                    } else {
-                        // Ask for read permissions
-                        fbLoginManager.logIn(withReadPermissions: ["email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-                            if (error != nil) { // Process error
-                                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
-                            } else if result.isCancelled { // User cancellation
-                                LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
-                            } else { // Success
-                                permissions = FBSDKAccessToken.current().permissions
-                                if permissions.contains("email") {
-                                    // Continue work
-                                    LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
-                                } else {
-                                    // Handle not getting permission
-                                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat data yang tidak dapat diakses")
-                                }
-                            }
-                        })
-                    }
-                } else {
-                    // Handle not getting permission
-                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat akses yg diblokir")
-                }
-            }
-        })
+        // FIXME: - Swift 3
+//        fbLoginManager.logIn(withPublishPermissions: ["publish_actions"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+//            if (error != nil) { // Process error
+//                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
+//            } else if result.isCancelled { // User cancellation
+//                LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
+//            } else { // Success
+//                var permissions = FBSDKAccessToken.current().permissions
+//                if permissions.contains("publish_actions") {
+//                    if (permissions.contains("email")) {
+//                        // Continue work
+//                        LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
+//                    } else {
+//                        // Ask for read permissions
+//                        fbLoginManager.logIn(withReadPermissions: ["email"], handler: {(result : FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+//                            if (error != nil) { // Process error
+//                                LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook")
+//                            } else if result.isCancelled { // User cancellation
+//                                LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan")
+//                            } else { // Success
+//                                permissions = FBSDKAccessToken.current().permissions
+//                                if permissions.contains("email") {
+//                                    // Continue work
+//                                    LoginViewController.ContinueLoginWithFacebook(param, onFinish: onFinish)
+//                                } else {
+//                                    // Handle not getting permission
+//                                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat data yang tidak dapat diakses")
+//                                }
+//                            }
+//                        })
+//                    }
+//                } else {
+//                    // Handle not getting permission
+//                    LoginViewController.LoginFacebookCancelled(sender, reason: "Login Facebook dibatalkan karena terdapat akses yg diblokir")
+//                }
+//            }
+//        })
     }
     
     static func ContinueLoginWithFacebook(_ param : [String : AnyObject], onFinish : @escaping (NSMutableDictionary) -> ()) {
@@ -417,7 +418,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             //print("accessToken = \(accessToken)")
             
             // API Migrasi
-            let _ = request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken)).responseJSON {resp in
+            let _ = request(APIAuth.loginFacebook(email: emailToSend, fullname: name!, fbId: userId!, fbUsername: name!, fbAccessToken: accessToken!)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -543,8 +544,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                                     LoginViewController.LoginTwitterCancelled(sender, reason: "Error getting twitter data")
                                 } else { // Succes
                                     do {
-                                        let json : AnyObject? = try JSONSerialization.jsonObject(with: res!, options: .allowFragments)
-                                        let data = JSON(json!)
+                                        let json : Any = try JSONSerialization.jsonObject(with: res!, options: .allowFragments)
+                                        let data = JSON(json)
                                         print("Twitter user show json: \(data)")
                                         
                                         twFullname = data["name"].string!
@@ -759,22 +760,23 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     func callAPIForgotPassword(_ email : String) {
-        // API Migrasi
-        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
-                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-            }
-        }
+        // FIXME: Swift 3
+//        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
+//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
+//                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+//            }
+//        }
     }
     
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        if (buttonIndex == 1) {
-            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textField(at: 0)?.text)!]).responseJSON {resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
-                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-                }
-            }
-        }
+        // FIXME: Swift 3
+//        if (buttonIndex == 1) {
+//            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textField(at: 0)?.text)!]).responseJSON {resp in
+//                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
+//                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
+//                }
+//            }
+//        }
     }
     
     @IBAction func login(_ sender : AnyObject) {

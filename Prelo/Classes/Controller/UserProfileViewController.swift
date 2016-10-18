@@ -395,7 +395,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
                 // userId & name is required
                 if (userId != nil && name != nil) {
                     // API Migrasi
-                    let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                    let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                             
                             // Save in core data

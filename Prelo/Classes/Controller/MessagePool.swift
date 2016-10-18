@@ -71,40 +71,41 @@ class MessagePool: NSObject
             socket.on("message", callback:{ data, ack in
                 print(data)
                 
-                for d in data
-                {
-                    if let inboxId : String = d["inbox_id"] as? String
-                    {
-                        if let delegate = self.delegates[inboxId]
-                        {
-                            let i = InboxMessage()
-                            if let senderId = d["sender_id"] as? String
-                            {
-                                i.senderId = senderId
-                            }
-                            
-                            if let o : NSNumber = d["message_type"] as? NSNumber
-                            {
-                                i.messageType = o.intValue
-                            }
-                            
-                            if let m = d["message"] as? String
-                            {
-                                i.message = m
-                            }
-                            
-                            
-                            i.isMe = i.senderId == CDUser.getOne()?.id
-                            i.time = ""
-                            i.id = ""
-                            delegate.messageArrived(i)
-                        }
-                    } else
-                    {
-                        let error = NSError(domain: "No inbox_id", code: 0, userInfo: nil)
-                        Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as? [String : AnyObject])
-                    }
-                }
+                // FIXME: Swift 3
+//                for d in data
+//                {
+//                    if let inboxId : String = d["inbox_id"] as? String
+//                    {
+//                        if let delegate = self.delegates[inboxId]
+//                        {
+//                            let i = InboxMessage()
+//                            if let senderId = d["sender_id"] as? String
+//                            {
+//                                i.senderId = senderId
+//                            }
+//                            
+//                            if let o : NSNumber = d["message_type"] as? NSNumber
+//                            {
+//                                i.messageType = o.intValue
+//                            }
+//                            
+//                            if let m = d["message"] as? String
+//                            {
+//                                i.message = m
+//                            }
+//                            
+//                            
+//                            i.isMe = i.senderId == CDUser.getOne()?.id
+//                            i.time = ""
+//                            i.id = ""
+//                            delegate.messageArrived(i)
+//                        }
+//                    } else
+//                    {
+//                        let error = NSError(domain: "No inbox_id", code: 0, userInfo: nil)
+//                        Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: d as? [String : AnyObject])
+//                    }
+//                }
             })
             
             socket.on("clients", callback:{ data, ack in
@@ -117,9 +118,9 @@ class MessagePool: NSObject
             {
                 let notifListener = del.preloNotifListener
                 socket.on("notification", callback: { data, ack in
-                    if (!notifListener.willReconnect) {
+                    if (!(notifListener?.willReconnect)!) {
                         print("Get notification from messagepool")
-                        notifListener.handleNotification()
+                        notifListener?.handleNotification()
                     }
                 })
                 if (notifListener?.willReconnect)! {

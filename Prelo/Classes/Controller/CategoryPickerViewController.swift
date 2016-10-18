@@ -150,7 +150,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
             self.performSegue(withIdentifier: "segChild", sender: nil)
         } else {
             let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
-            c.parent = selectedCategory!
+            c.parentJson = selectedCategory!
             c.blockDone = blockDone
             c.backTreshold = 3
             c.root = self.root
@@ -170,7 +170,7 @@ class CategoryPickerViewController: BaseViewController, UICollectionViewDataSour
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let c = segue.destination as! CategoryChildrenPickerViewController
-        c.parent = selectedCategory!
+        c.parentJson = selectedCategory!
         c.blockDone = blockDone
         c.backTreshold = 3
         c.root = self.root
@@ -201,7 +201,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
     
     // Predefined values
     var root : UIViewController?
-    var parent : JSON = JSON(["name":""])
+    var parentJson : JSON = JSON(["name":""])
     var blockDone : BlockCategorySelected?
     var backTreshold = 1
     var searchMode = false
@@ -222,14 +222,14 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         super.viewDidLoad()
         
         // Set title
-        if let name = parent["name"].string {
+        if let name = parentJson["name"].string {
             self.title = name.capitalized
         } else {
             self.title = "Pilih Kategori"
         }
         
         // Get children categories
-        if let children = parent["children"].arrayObject {
+        if let children = parentJson["children"].arrayObject {
             for o in children {
                 categories.append(JSON(o))
             }
@@ -237,8 +237,8 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         
         // Include parent category itself for searchMode
         if (searchMode) {
-            var parentCateg = parent
-            parentCateg["name"] = JSON("Semua " + parent["name"].stringValue)
+            var parentCateg = parentJson
+            parentCateg["name"] = JSON("Semua " + parentJson["name"].stringValue)
             categories.insert(parentCateg, at: 0)
         }
         
@@ -290,7 +290,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
         }
         if (!(searchMode && (indexPath as NSIndexPath).row == 0) && childCount > 0) {
             let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCategoryChildrenPicker) as! CategoryChildrenPickerViewController
-            p.parent = selectedCategory!
+            p.parentJson = selectedCategory!
             p.blockDone = self.blockDone
             p.backTreshold = backTreshold + 1
             p.searchMode = self.searchMode
@@ -303,7 +303,7 @@ class CategoryChildrenPickerViewController : BaseViewController, UITableViewData
             self.navigationController?.pushViewController(p, animated: true)
         } else {
             let data = [
-                "parent":parent.rawValue,
+                "parent":parentJson.rawValue,
                 "child":selectedCategory!.rawValue,
                 "category_image_name":self.categoryImageName,
                 "category_level1_id":self.categoryLv1Id,

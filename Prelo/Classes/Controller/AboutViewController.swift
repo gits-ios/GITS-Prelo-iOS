@@ -43,7 +43,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
         }
         
         if (AppTools.isDev) {
-            let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName: UIColor.white]
+            let attr = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName: UIColor.white] as [String : Any]
             if (AppTools.IsPreloProduction) {
                 let attrString = NSAttributedString(string: "switch to dev", attributes: attr)
                 self.btnUrlPrelo.setAttributedTitle(attrString, for: UIControlState())
@@ -117,7 +117,7 @@ class AboutViewController: BaseViewController, UIAlertViewDelegate {
             rID = u.profiles.regionID
         }
         let a = "{\"address\": \"alamat\", \"province_id\": \"" + pID + "\", \"region_id\": \"" + rID + "\", \"postal_code\": \"\"}"
-        let _ = request(APICart.refresh(cart: p, address: a, voucher: nil)).responseJSON { resp in
+        let _ = request(APICart.refresh(cart: p!, address: a, voucher: nil)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Clear Cache")) {
                 self.enableBtnClearCache()
                 

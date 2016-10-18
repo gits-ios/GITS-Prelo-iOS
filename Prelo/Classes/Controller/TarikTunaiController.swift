@@ -92,7 +92,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     if (self.viewShadow != nil) {
                         self.view.addSubview(self.viewShadow!)
                     }
-                    self.viewSetupPassword = Bundle.main.loadNibNamed(Tags.XibNameSetupPasswordPopUp, owner: nil, options: nil).first as? SetupPasswordPopUp
+                    self.viewSetupPassword = Bundle.main.loadNibNamed(Tags.XibNameSetupPasswordPopUp, owner: nil, options: nil)?.first as? SetupPasswordPopUp
                     if (self.viewSetupPassword != nil) {
                         self.viewSetupPassword!.center = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
                         self.viewSetupPassword!.bounds = CGRect(x: self.viewSetupPassword!.bounds.origin.x, y: self.viewSetupPassword!.bounds.origin.y, width: 280, height: 472)
@@ -124,7 +124,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     let f = NumberFormatter()
                     f.numberStyle = NumberFormatter.Style.currency
                     f.currencySymbol = ""
-                    f.locale = Locale(localeIdentifier: "id_ID")
+                    f.locale = Locale(identifier: "id_ID")
                     self.captionPreloBalance.text = f.string(from: NSNumber(value: i as Int))
                 } else if let m = json["_data"].string
                 {
@@ -206,7 +206,7 @@ class TarikTunaiController: BaseViewController, UIScrollViewDelegate
                     let pt = [
                         "Destination Bank" : namaBank,
                         "Amount" : i
-                    ]
+                    ] as [String : Any]
                     //Mixpanel.trackEvent(MixpanelEvent.RequestedWithdrawMoney, properties: pt as [NSObject : AnyObject])
                     
                     self.navigationController?.popToRootViewController(animated: true)
@@ -257,19 +257,20 @@ class SetupPasswordPopUp : UIView {
         self.disableBackBlock()
         self.btnKirimEmail.setTitle("MENGIRIM...", for: UIControlState())
         self.btnKirimEmail.isUserInteractionEnabled = false
-        let _ = request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON {resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Tarik Uang - Password Checking")) {
-                let json = JSON(resp.result.value!)
-                let dataBool : Bool = json["_data"].boolValue
-                let dataInt : Int = json["_data"].intValue
-                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
-                if (dataBool == true || dataInt == 1) {
-                    Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
-                } else {
-                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
-                }
-            }
-            self.setPasswordDoneBlock()
-        }
+        // FIXME: Swift 3
+//        let _ = request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON {resp in
+//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Tarik Uang - Password Checking")) {
+//                let json = JSON(resp.result.value!)
+//                let dataBool : Bool = json["_data"].boolValue
+//                let dataInt : Int = json["_data"].intValue
+//                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
+//                if (dataBool == true || dataInt == 1) {
+//                    Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
+//                } else {
+//                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+//                }
+//            }
+//            self.setPasswordDoneBlock()
+//        }
     }
 }

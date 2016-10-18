@@ -352,7 +352,7 @@
             startingLineNumber = "103"
             endingLineNumber = "103"
             landmarkName = "getAllAsDictionary(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -432,7 +432,7 @@
             startingLineNumber = "253"
             endingLineNumber = "253"
             landmarkName = "btnKonfKirimPressed(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

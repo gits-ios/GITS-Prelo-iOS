@@ -171,7 +171,7 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
         txtMessage.isEditable = false
         
         // API Migrasi
-        let _ = request(APIProduct.postComment(productID: pDetail.productID, message: m, mentions: "")).responseJSON {resp in
+        let _ = request(APIProduct.postComment(productID: pDetail.productID, message: m!, mentions: "")).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Kirim Komentar Barang"))
             {
                 self.txtMessage.text = ""

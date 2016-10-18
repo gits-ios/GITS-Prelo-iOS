@@ -520,8 +520,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             req.cancel()
         }
         
-        currentRequest = request(APISearch.autocomplete(key: keyword))
-        currentRequest?.responseJSON { resp in
+        currentRequest = request(APISearch.autocomplete(key: keyword)).responseJSON { resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Search Autocomplete")) {
                 let json = JSON(resp.result.value!)
                 if let items = json["_data"]["products"].array , items.count > 0 {

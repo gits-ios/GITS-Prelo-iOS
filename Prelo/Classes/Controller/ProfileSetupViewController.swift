@@ -393,8 +393,8 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                             self.asset?.asset(for: (img.url)!, resultBlock: { asset in
                                 if let ast = asset {
                                     let rep = ast.defaultRepresentation()
-                                    let ref = rep.fullScreenImage().takeUnretainedValue()
-                                    let i = UIImage(cgImage: ref)
+                                    let ref = rep?.fullScreenImage().takeUnretainedValue()
+                                    let i = UIImage(cgImage: ref!)
                                     DispatchQueue.main.async(execute: {
                                         self.btnUserImage.setImage(i, for: UIControlState())
                                     })
@@ -668,15 +668,15 @@ class ProfileSetupViewController : BaseViewController, PickerViewDelegate, UINav
                         }
                     }
                     var pt = [String : AnyObject]()
-                    pt["Shipping Options"] = shippingArrName
-                    pt["Phone"] = userProfileData.phone
+                    pt["Shipping Options"] = shippingArrName as AnyObject?
+                    pt["Phone"] = userProfileData.phone as AnyObject?
                     Mixpanel.trackEvent(MixpanelEvent.SetupAccount, properties: pt as [AnyHashable: Any])
                     let pt2 = [
                         "Activation Screen" : "Setup Account"
                     ]
                     Mixpanel.trackEvent(MixpanelEvent.ReferralUsed, properties: pt2)
                     
-                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil).first as! PhoneVerificationViewController
+                    let phoneVerificationVC = Bundle.main.loadNibNamed(Tags.XibNamePhoneVerification, owner: nil, options: nil)?.first as! PhoneVerificationViewController
                     phoneVerificationVC.userRelatedDelegate = self.userRelatedDelegate
                     phoneVerificationVC.userId = self.userId
                     phoneVerificationVC.userToken = self.userToken

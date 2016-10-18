@@ -130,7 +130,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     var dismissButton : UIButton
     {
         let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        b.addTarget(self, action: #selector(BaseViewController.dismiss), for: UIControlEvents.touchUpInside)
+        b.addTarget(self, action: #selector(BaseViewController.dismissBase), for: UIControlEvents.touchUpInside)
         return b
     }
     
@@ -141,7 +141,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         return b
     }
     
-    func dismiss()
+    func dismissBase()
     {
         self.dismiss(animated: true, completion: nil)
     }

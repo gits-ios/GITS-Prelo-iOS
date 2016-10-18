@@ -35,8 +35,8 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         webView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(webView)
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: ["w":webView]))
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllBaseline, metrics: nil, views: ["w":webView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: ["w":webView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[w]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: ["w":webView]))
         
         webView.delegate = self
         webView.loadRequest(Foundation.URLRequest(url: URL(string: "https://api.instagram.com/oauth/authorize/?client_id="+clientID+"&redirect_uri="+"http://"+urlCallback+"&response_type=code")!))
@@ -51,7 +51,7 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
         self.dismiss()
     }
     
-    override func dismiss()
+    func dismiss()
     {
         if let n = self.navigationController
         {
@@ -88,24 +88,25 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     
     func getToken(_ code : String)
     {
-        request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Instagram"))
-            {
-                let json = JSON(resp.result.value!)
-                if let token = json["access_token"].string
-                {
-                    self.instagramLoginDelegate?.instagramLoginSuccess(token)
-                    
-                    let id = json["user"]["id"]
-                    let name = json["user"]["full_name"]
-                    if (id != nil && name != nil) {
-                        self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
-                    }
-                    
-                    self.dismiss()
-                }
-            }
-        }
+        // FIXME: Swift 3
+//        request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
+//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Instagram"))
+//            {
+//                let json = JSON(resp.result.value!)
+//                if let token = json["access_token"].string
+//                {
+//                    self.instagramLoginDelegate?.instagramLoginSuccess(token)
+//                    
+//                    let id = json["user"]["id"]
+//                    let name = json["user"]["full_name"]
+//                    if (id != nil && name != nil) {
+//                        self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
+//                    }
+//                    
+//                    self.dismiss()
+//                }
+//            }
+//        }
     }
     
 

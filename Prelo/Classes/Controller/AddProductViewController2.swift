@@ -148,7 +148,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             lblSubmit.text = "Klik lanjutkan untuk menentukan komisi Prelo yang kamu mau"
         }
         
-        fakeScrollView.backgroundColor = .white()
+        fakeScrollView.backgroundColor = .white
         if (editMode)
         {
             fakeScrollView.isHidden = true
@@ -885,10 +885,10 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
                 if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
                     //print("placehodlerDict = \(placeholderDict)")
-                    if let itemNamePlaceholder = placeholderDict.object(forKey: "name") {
+                    if let itemNamePlaceholder = (placeholderDict as AnyObject).object(forKey: "name") {
                         self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
                     }
-                    if let descPlaceholder = placeholderDict.object(forKey: "desc") {
+                    if let descPlaceholder = (placeholderDict as AnyObject).object(forKey: "desc") {
                         self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
                     }
                 }
@@ -910,7 +910,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
     {
         let _ = request(APIReference.brandAndSizeByCategory(category: self.productCategoryId)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Brands and Sizes")) {
-                if let x: AnyObject = resp.result.value
+                if let x: AnyObject = resp.result.value as AnyObject?
                 {
                     let json = JSON(x)
                     let jsizes = json["_data"]["sizes"]
@@ -1396,7 +1396,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         
         self.btnSubmit.isEnabled = false
         
-        var param = ["name":name,
+        var param : [String : String?] = ["name":name,
             "description":desc,
             "category_id":productCategoryId,
             "price":newPrice,
@@ -1543,7 +1543,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                 self.navigationItem.rightBarButtonItem = self.confirmButton.toBarButton()
                 self.btnSubmit.isEnabled = true
                 var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
-                if let msg = op.responseString {
+                if let msg = op?.responseString {
                     if let range1 = msg.range(of: "{\"_message\":\"") {
                         //print(range1)
                         let msg1 = msg.substring(from: range1.upperBound)

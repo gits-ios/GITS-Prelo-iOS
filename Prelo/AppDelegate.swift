@@ -193,20 +193,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let launchURL = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL {
             if let tipe = launchURL.host {
                 var targetId : String?
-                if let tId = launchURL.path.substringFromIndex(1) {
-                    targetId = tId
-                }
+                targetId = launchURL.path.substringFromIndex(1)
                 self.deeplinkRedirect(tipe, targetId: targetId)
             }
 
-            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
-                if (error != nil) { // Process error
-                    print("Received error while fetching deferred app link \(error)")
-                }
-                if (url != nil) {
-                    UIApplication.shared.openURL(url)
-                }
-            })
+            // FIXME: - Swift 3
+//            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
+//                if (error != nil) { // Process error
+//                    print("Received error while fetching deferred app link \(error)")
+//                }
+//                if (url != nil) {
+//                    UIApplication.shared.openURL(url)
+//                }
+//            })
         }
         
         // Deeplink handling using Branch
@@ -232,12 +231,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Deeplink handling for universal link
         if let activityDict = launchOptions?[UIApplicationLaunchOptionsKey.userActivityDictionary] as? [AnyHashable: Any], let activity = activityDict["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity {
             if (activity.activityType == NSUserActivityTypeBrowsingWeb) {
-                if let url = activity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let path = components.path {
+                if let url = activity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
                     var param : [URLQueryItem] = []
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(path, param: param)
+                    self.handleUniversalLink(components.path, param: param)
                 }
             }
         }
@@ -245,7 +244,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set User-Agent for every HTTP request
         let webViewDummy = UIWebView()
         let userAgent = webViewDummy.stringByEvaluatingJavaScript(from: "navigator.userAgent")
-        UserDefaults.setObjectAndSync(userAgent, forKey: UserDefaultsKey.UserAgent)
+        UserDefaults.setObjectAndSync(userAgent as AnyObject?, forKey: UserDefaultsKey.UserAgent)
         
         // Remove app badge if any
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -265,10 +264,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Handle deeplink from Facebook
                 if let tipe = url.host {
                     var targetId : String?
-                    if let path = url.path {
-                        if (path.length > 1) {
-                            targetId = path.substringFromIndex(1)
-                        }
+                    if (url.path.length > 1) {
+                        targetId = url.path.substringFromIndex(1)
                     }
                     self.deeplinkRedirect(tipe, targetId: targetId)
                 }
@@ -290,12 +287,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         
         if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
-            if let url = userActivity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let path = components.path {
+            if let url = userActivity.webpageURL, let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
                 var param : [URLQueryItem] = []
                 if let items = components.queryItems {
                     param = items
                 }
-                self.handleUniversalLink(path, param: param)
+                self.handleUniversalLink(components.path, param: param)
                 return true
             }
         }

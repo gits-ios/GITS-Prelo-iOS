@@ -60,10 +60,11 @@ class ImagePickerViewController: BaseViewController, UICollectionViewDataSource,
         }
     }
     
-    override func dismiss() {
-        self.doneBlock!([])
-        super.dismiss()
-    }
+    // FIXME: Swift 3
+//    override func dismiss() {
+//        self.doneBlock!([])
+//        super.dismiss()
+//    }
     
     override func confirm() {
         

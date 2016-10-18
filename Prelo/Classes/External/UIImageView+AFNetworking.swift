@@ -29,12 +29,13 @@ extension UIImageView {
             static var defaultImageCache:AFImageCache?
         }
         
-        dispatch_once(&Static.token, { () -> Void in
-            Static.defaultImageCache = AFImageCache()
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil, queue: OperationQueue.main) { (NSNotification) -> Void in
-                Static.defaultImageCache!.removeAllObjects()
-            }
-        })
+        // FIXME: Swift 3
+//        dispatch_once(&Static.token, { () -> Void in
+//            Static.defaultImageCache = AFImageCache()
+//            NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil, queue: OperationQueue.main) { (NSNotification) -> Void in
+//                Static.defaultImageCache!.removeAllObjects()
+//            }
+//        })
         return objc_getAssociatedObject(self, &AssociatedKeys.SharedImageCache) as? AFImageCacheProtocol ?? Static.defaultImageCache!
     }
     
@@ -44,10 +45,11 @@ extension UIImageView {
             static var queue:OperationQueue?
         }
         
-        dispatch_once(&Static.token, { () -> Void in
-            Static.queue = OperationQueue()
-            Static.queue!.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
-        })
+        // FIXME: Swift 3
+//        dispatch_once(&Static.token, { () -> Void in
+//            Static.queue = OperationQueue()
+//            Static.queue!.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
+//        })
         return Static.queue!
     }
     

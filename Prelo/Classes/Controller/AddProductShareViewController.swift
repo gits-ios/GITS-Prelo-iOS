@@ -117,7 +117,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
                         // userId & name is required
                         if (userId != nil && name != nil) {
                             // API Migrasi
-                            let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken)).responseJSON {resp in
+                            let _ = request(APISocmed.postFacebookData(id: userId!, username: name!, token: accessToken!)).responseJSON {resp in
                                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Facebook")) {
                                     
                                     // Save in core data
@@ -309,7 +309,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         // Mixpanel
         var categ = ""
         if let categId = sendProductParam["category_id"] {
-            if let categObj = CDCategory.getCategoryWithID(categId) {
+            if let categObj = CDCategory.getCategoryWithID(categId!) {
                 categ = categObj.name
             }
         }
@@ -361,7 +361,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             "Is Instagram Shared" : instagram == "1" ? true : false,
             "Instagram Username" : igUsername,
             "Time" : Date().isoFormatted
-        ]
+        ] as [String : Any]
         
         // Add product to product uploader
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {

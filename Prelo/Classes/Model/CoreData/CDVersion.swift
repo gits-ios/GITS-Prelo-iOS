@@ -21,7 +21,7 @@ class CDVersion: NSManagedObject {
     @NSManaged var provincesRegionsVersion : NSNumber
     
     static func getOne() -> CDVersion? {
-        let fetchReq = NSFetchRequest(entityName : "CDVersion")
+        let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName : "CDVersion")
         
         do {
             let r = try UIApplication.appDelegate.managedObjectContext.fetch(fetchReq)

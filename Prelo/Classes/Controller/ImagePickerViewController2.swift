@@ -39,10 +39,11 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
     }
     
-    override func dismiss() {
-        self.doneBlock!([])
-        super.dismiss()
-    }
+    // FIXME: - Swift 3
+//    override func dismiss() {
+//        self.doneBlock!([])
+//        super.dismiss()
+//    }
     
     override func confirm() {
         var r : [APImage] = []
@@ -149,7 +150,7 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
         // Dispose of any resources that can be recreated.
     }
     
-    static func ShowFrom(_ v : UIViewController, maxSelect : Int, doneBlock : ImagePickerBlock)
+    static func ShowFrom(_ v : UIViewController, maxSelect : Int, doneBlock : @escaping ImagePickerBlock)
     {
         let n = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdImagePicker) as! UINavigationController
         let i = n.viewControllers.first as! ImagePickerViewController2

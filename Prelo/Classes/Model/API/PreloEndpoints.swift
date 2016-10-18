@@ -890,11 +890,11 @@ enum APIProduct : URLRequestConvertible {
                 "sold_from" : "ios",
                 "sold_to" : soldTo
             ]
-        case .shareCommission(_, let i, let p, let f, let t) :
+        case .shareCommission(_, let i, let pth, let f, let t) :
             p = [
                 "instagram" : i,
                 "facebook" : f,
-                "path" : p,
+                "path" : pth,
                 "twitter" : t
             ]
         case .postReview(_, let comment, let star) :

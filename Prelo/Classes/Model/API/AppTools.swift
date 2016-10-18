@@ -346,7 +346,8 @@ extension GAI
             let tracker = GAI.sharedInstance().defaultTracker
             tracker?.set(kGAIScreenName, value: pageName)
             let builder = GAIDictionaryBuilder.createScreenView()
-            tracker?.send(builder?.build() as [AnyHashable: Any])
+            // FIXME: - Swift 3
+//            tracker?.send(builder?.build() as [AnyHashable: Any])
         }
     }
 }
@@ -491,7 +492,7 @@ extension NSManagedObjectContext
         return success
     }
     
-    public func tryExecuteFetchRequest(_ req : NSFetchRequest<AnyObject>) -> [NSManagedObject]? {
+    public func tryExecuteFetchRequest(_ req : NSFetchRequest<NSFetchRequestResult>) -> [NSManagedObject]? {
         var results : [NSManagedObject]?
         do {
             try results = self.fetch(req) as? [NSManagedObject]
@@ -524,29 +525,30 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
 
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
-        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
-            return nil
-        }
-        guard let type = CGImageSourceGetType(source) else {
-            return nil
-        }
-        let count = CGImageSourceGetCount(source)
+        // FIXME: - Swift 3
+//        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+//            return nil
+//        }
+//        guard let type = CGImageSourceGetType(source) else {
+//            return nil
+//        }
+//        let count = CGImageSourceGetCount(source)
         let mutableData = NSData(data: data) as Data
-        guard let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else {
-            return nil
-        }
-        // Check the keys for what you need to remove
-        // As per documentation, if you need a key removed, assign it kCFNull
-        let removeExifProperties: CFDictionary = [String(kCGImagePropertyExifDictionary) : kCFNull, String(kCGImagePropertyOrientation): kCFNull]
-        
-        for i in 0..<count {
-            CGImageDestinationAddImageFromSource(destination, source, i, removeExifProperties)
-        }
-        
-        guard CGImageDestinationFinalize(destination) else {
-            return nil
-        }
-        
+//        guard let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else {
+//            return nil
+//        }
+//        // Check the keys for what you need to remove
+//        // As per documentation, if you need a key removed, assign it kCFNull
+//        let removeExifProperties: CFDictionary = [String(kCGImagePropertyExifDictionary) : kCFNull, String(kCGImagePropertyOrientation): kCFNull]
+//        
+//        for i in 0..<count {
+//            CGImageDestinationAddImageFromSource(destination, source, i, removeExifProperties)
+//        }
+//        
+//        guard CGImageDestinationFinalize(destination) else {
+//            return nil
+//        }
+//        
         return mutableData;
     }
 }
