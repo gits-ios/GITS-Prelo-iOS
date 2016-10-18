@@ -766,6 +766,17 @@ enum APIProduct : URLRequestConvertible {
     case myProduct(current : Int, limit : Int, name : String)
     case push(productId : String)
     case markAsSold(productId : String, soldTo : String)
+    case getExpiringProducts
+    case setSoldExpiringProduct(productId : String)
+    case setUnsoldExpiringProduct(productId : String)
+    case finishExpiringProducts
+    case shareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
+    case delete(productID : String)
+    case postReview(productID : String, comment : String, star : Int)
+    case activate(productID : String)
+    case deactivate(productID : String)
+    case getAllFeaturedProducts(categoryId : String)
+    case getIdByPermalink(permalink : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -788,6 +799,17 @@ enum APIProduct : URLRequestConvertible {
         case .myProduct(_, _, _) : return .get
         case .push(_) : return .post
         case .markAsSold(_, _) : return .post
+        case .getExpiringProducts : return .get
+        case .setSoldExpiringProduct(_) : return .post
+        case .setUnsoldExpiringProduct(_) : return .post
+        case .finishExpiringProducts : return .post
+        case .shareCommission(_, _, _, _, _) : return .post
+        case .delete(_) : return .post
+        case .postReview(_, _, _) : return .post
+        case .activate(_) : return .post
+        case .deactivate(_) : return .post
+        case .getAllFeaturedProducts(_) : return .get
+        case .getIdByPermalink(_) : return .get
         }
     }
     
@@ -803,6 +825,17 @@ enum APIProduct : URLRequestConvertible {
         case .myProduct(_, _, _) : return ""
         case .push(let pId) : return "push/\(pId)"
         case .markAsSold(let pId, _) : return "sold/\(pId)"
+        case .getExpiringProducts : return "expiring"
+        case .setSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"
+        case .setUnsoldExpiringProduct(let productId) : return "expiring/\(productId)/undo_sold"
+        case .finishExpiringProducts : return "expiring/finish"
+        case .shareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
+        case .delete(let pId) : return pId + "/delete"
+        case .postReview(let pId, _, _) : return pId + "/review"
+        case .activate(let pId) : return pId + "/activate"
+        case .deactivate(let pId) : return pId + "/deactivate"
+        case .getAllFeaturedProducts(let cId) : return "editorspick/\(cId)"
+        case .getIdByPermalink(let permalink) : return "to_id/" + permalink
         }
     }
     
@@ -856,6 +889,18 @@ enum APIProduct : URLRequestConvertible {
             p = [
                 "sold_from" : "ios",
                 "sold_to" : soldTo
+            ]
+        case .shareCommission(_, let i, let p, let f, let t) :
+            p = [
+                "instagram" : i,
+                "facebook" : f,
+                "path" : p,
+                "twitter" : t
+            ]
+        case .postReview(_, let comment, let star) :
+            p = [
+                "comment" : comment,
+                "star" : star
             ]
         default : break
         }
@@ -1442,138 +1487,3 @@ enum APIWallet : URLRequestConvertible {
         return p
     }
 }
-
-/*
-
-
-enum Products : URLRequestConvertible
-{
-    static let basePath = "product/"
-    
-    case myProducts(current : Int, limit : Int)
-    case listByCategory(categoryId : String, location : String, sort : String, current : Int, limit : Int, priceMin : Int, priceMax : Int)
-    case detail(productId : String)
-    case add(name : String, desc : String, price : String, weight : String, category : String)
-    case love(productID : String)
-    case unlove(productID : String)
-    case getComment(productID : String)
-    case postComment(productID : String, message : String, mentions : String)
-    case shareCommission(pId : String, instagram : String, path : String, facebook : String, twitter : String)
-    case postReview(productID : String, comment : String, star : Int)
-    case activate(productID : String)
-    case deactivate(productID : String)
-    case delete(productID : String)
-    case getAllFeaturedProducts(categoryId : String)
-    case getIdByPermalink(permalink : String)
-    case getExpiringProducts
-    case setSoldExpiringProduct(productId : String)
-    case setUnsoldExpiringProduct(productId : String)
-    case finishExpiringProducts
-    
-    var method : Method
-    {
-        switch self
-        {
-        case .myProducts(_, _) : return .get
-        case .listByCategory(_, _, _, _, _, _, _): return .get
-        case .detail(_): return .get
-        case .add(_, _, _, _, _) : return .post
-        case .love(_):return .post
-        case .unlove(_):return .post
-        case .postComment(_, _, _) : return .post
-        case .getComment(_) :return .get
-        case .shareCommission(_, _, _, _, _) : return .post
-        case .postReview(_, _, _) : return .post
-        case .activate(_) : return .post
-        case .deactivate(_) : return .post
-        case .delete(_) : return .post
-        case .getAllFeaturedProducts(_) : return .get
-        case .getIdByPermalink(_) : return .get
-        case .getExpiringProducts : return .get
-        case .setSoldExpiringProduct(_) : return .post
-        case .setUnsoldExpiringProduct(_) : return .post
-        case .finishExpiringProducts : return .post
-        }
-    }
-    
-    var path : String
-    {
-        switch self
-        {
-        case .myProducts(_, _) : return ""
-        case .listByCategory(_, _, _, _, _, _, _): return ""
-        case .detail(let prodId): return prodId
-        case .add(_, _, _, _, _) : return ""
-        case .love(let prodId):return prodId + "/love"
-        case .unlove(let prodId):return prodId + "/unlove"
-        case .postComment(let pId, _, _):return pId + "/comments"
-        case .getComment(let pId) :return pId + "/comments"
-        case .shareCommission(let pId, _, _, _, _) : return pId + "/shares_commission"
-        case .postReview(let pId, _, _) : return pId + "/review"
-        case .activate(let pId) : return pId + "/activate"
-        case .deactivate(let pId) : return pId + "/deactivate"
-        case .delete(let pId) : return pId + "/delete"
-        case .getAllFeaturedProducts(let cId) : return "editorspick/\(cId)"
-        case .getIdByPermalink(let permalink) : return "to_id/" + permalink
-        case .getExpiringProducts : return "expiring"
-        case .setSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"
-        case .setUnsoldExpiringProduct(let productId) : return "expiring/\(productId)/undo_sold"
-        case .finishExpiringProducts : return "expiring/finish"
-        }
-    }
-    
-    var param : [String: AnyObject]?
-    {
-        switch self
-        {
-        case .myProducts(let current, let limit) :
-            let p = [
-                "current" : current,
-                "limit" : limit
-            ]
-            return p as [String : AnyObject]?
-        case .listByCategory(let catId, let location, let sort, let current, let limit, let priceMin, let priceMax):
-            return [
-                "category":catId,
-                "location":location,
-                "sort":sort,
-                "current":current,
-                "limit":limit,
-                "price_min":priceMin,
-                "price_max":priceMax,
-                "prelo":"true"
-            ]
-        case .detail(_): return ["prelo":"true"]
-        case .add(let name, let desc, let price, let weight, let category):
-            return [
-                "name":name,
-                "category":category,
-                "price":price,
-                "weight":weight,
-                "description":desc
-            ]
-        case .love(let pId):return ["product_id":pId]
-        case .unlove(let pId):return ["product_id":pId]
-        case .postComment(let pId, let m, let mentions):return ["product_id":pId, "comment":m, "mentions":mentions]
-        case .getComment(_) : return [:]
-        case .shareCommission(_, let i, let p, let f, let t) : return ["instagram":i, "facebook":f, "path":p, "twitter":t]
-        case .postReview(_, let comment, let star) :
-            return [
-                "comment" : comment,
-                "star" : star
-            ]
-        default : return [:]
-        }
-    }
-    
-    var URLRequest : NSMutableURLRequest
-    {
-        let baseURL = URL(string: prelloHost)?.appendingPathComponent(Products.basePath).appendingPathComponent(path)
-        let req = NSMutableURLRequest.defaultURLRequest(baseURL!)
-        req.httpMethod = method.rawValue
-        
-        let r = ParameterEncoding.url.encode(req, parameters: PreloEndpoints.ProcessParam(param!)).0
-        return r
-    }
-}
-*/

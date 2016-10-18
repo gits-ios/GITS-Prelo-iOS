@@ -559,7 +559,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
     var detail : ProductDetail?
     @IBAction func hubungiBuyerPressed(_ sender: AnyObject) {
         // Get product detail from API
-        let _ = request(Products.detail(productId: (transactionDetail?.productId)!)).responseJSON {resp in
+        let _ = request(APIProduct.detail(productId: (transactionDetail?.productId)!, forEdit: 0)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                 let json = JSON(resp.result.value!)
                 //let pDetail = ProductDetail.instance(json)

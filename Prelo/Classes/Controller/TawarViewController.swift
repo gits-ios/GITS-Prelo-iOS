@@ -778,7 +778,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     @IBAction func gotoProduct(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.itemId != "") {
-            let _ = request(Products.detail(productId: tawarItem.itemId)).responseJSON { resp in
+            let _ = request(APIProduct.detail(productId: tawarItem.itemId, forEdit: 0)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]

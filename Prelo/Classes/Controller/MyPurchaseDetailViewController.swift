@@ -437,7 +437,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         }
         
         self.sendMode(true)
-        let _ = request(Products.postReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
+        let _ = request(APIProduct.postReview(productID: self.transactionDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
                 let json = JSON(resp.result.value!)
                 let dataBool : Bool = json["_data"].boolValue

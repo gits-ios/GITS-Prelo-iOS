@@ -43,7 +43,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
         self.title = PageName.BarangExpired
         
         // Get data
-        let _ = request(Products.getExpiringProducts).responseJSON { resp in
+        let _ = request(APIProduct.getExpiringProducts).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let data = json["_data"].array , data.count > 0 {
@@ -89,9 +89,9 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
                 self.showLoading()
                 let req : URLRequestConvertible!
                 if (self.expiringProducts[(indexPath as NSIndexPath).row].isSold) {
-                    req = Products.setUnsoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
+                    req = APIProduct.setUnsoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 } else {
-                    req = Products.setSoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
+                    req = APIProduct.setSoldExpiringProduct(productId: self.expiringProducts[(indexPath as NSIndexPath).row].id)
                 }
                 let _ = request(req).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Sold/Unsold")) {
@@ -118,7 +118,7 @@ class ExpiringProductsViewController: BaseViewController, UITableViewDelegate, U
     // MARK: - Actions
     @IBAction func simpanPressed(_ sender: AnyObject) {
         self.showLoading()
-        let _ = request(Products.finishExpiringProducts).responseJSON { resp in
+        let _ = request(APIProduct.finishExpiringProducts).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Finish Expiring Products")) {
                 let json = JSON(resp.result.value!)
                 if let isSuccess = json["_data"].bool , isSuccess {

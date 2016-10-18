@@ -443,7 +443,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splittedPath = path.characters.split{$0 == "/"}.map(String.init)
             if (splittedPath.count > 1) {
                 let permalink = splittedPath[1].replacingOccurrences(of: ".html", with: "")
-                let _ = request(Products.getIdByPermalink(permalink: permalink)).responseJSON { resp in
+                let _ = request(APIProduct.getIdByPermalink(permalink: permalink)).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Produk")) {
                         let json = JSON(resp.result.value!)
                         let pId = json["_data"].stringValue
@@ -580,7 +580,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectProduct(_ productId : String) {
-        let _ = request(Products.detail(productId: productId)).responseJSON {resp in
+        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -622,7 +622,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectComment(_ productId : String) {
-        let _ = request(Products.detail(productId: productId)).responseJSON {resp in
+        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
             if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product Comment")) {
                 let json = JSON(resp.result.value!)
                 let pDetail = ProductDetail.instance(json)

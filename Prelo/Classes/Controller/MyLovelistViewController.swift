@@ -209,7 +209,7 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         
         // Load detail product
         let selectedLoved : LovedProduct = (userLovelist?[(indexPath as NSIndexPath).item])! as LovedProduct
-        let _ = request(Products.detail(productId: selectedLoved.id)).responseJSON {resp in
+        let _ = request(APIProduct.detail(productId: selectedLoved.id, forEdit: 0)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
@@ -286,7 +286,7 @@ class MyLovelistCell : UITableViewCell {
         self.delegate?.showLoading()
         
         // Send unlove API
-        let _ = request(Products.unlove(productID: productId)).responseJSON {resp in
+        let _ = request(APIProduct.unlove(productID: productId)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove")) {
                 let json = JSON(resp.result.value!)
                 let isLove : Bool = json["_data"]["love"].bool!

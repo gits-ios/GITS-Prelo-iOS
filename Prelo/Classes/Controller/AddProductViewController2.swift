@@ -1249,7 +1249,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             btnDelete.setTitle("Menghapus barang...", for: UIControlState.disabled)
             btnDelete.isEnabled = false
             
-            let _ = request(Products.delete(productID: prodId)).responseJSON {resp in
+            let _ = request(APIProduct.delete(productID: prodId)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
                 {
                     if var v = self.navigationController?.viewControllers

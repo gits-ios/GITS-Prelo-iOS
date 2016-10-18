@@ -288,7 +288,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
             }
         } else if (notif.type == 3000) { // Komentar
             // Get product detail
-            let _ = request(Products.detail(productId: notif.objectId)).responseJSON {resp in
+            let _ = request(APIProduct.detail(productId: notif.objectId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Percakapan")) {
                     let json = JSON(resp.result.value!)
                     let pDetail = ProductDetail.instance(json)

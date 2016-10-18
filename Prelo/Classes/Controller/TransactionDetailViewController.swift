@@ -1126,7 +1126,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.toProductDetail = { productId in
             self.showLoading()
-            let _ = request(Products.detail(productId: productId)).responseJSON { resp in
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
@@ -1322,7 +1322,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 buyerId = self.trxProductDetail!.buyerId
             }
             // Get product detail from API
-            let _ = request(Products.detail(productId: productId)).responseJSON {resp in
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1375,7 +1375,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (self.trxProductDetail != nil) {
                 productId = self.trxProductDetail!.productId
             }
-            let _ = request(Products.detail(productId: productId)).responseJSON {resp in
+            let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
@@ -1614,7 +1614,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         self.sendMode(true)
         if (self.trxProductDetail != nil) {
-            let _ = request(Products.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+            let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
                     let json = JSON(resp.result.value!)
                     let dataBool : Bool = json["_data"].boolValue

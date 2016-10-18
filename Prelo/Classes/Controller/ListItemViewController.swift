@@ -522,7 +522,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         
         requesting = true
         
-        let _ = request(Products.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        let _ = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Featured Products")) {
                 self.products = []

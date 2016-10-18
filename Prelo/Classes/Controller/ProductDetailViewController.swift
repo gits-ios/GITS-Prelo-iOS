@@ -438,7 +438,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     // MARK: - Facebook
     
     func postShareCommissionFacebook() {
-        let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
+        let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "1", twitter: "0")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Facebook")) {
                 self.cellTitle?.sharedViaFacebook()
                 self.detail?.setSharedViaFacebook()
@@ -452,7 +452,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // MARK: - Twitter
     func postShareCommissionTwitter() {
-        let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
+        let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "0", path: "0", facebook: "0", twitter: "1")).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Twitter")) {
                 self.cellTitle?.sharedViaTwitter()
                 self.detail?.setSharedViaTwitter()
@@ -504,7 +504,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                             let imgData = try? Data(contentsOf: imgUrl as URL)
                             let img = UIImage(data: imgData!)
                             self.mgInstagram?.post(img, withCaption: textToShare, in: self.view, delegate: self)
-                            let _ = request(Products.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
+                            let _ = request(APIProduct.shareCommission(pId: (self.detail?.productID)!, instagram: "1", path: "0", facebook: "0", twitter: "0")).responseJSON { resp in
                                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Instagram")) {
                                     self.cellTitle?.sharedViaInstagram()
                                     self.detail?.setSharedViaInstagram()

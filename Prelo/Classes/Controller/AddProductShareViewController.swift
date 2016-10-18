@@ -495,7 +495,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
 //            }
 //        }
 //        
-//        let _ = request(Products.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
+//        let _ = request(APIProduct.ShareCommission(pId: productID, instagram: i, path: p, facebook: f, twitter: t)).responseJSON {resp in
 //            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Share Commission")) {
 //                NSNotificationCenter.defaultCenter().postNotificationName("refreshHome", object: nil)
 //                let b = self.storyboard?.instantiateViewControllerWithIdentifier(Tags.StoryBoardIdMyProducts)
