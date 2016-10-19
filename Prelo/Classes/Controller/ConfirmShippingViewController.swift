@@ -32,7 +32,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     // Data container
     var trxProductDetails : [TransactionProductDetail]!
-    var isSelected : [Bool]!
+    var isCellSelected : [Bool]!
     var isFirstAppearance : Bool = true
     var isPictSelected : Bool = false
     
@@ -75,9 +75,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             trxProductDetails = trxDetail.transactionProducts
             if (trxProductDetails.count > 0) {
                 // For default, all transaction product is set as selected
-                isSelected = []
+                isCellSelected = []
                 for _ in 0 ..< trxProductDetails.count {
-                    isSelected.append(true)
+                    isCellSelected.append(true)
                 }
                 setupTable()
             }
@@ -108,8 +108,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (isSelected.count >= (indexPath as NSIndexPath).row + 1) {
-            if (isSelected[(indexPath as NSIndexPath).row] == true) {
+        if (isCellSelected.count >= (indexPath as NSIndexPath).row + 1) {
+            if (isCellSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
                 return 178
@@ -122,9 +122,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
             cell.selectionStyle = .none
-            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isSelected: self.isSelected[(indexPath as NSIndexPath).row])
+            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row])
             cell.refreshTable = {
-                self.isSelected[(indexPath as NSIndexPath).row] = !self.isSelected[(indexPath as NSIndexPath).row]
+                self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
                 self.setupTable()
             }
             return cell
@@ -207,7 +207,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let rejectedTp : NSMutableArray = []
             for i in 0 ..< trxProductDetails.count {
                 let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
-                if (cell.isSelected == true) {
+                if (cell.isCellSelected == true) {
                     sentTp.append(trxProductDetails[i].id)
                 } else {
                     let rTp = [
@@ -305,8 +305,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     func validateFields() -> Bool {
         var isAllRejected = true
-        for i in 0 ..< isSelected.count {
-            if (!isSelected[i]) {
+        for i in 0 ..< isCellSelected.count {
+            if (!isCellSelected[i]) {
                 let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
                 if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
@@ -345,7 +345,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         tableView.reloadData()
         var height : CGFloat = 0
-        for i in 0 ..< isSelected.count {
+        for i in 0 ..< isCellSelected.count {
             height += self.tableView(tableView, heightForRowAt: IndexPath(row: i, section: 0))
         }
         consHeightTableView.constant = height
@@ -386,15 +386,15 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     @IBOutlet weak var consHeightTxtvw: NSLayoutConstraint!
     let TxtvwPlaceholder = "Tulis alasan kamu menolak pesanan."
     
-    var isSelected : Bool!
+    var isCellSelected : Bool!
     
     var refreshTable : RefreshTable = {}
     
-    func adapt(_ trxProductDetail: TransactionProductDetail, isSelected : Bool) {
+    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool) {
         super.adapt(trxProductDetail)
         
         // Set checkbox
-        self.isSelected = isSelected
+        self.isCellSelected = isCellSelected
         self.setupCheckbox()
         
         // Configure textview
@@ -406,13 +406,13 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     }
     
     @IBAction func cellTapped(_ sender: AnyObject) {
-        isSelected = !isSelected
+        isCellSelected = !isCellSelected
         self.setupCheckbox()
         self.refreshTable()
     }
     
     func setupCheckbox() {
-        if (isSelected == true) {
+        if (isCellSelected == true) {
             lblCheckbox.text = "";
             lblCheckbox.font = AppFont.prelo2.getFont(19)!
             lblCheckbox.textColor = Theme.PrimaryColor

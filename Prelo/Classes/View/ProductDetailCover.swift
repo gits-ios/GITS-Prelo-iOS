@@ -222,7 +222,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         
         label = UILabel(frame: CGRect.zero)
         label?.backgroundColor = Theme.PrimaryColorDark
-        label?.textColor = .white()
+        label?.textColor = UIColor.white
         label?.font = UIFont.systemFont(ofSize: 14)
         label?.textAlignment = .center
         

@@ -17,7 +17,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     var categories : [CDCategory] = []
     var selectedIds : [String] = []
     
-    var parent : BaseViewController?
+    var parentVC : BaseViewController?
     
     var isUseCategoriesOffline = false
     var categoriesOffline : [[String : String]] = []
@@ -93,7 +93,7 @@ class CategoryPreferencesViewController : BaseViewController, UICollectionViewDe
     @IBAction func skipPressed(_ sender: AnyObject) {
         // To login
         self.dismiss(animated: true, completion: nil)
-        LoginViewController.Show(self.parent!, userRelatedDelegate: self.parent as! KumangTabBarViewController, animated: true, isFromTourVC: true)
+        LoginViewController.Show(self.parentVC!, userRelatedDelegate: self.parentVC as! KumangTabBarViewController, animated: true, isFromTourVC: true)
     }
     
     // MARK: - UICollectionViewDataSource Functions
