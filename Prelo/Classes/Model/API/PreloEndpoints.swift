@@ -49,7 +49,8 @@ class PreloEndpoints: NSObject {
                         print("\(reqAlias) _message = \(msg)")
                         
                         if (msg.lowercased() == "user belum login") {
-                            User.Logout()
+                            // FIXME: Swift 3
+//                            User.Logout()
                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
                             if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
                                 let rootVC = childVCs[0]
@@ -58,6 +59,7 @@ class PreloEndpoints: NSObject {
                                 let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
                                 if (uiNavigationController != nil && kumangTabBarVC != nil) {
                                     uiNavigationController!.popToRootViewController(animated: true)
+                                    // FIXME: Swift 3
 //                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
                                 }
                             }
@@ -101,10 +103,11 @@ extension URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
-        if let token = User.Token {
-            urlRequest.setValue("Token ", forHTTPHeaderField: "Authorization")
-            print("User token = \(token)")
-        }
+        // FIXME: Swift 3
+//        if let token = User.Token {
+//            urlRequest.setValue("Token ", forHTTPHeaderField: "Authorization")
+//            print("User token = \(token)")
+//        }
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {

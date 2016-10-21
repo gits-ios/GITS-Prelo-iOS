@@ -116,14 +116,14 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         btnAdd?.layer.masksToBounds = true
         
         // Init controllers
-//        let lc : ListCategoryViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdBrowse) as! ListCategoryViewController
-//        lc.previousController = self
-//        controllerBrowse = lc
-//        controllerDashboard = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
-//        controllerDashboard?.previousController = self
-//        controllerDashboard2 = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
-//        controllerDashboard2?.previousController = self
-//        changeToController(controllerBrowse!)
+        let lc : ListCategoryViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdBrowse) as! ListCategoryViewController
+        lc.previousController = self
+        controllerBrowse = lc
+        controllerDashboard = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard?.previousController = self
+        controllerDashboard2 = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdDashboard) as? BaseViewController
+        controllerDashboard2?.previousController = self
+        changeToController(controllerBrowse!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,8 +146,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
         // Show tour pop up, refresh home, and/or show pop up
-        // MARK: Swift 3
+        // FIXME: Swift 3
 //        if (!UserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
 //            self.performSegue(withIdentifier: "segTour", sender: self)
 //            UserDefaults.setTourDone(true)

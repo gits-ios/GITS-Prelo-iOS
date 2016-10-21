@@ -12,7 +12,7 @@ import Alamofire
 
 // MARK: - Class
 
-class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, CarbonTabSwipeDelegate, UIScrollViewDelegate {
+class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // FIXME: Swift 3, CarbonTabSwipeDelegate {
 
     // MARK: - Properties
     
@@ -54,7 +54,7 @@ class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, Carbon
     var imgCoachmarkSpread : UIImageView?
     
     // MARK: - Init
-    /*
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -145,8 +145,7 @@ class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, Carbon
         }
     }
     
-    func getCategory()
-    {
+    func getCategory() {
         let _ = request(APIReference.homeCategories)
             .responseString { resp in
                 let string = resp.result.value
@@ -172,26 +171,26 @@ class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, Carbon
                     }
                 }
         }
+        
         // FOR TESTING: DISABLE HOME LOAD
-        /*if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-         kumangTabBarVC.isAlreadyGetCategory = true
-         if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
-         kumangTabBarVC.hideLoading()
-         }
-         }*/
+        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+            kumangTabBarVC.isAlreadyGetCategory = true
+            if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                kumangTabBarVC.hideLoading()
+            }
+        }
     }
     
     
-    func setupCategory()
-    {
+    func setupCategory() {
         let data = UserDefaults.standard.object(forKey: "pre_categories") as? Data
         categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
         // addChilds(categoriesFix.count) FIXME: Swift 3
     }
-    
-    /*func addChilds(_ count : Int)
+    /*
+    func addChilds(_ count : Int)
     {
         var d = ["scroll":scroll_View, "master":self.view]
         if contentView == nil
@@ -508,7 +507,7 @@ class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, Carbon
             scrollCategoryName.setContentOffset(finalP, animated: true)
         }
     }
-    /*
+    
     // MARK: - Gesture recognizer
     
     func pinchedIn(_ p : UIPinchGestureRecognizer)

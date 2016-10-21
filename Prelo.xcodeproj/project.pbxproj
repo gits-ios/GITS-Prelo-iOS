@@ -37,7 +37,6 @@
 		21156ECE1B8F5DBC001D7842 /* ic_socmed_instagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC41B8F5DBC001D7842 /* ic_socmed_instagram.png */; };
 		21156ECF1B8F5DBC001D7842 /* ic_socmed_path.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC51B8F5DBC001D7842 /* ic_socmed_path.png */; };
 		21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 21156EC61B8F5DBC001D7842 /* ic_socmed_twitter.png */; };
-		2115E6CE1B4A27E500509D2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6CD1B4A27E500509D2A /* AppDelegate.swift */; };
 		2115E6D11B4A27E500509D2A /* Prelo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6CF1B4A27E500509D2A /* Prelo.xcdatamodeld */; };
 		2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D41B4A27E500509D2A /* Main.storyboard */; };
 		2115E6D81B4A27E500509D2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2115E6D71B4A27E500509D2A /* Images.xcassets */; };
@@ -399,6 +398,10 @@
 		58BED8E61DA62CB20063E11E /* ic_cart_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BED8E41DA62CB20063E11E /* ic_cart_white.png */; };
 		58BED8E71DA62CB20063E11E /* ic_chat_tawar_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BED8E51DA62CB20063E11E /* ic_chat_tawar_white.png */; };
 		58C23B601C9DC86300E4C929 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C23B5F1C9DC86300E4C929 /* ic_share.png */; };
+		58C27CAB1DB9C94B008201FA /* ListCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C68F5D1B746E8B00D1125E /* ListCategoryViewController.swift */; };
+		58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */; };
+		58C27CAD1DB9CA9A008201FA /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312571B67638F00A4DA3B /* Constant.swift */; };
+		58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6CD1B4A27E500509D2A /* AppDelegate.swift */; };
 		58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 58C431B11CF8138300EB99AE /* InitialMetadata.json */; };
 		58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */; };
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
@@ -2971,6 +2974,7 @@
 				21B467F31CCE5EDB00E145ED /* NSNumber+BFKit.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
+				58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */,
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
 				FDF7281D1BF1CA9A00C0D843 /* Regex.swift in Sources */,
 				58A99A411C6D864E00E3E7D7 /* BranchLoadActionsRequest.m in Sources */,
@@ -2988,6 +2992,7 @@
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,
+				58C27CAB1DB9C94B008201FA /* ListCategoryViewController.swift in Sources */,
 				21B467FD1CCE5EDB00E145ED /* UIFont+BFKit.swift in Sources */,
 				21B467F81CCE5EDB00E145ED /* String+BFKit.swift in Sources */,
 				21B467E41CCE5EDB00E145ED /* BFLog.swift in Sources */,
@@ -2998,6 +3003,7 @@
 				58A99A471C6D864E00E3E7D7 /* BranchSetIdentityRequest.m in Sources */,
 				21C68F5A1B74665900D1125E /* SZTextView.m in Sources */,
 				216345051CC3A855005CBA37 /* MKRefreshControl.swift in Sources */,
+				58C27CAD1DB9CA9A008201FA /* Constant.swift in Sources */,
 				21679A261B901C5300F18F90 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				58DD28EE1DAF36D000130B6F /* ProcessInfo+BFKit.swift in Sources */,
 				21D387611B6B967A00D0FA90 /* CarbonTabSwipeNavigation.m in Sources */,
@@ -3109,6 +3115,7 @@
 				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */,
+				58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */,
 				58A99A3C1C6D864E00E3E7D7 /* BranchApplyPromoCodeRequest.m in Sources */,
 				58DD29211DAF3F6200130B6F /* WebSocket.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
@@ -3119,7 +3126,6 @@
 				216344FE1CC3A855005CBA37 /* MKColor.swift in Sources */,
 				21C68F591B74665900D1125E /* ACEExpandableTextCell.m in Sources */,
 				58A99A3E1C6D864E00E3E7D7 /* BranchCreditHistoryRequest.m in Sources */,
-				2115E6CE1B4A27E500509D2A /* AppDelegate.swift in Sources */,
 				217A18231BB41C26008D1AD8 /* StatusBarContainerViewController.swift in Sources */,
 				21679A381B901C5300F18F90 /* MPObjectSelector.m in Sources */,
 				21679A1D1B901C5300F18F90 /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
