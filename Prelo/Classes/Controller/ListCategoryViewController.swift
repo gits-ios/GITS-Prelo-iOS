@@ -10,21 +10,40 @@ import UIKit
 import Crashlytics
 import Alamofire
 
-class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UIScrollViewDelegate
-{
+// MARK: - Class
 
-    var tabSwipe : CarbonTabSwipeNavigation?
-    var first = NO
-    var categories : JSON?
-    var dummyGrid : DummyGridViewController!
-    var pinchIn : UIPinchGestureRecognizer!
+class ListCategoryViewController: BaseViewController { // FIXME: Swift 3, CarbonTabSwipeDelegate, UIScrollViewDelegate {
+
+    // MARK: - Properties
     
     @IBOutlet var scrollCategoryName: UIScrollView!
     @IBOutlet var scroll_View : UIScrollView!
     
+    var tabSwipe : CarbonTabSwipeNavigation?
+    var first = false
+    var categories : JSON?
+    var dummyGrid : DummyGridViewController!
+    var pinchIn : UIPinchGestureRecognizer!
     var categoriesFix : [JSON] = []
-    
     var currentCategoryId : String = ""
+    
+    var firstPinch : CGFloat = 0
+    
+    var contentView : UIView?
+    var listItemViews : [UIView] = []
+    
+    var contentCategoryNames : UIView?
+    var categoryIndicator : UIView?
+    var indicatorWidth : NSLayoutConstraint?
+    var indicatorMargin : NSLayoutConstraint?
+    var categoryNames : [UIView] = []
+    
+    var currentTabIndex = 0
+    
+    var lastContentOffset = CGPoint()
+    var isPageTracked = false
+    
+    var refreshed = false
     
     // Home promo
     var vwHomePromo : UIView?
@@ -34,12 +53,14 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
     var imgCoachmarkPinch : UIImageView?
     var imgCoachmarkSpread : UIImageView?
     
-    override func viewDidLoad()
-    {
+    // MARK: - Init
+    /*
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        pinchIn = UIPinchGestureRecognizer(target: self, action: #selector(ListCategoryViewController.pinchedIn(_:)))
-        self.view.addGestureRecognizer(pinchIn)
+        // MARK: Swift 3
+//        pinchIn = UIPinchGestureRecognizer(target: self, action: #selector(ListCategoryViewController.pinchedIn(_:)))
+//        self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
         //Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
@@ -50,49 +71,27 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         
         scroll_View.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(ListCategoryViewController.grandRefresh), name: NSNotification.Name(rawValue: "refreshHome"), object: nil)
-//        setupScroll()
-        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refresh", name: "refreshcategory", object: nil)
-//        
-//        setupNormalOptions()
-//        setupTitle()
-//        let cache: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("pre_categories")
-//        if (cache != nil) {
-//            setupCategory()
-//        } else {
-//            
+        // Redirect if any
+        // FIXME: Swift 3
+//        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
+//        if (redirectFromHome != nil) {
+//            if (redirectFromHome == PageName.MyOrders) {
+//                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
+//                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+//            } else if (redirectFromHome == PageName.UnpaidTransaction) {
+//                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
+//                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+//            }
+//            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
 //        }
-//        getCategory()
     }
     
-    var firstPinch : CGFloat = 0
-    func pinchedIn(_ p : UIPinchGestureRecognizer)
-    {
-        if (p.state == UIGestureRecognizerState.began)
-        {
-            firstPinch = p.scale
-            print("Start Scale : " + String(stringInterpolationSegment: p.scale))
-        } else if (p.state == UIGestureRecognizerState.ended)
-        {
-            print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
-            
-            if (abs(firstPinch - p.scale) > 0.3)
-            {
-                // firstPinch < p.scale == pinched out / zoom in
-                for v in self.childViewControllers
-                {
-                    if let i = v as? ListItemViewController
-                    {
-                        i.pinch(firstPinch < p.scale)
-                    }
-                }
-            }
-        }
-    }
-    
-    func grandRefresh()
-    {
+    func grandRefresh() {
         listItemViews.removeAll(keepingCapacity: false)
         
         if (childViewControllers.count > 0) {
@@ -121,13 +120,78 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             }
         }
         
-//        getCategory()
         getFullcategory()
     }
     
-    var contentView : UIView?
-    var listItemViews : [UIView] = []
-    func addChilds(_ count : Int)
+    func refresh() {
+        if (refreshed == false) {
+            self.view.isHidden = true
+            Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(ListCategoryViewController.endRefresh), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func endRefresh() {
+        self.view.isHidden = false
+        refreshed = true
+    }
+    
+    func getFullcategory() {
+        let _ = request(APIReference.categoryList).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category List")) {
+                UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
+                UserDefaults.standard.synchronize()
+                self.getCategory()
+            }
+        }
+    }
+    
+    func getCategory()
+    {
+        let _ = request(APIReference.homeCategories)
+            .responseString { resp in
+                let string = resp.result.value
+                if (string != nil)
+                {
+                    print(string)
+                } else
+                {
+                    print(resp.result.error)
+                }
+            }
+            .responseJSON {resp in
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category Home")) {
+                    UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
+                    UserDefaults.standard.synchronize()
+                    self.setupCategory()
+                    
+                    if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+                        kumangTabBarVC.isAlreadyGetCategory = true
+                        if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+                            kumangTabBarVC.hideLoading()
+                        }
+                    }
+                }
+        }
+        // FOR TESTING: DISABLE HOME LOAD
+        /*if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+         kumangTabBarVC.isAlreadyGetCategory = true
+         if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
+         kumangTabBarVC.hideLoading()
+         }
+         }*/
+    }
+    
+    
+    func setupCategory()
+    {
+        let data = UserDefaults.standard.object(forKey: "pre_categories") as? Data
+        categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
+        
+        categoriesFix = categories!["_data"].arrayValue
+        // addChilds(categoriesFix.count) FIXME: Swift 3
+    }
+    
+    /*func addChilds(_ count : Int)
     {
         var d = ["scroll":scroll_View, "master":self.view]
         if contentView == nil
@@ -201,11 +265,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         listItemViews.append(v!)
     }
     
-    var contentCategoryNames : UIView?
-    var categoryIndicator : UIView?
-    var indicatorWidth : NSLayoutConstraint?
-    var indicatorMargin : NSLayoutConstraint?
-    var categoryNames : [UIView] = []
     func addCategoryNames(_ count : Int)
     {
         var d = ["scroll":scrollCategoryName, "master":self.view]
@@ -365,7 +424,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
     }
     
-    var currentTabIndex = 0
     func setCurrentTab(_ index : Int)
     {
         currentTabIndex = index
@@ -450,9 +508,48 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             scrollCategoryName.setContentOffset(finalP, animated: true)
         }
     }
+    /*
+    // MARK: - Gesture recognizer
     
-    var lastContentOffset = CGPoint()
-    var isPageTracked = false
+    func pinchedIn(_ p : UIPinchGestureRecognizer)
+    {
+        if (p.state == UIGestureRecognizerState.began)
+        {
+            firstPinch = p.scale
+            print("Start Scale : " + String(stringInterpolationSegment: p.scale))
+        } else if (p.state == UIGestureRecognizerState.ended)
+        {
+            print("End Scale : " + String(stringInterpolationSegment: p.scale) + " -> " + String(stringInterpolationSegment: firstPinch))
+            
+            if (abs(firstPinch - p.scale) > 0.3)
+            {
+                // firstPinch < p.scale == pinched out / zoom in
+                for v in self.childViewControllers
+                {
+                    if let i = v as? ListItemViewController
+                    {
+                        i.pinch(firstPinch < p.scale)
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - Carbon tab swipe navigation
+
+    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController!
+    {
+        let v:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        v.previousController = self.previousController
+        let i = Int(index)
+        
+        v.categoryJson = categoriesFix[i]
+        
+        return v
+    }
+    
+    // MARK: - Scrollview functions
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var i = 0
         let width = scrollView.bounds.width
@@ -498,229 +595,6 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
         }
         
         lastContentOffset = scrollView.contentOffset
-    }
-    
-    override func viewDidAppear(_ animated: Bool)
-    {
-        super.viewDidAppear(animated)
-//        setCurrentTab((categoryNames.count > 1) ? 1 : 0)
-        
-        // Redirect if any
-        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
-        if (redirectFromHome != nil) {
-            if (redirectFromHome == PageName.MyOrders) {
-                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
-                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
-            } else if (redirectFromHome == PageName.UnpaidTransaction) {
-                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
-                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
-            }
-            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
-        }
-    }
-    
-    func getFullcategory()
-    {
-        let _ = request(APIReference.categoryList).responseJSON {resp in
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category List")) {
-                UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
-                UserDefaults.standard.synchronize()
-                self.getCategory()
-            }
-        }
-    }
-    
-    func getCategory()
-    {
-        let _ = request(APIReference.homeCategories)
-            .responseString { resp in
-                let string = resp.result.value
-                if (string != nil)
-                {
-                    print(string)
-                } else
-                {
-                    print(resp.result.error)
-                }
-            }
-            .responseJSON {resp in
-                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Category Home")) {
-                    UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: resp.result.value!), forKey: "pre_categories")
-                    UserDefaults.standard.synchronize()
-                    self.setupCategory()
-                    
-                    if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-                        kumangTabBarVC.isAlreadyGetCategory = true
-                        if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
-                            kumangTabBarVC.hideLoading()
-                        }
-                    }
-                }
-        }
-        // FOR TESTING: DISABLE HOME LOAD
-        /*if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
-            kumangTabBarVC.isAlreadyGetCategory = true
-            if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
-                kumangTabBarVC.hideLoading()
-            }
-        }*/
-    }
-    
-    func getIndexInArrayJSON(_ arr : [JSON], withId id : String) -> Int? {
-        for i in 0...arr.count - 1 {
-            if (arr[i]["_id"].string == id) {
-                return i
-            }
-        }
-        return nil
-    }
-    
-    func getAllCategoryIndexInArrayJSON(_ arr : [JSON]) -> Int? {
-        for i in 0...arr.count - 1 {
-            if (arr[i]["name"].stringValue.lowercased() == "all") {
-                return i
-            }
-        }
-        return nil
-    }
-    
-    func setupCategory()
-    {
-        let data = UserDefaults.standard.object(forKey: "pre_categories") as? Data
-        categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
-        
-        categoriesFix = categories!["_data"].arrayValue
-        /* CATEGPREF DISABLED
-        if (!User.IsLoggedIn) {
-            if let idxAllCateg = getAllCategoryIndexInArrayJSON(categoriesFix) {
-                if let idxC1 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref1()) {
-                    categoriesFix.insert(categoriesFix.removeAtIndex(idxC1), atIndex: idxAllCateg + 1)
-                    if let idxC2 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref2()) {
-                        categoriesFix.insert(categoriesFix.removeAtIndex(idxC2), atIndex: idxAllCateg + 2)
-                        if let idxC3 = getIndexInArrayJSON(categoriesFix, withId: NSUserDefaults.categoryPref3()) {
-                            categoriesFix.insert(categoriesFix.removeAtIndex(idxC3), atIndex: idxAllCateg + 3)
-                        }
-                    }
-                }
-            }
-        }
-        */
-        addChilds(categoriesFix.count)
-        
-        // FIXME: kondisi kalo user ga login, harusnya categorypref ditaro depan
-//        if (User.IsLoggedIn) {
-//            categoriesFix = categories!["_data"].arrayValue
-//            addChilds(categoriesFix.count)
-//        } else {
-//            let categoriesData = categories!["_data"].arrayValue
-//            
-//        }
-        
-        /* TO BE DELETED, salah penggunaan endpoint
-        if let arr = categories!["_data"][0]["children"].arrayObject // punya children
-        {
-            
-        } else { // gak punya, gak dipake
-            return
-        }
-        
-        // Kumpulkan category sambil mengurutkan
-        let level1 = categories!["_data"][0]["children"]
-        
-        categoriesFix = []
-        var categoriesDummy : [JSON] = []
-        var idxCateg1 : Int?
-        var idxCateg2 : Int?
-        var idxCateg3 : Int?
-        for (index : String, child : JSON) in level1 {
-            let categName = child["name"].string
-            let categId = child["_id"].string
-            if (categName != nil && categId != nil) {
-                categoriesDummy.append(child)
-                if (categId == NSUserDefaults.categoryPref1()) {
-                    idxCateg1 = index.toInt()
-                } else if (categId == NSUserDefaults.categoryPref2()) {
-                    idxCateg2 = index.toInt()
-                } else if (categId == NSUserDefaults.categoryPref3()) {
-                    idxCateg3 = index.toInt()
-                }
-            }
-        }
-        // Di sini categoriesDummy berisi array json of child categories
-        // Sudah didapatkan ketiga index yang akan ditaruh ke depan
-        if (idxCateg1 != nil) {
-            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg1!))
-        }
-        if (idxCateg2 != nil) {
-            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg2!))
-        }
-        if (idxCateg3 != nil) {
-            categoriesFix.append(categoriesDummy.objectAtCircleIndex(idxCateg3!))
-        }
-        for (var i = 0; i < categoriesDummy.count; i++) {
-            if (i == idxCateg1 || i == idxCateg2 || i == idxCateg3) {
-                // Skip
-            } else {
-                categoriesFix.append(categoriesDummy[i])
-            }
-        }
-        // Di sini 3 kategori terpilih sudah ada di bagian depan categoriesFix
-        // Tinggal tambahkan category "All"
-        let categAllName = categories!["_data"][0]["name"].string
-        let categAllId = categories!["_data"][0]["_id"].string
-        if (categAllName != nil && categAllId != nil) {
-            categoriesFix.insert(categories!["_data"][0], atIndex: 0)
-        }
-        print("categoriesFix: [")
-        for (var j = 0; j < categoriesFix.count; j++) {
-            print(categoriesFix[j]["name"].string!)
-            if (j == categoriesFix.count - 1) {
-                print("]")
-            } else {
-                print(", ")
-            }
-        }
-        
-        addChilds(categoriesFix.count)*/
-    }
-    
-    func cikah()
-    {
-        tabSwipe?.view.isHidden = false
-        tabSwipe?.currentTabIndex = 1
-    }
-    
-    var refreshed = false
-    func refresh()
-    {
-        if (refreshed == false)
-        {
-            self.view.isHidden = true
-            Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(ListCategoryViewController.endRefresh), userInfo: nil, repeats: false)
-        }
-    }
-    
-    func endRefresh()
-    {
-        self.view.isHidden = false
-        refreshed = true
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    func tabSwipeNavigation(_ tabSwipe: CarbonTabSwipeNavigation!, viewControllerAt index: UInt) -> UIViewController!
-    {
-        let v:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-        v.previousController = self.previousController
-        let i = Int(index)
-        
-        v.categoryJson = categoriesFix[i]
-        
-        return v
     }
     
     // MARK: - Home promo
@@ -769,5 +643,26 @@ class ListCategoryViewController: BaseViewController, CarbonTabSwipeDelegate, UI
             UserDefaults.setObjectAndSync(true as AnyObject?, forKey: UserDefaultsKey.CoachmarkBrowseDone)
         }
     }
+    
+    // MARK: - Other functions
+    
+    func getIndexInArrayJSON(_ arr : [JSON], withId id : String) -> Int? {
+        for i in 0...arr.count - 1 {
+            if (arr[i]["_id"].string == id) {
+                return i
+            }
+        }
+        return nil
+    }
+    
+    func getAllCategoryIndexInArrayJSON(_ arr : [JSON]) -> Int? {
+        for i in 0...arr.count - 1 {
+            if (arr[i]["name"].stringValue.lowercased() == "all") {
+                return i
+            }
+        }
+        return nil
+    }
+    */
 }
 

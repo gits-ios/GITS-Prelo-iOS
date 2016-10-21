@@ -9,32 +9,96 @@
 import UIKit
 import CoreData
 
-extension UIApplication
-{
-    static var appDelegate : AppDelegate
-    {
+class AppTools: NSObject {
+    static let isDev = false // Set true for demo/testing purpose only
+    
+    fileprivate static var devURL = "http://dev.prelo.id"
+    fileprivate static var prodURL = "https://prelo.co.id"
+    
+    fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
+    static var PreloBaseUrl : String {
+        set {
+            _PreloBaseUrl = newValue
+        }
+        get {
+            return _PreloBaseUrl
+        }
+    }
+    
+    static var IsPreloProduction : Bool {
+        return (PreloBaseUrl == "https://prelo.co.id")
+    }
+    
+    static var isIPad : Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    static var isSimulator : Bool {
+        return UIDevice.current.isIOSSimulator
+    }
+}
+
+enum AppFont {
+    case prelo2
+    case preloAwesome
+    
+    func getFont(_ size : CGFloat) -> UIFont? {
+        var name = "Prelo2"
+        switch self {
+        case .prelo2:name = "Prelo2"
+        case .preloAwesome:name = "PreloAwesome"
+        }
+        
+        let f = UIFont(name: name, size: size)
+        return f
+    }
+    
+    var getFont : UIFont? {
+        var name = "Prelo2"
+        switch self {
+        case .prelo2:name = "Prelo2"
+        case .preloAwesome:name = "PreloAwesome"
+        }
+        
+        let f = UIFont(name: name, size: 18)
+        return f
+    }
+}
+
+extension UIApplication {
+    static var appDelegate : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
 }
 
-extension UIAlertView
-{
-    static func SimpleShow(_ title : String, message : String)
-    {
+extension UINavigationController {
+    class func defaultNavigation(_ root : UIViewController) -> UINavigationController {
+        let n = UINavigationController(rootViewController: root)
+        n.navigationBar.barTintColor = Theme.navBarColor
+        n.navigationBar.tintColor = UIColor.white
+        return n
+    }
+}
+
+extension UIView {
+    func toBarButton() -> UIBarButtonItem {
+        return UIBarButtonItem(customView: self)
+    }
+}
+
+extension UIAlertView {
+    static func SimpleShow(_ title : String, message : String) {
         let a = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
         a.show()
     }
 }
 
-extension Int
-{
-    var string:String
-        {
+extension Int {
+    var string : String {
         return String(self)
     }
     
-    var asPrice : String
-    {
+    var asPrice : String {
         let f = NumberFormatter()
         f.numberStyle = NumberFormatter.Style.currency
         f.locale = Locale(identifier: "id_ID")
@@ -43,7 +107,6 @@ extension Int
 }
 
 extension UILabel {
-    
     func boldRange(_ range: Range<String.Index>) {
         if let text = self.attributedText {
             let attr = NSMutableAttributedString(attributedString: text)
@@ -117,37 +180,7 @@ extension UIDevice {
     }
 }
 
-class AppTools: NSObject {
-    static let isDev = false // Set true for demo/testing purpose only
-    
-    fileprivate static var devURL = "http://dev.prelo.id"
-    fileprivate static var prodURL = "https://prelo.co.id"
-    
-    fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
-    static var PreloBaseUrl : String {
-        set {
-            _PreloBaseUrl = newValue
-        }
-        get {
-            return _PreloBaseUrl
-        }
-    }
-    
-    static var IsPreloProduction : Bool {
-        return (PreloBaseUrl == "https://prelo.co.id")
-    }
-    
-    static var isIPad : Bool {
-        return UIDevice.current.userInterfaceIdiom == .pad
-    }
-    
-    static var isSimulator : Bool {
-        return UIDevice.current.isIOSSimulator
-    }
-}
-
-class Theme : NSObject
-{
+class Theme : NSObject {
     static var PrimaryColor = UIColor(hexString: "#00A79D")
     static var PrimaryColorDark = UIColor(hexString: "#00747C")
     static var PrimaryColorLight = UIColor(hexString: "#8CD7AE")
@@ -174,8 +207,7 @@ class Theme : NSObject
     static var ThemeRed = UIColor(red: 197/255, green: 13/255, blue: 13/255, alpha: 1)
 }
 
-class Tags : NSObject
-{
+class Tags : NSObject {
     static let StoryBoardIdBrowse = "productBrowse"
     static let StoryBoardIdDashboard = "dashboard"
     static let StoryBoardIdLogin = "login"
@@ -241,8 +273,7 @@ class Tags : NSObject
     static let XibNameLoginFransiska = "LoginFransiska"
 }
 
-class OrderStatus : NSObject
-{
+class OrderStatus : NSObject {
     static let Dipesan = "Dipesan"
     static let BelumDibayar = "Belum Dibayar"
     static let Dibayar = "Dibayar"
@@ -255,20 +286,17 @@ class OrderStatus : NSObject
     static let Selesai = "Selesai"
 }
 
-class NotificationType : NSObject
-{
+class NotificationType : NSObject {
     static let Transaksi = "Transaksi"
     static let Inbox = "Inbox"
     static let Aktivitas = "Aktivitas"
 }
 
-class NotificationName : NSObject
-{
+class NotificationName : NSObject {
     static let ShowProduct = "showproduct"
 }
 
-class PageName
-{
+class PageName {
     static let SplashScreen = "Splash Screen"
     static let FirstTimeTutorial = "First Time Tutorial"
     static let SetCategoryPreferences = "Set Category Preferences"
@@ -313,47 +341,7 @@ class PageName
     static let BarangExpired = "Barang Expired"
 }
 
-
-
-class MixpanelEvent
-{
-    static let Register = "Register"
-    static let SetupAccount = "Setup Account"
-    static let PhoneVerified = "Phone Verified"
-    static let Login = "Login"
-    static let Logout = "Logout"
-    static let CategoryBrowsed = "Category Browsed"
-    static let Search = "Search"
-    static let ToggledLikeProduct = "Toggled Like Product"
-    static let SharedProduct = "Shared Product"
-    static let CommentedProduct = "Commented Product"
-    static let ChatSent = "Chat Sent"
-    static let Bargain = "Bargain"
-    static let PaymentClaimed = "Payment Claimed"
-    static let ReferralUsed = "Referral Used"
-    static let SharedReferral = "Shared Referral"
-    static let RequestedWithdrawMoney = "Requested Withdraw Money"
-    static let Checkout = "Checkout"
-    static let AddedProduct = "Added Product"
-}
-
-extension GAI
-{
-    static func trackPageVisit(_ pageName : String)
-    {
-        // Send if Prelo production only (not development)
-        if (AppTools.IsPreloProduction) {
-            let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.set(kGAIScreenName, value: pageName)
-            let builder = GAIDictionaryBuilder.createScreenView()
-            // FIXME: - Swift 3
-//            tracker?.send(builder?.build() as [AnyHashable: Any])
-        }
-    }
-}
-
-extension Mixpanel
-{
+extension Mixpanel {
     static func trackEvent(_ eventName : String)
     {
         // Disable Category Browsed and Search Event
@@ -377,11 +365,11 @@ extension Mixpanel
     static func trackPageVisit(_ pageName : String)
     {
         /* Disable Page Visit
-        let p = [
-            "Page": pageName
-        ]
-        Mixpanel.sharedInstance().track("Page Visited", properties: p)
-        */
+         let p = [
+         "Page": pageName
+         ]
+         Mixpanel.sharedInstance().track("Page Visited", properties: p)
+         */
     }
     
     static func trackPageVisit(_ pageName : String, otherParam : [String : String])
@@ -392,8 +380,41 @@ extension Mixpanel
     }
 }
 
-class UserDefaultsKey : NSObject
-{
+class MixpanelEvent {
+    static let Register = "Register"
+    static let SetupAccount = "Setup Account"
+    static let PhoneVerified = "Phone Verified"
+    static let Login = "Login"
+    static let Logout = "Logout"
+    static let CategoryBrowsed = "Category Browsed"
+    static let Search = "Search"
+    static let ToggledLikeProduct = "Toggled Like Product"
+    static let SharedProduct = "Shared Product"
+    static let CommentedProduct = "Commented Product"
+    static let ChatSent = "Chat Sent"
+    static let Bargain = "Bargain"
+    static let PaymentClaimed = "Payment Claimed"
+    static let ReferralUsed = "Referral Used"
+    static let SharedReferral = "Shared Referral"
+    static let RequestedWithdrawMoney = "Requested Withdraw Money"
+    static let Checkout = "Checkout"
+    static let AddedProduct = "Added Product"
+}
+
+extension GAI {
+    static func trackPageVisit(_ pageName : String) {
+        // Send if Prelo production only (not development)
+        if (AppTools.IsPreloProduction) {
+            let tracker = GAI.sharedInstance().defaultTracker
+            tracker?.set(kGAIScreenName, value: pageName)
+            let builder = GAIDictionaryBuilder.createScreenView()
+            // FIXME: - Swift 3
+//            tracker?.send(builder?.build() as [AnyHashable: Any])
+        }
+    }
+}
+
+class UserDefaultsKey : NSObject {
     static let CategorySaved = "categorysaved"
     static let CategoryPref1 = "categorypref1"
     static let CategoryPref2 = "categorypref2"
@@ -413,15 +434,12 @@ class UserDefaultsKey : NSObject
     static let UpdatePopUpForced = "updatepopupforced"
 }
 
-extension UserDefaults
-{
-    static func lastSavedAssetURL() -> URL?
-    {
+extension UserDefaults {
+    static func lastSavedAssetURL() -> URL? {
         return UserDefaults.standard.object(forKey: "lastAssetURL") as? URL
     }
     
-    static func isCategorySaved() -> Bool
-    {
+    static func isCategorySaved() -> Bool {
         let saved : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategorySaved) as! Bool?
         if (saved == true) {
             return true
@@ -429,8 +447,7 @@ extension UserDefaults
         return false
     }
     
-    static func categoryPref1() -> String
-    {
+    static func categoryPref1() -> String {
         let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref1) as! String?
         if (c != nil) {
             return c!
@@ -438,8 +455,7 @@ extension UserDefaults
         return ""
     }
     
-    static func categoryPref2() -> String
-    {
+    static func categoryPref2() -> String {
         let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref2) as! String?
         if (c != nil) {
             return c!
@@ -447,8 +463,7 @@ extension UserDefaults
         return ""
     }
     
-    static func categoryPref3() -> String
-    {
+    static func categoryPref3() -> String {
         let c : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.CategoryPref3) as! String?
         if (c != nil) {
             return c!
@@ -456,8 +471,7 @@ extension UserDefaults
         return ""
     }
     
-    static func isTourDone() -> Bool
-    {
+    static func isTourDone() -> Bool {
         let done : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.TourDone) as! Bool?
         if (done == true) {
             return true
@@ -465,8 +479,7 @@ extension UserDefaults
         return false
     }
     
-    static func setTourDone(_ done : Bool)
-    {
+    static func setTourDone(_ done : Bool) {
         UserDefaults.standard.set(done, forKey: UserDefaultsKey.TourDone)
         UserDefaults.standard.synchronize()
     }
@@ -478,15 +491,12 @@ extension UserDefaults
     }
 }
 
-extension NSManagedObjectContext
-{
-    public func saveSave() -> Bool
-    {
+extension NSManagedObjectContext {
+    public func saveSave() -> Bool {
         var success = true
         do {
             try self.save()
-        } catch
-        {
+        } catch {
             success = false
         }
         return success
@@ -503,18 +513,6 @@ extension NSManagedObjectContext
         }
         return results
     }
-}
-
-extension Data
-{
-//    public func convertToUTF8String() -> String
-//    {
-//        if let s = NSString(data: self, encoding: NSUTF8StringEncoding)
-//        {
-//            return s as String
-//        }
-//        return ""
-//    }
 }
 
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {

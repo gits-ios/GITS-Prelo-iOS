@@ -8,62 +8,81 @@
 
 import UIKit
 
-enum AppFont
-{
-    case prelo2
-    case preloAwesome
-    
-    func getFont(_ size : CGFloat) -> UIFont?
-    {
-        var name = "Prelo2"
-        switch self
-        {
-        case .prelo2:name = "Prelo2"
-        case .preloAwesome:name = "PreloAwesome"
-        }
-        
-        let f = UIFont(name: name, size: size)
-        return f
-    }
-    
-    var getFont : UIFont?
-    {
-        var name = "Prelo2"
-        switch self
-        {
-        case .prelo2:name = "Prelo2"
-        case .preloAwesome:name = "PreloAwesome"
-        }
-        
-        let f = UIFont(name: name, size: 18)
-        return f
-    }
-}
+// MARK: - Protocol
 
-@objc protocol UserRelatedDelegate
-{
+@objc protocol UserRelatedDelegate {
     @objc optional func userLoggedIn()
     @objc optional func userLoggedOut()
     @objc optional func userCancelLogin()
 }
 
-class BaseViewController: UIViewController, PreloNotifListenerDelegate {
+// MARK: - Class
+
+class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
+    
+    // MARK: - Static var and func
+    
+    fileprivate static var globalStoryboard : UIStoryboard?
+    
+    static func instatiateViewControllerFromStoryboardWithID(_ id : String) -> UIViewController {
+        let c = (BaseViewController.globalStoryboard?.instantiateViewController(withIdentifier: id))!
+        return c
+    }
+    
+    static func formattedTitleLabel(_ title : String) -> UILabel {
+        let l = UILabel(frame: CGRect.zero)
+        l.font = UIFont.systemFont(ofSize: 16)
+        l.textColor = UIColor.white
+        l.text = title
+        l.sizeToFit()
+        l.backgroundColor = UIColor.clear
+        return l
+    }
+    
+    // MARK: - Properties
 
     var userRelatedDelegate : UserRelatedDelegate?
-    
     var previousController : UIViewController?
-    
-    fileprivate static var GlobalStoryboard : UIStoryboard?
-    
+    var isStatusBarHidden : Bool = false
     var badgeView : GIBadgeView!
+    fileprivate var _titleText : String?
+    var titleText : String? {
+        get {
+            return _titleText
+        }
+        set(newValue) {
+            let l = UILabel(frame: CGRect.zero)
+            l.font = UIFont.systemFont(ofSize: 16)
+            l.textColor = UIColor.white
+            l.text = newValue
+            l.sizeToFit()
+            l.backgroundColor = UIColor.clear
+            self.navigationItem.titleView = l
+            _titleText = newValue
+        }
+    }
+    var dismissButton : UIButton {
+        let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        b.addTarget(self, action: #selector(BaseViewController.dismiss(animated:completion:)), for: UIControlEvents.touchUpInside)
+        return b
+    }
+    var confirmButton : UIButton {
+        let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
+        b.addTarget(self, action: #selector(BaseViewController.confirm), for: UIControlEvents.touchUpInside)
+        return b
+    }
+    
+    // MARK: - Init
+    
+    override var prefersStatusBarHidden: Bool {
+        return isStatusBarHidden
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-        if (BaseViewController.GlobalStoryboard == nil) {
-            BaseViewController.GlobalStoryboard = self.storyboard
+        if (BaseViewController.globalStoryboard == nil) {
+            BaseViewController.globalStoryboard = self.storyboard
         }
         
         // Tombol back
@@ -80,96 +99,32 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         super.viewDidAppear(animated)
         
         // Remove redirect alert if any
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let redirAlert = appDelegate.redirAlert {
-            redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
-        }
+        // FIXME: Swift 3
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        if let redirAlert = appDelegate.redirAlert {
+//            redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
+//        }
     }
     
     func backPressed(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
-    static func instatiateViewControllerFromStoryboardWithID(_ id : String) -> UIViewController
-    {
-        let c = (BaseViewController.GlobalStoryboard?.instantiateViewController(withIdentifier: id))!
-        return c
-    }
-    
-    static func TitleLabel(_ title : String) -> UILabel
-    {
-        let l = UILabel(frame: CGRect.zero)
-        l.font = UIFont.systemFont(ofSize: 16)
-        l.textColor = UIColor.white
-        l.text = title
-        l.sizeToFit()
-        l.backgroundColor = UIColor.clear
-        return l
-    }
-    
-    fileprivate var _titleText : String?
-    var titleText : String?
-    {
-        get
-        {
-            return _titleText
-        }
-        set(newValue)
-        {
-            let l = UILabel(frame: CGRect.zero)
-            l.font = UIFont.systemFont(ofSize: 16)
-            l.textColor = UIColor.white
-            l.text = newValue
-            l.sizeToFit()
-            l.backgroundColor = UIColor.clear
-            self.navigationItem.titleView = l
-            _titleText = newValue
-        }
-    }
-    
-    var dismissButton : UIButton
-    {
-        let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        b.addTarget(self, action: #selector(BaseViewController.dismissBase), for: UIControlEvents.touchUpInside)
-        return b
-    }
-    
-    var confirmButton : UIButton
-    {
-        let b = self.createButtonWithIcon(AppFont.prelo2, icon: "")
-        b.addTarget(self, action: #selector(BaseViewController.confirm), for: UIControlEvents.touchUpInside)
-        return b
-    }
-    
-    func dismissBase()
-    {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func confirm()
-    {
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func setupNormalOptions()
-    {
+    func setupNormalOptions() {
         // Get the number of new notifications
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let notifListener = delegate.preloNotifListener
-        notifListener?.delegate = self
-        if (User.IsLoggedIn) {
-            notifListener?.setupSocket()
-        }
-        let newNotifCount = notifListener?.newNotifCount
+        // FIXME: Swift 3
+//        let delegate = UIApplication.shared.delegate as! AppDelegate
+//        let notifListener = delegate.preloNotifListener
+//        notifListener?.delegate = self
+//        if (User.IsLoggedIn) {
+//            notifListener?.setupSocket()
+//        }
+//        let newNotifCount = notifListener?.newNotifCount
         
         // Set top right bar buttons
         let search = createSearchButton()
-        let bell = createBellButton(newNotifCount!)
+        let bell = createBellButton(10)
+        //let bell = createBellButton(newNotifCount!) FIXME: Swift 3
         let troli = createTroliButton()
         
         troli.addTarget(self, action: #selector(BaseViewController.launchCart), for: UIControlEvents.touchUpInside)
@@ -180,47 +135,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         
         self.navigationItem.rightBarButtonItems = [troli.toBarButton(), bell.toBarButton(), search.toBarButton()]
     }
-    
-    func launchCart()
-    {
-        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! BaseViewController
-        cart.previousController = self
-        self.navigationController?.pushViewController(cart, animated: true)
-    }
-    
-    func launchSearch()
-    {
-        let searchVC : SearchViewController = (self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdSearch))! as! SearchViewController
-        if let ktbVC = self as? KumangTabBarViewController {
-            if let lcVC = ktbVC.controllerBrowse as? ListCategoryViewController {
-                searchVC.currentCategoryId = lcVC.currentCategoryId
-            }
-        }
-        self.navigationController?.pushViewController(searchVC, animated: true)
-    }
-    
-    func launchNotifPage()
-    {
-        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-        self.navigationController?.pushViewController(notifPageVC, animated: true)
-    }
-    
-    func setupTitle()
-    {
-//        let l = UILabel(frame: CGRectZero)
-//        l.text = "Prelo"
-//        l.textColor = UIColor.whiteColor()
-//        l.sizeToFit()
-//        
-//        let iv = UIImageView(image: UIImage(named: "ic_logo_white"))
-//        iv.frame = CGRectMake(0, 0, l.height+4, l.height+4)
-//        
-//        l.x = l.height + 4 + 8
-//        l.y = ((l.height+4)-l.height)/2
-//        
-//        let v = UIView(frame: CGRectMake(0, 0, l.x+l.width, l.height+4))
-//        v.addSubview(iv)
-//        v.addSubview(l)
+
+    func setupTitle() {
         let i = TintedImageView(frame: CGRect(x: 0, y: 0, width: 92, height: 92), backgroundColor: UIColor.clear)
         i.image = UIImage(named : "ic_prelo_logo_text_white")
         i.contentMode = UIViewContentMode.scaleAspectFit
@@ -228,12 +144,12 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         self.navigationItem.leftBarButtonItem = i.toBarButton()
     }
     
-    func createButtonWithIcon(_ appFont : AppFont, icon : String) ->UIButton
-    {
+    // MARK: - Button creation
+    
+    func createButtonWithIcon(_ appFont : AppFont, icon : String) -> UIButton {
         let b = UIButton(type: .custom)
         var name = "Prelo2"
-        switch appFont
-        {
+        switch appFont {
         case .prelo2:name = "Prelo2"
         case .preloAwesome:name = "PreloAwesome"
         }
@@ -256,8 +172,7 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     func createButtonWithIconAndNumber(_ appFont : AppFont, icon : String, num : Int) -> UIButton {
         let b = UIButton(type: .custom)
         var name = "Prelo2"
-        switch appFont
-        {
+        switch appFont {
         case .prelo2:name = "Prelo2"
         case .preloAwesome:name = "PreloAwesome"
         }
@@ -292,20 +207,48 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         }
         return b
     }
-        
-    func createSearchButton()->UIButton
-    {
+    
+    func createSearchButton()->UIButton {
         return createButtonWithIcon(UIImage(named: "ic_search_filter.png")!)
     }
     
-    func createBellButton(_ num : Int)->UIButton
-    {
+    func createBellButton(_ num : Int)->UIButton {
         return createButtonWithIconAndNumber(UIImage(named: "ic_notif.png")!, num: num)
     }
     
-    func createTroliButton()->UIButton
-    {
+    func createTroliButton()->UIButton {
         return createButtonWithIcon(UIImage(named: "ic_cart.png")!)
+    }
+    
+    // MARK: - Navigation
+    
+    func launchCart() {
+        let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! BaseViewController
+        cart.previousController = self
+        self.navigationController?.pushViewController(cart, animated: true)
+    }
+    
+    func launchSearch() {
+        // MARK: - Swift 3
+//        let searchVC : SearchViewController = (self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdSearch))! as! SearchViewController
+//        if let ktbVC = self as? KumangTabBarViewController {
+//            if let lcVC = ktbVC.controllerBrowse as? ListCategoryViewController {
+//                searchVC.currentCategoryId = lcVC.currentCategoryId
+//            }
+//        }
+//        self.navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
+    func launchNotifPage() {
+        // MARK: - Swift 3
+//        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+//        self.navigationController?.pushViewController(notifPageVC, animated: true)
+    }
+    
+    // MARK: - Overrideable func
+    
+    func confirm() {
+        
     }
     
     // MARK: - PreloNotifListenerDelegate function
@@ -319,43 +262,23 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         // Do nothing, handled by NotificationPageVC itself
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Status bar
+    
+    func showStatusBar() {
+        self.isStatusBarHidden = false
+        self.setNeedsStatusBarAppearanceUpdate()
     }
-    */
-
+    
+    func hideStatusBar() {
+        self.isStatusBarHidden = true
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
 }
 
-class AppButton : UIButton
-{
+class AppButton : UIButton {
     @IBInspectable var stringTag : String = ""
 }
 
-class AppUITextfield : UITextField
-{
+class AppUITextfield : UITextField {
     @IBOutlet var nextTextfield : UITextField?
-}
-
-extension UINavigationController
-{
-    class func defaultNavigation(_ root : UIViewController)->UINavigationController
-    {
-        let n = UINavigationController(rootViewController: root)
-        n.navigationBar.barTintColor = Theme.navBarColor
-        n.navigationBar.tintColor = UIColor.white
-        return n
-    }
-}
-
-extension UIView
-{
-    func toBarButton()->UIBarButtonItem
-    {
-        return UIBarButtonItem(customView: self)
-    }
 }

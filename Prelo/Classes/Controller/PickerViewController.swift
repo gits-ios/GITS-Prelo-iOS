@@ -281,12 +281,12 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
     func startLoading()
     {
         self.textTitle = self.title
-        self.navigationItem.titleView = BaseViewController.TitleLabel("Loading..")
+        self.navigationItem.titleView = BaseViewController.formattedTitleLabel("Loading..")
     }
     
     func doneLoading()
     {
-        self.navigationItem.titleView = BaseViewController.TitleLabel(textTitle!)
+        self.navigationItem.titleView = BaseViewController.formattedTitleLabel(textTitle!)
     }
     
     func dismissPicker()

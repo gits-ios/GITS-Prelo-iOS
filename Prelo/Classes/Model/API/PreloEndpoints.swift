@@ -58,7 +58,7 @@ class PreloEndpoints: NSObject {
                                 let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
                                 if (uiNavigationController != nil && kumangTabBarVC != nil) {
                                     uiNavigationController!.popToRootViewController(animated: true)
-                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
+//                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
                                 }
                             }
                         }

@@ -12,8 +12,7 @@ class KumangCustomView: NSObject {
    
 }
 
-class BorderedView : UIView
-{
+class BorderedView : UIView {
     
     @IBInspectable var borderColor : UIColor {
         get {
@@ -39,8 +38,7 @@ class BorderedView : UIView
     }
 }
 
-class BorderedButton : UIButton
-{
+class BorderedButton : UIButton {
     @IBInspectable var cornerRadius : CGFloat = 0
     
     var _borderColor : UIColor?
@@ -100,8 +98,7 @@ class BorderedButton : UIButton
     }
 }
 
-class TintedImageView : UIImageView
-{
+class TintedImageView : UIImageView {
     override func awakeFromNib() {
         self.tint = true
     }
@@ -115,14 +112,12 @@ class TintedImageView : UIImageView
         
         set {
             _tint = newValue
-            if (_tint)
-            {
+            if (_tint) {
                 let i = self.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
                 let c = self.tintColor
                 self.tintColor = c
                 self.image = i
-            } else
-            {
+            } else {
                 let i = self.image?.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
                 self.image = i
             }

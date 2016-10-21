@@ -304,7 +304,7 @@
             startingLineNumber = "136"
             endingLineNumber = "136"
             landmarkName = "+sendMultipart:images:withToken:andUserAgent:to:success:failure:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -320,7 +320,7 @@
             startingLineNumber = "165"
             endingLineNumber = "165"
             landmarkName = "+sendMultipart:images:withToken:andUserAgent:to:success:failure:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -336,7 +336,7 @@
             startingLineNumber = "167"
             endingLineNumber = "167"
             landmarkName = "+sendMultipart:images:withToken:andUserAgent:to:success:failure:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

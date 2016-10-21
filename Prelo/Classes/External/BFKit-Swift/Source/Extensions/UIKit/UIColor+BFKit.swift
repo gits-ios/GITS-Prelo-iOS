@@ -435,7 +435,7 @@ public extension UIColor {
      - returns: Returns the color component from the string
      */
     private static func colorComponentFrom(_ string: String, start: Int, lenght: Int) -> CGFloat {
-        let substring: String = string.substringWithRange(Range(start...lenght))
+        let substring: String = string.substringWithRange(Range(start...start + lenght - 1))
         let fullHex = lenght == 2 ? substring as String : "\(substring)\(substring)"
         var hexComponent: CUnsignedInt = 0
         Scanner(string: fullHex).scanHexInt32(&hexComponent)
