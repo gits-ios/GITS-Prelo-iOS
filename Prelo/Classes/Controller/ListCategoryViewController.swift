@@ -173,12 +173,12 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         }
         
         // FOR TESTING: DISABLE HOME LOAD
-        if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
+        /*if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
             kumangTabBarVC.isAlreadyGetCategory = true
             if (kumangTabBarVC.isVersionChecked) { // Only hide loading if category is already loaded and version already checked
                 kumangTabBarVC.hideLoading()
             }
-        }
+        }*/
     }
     
     
@@ -187,17 +187,18 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         categories = JSON(NSKeyedUnarchiver.unarchiveObject(with: data!)!)
         
         categoriesFix = categories!["_data"].arrayValue
-        // addChilds(categoriesFix.count) FIXME: Swift 3
+        addChilds(categoriesFix.count)
     }
-    /*
-    func addChilds(_ count : Int)
-    {
-        var d = ["scroll":scroll_View, "master":self.view]
-        if contentView == nil
-        {
+    
+    func addChilds(_ count : Int) {
+        var d : [String : UIView] = [
+            "scroll" : scroll_View,
+            "master" : self.view
+        ]
+        if contentView == nil {
             scroll_View.showsHorizontalScrollIndicator = false
             scroll_View.isPagingEnabled = true
-            let pContentView = UIView()
+            let pContentView : UIView = UIView()
             pContentView.backgroundColor = UIColor(hexString: "#E8ECEE")
             scroll_View.addSubview(pContentView)
             
@@ -219,19 +220,19 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
             }
         }
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
-            firstChild.setupContent()
+            // FIXME: Swift 3 firstChild.setupContent()
         }
         
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
-        addCategoryNames(count)
+        // FIXME: Swift 3 addCategoryNames(count)
     }
     
-    func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView?], lastView : inout UIView?) {
+    func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView], lastView : inout UIView?) {
         let li:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         li.previousController = self.previousController
         
-        li.categoryJson = categoriesFix[i]
+        // FIXME: Swift 3 li.categoryJson = categoriesFix[i]
         
         li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
         li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue
@@ -242,8 +243,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         self.addChildViewController(li)
         li.didMove(toParentViewController: self)
         d["v"] = v
-        if let lv = lastView
-        {
+        if let lv = lastView {
             d["lv"] = lv
             contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[lv]-0-[v]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
             
@@ -255,15 +255,14 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v(==scroll)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v(==master)]", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
         
-        if (i == count-1)
-        {
+        if (i == count-1) {
             contentView?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[v]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))
         }
         
         lastView = v
         listItemViews.append(v!)
     }
-    
+    /*
     func addCategoryNames(_ count : Int)
     {
         var d = ["scroll":scrollCategoryName, "master":self.view]

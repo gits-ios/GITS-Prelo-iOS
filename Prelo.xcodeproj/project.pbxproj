@@ -292,6 +292,7 @@
 		583234301DB8BC8A0059B3A2 /* KumangCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212C7D341B71F3EA00360C6A /* KumangCustomView.swift */; };
 		583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */; };
 		583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
+		5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -402,6 +403,7 @@
 		58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D0A0061B60C93000D3A050 /* PreloEndpoints.swift */; };
 		58C27CAD1DB9CA9A008201FA /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312571B67638F00A4DA3B /* Constant.swift */; };
 		58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2115E6CD1B4A27E500509D2A /* AppDelegate.swift */; };
+		58C27CBF1DBA21AF008201FA /* ListItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE67B21B4A5AF600D2CF63 /* ListItemViewController.swift */; };
 		58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 58C431B11CF8138300EB99AE /* InitialMetadata.json */; };
 		58D125371CDC4D1F002BC78A /* libMoEngageSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D125231CDC4D1F002BC78A /* libMoEngageSDK.a */; };
 		58D125381CDC4D1F002BC78A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 58D125241CDC4D1F002BC78A /* LICENSE */; };
@@ -3158,6 +3160,7 @@
 				21679A3F1B901C5300F18F90 /* MPSurvey.m in Sources */,
 				21679A171B901C5300F18F90 /* MPAbstractABTestDesignerMessage.m in Sources */,
 				2163450A1CC3A855005CBA37 /* MKTextField.swift in Sources */,
+				58C27CBF1DBA21AF008201FA /* ListItemViewController.swift in Sources */,
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
 				21B467E51CCE5EDB00E145ED /* BFPassword.swift in Sources */,
 				583234301DB8BC8A0059B3A2 /* KumangCustomView.swift in Sources */,
@@ -3173,6 +3176,7 @@
 				58A99A461C6D864E00E3E7D7 /* BranchRegisterViewRequest.m in Sources */,
 				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
+				5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */,
 				58DD29201DAF3F6200130B6F /* SSLSecurity.swift in Sources */,
 				216344FA1CC3A855005CBA37 /* MKActivityIndicator.swift in Sources */,
 				21B467E71CCE5EDB00E145ED /* BFTextField.swift in Sources */,

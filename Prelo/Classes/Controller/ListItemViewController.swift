@@ -59,7 +59,7 @@ enum ListItemMode {
     case filter
 }
 
-class ListItemViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, MFMailComposeViewControllerDelegate {
+class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, MFMailComposeViewControllerDelegate {
     
     // MARK: - Struct
     
@@ -185,12 +185,12 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         // Initiate refresh control
         refresher = UIRefreshControl()
         refresher!.tintColor = Theme.PrimaryColor
-        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
+        // FIXME: Swift 3 refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
         self.gridView.addSubview(refresher!)
         
         // Setup content for filter, shop, or standalone mode
         if (currentMode == .standalone || currentMode == .shop || currentMode == .filter) {
-            self.setupContent()
+            // FIXME: Swift 3 self.setupContent()
         }
     }
     
@@ -201,7 +201,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
         
         // Add status bar tap observer
-        NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        // FIXME: Swift 3 NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -209,7 +209,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         //print("viewWillDisappear x")
         
         // Remove status bar tap observer
-        NotificationCenter.default.removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        // FIXME: Swift 3 NotificationCenter.default.removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -225,6 +225,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         // Mixpanel for store mode
+        /* FIXME: Swift 3
         if (currentMode == .shop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
@@ -243,7 +244,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
-        }
+        }*/
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -307,7 +308,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.carouselItems = []
                 for i in 0..<carouselJson.count {
                     var img = UIImage()
-                    var link = URL()
+                    var link : URL!
                     if let url = URL(string: carouselJson[i]["image"].stringValue), let data = try? Data(contentsOf: url), let uiimg = UIImage(data: data) {
                         img = uiimg
                     }
@@ -319,7 +320,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
                 self.listItemSections.insert(.carousel, at: 0)
             }
-            
+            /*
             // Adjust content base on the mode
             switch (currentMode) {
             case .default, .standalone, .shop:
@@ -412,7 +413,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 
                 // Get initial products
                 self.getInitialProducts()
-            }
+            }*/
         }
     }
     
@@ -421,10 +422,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             if (products == nil) {
                 products = []
             }
-            getProducts()
+            // FIXME: Swift 3 getProducts()
         }
     }
-    
+    /* FIXME: Swift 3
     func refresh() {
         self.products = []
         self.footerLoading?.isHidden = false
@@ -542,7 +543,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: products!.count, limit: itemsPerReq, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -564,7 +565,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.setupData(resp.result.value)
                 
                 if (self.shopHeader == nil) {
-                    self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil).first as? StoreHeader
+                    self.shopHeader = Bundle.main.loadNibNamed("StoreHeader", owner: nil, options: nil)?.first as? StoreHeader
                     self.gridView.addSubview(self.shopHeader!)
                 }
                 
@@ -662,13 +663,14 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
                 self.shopHeader?.btnEdit.isHidden = true
+                /* FIXME: Swift 3
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
                     if (id == me.id)
                     {
                         self.shopHeader?.btnEdit.isHidden = false
                     }
-                }
+                }*/
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
@@ -684,7 +686,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 }
                 
                 self.shopHeader?.captionLocation.text = "Unknown"
-                
+                /* FIXME: Swift 3
                 if let regionId = json["profile"]["region_id"].string, let province_id = json["profile"]["province_id"].string
                 {
                     // yang ini go, region sama province nya null.
@@ -713,7 +715,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
                 }
-                
+                */
                 self.refresher?.endRefreshing()
                 var refresherBound = self.refresher?.bounds
                 if (refresherBound != nil) {
@@ -724,9 +726,10 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
             }
         }
-    }
+    }*/
     
-    func setupData(_ res : AnyObject?) {
+    func setupData(_ res : Any?) {
+        /* FIXME: Swift 3
         guard res != nil else {
             return
         }
@@ -761,10 +764,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         if let x = self.products?.count, x < itemsPerReq {
             self.done = true
             self.footerLoading?.isHidden = true
-        }
+        }*/
     }
     
     func setupGrid() {
+        /* FIXME: Swift 3
         if (currentMode == .filter && products?.count <= 0 && !requesting) {
             gridView.isHidden = true
             vwFilterZeroResult.isHidden = false
@@ -779,8 +783,8 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         }
         
         if (gridView.dataSource == nil || gridView.delegate == nil) {
-            gridView.dataSource = self
-            gridView.delegate = self
+            // FIXME: Swift 3 gridView.dataSource = self
+            // FIXME: Swift 3 gridView.delegate = self
         }
         
         if (!(currentMode == .segment && listItemSections.contains(.segments))) {
@@ -796,11 +800,11 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         gridView.reloadData()
         gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         gridView.isHidden = false
-        vwFilterZeroResult.isHidden = true
+        vwFilterZeroResult.isHidden = true*/
     }
     
     // MARK: - Collection view functions
-    
+    /* FIXME: Swift 3
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listItemSections.count
     }
@@ -1124,7 +1128,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
     }
     
     // MARK: - TopHeader
-    
+ 
     func setDefaultTopHeaderWomen() {
         lblTopHeader.text = "Barang apa yang ingin kamu lihat hari ini?"
         lblTopHeader.font = UIFont.systemFont(ofSize: 12)
@@ -1139,7 +1143,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
             gridView.reloadData()
         }
     }
-    
+
     @IBAction func topHeaderFilterMerekPressed(_ sender: AnyObject) {
         let listBrandVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdListBrand) as! ListBrandViewController2
         listBrandVC.previousController = self
@@ -1244,7 +1248,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
             self.gridView.reloadData()
         }, completion: nil)
-    }
+    }*/
 }
 
 // MARK: - Class
@@ -1252,7 +1256,7 @@ class ListItemViewController: BaseViewController, UICollectionViewDataSource, UI
 class CarouselItem {
     var name : String = ""
     var img : UIImage = UIImage()
-    var link : URL = URL()
+    var link : URL!
     
     init(name : String, img : UIImage, link : URL) {
         self.name = name
