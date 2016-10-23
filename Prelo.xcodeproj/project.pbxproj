@@ -293,6 +293,7 @@
 		583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D4F1D01B65DDAB0089DF4F /* KumangTabBarViewController.swift */; };
 		583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
 		5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
+		5847E1511DBD52CE00C1B2BA /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -3072,6 +3073,7 @@
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21B467E01CCE5EDB00E145ED /* README.md in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				5847E1511DBD52CE00C1B2BA /* AppToolsObjC.m in Sources */,
 				58DD290A1DAF3F6200130B6F /* SocketAckEmitter.swift in Sources */,
 				21B467F91CCE5EDB00E145ED /* UIBarButtonItem+BFKit.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,

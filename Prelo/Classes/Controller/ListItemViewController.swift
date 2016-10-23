@@ -59,7 +59,7 @@ enum ListItemMode {
     case filter
 }
 
-class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UISearchBarDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate, MFMailComposeViewControllerDelegate {
+class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate  { // FIXME: Swift 3, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
     
     // MARK: - Struct
     
@@ -320,7 +320,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
                 }
                 self.listItemSections.insert(.carousel, at: 0)
             }
-            /*
+            
             // Adjust content base on the mode
             switch (currentMode) {
             case .default, .standalone, .shop:
@@ -372,9 +372,9 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
                 vwTopHeader.isHidden = true
                 if (fltrBrands.count > 0) {
                     if (fltrBrands.count == 1) {
-                        lblFilterMerek.text = Array(fltrBrands.keys)[0]
+                        lblFilterMerek.text = [String](fltrBrands.keys)[0]
                     } else {
-                        lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                        lblFilterMerek.text = [String](fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
                     }
                 } else {
                     lblFilterMerek.text = "All"
@@ -382,7 +382,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
                 if (fltrCategId == "") {
                     lblFilterKategori.text = "All"
                 } else {
-                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
+                    // FIXME: Swift 3 lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
                 }
                 lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
                 if (lblFilterSort.text?.lowercased() == "highest rp") {
@@ -413,7 +413,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
                 
                 // Get initial products
                 self.getInitialProducts()
-            }*/
+            }
         }
     }
     
@@ -422,10 +422,10 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
             if (products == nil) {
                 products = []
             }
-            // FIXME: Swift 3 getProducts()
+            getProducts()
         }
     }
-    /* FIXME: Swift 3
+    
     func refresh() {
         self.products = []
         self.footerLoading?.isHidden = false
@@ -543,7 +543,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: Array(fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: products!.count), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
@@ -726,10 +726,9 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
                 self.gridView.contentInset = UIEdgeInsetsMake(CGFloat(height), 0, 0, 0)
             }
         }
-    }*/
+    }
     
     func setupData(_ res : Any?) {
-        /* FIXME: Swift 3
         guard res != nil else {
             return
         }
@@ -764,11 +763,10 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         if let x = self.products?.count, x < itemsPerReq {
             self.done = true
             self.footerLoading?.isHidden = true
-        }*/
+        }
     }
     
     func setupGrid() {
-        /* FIXME: Swift 3
         if (currentMode == .filter && products?.count <= 0 && !requesting) {
             gridView.isHidden = true
             vwFilterZeroResult.isHidden = false
@@ -800,11 +798,11 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         gridView.reloadData()
         gridView.contentInset = UIEdgeInsetsMake(0, 0, 24, 0)
         gridView.isHidden = false
-        vwFilterZeroResult.isHidden = true*/
+        vwFilterZeroResult.isHidden = true
     }
     
     // MARK: - Collection view functions
-    /* FIXME: Swift 3
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listItemSections.count
     }
@@ -1107,7 +1105,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
     
     func adjustCategory(_ categId: String) {
         self.fltrCategId = categId
-        lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
+        // FIXME: Swift 3 lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
         self.refresh()
         self.setupGrid()
     }
@@ -1118,9 +1116,9 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         self.fltrBrands = fltrBrands
         if (fltrBrands.count > 0) {
             if (fltrBrands.count == 1) {
-                lblFilterMerek.text = Array(fltrBrands.keys)[0]
+                lblFilterMerek.text = [String](fltrBrands.keys)[0]
             } else {
-                lblFilterMerek.text = Array(fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
+                lblFilterMerek.text = [String](fltrBrands.keys)[0] + ", \(fltrBrands.count - 1)+"
             }
         }
         self.refresh()
@@ -1143,7 +1141,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
             gridView.reloadData()
         }
     }
-
+     /* FIXME: Swift 3
     @IBAction func topHeaderFilterMerekPressed(_ sender: AnyObject) {
         let listBrandVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdListBrand) as! ListBrandViewController2
         listBrandVC.previousController = self
@@ -1174,14 +1172,15 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
-    
+    */
     // MARK: - Filter zero result
     
     @IBAction func reqBarangPressed(_ sender: AnyObject) {
         var username = "Your beloved user"
+        /* FIXME: Swift 3
         if let u = CDUser.getOne() {
             username = u.username
-        }
+        }*/
         let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(fltrName)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
         
         let m = MFMailComposeViewController()
@@ -1248,7 +1247,7 @@ class ListItemViewController: BaseViewController { // FIXME: Swift 3, UICollecti
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
             self.gridView.reloadData()
         }, completion: nil)
-    }*/
+    }
 }
 
 // MARK: - Class
