@@ -95,7 +95,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(_ sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
         let vcLogin = sender as? LoginViewController
-        let vcRegister = sender as? RegisterViewController
+        // FIXME: Swift 3 let vcRegister = sender as? RegisterViewController
         
         var isProfileSet : Bool = false
         
@@ -137,8 +137,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (isProfileSet) {
                     // Refresh notifications badge
                     let delegate = UIApplication.shared.delegate as! AppDelegate
-                    let notifListener = delegate.preloNotifListener
-                    notifListener?.getTotalUnreadNotifCount()
+                    /* FIXME: Swift 3 let notifListener = delegate.preloNotifListener
+                    notifListener?.getTotalUnreadNotifCount()*/
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
@@ -258,7 +258,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 } else {
                     // Reset navbar color
                     sender.navigationController?.navigationBar.backgroundColor = Theme.PrimaryColor
-                    
+                    /* FIXME: Swift 3
                     // Go to profile setup or phone verification
                     if (userProfileData!.email != "" &&
                         userProfileData!.gender != "" &&
@@ -301,7 +301,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                             profileSetupVC.lblKabKota.textColor = Theme.GrayDark
                         }
                         sender.navigationController?.pushViewController(profileSetupVC, animated: true)
-                    }
+                    }*/
                 }
             } else {
                 // Delete token because user is considered not logged in
@@ -310,9 +310,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (vcLogin != nil) {
                     vcLogin!.hideLoading()
                 }
-                if (vcRegister != nil) {
+                /* FIXME: Swift 3 if (vcRegister != nil) {
                     vcRegister!.hideLoading()
-                }
+                }*/
             }
         }
     }
@@ -380,7 +380,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             graphRequest.start(completionHandler: { (connection, result, error) -> Void in
                 
                 if ((error) != nil) {
-                    LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat mengakses data Facebook")
+                    // FIXME: Swift 3 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat mengakses data Facebook")
                 } else {
                     if let res = result as? NSDictionary {
                         let resultDict = NSMutableDictionary(dictionary: res)
@@ -388,12 +388,12 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
                         onFinish(resultDict)
                     } else {
-                        LoginViewController.LoginFacebookCancelled(sender, reason: "Format data Facebook salah")
+                        // FIXME: Swift 3 LoginViewController.LoginFacebookCancelled(sender, reason: "Format data Facebook salah")
                     }
                 }
             })
         } else {
-            LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook, token tidak ditemukan")
+            // FIXME: Swift 3 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan saat login Facebook, token tidak ditemukan")
         }
     }
     
@@ -439,7 +439,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                     
                     user!.profiles = p
                     UIApplication.appDelegate.saveContext()
-                    
+                    /* FIXME: Swift 3
                     // Mixpanel event for login/register with facebook
                     var pMixpanel = [
                         "Previous Screen" : screenBeforeLogin,
@@ -452,20 +452,20 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                         Mixpanel.trackEvent(MixpanelEvent.Login, properties: pMixpanel)
                     } else if let _ = sender as? RegisterViewController {
                         Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
-                    }
+                    }*/
                     
                     // Check if user have set his account
                     //self.checkProfileSetup(data["token"].string!)
                     LoginViewController.CheckProfileSetup(sender, token: data["token"].string!, isSocmedAccount: true, loginMethod: "Facebook", screenBeforeLogin: screenBeforeLogin)
                 } else {
-                    LoginViewController.LoginFacebookCancelled(sender, reason: nil)
+                    // FIXME: Swift 3 LoginViewController.LoginFacebookCancelled(sender, reason: nil)
                 }
             }
         } else { // If there's no userId or name
-            LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan data saat login Facebook")
+            // FIXME: Swift 3 LoginViewController.LoginFacebookCancelled(sender, reason: "Terdapat kesalahan data saat login Facebook")
         }
     }
-    
+    /* FIXME: Swift 3
     static func LoginFacebookCancelled(_ sender : BaseViewController, reason : String?) {
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
@@ -683,7 +683,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             Constant.showDialog("Login Twitter", message: reason!)
         }
     }
-    
+    */
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -866,9 +866,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         self.showLoading()
         
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
-        LoginViewController.LoginWithTwitter(p as [String : AnyObject], onFinish: { resultDict in
+        /* FIXME: Swift 3 LoginViewController.LoginWithTwitter(p as [String : AnyObject], onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
-        })
+        })*/
     }
     
     // MARK: - Path Login

@@ -18,7 +18,7 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var loginVC : LoginViewController!
-    var registerVC : RegisterViewController!
+    // FIXME: Swift 3 var registerVC : RegisterViewController!
     
     var screenBeforeLogin : String = ""
     var isFromTourVC : Bool = false
@@ -40,7 +40,7 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
     
     func dismissLogin() {
         loginVC.userRelatedDelegate?.userCancelLogin?()
-        registerVC.userRelatedDelegate?.userCancelLogin?()
+        // FIXME: Swift 3 registerVC.userRelatedDelegate?.userCancelLogin?()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -51,10 +51,11 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         loginVC.isFromTourVC = isFromTourVC
         loginVC.userRelatedDelegate = userRelatedDelegate
         loginVC.loginTabSwipeVC = self
+        /* FIXME: Swift 3
         registerVC = Bundle.main.loadNibNamed(Tags.XibNameRegister, owner: nil, options: nil)?.first as! RegisterViewController
         registerVC.screenBeforeLogin = screenBeforeLogin
         registerVC.userRelatedDelegate = userRelatedDelegate
-        registerVC.loginTabSwipeVC = self
+        registerVC.loginTabSwipeVC = self*/
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["LOG IN" as AnyObject, "DAFTAR" as AnyObject] as [AnyObject], tintColor: UIColor.clear, delegate: self)
         tabSwipe?.addShadow()
@@ -72,7 +73,7 @@ class LoginFransiskaViewController: BaseViewController, CarbonTabSwipeDelegate {
         if (index == 0) {
             return loginVC
         } else if (index == 1) {
-            return registerVC
+            // FIXME: Swift 3 return registerVC
         }
         return UIViewController()
     }

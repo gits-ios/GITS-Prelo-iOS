@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,25 +16,21 @@
                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="xQD-Xo-wW7">
-                        <rect key="frame" x="0.0" y="-65" width="600" height="601"/>
-                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login-background.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="xQD-Xo-wW7"/>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50v-tY-O1Q">
-                        <rect key="frame" x="0.0" y="-65" width="600" height="601"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jzm-1f-tJx">
-                                <rect key="frame" x="290" y="291" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="color" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jzm-1f-tJx" firstAttribute="centerY" secondItem="50v-tY-O1Q" secondAttribute="centerY" id="eRy-TF-blg"/>
                             <constraint firstItem="jzm-1f-tJx" firstAttribute="centerX" secondItem="50v-tY-O1Q" secondAttribute="centerX" id="ofd-Hv-6ev"/>
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="cBQ-L1-YCK" firstAttribute="top" secondItem="xQD-Xo-wW7" secondAttribute="bottom" id="1W3-2y-tAb"/>
                     <constraint firstItem="xQD-Xo-wW7" firstAttribute="top" secondItem="6XS-vm-ZRS" secondAttribute="top" constant="-65" id="9kW-8Y-s1l"/>

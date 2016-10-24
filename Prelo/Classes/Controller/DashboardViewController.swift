@@ -142,7 +142,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 imgCover?.layer.masksToBounds = true
             }
         }
-        
+        /* FIXME: Swift 3
         // Redirect if any
         let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
         if (redirectFromHome != nil) {
@@ -154,7 +154,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -231,8 +231,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func editProfilePressed(_ sender: UIButton) {
+        /* FIXME: Swift 3
         let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)*/
     }
     
     @IBAction func topMenu1Pressed(_ sender: AnyObject) {
@@ -250,29 +251,31 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     // MARK: - Navigation functions
     
     func launchTarikUang() {
+        /* FIXME: Swift 3
         let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
-        self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)
+        self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)*/
     }
     
     func launchMyPage() {
+        /* FIXME: Swift 3
         if let me = CDUser.getOne() {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             l.currentMode = .shop
             l.shopName = me.username
             l.shopId = me.id
             self.navigationController?.pushViewController(l, animated: true)
-        }
+        }*/
         
     }
     
     func launchMyLovelist() {
-        let myLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil)?.first as! MyLovelistViewController
-        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
+        /* FIXME: Swift 3 let myLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil)?.first as! MyLovelistViewController
+        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)*/
     }
     
     func launchFreeVoucher() {
-        let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
-        self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
+        /* FIXME: Swift 3 let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+        self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)*/
     }
     
     func launchRequestBarang() {
@@ -295,14 +298,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchMyProducts() {
-        let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        /* FIXME: Swift 3 let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)
+        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
     }
     
     func launchMyPurchases() {
-        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+        /* FIXME: Swift 3 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)*/
     }
     
     func launchContactPrelo() {
@@ -322,20 +325,20 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchFAQ() {
-        let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        /* FIXME: Swift 3 let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
         helpVC.titleString = "Bantuan"
         helpVC.contactPreloMode = true
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
-        self.present(baseNavC, animated: true, completion: nil)
+        self.present(baseNavC, animated: true, completion: nil)*/
     }
     
     func launchAbout() {
-        let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
+        /* FIXME: Swift 3 let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
-        self.previousController?.navigationController?.pushViewController(a, animated: true)
+        self.previousController?.navigationController?.pushViewController(a, animated: true)*/
     }
     
     // MARK: - Mail compose delegate functions

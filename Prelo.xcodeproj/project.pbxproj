@@ -309,6 +309,12 @@
 		5847E1641DBDB1E500C1B2BA /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
 		5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214864D81B6F53EF00EF49EF /* PickerViewController.swift */; };
 		5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5894DB3B1D586B2D00874A56 /* FilterViewController.swift */; };
+		5847E1891DBDF27A00C1B2BA /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312591B677BA000A4DA3B /* DashboardViewController.swift */; };
+		5847E18E1DBDFAF700C1B2BA /* PathLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */; };
+		5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B93C7C1BBEC40800036173 /* PathEndpoints.swift */; };
+		5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */; };
+		5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212007C51B6A102600D9C84B /* LoginViewController.swift */; };
+		5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -2868,6 +2874,7 @@
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
 				589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */,
+				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
@@ -3111,6 +3118,7 @@
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
+				5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
@@ -3162,6 +3170,8 @@
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
+				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
+				5847E18E1DBDFAF700C1B2BA /* PathLoginViewController.swift in Sources */,
 				21B467FA1CCE5EDB00E145ED /* UIButton+BFKit.swift in Sources */,
 				21B468001CCE5EDB00E145ED /* UILabel+BFKit.swift in Sources */,
 				58A99A331C6D864E00E3E7D7 /* BNCStrongMatchHelper.m in Sources */,
@@ -3174,6 +3184,7 @@
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
+				5847E1891DBDF27A00C1B2BA /* DashboardViewController.swift in Sources */,
 				21C6589A1B8EF25E0037F85F /* ActionSheetStringPicker.m in Sources */,
 				2141BBD61B54BE4C00787F5D /* README.md in Sources */,
 				58DD29111DAF3F6200130B6F /* SocketEnginePollable.swift in Sources */,
@@ -3216,6 +3227,7 @@
 				58DD291D1DAF3F6200130B6F /* SocketParsable.swift in Sources */,
 				58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
+				5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */,
 				21B467EF1CCE5EDB00E145ED /* NSDictionary+BFKit.swift in Sources */,
 				21B467E61CCE5EDB00E145ED /* BFSystemSound.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,

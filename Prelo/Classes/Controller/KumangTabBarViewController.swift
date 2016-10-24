@@ -320,17 +320,16 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             }
             
         } else {
-            // FIXME: Swift 3
-//            if (User.IsLoggedIn) {
-//                print("To Dashboard")
-//                controllerDashboard?.previousController = self
-//                self.setupNormalOptions() // Agar notification terupdate
-//                changeToController(controllerDashboard!)
-//            } else {
-//                print("To Dashboard2")
-//                controllerDashboard2?.previousController = self
-//                changeToController(controllerDashboard2!)
-//            }
+            if (User.IsLoggedIn) {
+                print("To Dashboard")
+                controllerDashboard?.previousController = self
+                self.setupNormalOptions() // Agar notification terupdate
+                changeToController(controllerDashboard!)
+            } else {
+                print("To Dashboard2")
+                controllerDashboard2?.previousController = self
+                changeToController(controllerDashboard2!)
+            }
         }
     }
     

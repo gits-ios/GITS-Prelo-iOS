@@ -25,7 +25,7 @@ class DAO: NSObject {
         
     }
 }
-/* FIXME: Swift 3
+
 open class User : NSObject
 {
     fileprivate static var TokenKey = "user_token"
@@ -154,7 +154,7 @@ open class User : NSObject
             store.logOutUserID(userID)
         }
     }
-}*/
+}
 
 class UserProfile : NSObject {
     var json : JSON!
@@ -473,8 +473,8 @@ class UserProfile : NSObject {
         return ""
     }
 }
-/* FIXME: Swift 3
-open class ProductDetail : NSObject, TawarItem
+
+open class ProductDetail : NSObject// FIXME: Swift 3 , TawarItem
 {
     var json : JSON = JSON([:])
     
@@ -964,7 +964,7 @@ open class ProductDetail : NSObject, TawarItem
     func setSharedViaTwitter() {
         json["_data"]["share_status"]["TWITTER"] = JSON(true)
     }
-}*/
+}
 
 open class Product : NSObject
 {
