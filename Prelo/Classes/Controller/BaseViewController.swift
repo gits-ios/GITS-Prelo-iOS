@@ -43,7 +43,6 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
 
     var userRelatedDelegate : UserRelatedDelegate?
     var previousController : UIViewController?
-    var isStatusBarHidden : Bool = false
     var badgeView : GIBadgeView!
     fileprivate var _titleText : String?
     var titleText : String? {
@@ -71,12 +70,17 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
         b.addTarget(self, action: #selector(BaseViewController.confirm), for: UIControlEvents.touchUpInside)
         return b
     }
-    
-    // MARK: - Init
-    
+    var isStatusBarHidden : Bool = false
+    var statusBarStyle : UIStatusBarStyle = .default
     override var prefersStatusBarHidden: Bool {
         return isStatusBarHidden
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarStyle
+    }
+    
+    // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -271,6 +275,11 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
     
     func hideStatusBar() {
         self.isStatusBarHidden = true
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func setStatusBarStyle(style: UIStatusBarStyle) {
+        self.statusBarStyle = style
         self.setNeedsStatusBarAppearanceUpdate()
     }
 }

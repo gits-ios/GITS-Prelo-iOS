@@ -220,7 +220,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
             }
         }
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
-            // FIXME: Swift 3 firstChild.setupContent()
+            firstChild.setupContent()
         }
         
         scroll_View.layoutIfNeeded()
@@ -232,7 +232,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         let li:ListItemViewController = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
         li.previousController = self.previousController
         
-        // FIXME: Swift 3 li.categoryJson = categoriesFix[i]
+        li.categoryJson = categoriesFix[i]
         
         li.bannerImageUrl = categoriesFix[i]["banner"]["image_url"].stringValue
         li.bannerTargetUrl = categoriesFix[i]["banner"]["target_url"].stringValue

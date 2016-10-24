@@ -198,7 +198,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         super.viewWillAppear(animated)
         
         // Status bar style
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
+        self.setStatusBarStyle(style: .lightContent)
         
         // Add status bar tap observer
         // FIXME: Swift 3 NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
@@ -213,7 +213,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+        self.showStatusBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -250,9 +250,9 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     override func backPressed(_ sender: UIBarButtonItem) {
         if (self.isBackToFltrSearch) {
             let viewControllers: [UIViewController] = (self.navigationController?.viewControllers)!
-            self.navigationController?.popToViewController(viewControllers[1], animated: true);
+            _ = self.navigationController?.popToViewController(viewControllers[1], animated: true);
         } else {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -523,7 +523,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         requesting = true
         
-        let _ = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
+        _ = request(APIProduct.getAllFeaturedProducts(categoryId: self.categoryJson!["_id"].stringValue)).responseJSON { resp in
             self.requesting = false
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Featured Products")) {
                 self.products = []
@@ -576,7 +576,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.captionName.text = self.shopName
                 self.title = self.shopName
                 let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopHeader?.avatar.setImageWithUrl(URL(string: avatarThumbnail)!, placeHolderImage: nil)
+                self.shopHeader?.avatar.downloadedFrom(url: URL(string: avatarThumbnail)!)
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -929,7 +929,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .subcategories:
             NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-            UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+            self.showStatusBar()
             
             let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             p.currentMode = .filter
@@ -981,7 +981,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 f.btnFooterAction = {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+                    self.showStatusBar()
                     
                     let p = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     p.currentMode = .filter
@@ -1030,7 +1030,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     if ((self.navigationController?.isNavigationBarHidden)! == false) {
                         NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "hideBottomBar"), object: nil)
                         self.navigationController?.setNavigationBarHidden(true, animated: true)
-                        UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
+                        self.hideStatusBar()
                         if (selectedSegment != "") {
                             consHeightVwTopHeader.constant = 0 // Hide top header
                             UIView.animate(withDuration: 0.2, animations: {
@@ -1041,7 +1041,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 } else {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+                    self.showStatusBar()
                     if (selectedSegment != "") {
                         consHeightVwTopHeader.constant = 40 // Show top header
                         UIView.animate(withDuration: 0.2, animations: {
@@ -1419,7 +1419,7 @@ class ListItemCell : UICollectionViewCell {
             sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
-                avatar.setImageWithUrl(url, placeHolderImage: UIImage(named : "raisa.jpg"))
+                avatar.downloadedFrom(url: url)
             } else {
                 avatar.image = nil
             }
@@ -1434,7 +1434,7 @@ class ListItemCell : UICollectionViewCell {
         
         _ = obj["display_picts"][0].string
         ivCover.image = nil
-        ivCover.setImageWithUrl(product.coverImageURL!, placeHolderImage: nil)
+        ivCover.downloadedFrom(url: product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice
