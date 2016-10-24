@@ -319,10 +319,15 @@
 		5847E1971DBE081700C1B2BA /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4611B87038400CAD5C9 /* Register.xib */; };
 		5847E1981DBE0D0400C1B2BA /* MessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000B91BCB89D500E16611 /* MessagePool.swift */; };
 		5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */; };
+		5847E19A1DBE0F5500C1B2BA /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB71BAA8ECC00947E7F /* PhoneVerificationViewController.swift */; };
+		5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BD691C1B957CF000D036F0 /* ProfileSetupViewController.swift */; };
+		5847E19C1DBE103200C1B2BA /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C5AB821B858A580036FF6B /* ImagePickerViewController.swift */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
 		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
+		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
+		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
 		589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */; };
@@ -3041,6 +3046,7 @@
 				58A99A3D1C6D864E00E3E7D7 /* BranchCloseRequest.m in Sources */,
 				21C658991B8EF25E0037F85F /* ActionSheetMultipleStringPicker.m in Sources */,
 				21679A581B901C5300F18F90 /* UIView+MPHelpers.m in Sources */,
+				585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */,
 				21679A571B901C5300F18F90 /* UIImage+MPImageEffects.m in Sources */,
 				2167998E1B8F8AB900F18F90 /* AFSecurityPolicy.m in Sources */,
 				21D3875F1B6B967A00D0FA90 /* ZSWTappableLabel.m in Sources */,
@@ -3071,6 +3077,7 @@
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
+				5847E19A1DBE0F5500C1B2BA /* PhoneVerificationViewController.swift in Sources */,
 				5832342D1DB89D3E0059B3A2 /* BaseViewController.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
 				58A99A421C6D864E00E3E7D7 /* BranchLoadRewardsRequest.m in Sources */,
@@ -3086,6 +3093,7 @@
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */,
 				216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */,
 				21679A341B901C5300F18F90 /* MPNotificationViewController.m in Sources */,
 				5832342F1DB8A66C0059B3A2 /* AppTools.swift in Sources */,
@@ -3117,6 +3125,7 @@
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
+				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
@@ -3209,6 +3218,7 @@
 				21679A481B901C5300F18F90 /* MPTypeDescription.m in Sources */,
 				21B467E51CCE5EDB00E145ED /* BFPassword.swift in Sources */,
 				583234301DB8BC8A0059B3A2 /* KumangCustomView.swift in Sources */,
+				5847E19C1DBE103200C1B2BA /* ImagePickerViewController.swift in Sources */,
 				58DD290D1DAF3F6200130B6F /* SocketClientManager.swift in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
