@@ -308,6 +308,7 @@
 		5847E1631DBDB1D600C1B2BA /* CDCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DC1BDF4AF300D93D2D /* CDCategory.swift */; };
 		5847E1641DBDB1E500C1B2BA /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
 		5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214864D81B6F53EF00EF49EF /* PickerViewController.swift */; };
+		5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5894DB3B1D586B2D00874A56 /* FilterViewController.swift */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -3036,6 +3037,7 @@
 				58DD29121DAF3F6200130B6F /* SocketEngineSpec.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
+				5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */,
 				58DD290E1DAF3F6200130B6F /* SocketEngine.swift in Sources */,
 				21B467FB1CCE5EDB00E145ED /* UIColor+BFKit.swift in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,

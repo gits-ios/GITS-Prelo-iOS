@@ -59,7 +59,7 @@ enum ListItemMode {
     case filter
 }
 
-class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate  { // FIXME: Swift 3, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
+class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate  { // FIXME: Swift 3, CategoryPickerDelegate, ListBrandDelegate {
     
     // MARK: - Struct
     
@@ -190,7 +190,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         
         // Setup content for filter, shop, or standalone mode
         if (currentMode == .standalone || currentMode == .shop || currentMode == .filter) {
-            // FIXME: Swift 3 self.setupContent()
+            self.setupContent()
         }
     }
     
@@ -382,7 +382,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 if (fltrCategId == "") {
                     lblFilterKategori.text = "All"
                 } else {
-                    // FIXME: Swift 3 lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
+                    lblFilterKategori.text = CDCategory.getCategoryNameWithID(fltrCategId)
                 }
                 lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]
                 if (lblFilterSort.text?.lowercased() == "highest rp") {
@@ -663,14 +663,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
                 self.shopHeader?.btnEdit.isHidden = true
-                /* FIXME: Swift 3
                 if let id = json["_id"].string, let me = CDUser.getOne()
                 {
                     if (id == me.id)
                     {
                         self.shopHeader?.btnEdit.isHidden = false
                     }
-                }*/
+                }
                 
                 // Total products and sold products
                 if let productCount = json["total_product"].int {
@@ -686,7 +685,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 
                 self.shopHeader?.captionLocation.text = "Unknown"
-                /* FIXME: Swift 3
+                
                 if let regionId = json["profile"]["region_id"].string, let province_id = json["profile"]["province_id"].string
                 {
                     // yang ini go, region sama province nya null.
@@ -695,7 +694,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.shopHeader?.captionLocation.text = region + ", " + province
                     }
                 }
-                
+                /* FIXME: Swift 3
                 self.shopHeader?.editBlock = {
                     let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
                     self.navigationController?.pushViewController(userProfileVC, animated: true)
@@ -714,8 +713,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     c.images = (self.shopHeader?.avatarUrls)!
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
-                }
-                */
+                }*/
+                
                 self.refresher?.endRefreshing()
                 var refresherBound = self.refresher?.bounds
                 if (refresherBound != nil) {
@@ -781,8 +780,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         if (gridView.dataSource == nil || gridView.delegate == nil) {
-            // FIXME: Swift 3 gridView.dataSource = self
-            // FIXME: Swift 3 gridView.delegate = self
+            gridView.dataSource = self
+            gridView.delegate = self
         }
         
         if (!(currentMode == .segment && listItemSections.contains(.segments))) {
