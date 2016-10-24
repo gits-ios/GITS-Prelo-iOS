@@ -2991,7 +2991,7 @@ class TransactionDetailProductCell : UITableViewCell {
     func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Set image
         if let url = trxProductDetail.productImageURL {
-            imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+            imgProduct.downloadedFrom(url: url)
         }
         
         // Set text
@@ -3568,7 +3568,7 @@ class TransactionDetailReviewCell : UITableViewCell {
     func adapt(_ trxProductDetail : TransactionProductDetail) {
         // Image
         if let url = trxProductDetail.reviewerImageURL {
-            imgReviewer.setImageWithUrl(url, placeHolderImage: UIImage(named: "raisa.jpg"))
+            imgReviewer.downloadedFrom(url: url)
         }
         
         // Text

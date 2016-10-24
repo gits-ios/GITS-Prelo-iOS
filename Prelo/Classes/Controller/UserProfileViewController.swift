@@ -153,7 +153,7 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             let url = URL(string: userProfile.pict)
             if (url != nil) {
                 self.imgUser.image = nil
-                self.imgUser.setImageWithUrl(url!, placeHolderImage: nil)
+                self.imgUser.downloadedFrom(url: url!)
                 self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
                 self.imgUser.layer.masksToBounds = true
             }

@@ -384,12 +384,12 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         if (notif.productImages.count == 1) {
             vwSingleImage.isHidden = false
             vwDoubleImage.isHidden = true
-            imgSingle.setImageWithUrl(URL(string: notif.productImages.objectAtCircleIndex(0))!, placeHolderImage: nil)
+            imgSingle.downloadedFrom(url: URL(string: notif.productImages.objectAtCircleIndex(0))!)
         } else if (notif.productImages.count > 1) {
             vwSingleImage.isHidden = true
             vwDoubleImage.isHidden = false
-            imgDouble1.setImageWithUrl(URL(string: notif.productImages.objectAtCircleIndex(0))!, placeHolderImage: nil)
-            imgDouble2.setImageWithUrl(URL(string: notif.productImages.objectAtCircleIndex(1))!, placeHolderImage: nil)
+            imgDouble1.downloadedFrom(url: URL(string: notif.productImages.objectAtCircleIndex(0))!)
+            imgDouble2.downloadedFrom(url: URL(string: notif.productImages.objectAtCircleIndex(1))!)
         }
         
         // Set caption

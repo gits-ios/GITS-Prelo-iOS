@@ -345,7 +345,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             c.captionName.text = p.name
             c.captionPrice.text = p.price
             if let url = p.coverImageURL {
-                c.ivImage.setImageWithUrl(url, placeHolderImage: nil)
+                c.ivImage.downloadedFrom(url: url)
             }
             return c
         } else if ((indexPath as NSIndexPath).section == SectionUser) {
@@ -361,7 +361,7 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
             let c = tableView.dequeueReusableCell(withIdentifier: "user") as! SearchUserCell
             let u = foundUsers[(indexPath as NSIndexPath).row]
             c.captionName.text = u.username
-            c.ivImage.setImageWithUrl(URL(string : u.pict)!, placeHolderImage: nil)
+            c.ivImage.downloadedFrom(url: URL(string : u.pict)!)
             c.ivImage.layer.cornerRadius = (c.ivImage.frame.size.width) / 2
             c.ivImage.clipsToBounds = true
             return c

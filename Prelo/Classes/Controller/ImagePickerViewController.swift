@@ -328,7 +328,7 @@ class ImagePickerCell : UICollectionViewCell
             {
                 ivCover.image = i
             } else {
-                ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
+                ivCover.downloadedFrom(url: (_apImage?.url)!)
             }
         }
         get {

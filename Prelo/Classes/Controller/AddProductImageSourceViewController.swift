@@ -245,7 +245,7 @@ class ImageSourceCell : UICollectionViewCell, UIGestureRecognizerDelegate
                     })
                 })
             } else {
-                ivCover.setImageWithUrl((_apImage?.url)!, placeHolderImage: nil)
+                ivCover.downloadedFrom(url: (_apImage?.url)!)
             }
         }
         get {

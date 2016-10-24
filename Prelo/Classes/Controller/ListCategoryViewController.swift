@@ -368,7 +368,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                                         self.vwHomePromo = UIView(frame: screenSize, backgroundColor: UIColor.colorWithColor(UIColor.black, alpha: 0.7))
                                         
                                         let imgHomePromo = UIImageView()
-                                        imgHomePromo.setImageWithUrl(promoUrl, placeHolderImage: nil)
+                                        imgHomePromo.downloadedFrom(url: promoUrl)
                                         let imgHomePromoSize = CGSize(width: 300, height: 400)
                                         imgHomePromo.frame = CGRect(x: (screenSize.width / 2) - (imgHomePromoSize.width / 2), y: (screenSize.height / 2) - (imgHomePromoSize.height / 2), width: imgHomePromoSize.width, height: imgHomePromoSize.height)
                                         imgHomePromo.contentMode = UIViewContentMode.scaleAspectFit

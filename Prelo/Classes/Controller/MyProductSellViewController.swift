@@ -227,7 +227,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             
             cell.imgProduct.image = nil
             if let url = p.coverImageURL {
-                cell.imgProduct.setImageWithUrl(url, placeHolderImage: nil)
+                cell.imgProduct.downloadedFrom(url: url)
             } else if let img = p.placeHolderImage
             {
                 cell.imgProduct.image = img
@@ -286,7 +286,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         m.ivCover.image = nil
         if let url = p.coverImageURL
         {
-            m.ivCover.setImageWithUrl(url, placeHolderImage: nil)
+            m.ivCover.downloadedFrom(url: url)
         }
         
         return m*/

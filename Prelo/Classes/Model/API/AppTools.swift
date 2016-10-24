@@ -173,6 +173,13 @@ extension UIImage {
 extension UIImageView {
     func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         contentMode = mode
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url)
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data!)
+            }
+        }
+        /* Another method
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard
                 let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -183,7 +190,8 @@ extension UIImageView {
             DispatchQueue.main.async() { () -> Void in
                 self.image = image
             }
-            }.resume()
+        }.resume()
+        */
     }
     func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         guard let url = URL(string: link) else { return }

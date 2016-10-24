@@ -171,7 +171,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             header.captionUsername.text = tawarItem.myName
         }
         // Product image
-        header.ivProduct.setImageWithUrl(tawarItem.productImage, placeHolderImage: nil)
+        header.ivProduct.downloadedFrom(url: tawarItem.productImage)
         
         // Hide textview and price for Prelo Message
         if (self.isChatWithPreloMessage()) {
@@ -464,7 +464,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.decor()
             
             if (!m.isMe) {
-                cell.avatar.setImageWithUrl(tawarItem.theirImage, placeHolderImage: nil)
+                cell.avatar.downloadedFrom(url: tawarItem.theirImage)
             }
             
             cell.toShopPage = {

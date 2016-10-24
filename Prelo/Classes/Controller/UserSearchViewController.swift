@@ -83,7 +83,7 @@ class UserSearchViewController: BaseViewController, UITableViewDataSource, UITab
         
         c.captionFullname.text = s.fullname
         c.captionUsername.text = s.username
-        c.iv.setImageWithUrl(URL(string : s.pict)!, placeHolderImage: nil)
+        c.iv.downloadedFrom(url: URL(string : s.pict)!)
         
         c.decorate()
         
