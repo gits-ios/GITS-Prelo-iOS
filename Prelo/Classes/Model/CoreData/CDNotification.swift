@@ -27,7 +27,7 @@ class CDNotification : NSManagedObject {
     @NSManaged var rightImage : String?
     @NSManaged var weight : NSNumber
     @NSManaged var names : String
-    
+
     static func newOne(_ notifType : String, ids : String, opened : Bool, read : Bool, message : String, ownerId : String, name : String, type : NSNumber, objectName : String, objectId : String, time : String, leftImage : String, rightImage : String?, weight : NSNumber, names : String) -> CDNotification? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObject(forEntityName: "CDNotification", into: m) as! CDNotification
@@ -78,7 +78,7 @@ class CDNotification : NSManagedObject {
         
         return true
     }
-    
+
     static func getAll() -> [CDNotification]? {
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDNotification")
         
@@ -100,7 +100,7 @@ class CDNotification : NSManagedObject {
             return 0
         }
     }
-    
+
     static func getNewNotifCount() -> Int {
         let predicate = NSPredicate(format: "read == %@", NSNumber(value: false as Bool)) // Ada perubahan bahwa angka notif sekarang adalah berdasarkan read, bukan opened, jadi "opened == %@" diubah jadi "read == %@"
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDNotification")
@@ -126,7 +126,7 @@ class CDNotification : NSManagedObject {
             return []
         }
     }
-    
+
     static func getUnreadNotifCountInSection(_ section : String) -> Int {
         let predicate = NSPredicate(format: "notifType == %@ AND read == false", section)
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDNotification")
@@ -153,7 +153,7 @@ class CDNotification : NSManagedObject {
             return 0
         }
     }
-    
+
     static func setAllNotifToOpened() {
         let m = UIApplication.appDelegate.managedObjectContext
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDNotification")
@@ -215,7 +215,7 @@ class CDNotification : NSManagedObject {
             return nil
         }
     }
-    
+
     // Mengembalikan jumlah notif transaksi + aktivitas yang not opened
     static func setAllNotifInboxToOpened() -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
@@ -299,7 +299,7 @@ class CDNotification : NSManagedObject {
             return nil
         }
     }
-    
+
     // Mengembalikan jumlah notif transaction yang not read
     static func setReadNotifTransactionAndGetUnreadCount(_ ids : String) -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
@@ -383,7 +383,7 @@ class CDNotification : NSManagedObject {
             return nil
         }
     }
-    
+
     // Mengembalikan jumlah notif aktivitas yang not read
     static func setReadNotifActivityAndGetUnreadCount(_ ids : String) -> Int? {
         let m = UIApplication.appDelegate.managedObjectContext
@@ -450,7 +450,7 @@ class CDNotification : NSManagedObject {
             
         }
     }
-    
+
     static func deleteNotifWithIds(_ ids : String) {
         let m = UIApplication.appDelegate.managedObjectContext
         let predicate = NSPredicate(format: "ids like[c] %@", ids)

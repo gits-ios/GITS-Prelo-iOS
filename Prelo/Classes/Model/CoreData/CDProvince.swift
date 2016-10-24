@@ -15,7 +15,7 @@ class CDProvince : NSManagedObject {
     @NSManaged var id : String
     @NSManaged var name : String
     @NSManaged var regions : NSMutableSet
-    
+
     static func saveProvincesFromArrayJson(_ arr: [JSON]) -> Bool {
         
         if (arr.count <= 0) {
@@ -39,7 +39,7 @@ class CDProvince : NSManagedObject {
             return true
         }
     }
-    
+
     static func updateProvincesFromArrayJson(_ arr: [JSON]) -> Bool {
         var isSuccess = true
         
@@ -70,7 +70,7 @@ class CDProvince : NSManagedObject {
         }
         return isSuccess
     }
-    
+
     static func deleteProvincesFromArrayJson(_ arr: [JSON]) -> Bool {
         var isSuccess = true
         
@@ -102,7 +102,7 @@ class CDProvince : NSManagedObject {
         }
         return isSuccess
     }
-    
+
     static func saveProvinceRegions(_ json : JSON, m : NSManagedObjectContext) -> Bool {
         for i in 0 ..< json.count {
             let provJson = json[i]
@@ -130,7 +130,7 @@ class CDProvince : NSManagedObject {
         print("saveProvinceRegions success")
         return true
     }
-    
+
     static func deleteAll(_ m : NSManagedObjectContext) -> Bool {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         fetchRequest.includesPropertyValues = false
@@ -153,7 +153,7 @@ class CDProvince : NSManagedObject {
         }
         return true
     }
-    
+
     static func getProvincePickerItems() -> [String] {
         let m = UIApplication.appDelegate.managedObjectContext
         var provinces = [CDProvince]()
@@ -187,7 +187,7 @@ class CDProvince : NSManagedObject {
             return nil
         }
     }
-    
+
     static func getProvinceCount() -> Int {
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDProvince")
         

@@ -294,6 +294,20 @@
 		583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADD3611BB2553700DFCF57 /* DummyGridViewController.swift */; };
 		5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F4FCE41B61E9AE00223028 /* DAO.swift */; };
 		5847E1511DBD52CE00C1B2BA /* AppToolsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A574A51B70D70600246CEB /* AppToolsObjC.m */; };
+		5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0F41B734D3A004AE3D9 /* CDUser.swift */; };
+		5847E1531DBD9BAB00C1B2BA /* CDUserOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0F01B734CFE004AE3D9 /* CDUserOther.swift */; };
+		5847E1541DBD9BAB00C1B2BA /* CDUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210DF0EE1B734CFD004AE3D9 /* CDUserProfile.swift */; };
+		5847E1591DBD9C2800C1B2BA /* CDVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC71BAA8EF800947E7F /* CDVersion.swift */; };
+		5847E15A1DBD9C2800C1B2BA /* CartProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21660B221B70A9D000910CF1 /* CartProduct.swift */; };
+		5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A111BDF161E00EFC1E3 /* CDProductCondition.swift */; };
+		5847E15E1DBD9D6E00C1B2BA /* CDRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC61BAA8EF800947E7F /* CDRegion.swift */; };
+		5847E15F1DBDA0A200C1B2BA /* CDProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AC51BAA8EF800947E7F /* CDProvince.swift */; };
+		5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D58C491BC7C8C800F85F13 /* CDNotification.swift */; };
+		5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */; };
+		5847E1621DBDB1C400C1B2BA /* CDCategorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */; };
+		5847E1631DBDB1D600C1B2BA /* CDCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DC1BDF4AF300D93D2D /* CDCategory.swift */; };
+		5847E1641DBDB1E500C1B2BA /* CDBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B779DE1BDF72BB00D93D2D /* CDBrand.swift */; };
+		5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214864D81B6F53EF00EF49EF /* PickerViewController.swift */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -2991,6 +3005,7 @@
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
 				58DD291B1DAF3F6200130B6F /* SocketLogger.swift in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
+				5847E1621DBDB1C400C1B2BA /* CDCategorySize.swift in Sources */,
 				58DD291C1DAF3F6200130B6F /* SocketPacket.swift in Sources */,
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
@@ -3020,12 +3035,14 @@
 				58DD28F11DAF36DD00130B6F /* UIPasteboard.swift in Sources */,
 				58DD29121DAF3F6200130B6F /* SocketEngineSpec.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
+				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
 				58DD290E1DAF3F6200130B6F /* SocketEngine.swift in Sources */,
 				21B467FB1CCE5EDB00E145ED /* UIColor+BFKit.swift in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
 				58DD29191DAF3F6200130B6F /* SocketIOClientSpec.swift in Sources */,
 				21B467EC1CCE5EDB00E145ED /* NSArray+BFKit.swift in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
+				5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */,
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,
 				21B4680A1CCE5EDB00E145ED /* UIWindow+BFKit.swift in Sources */,
 				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
@@ -3034,6 +3051,7 @@
 				21679A561B901C5300F18F90 /* UIImage+MPAverageColor.m in Sources */,
 				58DD28EC1DAF36D000130B6F /* Date+BFKit.swift in Sources */,
 				211BC9981B96D53300FDB1DC /* GrowingTextViewHandler.m in Sources */,
+				5847E1541DBD9BAB00C1B2BA /* CDUserProfile.swift in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
@@ -3074,11 +3092,13 @@
 				21B467E01CCE5EDB00E145ED /* README.md in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				5847E1511DBD52CE00C1B2BA /* AppToolsObjC.m in Sources */,
+				5847E1641DBDB1E500C1B2BA /* CDBrand.swift in Sources */,
 				58DD290A1DAF3F6200130B6F /* SocketAckEmitter.swift in Sources */,
 				21B467F91CCE5EDB00E145ED /* UIBarButtonItem+BFKit.swift in Sources */,
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
+				5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
@@ -3093,6 +3113,7 @@
 				21679A511B901C5300F18F90 /* NSData+MPBase64.m in Sources */,
 				21679A231B901C5300F18F90 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				58DD28EF1DAF36D000130B6F /* Thread+BFKit.swift in Sources */,
+				5847E15F1DBDA0A200C1B2BA /* CDProvince.swift in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
@@ -3118,6 +3139,7 @@
 				58A99A371C6D864E00E3E7D7 /* BranchConstants.m in Sources */,
 				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				5847E1631DBDB1D600C1B2BA /* CDCategory.swift in Sources */,
 				58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */,
 				58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */,
 				58A99A3C1C6D864E00E3E7D7 /* BranchApplyPromoCodeRequest.m in Sources */,
@@ -3171,12 +3193,16 @@
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,
+				5847E1531DBD9BAB00C1B2BA /* CDUserOther.swift in Sources */,
+				5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
 				21B468081CCE5EDB00E145ED /* UIView+BFKit.swift in Sources */,
 				58A99A461C6D864E00E3E7D7 /* BranchRegisterViewRequest.m in Sources */,
+				5847E1591DBD9C2800C1B2BA /* CDVersion.swift in Sources */,
 				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
+				5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
 				5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */,
 				58DD29201DAF3F6200130B6F /* SSLSecurity.swift in Sources */,
@@ -3199,12 +3225,14 @@
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
 				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
+				5847E15A1DBD9C2800C1B2BA /* CartProduct.swift in Sources */,
 				58A99A4A1C6D864E00E3E7D7 /* BranchSpotlightUrlRequest.m in Sources */,
 				58A99A381C6D864E00E3E7D7 /* BranchCSSearchableItemAttributeSet.m in Sources */,
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				21B467FE1CCE5EDB00E145ED /* UIImage+BFKit.swift in Sources */,
 				21679A461B901C5300F18F90 /* MPTweakInline.m in Sources */,
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,
+				5847E15E1DBD9D6E00C1B2BA /* CDRegion.swift in Sources */,
 				58A99A481C6D864E00E3E7D7 /* BranchShortUrlRequest.m in Sources */,
 				21B468011CCE5EDB00E145ED /* UINavigationBar+BFKit.swift in Sources */,
 				21B467EA1CCE5EDB00E145ED /* Array+BFKit.swift in Sources */,

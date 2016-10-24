@@ -77,7 +77,7 @@ class CDRegion : NSManagedObject {
         }
         return isSuccess
     }
-    
+
     static func deleteRegionsFromArrayJson(_ arr : [JSON]) -> Bool {
         var isSuccess = true
         
@@ -109,7 +109,7 @@ class CDRegion : NSManagedObject {
         }
         return isSuccess
     }
-    
+
     static func newOne(_ id : String, name : String, province : CDProvince) -> CDRegion? {
         let m = UIApplication.appDelegate.managedObjectContext
         let r = NSEntityDescription.insertNewObject(forEntityName: "CDRegion", into: m) as! CDRegion
@@ -142,7 +142,7 @@ class CDRegion : NSManagedObject {
         }
         return true
     }
-    
+
     static func getRegionPickerItems(_ provID : String) -> [String] {
         let m = UIApplication.appDelegate.managedObjectContext
         var regions = [CDRegion]()
@@ -165,7 +165,7 @@ class CDRegion : NSManagedObject {
         }
         return arr
     }
-    
+ 
     static func getRegionNameWithID(_ id : String) -> String? {
         let predicate = NSPredicate(format: "id like[c] %@", id)
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDRegion")
