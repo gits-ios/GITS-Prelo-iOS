@@ -12,7 +12,7 @@ import Alamofire
 
 // MARK: - Class
 
-class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // FIXME: Swift 3, CarbonTabSwipeDelegate {
+class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, CarbonTabSwipeDelegate {
 
     // MARK: - Properties
     
@@ -58,9 +58,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // MARK: Swift 3
-//        pinchIn = UIPinchGestureRecognizer(target: self, action: #selector(ListCategoryViewController.pinchedIn(_:)))
-//        self.view.addGestureRecognizer(pinchIn)
+        pinchIn = UIPinchGestureRecognizer(target: self, action: #selector(ListCategoryViewController.pinchedIn(_:)))
+        self.view.addGestureRecognizer(pinchIn)
         
         // Mixpanel
         //Mixpanel.trackPageVisit(PageName.Home, otherParam: ["Category" : "All"])
@@ -225,7 +224,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
-        // FIXME: Swift 3 addCategoryNames(count)
+        addCategoryNames(count)
     }
     
     func addChildAtIdx(_ i : Int, count : Int, d : inout [String : UIView], lastView : inout UIView?) {
@@ -262,10 +261,10 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         lastView = v
         listItemViews.append(v!)
     }
-    /*
+    
     func addCategoryNames(_ count : Int)
     {
-        var d = ["scroll":scrollCategoryName, "master":self.view]
+        var d : [String : UIView] = ["scroll":scrollCategoryName, "master":self.view]
         if contentCategoryNames == nil
         {
             scrollCategoryName.showsHorizontalScrollIndicator = false
@@ -584,7 +583,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
                 if (categoriesFix[i]["name"].stringValue.lowercased() == "women") {
                     NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: "showBottomBar"), object: nil)
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
+                    self.showStatusBar()
                 }
                 
                 // Set current category id
@@ -661,6 +660,6 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate { // 
         }
         return nil
     }
-    */
+    
 }
 

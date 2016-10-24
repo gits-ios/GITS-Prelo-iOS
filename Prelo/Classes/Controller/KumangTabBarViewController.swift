@@ -71,9 +71,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Version check
         if (!isVersionChecked) {
-            // FIXME: Swift 3 self.versionCheck()
+            self.versionCheck()
         } else {
-            // FIXME: Swift 3 self.versionChecked()
+            self.versionChecked()
         }
         
         // Resume product upload
@@ -343,7 +343,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     }
     
     // MARK: - Version check and load/update metadata
-    /* FIXME: Swift 3
+    
     func versionCheck() {
         // API Migrasi
         let _ = request(APIApp.version).responseJSON { resp in
@@ -594,5 +594,5 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             // Version check is done
             self.versionChecked()
         }
-    }*/
+    }
 }
