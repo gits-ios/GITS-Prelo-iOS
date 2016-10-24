@@ -315,6 +315,8 @@
 		5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */; };
 		5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212007C51B6A102600D9C84B /* LoginViewController.swift */; };
 		5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */; };
+		5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */; };
+		5847E1971DBE081700C1B2BA /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4611B87038400CAD5C9 /* Register.xib */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -2879,6 +2881,7 @@
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				589A6FBE1D8C08F600654CDD /* ic_gambar_utama.png in Resources */,
+				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
 				589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
@@ -3134,6 +3137,7 @@
 				21B467FF1CCE5EDB00E145ED /* UIImageView+BFKit.swift in Sources */,
 				58A99A2F1C6D864E00E3E7D7 /* BNCPreferenceHelper.m in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
+				5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */,
 				21B467E11CCE5EDB00E145ED /* BFApp.swift in Sources */,
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,

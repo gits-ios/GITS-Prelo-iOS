@@ -110,12 +110,12 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     
     @IBAction func termConditionPressed(_ sender: AnyObject) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let termCondVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        /* FIXME: Swift 3 let termCondVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         termCondVC.url = "https://prelo.co.id/syarat-ketentuan?ref=preloapp"
         termCondVC.titleString = "Syarat dan Ketentuan"
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([termCondVC], animated: false)
-        self.present(baseNavC, animated: true, completion: nil)
+        self.present(baseNavC, animated: true, completion: nil)*/
     }
     
     func fieldsVerified() -> Bool {
@@ -251,7 +251,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
     }
     
     func toProfileSetup(_ userId : String, userToken : String, userEmail : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
-        let profileSetupVC = Bundle.main.loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil)?.first as! ProfileSetupViewController
+        /* FIXME: Swift 3 let profileSetupVC = Bundle.main.loadNibNamed(Tags.XibNameProfileSetup, owner: nil, options: nil)?.first as! ProfileSetupViewController
         profileSetupVC.userRelatedDelegate = self.userRelatedDelegate
         profileSetupVC.userId = userId
         profileSetupVC.userToken = userToken
@@ -261,7 +261,7 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         profileSetupVC.screenBeforeLogin = screenBeforeLogin
         profileSetupVC.isFromRegister = true
         self.navigationController?.navigationBar.backgroundColor = Theme.PrimaryColor // Reset navbar color
-        self.navigationController?.pushViewController(profileSetupVC, animated: true)
+        self.navigationController?.pushViewController(profileSetupVC, animated: true)*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -296,9 +296,9 @@ class RegisterViewController: BaseViewController, UIGestureRecognizerDelegate, P
         self.showLoading()
         
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin as AnyObject] as [String : AnyObject]
-        LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
+        /* FIXME: Swift 3 LoginViewController.LoginWithTwitter(p, onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
-        })
+        })*/
     }
     
     // MARK: - Path Login
