@@ -176,7 +176,9 @@ extension UIImageView {
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url)
             DispatchQueue.main.async {
-                self.image = UIImage(data: data!)
+                if (data != nil) {
+                    self.image = UIImage(data: data!)
+                }
             }
         }
         /* Another method

@@ -112,7 +112,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         btnAdd?.layer.shadowColor = UIColor.black.cgColor
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
-        btnAdd?.layer.zPosition = CGFloat.greatestFiniteMagnitude
         btnAdd?.layer.masksToBounds = true
         
         // Init controllers
