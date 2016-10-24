@@ -2774,7 +2774,7 @@ class Inbox : NSObject, TawarItem
         return ""
     }
 }
-
+*/
 class InboxMessage : NSObject
 {
     static var formatter : DateFormatter = DateFormatter()
@@ -2929,7 +2929,7 @@ class InboxMessage : NSObject
     {
         self.sendTo(lastThreadId, completion: lastCompletion)
     }
-}*/
+}
 
 class NotificationObj : NSObject
 {

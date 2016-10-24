@@ -317,6 +317,8 @@
 		5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */; };
 		5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4571B87036000CAD5C9 /* RegisterViewController.swift */; };
 		5847E1971DBE081700C1B2BA /* Register.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21EEB4611B87038400CAD5C9 /* Register.xib */; };
+		5847E1981DBE0D0400C1B2BA /* MessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000B91BCB89D500E16611 /* MessagePool.swift */; };
+		5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */; };
 		58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C501D13A3D200074EC6 /* cchmrk_share.png */; };
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
@@ -3078,6 +3080,7 @@
 				58DD28ED1DAF36D000130B6F /* FileManager+BFKit.swift in Sources */,
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
+				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
 				21B467FC1CCE5EDB00E145ED /* UIDevice+BFKit.swift in Sources */,
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
@@ -3120,6 +3123,7 @@
 				21B467E31CCE5EDB00E145ED /* BFDataStructures.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
+				5847E1981DBE0D0400C1B2BA /* MessagePool.swift in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,

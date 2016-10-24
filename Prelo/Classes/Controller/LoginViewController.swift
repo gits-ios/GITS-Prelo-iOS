@@ -95,7 +95,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     // Param token is only used when user have set his account via setup account and phone verification
     static func CheckProfileSetup(_ sender : BaseViewController, token : String, isSocmedAccount : Bool, loginMethod : String, screenBeforeLogin : String) {
         let vcLogin = sender as? LoginViewController
-        // FIXME: Swift 3 let vcRegister = sender as? RegisterViewController
+        let vcRegister = sender as? RegisterViewController
         
         var isProfileSet : Bool = false
         
@@ -137,8 +137,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (isProfileSet) {
                     // Refresh notifications badge
                     let delegate = UIApplication.shared.delegate as! AppDelegate
-                    /* FIXME: Swift 3 let notifListener = delegate.preloNotifListener
-                    notifListener?.getTotalUnreadNotifCount()*/
+                    let notifListener = delegate.preloNotifListener
+                    notifListener?.getTotalUnreadNotifCount()
                     
                     // Save in core data
                     let m = UIApplication.appDelegate.managedObjectContext
@@ -310,9 +310,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 if (vcLogin != nil) {
                     vcLogin!.hideLoading()
                 }
-                /* FIXME: Swift 3 if (vcRegister != nil) {
+                if (vcRegister != nil) {
                     vcRegister!.hideLoading()
-                }*/
+                }
             }
         }
     }

@@ -113,9 +113,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let StatusBarTapNotificationName = "statusbartapped"
     
-    // FIXME: Swift 3 var messagePool : MessagePool?
+    var messagePool : MessagePool?
     
-    // FIXME: Swift 3 var preloNotifListener : PreloNotificationListener!
+    var preloNotifListener : PreloNotificationListener!
     
     let RedirProduct = "product"
     let RedirComment = "comment"
