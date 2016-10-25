@@ -257,20 +257,19 @@ class SetupPasswordPopUp : UIView {
         self.disableBackBlock()
         self.btnKirimEmail.setTitle("MENGIRIM...", for: UIControlState())
         self.btnKirimEmail.isUserInteractionEnabled = false
-        // FIXME: Swift 3
-//        let _ = request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":self.lblEmail.text!]).responseJSON {resp in
-//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Tarik Uang - Password Checking")) {
-//                let json = JSON(resp.result.value!)
-//                let dataBool : Bool = json["_data"].boolValue
-//                let dataInt : Int = json["_data"].intValue
-//                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
-//                if (dataBool == true || dataInt == 1) {
-//                    Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
-//                } else {
-//                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
-//                }
-//            }
-//            self.setPasswordDoneBlock()
-//        }
+        _ = request(APIAuth.forgotPassword(email: self.lblEmail.text!)).responseJSON { resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Tarik Uang - Password Checking")) {
+                let json = JSON(resp.result.value!)
+                let dataBool : Bool = json["_data"].boolValue
+                let dataInt : Int = json["_data"].intValue
+                //print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                if (dataBool == true || dataInt == 1) {
+                    Constant.showDialog("Success", message: "E-mail sudah dikirim ke \(self.lblEmail.text!)")
+                } else {
+                    Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                }
+            }
+            self.setPasswordDoneBlock()
+        }
     }
 }

@@ -88,25 +88,24 @@ class InstagramLoginViewController: BaseViewController, UIWebViewDelegate
     
     func getToken(_ code : String)
     {
-        // FIXME: Swift 3
-//        request(.POST, "https://api.instagram.com/oauth/access_token", parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
-//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Instagram"))
-//            {
-//                let json = JSON(resp.result.value!)
-//                if let token = json["access_token"].string
-//                {
-//                    self.instagramLoginDelegate?.instagramLoginSuccess(token)
-//                    
-//                    let id = json["user"]["id"]
-//                    let name = json["user"]["full_name"]
-//                    if (id != nil && name != nil) {
-//                        self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
-//                    }
-//                    
-//                    self.dismiss()
-//                }
-//            }
-//        }
+        request("https://api.instagram.com/oauth/access_token", method: .post, parameters: ["client_id":clientID, "client_secret":clientSecret, "grant_type":"authorization_code", "code":code, "redirect_uri":"http://"+urlCallback]).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Login Instagram"))
+            {
+                let json = JSON(resp.result.value!)
+                if let token = json["access_token"].string
+                {
+                    self.instagramLoginDelegate?.instagramLoginSuccess(token)
+                    
+                    let id = json["user"]["id"]
+                    let name = json["user"]["full_name"]
+                    if (id != nil && name != nil) {
+                        self.instagramLoginDelegate?.instagramLoginSuccess(token, id: id.string!, name: name.string!)
+                    }
+                    
+                    self.dismiss()
+                }
+            }
+        }
     }
     
 

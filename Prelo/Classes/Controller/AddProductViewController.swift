@@ -72,31 +72,30 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                // FIXME: Swift 3
-//                let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
-//                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Conditions")) {
-//                        let json = JSON(resp.result.value!)
-//                        let brands = json["product_conditions"].array
-//                        var items : Array<String> = []
-//                        if let arrBrands = brands
-//                        {
-//                            for i in 0...(arrBrands.count)-1
-//                            {
-//                                let j = arrBrands[i]
-//                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-//                                items.append(m)
-//                            }
-//                        }
-//                        
-//                        picker.selectBlock = { s in
-//                            self.selectedKondisi = PickerViewController.RevealHiddenString(s)
-//                        }
-//                        
-//                        picker.items = items
-//                        picker.tableView.reloadData()
-//                        picker.doneLoading()
-//                    }
-//                }
+                _ = request(url, method: HTTPMethod.get, headers: nil).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Conditions")) {
+                        let json = JSON(resp.result.value!)
+                        let brands = json["product_conditions"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
+                        {
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
+                        }
+                        
+                        picker.selectBlock = { s in
+                            self.selectedKondisi = PickerViewController.RevealHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                    }
+                }
             }
         })
         baseDatas[IndexPath(row: 4, section: 0)] = BaseCartData.instance("Merk", placeHolder: "Merk", value: "", pickerPrepBlock: { picker in
@@ -106,32 +105,31 @@ class AddProductViewController: BaseViewController, UICollectionViewDataSource, 
             let s = Bundle.main.url(forResource: "merk", withExtension: "json")?.absoluteString
             if let url = s
             {
-                // FIXME: Swift 3
-//                let _ = request(Method.GET, url, parameters: nil, encoding: ParameterEncoding.url, headers: nil).responseJSON {resp in
-//                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Brands")) {
-//                        let json = JSON(resp.result.value!)
-//                        let brands = json["brands"].array
-//                        var items : Array<String> = []
-//                        if let arrBrands = brands
-//                        {
-//                            for i in 0...(arrBrands.count)-1
-//                            {
-//                                let j = arrBrands[i]
-//                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
-//                                items.append(m)
-//                            }
-//                        }
-//                        
-//                        picker.selectBlock = { s in
-//                            self.selectedMerk = PickerViewController.RevealHiddenString(s)
-//                        }
-//                        
-//                        picker.items = items
-//                        picker.tableView.reloadData()
-//                        picker.doneLoading()
-//                        picker.showSearch = true
-//                    }
-//                }
+                _ = request(url, method: .get, headers: nil).responseJSON {resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Brands")) {
+                        let json = JSON(resp.result.value!)
+                        let brands = json["brands"].array
+                        var items : Array<String> = []
+                        if let arrBrands = brands
+                        {
+                            for i in 0...(arrBrands.count)-1
+                            {
+                                let j = arrBrands[i]
+                                let m = (j["name"].string)! + PickerViewController.TAG_START_HIDDEN + (j["_id"].string)! + PickerViewController.TAG_END_HIDDEN
+                                items.append(m)
+                            }
+                        }
+                        
+                        picker.selectBlock = { s in
+                            self.selectedMerk = PickerViewController.RevealHiddenString(s)
+                        }
+                        
+                        picker.items = items
+                        picker.tableView.reloadData()
+                        picker.doneLoading()
+                        picker.showSearch = true
+                    }
+                }
             }
         })
         //        baseDatas[NSIndexPath(forRow: 1, inSection: 1)] = BaseCartData.instance("Ukuran", placeHolder: "Masukan Ukuran")

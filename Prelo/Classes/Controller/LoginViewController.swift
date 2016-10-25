@@ -759,23 +759,17 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     }
     
     func callAPIForgotPassword(_ email : String) {
-        // FIXME: Swift 3
-//        request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":email]).responseJSON {resp in
-//            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
-//                UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-//            }
-//        }
+        _ = request(APIAuth.forgotPassword(email: email)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
+                Constant.showDialog("Perhatian", message: "E-mail pemberitahuan sudah dikirim ke e-mail kamu :)")
+            }
+        }
     }
     
     func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        // FIXME: Swift 3
-//        if (buttonIndex == 1) {
-//            request(.POST, "\(AppTools.PreloBaseUrl)/api/auth/forgot_password", parameters: ["email":(alertView.textField(at: 0)?.text)!]).responseJSON {resp in
-//                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Lupa Password")) {
-//                    UIAlertView.SimpleShow("Perhatian", message: "E-mail pemberitahuan sudah kami kirim ke alamat e-mail kamu :)")
-//                }
-//            }
-//        }
+        if (buttonIndex == 1) {
+            self.callAPIForgotPassword((alertView.textField(at: 0)?.text)!)
+        }
     }
     
     @IBAction func login(_ sender : AnyObject) {

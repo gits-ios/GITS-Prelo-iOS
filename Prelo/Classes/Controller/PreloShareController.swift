@@ -238,15 +238,14 @@ class PreloShareController: BaseViewController, UICollectionViewDataSource, UICo
         
         print(item?.url)
         print(item?.text)
-        
-        // FIXME: Swift 3
-//        let _ = request(Method.GET, method: (item?.url?.absoluteString)!).validate().response{ req, res, data, error in
-//            if let imgData = data
-//            {
-//                let i = UIImage(data: imgData)
-//                self.share(a, img: i!)
-//            }
-//        }
+        /* FIXME: Swift 3
+        let _ = request((item?.url?.absoluteString)!, method: HTTPMethod.get).validate().response{ req, res, data, error in
+            if let imgData = data
+            {
+                let i = UIImage(data: imgData)
+                self.share(a, img: i!)
+            }
+        }*/
     }
     
     func loginPath()

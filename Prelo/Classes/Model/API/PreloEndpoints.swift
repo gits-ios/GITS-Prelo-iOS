@@ -194,6 +194,7 @@ enum APIAuth : URLRequestConvertible {
     case loginPath(email : String, fullname : String, pathId : String, pathAccessToken : String)
     case loginTwitter(email : String, fullname : String, username : String, id : String, accessToken : String, tokenSecret : String)
     case logout
+    case forgotPassword(email : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "auth/"
@@ -212,6 +213,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginPath(_, _, _, _) : return .post
         case .loginTwitter(_, _, _, _, _, _) : return .post
         case .logout : return .post
+        case .forgotPassword(_) : return .post
         }
     }
     
@@ -223,6 +225,7 @@ enum APIAuth : URLRequestConvertible {
         case .loginPath(_, _, _, _) : return "login/path"
         case .loginTwitter(_, _, _, _, _, _) : return "login/twitter"
         case .logout : return "logout"
+        case .forgotPassword(_) : return "forgot_password"
         }
     }
     
@@ -266,6 +269,10 @@ enum APIAuth : URLRequestConvertible {
                 "twitter_id" : id,
                 "twitter_access_token" : accessToken,
                 "twitter_token_secret" : tokenSecret
+            ]
+        case .forgotPassword(let email) :
+            p = [
+                "email" : email
             ]
         default : break
         }
