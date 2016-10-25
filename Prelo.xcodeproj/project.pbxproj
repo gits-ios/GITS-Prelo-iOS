@@ -399,6 +399,10 @@
 		5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		5858877D1DBF1241006EC6D5 /* NotifAnggiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */; };
 		5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */; };
+		5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214864D61B6F3CC900EF49EF /* CartViewController.swift */; };
+		585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C68F5B1B746E5D00D1125E /* CarConfirmViewController.swift */; };
+		585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C68F5F1B74922200D1125E /* OrderConfirmViewController.swift */; };
+		585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3126,6 +3130,7 @@
 				21679A1B1B901C5300F18F90 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
+				585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */,
 				21B467EB1CCE5EDB00E145ED /* Dictionary+BFKit.swift in Sources */,
 				21B467F31CCE5EDB00E145ED /* NSNumber+BFKit.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
@@ -3201,6 +3206,7 @@
 				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
+				585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				5858876B1DBEF161006EC6D5 /* UserProfileViewController.swift in Sources */,
 				5847E19A1DBE0F5500C1B2BA /* PhoneVerificationViewController.swift in Sources */,
@@ -3221,6 +3227,7 @@
 				21B467FC1CCE5EDB00E145ED /* UIDevice+BFKit.swift in Sources */,
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
+				5858877F1DBF1728006EC6D5 /* CartViewController.swift in Sources */,
 				21679A191B901C5300F18F90 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */,
 				216344FB1CC3A855005CBA37 /* MKButton.swift in Sources */,
@@ -3234,6 +3241,7 @@
 				21B467E81CCE5EDB00E145ED /* BFTouchID.swift in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
+				585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */,
 				216345031CC3A855005CBA37 /* MKLayer.swift in Sources */,
 				58DD29181DAF3F6200130B6F /* SocketIOClientOption.swift in Sources */,
 				21679A471B901C5300F18F90 /* MPTweakStore.m in Sources */,
