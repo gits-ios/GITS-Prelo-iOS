@@ -369,6 +369,14 @@
 		585887561DBEDC1F006EC6D5 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
 		585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104AD01BAA8F1200947E7F /* TransactionListCell.xib */; };
 		585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21156EBB1B8F5B5D001D7842 /* UserProfile.xib */; };
+		585887591DBEE99D006EC6D5 /* ProductDetailCover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 211312551B6760F600A4DA3B /* ProductDetailCover.xib */; };
+		5858875A1DBEE9B1006EC6D5 /* AddProductHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 212502E71B8306A00089E523 /* AddProductHeader.xib */; };
+		5858875B1DBEEA0A006EC6D5 /* SearchTag.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104AD71BAAA15500947E7F /* SearchTag.xib */; };
+		5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 213E77141BABD8E700D3002B /* SearchResultHeader.xib */; };
+		5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */; };
+		5858875E1DBEEA37006EC6D5 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AD91BAAA21C00947E7F /* SearchTag.swift */; };
+		5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312531B675F6900A4DA3B /* ProductDetailCover.swift */; };
+		585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -2898,6 +2906,7 @@
 				585887431DBEDAE9006EC6D5 /* MyProductTransaction.xib in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
+				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
 				5858874B1DBEDB8E006EC6D5 /* NotifAnggiTabBar.xib in Resources */,
@@ -2955,6 +2964,7 @@
 				5847E1971DBE081700C1B2BA /* Register.xib in Resources */,
 				58A223C71C898CB600619518 /* ic_trx_expired.png in Resources */,
 				589A6FB61D8C08F600654CDD /* ic_chat_tawar.png in Resources */,
+				585887591DBEE99D006EC6D5 /* ProductDetailCover.xib in Resources */,
 				585887351DBEDA22006EC6D5 /* ConfirmShippingCell.xib in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
@@ -2974,11 +2984,13 @@
 				589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */,
 				5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */,
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
+				5858875A1DBEE9B1006EC6D5 /* AddProductHeader.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
 				585887301DBED9DA006EC6D5 /* BalanceMutation.xib in Resources */,
 				5858874A1DBEDB83006EC6D5 /* NotifAnggiConversationCell.xib in Resources */,
 				58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */,
 				5858873F1DBEDA82006EC6D5 /* MyLovelistCell.xib in Resources */,
+				5858875B1DBEEA0A006EC6D5 /* SearchTag.xib in Resources */,
 				58A223CB1C898CB600619518 /* ic_trx_wait.png in Resources */,
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */,
@@ -2987,6 +2999,7 @@
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
+				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
 				440AF6681BE1090800074CBC /* ic_round_line.png in Resources */,
 				2109BCA41BDDF85E004F36C5 /* tour_1.jpg in Resources */,
 				21B467DF1CCE5EDB00E145ED /* LICENSE in Resources */,
@@ -3167,6 +3180,7 @@
 				5832342D1DB89D3E0059B3A2 /* BaseViewController.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
 				58A99A421C6D864E00E3E7D7 /* BranchLoadRewardsRequest.m in Sources */,
+				5858875E1DBEEA37006EC6D5 /* SearchTag.swift in Sources */,
 				58A99A441C6D864E00E3E7D7 /* BranchOpenRequest.m in Sources */,
 				58DD290B1DAF3F6200130B6F /* SocketAckManager.swift in Sources */,
 				58A99A301C6D864E00E3E7D7 /* BNCServerInterface.m in Sources */,
@@ -3175,6 +3189,7 @@
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
 				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
+				5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */,
 				21B467FC1CCE5EDB00E145ED /* UIDevice+BFKit.swift in Sources */,
 				58A99A401C6D864E00E3E7D7 /* BranchInstallRequest.m in Sources */,
 				58A99A3B1C6D864E00E3E7D7 /* BNCServerRequest.m in Sources */,
@@ -3311,6 +3326,7 @@
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,
 				5847E1531DBD9BAB00C1B2BA /* CDUserOther.swift in Sources */,
+				585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */,
 				5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
