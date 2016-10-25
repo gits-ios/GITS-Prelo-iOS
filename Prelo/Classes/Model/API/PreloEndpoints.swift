@@ -103,11 +103,10 @@ extension URLRequest {
         var urlRequest = URLRequest(url: self.url!)
         
         // Set token
-        // FIXME: Swift 3
-//        if let token = User.Token {
-//            urlRequest.setValue("Token ", forHTTPHeaderField: "Authorization")
-//            print("User token = \(token)")
-//        }
+        if let token = User.Token {
+            urlRequest.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
+            print("User token = \(token)")
+        }
         
         // Set user agent
         if let userAgent = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String {
