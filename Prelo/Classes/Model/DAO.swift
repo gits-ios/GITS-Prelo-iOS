@@ -474,7 +474,7 @@ class UserProfile : NSObject {
     }
 }
 
-open class ProductDetail : NSObject// FIXME: Swift 3 , TawarItem
+open class ProductDetail : NSObject, TawarItem
 {
     var json : JSON = JSON([:])
     
@@ -908,7 +908,7 @@ open class ProductDetail : NSObject// FIXME: Swift 3 , TawarItem
         return json["_data"]["status"].intValue
     }
     
-    var finalPrice : Int { // FIXME: 
+    var finalPrice : Int { // FIXME: ?
         return 0
     }
     
@@ -2540,7 +2540,7 @@ class SearchBrand : NSObject {
     }
 }
 
-class Inbox : NSObject// FIXME: Swift 3 , TawarItem
+class Inbox : NSObject, TawarItem
 {
     var json : JSON = JSON([:])
     var date : Date = Date()

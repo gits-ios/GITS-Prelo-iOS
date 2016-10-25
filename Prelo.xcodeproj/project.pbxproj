@@ -428,6 +428,8 @@
 		5858879C1DBF33B0006EC6D5 /* ProductCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */; };
 		5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
 		5858879E1DBF3441006EC6D5 /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
+		585887A01DBF3606006EC6D5 /* TawarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21629A291BC51A4A00ACD014 /* TawarViewController.swift */; };
+		585887A11DBF36FF006EC6D5 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB441B53AF7800787F5D /* ProductDetailViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3184,6 +3186,7 @@
 				5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */,
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
+				585887A01DBF3606006EC6D5 /* TawarViewController.swift in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,
 				58C27CAB1DB9C94B008201FA /* ListCategoryViewController.swift in Sources */,
 				21B467FD1CCE5EDB00E145ED /* UIFont+BFKit.swift in Sources */,
@@ -3430,6 +3433,7 @@
 				5847E1591DBD9C2800C1B2BA /* CDVersion.swift in Sources */,
 				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
 				5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */,
+				585887A11DBF36FF006EC6D5 /* ProductDetailViewController.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
 				585887761DBF0575006EC6D5 /* TarikTunaiController.swift in Sources */,
 				5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */,
