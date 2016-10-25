@@ -231,9 +231,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func editProfilePressed(_ sender: UIButton) {
-        /* FIXME: Swift 3
         let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)*/
+        self.previousController!.navigationController?.pushViewController(userProfileVC, animated: true)
     }
     
     @IBAction func topMenu1Pressed(_ sender: AnyObject) {

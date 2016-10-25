@@ -55,7 +55,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
-        self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
+        // FIXME: Swift 3 self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
         
         // Search bar setup
@@ -186,7 +186,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     
     func readNotif(_ idx : Int) {
         self.showLoading()
-        if (idx < userProducts.count) {
+        /* FIXME: Swift 3 if (idx < userProducts.count) {
             let p = userProducts[idx]
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
@@ -214,7 +214,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 transactionDetailVC.isSeller = false
             }
             self.navigationController?.pushViewController(transactionDetailVC, animated: true)
-        }
+        }*/
     }
     
     func showLoading() {

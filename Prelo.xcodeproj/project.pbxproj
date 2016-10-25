@@ -379,6 +379,15 @@
 		585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */; };
 		585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */; };
 		585887621DBEEF45006EC6D5 /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
+		5858876B1DBEF161006EC6D5 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */; };
+		5858876C1DBEF170006EC6D5 /* InstagramLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCA71BDDF957004F36C5 /* InstagramLoginViewController.swift */; };
+		5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB61BAA8ECC00947E7F /* PhoneReverificationViewController.swift */; };
+		5858876E1DBEF416006EC6D5 /* MyProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */; };
+		5858876F1DBEF433006EC6D5 /* MyProductTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */; };
+		585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
+		585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */; };
+		585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */; };
+		585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3117,6 +3126,7 @@
 				21B467F41CCE5EDB00E145ED /* NSObject+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
+				585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */,
 				58DD290C1DAF3F6200130B6F /* SocketAnyEvent.swift in Sources */,
 				58DD29151DAF3F6200130B6F /* SocketExtensions.swift in Sources */,
 				216344FF1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift in Sources */,
@@ -3126,6 +3136,7 @@
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
 				5847E1621DBDB1C400C1B2BA /* CDCategorySize.swift in Sources */,
 				58DD291C1DAF3F6200130B6F /* SocketPacket.swift in Sources */,
+				585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */,
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,
@@ -3178,6 +3189,7 @@
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
+				5858876B1DBEF161006EC6D5 /* UserProfileViewController.swift in Sources */,
 				5847E19A1DBE0F5500C1B2BA /* PhoneVerificationViewController.swift in Sources */,
 				5832342D1DB89D3E0059B3A2 /* BaseViewController.swift in Sources */,
 				2167998D1B8F8AB900F18F90 /* AFNetworkReachabilityManager.m in Sources */,
@@ -3217,6 +3229,7 @@
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21B467E01CCE5EDB00E145ED /* README.md in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				5858876F1DBEF433006EC6D5 /* MyProductTransactionViewController.swift in Sources */,
 				5847E1511DBD52CE00C1B2BA /* AppToolsObjC.m in Sources */,
 				5847E1641DBDB1E500C1B2BA /* CDBrand.swift in Sources */,
 				58DD290A1DAF3F6200130B6F /* SocketAckEmitter.swift in Sources */,
@@ -3290,6 +3303,8 @@
 				21B468051CCE5EDB00E145ED /* UITextField+BFKit.swift in Sources */,
 				58DD29161DAF3F6200130B6F /* SocketIOClient.swift in Sources */,
 				210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */,
+				5858876C1DBEF170006EC6D5 /* InstagramLoginViewController.swift in Sources */,
+				5858876E1DBEF416006EC6D5 /* MyProductViewController.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
 				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
 				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
@@ -3302,8 +3317,10 @@
 				21679A3A1B901C5300F18F90 /* MPObjectSerializerConfig.m in Sources */,
 				216344FD1CC3A855005CBA37 /* MKCollectionViewCell.swift in Sources */,
 				21C6589B1B8EF25E0037F85F /* DistancePickerView.m in Sources */,
+				585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */,
 				21679A1A1B901C5300F18F90 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
+				5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
 				5847E1891DBDF27A00C1B2BA /* DashboardViewController.swift in Sources */,
@@ -3326,6 +3343,7 @@
 				5847E19C1DBE103200C1B2BA /* ImagePickerViewController.swift in Sources */,
 				58DD290D1DAF3F6200130B6F /* SocketClientManager.swift in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
+				585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */,
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,

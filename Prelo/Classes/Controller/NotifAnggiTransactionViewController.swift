@@ -278,7 +278,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
-        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        /* FIXME: Swift 3 let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
         
         // Set trxId/trxProductId
@@ -304,7 +304,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             transactionDetailVC.isSeller = false
         }
         self.navigationController?.pushViewController(transactionDetailVC, animated: true)
-        
+        */
         // Check if user is seller or buyer
         /*// API Migrasi
         let _ = request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in

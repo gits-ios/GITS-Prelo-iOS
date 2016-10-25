@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var redirAlert : UIAlertView?
     var RedirWaitAmount : Int = 10000000
     
-    // FIXME: Swift 3 var produkUploader : ProdukUploader!
+    var produkUploader : ProdukUploader!
     
     static var Instance : AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
