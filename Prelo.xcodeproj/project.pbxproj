@@ -388,6 +388,15 @@
 		585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */; };
 		585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */; };
 		585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
+		585887741DBEFCE6006EC6D5 /* MyPurchaseTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */; };
+		585887751DBF0560006EC6D5 /* BalanceMutationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */; };
+		585887761DBF0575006EC6D5 /* TarikTunaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */; };
+		585887771DBF0636006EC6D5 /* ReferralPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */; };
+		585887781DBF0657006EC6D5 /* PreloWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BEF1BE1DE3A00F0C24E /* PreloWebViewController.swift */; };
+		585887791DBF06C7006EC6D5 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C6589F1B8F01E10037F85F /* AboutViewController.swift */; };
+		5858877A1DBF0F34006EC6D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */; };
+		5858877B1DBF0FD2006EC6D5 /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */; };
+		5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3176,6 +3185,7 @@
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
 				5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */,
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,
+				585887741DBEFCE6006EC6D5 /* MyPurchaseTransactionViewController.swift in Sources */,
 				21B4680A1CCE5EDB00E145ED /* UIWindow+BFKit.swift in Sources */,
 				216345081CC3A855005CBA37 /* MKSwitch.swift in Sources */,
 				216344FC1CC3A855005CBA37 /* MKCardView.swift in Sources */,
@@ -3198,6 +3208,7 @@
 				58A99A441C6D864E00E3E7D7 /* BranchOpenRequest.m in Sources */,
 				58DD290B1DAF3F6200130B6F /* SocketAckManager.swift in Sources */,
 				58A99A301C6D864E00E3E7D7 /* BNCServerInterface.m in Sources */,
+				5858877B1DBF0FD2006EC6D5 /* UserSearchViewController.swift in Sources */,
 				58DD28ED1DAF36D000130B6F /* FileManager+BFKit.swift in Sources */,
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
@@ -3214,6 +3225,7 @@
 				5832342F1DB8A66C0059B3A2 /* AppTools.swift in Sources */,
 				21E7A7681B9FF2BC00FC9B38 /* Line.m in Sources */,
 				21B467F11CCE5EDB00E145ED /* NSMutableArray+BFKit.swift in Sources */,
+				5858877A1DBF0F34006EC6D5 /* SearchViewController.swift in Sources */,
 				58DD291A1DAF3F6200130B6F /* SocketIOClientStatus.swift in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21B467E81CCE5EDB00E145ED /* BFTouchID.swift in Sources */,
@@ -3283,9 +3295,11 @@
 				21D387601B6B967A00D0FA90 /* CarbonSwipeRefresh.m in Sources */,
 				58A99A371C6D864E00E3E7D7 /* BranchConstants.m in Sources */,
 				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
+				585887791DBF06C7006EC6D5 /* AboutViewController.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				5847E1631DBDB1D600C1B2BA /* CDCategory.swift in Sources */,
 				58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */,
+				5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */,
 				58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */,
 				58A99A3C1C6D864E00E3E7D7 /* BranchApplyPromoCodeRequest.m in Sources */,
 				58DD29211DAF3F6200130B6F /* WebSocket.swift in Sources */,
@@ -3325,6 +3339,7 @@
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
 				5847E1891DBDF27A00C1B2BA /* DashboardViewController.swift in Sources */,
 				21C6589A1B8EF25E0037F85F /* ActionSheetStringPicker.m in Sources */,
+				585887751DBF0560006EC6D5 /* BalanceMutationViewController.swift in Sources */,
 				2141BBD61B54BE4C00787F5D /* README.md in Sources */,
 				58DD29111DAF3F6200130B6F /* SocketEnginePollable.swift in Sources */,
 				21679A301B901C5300F18F90 /* MPEnumDescription.m in Sources */,
@@ -3359,6 +3374,7 @@
 				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
 				5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
+				585887761DBF0575006EC6D5 /* TarikTunaiController.swift in Sources */,
 				5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */,
 				58DD29201DAF3F6200130B6F /* SSLSecurity.swift in Sources */,
 				216344FA1CC3A855005CBA37 /* MKActivityIndicator.swift in Sources */,
@@ -3382,9 +3398,11 @@
 				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				5847E15A1DBD9C2800C1B2BA /* CartProduct.swift in Sources */,
+				585887781DBF0657006EC6D5 /* PreloWebViewController.swift in Sources */,
 				58A99A4A1C6D864E00E3E7D7 /* BranchSpotlightUrlRequest.m in Sources */,
 				58A99A381C6D864E00E3E7D7 /* BranchCSSearchableItemAttributeSet.m in Sources */,
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
+				585887771DBF0636006EC6D5 /* ReferralPageViewController.swift in Sources */,
 				21B467FE1CCE5EDB00E145ED /* UIImage+BFKit.swift in Sources */,
 				21679A461B901C5300F18F90 /* MPTweakInline.m in Sources */,
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,

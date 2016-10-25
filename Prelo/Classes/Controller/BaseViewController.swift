@@ -233,14 +233,13 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
     }
     
     func launchSearch() {
-        // MARK: - Swift 3
-//        let searchVC : SearchViewController = (self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdSearch))! as! SearchViewController
-//        if let ktbVC = self as? KumangTabBarViewController {
-//            if let lcVC = ktbVC.controllerBrowse as? ListCategoryViewController {
-//                searchVC.currentCategoryId = lcVC.currentCategoryId
-//            }
-//        }
-//        self.navigationController?.pushViewController(searchVC, animated: true)
+        let searchVC : SearchViewController = (self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdSearch))! as! SearchViewController
+        if let ktbVC = self as? KumangTabBarViewController {
+            if let lcVC = ktbVC.controllerBrowse as? ListCategoryViewController {
+                searchVC.currentCategoryId = lcVC.currentCategoryId
+            }
+        }
+        self.navigationController?.pushViewController(searchVC, animated: true)
     }
     
     func launchNotifPage() {

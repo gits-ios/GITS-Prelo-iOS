@@ -250,9 +250,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     // MARK: - Navigation functions
     
     func launchTarikUang() {
-        /* FIXME: Swift 3
         let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
-        self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(balanceMutationVC, animated: true)
     }
     
     func launchMyPage() {
@@ -271,8 +270,8 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchFreeVoucher() {
-        /* FIXME: Swift 3 let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
-        self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)*/
+        let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
+        self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
     }
     
     func launchRequestBarang() {
@@ -295,14 +294,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchMyProducts() {
-        /* FIXME: Swift 3 let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
+        let m = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdMyProducts) as! MyProductViewController
         m.shouldSkipBack = false
-        self.previousController?.navigationController?.pushViewController(m, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(m, animated: true)
     }
     
     func launchMyPurchases() {
-        /* FIXME: Swift 3 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)*/
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
     }
     
     func launchContactPrelo() {
@@ -322,20 +321,20 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchFAQ() {
-        /* FIXME: Swift 3 let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         helpVC.url = "https://prelo.co.id/faq?ref=preloapp"
         helpVC.titleString = "Bantuan"
         helpVC.contactPreloMode = true
         let baseNavC = BaseNavigationController()
         baseNavC.setViewControllers([helpVC], animated: false)
-        self.present(baseNavC, animated: true, completion: nil)*/
+        self.present(baseNavC, animated: true, completion: nil)
     }
     
     func launchAbout() {
-        /* FIXME: Swift 3 let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
+        let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAbout) as! AboutViewController
         a.userRelatedDelegate = self.previousController as? UserRelatedDelegate
         a.isShowLogout = User.IsLoggedIn
-        self.previousController?.navigationController?.pushViewController(a, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(a, animated: true)
     }
     
     // MARK: - Mail compose delegate functions

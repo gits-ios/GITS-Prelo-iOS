@@ -63,6 +63,7 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         self.tableView.addSubview(refreshControl)
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
+        viewJualButton.layoutIfNeeded()
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
         viewJualButton.layer.shadowColor = UIColor.black.cgColor
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
@@ -190,9 +191,9 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     // MARK: - Actions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
-        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        /* FIXME: Swift 3 let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyOrders
-        self.navigationController?.pushViewController(add, animated: true)
+        self.navigationController?.pushViewController(add, animated: true)*/
     }
     
     func readNotif(_ idx : Int) {
