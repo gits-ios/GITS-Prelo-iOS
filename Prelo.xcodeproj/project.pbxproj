@@ -403,6 +403,10 @@
 		585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C68F5B1B746E5D00D1125E /* CarConfirmViewController.swift */; };
 		585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C68F5F1B74922200D1125E /* OrderConfirmViewController.swift */; };
 		585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109BCA91BDE228E004F36C5 /* CheckoutTourViewController.swift */; };
+		585887851DBF275C006EC6D5 /* AddProductShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C658611B8EC32A0037F85F /* AddProductShareViewController.swift */; };
+		585887861DBF275C006EC6D5 /* AddProductViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */; };
+		585887871DBF2765006EC6D5 /* AddProductImageFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */; };
+		585887881DBF2A95006EC6D5 /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214813F11B79EEA300887244 /* AddProductViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3182,6 +3186,7 @@
 				58A99A2A1C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m in Sources */,
 				58DD28F11DAF36DD00130B6F /* UIPasteboard.swift in Sources */,
 				58DD29121DAF3F6200130B6F /* SocketEngineSpec.swift in Sources */,
+				585887881DBF2A95006EC6D5 /* AddProductViewController.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
 				5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */,
@@ -3260,6 +3265,7 @@
 				21679A2D1B901C5300F18F90 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				215E6CD51B9D781800CD623C /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
+				585887861DBF275C006EC6D5 /* AddProductViewController2.swift in Sources */,
 				5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				585887621DBEEF45006EC6D5 /* ListBrandViewController2.swift in Sources */,
@@ -3342,6 +3348,7 @@
 				21679A3A1B901C5300F18F90 /* MPObjectSerializerConfig.m in Sources */,
 				216344FD1CC3A855005CBA37 /* MKCollectionViewCell.swift in Sources */,
 				21C6589B1B8EF25E0037F85F /* DistancePickerView.m in Sources */,
+				585887871DBF2765006EC6D5 /* AddProductImageFullScreen.swift in Sources */,
 				585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */,
 				21679A1A1B901C5300F18F90 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
@@ -3371,6 +3378,7 @@
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */,
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
+				585887851DBF275C006EC6D5 /* AddProductShareViewController.swift in Sources */,
 				21679A4C1B901C5300F18F90 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				216345091CC3A855005CBA37 /* MKTableViewCell.swift in Sources */,
 				5847E1531DBD9BAB00C1B2BA /* CDUserOther.swift in Sources */,
