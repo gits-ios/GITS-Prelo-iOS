@@ -2539,8 +2539,8 @@ class SearchBrand : NSObject {
         return ids
     }
 }
-/* FIXME: Swift 3
-class Inbox : NSObject, TawarItem
+
+class Inbox : NSObject// FIXME: Swift 3 , TawarItem
 {
     var json : JSON = JSON([:])
     var date : Date = Date()
@@ -2774,7 +2774,7 @@ class Inbox : NSObject, TawarItem
         return ""
     }
 }
-*/
+
 class InboxMessage : NSObject
 {
     static var formatter : DateFormatter = DateFormatter()

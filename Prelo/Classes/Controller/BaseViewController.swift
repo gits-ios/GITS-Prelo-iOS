@@ -18,7 +18,7 @@ import UIKit
 
 // MARK: - Class
 
-class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
+class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     // MARK: - Static var and func
     
@@ -103,11 +103,10 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
         super.viewDidAppear(animated)
         
         // Remove redirect alert if any
-        // FIXME: Swift 3
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        if let redirAlert = appDelegate.redirAlert {
-//            redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
-//        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let redirAlert = appDelegate.redirAlert {
+            redirAlert.dismiss(withClickedButtonIndex: -1, animated: true)
+        }
     }
     
     func backPressed(_ sender: UIBarButtonItem) {
@@ -116,19 +115,17 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
     
     func setupNormalOptions() {
         // Get the number of new notifications
-        // FIXME: Swift 3
-//        let delegate = UIApplication.shared.delegate as! AppDelegate
-//        let notifListener = delegate.preloNotifListener
-//        notifListener?.delegate = self
-//        if (User.IsLoggedIn) {
-//            notifListener?.setupSocket()
-//        }
-//        let newNotifCount = notifListener?.newNotifCount
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = delegate.preloNotifListener
+        notifListener?.delegate = self
+        if (User.IsLoggedIn) {
+            notifListener?.setupSocket()
+        }
+        let newNotifCount = notifListener?.newNotifCount
         
         // Set top right bar buttons
         let search = createSearchButton()
-        let bell = createBellButton(10)
-        //let bell = createBellButton(newNotifCount!) FIXME: Swift 3
+        let bell = createBellButton(newNotifCount!)
         let troli = createTroliButton()
         
         troli.addTarget(self, action: #selector(BaseViewController.launchCart), for: UIControlEvents.touchUpInside)
@@ -243,9 +240,8 @@ class BaseViewController: UIViewController {//, PreloNotifListenerDelegate {
     }
     
     func launchNotifPage() {
-        // MARK: - Swift 3
-//        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-//        self.navigationController?.pushViewController(notifPageVC, animated: true)
+        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+        self.navigationController?.pushViewController(notifPageVC, animated: true)
     }
     
     // MARK: - Overrideable func

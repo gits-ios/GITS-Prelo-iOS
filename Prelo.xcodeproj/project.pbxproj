@@ -397,6 +397,8 @@
 		5858877A1DBF0F34006EC6D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */; };
 		5858877B1DBF0FD2006EC6D5 /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */; };
 		5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959AB1B8DB9A1000F2939 /* CategoryPickerViewController.swift */; };
+		5858877D1DBF1241006EC6D5 /* NotifAnggiTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */; };
+		5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3146,6 +3148,7 @@
 				5847E1621DBDB1C400C1B2BA /* CDCategorySize.swift in Sources */,
 				58DD291C1DAF3F6200130B6F /* SocketPacket.swift in Sources */,
 				585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */,
+				5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */,
 				21D0A0051B60B54300D3A050 /* SwiftyJSON.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,
@@ -3403,6 +3406,7 @@
 				58A99A381C6D864E00E3E7D7 /* BranchCSSearchableItemAttributeSet.m in Sources */,
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				585887771DBF0636006EC6D5 /* ReferralPageViewController.swift in Sources */,
+				5858877D1DBF1241006EC6D5 /* NotifAnggiTabBarViewController.swift in Sources */,
 				21B467FE1CCE5EDB00E145ED /* UIImage+BFKit.swift in Sources */,
 				21679A461B901C5300F18F90 /* MPTweakInline.m in Sources */,
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,
