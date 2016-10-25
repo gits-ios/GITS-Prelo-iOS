@@ -565,12 +565,12 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 //let pDetail = ProductDetail.instance(json)
                 //pDetail?.reverse()
                 self.detail = ProductDetail.instance(json)
-                
+                /* FIXME: Swift 3
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
                 // API Migrasi
-        let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
+                let _ = request(APIInbox.getInboxByProductIDSeller(productId: (self.detail?.productID)!, buyerId: (self.transactionDetail?.buyerId)!)).responseJSON {resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                         let json = JSON(resp.result.value!)
                         if (json["_data"]["_id"].stringValue != "") { // Sudah pernah chat
@@ -593,7 +593,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                             }
                         }
                     }
-                }
+                }*/
             }
         }
     }

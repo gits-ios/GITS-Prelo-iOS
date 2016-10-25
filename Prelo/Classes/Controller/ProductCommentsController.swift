@@ -214,13 +214,13 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let comment = comments[(indexPath as NSIndexPath).row]
         let i = comment.isSeller(sellerId) ? "cell2" : "cell1"
-        let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
+        /* FIXME: Swift 3 let c = tableView.dequeueReusableCell(withIdentifier: i) as! ProductCellDiscussion
         
         c.captionMessage?.text = comment.message
         c.captionName?.text = comment.name
         c.captionDate?.text = comment.timestamp
         
-        return c
+        return c*/ return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

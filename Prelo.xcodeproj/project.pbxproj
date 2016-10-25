@@ -407,6 +407,27 @@
 		585887861DBF275C006EC6D5 /* AddProductViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119FE361BA2BC25006EF0CB /* AddProductViewController2.swift */; };
 		585887871DBF2765006EC6D5 /* AddProductImageFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */; };
 		585887881DBF2A95006EC6D5 /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214813F11B79EEA300887244 /* AddProductViewController.swift */; };
+		585887891DBF2DDC006EC6D5 /* CategoryPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF728201BF24B5300C0D843 /* CategoryPreferencesViewController.swift */; };
+		5858878A1DBF2DE5006EC6D5 /* ConfirmShippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C23B591C9C070600E4C929 /* ConfirmShippingViewController.swift */; };
+		5858878B1DBF2F38006EC6D5 /* ContactPreloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217251361BD4A18000926CA3 /* ContactPreloViewController.swift */; };
+		5858878C1DBF3078006EC6D5 /* ExpiringProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EC90BA1D780ED600712E8A /* ExpiringProductsViewController.swift */; };
+		5858878D1DBF30F8006EC6D5 /* ImagePickerViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2119FE381BA2D8B1006EF0CB /* ImagePickerViewController2.swift */; };
+		5858878E1DBF314B006EC6D5 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F2D421BC75F5100C14C1F /* InboxViewController.swift */; };
+		5858878F1DBF3151006EC6D5 /* KumangNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4581B87036000CAD5C9 /* KumangNavigationController.swift */; };
+		585887901DBF3159006EC6D5 /* ListBrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE38DE1BABBF27007CD36B /* ListBrandViewController.swift */; };
+		585887921DBF32D8006EC6D5 /* ListRekeningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */; };
+		585887931DBF3309006EC6D5 /* MyProductCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */; };
+		585887941DBF3309006EC6D5 /* MyProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */; };
+		585887951DBF3309006EC6D5 /* MyProductProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */; };
+		585887961DBF3309006EC6D5 /* MyPurchaseCompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */; };
+		585887971DBF3309006EC6D5 /* MyPurchaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B7087A1BBA6D86001EACBF /* MyPurchaseDetailViewController.swift */; };
+		585887981DBF3309006EC6D5 /* MyPurchaseProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB41BAA8ECC00947E7F /* MyPurchaseProcessingViewController.swift */; };
+		585887991DBF3309006EC6D5 /* MyPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */; };
+		5858879A1DBF337B006EC6D5 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */; };
+		5858879B1DBF339A006EC6D5 /* PreloShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */; };
+		5858879C1DBF33B0006EC6D5 /* ProductCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */; };
+		5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
+		5858879E1DBF3441006EC6D5 /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3136,6 +3157,7 @@
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
 				585887821DBF2589006EC6D5 /* CheckoutTourViewController.swift in Sources */,
 				21B467EB1CCE5EDB00E145ED /* Dictionary+BFKit.swift in Sources */,
+				585887941DBF3309006EC6D5 /* MyProductDetailViewController.swift in Sources */,
 				21B467F31CCE5EDB00E145ED /* NSNumber+BFKit.swift in Sources */,
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
@@ -3153,7 +3175,9 @@
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
 				58DD291B1DAF3F6200130B6F /* SocketLogger.swift in Sources */,
+				5858878E1DBF314B006EC6D5 /* InboxViewController.swift in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
+				585887891DBF2DDC006EC6D5 /* CategoryPreferencesViewController.swift in Sources */,
 				5847E1621DBDB1C400C1B2BA /* CDCategorySize.swift in Sources */,
 				58DD291C1DAF3F6200130B6F /* SocketPacket.swift in Sources */,
 				585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */,
@@ -3191,6 +3215,7 @@
 				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
 				5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */,
 				58DD290E1DAF3F6200130B6F /* SocketEngine.swift in Sources */,
+				5858878F1DBF3151006EC6D5 /* KumangNavigationController.swift in Sources */,
 				21B467FB1CCE5EDB00E145ED /* UIColor+BFKit.swift in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
 				58DD29191DAF3F6200130B6F /* SocketIOClientSpec.swift in Sources */,
@@ -3220,10 +3245,12 @@
 				58A99A421C6D864E00E3E7D7 /* BranchLoadRewardsRequest.m in Sources */,
 				5858875E1DBEEA37006EC6D5 /* SearchTag.swift in Sources */,
 				58A99A441C6D864E00E3E7D7 /* BranchOpenRequest.m in Sources */,
+				5858878D1DBF30F8006EC6D5 /* ImagePickerViewController2.swift in Sources */,
 				58DD290B1DAF3F6200130B6F /* SocketAckManager.swift in Sources */,
 				58A99A301C6D864E00E3E7D7 /* BNCServerInterface.m in Sources */,
 				5858877B1DBF0FD2006EC6D5 /* UserSearchViewController.swift in Sources */,
 				58DD28ED1DAF36D000130B6F /* FileManager+BFKit.swift in Sources */,
+				5858878B1DBF2F38006EC6D5 /* ContactPreloViewController.swift in Sources */,
 				21679A501B901C5300F18F90 /* MPWebSocket.m in Sources */,
 				583234321DB8C66B0059B3A2 /* KumangTabBarViewController.swift in Sources */,
 				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
@@ -3252,6 +3279,7 @@
 				21679A471B901C5300F18F90 /* MPTweakStore.m in Sources */,
 				58A99A4C1C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m in Sources */,
 				216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */,
+				585887971DBF3309006EC6D5 /* MyPurchaseDetailViewController.swift in Sources */,
 				2109BCB01BDF3529004F36C5 /* AKPickerView.m in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
@@ -3270,10 +3298,13 @@
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
 				585887621DBEEF45006EC6D5 /* ListBrandViewController2.swift in Sources */,
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
+				585887961DBF3309006EC6D5 /* MyPurchaseCompletedViewController.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
+				585887951DBF3309006EC6D5 /* MyProductProcessingViewController.swift in Sources */,
 				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,
+				5858879B1DBF339A006EC6D5 /* PreloShareController.swift in Sources */,
 				58A99A491C6D864E00E3E7D7 /* BranchShortUrlSyncRequest.m in Sources */,
 				21B467E31CCE5EDB00E145ED /* BFDataStructures.swift in Sources */,
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
@@ -3287,11 +3318,13 @@
 				58DD28EF1DAF36D000130B6F /* Thread+BFKit.swift in Sources */,
 				5847E15F1DBDA0A200C1B2BA /* CDProvince.swift in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
+				5858878A1DBF2DE5006EC6D5 /* ConfirmShippingViewController.swift in Sources */,
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
 				585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
 				21B468071CCE5EDB00E145ED /* UIToolbar+BFKit.swift in Sources */,
 				21B467E21CCE5EDB00E145ED /* BFButton.swift in Sources */,
+				5858879E1DBF3441006EC6D5 /* TourViewController.swift in Sources */,
 				21C6589C1B8EF25E0037F85F /* SWActionSheet.m in Sources */,
 				21679A2E1B901C5300F18F90 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				21B467FF1CCE5EDB00E145ED /* UIImageView+BFKit.swift in Sources */,
@@ -3319,8 +3352,10 @@
 				5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */,
 				58C27CBC1DB9F50A008201FA /* AppDelegate.swift in Sources */,
 				58A99A3C1C6D864E00E3E7D7 /* BranchApplyPromoCodeRequest.m in Sources */,
+				585887981DBF3309006EC6D5 /* MyPurchaseProcessingViewController.swift in Sources */,
 				58DD29211DAF3F6200130B6F /* WebSocket.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
+				585887991DBF3309006EC6D5 /* MyPurchaseViewController.swift in Sources */,
 				58DD290F1DAF3F6200130B6F /* SocketEngineClient.swift in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,
 				21679A201B901C5300F18F90 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -3341,6 +3376,7 @@
 				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
 				5847E18E1DBDFAF700C1B2BA /* PathLoginViewController.swift in Sources */,
 				21B467FA1CCE5EDB00E145ED /* UIButton+BFKit.swift in Sources */,
+				585887921DBF32D8006EC6D5 /* ListRekeningViewController.swift in Sources */,
 				21B468001CCE5EDB00E145ED /* UILabel+BFKit.swift in Sources */,
 				58A99A331C6D864E00E3E7D7 /* BNCStrongMatchHelper.m in Sources */,
 				21679A411B901C5300F18F90 /* MPSurveyNavigationController.m in Sources */,
@@ -3352,6 +3388,7 @@
 				585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */,
 				21679A1A1B901C5300F18F90 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
+				5858879A1DBF337B006EC6D5 /* PaymentConfirmationViewController.swift in Sources */,
 				5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
@@ -3375,6 +3412,7 @@
 				583234301DB8BC8A0059B3A2 /* KumangCustomView.swift in Sources */,
 				5847E19C1DBE103200C1B2BA /* ImagePickerViewController.swift in Sources */,
 				58DD290D1DAF3F6200130B6F /* SocketClientManager.swift in Sources */,
+				5858879C1DBF33B0006EC6D5 /* ProductCommentsController.swift in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
 				585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */,
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
@@ -3400,12 +3438,14 @@
 				21B467E71CCE5EDB00E145ED /* BFTextField.swift in Sources */,
 				21B468041CCE5EDB00E145ED /* UITableView+BFKit.swift in Sources */,
 				58A99A3A1C6D864E00E3E7D7 /* BranchUniversalObject.m in Sources */,
+				5858878C1DBF3078006EC6D5 /* ExpiringProductsViewController.swift in Sources */,
 				58DD291F1DAF3F6200130B6F /* SocketTypes.swift in Sources */,
 				58DD291D1DAF3F6200130B6F /* SocketParsable.swift in Sources */,
 				58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
 				5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */,
 				21B467EF1CCE5EDB00E145ED /* NSDictionary+BFKit.swift in Sources */,
+				5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */,
 				21B467E61CCE5EDB00E145ED /* BFSystemSound.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				58A99A2D1C6D864E00E3E7D7 /* BNCLinkCache.m in Sources */,
@@ -3413,11 +3453,13 @@
 				58D1253E1CDC4D1F002BC78A /* README.md in Sources */,
 				58A99A3F1C6D864E00E3E7D7 /* BranchGetPromoCodeRequest.m in Sources */,
 				58A99A311C6D864E00E3E7D7 /* BNCServerRequestQueue.m in Sources */,
+				585887931DBF3309006EC6D5 /* MyProductCompletedViewController.swift in Sources */,
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
 				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				5847E15A1DBD9C2800C1B2BA /* CartProduct.swift in Sources */,
 				585887781DBF0657006EC6D5 /* PreloWebViewController.swift in Sources */,
+				585887901DBF3159006EC6D5 /* ListBrandViewController.swift in Sources */,
 				58A99A4A1C6D864E00E3E7D7 /* BranchSpotlightUrlRequest.m in Sources */,
 				58A99A381C6D864E00E3E7D7 /* BranchCSSearchableItemAttributeSet.m in Sources */,
 				21679A4B1B901C5300F18F90 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
