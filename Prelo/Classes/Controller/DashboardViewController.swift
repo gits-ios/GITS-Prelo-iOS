@@ -257,20 +257,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchMyPage() {
-        /* FIXME: Swift 3
         if let me = CDUser.getOne() {
             let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
             l.currentMode = .shop
             l.shopName = me.username
             l.shopId = me.id
             self.navigationController?.pushViewController(l, animated: true)
-        }*/
-        
+        }
     }
     
     func launchMyLovelist() {
-        /* FIXME: Swift 3 let myLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil)?.first as! MyLovelistViewController
-        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)*/
+        let myLovelistVC = Bundle.main.loadNibNamed(Tags.XibNameMyLovelist, owner: nil, options: nil)?.first as! MyLovelistViewController
+        self.previousController?.navigationController?.pushViewController(myLovelistVC, animated: true)
     }
     
     func launchFreeVoucher() {

@@ -1146,7 +1146,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         listBrandVC.previousController = self
         listBrandVC.delegate = self
         listBrandVC.selectedBrands = self.fltrBrands
-        listBrandVC.sortedBrandKeys = Array(self.fltrBrands.keys)
+        listBrandVC.sortedBrandKeys = [String](self.fltrBrands.keys)
         self.navigationController?.pushViewController(listBrandVC, animated: true)
     }
     

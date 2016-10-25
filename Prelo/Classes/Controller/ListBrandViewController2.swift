@@ -296,7 +296,7 @@ class ListBrandViewController2: BaseViewController, UITableViewDataSource, UITab
     
     func adaptSortedBrandKeys() {
         self.sortedBrandKeys.removeLast(self.sortedBrandKeys.count - self.selectedBrands.count)
-        self.sortedBrandKeys.append(contentsOf: self.sortCaseInsensitive(Array(self.brands.keys)))
+        self.sortedBrandKeys.append(contentsOf: self.sortCaseInsensitive([String](self.brands.keys)))
         if (self.selectedBrands["Tanpa Merek"] == nil) { // Which means 'tanpa merek' is unselected
             if let noBrandIdx = self.sortedBrandKeys.index(of: "Tanpa Merek") {
                 self.sortedBrandKeys.insert(self.sortedBrandKeys.remove(at: noBrandIdx), at: self.selectedBrands.count)

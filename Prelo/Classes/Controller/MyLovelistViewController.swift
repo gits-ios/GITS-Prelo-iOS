@@ -66,11 +66,13 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         self.title = PageName.Lovelist
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
+        viewJualButton.layoutIfNeeded()
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2
         viewJualButton.layer.shadowColor = UIColor.black.cgColor
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         viewJualButton.layer.zPosition = CGFloat.greatestFiniteMagnitude;
+        viewJualButton.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -229,9 +231,10 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - IBActions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
+        /* FIXME: Swift 3
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Lovelist
-        self.navigationController?.pushViewController(add, animated: true)
+        self.navigationController?.pushViewController(add, animated: true)*/
     }
 }
 

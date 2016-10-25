@@ -377,6 +377,8 @@
 		5858875E1DBEEA37006EC6D5 /* SearchTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AD91BAAA21C00947E7F /* SearchTag.swift */; };
 		5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211312531B675F6900A4DA3B /* ProductDetailCover.swift */; };
 		585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B1A4E1CF5FAFF00108063 /* ProdukUploader.swift */; };
+		585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */; };
+		585887621DBEEF45006EC6D5 /* ListBrandViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
@@ -3224,6 +3226,7 @@
 				21679A2F1B901C5300F18F90 /* MPDesignerTrackMessage.m in Sources */,
 				5847E1611DBDB1B200C1B2BA /* CDShipping.swift in Sources */,
 				21679A441B901C5300F18F90 /* MPSwizzler.m in Sources */,
+				585887621DBEEF45006EC6D5 /* ListBrandViewController2.swift in Sources */,
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,
 				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
@@ -3243,6 +3246,7 @@
 				5847E15F1DBDA0A200C1B2BA /* CDProvince.swift in Sources */,
 				21F4FCE71B61EE3D00223028 /* UIImageView+AFNetworking.swift in Sources */,
 				21B468061CCE5EDB00E145ED /* UITextView+BFKit.swift in Sources */,
+				585887611DBEEC3D006EC6D5 /* MyLovelistViewController.swift in Sources */,
 				21679A4F1B901C5300F18F90 /* MPVariant.m in Sources */,
 				21B468071CCE5EDB00E145ED /* UIToolbar+BFKit.swift in Sources */,
 				21B467E21CCE5EDB00E145ED /* BFButton.swift in Sources */,
