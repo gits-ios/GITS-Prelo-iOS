@@ -79,32 +79,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Mixpanel.sharedInstance(withToken: "5128cc503a07747a39945badf5aa4b3b")
         }
         
-        // FIXME: Swift 3
-//        if (User.IsLoggedIn) {
-//            if let c = CDUser.getOne()
-//            {
-//                Mixpanel.sharedInstance().identify(c.id)
-//                //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
-//                
-//                // Set crashlytics user information
-//                Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
-//                Crashlytics.sharedInstance().setUserEmail(c.email)
-//                Crashlytics.sharedInstance().setUserName(c.fullname)
-//                
-//                // MoEngage
-//                MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
-//                MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
-//                MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
-//                MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
-//                MoEngage.sharedInstance().setUserAttribute((c.profiles.phone != nil) ? c.profiles.phone! : "undefined", forKey: "phone")
-//            }/* else {
-//                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
-//                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
-//            }*/
-//            
-//            // Send uuid to server
-//            let _ = request(APIMe.setUserUUID)
-//        }
+        if (User.IsLoggedIn) {
+            if let c = CDUser.getOne()
+            {
+                Mixpanel.sharedInstance().identify(c.id)
+                //Mixpanel.sharedInstance().people.set(["$first_name":c.fullname!, "$name":c.email, "user_id":c.id])
+                
+                // Set crashlytics user information
+                Crashlytics.sharedInstance().setUserIdentifier((c.profiles.phone != nil) ? c.profiles.phone! : "undefined")
+                Crashlytics.sharedInstance().setUserEmail(c.email)
+                Crashlytics.sharedInstance().setUserName(c.fullname)
+                
+                // MoEngage
+                MoEngage.sharedInstance().setUserAttribute(c.id, forKey: "user_id")
+                MoEngage.sharedInstance().setUserAttribute(c.username, forKey: "username")
+                MoEngage.sharedInstance().setUserAttribute(c.fullname, forKey: "user_fullname")
+                MoEngage.sharedInstance().setUserAttribute(c.email, forKey: "user_email")
+                MoEngage.sharedInstance().setUserAttribute((c.profiles.phone != nil) ? c.profiles.phone! : "undefined", forKey: "phone")
+            }/* else {
+                Mixpanel.sharedInstance().identify(Mixpanel.sharedInstance().distinctId)
+                Mixpanel.sharedInstance().people.set(["$first_name":"", "$name":"", "user_id":""])
+            }*/
+            
+            // Send uuid to server
+            let _ = request(APIMe.setUserUUID)
+        }
         
         // Mixpanel
         Mixpanel.trackPageVisit(PageName.SplashScreen)
@@ -341,17 +340,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.synchronize()
         
         // Set deviceRegId for push notif if user is logged in
-        // FIXME: Swift 3
-//        if (User.IsLoggedIn) {
-//            LoginViewController.SendDeviceRegId()
-//        } else {
-//            // API Migrasi
-//            let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
-//                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Visitor")) {
-//                    print("Visitor updated with deviceRegId: \(deviceRegId)")
-//                }
-//            }
-//        }
+        if (User.IsLoggedIn) {
+            LoginViewController.SendDeviceRegId()
+        } else {
+            // API Migrasi
+            let _ = request(APIVisitors.updateVisitor(deviceRegId: deviceRegId)).responseJSON {resp in
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Update Visitor")) {
+                    print("Visitor updated with deviceRegId: \(deviceRegId)")
+                }
+            }
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -498,64 +496,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func deeplinkRedirect(_ tipe : String, targetId : String?) {
         //Constant.showDialog("tipe", message: "\(tipe)")
-        // FIXME: Swift 3
-//        let tipeLowercase = tipe.lowercased()
-//        if (tipeLowercase == self.RedirProduct) {
-//            if (targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectProduct(targetId!)
-//            }
-//        } else if (tipeLowercase == self.RedirComment) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectComment(targetId!)
-//            }
-//        } else if (tipeLowercase == self.RedirUser) {
-//            if (targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectShopPage(targetId!)
-//            }
-//        } else if (tipeLowercase == self.RedirInbox) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectInbox(targetId)
-//            }
-//        } else if (tipeLowercase == self.RedirNotif) {
-//            if (User.IsLoggedIn) {
-//                self.showRedirAlert()
-//                self.redirectNotification()
-//            }
-//        } else if (tipeLowercase == self.RedirConfirm) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectConfirmPayment(targetId!)
-//            }
-//        } else if (tipeLowercase == self.RedirTrxBuyer) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
-//            }
-//        } else if (tipeLowercase == self.RedirTrxSeller) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
-//            }
-//        } else if (tipeLowercase == self.RedirTrxPBuyer) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
-//            }
-//        } else if (tipeLowercase == self.RedirTrxPSeller) {
-//            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
-//                self.showRedirAlert()
-//                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
-//            }
-//        } else if (tipeLowercase == self.RedirCategory) {
-//            if (targetId != nil && targetId != "") {
-//                self.showRedirAlert()
-//                self.redirectCategory(targetId!)
-//            }
-//        }
+        let tipeLowercase = tipe.lowercased()
+        if (tipeLowercase == self.RedirProduct) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectProduct(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirComment) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectComment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirUser) {
+            if (targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectShopPage(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirInbox) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectInbox(targetId)
+            }
+        } else if (tipeLowercase == self.RedirNotif) {
+            if (User.IsLoggedIn) {
+                self.showRedirAlert()
+                self.redirectNotification()
+            }
+        } else if (tipeLowercase == self.RedirConfirm) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectConfirmPayment(targetId!)
+            }
+        } else if (tipeLowercase == self.RedirTrxBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            }
+        } else if (tipeLowercase == self.RedirTrxPBuyer) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            }
+        } else if (tipeLowercase == self.RedirTrxPSeller) {
+            if (User.IsLoggedIn && targetId != nil && targetId! != "") {
+                self.showRedirAlert()
+                self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            }
+        } else if (tipeLowercase == self.RedirCategory) {
+            if (targetId != nil && targetId != "") {
+                self.showRedirAlert()
+                self.redirectCategory(targetId!)
+            }
+        }
     }
     
     func showRedirAlert() {
@@ -580,345 +577,334 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func redirectProduct(_ productId : String) {
-        // FIXME: Swift 3
-//        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
-//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product")) {
-//                let json = JSON(resp.result.value!)
-//                let data = json["_data"]
-//                let p = Product.instance(data)
-//                
-//                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                var rootViewController : UINavigationController?
-//                
-//                // Tunggu sampai UINavigationController terbentuk
-//                var wait = true
-//                var waitCount = self.RedirWaitAmount
-//                while (wait) {
-//                    if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                        if (childVCs.count > 0) {
-//                            if let rootVC = childVCs[0] as? UINavigationController {
-//                                rootViewController = rootVC
-//                            }
-//                            wait = false
-//                        }
-//                    }
-//                    waitCount -= 1
-//                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                        wait = false
-//                    }
-//                }
-//                
-//                // Redirect setelah selesai menunggu
-//                if (rootViewController != nil) {
-//                    let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-//                    productDetailVC.product = p!
-//                    rootViewController!.pushViewController(productDetailVC, animated: true)
-//                } else {
-//                    self.showFailedRedirAlert()
-//                }
-//            } else {
-//                self.showFailedRedirAlert()
-//            }
-//        }
+        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                let p = Product.instance(data)
+                
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                var rootViewController : UINavigationController?
+                
+                // Tunggu sampai UINavigationController terbentuk
+                var wait = true
+                var waitCount = self.RedirWaitAmount
+                while (wait) {
+                    if let childVCs = self.window!.rootViewController?.childViewControllers {
+                        if (childVCs.count > 0) {
+                            if let rootVC = childVCs[0] as? UINavigationController {
+                                rootViewController = rootVC
+                            }
+                            wait = false
+                        }
+                    }
+                    waitCount -= 1
+                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                        wait = false
+                    }
+                }
+                
+                // Redirect setelah selesai menunggu
+                if (rootViewController != nil) {
+                    let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                    productDetailVC.product = p!
+                    rootViewController!.pushViewController(productDetailVC, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
+        }
     }
     
     func redirectComment(_ productId : String) {
-        // FIXME: Swift 3
-//        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
-//            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product Comment")) {
-//                let json = JSON(resp.result.value!)
-//                let pDetail = ProductDetail.instance(json)
-//                
-//                var rootViewController : UINavigationController?
-//                
-//                // Tunggu sampai UINavigationController terbentuk
-//                var wait = true
-//                var waitCount = self.RedirWaitAmount
-//                while (wait) {
-//                    if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                        if (childVCs.count > 0) {
-//                            if let rootVC = childVCs[0] as? UINavigationController {
-//                                rootViewController = rootVC
-//                            }
-//                            wait = false
-//                        }
-//                    }
-//                    waitCount -= 1
-//                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                        wait = false
-//                    }
-//                }
-//                
-//                // Redirect setelah selesai menunggu
-//                if (rootViewController != nil) {
-//                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
-//                    p.pDetail = pDetail
-//                    rootViewController!.pushViewController(p, animated: true)
-//                } else {
-//                    self.showFailedRedirAlert()
-//                }
-//            } else {
-//                self.showFailedRedirAlert()
-//            }
-//        }
+        let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Product Comment")) {
+                let json = JSON(resp.result.value!)
+                let pDetail = ProductDetail.instance(json)
+                
+                var rootViewController : UINavigationController?
+                
+                // Tunggu sampai UINavigationController terbentuk
+                var wait = true
+                var waitCount = self.RedirWaitAmount
+                while (wait) {
+                    if let childVCs = self.window!.rootViewController?.childViewControllers {
+                        if (childVCs.count > 0) {
+                            if let rootVC = childVCs[0] as? UINavigationController {
+                                rootViewController = rootVC
+                            }
+                            wait = false
+                        }
+                    }
+                    waitCount -= 1
+                    if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                        wait = false
+                    }
+                }
+                
+                // Redirect setelah selesai menunggu
+                if (rootViewController != nil) {
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                    p.pDetail = pDetail
+                    rootViewController!.pushViewController(p, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            } else {
+                self.showFailedRedirAlert()
+            }
+        }
     }
     
-    // FIXME: Swift 3
-    
     func redirectShopPage(_ userId : String) {
-        // FIXME: Swift 3
-//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//        listItemVC.currentMode = .shop
-//        listItemVC.shopId = userId
-//
-//        var rootViewController : UINavigationController?
-//        if let rVC = self.window?.rootViewController {
-//            if (rVC.childViewControllers.count > 0) {
-//                if let chld = rVC.childViewControllers[0] as? UINavigationController {
-//                    rootViewController = chld
-//                }
-//            }
-//        }
-//        if (rootViewController == nil) {
-//            // Set root view controller
-//            rootViewController = UINavigationController()
-//            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-//            rootViewController?.navigationBar.tintColor = UIColor.white
-//            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-//            self.window?.rootViewController = rootViewController
-//            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//            listItemVC.navigationItem.leftBarButtonItem = noBtn
-//        }
-//        rootViewController!.pushViewController(listItemVC, animated: true)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .shop
+        listItemVC.shopId = userId
+
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
     func redirectInbox(_ inboxId : String?) {
-        // FIXME: Swift 3
-//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        var rootViewController : UINavigationController?
-//        
-//        // Tunggu sampai UINavigationController terbentuk
-//        var wait = true
-//        var waitCount = self.RedirWaitAmount
-//        while (wait) {
-//            if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                if (childVCs.count > 0) {
-//                    if let rootVC = childVCs[0] as? UINavigationController {
-//                        rootViewController = rootVC
-//                    }
-//                    wait = false
-//                }
-//            }
-//            waitCount -= 1
-//            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                wait = false
-//            }
-//        }
-//        
-//        // Redirect setelah selesai menunggu
-//        if (rootViewController != nil) {
-//            // API Migrasi
-//            let _ = request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
-//                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Inbox")) {
-//                    let json = JSON(resp.result.value!)
-//                    let data = json["_data"]
-//                    let inbox = Inbox(jsn: data)
-//                    
-//                    let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
-//                    tawarVC.tawarItem = inbox
-//                    rootViewController!.pushViewController(tawarVC, animated: true)
-//                } else {
-//                    self.showFailedRedirAlert()
-//                }
-//            }
-//        } else {
-//            self.showFailedRedirAlert()
-//        }
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UINavigationController?
+        
+        // Tunggu sampai UINavigationController terbentuk
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            // API Migrasi
+            let _ = request(APIInbox.getInboxMessage(inboxId: inboxId!)).responseJSON {resp in
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Inbox")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let inbox = Inbox(jsn: data)
+                    
+                    let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+                    tawarVC.tawarItem = inbox
+                    rootViewController!.pushViewController(tawarVC, animated: true)
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            }
+        } else {
+            self.showFailedRedirAlert()
+        }
     }
     
     func redirectNotification() {
         // Tunggu sampai UINavigationController terbentuk
-        // FIXME: Swift 3
-//        var rootViewController : UINavigationController?
-//        
-//        var wait = true
-//        var waitCount = self.RedirWaitAmount
-//        while (wait) {
-//            if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                if (childVCs.count > 0) {
-//                    if let rootVC = childVCs[0] as? UINavigationController {
-//                        rootViewController = rootVC
-//                    }
-//                    wait = false
-//                }
-//            }
-//            waitCount -= 1
-//            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                wait = false
-//            }
-//        }
-//        
-//        // Redirect setelah selesai menunggu
-//        if (rootViewController != nil) {
-//            let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-//            rootViewController!.pushViewController(notifPageVC, animated: true)
-//        } else {
-//            self.showFailedRedirAlert()
-//        }
+        var rootViewController : UINavigationController?
+        
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+            rootViewController!.pushViewController(notifPageVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
     }
     
     func redirectConfirmPayment(_ transactionId : String) {
-        // FIXME: Swift 3
-//        if (transactionId != "") {
-//            // API Migrasi
-//            let _ = request(APITransaction.transactionDetail(tId: transactionId)).responseJSON {resp in
-//                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Confirm Payment")) {
-//                    let json = JSON(resp.result.value!)
-//                    let data = json["_data"]
-//                    let progress = data["progress"].intValue
-//                    
-//                    var rootViewController : UINavigationController?
-//                    
-//                    // Tunggu sampai UINavigationController terbentuk
-//                    var wait = true
-//                    var waitCount = self.RedirWaitAmount
-//                    while (wait) {
-//                        if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                            if (childVCs.count > 0) {
-//                                if let rootVC = childVCs[0] as? UINavigationController {
-//                                    rootViewController = rootVC
-//                                }
-//                                wait = false
-//                            }
-//                        }
-//                        waitCount -= 1
-//                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                            wait = false
-//                        }
-//                    }
-//                    
-//                    // Redirect setelah selesai menunggu
-//                    if (rootViewController != nil) {
-//                        if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
-//                            self.redirAlert?.title = "Perhatian"
-//                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
-//                            self.hideRedirAlertWithDelay(3.0)
-//                        } else {
-//                            let products = data["products"]
-//                            var imgs : [URL] = []
-//                            for i in 0 ..< products.count {
-//                                if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
-//                                    imgs.append(c.productImageURL!)
-//                                }
-//                            }
-//                            
-//                            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
-//                            orderConfirmVC.transactionId = transactionId
-//                            orderConfirmVC.orderID = data["order_id"].stringValue
-//                            orderConfirmVC.total = data["total_price"].intValue
-//                            orderConfirmVC.images = imgs
-//                            orderConfirmVC.isFromCheckout = false
-//                            rootViewController!.pushViewController(orderConfirmVC, animated: true)
-//                        }
-//                    } else {
-//                        self.showFailedRedirAlert()
-//                    }
-//                } else {
-//                    self.showFailedRedirAlert()
-//                }
-//            }
-//        }
+        if (transactionId != "") {
+            // API Migrasi
+            let _ = request(APITransaction.transactionDetail(tId: transactionId)).responseJSON {resp in
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Deeplink Confirm Payment")) {
+                    let json = JSON(resp.result.value!)
+                    let data = json["_data"]
+                    let progress = data["progress"].intValue
+                    
+                    var rootViewController : UINavigationController?
+                    
+                    // Tunggu sampai UINavigationController terbentuk
+                    var wait = true
+                    var waitCount = self.RedirWaitAmount
+                    while (wait) {
+                        if let childVCs = self.window!.rootViewController?.childViewControllers {
+                            if (childVCs.count > 0) {
+                                if let rootVC = childVCs[0] as? UINavigationController {
+                                    rootViewController = rootVC
+                                }
+                                wait = false
+                            }
+                        }
+                        waitCount -= 1
+                        if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                            wait = false
+                        }
+                    }
+                    
+                    // Redirect setelah selesai menunggu
+                    if (rootViewController != nil) {
+                        if (progress != 1) { // Sudah pernah melakukan konfirmasi bayar
+                            self.redirAlert?.title = "Perhatian"
+                            self.redirAlert?.message = "Anda sudah melakukan konfirmasi bayar untuk transaksi ini"
+                            self.hideRedirAlertWithDelay(3.0)
+                        } else {
+                            let products = data["products"]
+                            var imgs : [URL] = []
+                            for i in 0 ..< products.count {
+                                if let c : UserCheckoutProduct = UserCheckoutProduct.instanceCheckoutProduct(products[i]) {
+                                    imgs.append(c.productImageURL!)
+                                }
+                            }
+                            
+                            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
+                            orderConfirmVC.transactionId = transactionId
+                            orderConfirmVC.orderID = data["order_id"].stringValue
+                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.images = imgs
+                            orderConfirmVC.isFromCheckout = false
+                            rootViewController!.pushViewController(orderConfirmVC, animated: true)
+                        }
+                    } else {
+                        self.showFailedRedirAlert()
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+            }
+        }
     }
     
     func redirectTransaction(_ trxId : String?, trxProductId : String?, isSeller : Bool) {
         // Tunggu sampai UINavigationController terbentuk
-        // FIXME: Swift 3
-//        var rootViewController : UINavigationController?
-//        
-//        var wait = true
-//        var waitCount = self.RedirWaitAmount
-//        while (wait) {
-//            if let childVCs = self.window!.rootViewController?.childViewControllers {
-//                if (childVCs.count > 0) {
-//                    if let rootVC = childVCs[0] as? UINavigationController {
-//                        rootViewController = rootVC
-//                    }
-//                    wait = false
-//                }
-//            }
-//            waitCount -= 1
-//            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
-//                wait = false
-//            }
-//        }
-//        
-//        // Redirect setelah selesai menunggu
-//        if (rootViewController != nil) {
-//            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
-//            transactionDetailVC.trxId = trxId
-//            transactionDetailVC.trxProductId = trxProductId
-//            transactionDetailVC.isSeller = isSeller
-//            rootViewController!.pushViewController(transactionDetailVC, animated: true)
-//        } else {
-//            self.showFailedRedirAlert()
-//        }
+        var rootViewController : UINavigationController?
+        
+        var wait = true
+        var waitCount = self.RedirWaitAmount
+        while (wait) {
+            if let childVCs = self.window!.rootViewController?.childViewControllers {
+                if (childVCs.count > 0) {
+                    if let rootVC = childVCs[0] as? UINavigationController {
+                        rootViewController = rootVC
+                    }
+                    wait = false
+                }
+            }
+            waitCount -= 1
+            if (waitCount <= 0) { // Jaga2 jika terlalu lama menunggu
+                wait = false
+            }
+        }
+        
+        // Redirect setelah selesai menunggu
+        if (rootViewController != nil) {
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
+            transactionDetailVC.trxId = trxId
+            transactionDetailVC.trxProductId = trxProductId
+            transactionDetailVC.isSeller = isSeller
+            rootViewController!.pushViewController(transactionDetailVC, animated: true)
+        } else {
+            self.showFailedRedirAlert()
+        }
     }
     
     func redirectExpiringProducts() {
-        // FIXME: Swift 3
-//        let expProductsVC = Bundle.main.loadNibNamed(Tags.XibNameExpiringProducts, owner: nil, options: nil)?.first as! ExpiringProductsViewController
-//        
-//        var rootViewController : UINavigationController?
-//        if let rVC = self.window?.rootViewController {
-//            if (rVC.childViewControllers.count > 0) {
-//                if let chld = rVC.childViewControllers[0] as? UINavigationController {
-//                    rootViewController = chld
-//                }
-//            }
-//        }
-//        if (rootViewController == nil) {
-//            // Set root view controller
-//            rootViewController = UINavigationController()
-//            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-//            rootViewController?.navigationBar.tintColor = UIColor.white
-//            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-//            self.window?.rootViewController = rootViewController
-//            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//            expProductsVC.navigationItem.leftBarButtonItem = noBtn
-//        }
-//        rootViewController!.pushViewController(expProductsVC, animated: true)
+        let expProductsVC = Bundle.main.loadNibNamed(Tags.XibNameExpiringProducts, owner: nil, options: nil)?.first as! ExpiringProductsViewController
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            expProductsVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(expProductsVC, animated: true)
     }
     
     func redirectCategory(_ categoryId : String) {
-        // FIXME: Swift 3
-//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-//        listItemVC.currentMode = .filter
-//        listItemVC.fltrCategId = categoryId
-//        listItemVC.fltrSortBy = "recent"
-//        
-//        var rootViewController : UINavigationController?
-//        if let rVC = self.window?.rootViewController {
-//            if (rVC.childViewControllers.count > 0) {
-//                if let chld = rVC.childViewControllers[0] as? UINavigationController {
-//                    rootViewController = chld
-//                }
-//            }
-//        }
-//        if (rootViewController == nil) {
-//            // Set root view controller
-//            rootViewController = UINavigationController()
-//            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
-//            rootViewController?.navigationBar.tintColor = UIColor.white
-//            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-//            self.window?.rootViewController = rootViewController
-//            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//            listItemVC.navigationItem.leftBarButtonItem = noBtn
-//        }
-//        rootViewController!.pushViewController(listItemVC, animated: true)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .filter
+        listItemVC.fltrCategId = categoryId
+        listItemVC.fltrSortBy = "recent"
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        rootViewController!.pushViewController(listItemVC, animated: true)
     }
     
     // MARK: - Core Data stack
@@ -992,7 +978,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func userLoggedIn()
     {
-        // FIXME: Swift 3 messagePool?.start()
+        messagePool?.start()
     }
     
     // MARK: - Other functions

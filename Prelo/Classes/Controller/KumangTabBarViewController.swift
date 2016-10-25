@@ -77,12 +77,11 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         }
         
         // Resume product upload
-        // FIXME: Swift 3
-//        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-//                AppDelegate.Instance.produkUploader.start()
-//            })
-//        }
+        if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                AppDelegate.Instance.produkUploader.start()
+            })
+        }
         
         // Subdistrict check
         self.subdistrictProfileCheck()
@@ -145,49 +144,45 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
         // Show tour pop up, refresh home, and/or show pop up
-        // FIXME: Swift 3
-//        if (!UserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
-//            self.performSegue(withIdentifier: "segTour", sender: self)
-//            UserDefaults.setTourDone(true)
-//        } else {
-//            let preloBaseUrlJustChanged : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
-//            if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn) || (userDidLoggedIn == true && !User.IsLoggedIn)) { // Jika user baru saja log in, baru saja log out, atau baru saja switch base url dalam dev mode
-//                UserDefaults.standard.set(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
-//                UserDefaults.standard.synchronize()
-//                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
-//                
-//                // Subdistrict check
-//                self.subdistrictProfileCheck()
-//            } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
-//                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
-//            }
-//        }
-//        userDidLoggedIn = User.IsLoggedIn
+        if (!UserDefaults.isTourDone() && !isAlreadyGetCategory && !User.IsLoggedIn) { // Jika akan memanggil tour
+            self.performSegue(withIdentifier: "segTour", sender: self)
+            UserDefaults.setTourDone(true)
+        } else {
+            let preloBaseUrlJustChanged : Bool? = UserDefaults.standard.object(forKey: UserDefaultsKey.PreloBaseUrlJustChanged) as! Bool?
+            if ((AppTools.isDev && preloBaseUrlJustChanged == true) || (userDidLoggedIn == false && User.IsLoggedIn) || (userDidLoggedIn == true && !User.IsLoggedIn)) { // Jika user baru saja log in, baru saja log out, atau baru saja switch base url dalam dev mode
+                UserDefaults.standard.set(false, forKey: UserDefaultsKey.PreloBaseUrlJustChanged)
+                UserDefaults.standard.synchronize()
+                (self.controllerBrowse as? ListCategoryViewController)?.grandRefresh()
+                
+                // Subdistrict check
+                self.subdistrictProfileCheck()
+            } else if (!isAlreadyGetCategory) { // Jika tidak memanggil tour saat membuka app, atau jika tour baru saja selesai
+                (self.controllerBrowse as? ListCategoryViewController)?.getCategory()
+            }
+        }
+        userDidLoggedIn = User.IsLoggedIn
     }
     
     // MARK: - View-related actions
     
     func subdistrictProfileCheck() {
-        // FIXME: Swift 3
-//        if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
-//            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
-//            sdAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-//                self.navigationController?.pushViewController(userProfileVC, animated: true)
-//            }))
-//            self.present(sdAlert, animated: true, completion: nil)
-//        }
+        if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
+            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
+            sdAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+                self.navigationController?.pushViewController(userProfileVC, animated: true)
+            }))
+            self.present(sdAlert, animated: true, completion: nil)
+        }
     }
     
     func updateLoginButton() {
-        // FIXME: Swift 3
-//        if (User.IsLoggedIn) {
-//            btnDashboard.setTitle("MY ACCOUNT", for: UIControlState())
-//        } else {
-//            btnDashboard.setTitle("LOG IN", for: UIControlState())
-//        }
+        if (User.IsLoggedIn) {
+            btnDashboard.setTitle("MY ACCOUNT", for: UIControlState())
+        } else {
+            btnDashboard.setTitle("LOG IN", for: UIControlState())
+        }
     }
     
     func hideBottomBar() {
@@ -205,12 +200,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
             self.btnAdd?.layoutIfNeeded()
         })
     }
-    
-    // FIXME: Swift 3
-//    func menuSelected(_ option: MenuOption) {
-//        let i = PreloShareItem()
-//        PreloShareController.Share(i, inView: self.view)
-//    }
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
@@ -247,22 +236,20 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segTour") {
-            // FIXME: SWIFT 3
-//            let t = (segue.destination as? UINavigationController)?.viewControllers.first as! TourViewController
-//            t.parentVC = sender as? BaseViewController
+            let t = (segue.destination as? UINavigationController)?.viewControllers.first as! TourViewController
+            t.parentVC = sender as? BaseViewController
         }
     }
     
     func showProduct(_ sender : AnyObject) {
-        // FIXME: Swift 3
-//        let n : Foundation.Notification = sender as! Foundation.Notification
-//        let d : ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-//        let nav = UINavigationController(rootViewController: d)
-//        nav.navigationBar.isTranslucent = false
-//        nav.navigationBar.barTintColor = Theme.navBarColor
-//        nav.navigationBar.tintColor = UIColor.white
-//        d.product = n.object as? Product
-//        self.navigationController?.pushViewController(d, animated: true)
+        let n : Foundation.Notification = sender as! Foundation.Notification
+        let d : ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+        let nav = UINavigationController(rootViewController: d)
+        nav.navigationBar.isTranslucent = false
+        nav.navigationBar.barTintColor = Theme.navBarColor
+        nav.navigationBar.tintColor = UIColor.white
+        d.product = n.object as? Product
+        self.navigationController?.pushViewController(d, animated: true)
     }
     
     func delayBrowseSwitch() {

@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class InboxViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate { // FIXME: Swift 3 , TawarDelegate {
+class InboxViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, TawarDelegate {
 
     @IBOutlet var tableView : UITableView!
     var inboxes : [Inbox] = []
@@ -134,10 +134,10 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /* FIXME: Swift 3 let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+        let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
         t.tawarItem = inboxes[(indexPath as NSIndexPath).row]
         t.tawarDelegate = self
-        self.navigationController?.pushViewController(t, animated: true)*/
+        self.navigationController?.pushViewController(t, animated: true)
     }
     
     func tawarNeedReloadList()

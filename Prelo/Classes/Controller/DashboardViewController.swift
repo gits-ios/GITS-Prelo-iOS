@@ -142,7 +142,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 imgCover?.layer.masksToBounds = true
             }
         }
-        /* FIXME: Swift 3
+        
         // Redirect if any
         let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
         if (redirectFromHome != nil) {
@@ -154,7 +154,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
-        }*/
+        }
     }
 
     override func didReceiveMemoryWarning() {

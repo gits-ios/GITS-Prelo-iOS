@@ -76,18 +76,17 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         super.viewDidAppear(animated)
         
         // Redirect if any
-        // FIXME: Swift 3
-//        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
-//        if (redirectFromHome != nil) {
-//            if (redirectFromHome == PageName.MyOrders) {
-//                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
-//                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
-//            } else if (redirectFromHome == PageName.UnpaidTransaction) {
-//                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
-//                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
-//            }
-//            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
-//        }
+        let redirectFromHome : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.RedirectFromHome) as! String?
+        if (redirectFromHome != nil) {
+            if (redirectFromHome == PageName.MyOrders) {
+                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchase, owner: nil, options: nil)?.first as! MyPurchaseViewController
+                self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
+            } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
+                self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+            }
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
+        }
     }
     
     func grandRefresh() {

@@ -59,7 +59,7 @@ enum ListItemMode {
     case filter
 }
 
-class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate  { // FIXME: Swift 3, CategoryPickerDelegate, ListBrandDelegate {
+class ListItemViewController: BaseViewController, MFMailComposeViewControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, FilterDelegate, CategoryPickerDelegate, ListBrandDelegate {
     
     // MARK: - Struct
     
@@ -185,7 +185,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         // Initiate refresh control
         refresher = UIRefreshControl()
         refresher!.tintColor = Theme.PrimaryColor
-        // FIXME: Swift 3 refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
+        refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
         self.gridView.addSubview(refresher!)
         
         // Setup content for filter, shop, or standalone mode
@@ -201,7 +201,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         self.setStatusBarStyle(style: .lightContent)
         
         // Add status bar tap observer
-        // FIXME: Swift 3 NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ListItemViewController.statusBarTapped), name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -209,7 +209,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         //print("viewWillDisappear x")
         
         // Remove status bar tap observer
-        // FIXME: Swift 3 NotificationCenter.default.removeObserver(self, name: AppDelegate.StatusBarTapNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: AppDelegate.StatusBarTapNotificationName), object: nil)
         
         // Show navbar
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -225,7 +225,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
         
         // Mixpanel for store mode
-        /* FIXME: Swift 3
         if (currentMode == .shop) {
             if (User.IsLoggedIn && self.shopId == User.Id!) {
                 // Mixpanel
@@ -244,7 +243,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Google Analytics
                 GAI.trackPageVisit(PageName.Shop)
             }
-        }*/
+        }
     }
     
     override func backPressed(_ sender: UIBarButtonItem) {
@@ -694,14 +693,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                         self.shopHeader?.captionLocation.text = region + ", " + province
                     }
                 }
-                /* FIXME: Swift 3
+
                 self.shopHeader?.editBlock = {
-                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil).first as! UserProfileViewController
+                    let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
                     self.navigationController?.pushViewController(userProfileVC, animated: true)
                 }
                 
                 self.shopHeader?.reviewBlock = {
-                    let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil).first as! ShopReviewViewController
+                    let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
                     shopReviewVC.sellerId = self.shopId
                     shopReviewVC.sellerName = self.shopName
                     self.navigationController?.pushViewController(shopReviewVC, animated: true)
@@ -713,7 +712,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     c.images = (self.shopHeader?.avatarUrls)!
                     c.index = 0
                     self.navigationController?.present(c, animated: true, completion: nil)
-                }*/
+                }
                 
                 self.refresher?.endRefreshing()
                 var refresherBound = self.refresher?.bounds
@@ -1104,7 +1103,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     func adjustCategory(_ categId: String) {
         self.fltrCategId = categId
-        // FIXME: Swift 3 lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
+        lblFilterKategori.text = CDCategory.getCategoryNameWithID(categId)
         self.refresh()
         self.setupGrid()
     }
@@ -1140,7 +1139,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             gridView.reloadData()
         }
     }
-     /* FIXME: Swift 3
+    
     @IBAction func topHeaderFilterMerekPressed(_ sender: AnyObject) {
         let listBrandVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdListBrand) as! ListBrandViewController2
         listBrandVC.previousController = self
@@ -1159,7 +1158,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     }
     
     @IBAction func topHeaderFilterSortPressed(_ sender: AnyObject) {
-        let filterVC = Bundle.main.loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil).first as! FilterViewController
+        let filterVC = Bundle.main.loadNibNamed(Tags.XibNameFilter, owner: nil, options: nil)?.first as! FilterViewController
         filterVC.previousController = self
         filterVC.delegate = self
         filterVC.categoryId = self.fltrCategId
@@ -1171,15 +1170,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         filterVC.maxPrice = (self.fltrPriceMax > 0) ? self.fltrPriceMax.stringValue : ""
         self.navigationController?.pushViewController(filterVC, animated: true)
     }
-    */
+    
     // MARK: - Filter zero result
     
     @IBAction func reqBarangPressed(_ sender: AnyObject) {
         var username = "Your beloved user"
-        /* FIXME: Swift 3
         if let u = CDUser.getOne() {
             username = u.username
-        }*/
+        }
         let msgBody = "Dear Prelo,<br/><br/>Saya sedang mencari barang bekas berkualitas ini:<br/>\(fltrName)<br/><br/>Jika ada pengguna di Prelo yang menjual barang tersebut, harap memberitahu saya melalui e-mail.<br/><br/>Terima kasih Prelo <3<br/><br/>--<br/>\(username)<br/>Sent from Prelo iOS"
         
         let m = MFMailComposeViewController()

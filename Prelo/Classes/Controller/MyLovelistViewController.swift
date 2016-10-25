@@ -231,10 +231,9 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - IBActions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
-        /* FIXME: Swift 3
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Lovelist
-        self.navigationController?.pushViewController(add, animated: true)*/
+        self.navigationController?.pushViewController(add, animated: true)
     }
 }
 

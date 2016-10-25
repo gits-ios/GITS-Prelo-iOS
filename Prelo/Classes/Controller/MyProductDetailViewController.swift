@@ -565,7 +565,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 //let pDetail = ProductDetail.instance(json)
                 //pDetail?.reverse()
                 self.detail = ProductDetail.instance(json)
-                /* FIXME: Swift 3
+                
                 // Goto chat
                 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                 
@@ -593,7 +593,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                             }
                         }
                     }
-                }*/
+                }
             }
         }
     }

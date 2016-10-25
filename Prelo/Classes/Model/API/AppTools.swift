@@ -405,9 +405,11 @@ extension Mixpanel {
     
     static func trackPageVisit(_ pageName : String, otherParam : [String : String])
     {
+        /* Disable Page Visit
         var p = otherParam
         p["Page"] = pageName
         Mixpanel.sharedInstance().track("Page Visited", properties: p)
+        */
     }
 }
 

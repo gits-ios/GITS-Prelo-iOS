@@ -307,11 +307,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         {
             return
         }
-        /* FIXME: Swift 3
+        
         let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
         d.product = selectedProduct!
         
-        self.previousController?.navigationController?.pushViewController(d, animated: true)*/
+        self.previousController?.navigationController?.pushViewController(d, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
