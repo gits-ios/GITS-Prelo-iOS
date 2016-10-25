@@ -191,9 +191,9 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     // MARK: - Actions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
-        /* FIXME: Swift 3 let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyOrders
-        self.navigationController?.pushViewController(add, animated: true)*/
+        self.navigationController?.pushViewController(add, animated: true)
     }
     
     func readNotif(_ idx : Int) {

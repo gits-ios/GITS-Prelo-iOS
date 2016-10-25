@@ -429,9 +429,9 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 AppToolsObjC.insertNewSearch(foundItems[(indexPath as NSIndexPath).row].name)
                 setupHistory()
                 
-                /* FIXME: Swift 3 let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
+                let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
                 d.product = foundItems[(indexPath as NSIndexPath).row]
-                self.navigationController?.pushViewController(d, animated: true)*/
+                self.navigationController?.pushViewController(d, animated: true)
             }
         } else if ((indexPath as NSIndexPath).section == SectionUser) {
             if ((indexPath as NSIndexPath).row == foundUsers.count) {

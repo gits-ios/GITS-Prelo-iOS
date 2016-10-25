@@ -468,9 +468,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
     static func LoginFacebookCancelled(_ sender : BaseViewController, reason : String?) {
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
-        /* FIXME: Swift 3 let vcProductDetail = sender as? ProductDetailViewController
+        let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
-        let vcUserProfile = sender as? UserProfileViewController*/
+        let vcUserProfile = sender as? UserProfileViewController
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -485,7 +485,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (vcRegister != nil) {
             vcRegister!.hideLoading()
         }
-        /* FIXME: Swift 3 if (vcProductDetail != nil) {
+        if (vcProductDetail != nil) {
             vcProductDetail!.hideLoading()
         }
         if (vcAddProductShare != nil) {
@@ -493,7 +493,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
-        }*/
+        }
         
         // Show alert if there's reason
         if (reason != nil) {
@@ -650,10 +650,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         
         let vcLogin = sender as? LoginViewController
         let vcRegister = sender as? RegisterViewController
-        /* FIXME: Swift 3
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
-        let vcUserProfile = sender as? UserProfileViewController*/
+        let vcUserProfile = sender as? UserProfileViewController
         
         if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
             User.Logout()
@@ -668,7 +667,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (vcRegister != nil) {
             vcRegister!.hideLoading()
         }
-        /* FIXME: Swift 3if (vcProductDetail != nil) {
+        if (vcProductDetail != nil) {
             vcProductDetail!.hideLoading()
         }
         if (vcAddProductShare != nil) {
@@ -676,7 +675,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
-        }*/
+        }
         
         // Show alert if there's reason
         if (reason != nil) {

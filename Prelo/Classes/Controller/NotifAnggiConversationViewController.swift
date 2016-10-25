@@ -277,9 +277,9 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     let inboxData = Inbox(jsn: data)
                     
                     // Goto inbox
-                    /* FIXME: Swift 3 let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                    let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
                     t.tawarItem = inboxData
-                    self.navigationController?.pushViewController(t, animated: true)*/
+                    self.navigationController?.pushViewController(t, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi inbox tidak bisa dibuka")
                     self.hideLoading()
@@ -294,9 +294,9 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     let pDetail = ProductDetail.instance(json)
                     
                     // Goto product comments
-                    /* FIXME: Swift 3 let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductComments) as! ProductCommentsController
                     p.pDetail = pDetail
-                    self.navigationController?.pushViewController(p, animated: true)*/
+                    self.navigationController?.pushViewController(p, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
                     self.hideLoading()

@@ -49,8 +49,7 @@ class PreloEndpoints: NSObject {
                         print("\(reqAlias) _message = \(msg)")
                         
                         if (msg.lowercased() == "user belum login") {
-                            // FIXME: Swift 3
-//                            User.Logout()
+                            User.Logout()
                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
                             if let childVCs = appDelegate.window?.rootViewController?.childViewControllers {
                                 let rootVC = childVCs[0]
@@ -59,8 +58,7 @@ class PreloEndpoints: NSObject {
                                 let kumangTabBarVC : KumangTabBarViewController? = (childVCs[0] as? UINavigationController)?.viewControllers[0] as? KumangTabBarViewController
                                 if (uiNavigationController != nil && kumangTabBarVC != nil) {
                                     uiNavigationController!.popToRootViewController(animated: true)
-                                    // FIXME: Swift 3
-//                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
+                                    LoginViewController.Show(rootVC, userRelatedDelegate: kumangTabBarVC, animated: true)
                                 }
                             }
                         }

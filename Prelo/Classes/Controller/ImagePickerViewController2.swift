@@ -39,7 +39,7 @@ class ImagePickerViewController2: BaseViewController, UICollectionViewDataSource
         self.title = String(selecteds.count) + "/" + String(maxSelectCount) + " Selected"
     }
     
-    // FIXME: - Swift 3
+    // FIXME: Swift 3
 //    override func dismiss() {
 //        self.doneBlock!([])
 //        super.dismiss()

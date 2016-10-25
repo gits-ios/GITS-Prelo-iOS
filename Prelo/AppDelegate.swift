@@ -197,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.deeplinkRedirect(tipe, targetId: targetId)
             }
 
-            // FIXME: - Swift 3
+            // FIXME: Swift 3
 //            FBSDKAppLinkUtility.fetchDeferredAppLink({(url : URL!, error : NSError!) -> Void in
 //                if (error != nil) { // Process error
 //                    print("Received error while fetching deferred app link \(error)")

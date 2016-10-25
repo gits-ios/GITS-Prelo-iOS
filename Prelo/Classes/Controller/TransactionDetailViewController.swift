@@ -13,7 +13,7 @@ import Alamofire
 
 // MARK: - Class
 
-class TransactionDetailViewController: BaseViewController { // FIXME: Swift 3 , UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+class TransactionDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     
     // Table and loading
     @IBOutlet weak var tableView: UITableView!
@@ -100,7 +100,7 @@ class TransactionDetailViewController: BaseViewController { // FIXME: Swift 3 , 
     var isShowBankBRI : Bool = false
     
     // MARK: - Init
-    /* FIXME: Swift 3
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1772,7 +1772,7 @@ class TransactionDetailViewController: BaseViewController { // FIXME: Swift 3 , 
         } else {
             return TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer
         }
-    }*/
+    }
 }
 
 // MARK: - Class

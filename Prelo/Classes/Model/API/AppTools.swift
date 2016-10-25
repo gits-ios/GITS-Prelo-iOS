@@ -441,7 +441,7 @@ extension GAI {
             let tracker = GAI.sharedInstance().defaultTracker
             tracker?.set(kGAIScreenName, value: pageName)
             let builder = GAIDictionaryBuilder.createScreenView()
-            // FIXME: - Swift 3
+            // FIXME: Swift 3
 //            tracker?.send(builder?.build() as [AnyHashable: Any])
         }
     }
@@ -556,7 +556,7 @@ func print(_ items: Any..., separator: String = " ", terminator: String = "\n") 
 
 class ImageHelper {
     static func removeExifData(_ data: Data) -> Data? {
-        // FIXME: - Swift 3
+        // FIXME: Swift 3
 //        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
 //            return nil
 //        }
