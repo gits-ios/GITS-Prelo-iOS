@@ -34,7 +34,7 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
     var aggregateId : String = "55e02ef426cee06d1700016c"
     
     var productCompareMain : ProductCompareMain = ProductCompareMain()
-    var productCompareItems : [ProductCompareItem] = []
+    var productCompareItems : [Product] = []
     
     // MARK: - Init
     
@@ -88,7 +88,7 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
                 
                 // Store data into variable
                 for (_, item) in data {
-                    let p = ProductCompareItem.instance(item)
+                    let p = Product.instance(item)
                     if (p != nil) {
                         self.productCompareItems.append(p!)
                     }
@@ -127,6 +127,8 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
         if (indexPath.row == 0) { // Main cell
             return 125
         }
+        
+        // Product cell
         return 71
     }
     
@@ -138,14 +140,32 @@ class ProductCompareViewController : BaseViewController, UITableViewDelegate, UI
             cell.mainCellDelegate = self
             return cell
         }
+        
+        // Product cell
         let cell : ProductCompareCell = self.tableView.dequeueReusableCell(withIdentifier: "ProductCompareCell") as! ProductCompareCell
         cell.adapt(productCompareItem: productCompareItems[indexPath.row - 1])
         cell.selectionStyle = .none
+        cell.buyPressed = {
+            var success = true
+            if (CartProduct.getOne(self.productCompareItems[indexPath.row - 1].id, email: User.EmailOrEmptyString) == nil) {
+                if (CartProduct.newOne(self.productCompareItems[indexPath.row - 1].id, email : User.EmailOrEmptyString, name : self.productCompareItems[indexPath.row - 1].name) == nil) {
+                    success = false
+                    Constant.showDialog("Failed", message: "Gagal Menyimpan")
+                }
+            }
+            
+            if (success) {
+                let c = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdCart) as! BaseViewController
+                self.navigationController?.pushViewController(c, animated: true)
+            }
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if (indexPath.row > 0) { // Product cell
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: NotificationName.ShowProduct), object: productCompareItems[indexPath.row - 1])
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -332,16 +352,19 @@ class ProductCompareCell : UITableViewCell {
     @IBOutlet var lblPrice: UILabel!
     @IBOutlet var lblProductName: UILabel!
     
+    var buyPressed : () -> () = {}
+    
     // MARK: - Methods
     
-    func adapt(productCompareItem : ProductCompareItem) {
-        if let url = productCompareItem.imageURL {
+    func adapt(productCompareItem : Product) {
+        if let url = productCompareItem.coverImageURL {
             imgProduct.downloadedFrom(url: url)
         }
-        lblPrice.text = productCompareItem.price.asPrice
+        lblPrice.text = productCompareItem.price
         lblProductName.text = productCompareItem.name
     }
     
     @IBAction func beliPressed(_ sender: AnyObject) {
+        self.buyPressed()
     }
 }
