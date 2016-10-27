@@ -784,6 +784,7 @@ enum APIProduct : URLRequestConvertible {
     case deactivate(productID : String)
     case getAllFeaturedProducts(categoryId : String)
     case getIdByPermalink(permalink : String)
+    case getProductAggregatePage(aggregateId : String, current : Int, limit : Int)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "product/"
@@ -817,6 +818,7 @@ enum APIProduct : URLRequestConvertible {
         case .deactivate(_) : return .post
         case .getAllFeaturedProducts(_) : return .get
         case .getIdByPermalink(_) : return .get
+        case .getProductAggregatePage(_, _, _) : return .get
         }
     }
     
@@ -843,6 +845,7 @@ enum APIProduct : URLRequestConvertible {
         case .deactivate(let pId) : return pId + "/deactivate"
         case .getAllFeaturedProducts(let cId) : return "editorspick/\(cId)"
         case .getIdByPermalink(let permalink) : return "to_id/" + permalink
+        case .getProductAggregatePage(let aggregateId, _, _) : return "aggregate/" + aggregateId
         }
     }
     
@@ -908,6 +911,11 @@ enum APIProduct : URLRequestConvertible {
             p = [
                 "comment" : comment,
                 "star" : star
+            ]
+        case .getProductAggregatePage(_, let current, let limit) :
+            p = [
+                "current" : current,
+                "limit" : limit
             ]
         default : break
         }

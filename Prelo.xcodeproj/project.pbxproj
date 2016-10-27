@@ -432,6 +432,10 @@
 		585887A11DBF36FF006EC6D5 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB441B53AF7800787F5D /* ProductDetailViewController.swift */; };
 		585B6AE71DBE1441005DEBA4 /* ImageSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A91B7B338900469CFC /* ImageSupplier.swift */; };
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
+		588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */; };
+		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
+		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
+		588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148C21DC0B598004180E1 /* ProductCompareCell.xib */; };
 		5895E86A1C48E08600752ACA /* img_setup_pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8691C48E08600752ACA /* img_setup_pwd.png */; };
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
 		589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */; };
@@ -1188,6 +1192,10 @@
 		58528C511D13A3D200074EC6 /* cchmrk_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_sold.png; sourceTree = "<group>"; };
 		58528C521D13A3D200074EC6 /* cchmrk_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_up.png; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
+		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
+		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
+		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
+		588148C21DC0B598004180E1 /* ProductCompareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareCell.xib; sourceTree = "<group>"; };
 		5894DB3B1D586B2D00874A56 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FilterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5894DB3D1D586BAD00874A56 /* Filter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Filter.xib; sourceTree = "<group>"; };
 		5894DB3F1D58705F00874A56 /* FilterChecklistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterChecklistCell.xib; sourceTree = "<group>"; };
@@ -2024,6 +2032,7 @@
 				21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */,
 				21156EB91B8F5B4C001D7842 /* UserProfileViewController.swift */,
 				21983BF11BE262CB00F0C24E /* UserSearchViewController.swift */,
+				588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2572,6 +2581,9 @@
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				21104AD01BAA8F1200947E7F /* TransactionListCell.xib */,
 				21156EBB1B8F5B5D001D7842 /* UserProfile.xib */,
+				588148B41DC09FBA004180E1 /* ProductCompare.xib */,
+				588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */,
+				588148C21DC0B598004180E1 /* ProductCompareCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -2927,6 +2939,7 @@
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
+				588148C31DC0B598004180E1 /* ProductCompareCell.xib in Resources */,
 				58528C531D13A3D200074EC6 /* cchmrk_share.png in Resources */,
 				21679A531B901C5300F18F90 /* snapshot_config.json in Resources */,
 				585887321DBED9F6006EC6D5 /* CategoryPreferences.xib in Resources */,
@@ -2958,6 +2971,7 @@
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				585887431DBEDAE9006EC6D5 /* MyProductTransaction.xib in Resources */,
 				215C526B1B6B349C00EA4E61 /* ic_shirt@2x.png in Resources */,
+				588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */,
 				FDAD1BE51BF0A5DB00505A35 /* ic_take_photo.png in Resources */,
 				5858875C1DBEEA1A006EC6D5 /* SearchResultHeader.xib in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
@@ -3048,6 +3062,7 @@
 				2141BBD51B54BE4C00787F5D /* LICENSE in Resources */,
 				589A6FC71D8C08F600654CDD /* ic_mata.png in Resources */,
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
+				588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.jpg in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
@@ -3427,6 +3442,7 @@
 				5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
+				588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
 				21B468081CCE5EDB00E145ED /* UIView+BFKit.swift in Sources */,
 				58A99A461C6D864E00E3E7D7 /* BranchRegisterViewRequest.m in Sources */,

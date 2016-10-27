@@ -328,11 +328,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().registerForPushNotificationUsingDeviceToken(deviceToken)
         
-        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")
-        
-        let deviceRegId: String = (deviceToken.description as NSString)
-            .trimmingCharacters(in: characterSet)
-            .replacingOccurrences(of: " ", with: "") as String
+        var deviceRegId : String = ""
+        for i in 0..<deviceToken.count {
+            deviceRegId += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+//        let deviceRegId = String(format: "%@", deviceToken as CVarArg)
+//            .trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+//            .replacingOccurrences(of: " ", with: "")
         
         print("deviceRegId = \(deviceRegId)")
         

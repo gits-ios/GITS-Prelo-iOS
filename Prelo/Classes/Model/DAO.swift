@@ -3080,6 +3080,119 @@ class NotificationObj : NSObject
     }
 }
 
+class ProductCompareMain : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> ProductCompareMain? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = ProductCompareMain()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var brandName : String {
+        if let j = json["brand_name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var brandPermalink : String {
+        if let j = json["brand_permalink"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var brandId : String {
+        if let j = json["brand_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var numProducts : Int {
+        if let j = json["aggregate_data"]["num_products"].int {
+            return j
+        }
+        return 0
+    }
+    
+    
+    var imageURL : URL? {
+        if let j = json["display_picts"][0].string {
+            if let url = URL(string: j) {
+                return url
+            }
+        }
+        return nil
+    }
+    
+    var categoryBreadcrumbs : [CategoryBreadcrumb] {
+        var cb : [CategoryBreadcrumb] = []
+        if let j = json["category_breadcrumbs"].array, j.count > 0 {
+            for i in 0..<j.count {
+                cb.append(CategoryBreadcrumb(id: j[i]["_id"].stringValue, name: j[i]["name"].stringValue))
+            }
+        }
+        return cb
+    }
+}
+
+class ProductCompareItem : NSObject {
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> ProductCompareItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = ProductCompareItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var name : String {
+        if let j = json["name"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var price : Int {
+        if let j = json["price"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var imageURL : URL? {
+        if let j = json["display_picts"][0].string {
+            if let url = URL(string: j) {
+                return url
+            }
+        }
+        return nil
+    }
+}
+
 class BalanceMutationItem : NSObject {
     
     var json : JSON = JSON([:])
