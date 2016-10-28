@@ -72,7 +72,6 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         viewJualButton.layer.zPosition = CGFloat.greatestFiniteMagnitude;
-        viewJualButton.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
