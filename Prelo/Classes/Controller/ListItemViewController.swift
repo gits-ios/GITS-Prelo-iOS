@@ -658,6 +658,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                     }
                 }
                 
+                self.shopHeader?.avatar.superview?.layoutIfNeeded()
                 self.shopHeader?.avatar.superview?.layer.cornerRadius = (self.shopHeader?.avatar.width)!/2
                 self.shopHeader?.avatar.superview?.layer.masksToBounds = true
                 
@@ -1386,6 +1387,7 @@ class ListItemCell : UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        sectionLove.layoutIfNeeded()
         sectionLove.layer.cornerRadius = sectionLove.frame.size.width/2
         sectionLove.layer.masksToBounds = true
     }
@@ -1407,6 +1409,7 @@ class ListItemCell : UICollectionViewCell {
         captionComment.text = String(commentCount == nil ? 0 : commentCount!)
         
         avatar.contentMode = .scaleAspectFill
+        avatar.layoutIfNeeded()
         avatar.layer.cornerRadius = avatar.bounds.width / 2
         avatar.layer.masksToBounds = true
         

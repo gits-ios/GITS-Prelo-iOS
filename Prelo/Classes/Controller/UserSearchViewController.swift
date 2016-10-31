@@ -140,6 +140,7 @@ class SearchUserCell2 : UITableViewCell
     
     func decorate()
     {
+        self.iv.layoutIfNeeded()
         self.iv.layer.cornerRadius = self.iv.width / 2
         self.iv.layer.masksToBounds = true
         decorated = true

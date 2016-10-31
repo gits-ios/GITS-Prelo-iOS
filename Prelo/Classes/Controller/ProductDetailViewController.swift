@@ -1410,6 +1410,7 @@ class ProductCellSeller : UITableViewCell
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        ivSellerAvatar?.layoutIfNeeded()
         ivSellerAvatar?.layer.cornerRadius = (ivSellerAvatar?.frame.size.width)!/2
         ivSellerAvatar?.layer.masksToBounds = true
     }

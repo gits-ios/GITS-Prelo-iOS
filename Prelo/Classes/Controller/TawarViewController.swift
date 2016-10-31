@@ -888,6 +888,7 @@ class TawarCell : UITableViewCell {
     func decor(){
         if (decorated == false) {
             formatter.dateFormat = "dd MMM"
+            self.avatar.layoutIfNeeded()
             self.avatar.layer.cornerRadius = self.avatar.width / 2
             self.avatar.layer.masksToBounds = true
             self.sectionMessage.layer.cornerRadius = 4
