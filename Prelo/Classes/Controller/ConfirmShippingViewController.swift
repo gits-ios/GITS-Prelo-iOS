@@ -33,11 +33,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // Data container
     var trxProductDetails : [TransactionProductDetail]!
     var isCellSelected : [Bool]!
+    var selectedAvailabilities : [ConfirmShippingAvailability?]!
     var isFirstAppearance : Bool = true
     var isPictSelected : Bool = false
-    
-    // Image picker
-    var asset : ALAssetsLibrary?
     
     // Contact us view
     var contactUs : UIViewController?
@@ -75,9 +73,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             trxProductDetails = trxDetail.transactionProducts
             if (trxProductDetails.count > 0) {
                 // For default, all transaction product is set as selected
+                // All selected availability is nil
                 isCellSelected = []
+                selectedAvailabilities = []
                 for _ in 0 ..< trxProductDetails.count {
                     isCellSelected.append(true)
+                    selectedAvailabilities.append(nil)
                 }
                 setupTable()
             }
@@ -112,7 +113,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if (isCellSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
-                return 178
+                return 245
             }
         }
         return 0
@@ -122,10 +123,13 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
             cell.selectionStyle = .none
-            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row])
+            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row], selectedAvailability : self.selectedAvailabilities[(indexPath as NSIndexPath).row])
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
                 self.setupTable()
+            }
+            cell.availabilitySelected = { selection in
+                self.selectedAvailabilities[(indexPath as NSIndexPath).row] = selection
             }
             return cell
         }
@@ -212,7 +216,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 } else {
                     let rTp = [
                         "tp_id" : trxProductDetails[i].id,
-                        "reason" : cell.textView.text
+                        "reason" : cell.textView.text,
+                        "is_active" : (cell.selectedAvailability == .available) ? true : false
                     ] as [String : Any]
                     rejectedTp.insert(rTp, at: 0)
                 }
@@ -230,7 +235,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 let r : [String:String] = rejectedTp[k] as! [String : String]
                 let rTpId = r["tp_id"]!
                 let rReason = r["reason"]!
-                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\"}"
+                let rIsActive = r["is_active"]!
+                confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\"}, \"is_active\": \(rIsActive)}"
                 if (k < rejectedTp.count - 1) {
                     confirmData += ","
                 }
@@ -308,6 +314,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         for i in 0 ..< isCellSelected.count {
             if (!isCellSelected[i]) {
                 let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as! ConfirmShippingCell
+                if (cell.selectedAvailability == nil) {
+                    Constant.showDialog("Warning", message: "Opsi ketersediaan barang harus diisi")
+                    return false
+                }
                 if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
                     return false
@@ -373,29 +383,47 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     }
 }
 
-// MARK: - Class
+// MARK: - Enum
 
-typealias RefreshTable = () -> ()
+enum ConfirmShippingAvailability {
+    case soldOut
+    case available
+}
+
+// MARK: - Class
 
 class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     @IBOutlet weak var lblCheckbox: UILabel!
     @IBOutlet weak var vwTolak: UIView!
+    @IBOutlet var lblRadioBtnHabis: UILabel!
+    @IBOutlet var lblRadioBtnMasih: UILabel!
     @IBOutlet weak var textView: UITextView!
     var txtvwGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvw: NSLayoutConstraint!
     let TxtvwPlaceholder = "Tulis alasan kamu menolak pesanan."
     
     var isCellSelected : Bool!
+    var selectedAvailability : ConfirmShippingAvailability?
     
-    var refreshTable : RefreshTable = {}
+    var refreshTable : () -> () = {}
+    var availabilitySelected : (ConfirmShippingAvailability) -> () = { _ in }
     
-    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool) {
+    override func prepareForReuse() {
+        lblRadioBtnHabis.text = ""
+        lblRadioBtnMasih.text = ""
+    }
+    
+    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?) {
         super.adapt(trxProductDetail)
         
         // Set checkbox
         self.isCellSelected = isCellSelected
         self.setupCheckbox()
+        
+        // Set radiobtn
+        self.selectedAvailability = selectedAvailability
+        self.setupRadioBtn()
         
         // Configure textview
         textView.delegate = self
@@ -409,6 +437,37 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         isCellSelected = !isCellSelected
         self.setupCheckbox()
         self.refreshTable()
+    }
+    
+    @IBAction func radioBtnHabisPressed(_ sender: AnyObject) {
+        self.selectedAvailability = .soldOut
+        self.availabilitySelected(.soldOut)
+        self.setupRadioBtn()
+    }
+    
+    @IBAction func radioBtnMasihPressed(_ sender: AnyObject) {
+        self.selectedAvailability = .available
+        self.availabilitySelected(.available)
+        self.setupRadioBtn()
+    }
+    
+    func setupRadioBtn() {
+        if (selectedAvailability == .soldOut) {
+            self.lblRadioBtnHabis.text = ""
+            self.lblRadioBtnHabis.textColor = Theme.ThemeOrange
+            self.lblRadioBtnMasih.text = ""
+            self.lblRadioBtnMasih.textColor = UIColor.lightGray
+        } else if (selectedAvailability == .available) {
+            self.lblRadioBtnHabis.text = ""
+            self.lblRadioBtnHabis.textColor = UIColor.lightGray
+            self.lblRadioBtnMasih.text = ""
+            self.lblRadioBtnMasih.textColor = Theme.ThemeOrange
+        } else {
+            self.lblRadioBtnHabis.text = ""
+            self.lblRadioBtnHabis.textColor = UIColor.lightGray
+            self.lblRadioBtnMasih.text = ""
+            self.lblRadioBtnMasih.textColor = UIColor.lightGray
+        }
     }
     
     func setupCheckbox() {

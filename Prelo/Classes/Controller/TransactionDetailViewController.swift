@@ -3033,6 +3033,7 @@ class TransactionDetailProductCell : UITableViewCell {
         consWidthLblPrice.constant = fitSizeLblPrice.width
         
         // Set icon
+        vwTransactionStatus.layoutIfNeeded()
         vwTransactionStatus.layer.cornerRadius = (vwTransactionStatus.frame.size.width) / 2
         var imgName : String?
         let progress = trxProductDetail.progress
