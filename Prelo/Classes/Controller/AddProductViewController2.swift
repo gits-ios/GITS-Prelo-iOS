@@ -307,7 +307,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     let o = arr[i]
                     if let s = o as? String
                     {
-                        imageViews[i].downloadedFrom(url: URL(string: s)!)
+                        imageViews[i].afSetImage(withURL: URL(string: s)!)
                     }
                 }
             }
@@ -867,7 +867,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             if let imgName = dataJson["category_image_name"].string
             {
                 if let imgUrl = URL(string: imgName) {
-                    self.ivImage.downloadedFrom(url: imgUrl)
+                    self.ivImage.afSetImage(withURL: imgUrl)
                 }
             }
             

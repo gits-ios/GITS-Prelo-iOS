@@ -1687,7 +1687,7 @@ class CartCellItem : UITableViewCell
             {
                 ivCover?.image = nil
                 let u = URL(string: ori.first!)
-                ivCover?.downloadedFrom(url: u!)
+                ivCover?.afSetImage(withURL: u!)
             }
         }
         

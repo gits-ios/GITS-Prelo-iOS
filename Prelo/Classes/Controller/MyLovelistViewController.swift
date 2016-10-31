@@ -257,7 +257,7 @@ class MyLovelistCell : UITableViewCell {
     var delegate : MyLovelistCellDelegate?
     
     func adapt(_ lovedProduct : LovedProduct) {
-        imgProduct.downloadedFrom(url: lovedProduct.productImageURL!)
+        imgProduct.afSetImage(withURL: lovedProduct.productImageURL!)
         lblProductName.text = lovedProduct.name
         lblPrice.text = "\(lovedProduct.price.asPrice)"
         lblCommentCount.text = lovedProduct.numComment.string

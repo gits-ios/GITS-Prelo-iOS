@@ -209,7 +209,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         self.title = (transactionDetail!.productName)
         
         // Set images and labels
-        imgProduct.downloadedFrom(url: (transactionDetail?.productImageURL)!)
+        imgProduct.afSetImage(withURL: (transactionDetail?.productImageURL)!)
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.totalPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
@@ -249,7 +249,7 @@ class MyPurchaseDetailViewController: BaseViewController, UITextViewDelegate {
         let user : CDUser = CDUser.getOne()!
         lblReviewerName.text = user.username
         let urlReviewer = URL(string: user.profiles.pict)
-        imgReviewer.downloadedFrom(url: urlReviewer!)
+        imgReviewer.afSetImage(withURL: urlReviewer!)
         
         // Love
         var loveText = ""

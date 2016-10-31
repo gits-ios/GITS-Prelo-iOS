@@ -137,7 +137,7 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         if (uProf != nil) {
             let url = URL(string: uProf!.pict)
             if (url != nil) {
-                imgCover?.downloadedFrom(url: url!)
+                imgCover?.afSetImage(withURL: url!)
                 imgCover?.layer.cornerRadius = (imgCover?.frame.size.width)!/2
                 imgCover?.layer.masksToBounds = true
             }

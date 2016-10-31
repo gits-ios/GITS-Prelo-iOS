@@ -135,7 +135,7 @@ class ShopReviewCell : UITableViewCell {
     }
     
     func adapt(_ userReview : UserReview) {
-        imgBuyer.downloadedFrom(url: userReview.buyerPictURL!)
+        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!)
         imgBuyer.layer.masksToBounds = true
         imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2
         lblBuyerName.text = userReview.buyerUsername

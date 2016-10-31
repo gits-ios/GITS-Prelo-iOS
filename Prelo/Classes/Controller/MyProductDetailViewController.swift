@@ -223,7 +223,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         self.title = (transactionDetail!.productName)
         
         // Set images and labels
-        imgProduct.downloadedFrom(url: (transactionDetail?.productImageURL)!)
+        imgProduct.afSetImage(withURL: (transactionDetail?.productImageURL)!)
         lblProductName.text = transactionDetail?.productName
         lblPrice.text = "Rp \((transactionDetail?.totalPrice)!.string)"
         lblOrderId.text = "Order \((transactionDetail?.orderId)!)"
@@ -268,7 +268,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
         // Nama dan gambar reviewer
         lblReviewerName.text = transactionDetail?.reviewerName
         if (transactionDetail?.reviewerImageURL != nil) {
-            imgReviewer.downloadedFrom(url: (transactionDetail?.reviewerImageURL)!)
+            imgReviewer.afSetImage(withURL: (transactionDetail?.reviewerImageURL)!)
         }
         
         // Love

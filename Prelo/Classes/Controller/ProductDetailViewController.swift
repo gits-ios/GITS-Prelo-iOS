@@ -1405,7 +1405,7 @@ class ProductCellSeller : UITableViewCell
             }
         }
 
-        ivSellerAvatar?.downloadedFrom(url: (obj?.shopAvatarURL)!)
+        ivSellerAvatar?.afSetImage(withURL: (obj?.shopAvatarURL)!)
     }
     
     override func awakeFromNib() {
@@ -1648,6 +1648,6 @@ class ProductCellDiscussion : UITableViewCell
         captionDate?.text = json["time"].string!
         captionMessage?.text = obj?.message
         captionName?.text = json["sender_username"].string!
-        ivCover?.downloadedFrom(url: (obj?.posterImageURL)!)
+        ivCover?.afSetImage(withURL: (obj?.posterImageURL)!)
     }
 }

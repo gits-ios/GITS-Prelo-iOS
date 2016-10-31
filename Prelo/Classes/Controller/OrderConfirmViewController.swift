@@ -147,7 +147,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 
                 if (i < 3) {
                     let im = v as! UIImageView
-                    im.downloadedFrom(url: images[i])
+                    im.afSetImage(withURL: images[i])
                 } else if (i < 4) {
                     captionMore.text = String(images.count - 3) + "+"
                     break

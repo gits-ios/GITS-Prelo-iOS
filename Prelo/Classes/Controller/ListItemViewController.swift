@@ -575,7 +575,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 self.shopHeader?.captionName.text = self.shopName
                 self.title = self.shopName
                 let avatarThumbnail = json["profile"]["pict"].stringValue
-                self.shopHeader?.avatar.downloadedFrom(url: URL(string: avatarThumbnail)!)
+                self.shopHeader?.avatar.afSetImage(withURL: URL(string: avatarThumbnail)!)
                 let avatarFull = avatarThumbnail.replacingOccurrences(of: "thumbnails/", with: "", options: NSString.CompareOptions.literal, range: nil)
                 self.shopHeader?.avatarUrls.append(avatarFull)
                 
@@ -1416,7 +1416,7 @@ class ListItemCell : UICollectionViewCell {
             sectionSpecialStory.isHidden = false
             captionSpecialStory.text = "\"\(product.specialStory!)\""
             if let url = product.avatar {
-                avatar.downloadedFrom(url: url)
+                avatar.afSetImage(withURL: url)
             } else {
                 avatar.image = nil
             }
@@ -1431,7 +1431,7 @@ class ListItemCell : UICollectionViewCell {
         
         _ = obj["display_picts"][0].string
         ivCover.image = nil
-        ivCover.downloadedFrom(url: product.coverImageURL!)
+        ivCover.afSetImage(withURL: product.coverImageURL!)
         
         if let op = product.json["price_original"].int {
             captionOldPrice.text = op.asPrice

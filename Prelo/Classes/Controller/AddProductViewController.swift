@@ -1127,7 +1127,7 @@ class AddProductImageCell : UICollectionViewCell
                         })
                     })
                 } else {
-                    ivCover.downloadedFrom(url: (_apImage?.url)!)
+                    ivCover.afSetImage(withURL: (_apImage?.url)!)
                 }
             }
         }

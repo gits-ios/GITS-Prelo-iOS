@@ -852,7 +852,7 @@
 		214864CE1B6F235900EF49EF /* ic_chat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_chat@2x.png"; sourceTree = "<group>"; };
 		214864D61B6F3CC900EF49EF /* CartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CartViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		214864D81B6F53EF00EF49EF /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PickerViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		215C52661B6B1ED200EA4E61 /* AppTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppTools.swift; path = API/AppTools.swift; sourceTree = "<group>"; };
+		215C52661B6B1ED200EA4E61 /* AppTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = AppTools.swift; path = API/AppTools.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		215C52681B6B349C00EA4E61 /* ic_bag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_bag@2x.png"; sourceTree = "<group>"; };
 		215C52691B6B349C00EA4E61 /* ic_shirt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_shirt@2x.png"; sourceTree = "<group>"; };
 		215C526C1B6B5CCE00EA4E61 /* ic_love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_love@2x.png"; sourceTree = "<group>"; };

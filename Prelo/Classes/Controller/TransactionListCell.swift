@@ -50,7 +50,7 @@ class TransactionListCell : UITableViewCell {
     
     func adaptItem(_ userPurchase : UserTransactionItem) {
         if (userPurchase.productImageURL != nil) {
-            imgProduct.downloadedFrom(url: userPurchase.productImageURL!)
+            imgProduct.afSetImage(withURL: userPurchase.productImageURL!)
         }
         if (userPurchase.isFreeOngkir) {
             imgFreeOngkir.isHidden = false
@@ -80,7 +80,7 @@ class TransactionListCell : UITableViewCell {
     
     func adapt(_ userPurchase : UserTransaction) {
         if (userPurchase.productImageURL != nil) {
-            imgProduct.downloadedFrom(url: userPurchase.productImageURL!)
+            imgProduct.afSetImage(withURL: userPurchase.productImageURL!)
         }
         lblProductName.text = userPurchase.productName
         lblPrice.text = "\(userPurchase.totalPrice.asPrice)"
@@ -124,17 +124,17 @@ class TransactionListCell : UITableViewCell {
                 let url = images[i]
                 if (i == 0)
                 {
-                    imgProduct.downloadedFrom(url: url)
+                    imgProduct.afSetImage(withURL: url)
                 }
                 
                 if (i == 1)
                 {
-                    imgProduct2.downloadedFrom(url: url)
+                    imgProduct2.afSetImage(withURL: url)
                 }
                 
                 if (i == 2)
                 {
-                    imgProduct3.downloadedFrom(url: url)
+                    imgProduct3.afSetImage(withURL: url)
                 }
                 
                 if (i == 3)

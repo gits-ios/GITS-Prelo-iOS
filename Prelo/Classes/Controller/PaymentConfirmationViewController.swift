@@ -234,7 +234,7 @@ class PaymentConfirmationCell : UITableViewCell {
         
         // Munculkan gambar
         for i in 1 ..< imgCount {
-            imgProducts[imgCount - i].downloadedFrom(url: userCheckout.transactionProducts[i - 1].productImageURL!)
+            imgProducts[imgCount - i].afSetImage(withURL: userCheckout.transactionProducts[i - 1].productImageURL!)
         }
     }
 }

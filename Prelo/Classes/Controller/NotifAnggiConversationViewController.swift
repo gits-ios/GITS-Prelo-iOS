@@ -340,7 +340,7 @@ class NotifAnggiConversationCell: UITableViewCell {
         
         // Set image
         if (notif.productImages.count > 0) {
-            imgSingle.downloadedFrom(url: URL(string: notif.productImages.objectAtCircleIndex(0))!)
+            imgSingle.afSetImage(withURL: URL(string: notif.productImages.objectAtCircleIndex(0))!)
         }
         
         // Set caption

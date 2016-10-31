@@ -276,7 +276,7 @@ class ProductCompareMainCell : UITableViewCell, ZSWTappableLabelTapDelegate {
     
     func adapt(productCompareMain : ProductCompareMain) {
         if let url = productCompareMain.imageURL {
-            imgProduct.downloadedFrom(url: url)
+            imgProduct.afSetImage(withURL: url)
         }
         lblProductName.text = productCompareMain.name
         lblProductCount.text = "\(productCompareMain.numProducts) penawaran"
@@ -358,7 +358,7 @@ class ProductCompareCell : UITableViewCell {
     
     func adapt(productCompareItem : Product) {
         if let url = productCompareItem.coverImageURL {
-            imgProduct.downloadedFrom(url: url)
+            imgProduct.afSetImage(withURL: url)
         }
         lblPrice.text = productCompareItem.price
         lblProductName.text = productCompareItem.name

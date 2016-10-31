@@ -107,7 +107,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
         cell.captionName.text = i.theirName
         cell.captionMessage.text = i.message
         cell.captionProductName.text = i.itemName
-        cell.iv.downloadedFrom(url: i.imageURL)
+        cell.iv.afSetImage(withURL: i.imageURL)
         cell.captionTime.text = i.date.relativeDescription
         
         if (i.threadState == 0)

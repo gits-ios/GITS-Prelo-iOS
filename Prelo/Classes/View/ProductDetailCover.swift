@@ -53,7 +53,7 @@ class ProductDetailCover: UIView {
             iv?.tag = i
             iv?.isUserInteractionEnabled = true
             iv?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductDetailCover.tapped(_:))))
-            iv?.downloadedFrom(url: URL(string: images.objectAtCircleIndex(i))!)
+            iv?.afSetImage(withURL: URL(string: images.objectAtCircleIndex(i))!)
         }
         
         self.setupTopBanner()
@@ -204,7 +204,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
-            iv.downloadedFrom(url: URL(string: i)!)
+            iv.afSetImage(withURL: URL(string: i)!)
             iv.tag = 1
             s.addSubview(iv)
             s.x = x
