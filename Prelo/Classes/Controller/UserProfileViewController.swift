@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import TwitterKit
 import Alamofire
+import AlamofireImage
 
 class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, PhoneVerificationDelegate, PathLoginDelegate, InstagramLoginDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
     
@@ -66,8 +67,6 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
     var isLoggedInFacebook : Bool = false
     var isLoggedInTwitter : Bool = false
     var isLoggedInPath : Bool = false
-    
-    var asset : ALAssetsLibrary?
     
     let FldTentangShopPlaceholder = "Jualan kamu terpercaya? Yakinkan di sini"
     
@@ -152,8 +151,9 @@ class UserProfileViewController : BaseViewController, PickerViewDelegate, UINavi
             //print("userProfile.pict = \(userProfile.pict)")
             let url = URL(string: userProfile.pict)
             if (url != nil) {
+                self.imgUser.layoutIfNeeded()
                 self.imgUser.image = nil
-                self.imgUser.downloadedFrom(url: url!)
+                self.imgUser.af_setImage(withURL: url!)
                 self.imgUser.layer.cornerRadius = (self.imgUser.frame.size.width)/2
                 self.imgUser.layer.masksToBounds = true
             }
