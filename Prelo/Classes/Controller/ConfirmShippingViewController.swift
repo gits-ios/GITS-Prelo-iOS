@@ -22,6 +22,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     @IBOutlet var imgResi: UIImageView!
     @IBOutlet var consHeightVwKurirLainnya: NSLayoutConstraint!
     @IBOutlet var txtFldKurirLainnya: UITextField!
+    @IBOutlet var vwKurirResiFields: UIView!
+    @IBOutlet var consHeightVwKurirResiFields: NSLayoutConstraint!
     
     // Loading
     @IBOutlet var loadingPanel: UIView!
@@ -127,6 +129,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
                 self.setupTable()
+                if (self.isAllCellUnselected()) {
+                    self.consHeightVwKurirResiFields.constant = 0
+                } else {
+                    self.setDefaultKurir()
+                    self.hideFldKurirLainnya() // This is actually showing vwKurirResiFields
+                }
             }
             cell.availabilitySelected = { selection in
                 self.selectedAvailabilities[(indexPath as NSIndexPath).row] = selection
@@ -309,6 +317,15 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     // MARK: - Other functions
     
+    func isAllCellUnselected() -> Bool {
+        for i in 0..<self.isCellSelected.count {
+            if (isCellSelected[i]) {
+                return false
+            }
+        }
+        return true
+    }
+    
     func validateFields() -> Bool {
         var isAllRejected = true
         for i in 0 ..< isCellSelected.count {
@@ -359,7 +376,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             height += self.tableView(tableView, heightForRowAt: IndexPath(row: i, section: 0))
         }
         consHeightTableView.constant = height
-        consHeightContentView.constant = height + 330
+        consHeightContentView.constant = height + (isAllCellUnselected() ? 275 : 330)
     }
     
     func hideLoading() {
@@ -376,10 +393,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     func hideFldKurirLainnya() {
         consHeightVwKurirLainnya.constant = 0
+        consHeightVwKurirResiFields.constant = 177
     }
     
     func showFldKurirLainnya() {
         consHeightVwKurirLainnya.constant = 55
+        consHeightVwKurirResiFields.constant = 232
     }
 }
 
